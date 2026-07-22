@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-18 15:37+0300\n"
+"PO-Revision-Date: 2026-07-21 21:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -18089,10 +18089,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
@@ -18101,7 +18098,9 @@ msgid ""
 msgstr ""
 "Максимальна кількість секунд очікування до переривання захоплення знімка, "
 "якщо дії, подібні до зміни барабана фільтрів або переходу за меридіаном, "
-"тривають надто довго."
+"тривають надто довго. Також обмежує час, який планувальник витрачає на "
+"встановлення наведення (калібрування і блокування) до початкового захоплення "
+"зображення."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -23364,13 +23363,14 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Настанови щодо автономного навчання"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
 msgstr ""
+"Відкрити документацію KStars щодо навчання моделі в автономному режимі."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -32284,14 +32284,13 @@ msgstr ""
 "завдання перерваним."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Увага! Процедура наведення у завданні «%1» зазнала невдачі. Позначаємо "
-"завдання перерваним."
+"Увага! Під час виконання процедури наведення у завданні «%1» перевищено час "
+"очікування (%2 секунд), позначення перервано."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773

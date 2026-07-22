@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-20 19:30+0300\n"
+"PO-Revision-Date: 2026-07-21 20:51+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7218,7 +7218,7 @@ msgstr ""
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
-"Odak modülü meşgulken yakalama yapılamaz. %1 saniye içinde yeniden deneniyor…"
+"Odak modülü meşgûlken yakalama yapılamaz. %1 saniye içinde yeniden deneniyor…"
 
 #: ekos/align/align_solver.cpp:177
 #, kde-format
@@ -7233,13 +7233,13 @@ msgstr ""
 #, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Döndürücü meşgulken yakalama yapılamaz: Zaman gecikmesi tahmini başlatıldı…"
+"Döndürücü meşgûlken yakalama yapılamaz: Zaman gecikmesi tahmini başlatıldı…"
 
 #: ekos/align/align_solver.cpp:219
 #, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"Döndürücü meşgulken yakalama yapılamaz: %1 saniye içinde yeniden deneniyor…"
+"Döndürücü meşgûlken yakalama yapılamaz: %1 saniye içinde yeniden deneniyor…"
 
 #: ekos/align/align_solver.cpp:244
 #, kde-format
@@ -16337,7 +16337,7 @@ msgstr "Oluşturulan yeni iş yok."
 #: ekos/capture/cameraprocess.cpp:337 ekos/capture/cameraprocess.cpp:930
 #, kde-format
 msgid "Cannot capture while focus module is busy."
-msgstr "Oda modülü meşgulken yakalama yapılamıyor."
+msgstr "Oda modülü meşgûlken yakalama yapılamıyor."
 
 #: ekos/capture/cameraprocess.cpp:344
 #, kde-format
@@ -16834,7 +16834,7 @@ msgstr "DSLR"
 #: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
-msgstr "Kamera %1 meşgul. İptal edip kapatalım mı?"
+msgstr "Kamera %1 meşgûl. İptal edip kapatalım mı?"
 
 #: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
 #, kde-format
@@ -18419,7 +18419,7 @@ msgstr "Işık kutusu ışığı kapatıldı."
 #: ekos/capture/sequencejobstate.cpp:1054
 #, kde-format
 msgid "Light box busy."
-msgstr "Işık kutusu meşgul."
+msgstr "Işık kutusu meşgûl."
 
 #: ekos/capture/sequencejobstate.cpp:1057
 #, kde-format
@@ -32839,7 +32839,7 @@ msgstr "Tamam"
 #: indi/indilightbox.cpp:20
 #, kde-format
 msgid "Busy"
-msgstr "Meşgul"
+msgstr "Meşgûl"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
 #, kde-format

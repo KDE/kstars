@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-20 10:19+0200\n"
+"PO-Revision-Date: 2026-07-21 19:12+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -17880,10 +17880,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
@@ -17891,7 +17888,9 @@ msgid ""
 "starting capture."
 msgstr ""
 "Maximalt antal sekunder att vänta innan tagningen avbryts om operationer som "
-"byte av filterhjul eller meridianvändning tar för lång tid."
+"byte av filterhjul eller meridianvändning tar för lång tid. Begränsar också "
+"den tid som schemaläggning lägger på att etablera guidning (kalibrering och "
+"lås) innan denstartar tagningen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -23086,13 +23085,13 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Guide för nerkopplad träning"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
-msgstr ""
+msgstr "Visa Kstars dokumentation om att träna modellen i nerkopplat läge."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -24392,7 +24391,7 @@ msgstr "Förbereder"
 #: ekos/guide/guidestatewidget.cpp:186
 #, kde-format
 msgid "Warm up"
-msgstr "Värm upp"
+msgstr "Uppvärmning"
 
 #: ekos/guide/guidestatewidget.cpp:187
 #, kde-format
@@ -30033,7 +30032,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Om inga schemalagda jobb förfaller inom så här många "
 "timmar, utför en fullständig avstängningsprocedur och starta om "
-"observatoriets verksamhet när nästa jobb är redo..</p></body></html>"
+"observatoriets drift när nästa jobb är redo..</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/scheduler/opsoffsetsettings.ui:71
@@ -31374,7 +31373,7 @@ msgstr[1] "Jobb '%1' gjorde färdigt %2 körningar innan sluttiden, omstartat."
 #: ekos/scheduler/schedulerprocess.cpp:538
 #, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "Vädret har förbättrats under respitperioden. Återupptar operationer."
+msgstr "Vädret har förbättrats under respitperioden. Återupptar drift."
 
 #: ekos/scheduler/schedulerprocess.cpp:549
 #, kde-format
@@ -31811,13 +31810,13 @@ msgstr ""
 "avbrutet."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Varning: Guidningsprocedur för jobb '%1' misslyckades. Markerat som avbrutet."
+"Varning: Guidningssteg för jobb '%1' överskred operationens tidsgräns (%2 "
+"sekunder). Markerat som avbrutet."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773
@@ -32097,7 +32096,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4137
 #, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "Säkerhet har förbättrats. Återupptar operationer."
+msgstr "Säkerhet har förbättrats. Återupptar drift."
 
 #: ekos/scheduler/schedulerprocess.cpp:4160
 #, kde-format
@@ -36175,7 +36174,7 @@ msgstr ""
 #: fitsviewer/livestackmonitor.ui:63
 #, kde-format
 msgid " Highlighting"
-msgstr " Dagrar"
+msgstr " Färgläggning"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, FitsStackWebcast)
 #: fitsviewer/livestackwebcast.ui:14

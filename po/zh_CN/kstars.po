@@ -17285,16 +17285,13 @@ msgstr "导星恢复后等待这么多秒才开始拍摄"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
 "time the scheduler spends establishing guiding (calibration and lock) before "
 "starting capture."
-msgstr "如果更改滤镜或过中天翻转等操作时长太长，在中止拍摄前等待的最长秒数."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -22839,10 +22836,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guide.cpp:3670
-#, fuzzy, kde-format
-#| msgid "Alignment List saved to %1"
+#, kde-format
 msgid "AI training complete. Weights saved to %1."
-msgstr "对齐方式列表保存到 %1"
+msgstr ""
 
 #: ekos/guide/guide.cpp:3676
 #, kde-format
@@ -30514,12 +30510,11 @@ msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对焦失败，标记已中止。"
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
-msgstr "警告：任务“%1”的导星失败，标记已中止。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773
@@ -96294,8 +96289,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "Maximum number of seconds to wait before aborting the capture if "
-#~ "operations like filter wheel changes or meridian flips take too long"
-#~ msgstr "如果更改滤镜或过中天翻转等操作时长太长，在中止拍摄前等待的最长秒数"

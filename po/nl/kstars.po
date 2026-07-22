@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-18 13:11+0200\n"
+"PO-Revision-Date: 2026-07-21 16:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17964,10 +17964,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
@@ -17975,7 +17972,9 @@ msgid ""
 "starting capture."
 msgstr ""
 "Maximum aantal seconden om te wachten alvorens het opnemen af te breken als "
-"acties zoals wijzigen van filterwiel of meridiaan omdraaien te lang duren."
+"acties zoals wijzigen van filterwiel of meridiaan omdraaien te lang duren. "
+"Het beperkt ook de tijd die de planner besteedt aan het opzetten van het "
+"volgen (kalibratie en vergrendeling) voordat de opname start."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -23189,13 +23188,13 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Offline traininggids"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
-msgstr ""
+msgstr "Open de KStars-documentatie over het offline trainen van het model."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -31987,13 +31986,13 @@ msgstr ""
 "afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Waarschuwing: Volgenproceduretaak '%1' is mislukt, wordt gemarkeerd als "
+"Waarschuwing: de volgen-fase van taak '%1' heeft de tijdslimiet voor "
+"bewerkingen (%2 seconden) overschreden; de taak wordt gemarkeerd als "
 "afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862

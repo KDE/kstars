@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-19 18:14-0300\n"
+"PO-Revision-Date: 2026-07-21 06:21-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -18050,10 +18050,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
@@ -18061,7 +18058,9 @@ msgid ""
 "starting capture."
 msgstr ""
 "Número máximo de segundos a esperar antes de abortar a captura se operações "
-"como trocas de roda de filtros ou inversões de meridianos demorarem muito."
+"como trocas de roda de filtros ou inversões de meridianos demorarem muito. "
+"Também limita o tempo que o agendador dedica a estabelecer a guiagem "
+"(calibração e travamento) antes de iniciar a captura."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -23309,13 +23308,13 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Treinamento de guia offline"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
-msgstr ""
+msgstr "Abra a documentação do KStars sobre o treinamento do modelo offline."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -32154,13 +32153,13 @@ msgstr ""
 "Aviso: o procedimento de foco da tarefa '%1' falhou, marcação cancelada."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Aviso: o procedimento de guia da tarefa '%1' falhou, marcação cancelada."
+"Aviso: a etapa de guiagem da tarefa '%1' excedeu o tempo limite de operação "
+"(%2 segundos); a marcação foi cancelada."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773

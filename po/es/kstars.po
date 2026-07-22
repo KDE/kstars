@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-21 02:08+0000\n"
-"PO-Revision-Date: 2026-07-18 23:58+0100\n"
+"PO-Revision-Date: 2026-07-21 21:15+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18135,10 +18135,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
@@ -18147,7 +18144,9 @@ msgid ""
 msgstr ""
 "Número máximo de segundos que se debe esperar antes de interrumpir la "
 "captura si operaciones como los cambios de la rueda de filtros o las "
-"inversiones de meridiano tardan demasiado."
+"inversiones de meridiano tardan demasiado. También limita el tiempo que el "
+"planificador dedica a establecer el guiado (calibración y bloqueo) antes de "
+"empezar la captura."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -23432,13 +23431,14 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Guía de entrenamiento sin conexión"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
 msgstr ""
+"Abrir la documentación de KStars sobre entrenamiento del modelo sin conexión."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -32354,14 +32354,13 @@ msgstr ""
 "marca como interrumpido."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Advertencia: el procedimiento de guiado del trabajo «%1» ha fallado. Se "
-"marca como interrumpido."
+"Advertencia: la etapa de guiado del trabajo «%1» ha excedido el tiempo de "
+"espera para las operaciones (%2 segundos). Se marca como interrumpido."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773
@@ -100177,11 +100176,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "Maximum number of seconds to wait before aborting the capture if "
-#~ "operations like filter wheel changes or meridian flips take too long"
-#~ msgstr ""
-#~ "Número máximo de segundos que se debe esperar antes de interrumpir la "
-#~ "captura si operaciones como los cambios de la rueda de filtros o las "
-#~ "inversiones de meridiano tardan demasiado."
