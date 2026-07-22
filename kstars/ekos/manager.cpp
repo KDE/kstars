@@ -263,6 +263,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
         {
             processINDIB->setIcon(QIcon::fromTheme("media-playback-start"));
             processINDIB->setToolTip(i18n("Start"));
+            processINDIB->setEnabled(true);
         }
         else
         {
@@ -1670,6 +1671,11 @@ void Manager::checkINDITimeout()
 
         appendLogText(message);
         KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
+
+        m_ekosStatus = Ekos::Error;
+        Q_EMIT ekosStatusChanged(m_ekosStatus);
+        m_indiStatus = Ekos::Error;
+        Q_EMIT indiStatusChanged(m_indiStatus);
         return;
     }
 
@@ -1751,6 +1757,9 @@ void Manager::checkINDITimeout()
     }
 
     m_ekosStatus = Ekos::Error;
+    Q_EMIT ekosStatusChanged(m_ekosStatus);
+    m_indiStatus = Ekos::Error;
+    Q_EMIT indiStatusChanged(m_indiStatus);
 }
 
 bool Manager::isINDIReady()
