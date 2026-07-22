@@ -75,7 +75,6 @@
 
 #include <ekos_debug.h>
 
-#define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT  10000
 
 namespace Ekos
@@ -1553,25 +1552,25 @@ void Manager::setClientStarted(const QString &host, int port)
         }
     }
 
-    auto maxTimeout = MAX_LOCAL_INDI_TIMEOUT;
+    auto maxTimeout = m_LocalMode ? MAX_LOCAL_INDI_TIMEOUT : (MAX_LOCAL_INDI_TIMEOUT * 2);
 
-    // Parse script, if any
+    // Parse script, if any, and sum all rule delays to determine if we need to extend the timeout.
+    // If the total delay from all profile script rules exceeds the base timeout, extend accordingly.
     QJsonParseError jsonError;
     QJsonArray profileScripts;
     QJsonDocument doc = QJsonDocument::fromJson(m_CurrentProfile->scripts, &jsonError);
 
-    // If we have any rules that delay startup of drivers, we need to take that into account
-    // otherwise Ekos would prematurely declare that drivers failed to connect.
     if (jsonError.error == QJsonParseError::NoError)
     {
         profileScripts = doc.array();
+        double totalScriptDelay = 0;
         for (const auto &oneRule : std::as_const(profileScripts))
         {
             const auto &oneRuleObj = oneRule.toObject();
-            auto totalDelay = (oneRuleObj["PreDelay"].toDouble(0) + oneRuleObj["PostDelay"].toDouble(0)) * 1000;
-            if (totalDelay >= maxTimeout)
-                maxTimeout = totalDelay + MAX_LOCAL_INDI_TIMEOUT;
+            totalScriptDelay += (oneRuleObj["PreDelay"].toDouble(0) + oneRuleObj["PostDelay"].toDouble(0)) * 1000;
         }
+        if (totalScriptDelay >= maxTimeout)
+            maxTimeout += totalScriptDelay;
     }
 
     QTimer::singleShot(maxTimeout, this, &Ekos::Manager::checkINDITimeout);
@@ -1672,10 +1671,16 @@ void Manager::checkINDITimeout()
         appendLogText(message);
         KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
 
-        m_ekosStatus = Ekos::Error;
-        Q_EMIT ekosStatusChanged(m_ekosStatus);
-        m_indiStatus = Ekos::Error;
-        Q_EMIT indiStatusChanged(m_indiStatus);
+        // Only set ekosStatus to Error if the profile is not already running successfully.
+        // When a single peripheral device fails to connect after all modules are initialized,
+        // the profile should remain operational and the button should stay as Stop.
+        if (m_ekosStatus != Ekos::Success)
+        {
+            m_ekosStatus = Ekos::Error;
+            Q_EMIT ekosStatusChanged(m_ekosStatus);
+            m_indiStatus = Ekos::Error;
+            Q_EMIT indiStatusChanged(m_indiStatus);
+        }
         return;
     }
 
