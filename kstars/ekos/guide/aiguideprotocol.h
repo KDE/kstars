@@ -151,6 +151,8 @@ class AIGuideProtocol : public QObject
         int m_PulseSettleTimer { 0 };
         int m_PulseWatchdog { 0 };
         QJsonArray m_PulseResponseData;
+        QJsonArray m_PulseBaselineData;  ///< pre-pulse frames, the fit's reference level
+        qint64 m_PulseSentAtMs { 0 };    ///< pulse send time, t=0 for response frames
 };
 
 }

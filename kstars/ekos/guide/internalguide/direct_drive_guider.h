@@ -28,7 +28,8 @@ class DirectDriveGuider : public MountSpecificGuider
 
         // DirectDriveGuider update() is a no-op: there are no learnable online parameters.
         void update(double /*ra_px*/, double /*dec_px*/,
-                    double /*uncorr_ra*/, double /*uncorr_dec*/, double /*snr*/) override {}
+                    double /*uncorr_ra*/, double /*uncorr_dec*/, double /*snr*/,
+                    double /*ra_pulse_px*/, double /*dec_pulse_px*/) override {}
 
         double confidence() const override
         {
@@ -42,7 +43,6 @@ class DirectDriveGuider : public MountSpecificGuider
         {
             return m_weightsLoaded;
         }
-
         QString stateString() const override;
 
     private:
@@ -57,6 +57,8 @@ class DirectDriveGuider : public MountSpecificGuider
         double m_d_ra_extra { 0.0 };   ///< Residual RA drift not explained by refraction (px/s)
         double m_d_polar    { 0.0 };   ///< Constant DEC polar drift (px/s)
         double m_k_ref_dec  { 0.0 };   ///< DEC refraction coefficient
+        double m_fit_alt_min { 35.0 }; ///< Altitude range the fit is valid for
+        double m_fit_alt_max { 65.0 };
         double m_phi_drift  { 0.0 };   ///< Polar drift vector angle (unused in inference, stored for info)
 
         double m_pixel_scale { 1.0 };  ///< arcsec/pixel, loaded from weights JSON

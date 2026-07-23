@@ -126,8 +126,8 @@ void AIGuideProtocol::start(const QString &mountType)
     fingerprint["dec_integral_gain"] = Options::dECIntegralGain();
     fingerprint["ra_min_pulse_arcsec"] = Options::rAMinimumPulseArcSec();
     fingerprint["dec_min_pulse_arcsec"] = Options::dECMinimumPulseArcSec();
-    fingerprint["ra_max_pulse_arcsec"] = static_cast<int>(Options::rAMaximumPulseArcSec());
-    fingerprint["dec_max_pulse_arcsec"] = static_cast<int>(Options::dECMaximumPulseArcSec());
+    fingerprint["ra_max_pulse_arcsec"] = static_cast<double>(Options::rAMaximumPulseArcSec());
+    fingerprint["dec_max_pulse_arcsec"] = static_cast<double>(Options::dECMaximumPulseArcSec());
     fingerprint["ra_hysteresis"] = Options::rAHysteresis();
     fingerprint["dec_hysteresis"] = Options::dECHysteresis();
     fingerprint["ra_pulse_algorithm"] = 0;
@@ -154,22 +154,26 @@ void AIGuideProtocol::start(const QString &mountType)
     }
     else if (mountStr == "Harmonic Drive")
     {
-        m_Phases.append({65.0, -45.0, 480, false, false, {}, {}, 0, 15, 30});
-        m_Phases.append({65.0, -45.0, 120, true, false, {}, {}, 0, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  50, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST", 100, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST", 200, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  50, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST", 100, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST", 200, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  50, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 100, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 200, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  50, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 100, 15, 30});
-        m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 200, 15, 30});
-        m_Phases.append({45.0, -45.0, 120, true, false, {}, {}, 0, 15, 30});
-        m_Phases.append({45.0, -45.0, 300, false, false, {}, {}, 0, 15, 30});
+        // Position 1: 720s standard guiding and 480 free drift
+        m_Phases.append({65.0, -45.0, 720, false, false, {}, {}, 0, 15, 20});
+        m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
+
+        // Pulse response: large pulses, alternating direction so drift/PE cancel in pairing
+        for (int rep = 0; rep < 3; rep++)
+        {
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 15, 20});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 15, 20});
+        }
+
+        // Position 2 east of the meridian: parallactic spread for the DEC refraction fit
+        m_Phases.append({45.0, 45.0, 120, true,  false, {}, {}, 0, 15, 20});
+        m_Phases.append({45.0, 45.0, 300, false, false, {}, {}, 0, 15, 20});
     }
     else
     {
@@ -569,6 +573,7 @@ void AIGuideProtocol::processProtocol()
             m_Guide->setAIFreeDrift(true);
             m_PulseFrameCount = 0;
             m_PulseResponseData = QJsonArray();
+            m_PulseBaselineData = QJsonArray();
 
             connect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats, Qt::UniqueConnection);
 
@@ -614,6 +619,7 @@ void AIGuideProtocol::processProtocol()
 
             m_PulseFrameCount = 0;
             m_PulseResponseData = QJsonArray();
+            m_PulseSentAtMs = QDateTime::currentMSecsSinceEpoch();
             m_FrameTimer.start();
             m_PulseWatchdog = phase.responseFrames * 6 + 30;
             m_State = STATE_PULSE_RECORDING;
@@ -663,6 +669,8 @@ void AIGuideProtocol::processProtocol()
                         pulseSession["pier_side"] = (pierSide == ISD::Mount::PIER_EAST) ? "EAST" : "WEST";
                     }
 
+                    pulseSession["baseline_frames"] = m_PulseBaselineData;
+                    pulseSession["pulse_sent_at_ms"] = m_PulseSentAtMs;
                     pulseSession["response_frames"] = m_PulseResponseData;
 
                     QJsonArray sessions = m_SysIdData["sessions"].toArray();
@@ -802,6 +810,27 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
         m_PhaseData.append(frame);
     }
 
+    // Pre-pulse settle frames become the fit's baseline
+    if (m_State == STATE_PULSE_SETTLING && m_PulseFrameCount == 0 && m_PulseResponseData.isEmpty()
+            && m_PulseBaselineData.size() < 6)
+    {
+        double dx = raErr;
+        double dy = decErr;
+        if (m_Guide && m_Guide->pixelSizeX() > 0 && m_Guide->focalLength() > 0)
+        {
+            double binning = std::max(1, Options::guideBinning().left(1).toInt());
+            double scale = (206.265 * m_Guide->pixelSizeX() * binning) / m_Guide->focalLength();
+            dx = -raErr / scale;
+            dy = decErr / scale;
+        }
+
+        QJsonObject frame;
+        frame["ra_raw_px"] = dx;
+        frame["dec_raw_px"] = dy;
+        frame["snr"] = snr;
+        m_PulseBaselineData.append(frame);
+    }
+
     if (m_State == STATE_PULSE_RECORDING)
     {
         double dt = m_FrameTimer.isValid() ? (m_FrameTimer.restart() / 1000.0) : 0.0;
@@ -817,7 +846,8 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
         }
 
         QJsonObject frame;
-        frame["t"] = m_PulseFrameCount * dt;
+        // True seconds since the pulse was sent
+        frame["t"] = (QDateTime::currentMSecsSinceEpoch() - m_PulseSentAtMs) / 1000.0;
         frame["ra_raw_px"] = dx;
         frame["dec_raw_px"] = dy;
         frame["snr"] = snr;

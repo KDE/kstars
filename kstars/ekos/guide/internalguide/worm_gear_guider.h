@@ -33,7 +33,7 @@ class WormGearGuider : public MountSpecificGuider
         GuideOutput predict(const GuideFrameData &frame) override;
         GuideOutput darkPredict(double dt_sec) override;
         void        update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px, double uncorrected_drift_dec_px,
-                           double snr) override;
+                           double snr, double ra_pulse_px, double dec_pulse_px) override;
         double      confidence() const override
         {
             return m_confidence;
@@ -56,6 +56,8 @@ class WormGearGuider : public MountSpecificGuider
         static double m_d_ra_extra;    ///< Continuous RA drift rate (pixels/second)
         double m_d_polar       { 0.0 };  ///< Polar drift rate (pixels/second)
         double m_k_ref_dec     { 0.0 };  ///< DEC Refraction coefficient
+        double m_fit_alt_min   { 35.0 }; ///< Altitude range the drift fit is valid for
+        double m_fit_alt_max   { 65.0 };
 
         // ── Online phase estimation (4-State Position RLS) ────────────────
         static Eigen::Vector4d m_rls_theta; ///< [sin_coeff, cos_coeff, v, C]

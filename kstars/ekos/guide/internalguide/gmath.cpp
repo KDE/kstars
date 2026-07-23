@@ -1049,7 +1049,9 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         double uncorrected_drift_ra_px = uncorrected_drift_ra_arcsec / frameData.pixel_scale;
         double uncorrected_drift_dec_px = uncorrected_drift_dec_arcsec / frameData.pixel_scale;
 
-        m_AIGuider->update(ra_px, dec_px, uncorrected_drift_ra_px, uncorrected_drift_dec_px, frameData.snr);
+        m_AIGuider->update(ra_px, dec_px, uncorrected_drift_ra_px, uncorrected_drift_dec_px, frameData.snr,
+                           applied_pulse_arcsec_ra / frameData.pixel_scale,
+                           applied_pulse_arcsec_dec / frameData.pixel_scale);
         m_lastAIPrediction = m_AIGuider->predict(frameData);
 
         qCDebug(KSTARS_EKOS_GUIDE) <<

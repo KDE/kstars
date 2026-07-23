@@ -34,7 +34,8 @@ class HarmonicGuider : public MountSpecificGuider
         GuideOutput predict(const GuideFrameData &frame) override;
         GuideOutput darkPredict(double dt_sec) override;
         void        update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px,
-                           double uncorrected_drift_dec_px, double snr) override;
+                           double uncorrected_drift_dec_px, double snr,
+                           double ra_pulse_px, double dec_pulse_px) override;
         double      confidence() const override
         {
             return m_confidence;
@@ -82,10 +83,14 @@ class HarmonicGuider : public MountSpecificGuider
         double m_k_ref       { 0.0 };   ///< RA refraction coefficient
         double m_d_polar     { 0.0 };   ///< DEC polar drift rate (px/s)
         double m_k_ref_dec   { 0.0 };   ///< DEC refraction coefficient
+        double m_fit_alt_min { 35.0 };  ///< Altitude range the drift fit is valid for
+        double m_fit_alt_max { 65.0 };
 
         // ── Kalman filter state (static to survive object recreation) ────────
         static Eigen::Matrix<double, N_STATES, 1> m_x;       ///< State estimate
         static Eigen::Matrix<double, N_STATES, N_STATES> m_P; ///< Error covariance
+        static double m_uncorrPosRA;   ///< Integrated uncorrected position (the measurement)
+        static double m_uncorrPosDEC;
         static int    m_frameCount;
         static double m_typicalRMS;
         /// PE period the persisted static state was built for; a change means the
@@ -137,8 +142,9 @@ class HarmonicGuider : public MountSpecificGuider
         void buildF(Eigen::Matrix<double, N_STATES, N_STATES> &F, double dt) const;
         Eigen::Matrix<double, N_STATES, N_STATES> computeQ(double snr, double snr_delta,
                 double innov_ra, double innov_dec, double dt) const;
-        void kalmanPredict(double dt, double ra_pulse_px, double dec_pulse_px,
-                           double alt_deg, double parallactic_angle_deg);
-        void kalmanUpdate(double ra_meas_px, double dec_meas_px);
+        void driftRates(double alt_deg, double parallactic_angle_deg,
+                        double &ra_rate, double &dec_rate) const;
+        void kalmanPredict(double dt, double alt_deg, double parallactic_angle_deg);
+        void kalmanUpdate(double ra_meas_px, double dec_meas_px, double snr);
         void updateConfidence(double innovRA, double innovDec, double snr);
 };

@@ -66,6 +66,12 @@ def train_harmonic(sysid: dict,
     drift_ra, drift_dec, d_polar, k_ref, k_ref_dec = _fit_drift_params(
         sysid, guide_exp, verbose)
 
+    # Altitude range the drift/refraction fit is valid for (runtime clamps to it).
+    fit_alts = [s.get("altitude_deg", 45.0) for s in sysid["sessions"]
+                if s.get("type") == "free_drift" and len(s.get("frames", [])) >= 10]
+    fit_alt_min = min(fit_alts) if fit_alts else 35.0
+    fit_alt_max = max(fit_alts) if fit_alts else 65.0
+
     if verbose:
         print(f"  drift_ra={drift_ra:.6e} px/s  drift_dec={drift_dec:.6e} px/s")
         print(f"  d_polar={d_polar:.6e} px/s")
@@ -96,6 +102,8 @@ def train_harmonic(sysid: dict,
             "k_ref":         float(k_ref),
             "d_polar":       float(d_polar),
             "k_ref_dec":     float(k_ref_dec),
+            "fit_alt_min":   float(fit_alt_min),
+            "fit_alt_max":   float(fit_alt_max),
         },
         "qnet": qnet_weights,
     }
@@ -105,26 +113,17 @@ def train_harmonic(sysid: dict,
 # Phase 1: Spring parameter fitting from pulse_response sessions
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _spring_response_model(t, pulse_magnitude, kappa, tau):
-    """
-    Model: the mount position after a pulse = pulse_mag * (1 - κ * exp(-t/τ))
-    At t=0 the immediate response is pulse_mag * (1 - κ).
-    As t→∞ the spring releases and total response → pulse_mag.
-    """
-    return pulse_magnitude * (1.0 - kappa * np.exp(-t / tau))
-
-
 def _fit_spring_params(sysid: dict, axis: str, guide_exp: float, verbose: bool):
     """
     Fit spring constant κ and time constant τ from pulse_response sessions.
 
-    For each pulse_response session matching the given axis:
-    1. Extract the response curve (position change after the pulse)
-    2. Fit: response(t) = pulse_mag * (1 - κ * exp(-t/τ))
-    3. Average κ and τ across all pulse magnitudes for robustness
+    Model: d(t) = P * (1 - κ * exp(-t/τ)) + v*t + c. Fits whose |P| is not
+    significantly above the residual noise are skipped.
 
     Returns: (kappa, tau_seconds)
     """
+    # Unmeasured means unmodeled: the default kappa stays 0
+    DEFAULTS = (0.0, 1.5)
     pulse_sessions = [
         s for s in sysid["sessions"]
         if s.get("type") == "pulse_response" and s.get("pulse_axis", "").upper() == axis.upper()
@@ -133,76 +132,171 @@ def _fit_spring_params(sysid: dict, axis: str, guide_exp: float, verbose: bool):
     if not pulse_sessions:
         if verbose:
             print(f"  [{axis}] No pulse_response sessions found. Using defaults (κ=0.2, τ=1.5s)")
-        return 0.2, 1.5
+        return DEFAULTS
+
+    axis_key = "ra_raw_px" if axis.upper() == "RA" else "dec_raw_px"
+
+    def session_curve(s):
+        """(t, signed displacement from baseline) for one pulse session, or None."""
+        frames = s.get("response_frames", [])
+        if len(frames) < 5:
+            return None
+        base = s.get("baseline_frames", [])
+        if base:
+            # New protocol: dedicated pre-pulse baseline; t is true seconds since the pulse.
+            baseline = float(np.mean([f.get(axis_key, 0.0) for f in base]))
+            t_vals = [f.get("t", (i + 1) * guide_exp) for i, f in enumerate(frames)]
+            pos_vals = [f.get(axis_key, 0.0) - baseline for f in frames]
+        else:
+            # Legacy: first frame doubles as the baseline.
+            baseline = frames[0].get(axis_key, 0.0)
+            t0 = frames[0].get("t", 0.0)
+            t_vals, pos_vals = [], []
+            for i, f in enumerate(frames):
+                if i == 0:
+                    continue
+                t = f.get("t", 0.0) - t0
+                if t <= 0:
+                    t = i * guide_exp
+                t_vals.append(t)
+                pos_vals.append(f.get(axis_key, 0.0) - baseline)
+        if len(t_vals) < 5:
+            return None
+        return np.array(t_vals, dtype=float), np.array(pos_vals, dtype=float)
+
+    def fit_curve(t_arr, pos_arr, with_drift):
+        """Fit the spring model; returns (P, kappa, tau, residual_std) or None."""
+        try:
+            if with_drift:
+                def model(t, P, kappa, tau, v, c):
+                    return P * (1.0 - kappa * np.exp(-t / tau)) + v * t + c
+                slope0 = (pos_arr[-1] - pos_arr[0]) / max(t_arr[-1] - t_arr[0], 1e-3)
+                p0 = [pos_arr[-1] - slope0 * t_arr[-1], 0.3, 1.5, slope0, 0.0]
+                bounds = ([-50.0, 0.0, 0.1, -2.0, -10.0], [50.0, 0.9, 10.0, 2.0, 10.0])
+            else:
+                def model(t, P, kappa, tau, c):
+                    return P * (1.0 - kappa * np.exp(-t / tau)) + c
+                p0 = [pos_arr[-1], 0.3, 1.5, 0.0]
+                bounds = ([-100.0, 0.0, 0.1, -10.0], [100.0, 0.9, 10.0, 10.0])
+            popt, _ = scipy.optimize.curve_fit(model, t_arr, pos_arr, p0=p0,
+                                               bounds=bounds, maxfev=10000)
+            residual_std = float(np.std(pos_arr - model(t_arr, *popt)))
+            return popt[0], popt[1], popt[2], residual_std
+        except (RuntimeError, ValueError):
+            return None
 
     kappas = []
     taus = []
+    fit_signs = []
+    paired_signs = set()
+    skipped_noise = 0
 
+    def accept_fit(kappa_fit, tau_fit, t_first):
+        # tau at the upper bound: exponential degenerate with the drift term
+        if tau_fit > 9.8:
+            return
+        # spring released before the first sample is indistinguishable from none
+        if tau_fit < t_first:
+            kappas.append(0.0)
+        else:
+            kappas.append(kappa_fit)
+            taus.append(tau_fit)
+
+    # Pair opposite-direction sessions: the difference doubles the response
+    pos_dir, neg_dir = ("EAST", "WEST") if axis.upper() == "RA" else ("NORTH", "SOUTH")
+    by_mag = {}
     for s in pulse_sessions:
-        pulse_mag = s.get("pulse_magnitude_ms", 100.0)
-        frames = s.get("response_frames", [])
-        if len(frames) < 3:
-            continue
+        by_mag.setdefault(s.get("pulse_magnitude_ms", 100.0), []).append(s)
 
-        # Build time and position arrays
-        # Position is the cumulative displacement from the first frame
-        axis_key = "ra_raw_px" if axis.upper() == "RA" else "dec_raw_px"
-        baseline = frames[0].get(axis_key, 0.0)
+    for pulse_mag, group in sorted(by_mag.items()):
+        pos_list = [s for s in group if s.get("pulse_direction", "").upper() == pos_dir]
+        neg_list = [s for s in group if s.get("pulse_direction", "").upper() == neg_dir]
+        paired = list(zip(pos_list, neg_list))
+        leftovers = pos_list[len(paired):] + neg_list[len(paired):]
 
-        t_vals = []
-        pos_vals = []
-        for i, f in enumerate(frames):
-            if i == 0:
-                continue  # Skip the frame where pulse was sent
-            t = f.get("t", 0.0) - frames[0].get("t", 0.0)
-            if t <= 0:
-                t = i * guide_exp
-            t_vals.append(t)
-            pos_vals.append(abs(f.get(axis_key, 0.0) - baseline))
-
-        t_arr = np.array(t_vals)
-        pos_arr = np.array(pos_vals)
-
-        if len(t_arr) < 3 or np.max(pos_arr) < 0.01:
-            continue
-
-        # Normalize position by the expected full response
-        # (we don't know the exact calibration, so use max observed position)
-        max_response = np.max(pos_arr)
-
-        try:
-            # Fit the spring model
-            # response(t) = max_response * (1 - κ * exp(-t/τ))
-            def model(t, kappa, tau):
-                return max_response * (1.0 - kappa * np.exp(-t / tau))
-
-            popt, pcov = scipy.optimize.curve_fit(
-                model, t_arr, pos_arr,
-                p0=[0.3, 1.5],
-                bounds=([0.0, 0.1], [0.9, 10.0]),
-                maxfev=5000
-            )
-            kappas.append(popt[0])
-            taus.append(popt[1])
-
+        for sp, sn in paired:
+            cp, cn = session_curve(sp), session_curve(sn)
+            if cp is None or cn is None:
+                continue
+            tp, pp = cp
+            tn, pn = cn
+            mask = (tp >= tn[0]) & (tp <= tn[-1])
+            if mask.sum() < 5:
+                continue
+            t_arr = tp[mask]
+            diff = pp[mask] - np.interp(t_arr, tn, pn)
+            # Sessions are minutes apart so PE does not cancel exactly; v absorbs the leak
+            fit = fit_curve(t_arr, diff, with_drift=True)
+            if fit is None:
+                if verbose:
+                    print(f"  [{axis}] Pulse {pulse_mag}ms paired: curve_fit failed")
+                continue
+            P_fit, kappa_fit, tau_fit, residual_std = fit
+            if abs(P_fit) < 2.0 * residual_std:
+                skipped_noise += 1
+                if verbose:
+                    print(f"  [{axis}] Pulse {pulse_mag}ms paired: |P|={abs(P_fit):.2f}px "
+                          f"below noise ({residual_std:.2f}px) — skipped")
+                continue
+            paired_signs.add(1.0 if P_fit > 0 else -1.0)
+            accept_fit(kappa_fit, tau_fit, t_arr[0])
             if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms "
-                      f"{s.get('pulse_direction', '?')}: "
-                      f"κ={popt[0]:.3f}, τ={popt[1]:.2f}s "
-                      f"(max_response={max_response:.3f}px)")
-        except (RuntimeError, ValueError) as e:
+                print(f"  [{axis}] Pulse {pulse_mag}ms paired {pos_dir}-{neg_dir}: "
+                      f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
+
+        for s in leftovers:
+            c = session_curve(s)
+            if c is None:
+                continue
+            t_arr, pos_arr = c
+            fit = fit_curve(t_arr, pos_arr, with_drift=True)
+            if fit is None:
+                if verbose:
+                    print(f"  [{axis}] Pulse {pulse_mag}ms: curve_fit failed")
+                continue
+            P_fit, kappa_fit, tau_fit, residual_std = fit
+            if abs(P_fit) < 2.0 * residual_std:
+                skipped_noise += 1
+                if verbose:
+                    print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
+                          f"response |P|={abs(P_fit):.2f}px below noise ({residual_std:.2f}px) — skipped")
+                continue
+            accept_fit(kappa_fit, tau_fit, t_arr[0])
+            fit_signs.append((s.get("pulse_direction", "?"), np.sign(P_fit)))
             if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms: curve_fit failed ({e})")
-            continue
+                print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
+                      f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
 
     if not kappas:
         if verbose:
-            print(f"  [{axis}] All curve fits failed. Using defaults.")
-        return 0.2, 1.5
+            print(f"  [{axis}] No pulse response measurable above noise "
+                  f"({skipped_noise} skipped). Using defaults (κ=0.2, τ=1.5s). "
+                  f"Consider larger protocol pulses.")
+        return DEFAULTS
 
-    # Median is more robust than mean against outliers
+    # Real responses have consistent signs per direction; paired diffs share one sign
+    by_dir = {}
+    for direction, sign in fit_signs:
+        by_dir.setdefault(direction, set()).add(sign)
+    dir_signs = [next(iter(s)) for s in by_dir.values() if len(s) == 1]
+    consistent = (len(paired_signs) <= 1 and
+                  all(len(s) == 1 for s in by_dir.values()) and
+                  (len(by_dir) < 2 or len(set(dir_signs)) == len(by_dir)))
+    if not consistent:
+        if verbose:
+            print(f"  [{axis}] WARNING: response signs inconsistent across pulse directions "
+                  f"— fits are noise, not mechanics. Using defaults (κ=0.2, τ=1.5s).")
+        return DEFAULTS
+
     kappa_result = float(np.median(kappas))
-    tau_result = float(np.median(taus))
+    tau_result = float(np.median(taus)) if taus else DEFAULTS[1]
+
+    # A median within ~2% of the fit bounds means the model chased noise/drift, not physics.
+    if kappa_result > 0.88 or tau_result > 9.8:
+        if verbose:
+            print(f"  [{axis}] WARNING: fit pinned at bounds (κ={kappa_result:.3f}, "
+                  f"τ={tau_result:.2f}s) — unphysical. Using defaults (κ=0.2, τ=1.5s).")
+        return DEFAULTS
 
     if verbose:
         print(f"  [{axis}] Final: κ={kappa_result:.3f} (from {len(kappas)} fits), "
@@ -215,86 +309,118 @@ def _fit_spring_params(sysid: dict, axis: str, guide_exp: float, verbose: bool):
 # Phase 2: PE period detection from free-drift data
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def _pulse_correction_px(pulse_ms, cal_rate_ms_per_arcsec, pixel_scale):
+    """Signed pulse displacement in pixels (same helper as train_worm_gear)."""
+    if pulse_ms == 0.0 or cal_rate_ms_per_arcsec <= 0.0:
+        return 0.0
+    return (pulse_ms / cal_rate_ms_per_arcsec) / pixel_scale
+
+
+def _pe_candidate_series(sysid: dict, guide_exp: float):
+    """
+    Build (t, position, label) series for PE search.
+
+    Free drifts give the uncorrected trajectory directly. Standard-guiding
+    sessions are much longer (8 min vs 2 min) and reach the wave-generator
+    periods (~300-900s), so reconstruct their uncorrected trajectory by
+    adding the applied pulses back (same compensated formula as train_worm_gear:
+    JSON RA pulses are ADDED, DEC pulses SUBTRACTED).
+    """
+    pixel_scale = sysid["equipment"].get("pixel_scale_arcsec_per_px", 1.0)
+    series = []
+    for s in sysid["sessions"]:
+        frames = s.get("frames", [])
+        if len(frames) < 20:
+            continue
+        if s["type"] == "free_drift":
+            t, pos = 0.0, []
+            t_vals = []
+            for f in frames:
+                t += f.get("dt", guide_exp)
+                t_vals.append(t)
+                pos.append(f["ra_raw_px"])
+            series.append((np.array(t_vals), np.array(pos), f"free_drift {s.get('session_id', '?')}"))
+        elif s["type"] == "standard_guiding":
+            cal = s.get("ra_ms_per_arcsec", 0.0)
+            if cal <= 0.0 or pixel_scale <= 0.0:
+                continue
+            t, p = 0.0, 0.0
+            t_vals, pos = [], []
+            for i in range(1, len(frames)):
+                t += frames[i].get("dt", guide_exp)
+                p += (frames[i]["ra_raw_px"] - frames[i - 1]["ra_raw_px"]
+                      + _pulse_correction_px(frames[i - 1].get("ra_pulse_ms", 0.0), cal, pixel_scale))
+                t_vals.append(t)
+                pos.append(p)
+            series.append((np.array(t_vals), np.array(pos), f"standard {s.get('session_id', '?')}"))
+    return series
+
+
 def _estimate_pe(sysid: dict, guide_exp: float, verbose: bool):
     """
-    Detect PE period and amplitude from free-drift data using Lomb-Scargle.
-    Searches 0.1-0.5 Hz (periods 2-10s) for harmonic drive PE.
-    Returns (period_seconds, amplitude_pixels) or (0.0, 0.0) if no PE detected.
+    Detect PE period and amplitude via Lomb-Scargle over every usable session.
+    Band per series: from 2 cycles per observation span up to Nyquist, so long
+    standard-guiding sessions expose the strain-wave fundamental (~300-900s)
+    and short free drifts still cover fast components.
+    Returns (period_seconds, amplitude_pixels) or (0.0, 0.0) if none significant.
     """
-    free_drift_sessions = [s for s in sysid["sessions"] if s["type"] == "free_drift"]
-    if not free_drift_sessions:
+    candidates = _pe_candidate_series(sysid, guide_exp)
+    if not candidates:
         if verbose:
-            print("  No free_drift sessions found. PE detection skipped.")
+            print("  No usable sessions found. PE detection skipped.")
         return 0.0, 0.0
 
-    # Use the longest free drift session
-    longest_session = max(free_drift_sessions, key=lambda s: len(s["frames"]))
-    frames = longest_session["frames"]
+    best = None  # (snr, period, amplitude, label)
+    for t_arr, ra_arr, label in candidates:
+        span = t_arr[-1] - t_arr[0]
+        nyquist = 0.5 / guide_exp
+        f_min = max(2.0 / span, 0.002)  # need >= 2 observed cycles
+        f_max = min(0.5, nyquist * 0.9)
+        if f_min >= f_max or span <= 0:
+            continue
 
-    t_vals = []
-    ra_vals = []
-    t = 0.0
-    for f in frames:
-        t += f.get("dt", guide_exp)
-        t_vals.append(t)
-        ra_vals.append(f["ra_raw_px"])
+        slope, intercept, _, _, _ = scipy.stats.linregress(t_arr, ra_arr)
+        ra_detrended = ra_arr - (slope * t_arr + intercept)
 
-    t_arr = np.array(t_vals)
-    ra_arr = np.array(ra_vals)
+        f_search = np.geomspace(f_min, f_max, 4000)
+        omega = 2 * np.pi * f_search
+        Pxx = scipy.signal.lombscargle(t_arr, ra_detrended, omega, precenter=True)
 
-    if len(t_arr) < 20:
+        peak_idx = np.argmax(Pxx)
+        peak_freq = f_search[peak_idx]
+        noise_floor = np.median(Pxx)
+        snr = Pxx[peak_idx] / (noise_floor + 1e-10)
+        amplitude = np.sqrt(4 * Pxx[peak_idx] / len(t_arr))
+
+        at_edge = peak_freq <= f_min * 1.05
         if verbose:
-            print("  Free drift session too short for PE detection.")
+            print(f"  [LS] {label}: span={span:.0f}s, band {1/f_max:.1f}-{1/f_min:.0f}s, "
+                  f"peak {1/peak_freq:.1f}s, SNR {snr:.1f}, amp {amplitude:.3f}px"
+                  f"{'  [AT BAND EDGE]' if at_edge else ''}")
+
+        if best is None or snr > best[0]:
+            best = (snr, 1.0 / peak_freq, amplitude, label, at_edge)
+
+    if best is None or best[0] < 10.0:
+        if verbose:
+            snr = 0.0 if best is None else best[0]
+            print(f"  [LS] PE not significant (best SNR {snr:.1f} < 10.0). Disabling PE states.")
         return 0.0, 0.0
 
-    # Detrend to remove linear drift
-    slope, intercept, _, _, _ = scipy.stats.linregress(t_arr, ra_arr)
-    ra_detrended = ra_arr - (slope * t_arr + intercept)
-
-    # Lomb-Scargle in the harmonic drive PE frequency range
-    # PE periods 2-10s → frequencies 0.1-0.5 Hz
-    nyquist = 0.5 / guide_exp  # Maximum observable frequency
-    f_max = min(0.5, nyquist * 0.9)  # Stay below Nyquist
-    f_min = 0.1
-
-    if f_min >= f_max:
+    snr, peak_period, amplitude, label, at_edge = best
+    if at_edge:
+        # True period is longer than the session can resolve: disable PE, tell the user
         if verbose:
-            print(f"  Guide exposure ({guide_exp}s) too long for harmonic PE detection. "
-                  f"Nyquist={nyquist:.2f} Hz")
+            print(f"  [LS] WARNING: dominant PE ({amplitude:.2f}px, SNR {snr:.0f}) sits at the "
+                  f"band edge ({peak_period:.0f}s) — true period is longer than the session "
+                  f"can resolve. Collect a session of at least {2.5 * peak_period:.0f}s "
+                  f"(free drift or standard guiding) and retrain. Disabling PE states.")
         return 0.0, 0.0
 
-    f_search = np.linspace(f_min, f_max, 2000)
-    omega = 2 * np.pi * f_search
-    Pxx = scipy.signal.lombscargle(t_arr, ra_detrended, omega, precenter=True)
-
-    peak_idx = np.argmax(Pxx)
-    peak_power = Pxx[peak_idx]
-    peak_freq = f_search[peak_idx]
-    peak_period = 1.0 / peak_freq
-
-    # Significance test: is the peak significantly above the noise floor?
-    # Use the median power as the noise level estimate
-    noise_floor = np.median(Pxx)
-    snr = peak_power / (noise_floor + 1e-10)
-
-    # Amplitude estimate from Lomb-Scargle power
-    amplitude = np.sqrt(4 * peak_power / len(t_arr))
-
+    peak_period = np.clip(peak_period, 1.5, 1500.0)
+    amplitude = np.clip(amplitude, 0.01, 50.0)
     if verbose:
-        print(f"  [LS] Searched {f_min:.2f}-{f_max:.2f} Hz ({1/f_max:.1f}-{1/f_min:.1f}s)")
-        print(f"  [LS] Peak at {peak_freq:.4f} Hz → Period: {peak_period:.2f}s")
-        print(f"  [LS] Peak SNR: {snr:.1f} (threshold: 10.0)")
-        print(f"  [LS] Amplitude: {amplitude:.4f} px")
-
-    # Require SNR > 10 for a significant PE detection
-    if snr < 10.0:
-        if verbose:
-            print(f"  [LS] PE not significant (SNR {snr:.1f} < 10.0). Disabling PE states.")
-        return 0.0, 0.0
-
-    # Sanity bounds
-    peak_period = np.clip(peak_period, 1.5, 15.0)
-    amplitude = np.clip(amplitude, 0.01, 5.0)
+        print(f"  [LS] Selected: {peak_period:.1f}s, amp {amplitude:.3f}px (from {label})")
 
     return float(peak_period), float(amplitude)
 

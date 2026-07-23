@@ -7,6 +7,7 @@
 #include "direct_drive_guider.h"
 
 #include "Options.h"
+#include "ekos_guide_debug.h"
 
 #include <QFile>
 #include <QJsonDocument>
@@ -31,26 +32,37 @@ bool DirectDriveGuider::validateFingerprint(const QJsonObject &fp)
     if (fp.isEmpty())
         return true;
 
-    if (fp.contains("guide_exposure_s"))
+    const struct
     {
-        const double expected = fp["guide_exposure_s"].toDouble();
-        if (!fpDoubleClose(expected, Options::guideExposure(), 0.05))
-            return false;
+        const char *key;
+        double current;
+        double tol;
+    } checks[] =
+    {
+        { "guide_exposure_s",      Options::guideExposure(),       0.05 },
+        { "ra_proportional_gain",  Options::rAProportionalGain(),  1e-4 },
+        { "dec_proportional_gain", Options::dECProportionalGain(), 1e-4 },
+    };
+
+    bool ok = true;
+    for (const auto &c : checks)
+    {
+        if (fp.contains(c.key) && !fpDoubleClose(fp[c.key].toDouble(), c.current, c.tol))
+        {
+            qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
+                                         << fp[c.key].toDouble() << "current" << c.current;
+            ok = false;
+        }
     }
 
-    if (fp.contains("guide_binning") &&
-            fp["guide_binning"].toString() != Options::guideBinning())
-        return false;
+    if (fp.contains("guide_binning") && fp["guide_binning"].toString() != Options::guideBinning())
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
+                                     << fp["guide_binning"].toString() << "current" << Options::guideBinning();
+        ok = false;
+    }
 
-    if (fp.contains("ra_proportional_gain") &&
-            !fpDoubleClose(fp["ra_proportional_gain"].toDouble(), Options::rAProportionalGain()))
-        return false;
-
-    if (fp.contains("dec_proportional_gain") &&
-            !fpDoubleClose(fp["dec_proportional_gain"].toDouble(), Options::dECProportionalGain()))
-        return false;
-
-    return true;
+    return ok;
 }
 
 // ---------------------------------------------------------------------------
@@ -85,6 +97,8 @@ bool DirectDriveGuider::loadWeights(const QString &weightsPath)
     m_k_ref_dec  = params["k_ref_dec"].toDouble(0.0);
     m_d_ra_extra = params["d_ra_extra"].toDouble(0.0);
     m_phi_drift  = params["phi_drift"].toDouble(0.0);
+    m_fit_alt_min = params["fit_alt_min"].toDouble(35.0);
+    m_fit_alt_max = params["fit_alt_max"].toDouble(65.0);
 
     m_pixel_scale = root["pixel_scale"].toDouble(1.0);
 
@@ -95,7 +109,7 @@ bool DirectDriveGuider::loadWeights(const QString &weightsPath)
 // ---------------------------------------------------------------------------
 // resetSession
 // ---------------------------------------------------------------------------
-void DirectDriveGuider::resetSession(bool forceReset)
+void DirectDriveGuider::resetSession(bool /*forceReset*/)
 {
     m_frameCount = 0;
 }
@@ -169,7 +183,8 @@ GuideOutput DirectDriveGuider::darkPredict(double dt_sec)
 // ---------------------------------------------------------------------------
 double DirectDriveGuider::physicsRA(double alt_deg) const
 {
-    const double alt_rad = alt_deg * M_PI / 180.0;
+    // Refraction fit is only valid inside the fitted altitude range.
+    const double alt_rad = std::clamp(alt_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
     const double cos_alt = std::cos(alt_rad);
     if (std::abs(cos_alt) < 1e-4) return m_d_ra_extra;
     return m_k_ref / (cos_alt * cos_alt) + m_d_ra_extra;
@@ -180,7 +195,7 @@ double DirectDriveGuider::physicsRA(double alt_deg) const
 // ---------------------------------------------------------------------------
 double DirectDriveGuider::physicsDEC(double alt_deg, double q_deg) const
 {
-    const double alt_rad = alt_deg * M_PI / 180.0;
+    const double alt_rad = std::clamp(alt_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
     const double q_rad   = q_deg   * M_PI / 180.0;
     const double cos_alt = std::cos(alt_rad);
     if (std::abs(cos_alt) < 1e-4) return m_d_polar;

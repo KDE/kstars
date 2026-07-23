@@ -106,9 +106,12 @@ class MountSpecificGuider
          * @param uncorrected_drift_ra_px Uncorrected physical RA drift (pixels)
          * @param uncorrected_drift_dec_px Uncorrected physical DEC drift (pixels)
          * @param snr Guide star SNR
+         * @param ra_pulse_px Signed RA pulse applied over this interval (pixels)
+         * @param dec_pulse_px Signed DEC pulse applied over this interval (pixels)
          */
         virtual void update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px,
-                            double uncorrected_drift_dec_px, double snr) = 0;
+                            double uncorrected_drift_dec_px, double snr,
+                            double ra_pulse_px, double dec_pulse_px) = 0;
 
         /**
          * @brief Current model confidence in [0, 1].

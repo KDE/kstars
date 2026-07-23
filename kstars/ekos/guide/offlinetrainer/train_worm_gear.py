@@ -97,7 +97,11 @@ def train_worm_gear(sysid: dict,
             "k_ref":        float(k_ref),
             "d_ra_extra":   float(d_ra_extra),
             "d_polar":      float(d_polar),
-            "k_ref_dec":    float(k_ref_dec)
+            "k_ref_dec":    float(k_ref_dec),
+            "fit_alt_min":  float(min((s.get("altitude_deg", 45.0) for s in sysid["sessions"]
+                                       if s.get("type") == "free_drift"), default=35.0)),
+            "fit_alt_max":  float(max((s.get("altitude_deg", 45.0) for s in sysid["sessions"]
+                                       if s.get("type") == "free_drift"), default=65.0))
         },
         "normalization": {
             "alt_scale":       90.0,

@@ -142,6 +142,8 @@ def train_direct_drive(sysid: dict,
             "k_ref_dec":  float(k_ref_dec),
             "d_ra_extra": float(d_ra_extra),
             "phi_drift":  float(phi_drift),
+            "fit_alt_min": float(np.min(altitudes)),
+            "fit_alt_max": float(np.max(altitudes)),
         },
         "training_stats": {
             "n_measurements": int(len(ra_drifts)),

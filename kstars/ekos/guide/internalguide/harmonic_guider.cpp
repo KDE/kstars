@@ -7,6 +7,7 @@
 #include "harmonic_guider.h"
 
 #include "Options.h"
+#include "ekos_guide_debug.h"
 
 #include <Eigen/LU>
 
@@ -33,6 +34,8 @@ HarmonicGuider::m_x { Eigen::Matrix<double, N_STATES, 1>::Zero() };
 Eigen::Matrix<double, HarmonicGuider::N_STATES, HarmonicGuider::N_STATES>
 HarmonicGuider::m_P { Eigen::Matrix<double, N_STATES, N_STATES>::Identity() * 10.0 };
 
+double HarmonicGuider::m_uncorrPosRA { 0.0 };
+double HarmonicGuider::m_uncorrPosDEC { 0.0 };
 int HarmonicGuider::m_frameCount { 0 };
 double HarmonicGuider::m_typicalRMS { 0.5 };
 double HarmonicGuider::s_activePePeriod { -1.0 };
@@ -55,58 +58,45 @@ bool HarmonicGuider::validateFingerprint(const QJsonObject &fp)
     if (fp.isEmpty())
         return true;
 
-    if (fp.contains("guide_exposure_s"))
+    const struct
     {
-        const double expected = fp["guide_exposure_s"].toDouble();
-        if (!fpDoubleClose(expected, Options::guideExposure(), 0.05))
-            return false;
+        const char *key;
+        double current;
+        double tol;
+    } checks[] =
+    {
+        { "guide_exposure_s",      Options::guideExposure(),         0.05 },
+        { "ra_proportional_gain",  Options::rAProportionalGain(),    1e-4 },
+        { "dec_proportional_gain", Options::dECProportionalGain(),   1e-4 },
+        { "ra_integral_gain",      Options::rAIntegralGain(),        1e-4 },
+        { "dec_integral_gain",     Options::dECIntegralGain(),       1e-4 },
+        { "ra_min_pulse_arcsec",   Options::rAMinimumPulseArcSec(),  1e-4 },
+        { "dec_min_pulse_arcsec",  Options::dECMinimumPulseArcSec(), 1e-4 },
+        { "ra_max_pulse_arcsec",   static_cast<double>(Options::rAMaximumPulseArcSec()),  1e-4 },
+        { "dec_max_pulse_arcsec",  static_cast<double>(Options::dECMaximumPulseArcSec()), 1e-4 },
+        { "ra_hysteresis",         Options::rAHysteresis(),          1e-4 },
+        { "dec_hysteresis",        Options::dECHysteresis(),         1e-4 },
+    };
+
+    bool ok = true;
+    for (const auto &c : checks)
+    {
+        if (fp.contains(c.key) && !fpDoubleClose(fp[c.key].toDouble(), c.current, c.tol))
+        {
+            qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
+                                         << fp[c.key].toDouble() << "current" << c.current;
+            ok = false;
+        }
     }
 
-    if (fp.contains("ra_proportional_gain") &&
-            !fpDoubleClose(fp["ra_proportional_gain"].toDouble(), Options::rAProportionalGain()))
-        return false;
+    if (fp.contains("guide_binning") && fp["guide_binning"].toString() != Options::guideBinning())
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
+                                     << fp["guide_binning"].toString() << "current" << Options::guideBinning();
+        ok = false;
+    }
 
-    if (fp.contains("dec_proportional_gain") &&
-            !fpDoubleClose(fp["dec_proportional_gain"].toDouble(), Options::dECProportionalGain()))
-        return false;
-
-    if (fp.contains("ra_integral_gain") &&
-            !fpDoubleClose(fp["ra_integral_gain"].toDouble(), Options::rAIntegralGain()))
-        return false;
-
-    if (fp.contains("dec_integral_gain") &&
-            !fpDoubleClose(fp["dec_integral_gain"].toDouble(), Options::dECIntegralGain()))
-        return false;
-
-    if (fp.contains("ra_min_pulse_arcsec") &&
-            !fpDoubleClose(fp["ra_min_pulse_arcsec"].toDouble(), Options::rAMinimumPulseArcSec()))
-        return false;
-
-    if (fp.contains("dec_min_pulse_arcsec") &&
-            !fpDoubleClose(fp["dec_min_pulse_arcsec"].toDouble(), Options::dECMinimumPulseArcSec()))
-        return false;
-
-    if (fp.contains("ra_max_pulse_arcsec") &&
-            !fpDoubleClose(fp["ra_max_pulse_arcsec"].toDouble(), Options::rAMaximumPulseArcSec()))
-        return false;
-
-    if (fp.contains("dec_max_pulse_arcsec") &&
-            !fpDoubleClose(fp["dec_max_pulse_arcsec"].toDouble(), Options::dECMaximumPulseArcSec()))
-        return false;
-
-    if (fp.contains("ra_hysteresis") &&
-            !fpDoubleClose(fp["ra_hysteresis"].toDouble(), Options::rAHysteresis()))
-        return false;
-
-    if (fp.contains("dec_hysteresis") &&
-            !fpDoubleClose(fp["dec_hysteresis"].toDouble(), Options::dECHysteresis()))
-        return false;
-
-    if (fp.contains("guide_binning") &&
-            fp["guide_binning"].toString() != Options::guideBinning())
-        return false;
-
-    return true;
+    return ok;
 }
 
 bool HarmonicGuider::loadWeights(const QString &weightsPath)
@@ -141,6 +131,8 @@ bool HarmonicGuider::loadWeights(const QString &weightsPath)
     m_k_ref_dec = phys["k_ref_dec"].toDouble(0.0);
     m_pe_period = phys["pe_period"].toDouble(0.0);
     m_pe_amplitude = phys["pe_amplitude"].toDouble(0.0);
+    m_fit_alt_min = phys["fit_alt_min"].toDouble(35.0);
+    m_fit_alt_max = phys["fit_alt_max"].toDouble(65.0);
 
     // Sanity bounds on spring parameters
     m_kappa_ra  = std::clamp(m_kappa_ra, 0.0, 0.9);
@@ -213,6 +205,9 @@ void HarmonicGuider::resetSession(bool forceReset)
         s_activePePeriod = m_pe_period;
         forceReset = true;
     }
+
+    m_uncorrPosRA = 0.0;
+    m_uncorrPosDEC = 0.0;
 
     if (forceReset)
     {
@@ -310,9 +305,9 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
     Q(RA_POS, RA_POS) = q_ra * dt;
     Q(DEC_POS, DEC_POS) = q_dec * dt;
 
-    // Velocity process noise (smaller — velocity changes slowly)
-    Q(RA_VEL, RA_VEL) = q_ra * 0.01 * dt;
-    Q(DEC_VEL, DEC_VEL) = q_dec * 0.01 * dt;
+    // Fixed small noise: velocity tracks only the slow residual drift trend
+    Q(RA_VEL, RA_VEL) = 1e-5 * dt;
+    Q(DEC_VEL, DEC_VEL) = 1e-5 * dt;
 
     // Spring process noise (very small — spring params are stable)
     Q(RA_SPRING, RA_SPRING) = 0.001 * dt;
@@ -330,67 +325,43 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
     return Q;
 }
 
-// ── Kalman predict step ──────────────────────────────────────────────────────
-void HarmonicGuider::kalmanPredict(double dt, double ra_pulse_px, double dec_pulse_px,
-                                   double alt_deg, double parallactic_angle_deg)
+// ── Drift model (px/s); altitude clamped to the fitted range ─────────────────
+void HarmonicGuider::driftRates(double alt_deg, double parallactic_angle_deg,
+                                double &ra_rate, double &dec_rate) const
 {
-    // Build state transition matrix
+    const double alt_rad = std::clamp(alt_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
+    const double cos_alt = std::cos(alt_rad);
+    const double q_rad = parallactic_angle_deg * M_PI / 180.0;
+
+    ra_rate = m_drift_ra;
+    dec_rate = m_drift_dec + m_d_polar;
+    if (std::abs(cos_alt) > 1e-4)
+    {
+        ra_rate += m_k_ref / (cos_alt * cos_alt);
+        dec_rate += m_k_ref_dec * std::sin(q_rad) / (cos_alt * cos_alt);
+    }
+}
+
+// ── Kalman predict step: free dynamics only, pulses are applied in update() ──
+void HarmonicGuider::kalmanPredict(double dt, double alt_deg, double parallactic_angle_deg)
+{
     Eigen::Matrix<double, N_STATES, N_STATES> F;
     buildF(F, dt);
 
-    // Compute effective pulse (what actually moves the mount)
-    // The spring absorbs κ fraction; only (1-κ) is immediately effective.
-    // The absorbed part goes into the spring state.
-    const double effective_ra  = ra_pulse_px * (1.0 - m_kappa_ra);
-    const double effective_dec = dec_pulse_px * (1.0 - m_kappa_dec);
-
-    // Capture the spring tension BEFORE F decays it. The energy released to position
-    // this frame is (spring_before - spring_after) = spring_before·(1 - e^(-dt/τ)).
-    // Summed over all frames this telescopes to the full absorbed κ·pulse, so the
-    // mount fully recovers the absorbed pulse — matching the training step response
-    // pos(t) = pulse·(1 - κ·e^(-t/τ)) that train_harmonic.py fits κ/τ to (asymptote = pulse).
-    // (The old code used the POST-decay spring value, which only ever released
-    //  κ·pulse·e^(-dt/τ) in total, permanently losing the rest.)
+    // Capture the spring tension BEFORE F decays it: released = spring_before·(1 - e^(-dt/τ)).
     const double spring_before_ra  = m_x(RA_SPRING);
     const double spring_before_dec = m_x(DEC_SPRING);
 
-    // Predict state (this decays the spring by e^(-dt/τ) via F)
     m_x = F * m_x;
 
-    // Add the spring absorption: new spring tension += κ * raw_pulse.
-    // Freshly-absorbed energy releases on FUTURE frames, not this one, so it is added
-    // after spring_before was captured.
-    m_x(RA_SPRING)  += m_kappa_ra * ra_pulse_px;
-    m_x(DEC_SPRING) += m_kappa_dec * dec_pulse_px;
-
-    // Add the effective pulse correction to position
-    // (Negative because a correction pulse reduces the error)
-    m_x(RA_POS)  -= effective_ra;
-    m_x(DEC_POS) -= effective_dec;
-
-    // Release the spring into position. The release is part of the SAME correction as the
-    // immediate term above (the mount continues moving in the correcting direction as the
-    // spring unwinds), so it also SUBTRACTS from the error. Immediate (1-κ)·pulse plus the
-    // total release κ·pulse then sum to the full pulse, matching the trainer step response
-    // pos(t)=pulse·(1-κ·e^(-t/τ)) whose asymptote is the full pulse. released = spring_before - spring_after.
+    // Spring release continues the correction as absorbed pulse energy unwinds
     const double spring_released_ra  = spring_before_ra  * (1.0 - std::exp(-dt / m_tau_ra));
     const double spring_released_dec = spring_before_dec * (1.0 - std::exp(-dt / m_tau_dec));
     m_x(RA_POS)  -= spring_released_ra;
     m_x(DEC_POS) -= spring_released_dec;
 
-    // Add drift terms
-    const double alt_rad = alt_deg * M_PI / 180.0;
-    const double cos_alt = std::cos(alt_rad);
-    const double q_rad = parallactic_angle_deg * M_PI / 180.0;
-
-    double ra_drift_rate = m_drift_ra;
-    double dec_drift_rate = m_drift_dec + m_d_polar;
-    if (std::abs(cos_alt) > 1e-4)
-    {
-        ra_drift_rate += m_k_ref / (cos_alt * cos_alt);
-        dec_drift_rate += m_k_ref_dec * std::sin(q_rad) / (cos_alt * cos_alt);
-    }
-
+    double ra_drift_rate = 0.0, dec_drift_rate = 0.0;
+    driftRates(alt_deg, parallactic_angle_deg, ra_drift_rate, dec_drift_rate);
     m_x(RA_POS)  += ra_drift_rate * dt;
     m_x(DEC_POS) += dec_drift_rate * dt;
 
@@ -405,7 +376,7 @@ void HarmonicGuider::kalmanPredict(double dt, double ra_pulse_px, double dec_pul
 }
 
 // ── Kalman update step ───────────────────────────────────────────────────────
-void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px)
+void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double snr)
 {
     // Observation matrix: observe position + PE_sin
     // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err + pe_sin_dec
@@ -418,10 +389,10 @@ void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px)
         H(1, DEC_PE_SIN) = 1.0;
     }
 
-    // Measurement noise (fixed from warmup SNR estimate)
-    const double r_base = 0.1;  // Base measurement noise in px²
-    const double snr_factor = (m_lastSNR > 10.0) ? (100.0 / (m_lastSNR * m_lastSNR)) : 1.0;
-    Eigen::Matrix2d R = Eigen::Matrix2d::Identity() * (r_base * snr_factor);
+    // Measurement noise from the current frame's SNR (~0.5 px at SNR 30)
+    const double snr_safe = std::max(snr, 5.0);
+    const double r_val = std::clamp(0.25 * (30.0 / snr_safe) * (30.0 / snr_safe), 0.04, 4.0);
+    Eigen::Matrix2d R = Eigen::Matrix2d::Identity() * r_val;
 
     // Innovation
     Eigen::Vector2d z(ra_meas_px, dec_meas_px);
@@ -465,18 +436,6 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     m_lastRAPulseMs = frame.ra_pulse_ms;
     m_lastDECPulseMs = frame.dec_pulse_ms;
 
-    // Convert pulse from ms to pixels for the Kalman filter:
-    //   pulse_px = pulse_ms / ms_per_arcsec / pixel_scale
-    // ms_per_arcsec is the real guide-rate calibration forwarded from gmath — the SAME factor the
-    // measurement path uses to remove this pulse. Fall back to a 1000 ms/arcsec placeholder only
-    // when calibration isn't available yet (e.g. before the first calibration completes).
-    const double ra_ms_per_arcsec  = (frame.ra_ms_per_arcsec  > 0.0) ? frame.ra_ms_per_arcsec  : 1000.0;
-    const double dec_ms_per_arcsec = (frame.dec_ms_per_arcsec > 0.0) ? frame.dec_ms_per_arcsec : 1000.0;
-    const double ra_pulse_arcsec  = std::abs(frame.ra_pulse_ms)  / ra_ms_per_arcsec;
-    const double dec_pulse_arcsec = std::abs(frame.dec_pulse_ms) / dec_ms_per_arcsec;
-    const double ra_pulse_px  = (frame.ra_pulse_ms  >= 0 ? 1.0 : -1.0) * ra_pulse_arcsec  / frame.pixel_scale;
-    const double dec_pulse_px = (frame.dec_pulse_ms >= 0 ? 1.0 : -1.0) * dec_pulse_arcsec / frame.pixel_scale;
-
     // Q-net input feature: raw frame-to-frame change of tracking error, computed the
     // same way as train_harmonic.py (|ra_raw_px - prev_ra_raw_px|). Feeding the Kalman
     // innovation here instead is out-of-distribution for the
@@ -494,19 +453,28 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     m_prevDecRawPx = frame.dec_raw_px;
     m_hasPrevRaw   = true;
 
-    // Run Kalman predict step
-    kalmanPredict(frame.dt, ra_pulse_px, dec_pulse_px,
-                  frame.altitude_deg, frame.parallactic_angle_deg);
-
-    // The prediction for the next frame is the predicted position state
-    // (which includes drift + PE + spring release effects)
-    m_lastPredRA  = m_x(RA_POS);
-    m_lastPredDEC = m_x(DEC_POS);
+    // Posterior (POS + PE) before propagation
+    double post_ra  = m_x(RA_POS);
+    double post_dec = m_x(DEC_POS);
     if (m_pe_period > 0.0)
     {
-        m_lastPredRA  += m_x(RA_PE_SIN);
-        m_lastPredDEC += m_x(DEC_PE_SIN);
+        post_ra  += m_x(RA_PE_SIN);
+        post_dec += m_x(DEC_PE_SIN);
     }
+
+    kalmanPredict(frame.dt, frame.altitude_deg, frame.parallactic_angle_deg);
+
+    double pred_ra  = m_x(RA_POS);
+    double pred_dec = m_x(DEC_POS);
+    if (m_pe_period > 0.0)
+    {
+        pred_ra  += m_x(RA_PE_SIN);
+        pred_dec += m_x(DEC_PE_SIN);
+    }
+
+    // Prediction is the expected uncorrected drift over the next interval
+    m_lastPredRA  = pred_ra - post_ra;
+    m_lastPredDEC = pred_dec - post_dec;
     m_hasLastPred = true;
 
     GuideOutput out;
@@ -520,7 +488,7 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     out.ra_correction_arcsec  = m_lastPredRA * frame.pixel_scale;
     out.dec_correction_arcsec = m_lastPredDEC * frame.pixel_scale;
 
-    // Debug breakdown: physics = drift, mlp = spring + PE (the "learned" part)
+    // Debug breakdown: physics = trend (VEL), mlp = spring + PE (the "learned" part)
     const double drift_ra_px = m_x(RA_VEL) * frame.dt;
     const double drift_dec_px = m_x(DEC_VEL) * frame.dt;
     out.physics_ra_arcsec  = drift_ra_px * frame.pixel_scale;
@@ -532,10 +500,20 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
 }
 
 void HarmonicGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
-                            double uncorrected_drift_ra_px, double uncorrected_drift_dec_px, double snr)
+                            double uncorrected_drift_ra_px, double uncorrected_drift_dec_px, double snr,
+                            double ra_pulse_px, double dec_pulse_px)
 {
-    // Run Kalman update with actual measurement
-    kalmanUpdate(uncorrected_drift_ra_px, uncorrected_drift_dec_px);
+    // The absorbed κ·pulse enters the uncorrected trajectory now and releases later
+    m_x(RA_SPRING)  += m_kappa_ra * ra_pulse_px;
+    m_x(DEC_SPRING) += m_kappa_dec * dec_pulse_px;
+    m_x(RA_POS)     += m_kappa_ra * ra_pulse_px;
+    m_x(DEC_POS)    += m_kappa_dec * dec_pulse_px;
+
+    // The filter observes the integrated uncorrected position
+    m_uncorrPosRA  += uncorrected_drift_ra_px;
+    m_uncorrPosDEC += uncorrected_drift_dec_px;
+
+    kalmanUpdate(m_uncorrPosRA, m_uncorrPosDEC, snr);
 
     if (m_hasLastPred)
     {
@@ -600,34 +578,53 @@ void HarmonicGuider::updateConfidence(double innovRA, double innovDec, double sn
     m_confidence = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
 }
 
-// ── Dark guiding prediction ──────────────────────────────────────────────────
+// ── Dark guiding: propagate a copy statelessly, return the interval increment ─
 GuideOutput HarmonicGuider::darkPredict(double dt_sec)
 {
     m_lastSessionSec += dt_sec;
 
-    // Run Kalman predict without any pulse input
-    kalmanPredict(dt_sec, 0.0, 0.0,
-                  m_lastAltRad * 180.0 / M_PI, m_lastParallacticAngleDeg);
+    Eigen::Matrix<double, N_STATES, 1> x = m_x;
+    Eigen::Matrix<double, N_STATES, N_STATES> F;
+    buildF(F, dt_sec);
 
-    double pred_ra = m_x(RA_POS);
-    double pred_dec = m_x(DEC_POS);
+    double post_ra = x(RA_POS);
+    double post_dec = x(DEC_POS);
     if (m_pe_period > 0.0)
     {
-        pred_ra += m_x(RA_PE_SIN);
-        pred_dec += m_x(DEC_PE_SIN);
+        post_ra += x(RA_PE_SIN);
+        post_dec += x(DEC_PE_SIN);
+    }
+
+    const double release_ra  = x(RA_SPRING)  * (1.0 - std::exp(-dt_sec / m_tau_ra));
+    const double release_dec = x(DEC_SPRING) * (1.0 - std::exp(-dt_sec / m_tau_dec));
+    x = F * x;
+    x(RA_POS)  -= release_ra;
+    x(DEC_POS) -= release_dec;
+
+    double ra_rate = 0.0, dec_rate = 0.0;
+    driftRates(m_lastAltRad * 180.0 / M_PI, m_lastParallacticAngleDeg, ra_rate, dec_rate);
+    x(RA_POS)  += ra_rate * dt_sec;
+    x(DEC_POS) += dec_rate * dt_sec;
+
+    double pred_ra = x(RA_POS);
+    double pred_dec = x(DEC_POS);
+    if (m_pe_period > 0.0)
+    {
+        pred_ra += x(RA_PE_SIN);
+        pred_dec += x(DEC_PE_SIN);
     }
 
     GuideOutput out;
     out.valid = (m_frameCount > warmupFrames());
     out.confidence = m_confidence;
 
-    out.ra_correction_arcsec  = pred_ra * m_lastPixelScale;
-    out.dec_correction_arcsec = pred_dec * m_lastPixelScale;
+    out.ra_correction_arcsec  = (pred_ra - post_ra) * m_lastPixelScale;
+    out.dec_correction_arcsec = (pred_dec - post_dec) * m_lastPixelScale;
 
-    out.physics_ra_arcsec  = m_x(RA_VEL) * dt_sec * m_lastPixelScale;
-    out.physics_dec_arcsec = m_x(DEC_VEL) * dt_sec * m_lastPixelScale;
-    out.mlp_ra_arcsec  = (pred_ra - m_x(RA_VEL) * dt_sec) * m_lastPixelScale;
-    out.mlp_dec_arcsec = (pred_dec - m_x(DEC_VEL) * dt_sec) * m_lastPixelScale;
+    out.physics_ra_arcsec  = x(RA_VEL) * dt_sec * m_lastPixelScale;
+    out.physics_dec_arcsec = x(DEC_VEL) * dt_sec * m_lastPixelScale;
+    out.mlp_ra_arcsec  = (pred_ra - post_ra - x(RA_VEL) * dt_sec) * m_lastPixelScale;
+    out.mlp_dec_arcsec = (pred_dec - post_dec - x(DEC_VEL) * dt_sec) * m_lastPixelScale;
 
     return out;
 }

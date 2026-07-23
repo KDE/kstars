@@ -7,6 +7,7 @@
 #include "worm_gear_guider.h"
 
 #include "Options.h"
+#include "ekos_guide_debug.h"
 
 #include <QFile>
 #include <QJsonDocument>
@@ -47,60 +48,47 @@ bool WormGearGuider::validateFingerprint(const QJsonObject &fp)
     if (fp.isEmpty())
         return true;
 
-    if (fp.contains("guide_exposure_s"))
+    const struct
     {
-        const double expected = fp["guide_exposure_s"].toDouble();
-        if (!fpDoubleClose(expected, Options::guideExposure(), 0.05))
-            return false;
+        const char *key;
+        double current;
+        double tol;
+    } checks[] =
+    {
+        { "guide_exposure_s",      Options::guideExposure(),         0.05 },
+        { "ra_proportional_gain",  Options::rAProportionalGain(),    1e-4 },
+        { "dec_proportional_gain", Options::dECProportionalGain(),   1e-4 },
+        { "ra_integral_gain",      Options::rAIntegralGain(),        1e-4 },
+        { "dec_integral_gain",     Options::dECIntegralGain(),       1e-4 },
+        { "ra_min_pulse_arcsec",   Options::rAMinimumPulseArcSec(),  1e-4 },
+        { "dec_min_pulse_arcsec",  Options::dECMinimumPulseArcSec(), 1e-4 },
+        { "ra_max_pulse_arcsec",   static_cast<double>(Options::rAMaximumPulseArcSec()),  1e-4 },
+        { "dec_max_pulse_arcsec",  static_cast<double>(Options::dECMaximumPulseArcSec()), 1e-4 },
+        { "ra_hysteresis",         Options::rAHysteresis(),          1e-4 },
+        { "dec_hysteresis",        Options::dECHysteresis(),         1e-4 },
+    };
+
+    bool ok = true;
+    for (const auto &c : checks)
+    {
+        if (fp.contains(c.key) && !fpDoubleClose(fp[c.key].toDouble(), c.current, c.tol))
+        {
+            qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
+                                         << fp[c.key].toDouble() << "current" << c.current;
+            ok = false;
+        }
     }
 
-    if (fp.contains("ra_proportional_gain") &&
-            !fpDoubleClose(fp["ra_proportional_gain"].toDouble(), Options::rAProportionalGain()))
-        return false;
-
-    if (fp.contains("dec_proportional_gain") &&
-            !fpDoubleClose(fp["dec_proportional_gain"].toDouble(), Options::dECProportionalGain()))
-        return false;
-
-    if (fp.contains("ra_integral_gain") &&
-            !fpDoubleClose(fp["ra_integral_gain"].toDouble(), Options::rAIntegralGain()))
-        return false;
-
-    if (fp.contains("dec_integral_gain") &&
-            !fpDoubleClose(fp["dec_integral_gain"].toDouble(), Options::dECIntegralGain()))
-        return false;
-
-    if (fp.contains("ra_min_pulse_arcsec") &&
-            !fpDoubleClose(fp["ra_min_pulse_arcsec"].toDouble(), Options::rAMinimumPulseArcSec()))
-        return false;
-
-    if (fp.contains("dec_min_pulse_arcsec") &&
-            !fpDoubleClose(fp["dec_min_pulse_arcsec"].toDouble(), Options::dECMinimumPulseArcSec()))
-        return false;
-
-    if (fp.contains("ra_max_pulse_arcsec") &&
-            !fpDoubleClose(fp["ra_max_pulse_arcsec"].toDouble(), Options::rAMaximumPulseArcSec()))
-        return false;
-
-    if (fp.contains("dec_max_pulse_arcsec") &&
-            !fpDoubleClose(fp["dec_max_pulse_arcsec"].toDouble(), Options::dECMaximumPulseArcSec()))
-        return false;
-
-    if (fp.contains("ra_hysteresis") &&
-            !fpDoubleClose(fp["ra_hysteresis"].toDouble(), Options::rAHysteresis()))
-        return false;
-
-    if (fp.contains("dec_hysteresis") &&
-            !fpDoubleClose(fp["dec_hysteresis"].toDouble(), Options::dECHysteresis()))
-        return false;
-
-    if (fp.contains("guide_binning") &&
-            fp["guide_binning"].toString() != Options::guideBinning())
-        return false;
+    if (fp.contains("guide_binning") && fp["guide_binning"].toString() != Options::guideBinning())
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
+                                     << fp["guide_binning"].toString() << "current" << Options::guideBinning();
+        ok = false;
+    }
 
     // Pulse algorithm is Standard (0) in training fingerprint; runtime uses AI — skip.
 
-    return true;
+    return ok;
 }
 
 bool WormGearGuider::loadWeights(const QString &weightsPath)
@@ -130,6 +118,8 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
     m_d_ra_extra   = phys["d_ra_extra"].toDouble(0.0);
     m_d_polar      = phys["d_polar"].toDouble(0.0);
     m_k_ref_dec    = phys["k_ref_dec"].toDouble(0.0);
+    m_fit_alt_min  = phys["fit_alt_min"].toDouble(35.0);
+    m_fit_alt_max  = phys["fit_alt_max"].toDouble(65.0);
 
     QJsonObject norm = root["normalization"].toObject();
     m_alt_scale      = norm["alt_scale"].toDouble(90.0);
@@ -266,7 +256,8 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
 }
 
 void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
-                            double uncorrected_drift_ra_px_delta, double uncorrected_drift_dec_px_delta, double snr)
+                            double uncorrected_drift_ra_px_delta, double uncorrected_drift_dec_px_delta, double snr,
+                            double /*ra_pulse_px*/, double /*dec_pulse_px*/)
 {
     m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
     m_uncorrectedPosDEC += uncorrected_drift_dec_px_delta;
@@ -304,7 +295,8 @@ double WormGearGuider::physicsRA(double t_sec, double /*altitude_deg*/) const
 
 double WormGearGuider::physicsDEC(double altitude_deg, double parallactic_angle_deg) const
 {
-    const double alt_rad = altitude_deg * M_PI / 180.0;
+    // Refraction fit is only valid inside the fitted altitude range.
+    const double alt_rad = std::clamp(altitude_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
     const double q_rad = parallactic_angle_deg * M_PI / 180.0;
     const double cos_alt = std::cos(alt_rad);
 
