@@ -133,6 +133,11 @@ void GPG::reset()
     gpgSamples = 0;
     gpgSkippedSamples = 0;
     gpg->reset();
+    // Re-apply the parameters from Options after clearing the model. This picks up the
+    // periodic-error period length that was restored for the active optical train (and any
+    // other GPG option the user changed), so a freshly reset model starts guiding from the
+    // value stored for this particular mount/gear rather than a stale in-memory value.
+    updateParameters();
     qCDebug(KSTARS_EKOS_GUIDE) << "Resetting GPG";
 }
 

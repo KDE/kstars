@@ -1062,6 +1062,8 @@ bool Guide::abort()
         case GUIDE_CAPTURE:
         case GUIDE_GUIDING:
         case GUIDE_LOOPING:
+            // Persist the periodic-error period length learned during this session before stopping.
+            saveGPGPeriod();
             m_GuiderInstance->abort();
             break;
 
@@ -3916,6 +3918,13 @@ void Guide::refreshOpticalTrain()
         }
         else
             m_Settings = m_GlobalSettings;
+
+        // Restore the periodic-error period length used by Predictive Guiding (GPG) that was
+        // learned and stored for this optical train. Storing it per train lets a worm-gear
+        // mount and a harmonic-drive mount (which have very different periodic-error periods)
+        // each keep their own value instead of sharing a single global setting.
+        if (m_Settings.contains("gPGPeriod"))
+            Options::setGPGPeriod(m_Settings["gPGPeriod"].toDouble());
     }
 
     opticalTrainCombo->blockSignals(false);
@@ -4062,6 +4071,24 @@ void Guide::updateSetting(const QString &key, const QVariant &value)
     m_GlobalSettings[key] = value;
 
     m_DebounceTimer.start();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Guide::saveGPGPeriod()
+{
+    // Predictive Guiding (GPG) learns the mount's periodic-error period length while guiding
+    // and keeps the current estimate in Options::gPGPeriod(). Persist it into the active
+    // optical train so that the value is retained per mount/gear across sessions. This is
+    // what allows very different mounts (e.g. worm-gear vs. harmonic-drive) to each keep an
+    // appropriate period rather than overwriting a single shared global value.
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+    if (Options::rAGuidePulseAlgorithm() != OpsGuide::GPG_ALGORITHM || !Options::gPGEstimatePeriod())
+        return;
+
+    updateSetting("gPGPeriod", Options::gPGPeriod());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

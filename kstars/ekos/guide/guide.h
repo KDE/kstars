@@ -409,6 +409,14 @@ class Guide : public QWidget, public Ui::Guide
          */
         void updateSetting(const QString &key, const QVariant &value);
 
+        /**
+         * @brief saveGPGPeriod Persist the Predictive Guiding (GPG) periodic-error period length
+         * learned during the current session into the active optical train, so it is retained
+         * per mount/gear across sessions. No-op unless the internal guider is used with the GPG
+         * algorithm and automatic period estimation enabled.
+         */
+        void saveGPGPeriod();
+
         //plot slots
         void handleVerticalPlotSizeChange();
         void handleHorizontalPlotSizeChange();
