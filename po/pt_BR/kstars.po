@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-23 02:05+0000\n"
+"POT-Creation-Date: 2026-07-24 02:06+0000\n"
 "PO-Revision-Date: 2026-07-21 06:21-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -23040,18 +23040,18 @@ msgstr ""
 "Correções já aplicadas. Execute o foco automático novamente para obter novas "
 "medições de inclinação."
 
-#: ekos/guide/aiguideprotocol.cpp:195
+#: ekos/guide/aiguideprotocol.cpp:199
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 "Não há dados para treinamento! Por favor, execute o protocolo primeiro."
 
-#: ekos/guide/aiguideprotocol.cpp:196
+#: ekos/guide/aiguideprotocol.cpp:200
 #, kde-format
 msgid "No data to train"
 msgstr "Não há dados para treinamento"
 
-#: ekos/guide/aiguideprotocol.cpp:201
+#: ekos/guide/aiguideprotocol.cpp:205
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Iniciando o treinamento de IA via nuvem EkosLive..."
@@ -23114,15 +23114,28 @@ msgstr "Acionamento direto"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
+#| "Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
+#| "Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
+#| "\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
+#| "li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to "
+#| "3.0s</li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will "
+#| "be trained and locked to your current guide exposure.</span></p></body></"
+#| "html>"
 msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
-"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
-"trained and locked to your current guide exposure.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
+"(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
+"\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span style=\" font-"
+"weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s (depends on guide "
+"star SNR)</li><li><span style=\" font-weight:600;\">Direct Drive:</span> "
+"exposure 1.0s to 3.0s</li></ul><p><span style=\" color:#ff5500;\">The AI "
+"model is trained and locked to your current guide exposure, aggressiveness "
+"and pulse settings — use the values you normally guide with.</span></"
+"p><p>Define an <span style=\" font-weight:600;\">Artificial Horizon</span> "
+"(Settings → Artificial Horizon) before running — the protocol slews by Alt/"
+"Az and uses it to pick safe targets.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recomendações de "
 "exposição:</span></p><ul><li><span style=\" font-weight:600;\">Rosca sem-fim:"
