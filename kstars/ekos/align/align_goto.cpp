@@ -239,6 +239,14 @@ void Align::updateProperty(INDI::Property prop)
             case IPS_BUSY:
             {
                 m_wasSlewStarted = true;
+                // Mount is slewing — the camera PA will change relative to the sky,
+                // so any previously stored PA error is no longer valid for comparing
+                // rotation direction. Reset to avoid false-positive wrong-direction detection.
+                if (m_PreviousPAError >= 0)
+                {
+                    qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew started. Clearing previous PA error tracker.";
+                    m_PreviousPAError = -1;
+                }
                 handleMountMotion();
             }
             break;
@@ -304,6 +312,11 @@ void Align::updateProperty(INDI::Property prop)
             if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached camera position angle."));
+                // Rotation succeeded — clear the previous PA error tracker
+                // so it doesn't cause false-positive wrong-direction detection later.
+                m_PreviousPAError = -1;
+                m_RotatorAutoReversed = false;
+                qCDebug(KSTARS_EKOS_ALIGN) << "Rotator reached target PA. Clearing previous PA error tracker.";
                 if (m_RotateBeforeSolve)
                 {
                     // Rotate-first optimization: skip stale sync, go directly to capture

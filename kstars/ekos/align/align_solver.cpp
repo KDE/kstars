@@ -479,7 +479,7 @@ void Align::setCaptureComplete()
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
         QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/" +
-                       now.toString("yyyy-MM-dd"));
+            now.toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name     = "align_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
@@ -534,7 +534,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                     "Please download some index files or add the correct directory to the list."));
+                         "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
@@ -568,7 +568,7 @@ void Align::startSolving()
         if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                                   QRegularExpression("[-{}]")));
+                    QRegularExpression("[-{}]")));
             m_AlignView->saveImage(filename);
             filenameToUse = filename;
         }
@@ -576,7 +576,7 @@ void Align::startSolving()
         if(type == SSolver::SOLVER_ONLINEASTROMETRY )
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                                   QRegularExpression("[-{}]")));
+                    QRegularExpression("[-{}]")));
             m_AlignView->saveImage(filename);
             filenameToUse = filename;
         }
@@ -756,14 +756,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
-    if (Options::alignmentLogging())
-    {
-        QString parityString = eastToTheRight ? "neg" : "pos";
-        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)", QString::number(ra, 'f', 5),
-                           QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
-                           QString::number(pixscale, 'f', 5), parityString));
-    }
-
     if (!m_SolveFromFile &&
             (isEqual(m_FOVWidth, 0) || m_EffectiveFOVPending || std::abs(pixscale - m_FOVPixelScale) > 0.005) &&
             pixscale > 0)
@@ -790,6 +782,17 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     double solverPA = KSUtils::rotationToPositionAngle(orientation);
+
+    if (Options::alignmentLogging())
+    {
+        QString parityString = eastToTheRight ? "neg" : "pos";
+        appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)",
+                           QString::number(ra, 'f', 5),
+                           QString::number(dec, 'f', 5), QString::number(orientation, 'f', 5),
+                           QString::number(pixscale, 'f', 5), parityString,
+                           QString::number(solverPA, 'f', 5)));
+    }
+
     solverFOV->setCenter(m_AlignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
@@ -878,7 +881,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             {
                 sRawAngle = absAngle[0].getValue();
                 double OffsetAngle = RotatorUtils::Instance()->calcOffsetAngle(sRawAngle, solverPA);
-                RotatorUtils::Instance()->updateOffset(OffsetAngle);
                 auto reverseStatus = "Unknown";
                 auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
                 if (reverseProperty)
@@ -894,6 +896,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 if (std::isnan(m_TargetPositionAngle) == false && m_PreviousPAError >= 0)
                 {
                     double newPAError = std::abs(KSUtils::rangePA(solverPA - m_TargetPositionAngle));
+                    qCDebug(KSTARS_EKOS_ALIGN) << "Rotator direction check: Target PA:" << m_TargetPositionAngle
+                                               << "Solver PA:" << solverPA
+                                               << "Previous PA error:" << m_PreviousPAError
+                                               << "New PA error:" << newPAError
+                                               << "Raw angle:" << sRawAngle
+                                               << "Auto-reversed:" << m_RotatorAutoReversed;
                     if (newPAError > m_PreviousPAError + 0.5)
                     {
                         // First wrong-direction detection: try auto-reversing the rotator
@@ -938,14 +946,17 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         loadSlewB->setEnabled(true);
                         return;
                     }
+                    // PA error did not increase — rotation was in the correct direction.
+                    // Reset error tracking since the rotation succeeded.
+                    qCDebug(KSTARS_EKOS_ALIGN) << "PA error decreased or unchanged — resetting previous error tracker.";
                     m_PreviousPAError = -1;
                     m_RotatorAutoReversed = false;
                 }
 
-                Q_EMIT newSolverResults(solverPA, ra, dec, pixscale);
-                appendLogText(i18n("Camera position angle is %1 degrees.", RotatorUtils::Instance()->calcCameraAngle(sRawAngle, false)));
+                appendLogText(i18n("Camera position angle is %1 degrees.", solverPA));
             }
         }
+        Q_EMIT newSolverResults(solverPA, ra, dec, pixscale);
     }
 
     QJsonObject solution =
