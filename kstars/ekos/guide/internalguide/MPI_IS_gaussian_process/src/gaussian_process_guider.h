@@ -83,10 +83,21 @@ class GaussianProcessGuider
                 void push_front(T item)
                 {
                     buff[end] = item;
-                    num_items++;
-                    if (num_items >= size_) num_items = size_;
                     end++;
                     if (end >= size_) end = 0;
+                    if (num_items >= size_)
+                    {
+                        // Buffer is full: this push overwrote the oldest item, so advance
+                        // start to keep operator[] returning items in insertion order
+                        // (index 0 = oldest, size()-1 = newest). Without this, once the
+                        // buffer wraps, the read order becomes rotated relative to the true
+                        // chronological order and get_last_point() no longer tracks the most
+                        // recently inserted sample.
+                        start++;
+                        if (start >= size_) start = 0;
+                    }
+                    else
+                        num_items++;
                 }
 
             private:
