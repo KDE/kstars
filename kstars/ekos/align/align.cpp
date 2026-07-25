@@ -137,6 +137,10 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
     connect(solveB, &QPushButton::clicked, this, [this]()
     {
+        // Clear any stale Load & Slew target PA so a manual
+        // Capture & Solve does not force an unwanted rotation.
+        m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+        m_PreviousPAError = -1;
         captureAndSolve(true);
     });
 
