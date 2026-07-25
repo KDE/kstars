@@ -294,6 +294,7 @@ void Align::updateProperty(INDI::Property prop)
         {
             appendLogText(i18n("Rotator error detected. Aborting alignment."));
             m_RotatorTimer.invalidate();
+            m_PreviousPAError = -1;
             setState(ALIGN_FAILED);
             Q_EMIT newStatus(state);
             solveB->setEnabled(true);
@@ -343,6 +344,7 @@ void Align::updateProperty(INDI::Property prop)
                     if (nvp->s == IPS_OK)
                     {
                         appendLogText(i18n("Rotator failed to arrive at the requested position angle (Deviation %1 arcmin).", diff));
+                        m_PreviousPAError = -1;
                         setState(ALIGN_FAILED);
                         Q_EMIT newStatus(state);
                         solveB->setEnabled(true);
@@ -674,6 +676,7 @@ void Align::checkRotatorTimeout()
         appendLogText(i18n("Rotator timeout after %1 seconds. Aborting alignment.",
                            Options::captureOperationsTimeout()));
         m_RotatorTimer.invalidate();
+        m_PreviousPAError = -1;
         setState(ALIGN_FAILED);
         Q_EMIT newStatus(state);
         solveB->setEnabled(true);
