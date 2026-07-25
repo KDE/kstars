@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 02:06+0000\n"
-"PO-Revision-Date: 2026-07-23 04:19+0200\n"
+"POT-Creation-Date: 2026-07-25 02:06+0000\n"
+"PO-Revision-Date: 2026-07-24 08:37+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6321,7 +6321,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1448 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6894,7 +6894,7 @@ msgstr "Alineació polar"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
 #: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:315 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:328 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Posicionament…"
@@ -7019,7 +7019,7 @@ msgstr ""
 msgid "Mount is synced to solution coordinates."
 msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 
-#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:986
+#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:997
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "S'ha completat amb èxit l'alineació amb l'astrometria"
@@ -7036,27 +7036,27 @@ msgstr ""
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "S'ha completat l'orientació. S'estan resolent els punts d'alineació…"
 
-#: ekos/align/align_goto.cpp:254 ekos/align/align_goto.cpp:419
+#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:432
 #, kde-format
 msgid "Syncing failed."
 msgstr "No s'ha pogut sincronitzar."
 
-#: ekos/align/align_goto.cpp:256
+#: ekos/align/align_goto.cpp:264
 #, kde-format
 msgid "Slewing failed."
 msgstr "No s'ha pogut fer l'orientació."
 
-#: ekos/align/align_goto.cpp:287
+#: ekos/align/align_goto.cpp:295
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "S'ha detectat un error del rotor. S'interromp l'alineació."
 
-#: ekos/align/align_goto.cpp:306
+#: ekos/align/align_goto.cpp:314
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "El rotor ha arribat fins a l'angle de posició de la càmera."
 
-#: ekos/align/align_goto.cpp:332
+#: ekos/align/align_goto.cpp:345
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -7065,22 +7065,22 @@ msgstr ""
 "El rotor no ha pogut arribar fins a l'angle de posició sol·licitat "
 "(desviació de %1 minuts d'arc)."
 
-#: ekos/align/align_goto.cpp:369
+#: ekos/align/align_goto.cpp:382
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "S'ha detectat una orientació, se suspén la resolució…"
 
-#: ekos/align/align_goto.cpp:413
+#: ekos/align/align_goto.cpp:426
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
 
-#: ekos/align/align_goto.cpp:431
+#: ekos/align/align_goto.cpp:444
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Orientat cap a les coordenades de l'objectiu: AR (%1) Dec (%2)."
 
-#: ekos/align/align_goto.cpp:436
+#: ekos/align/align_goto.cpp:449
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -7089,43 +7089,43 @@ msgstr ""
 "S'ha rebutjat l'orientació cap a les coordenades de l'objectiu: AR (%1) Dec "
 "(%2) (vegeu la notificació)"
 
-#: ekos/align/align_goto.cpp:493
+#: ekos/align/align_goto.cpp:506
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Carregueu una imatge"
 
-#: ekos/align/align_goto.cpp:524 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:537 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "No s'ha detectat cap controlador remot de l'astrometria, es canvia a "
 "StellarSolver."
 
-#: ekos/align/align_goto.cpp:588
+#: ekos/align/align_goto.cpp:601
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 "La diferència de l'AP és ~%1°, la imatge s'invertix. Es manté l'angle del "
 "rotor."
 
-#: ekos/align/align_goto.cpp:602
+#: ekos/align/align_goto.cpp:615
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "L'angle de posició de la càmera s'establix a %1 graus…"
 
-#: ekos/align/align_goto.cpp:611
+#: ekos/align/align_goto.cpp:624
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 "L'angle de posició de la càmera es troba dins d'un interval acceptable."
 
-#: ekos/align/align_goto.cpp:623
+#: ekos/align/align_goto.cpp:636
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 
-#: ekos/align/align_goto.cpp:661
+#: ekos/align/align_goto.cpp:674
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -7279,7 +7279,7 @@ msgstr ""
 "muntura i torneu-ho a provar."
 
 #: ekos/align/align_solver.cpp:55 ekos/align/align_solver.cpp:84
-#: ekos/align/align_solver.cpp:1144
+#: ekos/align/align_solver.cpp:1155
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "No s'ha pogut fer l'alineació amb l'astrometria"
@@ -7453,14 +7453,17 @@ msgstr "S'ha completat el solucionador en %1 segons."
 msgid "Remote solver completed after %1 seconds."
 msgstr "S'ha completat el solucionador remot en %1 segons."
 
-#: ekos/align/align_solver.cpp:762
-#, kde-format
-msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+#: ekos/align/align_solver.cpp:789
+#, fuzzy, kde-format
+#| msgid ""
+#| "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+msgid ""
+"Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
 "Solucionador AR (%1) Dec. (%2) Orientació (%3) Escala de píxels (%4) Paritat "
 "(%5)"
 
-#: ekos/align/align_solver.cpp:828
+#: ekos/align/align_solver.cpp:831
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -7469,7 +7472,7 @@ msgstr ""
 "S'ha actualitzat la informació del WCS. Les imatges capturades des d'este "
 "punt i més enllà haurien de tindre un WCS vàlid."
 
-#: ekos/align/align_solver.cpp:845
+#: ekos/align/align_solver.cpp:848
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -7478,12 +7481,12 @@ msgstr ""
 "Coordenades solucionades: AR (%1) Dec (%2) Coordenades del telescopi: AR "
 "(%3) Dec (%4) Coordenades de l'objectiu: AR (%5) Dec (%6)"
 
-#: ekos/align/align_solver.cpp:856
+#: ekos/align/align_solver.cpp:859
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "L'objectiu es troba a %1 graus de les coordenades de la solució."
 
-#: ekos/align/align_solver.cpp:906
+#: ekos/align/align_solver.cpp:914
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
@@ -7492,7 +7495,7 @@ msgstr ""
 "El rotor s'està movent en la direcció incorrecta. S'invertix automàticament "
 "la direcció del rotor i es tornarà a intentar…"
 
-#: ekos/align/align_solver.cpp:924
+#: ekos/align/align_solver.cpp:932
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
@@ -7503,57 +7506,57 @@ msgstr ""
 "posició ha augmentat des de %1° fins a %2° després del gir. Ja s'ha provat "
 "la inversió automàtica. Comproveu la configuració del rotor."
 
-#: ekos/align/align_solver.cpp:946
+#: ekos/align/align_solver.cpp:956
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "L'angle de posició de la càmera és de %1 graus."
 
-#: ekos/align/align_solver.cpp:978 ekos/align/align_solver.cpp:1105
+#: ekos/align/align_solver.cpp:989 ekos/align/align_solver.cpp:1116
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr "S'ha ajustat el llindar dinàmic a %1 (estreles trobades: %2)."
 
-#: ekos/align/align_solver.cpp:1006
+#: ekos/align/align_solver.cpp:1017
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 "S'ha arribat fins al nombre màxim d'iteracions. Ha fallat el solucionador."
 
-#: ekos/align/align_solver.cpp:1033
+#: ekos/align/align_solver.cpp:1044
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "L'objectiu es troba dins d'un l'interval acceptable."
 
-#: ekos/align/align_solver.cpp:1091
+#: ekos/align/align_solver.cpp:1102
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "S'està guardant la imatge fallida del solucionador a %1"
 
-#: ekos/align/align_solver.cpp:1110
+#: ekos/align/align_solver.cpp:1121
 #, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar amb un llindar dinàmic cec."
 
-#: ekos/align/align_solver.cpp:1123
+#: ekos/align/align_solver.cpp:1134
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar sense la restricció d'escala."
 
-#: ekos/align/align_solver.cpp:1132
+#: ekos/align/align_solver.cpp:1143
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar sense la restricció de "
 "posició."
 
-#: ekos/align/align_solver.cpp:1139
+#: ekos/align/align_solver.cpp:1150
 #, kde-format
 msgid "Solver Failed."
 msgstr "Ha fallat el solucionador."
 
-#: ekos/align/align_solver.cpp:1142
+#: ekos/align/align_solver.cpp:1153
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -7565,20 +7568,20 @@ msgstr ""
 "la gravació de l'alineació en la «pestanya Configuració → Registres» per a "
 "obtindre informació detallada de la fallada."
 
-#: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
+#: ekos/align/align_solver.cpp:1210 ekos/capture/cameraprocess.cpp:2158
 #: ekos/focus/focus.cpp:6154
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp…"
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1197
+#: ekos/align/align_solver.cpp:1218 ekos/focus/focus.cpp:6161
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "S'ha excedit el temps d'exposició. Es torna a iniciar el controlador."
 
-#: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
+#: ekos/align/align_solver.cpp:1238 ekos/capture/cameraprocess.cpp:2185
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1164
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició…"
@@ -23024,9 +23027,8 @@ msgid ""
 "TouTek-style tilt rings."
 msgstr ""
 "Trieu el tipus de placa de la inclinació.\n"
-"De 3 punts: ETA, Octopi, o qualsevol placa de 3 cargols (2 a dalt, 1 a "
-"baix).\n"
-"De 4 punts: plaques amb cargols a els quatre cantons (superior esquerra/"
+"De 3 punts: ETA, Octopi, o qualsevol placa de 3 visos (2 a dalt, 1 a baix).\n"
+"De 4 punts: plaques amb visos a els quatre cantons (superior esquerra/"
 "superior dreta/inferior esquerra/inferior dreta) -típic dels anells "
 "d'inclinació a l'estil de TouTek-."
 
@@ -23052,7 +23054,7 @@ msgid ""
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 msgstr ""
 "Distància des del centre de la placa fins al punt d'ajust (radi de la "
-"circumferència dels cargols).\n"
+"circumferència dels visos).\n"
 "Valors coneguts:\n"
 "  Wanderer ETA M54: 64 mm\n"
 "  Plaques d'inclinació ZWO (M42/M48/M54/M68): 40 mm\n"
@@ -23129,7 +23131,7 @@ msgid ""
 "Common adjustment screw thread types.\n"
 "Select to auto-fill pitch, or choose Custom to enter manually."
 msgstr ""
-"Tipus d'ajust habituals de la rosca de cargol.\n"
+"Tipus d'ajust habituals de la rosca de vis.\n"
 "Trieu-lo per a emplenar automàticament el pas de la rosca, o trieu "
 "«Personalitzat» per a introduir-lo manualment."
 
@@ -23163,8 +23165,8 @@ msgstr ""
 "superior).\n"
 "Els valors positius giren la càmera en el sentit de les agulles del rellotge "
 "vista des del darrere.\n"
-"El diagrama s'ajustarà perquè les posicions dels cargols coincidisquen amb "
-"el que veeu físicament."
+"El diagrama s'ajustarà perquè les posicions dels visos coincidisquen amb el "
+"que veeu físicament."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
@@ -23199,12 +23201,12 @@ msgid ""
 msgstr ""
 "Trieu com es presenten les correccions:\n"
 "Relativa: deltes amb signe (+ i -) per a aplicar sobre la posició actual.\n"
-"  La millor per a l'ajust iteratiu quan ja vos trobeu a mig rang i els "
-"cargols poden anar en ambdós sentits.\n"
+"  La millor per a l'ajust iteratiu quan ja vos trobeu a mig rang i els visos "
+"poden anar en ambdós sentits.\n"
 "Només empényer: tots els valors es desplacen per a ser positius (el més "
 "xicotet = 0).\n"
 "  La millor quan es comença des de la posició completament retreta (p. ex., "
-"ETA a 0, cargols manuals afluixats).\n"
+"ETA a 0, visos manuals afluixats).\n"
 "  Les plaques de només empényer físicament no poden anar en negatiu, de "
 "manera que utilitzeu açò per al primer ajust."
 
@@ -23340,25 +23342,25 @@ msgstr ""
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (top-left)"
-msgstr "Cargol 1 (superior esquerra)"
+msgstr "Vis 1 (superior esquerra)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:720
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (top-right)"
-msgstr "Cargol 2 (superior dreta)"
+msgstr "Vis 2 (superior dreta)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:721
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (bottom-left)"
-msgstr "Cargol 3 (inferior esquerra)"
+msgstr "Vis 3 (inferior esquerra)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:722
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (bottom-right)"
-msgstr "Cargol 4 (inferior dreta)"
+msgstr "Vis 4 (inferior dreta)"
 
 # LR (Left-Right): ED (Esquerra-Dreta)
 # TB (Top-Bottom): DB (de dalt a baix)
@@ -23523,9 +23525,9 @@ msgstr "Tipus de muntura detectada:"
 #: ekos/guide/aiguidewizard.ui:50
 #, kde-format
 msgid "Worm Gear"
-msgstr "Engranatge sense fi"
+msgstr "Corona i vis sens fi"
 
-# # https://ca.wikipedia.org/wiki/Transmissió_Harmonic
+# Nota: https://ca.wikipedia.org/wiki/Transmissió_Harmonic
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/aiguidewizard.ui:55
 #, kde-format
@@ -23540,16 +23542,7 @@ msgstr "Transmissió directa"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-#| "Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-#| "Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-#| "\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-#| "li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to "
-#| "3.0s</li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will "
-#| "be trained and locked to your current guide exposure.</span></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23563,14 +23556,19 @@ msgid ""
 "(Settings → Artificial Horizon) before running — the protocol slews by Alt/"
 "Az and uses it to pick safe targets.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\"font-weight:600;\">Recomanacions "
-"d'exposició:</span></p><ul><li><span style=\"font-weight:600;\">Engranatge "
-"sense fi:</span> 2,0 s (predeterminat)</li><li><span style=\"font-weight:600;"
-"\">Transmissió Harmonic:</span> 0,5 s o 1,0 s (depén del SNR de l'estrela "
+"<html><head/><body><p><span style=\"font-weight:600;\">Configuració "
+"recomanada (establir abans d'executar):</span></p><ul><li><span style=\"font-"
+"weight:600;\">Corona i vis sens fi:</span> exposició de 2,0 s "
+"(predeterminat)</li><li><span style=\"font-weight:600;\">Transmissió "
+"Harmonic:</span> exposició de 0,5 s o 1,0 s (depén de la SNR de l'estrela "
 "guia)</li><li><span style=\"font-weight:600;\">Transmissió directa:</span> "
-"1,0 s fins a 3,0 s</li></ul><p><span style=\"color:#ff5500;\">Nota: El model "
-"d'IA s'entrenarà i es fixarà segons l'exposició de guiatge actual.</span></"
-"p></body></html>"
+"exposició d'1,0 s fins a 3,0 s</li></ul><p><span style=\"color:#ff5500;\">El "
+"model d'IA s'entrenarà i es fixarà amb la configuració actual d'exposició, "
+"agressivitat i polsos del guiatge. Utilitzeu els valors amb els quals feu el "
+"guiatge habitualment.</span></p><p>Definiu un <span style=\"font-weight:600;"
+"\">horitzó artificial</span> (Configuració → Horitzó artificial) abans "
+"d'executar. El protocol farà una orientació per Alt/Az i l'utilitzarà per a "
+"triar objectius segurs.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:95
@@ -23613,11 +23611,11 @@ msgid ""
 "guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
 "<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\"font-weight:600;\">Protocol de "
-"l'engranatge sense fi (~45 min):</span><br/>1. Orienta cap a una altitud "
-"alta: deriva lliure, després guiatge estàndard.<br/>2. Orienta cap a una "
-"altitud més baixa: deriva lliure, després guiatge estàndard.<br/>3. Orienta "
-"cap a una altitud alta: guiatge estàndard.</p></body></html>"
+"<html><head/><body><p><span style=\"font-weight:600;\">Protocol de «Corona i "
+"vis sens fi» (~45 min):</span><br/>1. Orienta cap a una altitud alta: deriva "
+"lliure, després guiatge estàndard.<br/>2. Orienta cap a una altitud més "
+"baixa: deriva lliure, després guiatge estàndard.<br/>3. Orienta cap a una "
+"altitud alta: guiatge estàndard.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:147
@@ -23628,11 +23626,11 @@ msgid ""
 "response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
 "drift, then standard guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\"font-weight:600;\">Protocol de la "
-"transmissió Harmonic (~35 min):</span><br/>1. Orienta cap a una altitud "
-"alta: deriva lliure, prova de resposta al pols, després guiatge estàndard."
-"<br/>2. Orienta cap a una altitud més baixa: deriva lliure, després guiatge "
-"estàndard.</p></body></html>"
+"<html><head/><body><p><span style=\"font-weight:600;\">Protocol «Transmissió "
+"Harmonic» (~35 min):</span><br/>1. Orienta cap a una altitud alta: deriva "
+"lliure, prova de resposta al pols, després guiatge estàndard.<br/>2. Orienta "
+"cap a una altitud més baixa: deriva lliure, després guiatge estàndard.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:167
@@ -23747,7 +23745,7 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:304
 #, kde-format
 msgid "Offline Training Guide"
-msgstr "Entrenament del guiatge fora de línia"
+msgstr "Guia per a l'entrenament fora de línia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:307
@@ -24165,174 +24163,174 @@ msgstr "Ha començat el flux de dades del guiatge."
 msgid "Guide streaming stopped."
 msgstr "S'ha parat el flux de dades del guiatge."
 
-#: ekos/guide/guide.cpp:1156
+#: ekos/guide/guide.cpp:1158
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "S'ha excedit el temps d'exposició, però està suspesa. S'ignora…"
 
-#: ekos/guide/guide.cpp:1184
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1186
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el tramat."
 
-#: ekos/guide/guide.cpp:1188
+#: ekos/guide/guide.cpp:1190
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el calibratge."
 
-#: ekos/guide/guide.cpp:1243
+#: ekos/guide/guide.cpp:1245
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr ""
 "Ha fallat mentre es tornava a connectar la càmera després de reiniciar el "
 "controlador."
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "La deriva lliure d'IA està activada. Se suprimixen els polsos múltiples (AR: "
 "%1 ms, Dec: %2 ms)."
 
-#: ekos/guide/guide.cpp:1568
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 "La deriva lliure d'IA està activada. Se suprimix el pols individual (%1 ms)."
 
-#: ekos/guide/guide.cpp:1617
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "No s'ha detectat cap càmera. Comproveu la càmera en els trens òptics."
 
-#: ekos/guide/guide.cpp:1623
+#: ekos/guide/guide.cpp:1625
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "No s'ha detectat cap sistema de guiatge. Comproveu la via de guiatge en els "
 "trens òptics."
 
-#: ekos/guide/guide.cpp:1704
+#: ekos/guide/guide.cpp:1706
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#: ekos/guide/guide.cpp:1813
+#: ekos/guide/guide.cpp:1815
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
 "calibratge."
 
-#: ekos/guide/guide.cpp:1827
+#: ekos/guide/guide.cpp:1829
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La muntura s'està movent. S'està restablint el calibratge…"
 
-#: ekos/guide/guide.cpp:1844
+#: ekos/guide/guide.cpp:1846
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "S'està aparcant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1848
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "S'està orientant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1932
+#: ekos/guide/guide.cpp:1934
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "S'ha netejat el calibratge."
 
-#: ekos/guide/guide.cpp:1960
+#: ekos/guide/guide.cpp:1962
 #, kde-format
 msgid "External guider connected."
 msgstr "S'ha connectat un sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1978
+#: ekos/guide/guide.cpp:1980
 #, kde-format
 msgid "External guider disconnected."
 msgstr "S'ha desconnectat el sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:1997
 #, kde-format
 msgid "Calibration completed."
 msgstr "S'ha completat el calibratge."
 
-#: ekos/guide/guide.cpp:2021
+#: ekos/guide/guide.cpp:2023
 #, kde-format
 msgid "Calibration started."
 msgstr "S'ha iniciat el calibratge."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2039
 #, kde-format
 msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2043
 #, kde-format
 msgid "Autoguiding running."
 msgstr "S'està executant el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2065
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "S'ha interromput el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:2071
+#: ekos/guide/guide.cpp:2073
 #, kde-format
 msgid "Guiding suspended."
 msgstr "S'ha suspés el guiatge."
 
-#: ekos/guide/guide.cpp:2080
+#: ekos/guide/guide.cpp:2082
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramat manual en curs."
 
-#: ekos/guide/guide.cpp:2084
+#: ekos/guide/guide.cpp:2086
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramat en curs."
 
-#: ekos/guide/guide.cpp:2088
+#: ekos/guide/guide.cpp:2090
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Posicionament del posttramat durant %1 segon…"
 msgstr[1] "Posicionament del posttramat durant %1 segons…"
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2095
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ha fallat el tramat."
 
-#: ekos/guide/guide.cpp:2104
+#: ekos/guide/guide.cpp:2106
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "S'ha completat amb èxit el tramat."
 
-#: ekos/guide/guide.cpp:2162
+#: ekos/guide/guide.cpp:2164
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "No s'admet l'agrupament %1x%1 del guiatge. El màxim és %2x%2."
 
-#: ekos/guide/guide.cpp:2186
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "No s'ha pogut fer l'exposició. Es reinicia l'exposició…"
 
-#: ekos/guide/guide.cpp:2321
+#: ekos/guide/guide.cpp:2323
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No es pot canviar el tipus del sistema de guiatge mentre està actiu."
 
-#: ekos/guide/guide.cpp:2416
+#: ekos/guide/guide.cpp:2418
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24341,37 +24339,37 @@ msgstr ""
 "Avís: Està actiu el reinici del calibratge del guiatge. Es recomana "
 "desseleccionar esta opció per a PHD2."
 
-#: ekos/guide/guide.cpp:2870
+#: ekos/guide/guide.cpp:2872
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Ha fallat mentre s'iniciava el calibratge."
 
-#: ekos/guide/guide.cpp:3021
+#: ekos/guide/guide.cpp:3023
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrela seleccionada automàticament."
 
-#: ekos/guide/guide.cpp:3025
+#: ekos/guide/guide.cpp:3027
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Ha fallat mentre se seleccionava una estrela automàticament."
 
-#: ekos/guide/guide.cpp:3034
+#: ekos/guide/guide.cpp:3036
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Trieu una estrela guia que s'haja de calibrar."
 
-#: ekos/guide/guide.cpp:3296
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (píxels)"
 
-#: ekos/guide/guide.cpp:3297
+#: ekos/guide/guide.cpp:3299
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (píxels)"
 
-#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24382,7 +24380,7 @@ msgstr ""
 "quan feu el guiatge."
 
 # skip-rule: punctuation-period-no
-#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
+#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24393,32 +24391,32 @@ msgstr ""
 "cal que «Submarc» estiga desmarcada. Desmarqueu-la ara per a activar les "
 "captures d'imatge. La podreu tornar a seleccionar abans del guiatge."
 
-#: ekos/guide/guide.cpp:3525
+#: ekos/guide/guide.cpp:3527
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Assistent de guiatge per IA…"
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3532
 #, kde-format
 msgid "Load Weights..."
 msgstr "Carrega les ponderacions…"
 
-#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
+#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "No s'ha pogut fer l'entrenament d'IA d'EkosLive: %1"
 
-#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
+#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
 #, kde-format
 msgid "unknown error"
 msgstr "error desconegut"
 
-#: ekos/guide/guide.cpp:3656
+#: ekos/guide/guide.cpp:3658
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Ha fallat mentre es guardaven les ponderacions d'IA a %1"
 
-#: ekos/guide/guide.cpp:3666
+#: ekos/guide/guide.cpp:3668
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24426,24 +24424,24 @@ msgstr ""
 "S'ha completat l'entrenament de la IA. Les ponderacions s'han guardat a %1 i "
 "s'han establit com a ponderacions actives d'IA."
 
-#: ekos/guide/guide.cpp:3670
+#: ekos/guide/guide.cpp:3672
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr ""
 "S'ha completat l'entrenament de la IA. Les ponderacions s'han guardat a %1."
 
-#: ekos/guide/guide.cpp:3676
+#: ekos/guide/guide.cpp:3678
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Càrrega de les ponderacions del sistema de guiatge per IA"
 
-#: ekos/guide/guide.cpp:3677
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Ponderacions d'IA (*.json)"
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24452,7 +24450,7 @@ msgstr ""
 "Les ponderacions del sistema de guiatge per IA s'han establit a %1. "
 "S'aplicaran la propera vegada que comence el guiatge."
 
-#: ekos/guide/guide.cpp:3838
+#: ekos/guide/guide.cpp:3840
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre PHD2 està connectat"
@@ -24528,7 +24526,7 @@ msgstr ""
 "fotogrames a través d'un flux de vídeo continu en lloc d'exposicions "
 "individuals. Açò reduïx significativament la sobrecàrrega per fotograma i "
 "permet freqüències de guiatge més altes (p. ex., de 2 fins als 5 Hz) "
-"requerides per unitats harmòniques. No és compatible amb la resta de "
+"requerides per transmissions Harmonic. No és compatible amb la resta de "
 "fotogrames foscos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideStreamingEnabled)
@@ -46440,7 +46438,7 @@ msgstr ""
 #: kstars.kcfg:2783
 #, kde-format
 msgid "Tilt plate bolt circle radius in mm."
-msgstr "Radi de la circumferència dels cargols de la placa d'inclinació en mm."
+msgstr "Radi de la circumferència dels visos de la placa d'inclinació en mm."
 
 #. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
 #: kstars.kcfg:2787
@@ -46454,7 +46452,7 @@ msgstr ""
 #: kstars.kcfg:2791
 #, kde-format
 msgid "Tilt plate screw pitch in mm per turn."
-msgstr "Pas de la rosca del cargol de la placa d'inclinació en mm per volta."
+msgstr "Pas de la rosca del vis de la placa d'inclinació en mm per volta."
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
@@ -48546,7 +48544,7 @@ msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
 "call. Tools not listed here are enabled."
 msgstr ""
-"Els noms d'eina exclosos de la resposta d'eines o llista MCP i, rebutjats a "
+"Els noms d'eina exclosos de la resposta d'eines o llista MCP i, rebutjats en "
 "eines o crides. Les eines que no es llisten ací estaran habilitades."
 
 #: kstars_i18n.cpp:2

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 02:06+0000\n"
-"PO-Revision-Date: 2026-07-21 19:12+0200\n"
+"POT-Creation-Date: 2026-07-25 02:06+0000\n"
+"PO-Revision-Date: 2026-07-24 09:41+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6213,7 +6213,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1448 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6764,7 +6764,7 @@ msgstr "Polärinriktning"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
 #: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:315 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:328 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Dämpning..."
@@ -6882,7 +6882,7 @@ msgstr ""
 msgid "Mount is synced to solution coordinates."
 msgstr "Stativet är synkroniserat till lösningskoordinater."
 
-#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:986
+#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:997
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Inriktning för astrometri avslutades med lyckat resultat"
@@ -6898,49 +6898,49 @@ msgstr ""
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Förflyttning klar. Löser inriktningspunkter..."
 
-#: ekos/align/align_goto.cpp:254 ekos/align/align_goto.cpp:419
+#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:432
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synkronisering misslyckades."
 
-#: ekos/align/align_goto.cpp:256
+#: ekos/align/align_goto.cpp:264
 #, kde-format
 msgid "Slewing failed."
 msgstr "Förflyttning misslyckades."
 
-#: ekos/align/align_goto.cpp:287
+#: ekos/align/align_goto.cpp:295
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Rotatörsfel detekterat. Avbryter inriktning."
 
-#: ekos/align/align_goto.cpp:306
+#: ekos/align/align_goto.cpp:314
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Rotatör nådde kamerans positionsvinkel."
 
-#: ekos/align/align_goto.cpp:332
+#: ekos/align/align_goto.cpp:345
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr "Rotatör misslyckades nå begärd positionsvinkel (avvikelse %1 bågmin)."
 
-#: ekos/align/align_goto.cpp:369
+#: ekos/align/align_goto.cpp:382
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Förflyttning detekterad, avbryter lösning ..."
 
-#: ekos/align/align_goto.cpp:413
+#: ekos/align/align_goto.cpp:426
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Synkroniserar till RA (%1) Dek (%2)"
 
-#: ekos/align/align_goto.cpp:431
+#: ekos/align/align_goto.cpp:444
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Förflyttar teleskopet till målkoordinater: RA (%1) Dek (%2)."
 
-#: ekos/align/align_goto.cpp:436
+#: ekos/align/align_goto.cpp:449
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6949,39 +6949,39 @@ msgstr ""
 "Förflyttning av teleskopet till målkoordinater: RA (%1) Dek (%2) avvisades "
 "(se underrättelse)."
 
-#: ekos/align/align_goto.cpp:493
+#: ekos/align/align_goto.cpp:506
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Läs in bild"
 
-#: ekos/align/align_goto.cpp:524 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:537 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Ingen drivrutin för fjärrastrometri detekterades, byter till StellarSolver."
 
-#: ekos/align/align_goto.cpp:588
+#: ekos/align/align_goto.cpp:601
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr "PV-skillnad ~%1°, bilden är vänd. Bevarar rotatörsvinkel."
 
-#: ekos/align/align_goto.cpp:602
+#: ekos/align/align_goto.cpp:615
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Ställer in kamerans positionsvinkel till %1 grader ..."
 
-#: ekos/align/align_goto.cpp:611
+#: ekos/align/align_goto.cpp:624
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Kamerans positionsvinkeln är inom det acceptabla intervallet."
 
-#: ekos/align/align_goto.cpp:623
+#: ekos/align/align_goto.cpp:636
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Nuvarande PV är %1, målets PV är %2, skillnad: %3"
 
-#: ekos/align/align_goto.cpp:661
+#: ekos/align/align_goto.cpp:674
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Rotatör tidsgräns överskriden efter %1 sekunder. Avbryter inriktning."
@@ -7133,7 +7133,7 @@ msgstr ""
 "och försök igen."
 
 #: ekos/align/align_solver.cpp:55 ekos/align/align_solver.cpp:84
-#: ekos/align/align_solver.cpp:1144
+#: ekos/align/align_solver.cpp:1155
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Inriktning för astrometri misslyckades"
@@ -7298,14 +7298,17 @@ msgstr "Lösningsverktyget färdig efter %1 sekunder."
 msgid "Remote solver completed after %1 seconds."
 msgstr "Fjärrlösningsverktyget färdig efter %1 sekunder."
 
-#: ekos/align/align_solver.cpp:762
-#, kde-format
-msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+#: ekos/align/align_solver.cpp:789
+#, fuzzy, kde-format
+#| msgid ""
+#| "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+msgid ""
+"Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
 "Lösningsverktygets RA (%1) Dek (%2) Orientering (%3) Bildpunktsskala (%4) "
 "Paritet (%5)"
 
-#: ekos/align/align_solver.cpp:828
+#: ekos/align/align_solver.cpp:831
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -7314,7 +7317,7 @@ msgstr ""
 "Information om världskoordinatsystem uppdaterad. Bilder tagna efter detta "
 "tillfälle bör ha giltigt världskoordinatsystem."
 
-#: ekos/align/align_solver.cpp:845
+#: ekos/align/align_solver.cpp:848
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -7323,12 +7326,12 @@ msgstr ""
 "Lösningskoordinater: RA (%1) Dek (%2) Teleskopkoordinater: RA (%3) Dek (%4) "
 "Målkoordinater: RA (%5) Dek (%6)"
 
-#: ekos/align/align_solver.cpp:856
+#: ekos/align/align_solver.cpp:859
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Målet är inom %1 grader från lösningskoordinaterna."
 
-#: ekos/align/align_solver.cpp:906
+#: ekos/align/align_solver.cpp:914
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
@@ -7337,7 +7340,7 @@ msgstr ""
 "Rotatören flyttas i fel riktning. Vänder automatiskt på rotatörens riktning "
 "och försöker igen..."
 
-#: ekos/align/align_solver.cpp:924
+#: ekos/align/align_solver.cpp:932
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
@@ -7348,52 +7351,52 @@ msgstr ""
 "efter rotation. Automatisk vändning har redan försökts. Kontrollera "
 "rotatörens inställning."
 
-#: ekos/align/align_solver.cpp:946
+#: ekos/align/align_solver.cpp:956
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Kamerans positionsvinkel är %1 grader."
 
-#: ekos/align/align_solver.cpp:978 ekos/align/align_solver.cpp:1105
+#: ekos/align/align_solver.cpp:989 ekos/align/align_solver.cpp:1116
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr "Dynamisk tröskel justerad till %1 (funna stjärnor: %2)."
 
-#: ekos/align/align_solver.cpp:1006
+#: ekos/align/align_solver.cpp:1017
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Maximalt antal iterationer uppnådda. Lösning misslyckades."
 
-#: ekos/align/align_solver.cpp:1033
+#: ekos/align/align_solver.cpp:1044
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "Målet är inom acceptabelt intervall."
 
-#: ekos/align/align_solver.cpp:1091
+#: ekos/align/align_solver.cpp:1102
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Misslyckades sparade lösningsbild i %1"
 
-#: ekos/align/align_solver.cpp:1110
+#: ekos/align/align_solver.cpp:1121
 #, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr "Lösning misslyckades. Försöker igen med blind dynamisk tröskel."
 
-#: ekos/align/align_solver.cpp:1123
+#: ekos/align/align_solver.cpp:1134
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Lösning misslyckades. Försöker igen utan skalningsbegränsning."
 
-#: ekos/align/align_solver.cpp:1132
+#: ekos/align/align_solver.cpp:1143
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr "Lösning misslyckades. Försöker igen utan positionsbegränsning."
 
-#: ekos/align/align_solver.cpp:1139
+#: ekos/align/align_solver.cpp:1150
 #, kde-format
 msgid "Solver Failed."
 msgstr "Lösningsverktyg misslyckades."
 
-#: ekos/align/align_solver.cpp:1142
+#: ekos/align/align_solver.cpp:1153
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -7405,20 +7408,20 @@ msgstr ""
 "loggning av inriktning under inställningsfliken -> Loggar för att få "
 "detaljerad information om felet."
 
-#: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
+#: ekos/align/align_solver.cpp:1210 ekos/capture/cameraprocess.cpp:2158
 #: ekos/focus/focus.cpp:6154
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tidsgräns för exponering överskriden. Avbryter..."
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1197
+#: ekos/align/align_solver.cpp:1218 ekos/focus/focus.cpp:6161
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Tidsgräns för exponering överskriden. För många. Startar om drivrutin."
 
-#: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
+#: ekos/align/align_solver.cpp:1238 ekos/capture/cameraprocess.cpp:2185
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1164
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Tidsgräns för exponering överskriden. Startar om exponering..."
@@ -22896,16 +22899,7 @@ msgstr "Direktdrivning"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-#| "Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-#| "Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-#| "\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-#| "li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to "
-#| "3.0s</li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will "
-#| "be trained and locked to your current guide exposure.</span></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -22919,14 +22913,19 @@ msgid ""
 "(Settings → Artificial Horizon) before running — the protocol slews by Alt/"
 "Az and uses it to pick safe targets.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;"
-"\">Exponeringsrekommendationer:</span></p><ul><li><span style=\" font-"
-"weight:600;\">Snäckväxel:</span> 2,0 s (förval)</li><li><span style=\" font-"
-"weight:600;\">Harmonic Drive:</span> 0,5 s eller 1,0 s (beror på "
-"guidestjärnans signal-brusförhållande)</li><li><span style=\" font-"
-"weight:600;\">Direktdrivning:</span> 1,0 s till 3,0 s</li></ul><p><span "
-"style=\" color:#ff5500;\">Observera: AI-modellen tränas på och låses till "
-"den aktuella guidningsexponeringen.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Rekommenderade "
+"inställningar (ställ in FÖRE användning):</span></p><ul><li><span style=\" "
+"font-weight:600;\">Snäckväxel:</span> exponeringstid 2,0 s (standardvärde)</"
+"li><li><span style=\" font-weight:600;\">Harmonisk drivning:</span> "
+"exponeringstid 0,5 till 1,0 s (beror på guidningsstjärnans signal-"
+"brusförhållande)</li><li><span style=\" font-weight:600;\">Direktdrivning:</"
+"span> exponeringstid 1,0 s till 3,0 s</li></ul><p><span style=\" color:"
+"#ff5500;\">AI-modellen är tränad och låst till nuvarande inställningar för "
+"exponering, aggressivitet och puls: använd guidningens normala värden.</"
+"span></p><p>Definiera en <span style=\" font-weight:600;\">Artificiell "
+"horisont</span> (Inställningar → Artificiell horisont) före start: "
+"Protokollet byter mellan Elev/Az och använder det för att välja säkra mål.</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:95
@@ -23508,164 +23507,164 @@ msgstr "Guidningsström startad."
 msgid "Guide streaming stopped."
 msgstr "Guidningsström stoppad."
 
-#: ekos/guide/guide.cpp:1156
+#: ekos/guide/guide.cpp:1158
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Tidsgräns för exponering överskriden, men i viloläge. Ignorerar..."
 
-#: ekos/guide/guide.cpp:1184
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Tidsgräns för exponering överskriden. Avbryter automatisk guidning."
 
-#: ekos/guide/guide.cpp:1186
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Tidsgräns för exponering överskriden. Avbryter gitter."
 
-#: ekos/guide/guide.cpp:1188
+#: ekos/guide/guide.cpp:1190
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tidsgräns för exponering överskriden. Avbryter kalibrering."
 
-#: ekos/guide/guide.cpp:1243
+#: ekos/guide/guide.cpp:1245
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Misslyckades ansluta till kamera igen efter drivrutinens omstart."
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr "AI fri drift aktiv. Undertryckte multi-puls (RA: %1 ms, DEK: %2 ms)."
 
-#: ekos/guide/guide.cpp:1568
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "AI fri drift aktiv. Undertryckte enkel puls (%1 ms)."
 
-#: ekos/guide/guide.cpp:1617
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Ingen kamera detekterades. Kontrollera kamera i optiken."
 
-#: ekos/guide/guide.cpp:1623
+#: ekos/guide/guide.cpp:1625
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Inget guidningsverktyg detekterat. Kontrollera guidning i optiken."
 
-#: ekos/guide/guide.cpp:1704
+#: ekos/guide/guide.cpp:1706
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Stativet är parkerat. Frigör det för att starta guidning."
 
-#: ekos/guide/guide.cpp:1813
+#: ekos/guide/guide.cpp:1815
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Ändring av pirsida detekterades. Rensar kalibrering."
 
-#: ekos/guide/guide.cpp:1827
+#: ekos/guide/guide.cpp:1829
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Stativet förflyttas. Nollställer kalibrering..."
 
-#: ekos/guide/guide.cpp:1844
+#: ekos/guide/guide.cpp:1846
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Stativet håller på att parkeras. Avbryter guidning ..."
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1848
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Stativ håller på att förflyttas. Avbryter guidning ..."
 
-#: ekos/guide/guide.cpp:1932
+#: ekos/guide/guide.cpp:1934
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrering rensad."
 
-#: ekos/guide/guide.cpp:1960
+#: ekos/guide/guide.cpp:1962
 #, kde-format
 msgid "External guider connected."
 msgstr "Extern guidefunktion ansluten."
 
-#: ekos/guide/guide.cpp:1978
+#: ekos/guide/guide.cpp:1980
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Extern guidefunktion nerkopplad."
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:1997
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrering slutförd."
 
-#: ekos/guide/guide.cpp:2021
+#: ekos/guide/guide.cpp:2023
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrering startad."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2039
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Guidning återupptagen."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2043
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Automatisk guidning pågår."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2065
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Automatisk guidning avbruten."
 
-#: ekos/guide/guide.cpp:2071
+#: ekos/guide/guide.cpp:2073
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guidning stoppad."
 
-#: ekos/guide/guide.cpp:2080
+#: ekos/guide/guide.cpp:2082
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Manuellt gitter pågår."
 
-#: ekos/guide/guide.cpp:2084
+#: ekos/guide/guide.cpp:2086
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Gitter pågår."
 
-#: ekos/guide/guide.cpp:2088
+#: ekos/guide/guide.cpp:2090
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Dämpning efter gitter under %1 sekund..."
 msgstr[1] "Dämpning efter gitter under %1 sekunder..."
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2095
 #, kde-format
 msgid "Dithering failed."
 msgstr "Gitter misslyckades."
 
-#: ekos/guide/guide.cpp:2104
+#: ekos/guide/guide.cpp:2106
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Gitter avslutades med lyckat resultat."
 
-#: ekos/guide/guide.cpp:2162
+#: ekos/guide/guide.cpp:2164
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "%1 x %1 guidningsindelning stöds inte. Maximal är %2 x %2."
 
-#: ekos/guide/guide.cpp:2186
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Exponering misslyckades. Startar om exponering..."
 
-#: ekos/guide/guide.cpp:2321
+#: ekos/guide/guide.cpp:2323
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Kan inte ändra guidningstyp medan guidningen är aktiv."
 
-#: ekos/guide/guide.cpp:2416
+#: ekos/guide/guide.cpp:2418
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23674,37 +23673,37 @@ msgstr ""
 "Varning: Nollställ guidningskalibrering är aktiverad. Det rekommenderas att "
 "stänga av alternativet för PHD2."
 
-#: ekos/guide/guide.cpp:2870
+#: ekos/guide/guide.cpp:2872
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Start av kalibrering misslyckades."
 
-#: ekos/guide/guide.cpp:3021
+#: ekos/guide/guide.cpp:3023
 #, kde-format
 msgid "Auto star selected."
 msgstr "Automatisk stjärna vald."
 
-#: ekos/guide/guide.cpp:3025
+#: ekos/guide/guide.cpp:3027
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Misslyckades välja automatisk stjärna."
 
-#: ekos/guide/guide.cpp:3034
+#: ekos/guide/guide.cpp:3036
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Välj en guidestjärna för att kalibrera."
 
-#: ekos/guide/guide.cpp:3296
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (bildpunkter)"
 
-#: ekos/guide/guide.cpp:3297
+#: ekos/guide/guide.cpp:3299
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (bildpunkter)"
 
-#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23713,7 +23712,7 @@ msgstr ""
 "PHD2-kameran är nu tillgänglig för Ekos, så det går inte att se tagna "
 "bilder. Men guidestjärnans bild syns fortfarande under guidning."
 
-#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
+#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23724,32 +23723,32 @@ msgstr ""
 "Delbild avmarkeras. Avmarkera det nu för att aktivera bildtagningar. Det går "
 "att markera det igen innan guidning."
 
-#: ekos/guide/guide.cpp:3525
+#: ekos/guide/guide.cpp:3527
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "AI-guidningsassistent..."
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3532
 #, kde-format
 msgid "Load Weights..."
 msgstr "Läs in vikter..."
 
-#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
+#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive AI-träning misslyckades: %1"
 
-#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
+#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
 #, kde-format
 msgid "unknown error"
 msgstr "okänt fel"
 
-#: ekos/guide/guide.cpp:3656
+#: ekos/guide/guide.cpp:3658
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Misslyckades spara AI-vikter i %1"
 
-#: ekos/guide/guide.cpp:3666
+#: ekos/guide/guide.cpp:3668
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23757,23 +23756,23 @@ msgstr ""
 "AI-träning slutförd. Vikter sparade i %1 och inställda som de aktiva AI-"
 "vikterna."
 
-#: ekos/guide/guide.cpp:3670
+#: ekos/guide/guide.cpp:3672
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "AI-träning slutförd. Vikter sparade i %1."
 
-#: ekos/guide/guide.cpp:3676
+#: ekos/guide/guide.cpp:3678
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Läs in AI-guidningsvikter"
 
-#: ekos/guide/guide.cpp:3677
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "AI-vikter (*.json)"
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23781,7 +23780,7 @@ msgid ""
 msgstr ""
 "AI-guidningsvikter inställda till %1. De används nästa gång guidning startar."
 
-#: ekos/guide/guide.cpp:3838
+#: ekos/guide/guide.cpp:3840
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Kan inte ändra aktiv optik medan PHD2 är ansluten"

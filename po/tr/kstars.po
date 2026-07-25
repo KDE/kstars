@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 02:06+0000\n"
-"PO-Revision-Date: 2026-07-23 21:02+0300\n"
+"POT-Creation-Date: 2026-07-25 02:06+0000\n"
+"PO-Revision-Date: 2026-07-24 19:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6233,7 +6233,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1448 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6783,7 +6783,7 @@ msgstr "Kutupsal Hizalama"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
 #: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:315 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:328 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Yerleştiriliyor…"
@@ -6901,7 +6901,7 @@ msgstr ""
 msgid "Mount is synced to solution coordinates."
 msgstr "Kaide, çözüm koordinatlarıyla eşzamanlıdır."
 
-#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:986
+#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:997
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Astrometri hizalaması başarıyla tamamlandı"
@@ -6918,49 +6918,49 @@ msgstr ""
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Çevirme tamamlandı. Hizalama Noktası çözülüyor…"
 
-#: ekos/align/align_goto.cpp:254 ekos/align/align_goto.cpp:419
+#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:432
 #, kde-format
 msgid "Syncing failed."
 msgstr "Eşzamanlama başarısız oldu."
 
-#: ekos/align/align_goto.cpp:256
+#: ekos/align/align_goto.cpp:264
 #, kde-format
 msgid "Slewing failed."
 msgstr "Çevirme başarısız oldu."
 
-#: ekos/align/align_goto.cpp:287
+#: ekos/align/align_goto.cpp:295
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Döndürücü hatası algılandı. Hizalama iptal ediliyor."
 
-#: ekos/align/align_goto.cpp:306
+#: ekos/align/align_goto.cpp:314
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Döndürücü, kamera konumu açısına ulaştı."
 
-#: ekos/align/align_goto.cpp:332
+#: ekos/align/align_goto.cpp:345
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr "Döndürücü istenen konum açısına ulaşamadı (Sapma %1 yaydak)."
 
-#: ekos/align/align_goto.cpp:369
+#: ekos/align/align_goto.cpp:382
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Çevirme algılandı; çözme askıya alınıyor…"
 
-#: ekos/align/align_goto.cpp:413
+#: ekos/align/align_goto.cpp:426
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Eşzamanlanıyor: RA (%1) DEC (%2)"
 
-#: ekos/align/align_goto.cpp:431
+#: ekos/align/align_goto.cpp:444
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Hedef koordinatlara çevriliyor: RA (%1) DEC (%2)"
 
-#: ekos/align/align_goto.cpp:436
+#: ekos/align/align_goto.cpp:449
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6968,39 +6968,39 @@ msgid ""
 msgstr ""
 "Hedef koordinatlara çevriliyor: RA (%1) DEC (%2) reddedildi (bildirime bakın)"
 
-#: ekos/align/align_goto.cpp:493
+#: ekos/align/align_goto.cpp:506
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Görseli Yükle"
 
-#: ekos/align/align_goto.cpp:524 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:537 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Hiçbir uzak astrometri sürücüsü algılanmadı, StellarSolver’a geçiliyor."
 
-#: ekos/align/align_goto.cpp:588
+#: ekos/align/align_goto.cpp:601
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr "PA farkı ~%1°, görsel ters–düz edilmiş. Döndürücü açısı korunuyor."
 
-#: ekos/align/align_goto.cpp:602
+#: ekos/align/align_goto.cpp:615
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Kamera konumu açısı %1 derece olarak ayarlanıyor…"
 
-#: ekos/align/align_goto.cpp:611
+#: ekos/align/align_goto.cpp:624
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Kamera konumu açısı kabul edilebilir erimde."
 
-#: ekos/align/align_goto.cpp:623
+#: ekos/align/align_goto.cpp:636
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Şu anki PA %1; hedef PA %2; fark: %3"
 
-#: ekos/align/align_goto.cpp:661
+#: ekos/align/align_goto.cpp:674
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -7152,7 +7152,7 @@ msgstr ""
 "Kaide koordinatları geçersiz. Kaide bağlantısını denetleyip yeniden deneyin."
 
 #: ekos/align/align_solver.cpp:55 ekos/align/align_solver.cpp:84
-#: ekos/align/align_solver.cpp:1144
+#: ekos/align/align_solver.cpp:1155
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Astrometri hizalaması başarısız oldu"
@@ -7317,12 +7317,15 @@ msgstr "Çözücü %1 saniye içinde tamamladı."
 msgid "Remote solver completed after %1 seconds."
 msgstr "Uzak çözücü %1 saniye ardından tamamlandı."
 
-#: ekos/align/align_solver.cpp:762
-#, kde-format
-msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+#: ekos/align/align_solver.cpp:789
+#, fuzzy, kde-format
+#| msgid ""
+#| "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+msgid ""
+"Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr "Çözücü RA (%1) DEC (%2) Yönelim (%3) Piksel Ölçeği (%4) Eşlik (%5)"
 
-#: ekos/align/align_solver.cpp:828
+#: ekos/align/align_solver.cpp:831
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -7331,7 +7334,7 @@ msgstr ""
 "WCS bilgileri güncellendi. Bu noktadan itibaren yakalanan görseller geçerli "
 "WCS’ye sahip olacaktır."
 
-#: ekos/align/align_solver.cpp:845
+#: ekos/align/align_solver.cpp:848
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -7340,12 +7343,12 @@ msgstr ""
 "Çözüm koordinatları: RA (%1) DEC (%2) Teleskop Koordinatları: RA (%3) DEC "
 "(%4) Hedef Koordinatları: RA (%5) DEC (%6)"
 
-#: ekos/align/align_solver.cpp:856
+#: ekos/align/align_solver.cpp:859
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Hedef, çözüm koordinatlarının %1 derece yakınında."
 
-#: ekos/align/align_solver.cpp:906
+#: ekos/align/align_solver.cpp:914
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
@@ -7354,7 +7357,7 @@ msgstr ""
 "Döndürücü yanlış yönde hareket ediyor. Döndürücü yönü kendiliğinden tersine "
 "çevrilip yeniden deneniyor…"
 
-#: ekos/align/align_solver.cpp:924
+#: ekos/align/align_solver.cpp:932
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
@@ -7365,52 +7368,52 @@ msgstr ""
 "%1° dereceden %2° dereceye ulaştı. Kendiliğinden tersine çevirme hâlihazırda "
 "denemişti. Lütfen döndürücü yapılandırmasını denetleyin."
 
-#: ekos/align/align_solver.cpp:946
+#: ekos/align/align_solver.cpp:956
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Kamera konum açısı %1 derece."
 
-#: ekos/align/align_solver.cpp:978 ekos/align/align_solver.cpp:1105
+#: ekos/align/align_solver.cpp:989 ekos/align/align_solver.cpp:1116
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr "Devingen eşik %1 olarak ayarlandı (bulunan yıldız: %2)."
 
-#: ekos/align/align_solver.cpp:1006
+#: ekos/align/align_solver.cpp:1017
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "En yüksek yineleme sayısına ulaşıldı. Çözücü başarısız oldu."
 
-#: ekos/align/align_solver.cpp:1033
+#: ekos/align/align_solver.cpp:1044
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "Hedef kabul edilebilir erimde."
 
-#: ekos/align/align_solver.cpp:1091
+#: ekos/align/align_solver.cpp:1102
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Başarısız çözücü görseli %1 konumuna kaydediliyor"
 
-#: ekos/align/align_solver.cpp:1110
+#: ekos/align/align_solver.cpp:1121
 #, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr "Çözücü başarısız oldu. Kör devingen eşikle yeniden deneniyor."
 
-#: ekos/align/align_solver.cpp:1123
+#: ekos/align/align_solver.cpp:1134
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Çözücü başarısız oldu. Ölçek kısıtlaması olmadan yeniden deneniyor."
 
-#: ekos/align/align_solver.cpp:1132
+#: ekos/align/align_solver.cpp:1143
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr "Çözücü başarısız oldu. Konum kısıtlaması olmadan yeniden deneniyor."
 
-#: ekos/align/align_solver.cpp:1139
+#: ekos/align/align_solver.cpp:1150
 #, kde-format
 msgid "Solver Failed."
 msgstr "Çözücü başarısız oldu."
 
-#: ekos/align/align_solver.cpp:1142
+#: ekos/align/align_solver.cpp:1153
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -7422,20 +7425,20 @@ msgstr ""
 "Arıza hakkında ayrıntılı bilgi almak için Kurulum → Günlükler bölümünde "
 "Hizalama Günlüğü’nü etkinleştirin."
 
-#: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
+#: ekos/align/align_solver.cpp:1210 ekos/capture/cameraprocess.cpp:2158
 #: ekos/focus/focus.cpp:6154
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1197
+#: ekos/align/align_solver.cpp:1218 ekos/focus/focus.cpp:6161
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Pozlama zaman aşımı. Pek çok kez oldu. Sürücü yeniden başlatılıyor."
 
-#: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
+#: ekos/align/align_solver.cpp:1238 ekos/capture/cameraprocess.cpp:2185
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1164
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
@@ -22932,16 +22935,7 @@ msgstr "Doğrudan Sürme"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-#| "Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-#| "Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-#| "\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-#| "li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to "
-#| "3.0s</li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will "
-#| "be trained and locked to your current guide exposure.</span></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -22955,14 +22949,18 @@ msgid ""
 "(Settings → Artificial Horizon) before running — the protocol slews by Alt/"
 "Az and uses it to pick safe targets.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Pozlama önerileri:</"
-"span></p><ul><li><span style=\" font-weight:600;\">Sonsuz Dişli:</span> 2,0 "
-"sn (öntanımlı)</li><li><span style=\" font-weight:600;\">Armonik Sürme:</"
-"span> 0,5 sn veya 1,0 sn (kılavuz yıldız SNR’sine bağlı)</li><li><span style="
-"\" font-weight:600;\">Doğrudan Sürme:</span> 1,0 sn ve 3,0 sn arası</li></"
-"ul><p><span style=\" color:#ff5500;\">Not: Yapay zekâ modeli, şu anki "
-"kılavuz pozlamanıza göre eğitilecek ve kilitlenecektir.</span></p></body></"
-"html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Önerilen Ayarlar "
+"(çalıştırmadan ÖNCE ayarlayın):</span></p><ul><li><span style=\" font-"
+"weight:600;\">Sonsuz Dişli:</span> Pozlama 2,0 sn (öntanımlı)</li><li><span "
+"style=\" font-weight:600;\">Armonik Sürme:</span> Pozlama 0,5–1,0 sn "
+"arasında (kılavuz yıldız SNR değerine bağlı)</li><li><span style=\" font-"
+"weight:600;\">Doğrudan Sürme:</span> Pozlama 1,0–3,0 sn arasında</li></"
+"ul><p><span style=\" color:#ff5500;\">Yapay zekâ modeli şu anki kılavuz "
+"pozlamanıza, agresifliğinize ve darbe ayarlarınıza göre eğitilmiş ve "
+"kilitlenmiştir; normalde kullandığınız kılavuz ayarlarını kullanın.</span></"
+"p><p>Çalıştırmadan önce bir <span style=\" font-weight:600;\">Yapay Ufuk</"
+"span> (Ayarlar → Yapay Ufuk) ayarlayın; protokol, Yükseklik/Yanca ile "
+"çevirir ve güvenli hedefler seçmek için onu kullanır.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:95
@@ -23552,168 +23550,168 @@ msgstr "Kılavuz akışı başlatıldı."
 msgid "Guide streaming stopped."
 msgstr "Kılavuz akışı durduruldu."
 
-#: ekos/guide/guide.cpp:1156
+#: ekos/guide/guide.cpp:1158
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Pozlama zaman aşımı; ancak askıya alınmış. Yok sayılıyor…"
 
-#: ekos/guide/guide.cpp:1184
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Pozlama zaman aşımı. Kendiliğinden kılavuzluk iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1186
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Pozlama zaman aşımı. Kıpırdatma iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1188
+#: ekos/guide/guide.cpp:1190
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Pozlama zaman aşımı. Kalibrasyon iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1243
+#: ekos/guide/guide.cpp:1245
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Sürücü yeniden başlatıldıktan sonra kameraya yeniden bağlanılamadı."
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Yapay zekâ serbest kayması etkin. Çoklu darbeler bastırıldı (RA: %1 ms, DEC: "
 "%2 ms)."
 
-#: ekos/guide/guide.cpp:1568
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Yapay zekâ serbest kayması etkin. Tekil darbe bastırıldı (%1 ms)."
 
-#: ekos/guide/guide.cpp:1617
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Algılanan kamera yok. Optik katarlarda kamerayı denetleyin."
 
-#: ekos/guide/guide.cpp:1623
+#: ekos/guide/guide.cpp:1625
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Algılanan kılavuz yok. Optik katarlarda kılavuzu denetleyin."
 
-#: ekos/guide/guide.cpp:1704
+#: ekos/guide/guide.cpp:1706
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Bu kaide park edilmiş. Kılavuzluğu başlatmak için parktan çıkın."
 
-#: ekos/guide/guide.cpp:1813
+#: ekos/guide/guide.cpp:1815
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
 
-#: ekos/guide/guide.cpp:1827
+#: ekos/guide/guide.cpp:1829
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Kaide hareket ediyor. Kalibrasyon yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:1844
+#: ekos/guide/guide.cpp:1846
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Kaide park ediliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1848
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1932
+#: ekos/guide/guide.cpp:1934
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
-#: ekos/guide/guide.cpp:1960
+#: ekos/guide/guide.cpp:1962
 #, kde-format
 msgid "External guider connected."
 msgstr "Dış kılavuz bağlandı."
 
-#: ekos/guide/guide.cpp:1978
+#: ekos/guide/guide.cpp:1980
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dış kılavuz bağlantısı kesildi."
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:1997
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/guide/guide.cpp:2021
+#: ekos/guide/guide.cpp:2023
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrasyon başlatıldı."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2039
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Kılavuzluk sürdürüldü."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2043
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Kendiliğinden kılavuzluk çalışıyor."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2065
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Kendiliğinden kılavuzluk iptal edildi."
 
-#: ekos/guide/guide.cpp:2071
+#: ekos/guide/guide.cpp:2073
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Kılavuzluk askıya alındı."
 
-#: ekos/guide/guide.cpp:2080
+#: ekos/guide/guide.cpp:2082
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Elle kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2084
+#: ekos/guide/guide.cpp:2086
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2088
+#: ekos/guide/guide.cpp:2090
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 msgstr[1] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2095
 #, kde-format
 msgid "Dithering failed."
 msgstr "Kıpırdatma başarısız."
 
-#: ekos/guide/guide.cpp:2104
+#: ekos/guide/guide.cpp:2106
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Kıpırdatma başarıyla tamamlandı."
 
-#: ekos/guide/guide.cpp:2162
+#: ekos/guide/guide.cpp:2164
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "%1 × %1 kılavuz gruplaması desteklenmiyor. En büyük değer %2 × %2 olarak "
 "verilir."
 
-#: ekos/guide/guide.cpp:2186
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Pozlama başarısız. Pozlama yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:2321
+#: ekos/guide/guide.cpp:2323
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Etkinken kılavuz türü değiştirilemiyor."
 
-#: ekos/guide/guide.cpp:2416
+#: ekos/guide/guide.cpp:2418
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23722,37 +23720,37 @@ msgstr ""
 "Uyarı: Kılavuz kalibrasyonunu sıfırlama etkin. Bu seçeneğin PHD2 için "
 "kapatılması önerilir."
 
-#: ekos/guide/guide.cpp:2870
+#: ekos/guide/guide.cpp:2872
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrasyon başlatılamadı."
 
-#: ekos/guide/guide.cpp:3021
+#: ekos/guide/guide.cpp:3023
 #, kde-format
 msgid "Auto star selected."
 msgstr "Kendiliğinden yıldız seçildi."
 
-#: ekos/guide/guide.cpp:3025
+#: ekos/guide/guide.cpp:3027
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Kendiliğinden bir yıldız seçilemedi."
 
-#: ekos/guide/guide.cpp:3034
+#: ekos/guide/guide.cpp:3036
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
-#: ekos/guide/guide.cpp:3296
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (piksel)"
 
-#: ekos/guide/guide.cpp:3297
+#: ekos/guide/guide.cpp:3299
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (piksel)"
 
-#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23762,7 +23760,7 @@ msgstr ""
 "göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
-#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
+#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23773,32 +23771,32 @@ msgstr ""
 "işareti kaldırılmalıdır. Görsel yakalamalarınızı etkinleştirmek için şimdi "
 "işaretini kaldırın. Kılavuzluktan önce yeniden etkinleştirebilirsiniz."
 
-#: ekos/guide/guide.cpp:3525
+#: ekos/guide/guide.cpp:3527
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Yapay Zekâ Kılavuz Yardımcısı…"
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3532
 #, kde-format
 msgid "Load Weights..."
 msgstr "Ağırlıklar Yükle…"
 
-#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
+#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive yapay zekâ eğitimi başarısız oldu: %1"
 
-#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
+#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
 #, kde-format
 msgid "unknown error"
 msgstr "Bilinmeyen hata"
 
-#: ekos/guide/guide.cpp:3656
+#: ekos/guide/guide.cpp:3658
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Yapay zekâ ağırlıkları %1 konumuna kaydedilemedi."
 
-#: ekos/guide/guide.cpp:3666
+#: ekos/guide/guide.cpp:3668
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23806,23 +23804,23 @@ msgstr ""
 "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
 "yapay zekâ ağırlıkları olarak ayarlandı."
 
-#: ekos/guide/guide.cpp:3670
+#: ekos/guide/guide.cpp:3672
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi."
 
-#: ekos/guide/guide.cpp:3676
+#: ekos/guide/guide.cpp:3678
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Yapay Zekâ Kılavuzu Ağırlıklarını Yükle"
 
-#: ekos/guide/guide.cpp:3677
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Yapay zekâ ağırlıkları (*.json)"
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23831,7 +23829,7 @@ msgstr ""
 "Yapay zekâ ağırlıkları %1 olarak ayarlandı. Bir sonraki sefere kılavuzluk "
 "başlatıldığında uygulanacaklar."
 
-#: ekos/guide/guide.cpp:3838
+#: ekos/guide/guide.cpp:3840
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "PHD2 bağlıyken etkin optik katar değiştirilemiyor"
@@ -45215,44 +45213,43 @@ msgstr "Görüntü sapması denetçisi 3B grafiği Petzval yüzeyi"
 #: kstars.kcfg:2779
 #, kde-format
 msgid "Tilt Correction Advisory plate type (0=3-point, 1=4-point)."
-msgstr ""
+msgstr "Eğim Düzeltme Uyarısı plakası türü (0=3 noktalı, 1=4 noktalı)"
 
 #. i18n: ectx: label, entry (tiltRadius), group (Focus)
 #: kstars.kcfg:2783
 #, kde-format
 msgid "Tilt plate bolt circle radius in mm."
-msgstr ""
+msgstr "Milimetre türünden eğim plakası cıvatası yarıçapı"
 
 #. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
 #: kstars.kcfg:2787
 #, kde-format
 msgid "Tilt Correction Advisory thread preset index."
-msgstr ""
+msgstr "Eğim Düzeltme Uyarısı deliği önayarı indeksi"
 
 #. i18n: ectx: label, entry (tiltScrewPitch), group (Focus)
 #: kstars.kcfg:2791
 #, kde-format
 msgid "Tilt plate screw pitch in mm per turn."
-msgstr ""
+msgstr "Milimetre türünden dönüş başına eğim plakası vida aralığı"
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
-#, fuzzy, kde-format
-#| msgid "Terrain image altitude correction degrees:"
+#, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
-msgstr "Arazi görseli yükseklik düzeltme dereceleri:"
+msgstr "Derece türünden eğim düzeltme diyagramı için kamera döndürme"
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
 #, kde-format
 msgid "Tilt Correction Advisory mode (0=relative, 1=push-only)."
-msgstr ""
+msgstr "Eğim Düzeltme Uyarısı kipi (0=göreceli, 1=yalnızca itmeli)"
 
 #. i18n: ectx: label, entry (tiltPlatePresent), group (Focus)
 #: kstars.kcfg:2803
 #, kde-format
 msgid "Whether a tilt adjustment plate is present in the imaging train."
-msgstr ""
+msgstr "Görsel katarında bir eğim düzeltme plakasının var olup olmadığı"
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2809
@@ -45816,7 +45813,7 @@ msgstr ""
 #: kstars.kcfg:3108
 #, kde-format
 msgid "Path to the AI Guider Weights JSON file."
-msgstr ""
+msgstr "Yapay zekâ kılavuzu ağırlıkları JSON dosyasına olan yol"
 
 #. i18n: ectx: label, entry (AIPredictionGain), group (Guide)
 #: kstars.kcfg:3112
@@ -45825,6 +45822,8 @@ msgid ""
 "AI feed-forward prediction gain (0.0–1.0). Blended with model confidence at "
 "runtime."
 msgstr ""
+"Yapay zeka ileri besleme tahmini kazancı (0,0–1,0). Çalışma zamanı sırasında "
+"model özgüveni ile harmanlanmıştır."
 
 #. i18n: ectx: label, entry (AIProportionalBackoff), group (Guide)
 #: kstars.kcfg:3118
@@ -45833,6 +45832,8 @@ msgid ""
 "Dynamically scale down standard proportional gain when AI is highly "
 "confident."
 msgstr ""
+"Yapay zekâ kendinden pek eminken standart oransal kazanç ile devingen olarak "
+"ölçekleyin."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3122
@@ -45841,6 +45842,8 @@ msgid ""
 "Run AI model alongside standard guiding, logging predictions without "
 "applying them."
 msgstr ""
+"Standart kılavuzluk ile birlikte yapay zekâ modelini de çalıştırın; "
+"tahminleri, onları uygulamadan günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3123
@@ -45851,6 +45854,12 @@ msgid ""
 "written to the AI debug CSV log but are never blended into guide pulses. Use "
 "this to evaluate AI model quality before enabling full AI guiding."
 msgstr ""
+"Etkinleştirildiğinde ve geçerli bir yapay zekâ ağırlıklandırma dosyası "
+"yapılandırıldığında, yapay zekâ modeli seçilen kılavuz algoritmaya paralel "
+"olarak sessizce çalışır. Tahminler yapay zekâ hata ayıklama CSV günlüğüne "
+"yazılır; ancak hiçbir zaman kılavuz darbeleriyle harmanlanmaz. Tam yapay "
+"zekâ kılavuzluğunu etkinleştirmeden önce yapay zekâ modeli kalitesini "
+"değerlendirmek için bunu kullanın."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:3127

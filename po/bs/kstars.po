@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-24 02:06+0000\n"
+"POT-Creation-Date: 2026-07-25 02:06+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -6425,7 +6425,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1448 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6989,7 +6989,7 @@ msgstr "Mjerenje polarnog poravnanja"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
 #: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:315 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:328 ekos/align/polaralignmentassistant.cpp:665
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -7112,7 +7112,7 @@ msgstr ""
 msgid "Mount is synced to solution coordinates."
 msgstr "Sihroniziraj teleskop na koordinate rješenja"
 
-#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:986
+#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:997
 #, fuzzy, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Telescope Wizard je uspješno završen."
@@ -7127,55 +7127,55 @@ msgstr ""
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:254 ekos/align/align_goto.cpp:419
+#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:432
 #, kde-format
 msgid "Syncing failed."
 msgstr "Sinhronizacija neuspješna."
 
-#: ekos/align/align_goto.cpp:256
+#: ekos/align/align_goto.cpp:264
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Slewing failed."
 msgstr "Približne boje..."
 
-#: ekos/align/align_goto.cpp:287
+#: ekos/align/align_goto.cpp:295
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/align/align_goto.cpp:306
+#: ekos/align/align_goto.cpp:314
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Ugao pozicije"
 
-#: ekos/align/align_goto.cpp:332
+#: ekos/align/align_goto.cpp:345
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:369
+#: ekos/align/align_goto.cpp:382
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/align/align_goto.cpp:413
+#: ekos/align/align_goto.cpp:426
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Sinhronizacija uspješna."
 
-#: ekos/align/align_goto.cpp:431
+#: ekos/align/align_goto.cpp:444
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Namjesti teleskop na odredišne koordinate"
 
-#: ekos/align/align_goto.cpp:436
+#: ekos/align/align_goto.cpp:449
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid ""
@@ -7183,38 +7183,38 @@ msgid ""
 "notification)"
 msgstr "Namjesti teleskop na odredišne koordinate"
 
-#: ekos/align/align_goto.cpp:493
+#: ekos/align/align_goto.cpp:506
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Učitavam URL-ove slika"
 
-#: ekos/align/align_goto.cpp:524 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:537 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:588
+#: ekos/align/align_goto.cpp:601
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:602
+#: ekos/align/align_goto.cpp:615
 #, fuzzy, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Fokusiranje..."
 
-#: ekos/align/align_goto.cpp:611
+#: ekos/align/align_goto.cpp:624
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:623
+#: ekos/align/align_goto.cpp:636
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align_goto.cpp:661
+#: ekos/align/align_goto.cpp:674
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
@@ -7379,7 +7379,7 @@ msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr "Teleskop %1 nije na vezi. Molim vas konektujte se i probajte ponovo."
 
 #: ekos/align/align_solver.cpp:55 ekos/align/align_solver.cpp:84
-#: ekos/align/align_solver.cpp:1144
+#: ekos/align/align_solver.cpp:1155
 #, fuzzy, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Rješavač  pauziran."
@@ -7558,39 +7558,40 @@ msgstr "Rješavač završio za %1 sekundu."
 msgid "Remote solver completed after %1 seconds."
 msgstr "Rješavač završio za %1 sekundu."
 
-#: ekos/align/align_solver.cpp:762
+#: ekos/align/align_solver.cpp:789
 #, kde-format
-msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+msgid ""
+"Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
 
-#: ekos/align/align_solver.cpp:828
+#: ekos/align/align_solver.cpp:831
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:845
+#: ekos/align/align_solver.cpp:848
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align_solver.cpp:856
+#: ekos/align/align_solver.cpp:859
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Sihroniziraj teleskop na koordinate rješenja"
 
-#: ekos/align/align_solver.cpp:906
+#: ekos/align/align_solver.cpp:914
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:924
+#: ekos/align/align_solver.cpp:932
 #, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
@@ -7598,54 +7599,54 @@ msgid ""
 "rotator configuration."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:946
+#: ekos/align/align_solver.cpp:956
 #, fuzzy, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Fokusiranje..."
 
-#: ekos/align/align_solver.cpp:978 ekos/align/align_solver.cpp:1105
+#: ekos/align/align_solver.cpp:989 ekos/align/align_solver.cpp:1116
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:1006
+#: ekos/align/align_solver.cpp:1017
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:1033
+#: ekos/align/align_solver.cpp:1044
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:1091
+#: ekos/align/align_solver.cpp:1102
 #, fuzzy, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Snimi sliku na disk"
 
-#: ekos/align/align_solver.cpp:1110
+#: ekos/align/align_solver.cpp:1121
 #, fuzzy, kde-format
 #| msgid "Solver failed. Try again."
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr "Rješavanje nije uspjelo. Pokušajte ponovo:"
 
-#: ekos/align/align_solver.cpp:1123
+#: ekos/align/align_solver.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Solver failed. Try again."
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Rješavanje nije uspjelo. Pokušajte ponovo:"
 
-#: ekos/align/align_solver.cpp:1132
+#: ekos/align/align_solver.cpp:1143
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:1139
+#: ekos/align/align_solver.cpp:1150
 #, fuzzy, kde-format
 msgid "Solver Failed."
 msgstr "Bez FOV"
 
-#: ekos/align/align_solver.cpp:1142
+#: ekos/align/align_solver.cpp:1153
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -7653,22 +7654,22 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
+#: ekos/align/align_solver.cpp:1210 ekos/capture/cameraprocess.cpp:2158
 #: ekos/focus/focus.cpp:6154
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1197
+#: ekos/align/align_solver.cpp:1218 ekos/focus/focus.cpp:6161
+#: ekos/guide/guide.cpp:1199
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Autofokus nije uspio.Obustavljanje izlaganja."
 
-#: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
+#: ekos/align/align_solver.cpp:1238 ekos/capture/cameraprocess.cpp:2185
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1164
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
@@ -23662,149 +23663,149 @@ msgstr "Automatsko navođenje započelo."
 msgid "Guide streaming stopped."
 msgstr "Zaustavi"
 
-#: ekos/guide/guide.cpp:1156
+#: ekos/guide/guide.cpp:1158
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/guide/guide.cpp:1184
+#: ekos/guide/guide.cpp:1186
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/guide/guide.cpp:1186
+#: ekos/guide/guide.cpp:1188
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/guide/guide.cpp:1188
+#: ekos/guide/guide.cpp:1190
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/guide/guide.cpp:1243
+#: ekos/guide/guide.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Set box size to select a focus star."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Postavi veličinu kutije da označiš fokusnu zvijezdu."
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1568
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1617
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1623
+#: ekos/guide/guide.cpp:1625
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1704
+#: ekos/guide/guide.cpp:1706
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1813
+#: ekos/guide/guide.cpp:1815
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1827
+#: ekos/guide/guide.cpp:1829
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Namiještanje nazad na izvornu poziciju..."
 
-#: ekos/guide/guide.cpp:1844
+#: ekos/guide/guide.cpp:1846
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1848
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Namiještanje nazad na izvornu poziciju..."
 
-#: ekos/guide/guide.cpp:1932
+#: ekos/guide/guide.cpp:1934
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration is cleared."
 msgstr "Kalibriranje završeno."
 
-#: ekos/guide/guide.cpp:1960
+#: ekos/guide/guide.cpp:1962
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1978
+#: ekos/guide/guide.cpp:1980
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:1997
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibriranje završeno."
 
-#: ekos/guide/guide.cpp:2021
+#: ekos/guide/guide.cpp:2023
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration started."
 msgstr "Kalibriranje završeno."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2039
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Navođenje nastavljeno."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2043
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding running."
 msgstr "Navođenje nastavljeno."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2065
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "Automatsko navođenje započelo."
 
-#: ekos/guide/guide.cpp:2071
+#: ekos/guide/guide.cpp:2073
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Navođenje obustavljeno."
 
-#: ekos/guide/guide.cpp:2080
+#: ekos/guide/guide.cpp:2082
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2084
+#: ekos/guide/guide.cpp:2086
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2088
+#: ekos/guide/guide.cpp:2090
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23812,86 +23813,86 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Dithering failed."
 msgstr "Približne boje..."
 
-#: ekos/guide/guide.cpp:2104
+#: ekos/guide/guide.cpp:2106
 #, fuzzy, kde-format
 msgid "Dithering completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/guide/guide.cpp:2162
+#: ekos/guide/guide.cpp:2164
 #, fuzzy, kde-format
 #| msgid "Suspend guiding while autofocus in progress."
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Obustavi navođenje dok je autofokus u toku."
 
-#: ekos/guide/guide.cpp:2186
+#: ekos/guide/guide.cpp:2188
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Autofokus nije uspio.Obustavljanje izlaganja."
 
-#: ekos/guide/guide.cpp:2321
+#: ekos/guide/guide.cpp:2323
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/guide/guide.cpp:2416
+#: ekos/guide/guide.cpp:2418
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2870
+#: ekos/guide/guide.cpp:2872
 #, fuzzy, kde-format
 msgid "Calibration failed to start."
 msgstr "Provjera skripte nije uspjela"
 
-#: ekos/guide/guide.cpp:3021
+#: ekos/guide/guide.cpp:3023
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Auto star selected."
 msgstr "%1 zvijezda detektovana."
 
-#: ekos/guide/guide.cpp:3025
+#: ekos/guide/guide.cpp:3027
 #, fuzzy, kde-format
 #| msgid "Set box size to select a focus star."
 msgid "Failed to select an auto star."
 msgstr "Postavi veličinu kutije da označiš fokusnu zvijezdu."
 
-#: ekos/guide/guide.cpp:3034
+#: ekos/guide/guide.cpp:3036
 #, fuzzy, kde-format
 #| msgid "2. Select guide star"
 msgid "Select a guide star to calibrate."
 msgstr "2. Odaberi vodeću zvijezdu"
 
-#: ekos/guide/guide.cpp:3296
+#: ekos/guide/guide.cpp:3298
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "pikseli"
 
-#: ekos/guide/guide.cpp:3297
+#: ekos/guide/guide.cpp:3299
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "pikseli"
 
-#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
+#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23899,65 +23900,65 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3525
+#: ekos/guide/guide.cpp:3527
 #, fuzzy, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Dodavanje zvijezde"
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3532
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Load Weights..."
 msgstr "Preuzimanje..."
 
-#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
+#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
 #, fuzzy, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Bez FOV"
 
-#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
+#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
 #, fuzzy, kde-format
 #| msgid "Unknown Type"
 msgid "unknown error"
 msgstr "Nepoznata vrsta"
 
-#: ekos/guide/guide.cpp:3656
+#: ekos/guide/guide.cpp:3658
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to save AI weights to %1"
 msgstr "Neuspjelo otvaranje datoteke %1.%2"
 
-#: ekos/guide/guide.cpp:3666
+#: ekos/guide/guide.cpp:3668
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3670
+#: ekos/guide/guide.cpp:3672
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "AI training complete. Weights saved to %1."
 msgstr "Datoteka snimljena na %1"
 
-#: ekos/guide/guide.cpp:3676
+#: ekos/guide/guide.cpp:3678
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3677
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3838
+#: ekos/guide/guide.cpp:3840
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
