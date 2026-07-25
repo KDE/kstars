@@ -881,6 +881,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             {
                 sRawAngle = absAngle[0].getValue();
                 double OffsetAngle = RotatorUtils::Instance()->calcOffsetAngle(sRawAngle, solverPA);
+                RotatorUtils::Instance()->updateOffset(OffsetAngle);
+                qCDebug(KSTARS_EKOS_ALIGN) << "Updated rotator offset from solver measurement:"
+                                           << "Raw Angle:" << sRawAngle << "Solver PA:" << solverPA
+                                           << "New Offset:" << OffsetAngle;
                 auto reverseStatus = "Unknown";
                 auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
                 if (reverseProperty)
