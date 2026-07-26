@@ -195,7 +195,41 @@ void Align::updateProperty(INDI::Property prop)
                         if (m_SolveFromFile)
                         {
                             m_SolveFromFile = false;
+
+                            // When loading a Solve & Slew image taken on a different pier side than the current mount,
+                            // the solver PA must be flipped by 180° to match the camera's physical orientation.
+                            // solverFOV->PA() is the sky orientation of the loaded image; if the image pierside
+                            // differs from the mount's current pierside, the camera PA that produces that same sky
+                            // orientation on the current side is rangePA(solverPA + 180°). Without this adjustment,
+                            // a ~180° unnecessary rotation would be commanded (e.g. 153.9° → -22° → back to 153.9°).
                             m_TargetPositionAngle = solverFOV->PA();
+
+                            // Check if the loaded image was taken on the opposite pier side
+                            if (Options::astrometryUseRotator() && RotatorUtils::Instance()->checkImageFlip()
+                                    && Options::astrometryFlipRotationAllowed())
+                            {
+                                // Image was taken on opposite pier side → apply 180° flip to target PA
+                                sRawAngle = RotatorUtils::Instance()->calcRotatorAngle(m_TargetPositionAngle);
+                                m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
+                                // Consume the flip flag so subsequent checks don't double-flip
+                                RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN);
+                                qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Pierside differs from mount,"
+                                                           << "flipping target PA to" << m_TargetPositionAngle;
+                            }
+                            // If no explicit pierside info but the current camera PA is ~180° away from the
+                            // solver PA, the image is effectively flipped. Skip rotation to preserve the current
+                            // orientation rather than rotating a full 180° unnecessarily.
+                            else if (Options::astrometryUseRotator() && Options::astrometryFlipRotationAllowed())
+                            {
+                                double paDiff = std::abs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle));
+                                if (std::abs(paDiff - 180.0) < ROTATOR_FLIP_TOLERANCE)
+                                {
+                                    appendLogText(i18n("PA difference ~%1°, image is flipped. Preserving rotator angle.",
+                                                       QString::number(paDiff, 'f', 1)));
+                                    m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+                                }
+                            }
+
                             qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Setting target PA to" << m_TargetPositionAngle;
 
                             setState(ALIGN_PROGRESS);
