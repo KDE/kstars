@@ -3422,6 +3422,16 @@
           <label>Whether shutdown script, if exists, terminates INDI server in the process.</label>
           <default>false</default>
     </entry>
+      <entry name="CameraWarmupEnabled" type="Bool">
+          <label>Warm up the camera sensor before the shutdown sequence.</label>
+          <default>false</default>
+      </entry>
+      <entry name="CameraWarmupRamp" type="UInt">
+          <label>Camera warmup ramp rate in °C per minute.</label>
+          <default>5</default>
+          <min>1</min>
+          <max>30</max>
+      </entry>
       <entry name="PreemptiveShutdown" type="Bool">
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
          <default>true</default>

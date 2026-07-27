@@ -8,6 +8,7 @@
 #include "../task.h"
 #include "../tasktemplate.h"
 #include "../templatemanager.h"
+#include "Options.h"
 
 #include <QFile>
 #include <QJsonDocument>
@@ -467,6 +468,51 @@ bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
         else
         {
             delete task;
+        }
+    }
+
+    // If camera warmup is enabled and this is the Observatory Shutdown collection,
+    // ensure a warmup task is appended at the end
+    if (Options::cameraWarmupEnabled() &&
+            json["name"].toString() == "Observatory Shutdown Tasks")
+    {
+        // Check if a warmup task already exists in the queue
+        bool hasWarmup = false;
+        for (QueueItem *item : m_items)
+        {
+            Task *existingTask = item->task();
+            if (existingTask && (existingTask->templateId() == "camera_warm" ||
+                                 existingTask->templateId() == "camera_warm_passive"))
+            {
+                hasWarmup = true;
+                break;
+            }
+        }
+
+        if (!hasWarmup)
+        {
+            TaskTemplate *warmTmpl = templateMgr->getTemplate("camera_warm");
+            if (warmTmpl)
+            {
+                QMap<QString, QVariant> parameters;
+                parameters["target_temperature"] = 20;
+                parameters["ramp_slope"] = static_cast<int>(Options::cameraWarmupRamp());
+                parameters["tolerance"] = 2.0;
+                parameters["ramp_threshold"] = 0.5;
+                parameters["max_wait_time"] = 600;
+
+                Task *warmTask = new Task(this);
+                if (warmTask->instantiateFromTemplate(warmTmpl, "", parameters))
+                {
+                    QueueItem *warmItem = new QueueItem(warmTask, this);
+                    // Append at the end so warmup runs after all parking tasks
+                    m_items.append(warmItem);
+                }
+                else
+                {
+                    delete warmTask;
+                }
+            }
         }
     }
 
