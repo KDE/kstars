@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-26 02:07+0000\n"
+"POT-Creation-Date: 2026-07-27 02:37+0000\n"
 "PO-Revision-Date: 2026-07-25 10:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -6789,8 +6789,8 @@ msgid "Polar Alignment"
 msgstr "Полярне вирівнювання"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:329 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
+#: ekos/align/align_goto.cpp:363 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Встановлення…"
@@ -6915,39 +6915,46 @@ msgstr "Лафет синхронізовано у координатах роз
 msgid "Astrometry alignment completed successfully"
 msgstr "Астрометричне вирівнювання успішно завершено."
 
-#: ekos/align/align_goto.cpp:213
+#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:637
+#, kde-format
+msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
+msgstr ""
+"Різниця у ПС дорівнює ~%1°, зображення віддзеркалено. Зберігаємо кут "
+"обертання."
+
+#: ekos/align/align_goto.cpp:247
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Наведення завершено. Потрібної точності не вдалося досягти. Повторюємо "
 "запуск розв'язувача…"
 
-#: ekos/align/align_goto.cpp:215
+#: ekos/align/align_goto.cpp:249
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Обертання завершено. Визначаємо точку вирівнювання…"
 
-#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:434
+#: ekos/align/align_goto.cpp:296 ekos/align/align_goto.cpp:468
 #, kde-format
 msgid "Syncing failed."
 msgstr "Помилка синхронізації."
 
-#: ekos/align/align_goto.cpp:264
+#: ekos/align/align_goto.cpp:298
 #, kde-format
 msgid "Slewing failed."
 msgstr "Помилка під час наведення!"
 
-#: ekos/align/align_goto.cpp:295
+#: ekos/align/align_goto.cpp:329
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Виявлено помилку із засобом обертання. Перериваємо вирівнювання."
 
-#: ekos/align/align_goto.cpp:315
+#: ekos/align/align_goto.cpp:349
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Засобом обертання досягнуто позиційного кута камери."
 
-#: ekos/align/align_goto.cpp:346
+#: ekos/align/align_goto.cpp:380
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6956,22 +6963,22 @@ msgstr ""
 "При обертанні не досягнуто потрібного позиційного кута (відхилення у %1 "
 "кутових мінути)."
 
-#: ekos/align/align_goto.cpp:384
+#: ekos/align/align_goto.cpp:418
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Виявлено обертання, призупиняємо розв'язування…"
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:462
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Синхронізація до ПС (%1) Схил. (%2)"
 
-#: ekos/align/align_goto.cpp:446
+#: ekos/align/align_goto.cpp:480
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Обертаємося до координат цілі: ПС( %1) Схил. (%2)."
 
-#: ekos/align/align_goto.cpp:451
+#: ekos/align/align_goto.cpp:485
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6980,41 +6987,34 @@ msgstr ""
 "Відмовлено у наведенні на координати цілі: ПС (%1) Схил. (%2). (Див. "
 "сповіщення)"
 
-#: ekos/align/align_goto.cpp:508
+#: ekos/align/align_goto.cpp:542
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Завантаження зображення"
 
-#: ekos/align/align_goto.cpp:539 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:573 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Не виявлено драйвера віддаленої астрометрії, перемикаємося на StellarSolver."
 
-#: ekos/align/align_goto.cpp:603
-#, kde-format
-msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
-msgstr ""
-"Різниця у ПС дорівнює ~%1°, зображення віддзеркалено. Зберігаємо кут "
-"обертання."
-
-#: ekos/align/align_goto.cpp:617
+#: ekos/align/align_goto.cpp:651
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Встановлення позиційного кута камери у значення %1 градусів…"
 
-#: ekos/align/align_goto.cpp:626
+#: ekos/align/align_goto.cpp:660
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Позиційний кут камери належить до прийнятного діапазону."
 
-#: ekos/align/align_goto.cpp:638
+#: ekos/align/align_goto.cpp:672
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Поточний ПК — %1; цільовий ПК — %2; різниця: %3"
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""

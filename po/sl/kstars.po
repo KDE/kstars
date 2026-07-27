@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-26 02:07+0000\n"
+"POT-Creation-Date: 2026-07-27 02:37+0000\n"
 "PO-Revision-Date: 2026-07-25 07:14+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6797,8 +6797,8 @@ msgid "Polar Alignment"
 msgstr "Poravnava na severnico"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:329 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
+#: ekos/align/align_goto.cpp:363 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Poravnavanje..."
@@ -6921,39 +6921,44 @@ msgstr "Montaža je usklajena s koordinatami rešitve."
 msgid "Astrometry alignment completed successfully"
 msgstr "Poravnava Astrometry se je uspešno zaključila"
 
-#: ekos/align/align_goto.cpp:213
+#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:637
+#, kde-format
+msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
+msgstr "Razlika PA ~%1°, slika je obrnjena. Ohranjanje kota rotatorja."
+
+#: ekos/align/align_goto.cpp:247
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Obračanje zaključeno, a natančnost cilja ni zadostna. Ponovno zaganjanje "
 "reševalnika…"
 
-#: ekos/align/align_goto.cpp:215
+#: ekos/align/align_goto.cpp:249
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Obračanje zaključeno. Reševanje točke poravnave. . ."
 
-#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:434
+#: ekos/align/align_goto.cpp:296 ekos/align/align_goto.cpp:468
 #, kde-format
 msgid "Syncing failed."
 msgstr "Usklajevanje ni uspelo."
 
-#: ekos/align/align_goto.cpp:264
+#: ekos/align/align_goto.cpp:298
 #, kde-format
 msgid "Slewing failed."
 msgstr "Obračanje ni uspelo."
 
-#: ekos/align/align_goto.cpp:295
+#: ekos/align/align_goto.cpp:329
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Zaznana napaka rotatorja. Prekinitev poravnave."
 
-#: ekos/align/align_goto.cpp:315
+#: ekos/align/align_goto.cpp:349
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Rotator je dosegel položajni kot kamere."
 
-#: ekos/align/align_goto.cpp:346
+#: ekos/align/align_goto.cpp:380
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6961,22 +6966,22 @@ msgid ""
 msgstr ""
 "Rotator ni dosegel zahtevanega položajnega kota (odstopanje %1 ločne minute)."
 
-#: ekos/align/align_goto.cpp:384
+#: ekos/align/align_goto.cpp:418
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Zaznano je obračanje, reševanje prekinjeno …"
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:462
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Usklajevanje na RA (%1) DEC (%2)"
 
-#: ekos/align/align_goto.cpp:446
+#: ekos/align/align_goto.cpp:480
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Obračanje na koordinate cilja: RA (%1) DEC (%2)."
 
-#: ekos/align/align_goto.cpp:451
+#: ekos/align/align_goto.cpp:485
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6985,40 +6990,35 @@ msgstr ""
 "Obračanje na ciljne koordinate:RA (%1) DEC (%2) je zavrnjeno. (glejte "
 "obvestilo)"
 
-#: ekos/align/align_goto.cpp:508
+#: ekos/align/align_goto.cpp:542
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Naloži sliko"
 
-#: ekos/align/align_goto.cpp:539 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:573 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Ni odkritega daljinskega gonilnika za astrometrijo, preklapljanje  "
 "naStellarSolver."
 
-#: ekos/align/align_goto.cpp:603
-#, kde-format
-msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
-msgstr "Razlika PA ~%1°, slika je obrnjena. Ohranjanje kota rotatorja."
-
-#: ekos/align/align_goto.cpp:617
+#: ekos/align/align_goto.cpp:651
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Nastavitev kota položaja kamere na %1 stopinj ..."
 
-#: ekos/align/align_goto.cpp:626
+#: ekos/align/align_goto.cpp:660
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Kot položaja kamere je znotraj sprejemljivega območja."
 
-#: ekos/align/align_goto.cpp:638
+#: ekos/align/align_goto.cpp:672
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Trenutni položajni kot je %1; ciljni je %2; razlika: %3"
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Časovna omejitev rotatorja po %1 sekundah. Prekinitev poravnave."

@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-26 02:07+0000\n"
+"POT-Creation-Date: 2026-07-27 02:37+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -7058,8 +7058,8 @@ msgid "Polar Alignment"
 msgstr "Måling til polkonjunktion"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
-#: ekos/align/align_goto.cpp:329 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
+#: ekos/align/align_goto.cpp:363 ekos/align/polaralignmentassistant.cpp:665
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -7188,65 +7188,70 @@ msgstr "Synkronisér teleskopet til løsningskoordinaterne"
 msgid "Astrometry alignment completed successfully"
 msgstr "Teleskop-guiden gennemført uden problemer."
 
-#: ekos/align/align_goto.cpp:213
+#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:637
+#, kde-format
+msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
+msgstr ""
+
+#: ekos/align/align_goto.cpp:247
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:215
+#: ekos/align/align_goto.cpp:249
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:434
+#: ekos/align/align_goto.cpp:296 ekos/align/align_goto.cpp:468
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synkronisering mislykkedes."
 
-#: ekos/align/align_goto.cpp:264
+#: ekos/align/align_goto.cpp:298
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Slewing failed."
 msgstr "Dithering..."
 
-#: ekos/align/align_goto.cpp:295
+#: ekos/align/align_goto.cpp:329
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Ingen stjerner fundet, optager igen..."
 
-#: ekos/align/align_goto.cpp:315
+#: ekos/align/align_goto.cpp:349
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Positionsvinkel"
 
-#: ekos/align/align_goto.cpp:346
+#: ekos/align/align_goto.cpp:380
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:384
+#: ekos/align/align_goto.cpp:418
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Ingen stjerner fundet, optager igen..."
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:462
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Synkronisering gennemført."
 
-#: ekos/align/align_goto.cpp:446
+#: ekos/align/align_goto.cpp:480
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Drej teleskopet til målkoordinaterne"
 
-#: ekos/align/align_goto.cpp:451
+#: ekos/align/align_goto.cpp:485
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid ""
@@ -7254,40 +7259,35 @@ msgid ""
 "notification)"
 msgstr "Drej teleskopet til målkoordinaterne"
 
-#: ekos/align/align_goto.cpp:508
+#: ekos/align/align_goto.cpp:542
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Indlæser billed-URL'erne"
 
-#: ekos/align/align_goto.cpp:539 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:573 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:603
-#, kde-format
-msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
-msgstr ""
-
-#: ekos/align/align_goto.cpp:617
+#: ekos/align/align_goto.cpp:651
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Sæt mål-CCD chip-temperatur."
 
-#: ekos/align/align_goto.cpp:626
+#: ekos/align/align_goto.cpp:660
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:638
+#: ekos/align/align_goto.cpp:672
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:710
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
