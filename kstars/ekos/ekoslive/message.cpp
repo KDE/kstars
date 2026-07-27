@@ -691,7 +691,6 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     {
         auto settings = payload.toVariantMap();
         guide->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[GUIDE_GET_ALL_SETTINGS])
         sendGuideSettings(guide->getAllSettings());
@@ -746,7 +745,6 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
     {
         auto settings = payload.toVariantMap();
         focus->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
 
     else if (command == commands[FOCUS_GET_ALL_SETTINGS])
@@ -826,7 +824,6 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     {
         auto settings = payload.toVariantMap();
         mount->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[MOUNT_GET_ALL_SETTINGS])
         sendMountSettings(mount->getAllSettings());
@@ -905,7 +902,6 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     {
         auto settings = payload.toVariantMap();
         align->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[ALIGN_GET_ALL_SETTINGS])
         sendAlignSettings(align->getAllSettings());
@@ -1044,7 +1040,6 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     {
         auto settings = payload.toVariantMap();
         scheduler->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[SCHEDULER_SAVE_FILE])
     {
@@ -1675,7 +1670,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         auto settings = payload.toVariantMap();
         Ekos::DarkLibrary::Instance()->setAllSettings(settings);
-        KSUtils::setGlobalSettings(settings);
     }
     else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
         sendDarkLibrarySettings(Ekos::DarkLibrary::Instance()->getAllSettings());

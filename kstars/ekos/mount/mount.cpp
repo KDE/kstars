@@ -1488,12 +1488,15 @@ void Mount::setAllSettings(const QVariantMap &settings)
     // performing the changes.
     disconnectSyncSettings();
 
+    QSet<QString> comboKeys;
+
     for (auto &name : settings.keys())
     {
         // Combo
         auto comboBox = findChild<QComboBox*>(name);
         if (comboBox)
         {
+            comboKeys.insert(name);
             syncControl(settings, name, comboBox);
             continue;
         }
@@ -1531,16 +1534,21 @@ void Mount::setAllSettings(const QVariantMap &settings)
         }
     }
 
-    // Sync to options
+    // Sync to options: build a map with combo indices for kcfg (UInt properties)
+    QVariantMap optionValues = settings;
+    for (auto &key : comboKeys)
+    {
+        auto cb = findChild<QComboBox*>(key);
+        if (cb)
+            optionValues[key] = cb->currentIndex();
+    }
+    KSUtils::setGlobalSettings(optionValues);
+
+    // m_Settings and m_GlobalSettings keep the original string values
     for (auto &key : settings.keys())
     {
-        auto value = settings[key];
-        // Save immediately
-        Options::self()->setProperty(key.toLatin1(), value);
-        Options::self()->save();
-
-        m_Settings[key] = value;
-        m_GlobalSettings[key] = value;
+        m_Settings[key] = settings[key];
+        m_GlobalSettings[key] = settings[key];
     }
 
     Q_EMIT settingsUpdated(getAllSettings());

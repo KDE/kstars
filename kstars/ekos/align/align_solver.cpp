@@ -479,7 +479,7 @@ void Align::setCaptureComplete()
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
         QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("align/" +
-            now.toString("yyyy-MM-dd"));
+                       now.toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name     = "align_frame_" + now.toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
@@ -534,7 +534,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                         "Please download some index files or add the correct directory to the list."));
+                     "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
@@ -568,7 +568,7 @@ void Align::startSolving()
         if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                    QRegularExpression("[-{}]")));
+                                   QRegularExpression("[-{}]")));
             m_AlignView->saveImage(filename);
             filenameToUse = filename;
         }
@@ -576,7 +576,7 @@ void Align::startSolving()
         if(type == SSolver::SOLVER_ONLINEASTROMETRY )
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                    QRegularExpression("[-{}]")));
+                                   QRegularExpression("[-{}]")));
             m_AlignView->saveImage(filename);
             filenameToUse = filename;
         }
