@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-27 02:37+0000\n"
+"POT-Creation-Date: 2026-07-28 02:08+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -18765,12 +18765,12 @@ msgstr "Rete"
 msgid "Offline"
 msgstr "Senrete"
 
-#: ekos/ekoslive/message.cpp:817
+#: ekos/ekoslive/message.cpp:815
 #, kde-format
 msgid "target"
 msgstr "celo"
 
-#: ekos/ekoslive/message.cpp:1147
+#: ekos/ekoslive/message.cpp:1142
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaikimporto malsukcesis."
@@ -23834,7 +23834,7 @@ msgid ""
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3840
+#: ekos/guide/guide.cpp:3849
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Ne povas ŝanĝi aktivan optikan ĉenon dum kiam PHD2 estas konektata"
@@ -27078,17 +27078,17 @@ msgstr "Parkuma tempigilo finiĝis."
 msgid "Starting auto park..."
 msgstr "Komencante aŭtoparkadon..."
 
-#: ekos/mount/mount.cpp:1866
+#: ekos/mount/mount.cpp:1874
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Ĝisdatigante mastran tempofonton al %1."
 
-#: ekos/mount/mount.cpp:1887
+#: ekos/mount/mount.cpp:1895
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Ĝisdatigante mastran lokfonton al %1. Ĝisdatigante GPS..."
 
-#: ekos/mount/mount.cpp:1895
+#: ekos/mount/mount.cpp:1903
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Ĝisdatigante mastran lokfonton al %1."
@@ -28188,7 +28188,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPEnabled)
 #. i18n: ectx: label, entry (MCPEnabled), group (MCP)
-#: ekos/opsekos.ui:319 kstars.kcfg:4001
+#: ekos/opsekos.ui:319 kstars.kcfg:4011
 #, fuzzy, kde-format
 #| msgid "Manage Observers"
 msgid "Enable MCP server"
@@ -30016,7 +30016,7 @@ msgstr "Tasko '%1' ne havas pliajn staplojn."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/scheduler/opsalignmentsettings.ui:48 kstars.kcfg:3541
+#: ekos/scheduler/opsalignmentsettings.ui:48 kstars.kcfg:3551
 #, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -30033,7 +30033,7 @@ msgstr "Restarigi dukto se kontrolita bilda delto superas:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/scheduler/opsalignmentsettings.ui:58 kstars.kcfg:3537
+#: ekos/scheduler/opsalignmentsettings.ui:58 kstars.kcfg:3547
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -30234,7 +30234,7 @@ msgid "Dusk offset:"
 msgstr "Krepuska kompenso:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/scheduler/opsscriptssettings.ui:38
+#: ekos/scheduler/opsscriptssettings.ui:35
 #, kde-format
 msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
 msgstr ""
@@ -30242,13 +30242,13 @@ msgstr ""
 "Ekos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/scheduler/opsscriptssettings.ui:41
+#: ekos/scheduler/opsscriptssettings.ui:38
 #, kde-format
 msgid "Stop Ekos after shutdown"
 msgstr "Halti Ekos post sistemfermo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/scheduler/opsscriptssettings.ui:48
+#: ekos/scheduler/opsscriptssettings.ui:45
 #, kde-format
 msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
@@ -30259,10 +30259,36 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/scheduler/opsscriptssettings.ui:51
+#: ekos/scheduler/opsscriptssettings.ui:48
 #, kde-format
 msgid "Shutdown script terminates INDI"
 msgstr "Malŝalta skripto finiĝas INDI"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CameraWarmupEnabled)
+#: ekos/scheduler/opsscriptssettings.ui:57
+#, kde-format
+msgid "Warm up the camera sensor before shutting down."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_CameraWarmupEnabled)
+#: ekos/scheduler/opsscriptssettings.ui:60
+#, kde-format
+msgid "Warm camera before shutdown"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CameraWarmupRamp)
+#: ekos/scheduler/opsscriptssettings.ui:67
+#, kde-format
+msgid "Temperature ramp rate for camera warmup in °C per minute."
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CameraWarmupRamp)
+#: ekos/scheduler/opsscriptssettings.ui:70
+#, fuzzy, kde-format
+#| msgctxt "Maximum temperature variation over time when regulating."
+#| msgid "Ramp (°C/min):"
+msgid " °C/min"
+msgstr "Deklivo (°C/min):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsweathersettings.ui:43
@@ -30284,7 +30310,7 @@ msgstr "Vetera prokrastoperiodo"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_SchedulerWeatherGracePeriod)
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
-#: ekos/scheduler/opsweathersettings.ui:55 kstars.kcfg:3621
+#: ekos/scheduler/opsweathersettings.ui:55 kstars.kcfg:3631
 #, fuzzy, kde-format
 #| msgid "Wait this many minutes for the weather to improve before giving up."
 msgid ""
@@ -30320,7 +30346,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
-#: ekos/scheduler/opsweathersettings.ui:147 kstars.kcfg:3629
+#: ekos/scheduler/opsweathersettings.ui:147 kstars.kcfg:3639
 #, kde-format
 msgid ""
 "Connection string for the INDI Safety Monitor driver. The scheduler uses "
@@ -46248,57 +46274,69 @@ msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr "Ĉu malŝalta skripto, se ekzistas, ĉesigas INDI-servilon en la procezo."
 
-#. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
+#. i18n: ectx: label, entry (CameraWarmupEnabled), group (Scheduler)
 #: kstars.kcfg:3426
+#, kde-format
+msgid "Warm up the camera sensor before the shutdown sequence."
+msgstr ""
+
+#. i18n: ectx: label, entry (CameraWarmupRamp), group (Scheduler)
+#: kstars.kcfg:3430
+#, kde-format
+msgid "Camera warmup ramp rate in °C per minute."
+msgstr ""
+
+#. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
+#: kstars.kcfg:3436
 #, kde-format
 msgid "Perform pre-emptive shutdown if no jobs are due for a number of hours."
 msgstr ""
 "Fari antaŭtempan ĉesigon se neniuj taskoj estas plenumendaj dum kelkaj horoj."
 
 #. i18n: ectx: label, entry (ResetMountModelOnAlignFail), group (Scheduler)
-#: kstars.kcfg:3430
+#: kstars.kcfg:3440
 #, kde-format
 msgid "Reset mount model in case of alignment failure."
 msgstr "Restarigi muntan modelon en kazo de malsukceso de vicigo."
 
 #. i18n: ectx: label, entry (ResetMountModelBeforeJob), group (Scheduler)
-#: kstars.kcfg:3434
+#: kstars.kcfg:3444
 #, kde-format
 msgid "Reset mount model before starting each job."
 msgstr "Restarigi muntaĵan modelon antaŭ ol komenci ĉiun taskon."
 
 #. i18n: ectx: label, entry (ResetGuideCalibration), group (Scheduler)
-#: kstars.kcfg:3438
+#: kstars.kcfg:3448
 #, kde-format
 msgid "Always Reset guiding calibration before starting each job."
 msgstr "Ĉiam Restarigi gvid-kalibradon antaŭ ol komenci ĉiun taskon."
 
 #. i18n: ectx: label, entry (ForceAlignmentBeforeJob), group (Scheduler)
-#: kstars.kcfg:3442
+#: kstars.kcfg:3452
 #, kde-format
 msgid "Force alignment before starting or restarting each job."
 msgstr "Devigi vicigon antaŭ ol komenci aŭ rekomenci ĉiun taskon."
 
 #. i18n: ectx: label, entry (ReuseGuideCalibration), group (Scheduler)
-#: kstars.kcfg:3446
+#: kstars.kcfg:3456
 #, kde-format
 msgid "Guider may re-use guiding calibration if one is available."
 msgstr "Gvidisto povas reuzi gvidadkalibradon se oni disponeblas."
 
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: kstars.kcfg:3450
+#: kstars.kcfg:3460
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr "Inversa DEC ĉe moleoflanka ŝanĝo dum reuzo de kalibrado."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
-#: kstars.kcfg:3454
+#: kstars.kcfg:3464
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
 msgstr "Forigi DEC-kontraŭreagon dum kalibrado de gvidilo."
 
 #. i18n: ectx: label, entry (AssumeDecOrthogonal), group (Scheduler)
-#: kstars.kcfg:3458
+#: kstars.kcfg:3468
 #, kde-format
 msgid ""
 "Assume DEC is orthogonal to RA during calibration instead of measuring the "
@@ -46306,13 +46344,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
-#: kstars.kcfg:3462
+#: kstars.kcfg:3472
 #, kde-format
 msgid "Last Calibration serialized."
 msgstr "Lasta Kalibrado seriigita."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
-#: kstars.kcfg:3465
+#: kstars.kcfg:3475
 #, kde-format
 msgid ""
 "If guiding calibration fails, run alignment process again before proceeding "
@@ -46322,7 +46360,7 @@ msgstr ""
 "al rekalibrado."
 
 #. i18n: ectx: label, entry (PreemptiveShutdownTime), group (Scheduler)
-#: kstars.kcfg:3469
+#: kstars.kcfg:3479
 #, kde-format
 msgid ""
 "Maximum number of hours before the next job is due to trigger a pre-emptive "
@@ -46332,7 +46370,7 @@ msgstr ""
 "ĉesigon."
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
-#: kstars.kcfg:3473
+#: kstars.kcfg:3483
 #, kde-format
 msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
@@ -46342,7 +46380,7 @@ msgstr ""
 "lasta bildo estanta en memoro."
 
 #. i18n: ectx: label, entry (GreedyScheduling), group (Scheduler)
-#: kstars.kcfg:3477
+#: kstars.kcfg:3487
 #, kde-format
 msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
@@ -46352,13 +46390,13 @@ msgstr ""
 "kiam ne pli altaj prioritata laboro povas ruli. Rekomendita."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
-#: kstars.kcfg:3481
+#: kstars.kcfg:3491
 #, kde-format
 msgid "Minimum time between jobs in minutes."
 msgstr "Minimuma tempo inter taskoj en minutoj."
 
 #. i18n: ectx: label, entry (PreDawnTime), group (Scheduler)
-#: kstars.kcfg:3485
+#: kstars.kcfg:3495
 #, kde-format
 msgid ""
 "Do not permit jobs to be scheduled or executed past this many minutes before "
@@ -46368,7 +46406,7 @@ msgstr ""
 "minutoj antaŭ tagiĝo."
 
 #. i18n: ectx: label, entry (DawnOffset), group (Scheduler)
-#: kstars.kcfg:3489
+#: kstars.kcfg:3499
 #, kde-format
 msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
@@ -46378,7 +46416,7 @@ msgstr ""
 "limigon kiam vi uzas filtrilojn de mallarĝbendaj."
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
-#: kstars.kcfg:3493
+#: kstars.kcfg:3503
 #, kde-format
 msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
@@ -46388,55 +46426,55 @@ msgstr ""
 "limigon kiam vi uzas filtrilojn de mallarĝbendaj."
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
-#: kstars.kcfg:3497
+#: kstars.kcfg:3507
 #, kde-format
 msgid "Telescope focal length in millimeters."
 msgstr "Teleskopa fokusa distanco en milimetroj."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
-#: kstars.kcfg:3501
+#: kstars.kcfg:3511
 #, kde-format
 msgid "Focal Reducer ratio"
 msgstr "Fokoreduktila proporcio"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
-#: kstars.kcfg:3505
+#: kstars.kcfg:3515
 #, kde-format
 msgid "Camera pixel size width in micrometers."
 msgstr "Fotila rastrumera grandeco larĝo en mikrometroj."
 
 #. i18n: ectx: label, entry (CameraPixelHeight), group (Scheduler)
-#: kstars.kcfg:3509
+#: kstars.kcfg:3519
 #, kde-format
 msgid "Camera pixel size height in micrometers."
 msgstr "Fotila rastrumera grandeco alteco en mikrometroj."
 
 #. i18n: ectx: label, entry (CameraWidth), group (Scheduler)
-#: kstars.kcfg:3513
+#: kstars.kcfg:3523
 #, kde-format
 msgid "Camera Width in pixels."
 msgstr "Fotila Larĝo en rastrumeroj."
 
 #. i18n: ectx: label, entry (CameraHeight), group (Scheduler)
-#: kstars.kcfg:3517
+#: kstars.kcfg:3527
 #, kde-format
 msgid "Camera Height in pixels."
 msgstr "Fotila Alteco en rastrumeroj."
 
 #. i18n: ectx: label, entry (CameraRotation), group (Scheduler)
-#: kstars.kcfg:3521
+#: kstars.kcfg:3531
 #, kde-format
 msgid "Position angle of the camera with respect to north."
 msgstr "Pozicia angulo de la fotilo kun respekto al nordo."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategy), group (Scheduler)
-#: kstars.kcfg:3525
+#: kstars.kcfg:3535
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
 msgstr "Strategio kiel reagi, kiam tasko ĉesas aŭ paŝas en eraron."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
-#: kstars.kcfg:3529
+#: kstars.kcfg:3539
 #, kde-format
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
@@ -46446,26 +46484,26 @@ msgstr ""
 "abortitan taskon aŭ taskon kiu renkontis eraron."
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
-#: kstars.kcfg:3533
+#: kstars.kcfg:3543
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
 msgstr "Replani taskojn, kiuj renkontis erarojn."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
-#: kstars.kcfg:3545
+#: kstars.kcfg:3555
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
 "Defaŭlta planilo markobutono por komenci muntan spuradon ĉe taskkomenco."
 
 #. i18n: ectx: label, entry (SchedulerStartupEnabled), group (Scheduler)
-#: kstars.kcfg:3549
+#: kstars.kcfg:3559
 #, kde-format
 msgid "Enable startup queue execution"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerStartupEnabled), group (Scheduler)
-#: kstars.kcfg:3550
+#: kstars.kcfg:3560
 #, kde-format
 msgid ""
 "If enabled, the startup queue will be executed when the scheduler starts. If "
@@ -46473,14 +46511,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
-#: kstars.kcfg:3554
+#: kstars.kcfg:3564
 #, fuzzy, kde-format
 #| msgid "Path to astrometry.net file location."
 msgid "Path to startup queue file or script."
 msgstr "Vojo al astrometry.net dosierloko."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
-#: kstars.kcfg:3555
+#: kstars.kcfg:3565
 #, kde-format
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler before "
@@ -46488,13 +46526,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPostStartupScript), group (Scheduler)
-#: kstars.kcfg:3558
+#: kstars.kcfg:3568
 #, kde-format
 msgid "Path to post-startup queue file or script."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostStartupScript), group (Scheduler)
-#: kstars.kcfg:3559
+#: kstars.kcfg:3569
 #, kde-format
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler after "
@@ -46502,13 +46540,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerShutdownEnabled), group (Scheduler)
-#: kstars.kcfg:3563
+#: kstars.kcfg:3573
 #, kde-format
 msgid "Enable shutdown queue execution"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerShutdownEnabled), group (Scheduler)
-#: kstars.kcfg:3564
+#: kstars.kcfg:3574
 #, kde-format
 msgid ""
 "If enabled, the shutdown queue will be executed when the scheduler shuts "
@@ -46516,14 +46554,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
-#: kstars.kcfg:3568
+#: kstars.kcfg:3578
 #, fuzzy, kde-format
 #| msgid "Path to astrometry.net file location."
 msgid "Path to shutdown queue file or script."
 msgstr "Vojo al astrometry.net dosierloko."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
-#: kstars.kcfg:3569
+#: kstars.kcfg:3579
 #, kde-format
 msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler "
@@ -46531,13 +46569,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPostShutdownScript), group (Scheduler)
-#: kstars.kcfg:3573
+#: kstars.kcfg:3583
 #, kde-format
 msgid "Path to post-shutdown queue file or script."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostShutdownScript), group (Scheduler)
-#: kstars.kcfg:3574
+#: kstars.kcfg:3584
 #, kde-format
 msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler after "
@@ -46545,74 +46583,74 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
-#: kstars.kcfg:3577
+#: kstars.kcfg:3587
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
 "Defaŭlta planilo markobutono por ruli aŭtomatan fokuson dum taskkomenco."
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:3581
+#: kstars.kcfg:3591
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr "Defaŭlta planisto markobutono por komenci gvidadon pri taskkomenco."
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:3585
+#: kstars.kcfg:3595
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr "Defaŭlta planilo markobutono por vicigo dum taskkomenco."
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:3589
+#: kstars.kcfg:3599
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr "Defaŭlta planista markobutono por taskaj alteclimoj."
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:3593
+#: kstars.kcfg:3603
 #, kde-format
 msgid "Default scheduler job altitude constraint."
 msgstr "Defaŭlta planista taskalteco-limigo."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:3597
+#: kstars.kcfg:3607
 #, kde-format
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr "Defaŭlta planista markobutono por tasko artefarita horizonto limigoj."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:3601
+#: kstars.kcfg:3611
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
 msgstr "Defaŭlta planista markobutono por luna apartiglimo de labortasko."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:3605
+#: kstars.kcfg:3615
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr "Defaŭlta planista tasko luno disiĝo limo."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
-#: kstars.kcfg:3609
+#: kstars.kcfg:3619
 #, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
 msgstr "Defaŭlta planista markobutono por luna alteclimo de labortasko."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
-#: kstars.kcfg:3613
+#: kstars.kcfg:3623
 #, kde-format
 msgid "Default scheduler job moon altitude constraint."
 msgstr "Defaŭlta planista lunaltec-limigo de labortasko."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:3617
+#: kstars.kcfg:3627
 #, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr "Defaŭlta planila markobutono por veterlimoj."
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
-#: kstars.kcfg:3625
+#: kstars.kcfg:3635
 #, fuzzy, kde-format
 #| msgid ""
 #| "Wait this many seconds after guiding is resumed before starting capture."
@@ -46624,55 +46662,55 @@ msgstr ""
 "kapton."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:3632
+#: kstars.kcfg:3642
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr "Defaŭlta planila markobutono por krepuskaj limoj de tasko."
 
 #. i18n: ectx: label, entry (SchedulerCompleteSequences), group (Scheduler)
-#: kstars.kcfg:3636
+#: kstars.kcfg:3646
 #, kde-format
 msgid "Scheduler is complete once all sequences are complete."
 msgstr "Planilo kompletiĝis kiam ĉiuj sekvencoj estas kompletaj."
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
-#: kstars.kcfg:3640
+#: kstars.kcfg:3650
 #, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
 msgstr "Rekomenci ĉiujn planiltaskojn kiam ĉiuj planiltaskoj estis plenumitaj."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:3644
+#: kstars.kcfg:3654
 #, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
 msgstr "Rekomenci sekvencojn tuj post kiam ĉiuj sekvencoj estis plenumitaj."
 
 #. i18n: ectx: label, entry (SchedulerUntilTerminated), group (Scheduler)
-#: kstars.kcfg:3648
+#: kstars.kcfg:3658
 #, kde-format
 msgid "Restart sequences until manually terminated."
 msgstr "Rekomenci sekvencojn ĝis kiam haltigita permane."
 
 #. i18n: ectx: label, entry (SchedulerUntil), group (Scheduler)
-#: kstars.kcfg:3652
+#: kstars.kcfg:3662
 #, kde-format
 msgid "Loop sequences until specific time is up."
 msgstr "Bukli sekvencojn ĝis kiam specifa tempo elĉerpiĝis."
 
 #. i18n: ectx: label, entry (SchedulerUntilValue), group (Scheduler)
-#: kstars.kcfg:3656
+#: kstars.kcfg:3666
 #, kde-format
 msgid "Time when scheduler should stop repeating sequences."
 msgstr "Tempo kiam planilo ĉesu ripeti sekvencojn."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:3659
+#: kstars.kcfg:3669
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr "Limigi kiom da fojoj la planilo ruligu ĉiujn sekvencojn."
 
 #. i18n: ectx: label, entry (AnalyzeRestartWithEkos), group (Analyze)
-#: kstars.kcfg:3665
+#: kstars.kcfg:3675
 #, kde-format
 msgid ""
 "If Analyze is running and Ekos is disconnected then reconnected, a new ."
@@ -46684,19 +46722,19 @@ msgstr ""
 "montros la novan seancon."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
-#: kstars.kcfg:3669
+#: kstars.kcfg:3679
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr "Alternativa dosierujo uzota por serĉi analyze-bilddosierojn"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:3673
+#: kstars.kcfg:3683
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr "Montri HFR sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:3677
+#: kstars.kcfg:3687
 #, kde-format
 msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
@@ -46706,7 +46744,7 @@ msgstr ""
 "Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:3681
+#: kstars.kcfg:3691
 #, kde-format
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
@@ -46714,7 +46752,7 @@ msgstr ""
 "Montri mezan specimenvaloron por la kapto sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:3685
+#: kstars.kcfg:3695
 #, kde-format
 msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
@@ -46724,73 +46762,73 @@ msgstr ""
 "Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:3689
+#: kstars.kcfg:3699
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr "Montri la ĉirkaŭan temperaturon sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:3693
+#: kstars.kcfg:3703
 #, kde-format
 msgid "Display the autofocus solution position."
 msgstr "Montri la aŭtofokusan solvpozicion."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:3697
+#: kstars.kcfg:3707
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr "Montri NumStars sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:3701
+#: kstars.kcfg:3711
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr "Montri SkyBackground sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:3705
+#: kstars.kcfg:3715
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr "Montri SNR sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:3709
+#: kstars.kcfg:3719
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr "Montri RA sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:3713
+#: kstars.kcfg:3723
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr "Montri DEC sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:3717
+#: kstars.kcfg:3727
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr "Montri RA-Pulsojn sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:3721
+#: kstars.kcfg:3731
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr "Montri DEC-Pulsojn sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:3725
+#: kstars.kcfg:3735
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr "Montri Drivon sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:3729
+#: kstars.kcfg:3739
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr "Montri RMS-eraron sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:3733
+#: kstars.kcfg:3743
 #, kde-format
 msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
@@ -46800,49 +46838,49 @@ msgstr ""
 "kaptita bildo sur la Analiza diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:3737
+#: kstars.kcfg:3747
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr "Montri RMS-eraron (dum kapto) sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:3741
+#: kstars.kcfg:3751
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr "Montri Muntaĵan RA sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3745
+#: kstars.kcfg:3755
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr "Montri Muntaĵan DEC sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3749
+#: kstars.kcfg:3759
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr "Montri Muntaĵan Horo-Angulon sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3753
+#: kstars.kcfg:3763
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr "Montri Azimuton sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3757
+#: kstars.kcfg:3767
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr "Montri Altitudon sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3761
+#: kstars.kcfg:3771
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr "Montri PierSide sur la Statistik-Analiza Diagramo."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3765
+#: kstars.kcfg:3775
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
@@ -46850,196 +46888,196 @@ msgstr ""
 "Diagramo."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3770
+#: kstars.kcfg:3780
 #, kde-format
 msgid "The address of last used server"
 msgstr "La adreso de la lasta uzita servilo"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3773
+#: kstars.kcfg:3783
 #, kde-format
 msgid "The port of last used server"
 msgstr "La konektejo de la lasta uzita servilo"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3777
+#: kstars.kcfg:3787
 #, kde-format
 msgid "The port of last used Web Manager"
 msgstr "La konektejo de la lasta uzata Reteja Administranto"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3783
+#: kstars.kcfg:3793
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
 "RAM-kaŝmemorgrandeco en MB uzata por konservi kaŝmemorigitajn HIPS-bildojn."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3787
+#: kstars.kcfg:3797
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 "Diska kaŝmemorgrandeco en MB uzata por stori kaŝmemorigitajn HIPS-bildojn."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3791
+#: kstars.kcfg:3801
 #, kde-format
 msgid "HIPS source catalog title."
 msgstr "HIPS fontkatalogo titolo."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3795
+#: kstars.kcfg:3805
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr "Ĉu uzi Dulinian interpoladon dum bildigo de HiPS-bildoj?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3799
+#: kstars.kcfg:3809
 #, kde-format
 msgid "Show HiPS grid on the sky map."
 msgstr "Montri HiPS-kradon sur la ĉiela mapo."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3803
+#: kstars.kcfg:3813
 #, kde-format
 msgid "Redraw HiPS while panning."
 msgstr "Redesegni HiPS dum panoramado."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3807
+#: kstars.kcfg:3817
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
 msgstr "Ĉu desegni HiPS-fontojn sur la ĉiela mapo?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3808
+#: kstars.kcfg:3818
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Baskuligi ĉu la HIPS-fontoj estas desegnitaj en la ĉielmapo."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3812
+#: kstars.kcfg:3822
 #, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr "Ĉu uzi senkonektan konservadon por ŝargi HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3816
+#: kstars.kcfg:3826
 #, kde-format
 msgid "HIPS offline full path."
 msgstr "HIPS eksterreta plena vojo."
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3821
+#: kstars.kcfg:3831
 #, kde-format
 msgid "Terrain Filename."
 msgstr "Terena Dosiernomo."
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3822
+#: kstars.kcfg:3832
 #, kde-format
 msgid "Terrain source filename."
 msgstr "Terenfonta dosiernomo."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3826
+#: kstars.kcfg:3836
 #, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr "Terena Azimuta Korekto."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3827
+#: kstars.kcfg:3837
 #, kde-format
 msgid "Terrain source azimuth correction."
 msgstr "Terenfonta azimuta korekto."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3831
+#: kstars.kcfg:3841
 #, kde-format
 msgid "Terrain Altitude Correction."
 msgstr "Korekto de Alteco de Tereno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3832
+#: kstars.kcfg:3842
 #, kde-format
 msgid "Terrain source altitude correction."
 msgstr "Terenfonta alteca korekto."
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3836
+#: kstars.kcfg:3846
 #, kde-format
 msgid "Terrain Downsampling"
 msgstr "Subspecimenado de tereno"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3837
+#: kstars.kcfg:3847
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr "Rapidkvalita kompromiso por bildi la terenbildon."
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3841
+#: kstars.kcfg:3851
 #, kde-format
 msgid "Terrain While panning."
 msgstr "Tereno Dum panoramado."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3842
+#: kstars.kcfg:3852
 #, kde-format
 msgid "Redraw terrain while panning."
 msgstr "Redesegni terenon dum panoramo."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3846
+#: kstars.kcfg:3856
 #, kde-format
 msgid "Draw terrain"
 msgstr "Desegni terenon"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3847
+#: kstars.kcfg:3857
 #, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Baskuligi ĉu la tereno estas desegnita en la ĉielmapo."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3851
+#: kstars.kcfg:3861
 #, kde-format
 msgid "Terrain Skip Speedup"
 msgstr "Rapidigo de Terena Preterpaso"
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3852 kstars.kcfg:3857
+#: kstars.kcfg:3862 kstars.kcfg:3867
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr "Ebligi unu el la terendesegnaj rapidoj."
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3856
+#: kstars.kcfg:3866
 #, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr "Akcelo de Terena Travidebleco."
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3861
+#: kstars.kcfg:3871
 #, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr "Glataj Rastrumeroj de Tereno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3862
+#: kstars.kcfg:3872
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr "Glataj rastrumeroj por pli agrabla, sed pli malrapida bildigo."
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3868
+#: kstars.kcfg:3878
 #, kde-format
 msgid "Display Image Overlays."
 msgstr "Vidigi Bildajn Supermetaĵojn."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3869
+#: kstars.kcfg:3879
 #, kde-format
 msgid "Toggle whether to display image overlays."
 msgstr "Baskuligi ĉu montri bildajn superkovrojn."
@@ -47047,19 +47085,19 @@ msgstr "Baskuligi ĉu montri bildajn superkovrojn."
 #. i18n: ectx: label, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
-#: kstars.kcfg:3873 kstars.kcfg:3874 options/opsimageoverlay.ui:81
+#: kstars.kcfg:3883 kstars.kcfg:3884 options/opsimageoverlay.ui:81
 #, kde-format
 msgid "Display Image Overlays below catalogs."
 msgstr "Montri Bildajn Supermetaĵojn sub katalogoj."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3878
+#: kstars.kcfg:3888
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
 msgstr "Centri SkyMap super elektita bilda superkovro."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3879
+#: kstars.kcfg:3889
 #, kde-format
 msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
@@ -47069,68 +47107,68 @@ msgstr ""
 "(se ĝi estas solvita)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3883
+#: kstars.kcfg:3893
 #, kde-format
 msgid "Image overlay max dimension"
 msgstr "Maksimuma dimensio de bilda superkovro"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3884
+#: kstars.kcfg:3894
 #, kde-format
 msgid "Maximum dimension for image overlay images."
 msgstr "Maksimuma dimensio bildsuperkovrajn bildoj."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3888
+#: kstars.kcfg:3898
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr "Eltempiĝo por pletsolvado de bildsuperkovro."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3889
+#: kstars.kcfg:3899
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
 msgstr "Eltempiĝo por pletsolvado de bildsuperkovro."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3893
+#: kstars.kcfg:3903
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr "Defaŭlta skalo por bildsuperkovra pletsolvado."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3894
+#: kstars.kcfg:3904
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
 "Defaŭlta skalo (arksekundoj/rastrumero) por bildsuperkovra pletsolvado."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3900
+#: kstars.kcfg:3910
 #, kde-format
 msgid "Default observatory module weather source."
 msgstr "Defaŭlta observatoriomodula veterfonto."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3903
+#: kstars.kcfg:3913
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr "Ĉu reagos al avertoj?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3907
+#: kstars.kcfg:3917
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr "Ĉu reagos al atentigoj?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3911
+#: kstars.kcfg:3921
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr "Ĉu la kupolo estu fermata kiam veteraverto okazas?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3915
+#: kstars.kcfg:3925
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr "Ĉu la obturatoro estu fermata kiam veteraverto okazas?"
@@ -47138,62 +47176,62 @@ msgstr "Ĉu la obturatoro estu fermata kiam veteraverto okazas?"
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3919 kstars.kcfg:3931 kstars.kcfg:3935
+#: kstars.kcfg:3929 kstars.kcfg:3941 kstars.kcfg:3945
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr "Ĉu la obturatoro estu fermata kiam vetera alarmo okazas?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3923
+#: kstars.kcfg:3933
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr "Prokrasto por reago al veteraverto."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3927
+#: kstars.kcfg:3937
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr "Ĉu la kupolo estas fermita kiam vetera alarmo okazas?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3939
+#: kstars.kcfg:3949
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr "Prokrasto por reago al vetera alarmo."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3943
+#: kstars.kcfg:3953
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr "Kupola stato grava por la Observatorio-statuso."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3947
+#: kstars.kcfg:3957
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr "Obturatoro-stato grava por la Observatorio-statuso."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3951
+#: kstars.kcfg:3961
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr "Veterstato grava por la Observatorio-statuso."
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3955
+#: kstars.kcfg:3965
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Skali la sensilan grafean valorakson al la valorintervalo."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3961
+#: kstars.kcfg:3971
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr "Plena vojo al la plenumebla ASTAP."
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3965 kstars.kcfg:3969
+#: kstars.kcfg:3975 kstars.kcfg:3979
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -47204,7 +47242,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3973 kstars.kcfg:3977
+#: kstars.kcfg:3983 kstars.kcfg:3987
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -47214,50 +47252,50 @@ msgstr ""
 "radiuso."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3981
+#: kstars.kcfg:3991
 #, kde-format
 msgid "Update the fits header with the found solution."
 msgstr "Ĝisdatigi la kaplinion kun la trovita solvo."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3985
+#: kstars.kcfg:3995
 #, kde-format
 msgid "Increase search window size."
 msgstr "Pligrandigi serĉfenestran grandecon."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3991
+#: kstars.kcfg:4001
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr "Administri aŭtomate la nivelon de travidebleco de mozaika panelo."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3995
+#: kstars.kcfg:4005
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr "Regi mozaikpanelan travideblecon."
 
 #. i18n: ectx: label, entry (MCPPort), group (MCP)
-#: kstars.kcfg:4005
+#: kstars.kcfg:4015
 #, fuzzy, kde-format
 #| msgid "Server Port"
 msgid "MCP server port"
 msgstr "Servila Konektejo"
 
 #. i18n: ectx: label, entry (MCPReadOnlyMode), group (MCP)
-#: kstars.kcfg:4009
+#: kstars.kcfg:4019
 #, kde-format
 msgid "Allow only read-only MCP tools"
 msgstr ""
 
 #. i18n: ectx: label, entry (MCPDisabledTools), group (MCP)
-#: kstars.kcfg:4013
+#: kstars.kcfg:4023
 #, kde-format
 msgid "MCP tools disabled by the user"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MCPDisabledTools), group (MCP)
-#: kstars.kcfg:4014
+#: kstars.kcfg:4024
 #, kde-format
 msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
