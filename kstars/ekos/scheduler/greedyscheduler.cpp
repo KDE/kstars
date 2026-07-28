@@ -11,7 +11,6 @@
 #include "Options.h"
 #include "scheduler.h"
 #include "schedulermodulestate.h"
-#include "ekos/ekos.h"
 #include "ui_scheduler.h"
 #include "schedulerjob.h"
 #include "schedulerutils.h"

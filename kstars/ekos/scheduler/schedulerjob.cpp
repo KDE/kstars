@@ -924,18 +924,17 @@ bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time
             result = true;
     }
 
-    fprintf(stderr, "DEBUG runsDuringAstronomicalNightTimeInternal: "
-                    "time.isValid=%d startupTime=%s t=%s nDawn=%s nDusk=%s earlyDawn=%s "
-                    "nDawn<nDusk=%d t<=earlyDawn=%d result=%d\n",
-            time.isValid() ? 1 : 0,
-            startupTime.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data(),
-            t.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data(),
-            nDawn.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data(),
-            nDusk.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data(),
-            earlyDawn.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data(),
-            (nDawn < nDusk) ? 1 : 0,
-            (t <= earlyDawn) ? 1 : 0,
-            result ? 1 : 0);
+    qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                   QString("runsDuringAstronomicalNightTimeInternal: time.isValid=%1 startupTime=%2 t=%3 nDawn=%4 nDusk=%5 earlyDawn=%6 nDawn<nDusk=%7 t<=earlyDawn=%8 result=%9\n")
+                                   .arg(time.isValid() ? 1 : 0)
+                                   .arg(startupTime.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data())
+                                   .arg(t.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data())
+                                   .arg(nDawn.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data())
+                                   .arg(nDusk.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data())
+                                   .arg(earlyDawn.toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().data())
+                                   .arg((nDawn < nDusk) ? 1 : 0)
+                                   .arg((t <= earlyDawn) ? 1 : 0)
+                                   .arg(result ? 1 : 0);
 
     // Return a hint about when it might succeed.
     if (nextPossibleSuccess != nullptr)
