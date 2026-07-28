@@ -63,6 +63,11 @@ class KSMessageBox: public QMessageBox
         // Dialog timeout in seconds
         quint32 m_Timeout {60};
 
+        // True while a button response is being processed. Guards against duplicate
+        // or stale programmatic responses (e.g. from a remote EkosLive client) that
+        // would otherwise click a button on an already-dismissed dialog.
+        bool m_ResponseInProgress {false};
+
         static KSMessageBox *m_Instance;
 
         void reset();

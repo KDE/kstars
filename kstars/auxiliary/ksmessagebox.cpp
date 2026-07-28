@@ -46,12 +46,14 @@ KSMessageBox::KSMessageBox() : QMessageBox()
 
     connect(this, &KSMessageBox::rejected, [this]()
     {
+        m_ResponseInProgress = false;
         m_ProgressTimer.stop();
         Q_EMIT newMessage(QJsonObject());
     });
 
     connect(this, &KSMessageBox::accepted, [this]()
     {
+        m_ResponseInProgress = false;
         m_ProgressTimer.stop();
         Q_EMIT newMessage(QJsonObject());
     });
@@ -157,6 +159,7 @@ void KSMessageBox::setupTimeout(quint32 timeout)
 
 void KSMessageBox::reset()
 {
+    m_ResponseInProgress = false;
     m_ProgressTimer.stop();
     resetTimeout();
 
@@ -296,12 +299,26 @@ QJsonObject KSMessageBox::createMessageObject()
 
 bool KSMessageBox::selectResponse(const QString &button)
 {
+    // Ignore responses when no dialog is currently shown. The message box is a
+    // reused singleton, so the buttons of a previously dismissed dialog linger as
+    // children; clicking one of those would re-emit accepted()/rejected() and could
+    // tear down widgets while their signals are still being processed.
+    if (!isVisible())
+        return false;
+
+    // Ignore duplicate or re-entrant responses. animateClick() dismisses the dialog
+    // asynchronously, so a second response (e.g. a remote EkosLive client sending
+    // dialog_get_response repeatedly) could arrive before the dialog hides.
+    if (m_ResponseInProgress)
+        return false;
+
     for (const auto oneButton : findChildren<QPushButton * >())
     {
         const QString buttonText = oneButton->text().remove("&");
 
         if (button == buttonText)
         {
+            m_ResponseInProgress = true;
             oneButton->animateClick();
             return true;
         }
