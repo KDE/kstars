@@ -3758,8 +3758,13 @@ void Guide::setAllSettings(const QVariantMap &settings)
     for (auto &key : comboKeys)
     {
         auto cb = findChild<QComboBox*>(key);
-        if (cb)
+        // Skip combos that aren't populated yet (e.g. device-dependent combos
+        // like guide binning before the camera connects). currentIndex() would
+        // be -1 in that case, which must not overwrite the persisted option.
+        if (cb && cb->count() > 0 && cb->currentIndex() >= 0)
             optionValues[key] = cb->currentIndex();
+        else
+            optionValues.remove(key);
     }
     KSUtils::setGlobalSettings(optionValues);
 
