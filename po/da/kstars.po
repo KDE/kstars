@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:08+0000\n"
+"POT-Creation-Date: 2026-07-29 02:09+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -557,13 +557,13 @@ msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
 msgstr ""
 
-#: auxiliary/ksmessagebox.cpp:132
+#: auxiliary/ksmessagebox.cpp:134
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Auto close in ..."
 msgstr "Autofokusering i gang..."
 
-#: auxiliary/ksmessagebox.cpp:254 kstarslite/qml/modules/TimePage.qml:535
+#: auxiliary/ksmessagebox.cpp:257 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City in Siberia Russia"
@@ -1626,7 +1626,7 @@ msgstr "måned"
 msgid "days"
 msgstr "dage"
 
-#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1177
+#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1176
 #, fuzzy, kde-format
 #| msgid "hours"
 msgid "hours"
@@ -1637,7 +1637,7 @@ msgstr "timer"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: auxiliary/xplanetimageviewer.cpp:453 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:357 ekos/scheduler/opsweathersettings.ui:74
-#: ekos/scheduler/schedulerjob.cpp:1175
+#: ekos/scheduler/schedulerjob.cpp:1174
 #, fuzzy, kde-format
 #| msgid "minutes"
 msgid "minutes"
@@ -1662,7 +1662,7 @@ msgstr "minutter"
 #: ekos/guide/opsgpg.ui:296 ekos/guide/opsgpg.ui:373 ekos/guide/opsgpg.ui:446
 #: ekos/guide/opsgpg.ui:529 ekos/guide/opsguide.ui:458
 #: ekos/guide/opsguide.ui:557 ekos/scheduler/opsweathersettings.ui:118
-#: ekos/scheduler/schedulerjob.cpp:1173
+#: ekos/scheduler/schedulerjob.cpp:1172
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:236
 #, fuzzy, kde-format
 #| msgid "seconds"
@@ -30951,44 +30951,44 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Standard-FITS-katalog:"
 
-#: ekos/scheduler/greedyscheduler.cpp:96
+#: ekos/scheduler/greedyscheduler.cpp:95
 #, kde-format
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:98
+#: ekos/scheduler/greedyscheduler.cpp:97
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:111
+#: ekos/scheduler/greedyscheduler.cpp:110
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "(%1) Job %2: has completed."
 msgstr "%1 er på nettet."
 
-#: ekos/scheduler/greedyscheduler.cpp:115
+#: ekos/scheduler/greedyscheduler.cpp:114
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:119
+#: ekos/scheduler/greedyscheduler.cpp:118
 #, kde-format
 msgid "******************** Now ********************"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:121
+#: ekos/scheduler/greedyscheduler.cpp:120
 #, kde-format
 msgid "*****************In %1 Hours******************"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:123
+#: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:217
+#: ekos/scheduler/greedyscheduler.cpp:216
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Job '%1' has no more batches remaining."
@@ -32401,13 +32401,13 @@ msgstr "Øverst højre"
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:1153
+#: ekos/scheduler/schedulerjob.cpp:1152
 #, fuzzy, kde-format
 #| msgid "Use Dark Frame"
 msgid "DarkFlat"
 msgstr "Brug mørkebillede"
 
-#: ekos/scheduler/schedulerjob.cpp:1184
+#: ekos/scheduler/schedulerjob.cpp:1183
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"

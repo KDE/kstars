@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:08+0000\n"
+"POT-Creation-Date: 2026-07-29 02:09+0000\n"
 "PO-Revision-Date: 2026-06-29 23:34+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -508,12 +508,12 @@ msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
 msgstr "%1 (%2%)"
 
-#: auxiliary/ksmessagebox.cpp:132
+#: auxiliary/ksmessagebox.cpp:134
 #, kde-format
 msgid "Auto close in ..."
 msgstr "Автоматично затваряне след ..."
 
-#: auxiliary/ksmessagebox.cpp:254 kstarslite/qml/modules/TimePage.qml:535
+#: auxiliary/ksmessagebox.cpp:257 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
 #, kde-format, kde-kuit-format
 msgid "Ok"
@@ -1540,7 +1540,7 @@ msgstr "месеци"
 msgid "days"
 msgstr "дни"
 
-#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1177
+#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1176
 #, kde-format
 msgid "hours"
 msgstr "часове"
@@ -1550,7 +1550,7 @@ msgstr "часове"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: auxiliary/xplanetimageviewer.cpp:453 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:357 ekos/scheduler/opsweathersettings.ui:74
-#: ekos/scheduler/schedulerjob.cpp:1175
+#: ekos/scheduler/schedulerjob.cpp:1174
 #, kde-format
 msgid "minutes"
 msgstr "минути"
@@ -1574,7 +1574,7 @@ msgstr "минути"
 #: ekos/guide/opsgpg.ui:296 ekos/guide/opsgpg.ui:373 ekos/guide/opsgpg.ui:446
 #: ekos/guide/opsgpg.ui:529 ekos/guide/opsguide.ui:458
 #: ekos/guide/opsguide.ui:557 ekos/scheduler/opsweathersettings.ui:118
-#: ekos/scheduler/schedulerjob.cpp:1173
+#: ekos/scheduler/schedulerjob.cpp:1172
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:236
 #, kde-format
 msgid "seconds"
@@ -30151,7 +30151,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Избор на каталог на задания"
 
-#: ekos/scheduler/greedyscheduler.cpp:96
+#: ekos/scheduler/greedyscheduler.cpp:95
 #, kde-format
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
@@ -30159,40 +30159,40 @@ msgstr ""
 "За съжаление, няма задачи, които да се изпълняват през следващите 3 дни. "
 "Всички задачи са завършени."
 
-#: ekos/scheduler/greedyscheduler.cpp:98
+#: ekos/scheduler/greedyscheduler.cpp:97
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
 "За съжаление, няма задачи, които да се изпълняват през следващите 3 дни. "
 "Задача %1 е завършена."
 
-#: ekos/scheduler/greedyscheduler.cpp:111
+#: ekos/scheduler/greedyscheduler.cpp:110
 #, kde-format
 msgid "(%1) Job %2: has completed."
 msgstr "(%1) Задача %2: е завършена."
 
-#: ekos/scheduler/greedyscheduler.cpp:115
+#: ekos/scheduler/greedyscheduler.cpp:114
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
 msgstr "(%1) Задание %2: не може да се изпълни, защото: %3"
 
-#: ekos/scheduler/greedyscheduler.cpp:119
+#: ekos/scheduler/greedyscheduler.cpp:118
 #, kde-format
 msgid "******************** Now ********************"
 msgstr "********************Сега ********************"
 
-#: ekos/scheduler/greedyscheduler.cpp:121
+#: ekos/scheduler/greedyscheduler.cpp:120
 #, kde-format
 msgid "*****************In %1 Hours******************"
 msgstr "*****************След %1 часа******************"
 
-#: ekos/scheduler/greedyscheduler.cpp:123
+#: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
 msgstr ""
 "За съжаление, няма задачи, които да се изпълняват през следващите 3 дни."
 
-#: ekos/scheduler/greedyscheduler.cpp:217
+#: ekos/scheduler/greedyscheduler.cpp:216
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Заданието \"%1\" няма повече оставащи партиди."
@@ -31676,12 +31676,12 @@ msgstr "Тази вечер"
 msgid "Ekos job failed (%1)"
 msgstr "Неуспешна задача на Ekos (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1153
+#: ekos/scheduler/schedulerjob.cpp:1152
 #, kde-format
 msgid "DarkFlat"
 msgstr "Тъмни плоски"
 
-#: ekos/scheduler/schedulerjob.cpp:1184
+#: ekos/scheduler/schedulerjob.cpp:1183
 #, kde-format
 msgid "images"
 msgstr "Изображения"

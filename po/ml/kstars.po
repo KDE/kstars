@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-28 02:08+0000\n"
+"POT-Creation-Date: 2026-07-29 02:09+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -513,13 +513,13 @@ msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
 msgstr ""
 
-#: auxiliary/ksmessagebox.cpp:132
+#: auxiliary/ksmessagebox.cpp:134
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Auto close in ..."
 msgstr "string"
 
-#: auxiliary/ksmessagebox.cpp:254 kstarslite/qml/modules/TimePage.qml:535
+#: auxiliary/ksmessagebox.cpp:257 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "star name"
@@ -1602,7 +1602,7 @@ msgstr "മാസം"
 msgid "days"
 msgstr ""
 
-#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1177
+#: auxiliary/xplanetimageviewer.cpp:452 ekos/scheduler/schedulerjob.cpp:1176
 #, fuzzy, kde-format
 #| msgid "hour"
 msgid "hours"
@@ -1613,7 +1613,7 @@ msgstr "മണിക്കൂര്‍"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: auxiliary/xplanetimageviewer.cpp:453 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:357 ekos/scheduler/opsweathersettings.ui:74
-#: ekos/scheduler/schedulerjob.cpp:1175
+#: ekos/scheduler/schedulerjob.cpp:1174
 #, fuzzy, kde-format
 #| msgid "minutes"
 msgid "minutes"
@@ -1638,7 +1638,7 @@ msgstr "മിനിട്ടുകള്‍"
 #: ekos/guide/opsgpg.ui:296 ekos/guide/opsgpg.ui:373 ekos/guide/opsgpg.ui:446
 #: ekos/guide/opsgpg.ui:529 ekos/guide/opsguide.ui:458
 #: ekos/guide/opsguide.ui:557 ekos/scheduler/opsweathersettings.ui:118
-#: ekos/scheduler/schedulerjob.cpp:1173
+#: ekos/scheduler/schedulerjob.cpp:1172
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:236
 #, fuzzy, kde-format
 #| msgid "seconds"
@@ -28387,43 +28387,43 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "തനത് ക്രമീകരണം ലോഡ് ചെയ്യുക: "
 
-#: ekos/scheduler/greedyscheduler.cpp:96
+#: ekos/scheduler/greedyscheduler.cpp:95
 #, kde-format
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:98
+#: ekos/scheduler/greedyscheduler.cpp:97
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:111
+#: ekos/scheduler/greedyscheduler.cpp:110
 #, fuzzy, kde-format
 msgid "(%1) Job %2: has completed."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/scheduler/greedyscheduler.cpp:115
+#: ekos/scheduler/greedyscheduler.cpp:114
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:119
+#: ekos/scheduler/greedyscheduler.cpp:118
 #, kde-format
 msgid "******************** Now ********************"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:121
+#: ekos/scheduler/greedyscheduler.cpp:120
 #, kde-format
 msgid "*****************In %1 Hours******************"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:123
+#: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:217
+#: ekos/scheduler/greedyscheduler.cpp:216
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -29724,14 +29724,14 @@ msgstr "ഏറ്റവും കൂടിയ ദൃശ്യസൂക്ഷ്�
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:1153
+#: ekos/scheduler/schedulerjob.cpp:1152
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Barkerville"
 msgid "DarkFlat"
 msgstr "ബേകര്‍വില്‍"
 
-#: ekos/scheduler/schedulerjob.cpp:1184
+#: ekos/scheduler/schedulerjob.cpp:1183
 #, fuzzy, kde-format
 msgid "images"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
