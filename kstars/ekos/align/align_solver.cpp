@@ -908,31 +908,35 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                                                << "Auto-reversed:" << m_RotatorAutoReversed;
                     if (newPAError > m_PreviousPAError + 0.5)
                     {
-                        // First wrong-direction detection: try auto-reversing the rotator
+                        // First wrong-direction detection: try correcting via the software-only
+                        // per-train parity flag. We never touch the driver's ROTATOR_REVERSE
+                        // switch — that would depend on trusting this specific driver's
+                        // implementation of it.
                         if (!m_RotatorAutoReversed)
                         {
-                            auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
-                            bool isReversed = reverseProperty ? (reverseProperty[0].getState() == ISS_ON) : false;
-                            bool newReversed = !isReversed;
-
                             appendLogText(i18n("Rotator is moving in the wrong direction. "
-                                               "Automatically reversing rotator direction and retrying..."));
+                                               "Automatically compensating rotator direction and retrying..."));
                             qCDebug(KSTARS_EKOS_ALIGN) << "Rotator wrong direction detected."
                                                        << "Previous PA error:" << m_PreviousPAError
                                                        << "New PA error:" << newPAError
-                                                       << "Auto-reversing direction to:"
-                                                       << (newReversed ? "reversed" : "normal");
+                                                       << "Toggling software parity correction.";
 
-                            m_Rotator->setReversed(newReversed);
-                            RotatorUtils::Instance()->setReversed(newReversed);
+                            RotatorUtils::Instance()->trialToggleParity();
+                            // Recalibrate the offset for the newly-flipped model using the
+                            // measurement we already have. Without this, the retry would reuse
+                            // an offset fit under the old (wrong) model and very likely still
+                            // miss, making a correct parity flip look like a second failure.
+                            double correctedOffset = RotatorUtils::Instance()->calcOffsetAngle(sRawAngle, solverPA);
+                            RotatorUtils::Instance()->updateOffset(correctedOffset);
+
                             m_RotatorAutoReversed = true;
                             m_PreviousPAError = -1;
-                            // Re-issue the rotation command with the reversed direction
+                            // Re-issue the rotation command with the corrected parity
                             checkIfRotationRequired();
                             return;
                         }
 
-                        // Auto-reverse already attempted — abort
+                        // Parity correction already attempted — abort
                         appendLogText(i18n("Rotator is moving in the wrong direction. "
                                            "The position angle error increased from %1° to %2° after rotation. "
                                            "Auto-reverse was already tried. Please check rotator configuration.",
@@ -941,6 +945,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         qCDebug(KSTARS_EKOS_ALIGN) << "Rotator wrong direction detected after auto-reverse."
                                                    << "Previous PA error:" << m_PreviousPAError
                                                    << "New PA error:" << newPAError;
+                        RotatorUtils::Instance()->revertParity();
                         m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
                         m_PreviousPAError = -1;
                         m_RotatorAutoReversed = false;
@@ -951,6 +956,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         return;
                     }
                     // PA error did not increase — rotation was in the correct direction.
+                    // If this confirms a parity trial, persist it so this train never has to
+                    // rediscover its direction again.
+                    if (m_RotatorAutoReversed)
+                        RotatorUtils::Instance()->commitParity();
                     // Reset error tracking since the rotation succeeded.
                     qCDebug(KSTARS_EKOS_ALIGN) << "PA error decreased or unchanged — resetting previous error tracker.";
                     m_PreviousPAError = -1;

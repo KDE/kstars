@@ -2903,7 +2903,11 @@
       <entry name="AstrometryFlipRotationAllowed" type="Bool">
          <whatsthis>PA 180° rotation for rotator is accepted after mount flip.</whatsthis>
          <default>true</default>
-      </entry>      
+      </entry>
+      <entry name="RotatorParityReversed" type="Bool">
+         <whatsthis>The rotator physically turns opposite to the direction KStars' position-angle math assumes. Learned automatically the first time the auto-reverse wrong-direction check confirms it, or can be set manually.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="AstrometrySolverWCS" type="Bool">
          <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
          <default>true</default>

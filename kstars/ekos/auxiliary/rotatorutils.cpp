@@ -49,14 +49,21 @@ void RotatorUtils::initRotatorUtils(const QString &train)
     m_Offset = Options::pAOffset();
     m_Mount = Ekos::OpticalTrainManager::Instance()->getMount(train);
 
+    disconnect(m_PierSideConnection);
     if (m_Mount)
     {
-        connect(m_Mount, &ISD::Mount::pierSideChanged, this, [this] (ISD::Mount::PierSide Side)
+        m_PierSideConnection = connect(m_Mount, &ISD::Mount::pierSideChanged, this, [this] (ISD::Mount::PierSide Side)
         {
             m_flippedMount = (Side != m_CalPierside);
             Q_EMIT changedPierside(Side);
         });
     }
+
+    // Load the learned software-only direction parity, if one was ever confirmed
+    // (see commitParity()) or set manually via the "Rotator direction reversed"
+    // checkbox in Align settings. This is a hardware fact about the rotator, so it
+    // should not need to be rediscovered every session.
+    m_PersistedParityReversed = m_ParityReversed = Options::rotatorParityReversed();
 }
 
 double RotatorUtils::calcRotatorAngle(double PositionAngle)
@@ -69,7 +76,9 @@ double RotatorUtils::calcRotatorAngle(double PositionAngle)
     // negated (offset-relative) angle so that the driver's own reversal cancels it out:
     //   normal:   command = range360(PA - offset)
     //   reversed: command = range360(offset - PA)
-    if (m_Reversed)
+    // effectiveReversed() combines the driver-mirrored reversal (m_Reversed) with the
+    // software-only per-train parity correction (m_ParityReversed) via XOR.
+    if (effectiveReversed())
         return KSUtils::range360(m_Offset - PositionAngle);
     else
         return KSUtils::range360(PositionAngle - m_Offset);
@@ -80,16 +89,40 @@ void RotatorUtils::setReversed(bool reversed)
     m_Reversed = reversed;
 }
 
+void RotatorUtils::trialToggleParity()
+{
+    m_ParityReversed = !m_ParityReversed;
+}
+
+void RotatorUtils::commitParity()
+{
+    Options::setRotatorParityReversed(m_ParityReversed);
+    m_PersistedParityReversed = m_ParityReversed;
+}
+
+void RotatorUtils::revertParity()
+{
+    m_ParityReversed = m_PersistedParityReversed;
+}
+
 double RotatorUtils::calcCameraAngle(double RotatorAngle, bool flippedImage)
 {
     double PositionAngle = 0;
-    if (RotatorAngle > 180)
+    // Algebraic inverse of calcRotatorAngle(): when effectively reversed, the raw angle was
+    // commanded as range360(offset - PA), so PA = offset - R here (instead of PA = R + offset).
+    if (effectiveReversed())
     {
-        PositionAngle = (RotatorAngle - 360) + m_Offset;
+        if (RotatorAngle > 180)
+            PositionAngle = m_Offset - (RotatorAngle - 360);
+        else
+            PositionAngle = m_Offset - RotatorAngle;
     }
     else
     {
-        PositionAngle = RotatorAngle + m_Offset;
+        if (RotatorAngle > 180)
+            PositionAngle = (RotatorAngle - 360) + m_Offset;
+        else
+            PositionAngle = RotatorAngle + m_Offset;
     }
     if (!m_flippedMount != !flippedImage) // XOR
     {
@@ -109,13 +142,21 @@ double RotatorUtils::calcCameraAngle(double RotatorAngle, bool flippedImage)
 double RotatorUtils::calcOffsetAngle(double RotatorAngle, double PositionAngle)
 {
     double OffsetAngle = 0;
-    if (RotatorAngle > 180)
+    // Algebraic inverse of calcRotatorAngle(): when effectively reversed, R = offset - PA,
+    // so offset = PA + R here (instead of offset = PA - R).
+    if (effectiveReversed())
     {
-        OffsetAngle = PositionAngle - (RotatorAngle - 360);
+        if (RotatorAngle > 180)
+            OffsetAngle = PositionAngle + (RotatorAngle - 360);
+        else
+            OffsetAngle = PositionAngle + RotatorAngle;
     }
     else
     {
-        OffsetAngle = PositionAngle - RotatorAngle;
+        if (RotatorAngle > 180)
+            OffsetAngle = PositionAngle - (RotatorAngle - 360);
+        else
+            OffsetAngle = PositionAngle - RotatorAngle;
     }
     if (m_flippedMount)
     {

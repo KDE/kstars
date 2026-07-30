@@ -276,7 +276,11 @@ void Align::updateProperty(INDI::Property prop)
                 // Mount is slewing — the camera PA will change relative to the sky,
                 // so any previously stored PA error is no longer valid for comparing
                 // rotation direction. Reset to avoid false-positive wrong-direction detection.
-                if (m_PreviousPAError >= 0)
+                // Skip this while RotatorGOTO is set: that flag is true exactly during the
+                // sync+slew-back that follows a rotation, i.e. the mount motion here is part
+                // of the same verification cycle the tracker is meant to survive until the
+                // confirming solve runs (see checkIfRotationRequired()/align_solver.cpp).
+                if (m_PreviousPAError >= 0 && !RotatorGOTO)
                 {
                     qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew started. Clearing previous PA error tracker.";
                     m_PreviousPAError = -1;
@@ -347,11 +351,15 @@ void Align::updateProperty(INDI::Property prop)
             if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached camera position angle."));
-                // Rotation succeeded — clear the previous PA error tracker
-                // so it doesn't cause false-positive wrong-direction detection later.
-                m_PreviousPAError = -1;
-                m_RotatorAutoReversed = false;
-                qCDebug(KSTARS_EKOS_ALIGN) << "Rotator reached target PA. Clearing previous PA error tracker.";
+                // NOTE: this "reached" signal only means the raw encoder matches the value
+                // that was *commanded* (computed from the current offset/parity model) — it is
+                // not confirmed by an actual plate solve. Deliberately do NOT clear
+                // m_PreviousPAError/m_RotatorAutoReversed here: doing so would erase the
+                // baseline the wrong-direction check in align_solver.cpp needs to compare
+                // against once the next (real, solve-verified) measurement comes in. Both
+                // trackers are only cleared once that check has actually run and reached a
+                // verdict (success, retry, or abort).
+                qCDebug(KSTARS_EKOS_ALIGN) << "Rotator reached target PA.";
                 if (m_RotateBeforeSolve)
                 {
                     // Rotate-first optimization: skip stale sync, go directly to capture

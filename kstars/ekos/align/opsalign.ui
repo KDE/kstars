@@ -367,6 +367,16 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="0" colspan="3">
+          <widget class="QCheckBox" name="kcfg_RotatorParityReversed">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable if the rotator physically turns opposite to the direction expected. Detected and set automatically the first time the wrong-direction check confirms it; can also be set manually.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Rotator direction reversed</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

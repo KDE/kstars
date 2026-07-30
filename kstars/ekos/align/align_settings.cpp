@@ -19,6 +19,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/rotatorutils.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/manager.h"
 #include "indi/indirotator.h"
@@ -327,6 +328,12 @@ void Align::refreshOpticalTrain()
 
         auto rotator = OpticalTrainManager::Instance()->getRotator(name);
         setRotator(rotator);
+        // RotatorUtils is a singleton shared across Capture and Align; make sure it's
+        // synced to whatever train Align is now pointing at (in particular m_Mount, which
+        // drives the flipped-mount/pierside logic used by the rotator angle math) rather
+        // than relying on Capture's rotator panel having already (re)initialized it for
+        // this train.
+        RotatorUtils::Instance()->initRotatorUtils(name);
 
         auto dustcap = OpticalTrainManager::Instance()->getDustCap(name);
         setDustCap(dustcap);
