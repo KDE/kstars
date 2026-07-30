@@ -823,8 +823,10 @@ class Align : public QWidget, public Ui::Align
         ISD::Mount::PierSide m_PAValidPierSide { ISD::Mount::PIER_UNKNOWN };
         /// Previous PA error before the last rotation command (to detect wrong direction)
         double m_PreviousPAError { -1 };
-        /// Auto-reverse rotator direction attempted for current alignment
-        bool m_RotatorAutoReversed { false };
+        /// Whether a software parity-correction retry has already been attempted this alignment
+        /// (limits to one retry, gates persisting the correction, and gates the flip-tolerance
+        /// heuristic in checkIfRotationRequired() from swallowing an in-flight retry).
+        bool m_RotatorParityRetried { false };
         /// Solver iterations count
         uint8_t solverIterations { 0 };
         /// Was solving with scale off used?

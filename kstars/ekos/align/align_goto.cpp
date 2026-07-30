@@ -60,7 +60,7 @@ void Align::stop(Ekos::AlignState mode)
     m_CaptureTimeoutCounter = 0;
     m_SlewErrorCounter = 0;
     m_PreviousPAError = -1;
-    m_RotatorAutoReversed = false;
+    m_RotatorParityRetried = false;
     m_RemoteAlignTimer.stop();
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
@@ -333,6 +333,7 @@ void Align::updateProperty(INDI::Property prop)
             appendLogText(i18n("Rotator error detected. Aborting alignment."));
             m_RotatorTimer.invalidate();
             m_PreviousPAError = -1;
+            m_RotatorParityRetried = false;
             setState(ALIGN_FAILED);
             Q_EMIT newStatus(state);
             solveB->setEnabled(true);
@@ -354,7 +355,7 @@ void Align::updateProperty(INDI::Property prop)
                 // NOTE: this "reached" signal only means the raw encoder matches the value
                 // that was *commanded* (computed from the current offset/parity model) — it is
                 // not confirmed by an actual plate solve. Deliberately do NOT clear
-                // m_PreviousPAError/m_RotatorAutoReversed here: doing so would erase the
+                // m_PreviousPAError/m_RotatorParityRetried here: doing so would erase the
                 // baseline the wrong-direction check in align_solver.cpp needs to compare
                 // against once the next (real, solve-verified) measurement comes in. Both
                 // trackers are only cleared once that check has actually run and reached a
@@ -387,6 +388,7 @@ void Align::updateProperty(INDI::Property prop)
                     {
                         appendLogText(i18n("Rotator failed to arrive at the requested position angle (Deviation %1 arcmin).", diff));
                         m_PreviousPAError = -1;
+                        m_RotatorParityRetried = false;
                         setState(ALIGN_FAILED);
                         Q_EMIT newStatus(state);
                         solveB->setEnabled(true);
@@ -637,7 +639,13 @@ bool Align::checkIfRotationRequired()
                     m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
                     RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
                 }
-                else if (Options::astrometryFlipRotationAllowed())
+                // Skip the flip-tolerance guess while a parity-correction retry is in flight
+                // (m_RotatorParityRetried): a wrong-direction rotator produces the exact same
+                // ~180°-off symptom as a genuine optical flip, but here we've already
+                // determined via a more reliable before/after comparison (align_solver.cpp)
+                // that it's a direction problem, not a flip to preserve. Falling through to
+                // the rotation command below is what the retry actually needs to happen.
+                else if (Options::astrometryFlipRotationAllowed() && !m_RotatorParityRetried)
                 {
                     double paDiff = std::abs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle));
                     if (std::abs(paDiff - 180.0) < ROTATOR_FLIP_TOLERANCE)
@@ -719,6 +727,7 @@ void Align::checkRotatorTimeout()
                            Options::captureOperationsTimeout()));
         m_RotatorTimer.invalidate();
         m_PreviousPAError = -1;
+        m_RotatorParityRetried = false;
         setState(ALIGN_FAILED);
         Q_EMIT newStatus(state);
         solveB->setEnabled(true);

@@ -193,10 +193,11 @@ bool RotatorUtils::checkImageFlip()
 
 double RotatorUtils::DiffPA(double diff)
 {
-    if (diff > 180)
-        return (360 - diff);
-    else
-        return diff;
+    // Wrap into (-180,180]. The previous version only unwrapped diff > 180 (e.g. 350 -> 10)
+    // but left diff < -180 untouched, so a raw difference like -340 (current/target PA
+    // straddling the +/-180 boundary, genuinely only 20 degrees apart) was returned as-is,
+    // making callers that do abs(DiffPA(...)) see a bogus ~340 degree deviation instead of 20.
+    return KSUtils::rangePA(diff);
 }
 
 void RotatorUtils::initTimeFrame(const double EndAngle)
