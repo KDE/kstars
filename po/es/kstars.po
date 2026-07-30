@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-29 02:09+0000\n"
+"POT-Creation-Date: 2026-07-30 02:07+0000\n"
 "PO-Revision-Date: 2026-07-28 18:34+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -24139,7 +24139,7 @@ msgstr ""
 "Los pesos del sistema de guiado de IA se han definido a %1. Se aplicarán la "
 "próxima vez que se inicie el guiado."
 
-#: ekos/guide/guide.cpp:3849
+#: ekos/guide/guide.cpp:3854
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No se puede cambiar el tren óptico activo mientras PHD2 esté conectado"
@@ -27393,17 +27393,17 @@ msgstr "Se ha acabado el tiempo de aparcamiento."
 msgid "Starting auto park..."
 msgstr "Iniciando aparcamiento automático…"
 
-#: ekos/mount/mount.cpp:1874
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Actualizando fuente horaria principal a %1."
 
-#: ekos/mount/mount.cpp:1895
+#: ekos/mount/mount.cpp:1900
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Actualizando fuente de ubicación principal a %1. Actualizando GPS…"
 
-#: ekos/mount/mount.cpp:1903
+#: ekos/mount/mount.cpp:1908
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Actualizando fuente de ubicación principal a %1."

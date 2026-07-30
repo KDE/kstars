@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-29 02:09+0000\n"
+"POT-Creation-Date: 2026-07-30 02:07+0000\n"
 "PO-Revision-Date: 2025-04-26 09:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -22160,7 +22160,7 @@ msgid ""
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3849
+#: ekos/guide/guide.cpp:3854
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -24982,17 +24982,17 @@ msgstr ""
 msgid "Starting auto park..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1874
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1895
+#: ekos/mount/mount.cpp:1900
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1903
+#: ekos/mount/mount.cpp:1908
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""

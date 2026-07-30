@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-29 02:09+0000\n"
+"POT-Creation-Date: 2026-07-30 02:07+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -23834,7 +23834,7 @@ msgid ""
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3849
+#: ekos/guide/guide.cpp:3854
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Ne povas ŝanĝi aktivan optikan ĉenon dum kiam PHD2 estas konektata"
@@ -27078,17 +27078,17 @@ msgstr "Parkuma tempigilo finiĝis."
 msgid "Starting auto park..."
 msgstr "Komencante aŭtoparkadon..."
 
-#: ekos/mount/mount.cpp:1874
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Ĝisdatigante mastran tempofonton al %1."
 
-#: ekos/mount/mount.cpp:1895
+#: ekos/mount/mount.cpp:1900
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Ĝisdatigante mastran lokfonton al %1. Ĝisdatigante GPS..."
 
-#: ekos/mount/mount.cpp:1903
+#: ekos/mount/mount.cpp:1908
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Ĝisdatigante mastran lokfonton al %1."

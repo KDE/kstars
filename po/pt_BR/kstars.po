@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-29 02:09+0000\n"
+"POT-Creation-Date: 2026-07-30 02:07+0000\n"
 "PO-Revision-Date: 2026-07-28 07:31-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -24006,7 +24006,7 @@ msgstr ""
 "Os pesos do guia de IA foram definidos como %1. Eles serão aplicados na "
 "próxima vez que a guiagem for iniciada."
 
-#: ekos/guide/guide.cpp:3849
+#: ekos/guide/guide.cpp:3854
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -27233,17 +27233,17 @@ msgstr "O temporizador de bloqueio está ativo."
 msgid "Starting auto park..."
 msgstr "Iniciando bloqueio automático..."
 
-#: ekos/mount/mount.cpp:1874
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Atualizando fonte de tempo mestre para %1."
 
-#: ekos/mount/mount.cpp:1895
+#: ekos/mount/mount.cpp:1900
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Atualizando a fonte de localização mestre para %1. Atualizando GPS..."
 
-#: ekos/mount/mount.cpp:1903
+#: ekos/mount/mount.cpp:1908
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Atualizando a fonte de localização mestre para %1."
