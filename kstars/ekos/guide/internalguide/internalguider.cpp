@@ -15,6 +15,7 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "guidealgorithms.h"
+#include "kstarsdata.h"
 #include "ksnotification.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "fitsviewer/fitsdata.h"
@@ -909,6 +910,30 @@ void InternalGuider::trackingStarSelected(int x, int y)
 void InternalGuider::setDECSwap(bool enable)
 {
     pmath->getMutableCalibration()->setDeclinationSwapEnabled(enable);
+}
+
+void InternalGuider::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide side)
+{
+    GuideInterface::setMountCoords(position, side);
+
+    if (!pmath)
+        return;
+
+    // The AI feed-forward physics model needs altitude (refraction), declination and site latitude
+    // (parallactic angle) and the pier side (to reset its state across a meridian flip). Sourcing them
+    // here rather than from FITS header keywords means they are available for every guide frame -- the
+    // header values only exist when the camera driver snoops the mount -- and that they match the
+    // values OpsAIGuide recorded during data collection.
+    cgmath::MountState state;
+    state.altitude_deg    = mountAltitude.Degrees();
+    state.azimuth_deg     = mountAzimuth.Degrees();
+    state.declination_deg = mountDEC.Degrees();
+    state.pier_side_east  = (side == ISD::Mount::PIER_EAST);
+    if (KStarsData::Instance() && KStarsData::Instance()->geo() && KStarsData::Instance()->geo()->lat())
+        state.latitude_deg = KStarsData::Instance()->geo()->lat()->Degrees();
+    state.valid = true;
+
+    pmath->setMountState(state);
 }
 
 void InternalGuider::setStarDetectionAlgorithm(int index)

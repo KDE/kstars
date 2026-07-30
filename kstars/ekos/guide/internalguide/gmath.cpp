@@ -95,6 +95,11 @@ cgmath::~cgmath()
 {
     delete[] drift[GUIDE_RA];
     delete[] drift[GUIDE_DEC];
+
+    // reset() closes this between sessions, but it is also owned across the object's whole
+    // lifetime, so it has to be released here for the case where the last session is never reset.
+    delete m_AIDebugFile;
+    m_AIDebugFile = nullptr;
 }
 
 bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
@@ -919,46 +924,76 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         m_sessionStartTime = current_time_sec;
         frameData.t_session_sec = current_time_sec;
 
-        // Fetch altitude from FITS header if available
-        QVariant altVariant;
-        if (imageData->getRecordValue("OBJCTALT", altVariant))
-        {
-            frameData.altitude_deg = altVariant.toDouble();
-        }
-        else
-        {
-            frameData.altitude_deg = 45.0;
-        }
-
-        // Fetch azimuth from FITS header if available
-        QVariant azVariant;
-        if (imageData->getRecordValue("OBJCTAZ", azVariant))
-        {
-            frameData.azimuth_deg = azVariant.toDouble();
-        }
-        else
-        {
-            frameData.azimuth_deg = 180.0;
-        }
-
-        // Fetch DEC for parallactic angle computation
+        // Mount pointing state. Prefer the live mount coordinates pushed in via setMountState():
+        // they are maintained from the mount's own property updates, independently of the image
+        // pipeline, so they are present for every frame and match the values the data-collection
+        // wizard recorded while training. The FITS-header path below is kept as a fallback for the
+        // case where no mount is connected to the guide module.
         double dec_target = 0.0;
-        QVariant decVariant;
-        if (imageData->getRecordValue("OBJCTDEC", decVariant))
-        {
-            bool ok;
-            double d = decVariant.toDouble(&ok);
-            if (ok) dec_target = d;
-        }
-
-        // Fetch Latitude
         double lat_target = 45.0;
-        QVariant latVariant;
-        if (imageData->getRecordValue("SITELAT", latVariant))
+
+        if (m_MountState.valid)
         {
-            bool ok;
-            double l = latVariant.toDouble(&ok);
-            if (ok) lat_target = l;
+            frameData.altitude_deg   = m_MountState.altitude_deg;
+            frameData.azimuth_deg    = m_MountState.azimuth_deg;
+            frameData.pier_side_east = m_MountState.pier_side_east;
+            dec_target               = m_MountState.declination_deg;
+            lat_target               = m_MountState.latitude_deg;
+        }
+        else
+        {
+            // Fetch altitude from FITS header if available
+            QVariant altVariant;
+            if (imageData->getRecordValue("OBJCTALT", altVariant))
+            {
+                frameData.altitude_deg = altVariant.toDouble();
+            }
+            else
+            {
+                frameData.altitude_deg = 45.0;
+            }
+
+            // Fetch azimuth from FITS header if available
+            QVariant azVariant;
+            if (imageData->getRecordValue("OBJCTAZ", azVariant))
+            {
+                frameData.azimuth_deg = azVariant.toDouble();
+            }
+            else
+            {
+                frameData.azimuth_deg = 180.0;
+            }
+
+            // Fetch DEC for parallactic angle computation.
+            // OBJCTDEC is written by INDI as a sexagesimal string ("dd mm ss", see
+            // INDI::CCD::addFITSKeywords) so it must be parsed with dms::fromString();
+            // QVariant::toDouble() always fails on it and would silently leave the declination
+            // at 0. The numeric DEC card is used as a fallback, mirroring FITSData::parseSolution().
+            QVariant decVariant;
+            if (imageData->getRecordValue("OBJCTDEC", decVariant))
+                dec_target = dms::fromString(decVariant.toString(), true).Degrees();
+            else if (imageData->getRecordValue("DEC", decVariant))
+            {
+                bool ok;
+                const double d = decVariant.toDouble(&ok);
+                if (ok) dec_target = d;
+            }
+
+            // Fetch Latitude
+            QVariant latVariant;
+            if (imageData->getRecordValue("SITELAT", latVariant))
+            {
+                bool ok;
+                const double l = latVariant.toDouble(&ok);
+                if (ok) lat_target = l;
+            }
+
+            // Fetch PierSide from FITS header if available
+            QVariant pierVariant;
+            if (imageData->getRecordValue("PIERSIDE", pierVariant))
+                frameData.pier_side_east = (pierVariant.toString().toUpper() == "EAST");
+            else
+                frameData.pier_side_east = false; // default
         }
 
         // Calculate Parallactic Angle (q)
@@ -975,18 +1010,6 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         else
         {
             frameData.parallactic_angle_deg = 0.0;
-        }
-
-        // Fetch PierSide from FITS header if available
-        QVariant pierVariant;
-        if (imageData->getRecordValue("PIERSIDE", pierVariant))
-        {
-            QString pierStr = pierVariant.toString().toUpper();
-            frameData.pier_side_east = (pierStr == "EAST");
-        }
-        else
-        {
-            frameData.pier_side_east = false; // default
         }
 
         static bool last_pier_side_east = frameData.pier_side_east;

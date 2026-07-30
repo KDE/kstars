@@ -74,6 +74,12 @@ class InternalGuider : public GuideInterface
         // Set Star Position
         void setStarPosition(QVector3D &starCenter) override;
 
+        /**
+         * @brief Caches the mount pointing state (base class) and forwards it to the guide math,
+         *        where the AI feed-forward model uses it in preference to FITS header keywords.
+         */
+        void setMountCoords(const SkyPoint &position, ISD::Mount::PierSide side) override;
+
         // Select algorithm
         void setStarDetectionAlgorithm(int index);
 

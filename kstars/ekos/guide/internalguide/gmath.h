@@ -156,6 +156,29 @@ class cgmath : public QObject
         {
             return m_aiRequiredButUnavailable;
         }
+
+        /**
+         * @brief Pointing state of the mount, pushed in by the guider whenever the mount reports new
+         *        coordinates. This is the preferred source for the AI feed-forward physics model: it is
+         *        maintained independently of the image pipeline, so it is available for every frame
+         *        regardless of whether the camera driver snoops the mount and populates FITS headers.
+         *        Declination is apparent (JNow), which is what the parallactic angle needs.
+         */
+        struct MountState
+        {
+            double altitude_deg    { 45.0 };
+            double azimuth_deg     { 180.0 };
+            double declination_deg { 0.0 };
+            double latitude_deg    { 45.0 };
+            bool   pier_side_east  { false };
+            /// False until the mount has reported at least once; the FITS-header path is used instead.
+            bool   valid           { false };
+        };
+
+        void setMountState(const MountState &state)
+        {
+            m_MountState = state;
+        }
         const cproc_out_params *getOutputParameters() const
         {
             return &out_params;
@@ -285,6 +308,9 @@ class cgmath : public QObject
         std::unique_ptr < MountSpecificGuider > m_AIGuider;
         GuideOutput m_lastAIPrediction;
         double m_sessionStartTime { 0.0 };
+
+        /// Latest mount pointing state; see setMountState(). Stays invalid if no mount is connected.
+        MountState m_MountState;
 
         // Accumulate pulses sent between camera frames
         double m_accumulated_pulse_ra { 0.0 };
