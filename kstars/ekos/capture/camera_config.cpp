@@ -1020,6 +1020,20 @@ void Camera::checkUploadMode(int index)
                                  (model->item(2)->flags() | Qt::ItemIsEnabled));
     }
 
+    // When uploading remotely (or both locally and remotely), make sure the remote
+    // directory has a sensible default matching the current frame type. Only touch it
+    // if it is empty, or if it still holds an auto-generated %h-based path from a
+    // previous frame type change, so a directory the user typed in manually is never
+    // overwritten. %h is expanded by INDI to the remote system's home directory since
+    // it cannot be known in advance.
+    if (index != ISD::Camera::UPLOAD_CLIENT)
+    {
+        const QString suffix = isVideo ? QLatin1String("Videos") : QLatin1String("Pictures");
+        const QString remoteDir = fileRemoteDirT->text();
+        if (remoteDir.isEmpty() || remoteDir.startsWith(QLatin1String("%h/")))
+            fileRemoteDirT->setText(QLatin1String("%h/") + suffix);
+    }
+
     generatePreviewFilename();
 }
 
