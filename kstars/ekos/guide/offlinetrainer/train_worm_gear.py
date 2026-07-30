@@ -28,6 +28,23 @@ except ImportError:
     TORCH_AVAILABLE = False
 
 
+
+def _effective_pixel_scale(sysid):
+    """Pixel scale in arcsec/px. Older exports recorded it without the binning factor."""
+    eq = sysid.get("equipment", {})
+    ps = float(eq.get("pixel_scale_arcsec_per_px", 1.0) or 1.0)
+    if not eq.get("pixel_scale_includes_binning", False):
+        b = str(sysid.get("model_fingerprint", {}).get("guide_binning", "1x1"))
+        try:
+            bf = max(1, int(b.split("x")[0]))
+        except ValueError:
+            bf = 1
+        if bf > 1:
+            print(f"  [scale] correcting pixel scale for binning {bf}x: "
+                  f"{ps:.3f} -> {ps * bf:.3f} arcsec/px")
+            ps *= bf
+    return ps
+
 def train_worm_gear(sysid: dict,
                     gpu: bool = False,
                     epochs: int = None,
@@ -42,7 +59,7 @@ def train_worm_gear(sysid: dict,
         sys.exit(1)
 
     eq = sysid["equipment"]
-    pixel_scale = eq["pixel_scale_arcsec_per_px"]
+    pixel_scale = _effective_pixel_scale(sysid)
     guide_exp   = eq.get("guide_exposure_ms", 2000.0) / 1000.0
 
     if verbose:
@@ -329,7 +346,7 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
     X_all = []
     Y_all = []
     
-    pixel_scale = sysid["equipment"]["pixel_scale_arcsec_per_px"]
+    pixel_scale = _effective_pixel_scale(sysid)
     
     # Track saturation stats
     total_frames = 0

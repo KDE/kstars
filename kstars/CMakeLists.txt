@@ -401,6 +401,7 @@ if (INDI_FOUND)
             ekos/guide/guidetargetplot.cpp
             ekos/guide/manualpulse.cpp
             # Internal Guide
+            ekos/guide/internalguide/assistant_stats.cpp
             ekos/guide/internalguide/gmath.cpp
            ekos/guide/internalguide/worm_gear_guider.cpp
            ekos/guide/internalguide/direct_drive_guider.cpp

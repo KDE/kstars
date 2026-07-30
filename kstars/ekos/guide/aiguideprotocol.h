@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "internalguide/assistant_stats.h"
+
 #include <QObject>
 #include <QTimer>
 #include <QFile>
@@ -146,6 +148,11 @@ class AIGuideProtocol : public QObject
         bool m_OrigNorthEnabled { true };
         bool m_OrigSouthEnabled { true };
         double m_OrigMaxDeltaRMS { 2.0 };
+
+        // Live noise-floor (seeing) measurement: PHD2-style HPF sigma of the RA error
+        HighPassFilter m_NoiseHPF;
+        AxisStats m_NoiseStats;
+        int m_NoiseFrameCount { 0 };
 
         int m_PulseFrameCount { 0 };
         int m_PulseSettleTimer { 0 };

@@ -19,6 +19,23 @@ from typing import Optional
 from datetime import datetime
 
 
+
+def _effective_pixel_scale(sysid):
+    """Pixel scale in arcsec/px. Older exports recorded it without the binning factor."""
+    eq = sysid.get("equipment", {})
+    ps = float(eq.get("pixel_scale_arcsec_per_px", 1.0) or 1.0)
+    if not eq.get("pixel_scale_includes_binning", False):
+        b = str(sysid.get("model_fingerprint", {}).get("guide_binning", "1x1"))
+        try:
+            bf = max(1, int(b.split("x")[0]))
+        except ValueError:
+            bf = 1
+        if bf > 1:
+            print(f"  [scale] correcting pixel scale for binning {bf}x: "
+                  f"{ps:.3f} -> {ps * bf:.3f} arcsec/px")
+            ps *= bf
+    return ps
+
 def train_direct_drive(sysid: dict,
                        verbose: bool = False) -> dict:
     """
@@ -27,7 +44,7 @@ def train_direct_drive(sysid: dict,
     Returns a weights dict compatible with DirectDriveGuider::loadWeights().
     """
     eq = sysid["equipment"]
-    pixel_scale = eq["pixel_scale_arcsec_per_px"]   # arcsec/px
+    pixel_scale = _effective_pixel_scale(sysid)   # arcsec/px
     guide_exp   = eq["guide_exposure_ms"] / 1000.0   # seconds
 
     # Collect all free-drift frames across all positions

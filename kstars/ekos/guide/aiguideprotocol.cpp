@@ -108,7 +108,9 @@ void AIGuideProtocol::start(const QString &mountType)
             equipment["mount_name"] = m_Guide->mount()->getDeviceName();
         if (m_Guide->focalLength() > 0)
         {
-            equipment["pixel_scale_arcsec_per_px"] = (206.265 * m_Guide->pixelSizeX()) / m_Guide->focalLength();
+            const int binning = std::max(1, Options::guideBinning().left(1).toInt());
+            equipment["pixel_scale_arcsec_per_px"] = (206.265 * m_Guide->pixelSizeX() * binning) / m_Guide->focalLength();
+            equipment["pixel_scale_includes_binning"] = true;
             if (std::abs(m_Guide->focalLength() - Options::telescopeFocalLength()) < 1.0)
                 equipment["guide_optics_type"] = "OAG";
             else
@@ -158,17 +160,21 @@ void AIGuideProtocol::start(const QString &mountType)
         m_Phases.append({65.0, -45.0, 720, false, false, {}, {}, 0, 15, 20});
         m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
 
-        // Pulse response: large pulses, alternating direction so drift/PE cancel in pairing
-        for (int rep = 0; rep < 3; rep++)
+        // Pulse response: large pulses, alternating direction so drift/PE cancel in pairing.
+        // Off by default: the spring response has not been measurable on rigs tested so far.
+        if (Options::aIProtocolPulseTest())
         {
-            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 15, 20});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 15, 20});
+            for (int rep = 0; rep < 3; rep++)
+            {
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 15, 20});
+            }
         }
 
         // Position 2 east of the meridian: parallactic spread for the DEC refraction fit
@@ -424,6 +430,10 @@ void AIGuideProtocol::processProtocol()
                 m_AbortRetries = 0;
                 m_FreeDriftOverflow = false;
 
+                m_NoiseHPF.configure(1.0, m_Guide ? m_Guide->exposure() : 1.0);
+                m_NoiseStats.reset();
+                m_NoiseFrameCount = 0;
+
                 m_Guide->setAIFreeDrift(phase.freeDrift);
                 m_PhaseData = QJsonArray();
 
@@ -530,6 +540,19 @@ void AIGuideProtocol::processProtocol()
                         phaseRecord["ra_ms_per_arcsec"] = cal.raPulseMillisecondsPerArcsecond();
                         phaseRecord["dec_ms_per_arcsec"] = cal.decPulseMillisecondsPerArcsecond();
                     }
+                }
+
+                if (m_NoiseStats.count() > 30)
+                {
+                    const double hf = m_NoiseStats.sigma();
+                    phaseRecord["hf_motion_arcsec"] = hf;
+                    // Free drift is the clean (unguided) measurement; prefer it globally
+                    if (phase.freeDrift || !m_SysIdData.contains("noise_floor_arcsec"))
+                        m_SysIdData["noise_floor_arcsec"] = hf;
+                    emit protocolLog(QString("Phase noise floor: %1\" HF star motion (%2).")
+                                     .arg(hf, 0, 'f', 2)
+                                     .arg(phase.freeDrift ? "unguided — clean measurement"
+                                          : "guided — upper bound"));
                 }
 
                 phaseRecord["frames"] = m_PhaseData;
@@ -808,6 +831,20 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
         frame["ra_pulse_ms"] = raPulse;
         frame["dec_pulse_ms"] = decPulse;
         m_PhaseData.append(frame);
+
+        // Live noise floor: HPF removes drift/PE, sigma of the remainder is the
+        // unguidable high-frequency star motion (seeing + centroid error).
+        if (snr > 0.0)
+        {
+            const double hf = m_NoiseHPF.addValue(raErr);
+            m_NoiseFrameCount++;
+            if (m_NoiseFrameCount > 5)
+                m_NoiseStats.add(m_NoiseFrameCount, hf);
+            if (m_NoiseFrameCount % 60 == 0 && m_NoiseStats.count() > 30)
+                emit protocolLog(QString("Measured noise floor (HF star motion): %1\" — "
+                                         "guiding cannot correct below this.")
+                                 .arg(m_NoiseStats.sigma(), 0, 'f', 2));
+        }
     }
 
     // Pre-pulse settle frames become the fit's baseline

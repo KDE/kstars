@@ -27,6 +27,23 @@ except ImportError:
     TORCH_AVAILABLE = False
 
 
+
+def _effective_pixel_scale(sysid):
+    """Pixel scale in arcsec/px. Older exports recorded it without the binning factor."""
+    eq = sysid.get("equipment", {})
+    ps = float(eq.get("pixel_scale_arcsec_per_px", 1.0) or 1.0)
+    if not eq.get("pixel_scale_includes_binning", False):
+        b = str(sysid.get("model_fingerprint", {}).get("guide_binning", "1x1"))
+        try:
+            bf = max(1, int(b.split("x")[0]))
+        except ValueError:
+            bf = 1
+        if bf > 1:
+            print(f"  [scale] correcting pixel scale for binning {bf}x: "
+                  f"{ps:.3f} -> {ps * bf:.3f} arcsec/px")
+            ps *= bf
+    return ps
+
 def train_harmonic(sysid: dict,
                    gpu: bool = False,
                    epochs: int = None,
@@ -37,7 +54,7 @@ def train_harmonic(sysid: dict,
     Returns a weights dict compatible with HarmonicGuider::loadWeights().
     """
     eq = sysid["equipment"]
-    pixel_scale = eq["pixel_scale_arcsec_per_px"]
+    pixel_scale = _effective_pixel_scale(sysid)
     guide_exp   = eq.get("guide_exposure_ms", 1000.0) / 1000.0
 
     if verbose:
@@ -53,7 +70,7 @@ def train_harmonic(sysid: dict,
         print(f"\n--- Phase 2: PE Period Detection ---")
 
     # ── Step 2: Detect PE period from free-drift data ──────────────────────
-    pe_period, pe_amplitude = _estimate_pe(sysid, guide_exp, verbose)
+    pe_period, pe_amplitude, pe_lines = _estimate_pe(sysid, guide_exp, verbose)
 
     if verbose:
         if pe_period > 0:
@@ -97,6 +114,7 @@ def train_harmonic(sysid: dict,
             "tau_dec":       float(tau_dec),
             "pe_period":     float(pe_period),
             "pe_amplitude":  float(pe_amplitude),
+            "pe_lines":      pe_lines,
             "drift_ra":      float(drift_ra),
             "drift_dec":     float(drift_dec),
             "k_ref":         float(k_ref),
@@ -289,7 +307,7 @@ def _fit_spring_params(sysid: dict, axis: str, guide_exp: float, verbose: bool):
         return DEFAULTS
 
     kappa_result = float(np.median(kappas))
-    tau_result = float(np.median(taus)) if taus else DEFAULTS[1]
+    tau_result = float(np.median(taus)) if taus and kappa_result > 0.0 else DEFAULTS[1]
 
     # A median within ~2% of the fit bounds means the model chased noise/drift, not physics.
     if kappa_result > 0.88 or tau_result > 9.8:
@@ -326,7 +344,7 @@ def _pe_candidate_series(sysid: dict, guide_exp: float):
     adding the applied pulses back (same compensated formula as train_worm_gear:
     JSON RA pulses are ADDED, DEC pulses SUBTRACTED).
     """
-    pixel_scale = sysid["equipment"].get("pixel_scale_arcsec_per_px", 1.0)
+    pixel_scale = _effective_pixel_scale(sysid)
     series = []
     for s in sysid["sessions"]:
         frames = s.get("frames", [])
@@ -358,22 +376,28 @@ def _pe_candidate_series(sysid: dict, guide_exp: float):
 
 def _estimate_pe(sysid: dict, guide_exp: float, verbose: bool):
     """
-    Detect PE period and amplitude via Lomb-Scargle over every usable session.
-    Band per series: from 2 cycles per observation span up to Nyquist, so long
-    standard-guiding sessions expose the strain-wave fundamental (~300-900s)
-    and short free drifts still cover fast components.
-    Returns (period_seconds, amplitude_pixels) or (0.0, 0.0) if none significant.
+    Detect PE lines via Lomb-Scargle over every usable session.
+    Collects every significant peak, applies the band-edge and free-drift
+    confirmation guards per peak, and selects the STRONGEST surviving line
+    (by amplitude) as the primary — not merely the first the window resolves.
+    Returns (period_seconds, amplitude_pixels, lines) where lines is a list of
+    {"period_s", "amplitude_px", "snr"} for all surviving lines, primary first.
     """
     candidates = _pe_candidate_series(sysid, guide_exp)
     if not candidates:
         if verbose:
             print("  No usable sessions found. PE detection skipped.")
-        return 0.0, 0.0
+        return 0.0, 0.0, []
 
-    best = None  # (snr, period, amplitude, label)
+    peaks = []         # (snr, period, amplitude, label, at_edge)
+    drift_peaks = []   # (span, period, snr) from free-drift series
+    series_bands = []  # (label, band_min_s, band_max_s, [peak periods]) per series
     for t_arr, ra_arr, label in candidates:
         span = t_arr[-1] - t_arr[0]
-        nyquist = 0.5 / guide_exp
+        # Nyquist from the real frame cadence, not the exposure: download/processing
+        # overhead makes dt >> exposure and sub-cadence peaks are aliases.
+        dt_med = float(np.median(np.diff(t_arr))) if len(t_arr) > 1 else guide_exp
+        nyquist = 0.5 / max(dt_med, guide_exp)
         f_min = max(2.0 / span, 0.002)  # need >= 2 observed cycles
         f_max = min(0.5, nyquist * 0.9)
         if f_min >= f_max or span <= 0:
@@ -385,44 +409,109 @@ def _estimate_pe(sysid: dict, guide_exp: float, verbose: bool):
         f_search = np.geomspace(f_min, f_max, 4000)
         omega = 2 * np.pi * f_search
         Pxx = scipy.signal.lombscargle(t_arr, ra_detrended, omega, precenter=True)
+        noise_floor = np.median(Pxx) + 1e-10
 
-        peak_idx = np.argmax(Pxx)
-        peak_freq = f_search[peak_idx]
-        noise_floor = np.median(Pxx)
-        snr = Pxx[peak_idx] / (noise_floor + 1e-10)
-        amplitude = np.sqrt(4 * Pxx[peak_idx] / len(t_arr))
-
-        at_edge = peak_freq <= f_min * 1.05
+        # Every significant local maximum, not just the argmax
+        series_peaks = []
+        # A line longer than the band rises monotonically to the edge and never forms
+        # a local maximum — record the endpoint so the leakage guard can see it.
+        if Pxx[0] / noise_floor >= 10.0 and Pxx[0] >= Pxx[1]:
+            series_peaks.append((Pxx[0] / noise_floor, 1.0 / f_search[0],
+                                 np.sqrt(4 * Pxx[0] / len(t_arr)), label, True))
+        for i in range(1, len(Pxx) - 1):
+            if Pxx[i] > Pxx[i - 1] and Pxx[i] > Pxx[i + 1] and Pxx[i] / noise_floor >= 10.0:
+                period = 1.0 / f_search[i]
+                snr = Pxx[i] / noise_floor
+                amplitude = np.sqrt(4 * Pxx[i] / len(t_arr))
+                at_edge = f_search[i] <= f_min * 1.05
+                series_peaks.append((snr, period, amplitude, label, at_edge))
+                if label.startswith("free_drift"):
+                    drift_peaks.append((span, period, snr))
+        peaks.extend(series_peaks)
+        series_bands.append((label, 1.0 / f_max, min(1.0 / f_min, span / 2.0),
+                             [(p[1], p[2]) for p in series_peaks]))
         if verbose:
+            tops = sorted(series_peaks, key=lambda p: -p[2])[:3]
+            desc = ", ".join(f"{p[1]:.0f}s (amp {p[2]:.2f}px, SNR {p[0]:.0f})" for p in tops)
             print(f"  [LS] {label}: span={span:.0f}s, band {1/f_max:.1f}-{1/f_min:.0f}s, "
-                  f"peak {1/peak_freq:.1f}s, SNR {snr:.1f}, amp {amplitude:.3f}px"
-                  f"{'  [AT BAND EDGE]' if at_edge else ''}")
+                  f"peaks: {desc if desc else 'none significant'}")
 
-        if best is None or snr > best[0]:
-            best = (snr, 1.0 / peak_freq, amplitude, label, at_edge)
+    drift_spans = [s for s, _, _ in drift_peaks]
+    survivors = []
+    edge_max_amp = 0.0
+    edge_max_period = 0.0
+    for snr, period, amplitude, label, at_edge in peaks:
+        if at_edge:
+            if amplitude > edge_max_amp:
+                edge_max_amp, edge_max_period = amplitude, period
+            if verbose:
+                print(f"  [LS] dropping {period:.0f}s from {label}: at band edge — true "
+                      f"period unresolved (need a session of {2.5 * period:.0f}s+)")
+            continue
+        # Cross-series consistency: real mount PE must appear in EVERY other series
+        # whose band covers its period; a line only one series sees is an artifact
+        # of that block (guiding oscillation, wind, settling).
+        coverers = [b for b in series_bands
+                    if b[0] != label and b[1] <= period <= b[2]]
+        if coverers:
+            # Confirmation needs matching period AND compatible amplitude (within 3x):
+            # a 20x amplitude mismatch is two different phenomena, not one line.
+            confirmed_x = any(any(abs(p - period) / period < 0.15
+                                  and max(a, amplitude) / max(min(a, amplitude), 1e-6) <= 3.0
+                                  for p, a in b[3])
+                              for b in coverers)
+            if not confirmed_x:
+                if verbose:
+                    print(f"  [LS] dropping {period:.0f}s (amp {amplitude:.2f}px) from {label}: "
+                          f"not consistently seen by other series covering that band")
+                continue
+        # Reconstructed (standard-guiding) series lie when pulses did not physically
+        # act; a peak a free drift could have resolved must be confirmed by one.
+        if not label.startswith("free_drift"):
+            coverable = [s for s in drift_spans if period <= s / 2.0]
+            confirmed = any(abs(p - period) / period < 0.2 and dsnr >= 10.0
+                            for _, p, dsnr in drift_peaks)
+            if coverable and not confirmed:
+                if verbose:
+                    print(f"  [LS] dropping {period:.0f}s (SNR {snr:.0f}): reconstruction-only, "
+                          f"not confirmed by free drift — likely pulse back-out artifact")
+                continue
+        survivors.append((snr, period, amplitude))
 
-    if best is None or best[0] < 10.0:
+    if not survivors:
         if verbose:
-            snr = 0.0 if best is None else best[0]
-            print(f"  [LS] PE not significant (best SNR {snr:.1f} < 10.0). Disabling PE states.")
-        return 0.0, 0.0
+            print("  [LS] No significant PE line survived the guards. Disabling PE states.")
+        return 0.0, 0.0, []
 
-    snr, peak_period, amplitude, label, at_edge = best
-    if at_edge:
-        # True period is longer than the session can resolve: disable PE, tell the user
+    # Dedupe lines within 15% of each other (keep the strongest), order by amplitude
+    survivors.sort(key=lambda p: -p[2])
+    lines = []
+    for snr, period, amplitude in survivors:
+        if any(abs(period - l["period_s"]) / l["period_s"] < 0.15 for l in lines):
+            continue
+        lines.append({"period_s": float(np.clip(period, 1.5, 1500.0)),
+                      "amplitude_px": float(np.clip(amplitude, 0.01, 50.0)),
+                      "snr": float(snr)})
+        if len(lines) >= 4:
+            break
+
+    primary = lines[0]
+    # A dominant unresolved line leaks sidelobes into the band; when it dwarfs every
+    # resolved line, the resolved ones cannot be trusted either.
+    if edge_max_amp > 1.5 * primary["amplitude_px"]:
         if verbose:
-            print(f"  [LS] WARNING: dominant PE ({amplitude:.2f}px, SNR {snr:.0f}) sits at the "
-                  f"band edge ({peak_period:.0f}s) — true period is longer than the session "
-                  f"can resolve. Collect a session of at least {2.5 * peak_period:.0f}s "
-                  f"(free drift or standard guiding) and retrain. Disabling PE states.")
-        return 0.0, 0.0
-
-    peak_period = np.clip(peak_period, 1.5, 1500.0)
-    amplitude = np.clip(amplitude, 0.01, 50.0)
+            print(f"  [LS] WARNING: unresolved PE at the band edge (~{edge_max_period:.0f}s, "
+                  f"amp {edge_max_amp:.2f}px) dominates every resolved line — its leakage "
+                  f"would masquerade as PE. Collect a session of at least "
+                  f"{2.5 * edge_max_period:.0f}s and retrain. Disabling PE states.")
+        return 0.0, 0.0, []
     if verbose:
-        print(f"  [LS] Selected: {peak_period:.1f}s, amp {amplitude:.3f}px (from {label})")
+        print(f"  [LS] Selected strongest line: {primary['period_s']:.1f}s, "
+              f"amp {primary['amplitude_px']:.3f}px"
+              + (f"; secondary lines: " + ", ".join(f"{l['period_s']:.0f}s" for l in lines[1:])
+                 if len(lines) > 1 else ""))
 
-    return float(peak_period), float(amplitude)
+    return primary["period_s"], primary["amplitude_px"], lines
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

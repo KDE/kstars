@@ -3122,6 +3122,11 @@
          <label>Dynamically scale down standard proportional gain when AI is highly confident.</label>
          <default>false</default>
       </entry>
+      <entry name="AIProtocolPulseTest" type="Bool">
+         <label>Include the pulse response test in the AI data collection protocol.</label>
+         <whatsthis>The pulse response test measures the mount's elastic response to guide pulses (harmonic drives). It adds about 20 minutes to the protocol and has not produced measurable results on rigs tested so far, so it is off by default.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="AIShadowMode" type="Bool">
          <label>Run AI model alongside standard guiding, logging predictions without applying them.</label>
          <whatsthis>When enabled and a valid AI weights file is configured, the AI model runs silently in parallel with the selected guiding algorithm. Predictions are written to the AI debug CSV log but are never blended into guide pulses. Use this to evaluate AI model quality before enabling full AI guiding.</whatsthis>
