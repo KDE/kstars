@@ -506,13 +506,13 @@ void Capture::checkCloseCameraTab(int tabIndex)
 const QSharedPointer<Camera> Capture::mainCamera() const
 {
     if (cameras().size() > 0)
-        return moduleState()->cameras()[0];
+    return moduleState()->cameras()[0];
     else
     {
         QSharedPointer<CaptureModuleState> cms;
         cms.reset(new CaptureModuleState());
-        return QSharedPointer<Camera>(new Camera(0));
-    }
+            return QSharedPointer<Camera>(new Camera(0));
+        }
 }
 
 int Capture::findCameraPosition(QString train, bool addIfNecessary)
@@ -575,7 +575,10 @@ void Capture::setMountStatus(ISD::Mount::Status newState)
         default:
             if (mainCameraState()->isBusy() == false)
             {
-                mainCamera()->previewB->setEnabled(true);
+                // Preview capture is not meaningful for the Video frame type
+                const bool isVideo = mainCamera()->captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
+                mainCamera()->previewB->setEnabled(!isVideo);
+                mainCamera()->loopB->setEnabled(!isVideo);
                 if (mainCameraDevices()->getActiveCamera())
                     mainCamera()->liveVideoB->setEnabled(mainCameraDevices()->getActiveCamera()->hasVideoStream());
                 mainCamera()->startB->setEnabled(true);

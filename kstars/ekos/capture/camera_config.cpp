@@ -936,6 +936,30 @@ void Camera::updateCaptureFormats()
     else
         captureEncodingS->setCurrentText(currentEncoding);
     captureEncodingS->blockSignals(false);
+
+    // Apply the frame-type-dependent UI state here too, not just from checkFrameType(): this
+    // function repopulates captureTypeS with signals blocked, so restoring a persisted
+    // non-Light selection (e.g. reconnecting to a camera with Video previously selected)
+    // would otherwise never trigger checkFrameType() and leave the Save mode / calibration /
+    // loop / preview buttons out of sync until the user manually reselects the frame type.
+    const int index = captureTypeS->currentIndex();
+    calibrationB->setEnabled(index != FRAME_LIGHT);
+    generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
+    exposureOptions->setCurrentIndex(isVideo ? 1 : 0);
+    exposureOptionsLabel->setToolTip(isVideo ? i18n("Duration of the video sequence") : i18n("Number of images to capture"));
+    exposureOptionsLabel->setText(isVideo ? i18n("Duration:") : i18n("Count:"));
+    exposureLabel->setToolTip(isVideo ? i18n("Exposure time in seconds of a single video frame") :
+                              i18n("Exposure time in seconds for individual images"));
+
+    // Loop and preview capture are only meaningful for still images, not video recording
+    loopB->setEnabled(!isVideo);
+    previewB->setEnabled(!isVideo);
+
+    // enforce the upload mode for videos
+    if (isVideo)
+        selectUploadMode(ISD::Camera::UPLOAD_REMOTE);
+    else
+        checkUploadMode(fileUploadModeS->currentIndex());
 }
 
 void Camera::updateHFRCheckAlgo()
@@ -959,22 +983,11 @@ void Camera::clearAutoFocusHFR()
 
 void Camera::checkFrameType(int index)
 {
+    // All frame-type-dependent UI state is applied inside updateCaptureFormats() itself, since
+    // that function is also called when reconnecting to a camera (with signals blocked while
+    // captureTypeS is repopulated) and must stay in sync there too, not just on this signal.
+    Q_UNUSED(index);
     updateCaptureFormats();
-
-    calibrationB->setEnabled(index != FRAME_LIGHT);
-    generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
-    const bool isVideo = captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
-    exposureOptions->setCurrentIndex(isVideo ? 1 : 0);
-    exposureOptionsLabel->setToolTip(isVideo ? i18n("Duration of the video sequence") : i18n("Number of images to capture"));
-    exposureOptionsLabel->setText(isVideo ? i18n("Duration:") : i18n("Count:"));
-    exposureLabel->setToolTip(isVideo ? i18n("Exposure time in seconds of a single video frame") :
-                              i18n("Exposure time in seconds for individual images"));
-
-    // enforce the upload mode for videos
-    if (isVideo)
-        selectUploadMode(ISD::Camera::UPLOAD_REMOTE);
-    else
-        checkUploadMode(fileUploadModeS->currentIndex());
 }
 
 void Camera::updateVideoDurationUnit()
@@ -1022,16 +1035,16 @@ void Camera::checkUploadMode(int index)
 
     // When uploading remotely (or both locally and remotely), make sure the remote
     // directory has a sensible default matching the current frame type. Only touch it
-    // if it is empty, or if it still holds an auto-generated %h-based path from a
+    // if it is empty, or if it still holds an auto-generated _HOME_-based path from a
     // previous frame type change, so a directory the user typed in manually is never
-    // overwritten. %h is expanded by INDI to the remote system's home directory since
-    // it cannot be known in advance.
+    // overwritten. _HOME_ is expanded by INDI to the remote system's home directory
+    // since it cannot be known in advance.
     if (index != ISD::Camera::UPLOAD_CLIENT)
     {
         const QString suffix = isVideo ? QLatin1String("Videos") : QLatin1String("Pictures");
         const QString remoteDir = fileRemoteDirT->text();
-        if (remoteDir.isEmpty() || remoteDir.startsWith(QLatin1String("%h/")))
-            fileRemoteDirT->setText(QLatin1String("%h/") + suffix);
+        if (remoteDir.isEmpty() || remoteDir.startsWith(QLatin1String("_HOME_/")))
+            fileRemoteDirT->setText(QLatin1String("_HOME_/") + suffix);
     }
 
     generatePreviewFilename();

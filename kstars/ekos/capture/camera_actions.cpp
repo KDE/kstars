@@ -293,8 +293,11 @@ void Camera::updateStartButtons(bool start, bool pause)
 
 void Camera::setBusy(bool enable)
 {
-    previewB->setEnabled(!enable);
-    loopB->setEnabled(!enable);
+    // Preview and loop capture stay disabled for the Video frame type even once busy
+    // (e.g. slewing) clears, since they are not meaningful for video recording.
+    const bool isVideo = captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
+    previewB->setEnabled(!enable && !isVideo);
+    loopB->setEnabled(!enable && !isVideo);
     opticalTrainCombo->setEnabled(!enable);
     trainB->setEnabled(!enable);
 
