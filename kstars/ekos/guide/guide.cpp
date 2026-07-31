@@ -1575,12 +1575,13 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
             auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
             m_PulseTimer.start(delay);
         }
-        else if (m_StreamingGuide)
+        else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses)
         {
             auto ms = msecs + 100;
             auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
             m_streamingPulseGuard.start(delay);
         }
+        // DarkGuidePulse: no capture, no stream gate — just a between-frame prediction.
         return true;
     }
 
@@ -1593,14 +1594,16 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 
         m_PulseTimer.start(delay);
     }
-    else if (m_StreamingGuide)
+    else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses)
     {
-        // Same pulse-in-flight gate as sendMultiPulse() above.
+        // Same pulse-in-flight gate as sendMultiPulse() above — correction pulses only.
         auto ms = msecs + 100;
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
         qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms (single pulse)";
         m_streamingPulseGuard.start(delay);
     }
+    // DarkGuidePulse falls through: send the prediction without gating the stream, so the next
+    // real frame is still processed (dark guiding stays usable in streaming, e.g. long exposures).
 
     return m_Guider->doPulse(dir, msecs);
 }

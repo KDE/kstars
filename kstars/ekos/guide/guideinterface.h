@@ -109,6 +109,13 @@ class GuideInterface : public QObject
         ISD::Mount::PierSide pierSide { ISD::Mount::PIER_UNKNOWN };
 };
 
-enum CaptureAfterPulses {StartCaptureAfterPulses, DontCaptureAfterPulses};
+// StartCaptureAfterPulses  : single-capture mode — request the next exposure once the pulse completes.
+// DontCaptureAfterPulses   : streaming correction pulse — frames arrive continuously; gate the stream
+//                            while the mount settles so the next measured frame isn't taken mid-move.
+// DarkGuidePulse           : a between-frame prediction pulse (GPG/AI dark guiding). Like
+//                            DontCaptureAfterPulses it requests no capture, but it must NOT gate the
+//                            stream — its whole purpose is to run between real frames, so gating it
+//                            would drop the very measurements the filter needs (frame starvation).
+enum CaptureAfterPulses {StartCaptureAfterPulses, DontCaptureAfterPulses, DarkGuidePulse};
 
 }

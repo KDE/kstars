@@ -1170,7 +1170,9 @@ void InternalGuider::darkGuide()
         pmath->performDarkGuiding(state, timeStep);
 
         out = pmath->getOutputParameters();
-        Q_EMIT newSinglePulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], DontCaptureAfterPulses);
+        // DarkGuidePulse (not DontCaptureAfterPulses): in streaming this must not arm the frame gate,
+        // or each between-frame prediction would drop the next real frame and starve the measurement loop.
+        Q_EMIT newSinglePulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], DarkGuidePulse);
 
         emitAxisPulse(out);
     }
