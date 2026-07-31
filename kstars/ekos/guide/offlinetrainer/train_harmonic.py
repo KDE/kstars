@@ -538,6 +538,16 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
         if len(frames) < 10:
             continue
 
+        # A truncated drift (stopped by the excursion guard) right after a slew measures
+        # settling motion, not drift — one such point poisons the whole refraction fit.
+        requested = float(s.get("duration_s", 0.0))
+        span = sum(f.get("dt", guide_exp) for f in frames[1:])
+        if requested > 0.0 and span < 0.5 * requested:
+            if verbose:
+                print(f"  [drift] skipping {s.get('session_id', '?')}: only {span:.0f}s of "
+                      f"{requested:.0f}s requested — truncated, not a drift measurement")
+            continue
+
         alt = s.get("altitude_deg", 45.0)
 
         t = 0.0

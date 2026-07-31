@@ -103,6 +103,8 @@ class AIGuideProtocol : public QObject
     private:
         void enforceSettings();
         void restoreSettings();
+        QJsonObject buildFingerprint() const;
+        void refreshFingerprint();
 
         Guide *m_Guide { nullptr };
         int m_TotalPhases { 0 };
@@ -139,6 +141,7 @@ class AIGuideProtocol : public QObject
         QElapsedTimer m_FrameTimer;
 
         bool m_SettingsEnforced { false };
+        bool m_SettingsChangedWarned { false };
         int m_OrigRAAlgorithm { 0 };
         int m_OrigDECAlgorithm { 0 };
         bool m_OrigRAEnabled { true };

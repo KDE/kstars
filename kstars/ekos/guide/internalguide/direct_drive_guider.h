@@ -70,5 +70,5 @@ class DirectDriveGuider : public MountSpecificGuider
         // Rejects weights whose recorded equipment fingerprint (exposure, binning, gains, …)
         // does not match the current session, so a model trained at a different binning /
         // pixel-scale is not silently applied. Mirrors WormGearGuider / HarmonicGuider.
-        static bool validateFingerprint(const QJsonObject &fp);
+        bool validateFingerprint(const QJsonObject &fp);
 };

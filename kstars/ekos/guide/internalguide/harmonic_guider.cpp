@@ -39,6 +39,7 @@ double HarmonicGuider::m_uncorrPosDEC { 0.0 };
 int HarmonicGuider::m_frameCount { 0 };
 double HarmonicGuider::m_typicalRMS { 0.5 };
 double HarmonicGuider::s_activePePeriod { -1.0 };
+double HarmonicGuider::s_activePe2Period { -1.0 };
 
 HarmonicGuider::HarmonicGuider()
 {
@@ -55,8 +56,11 @@ HarmonicGuider::HarmonicGuider()
 
 bool HarmonicGuider::validateFingerprint(const QJsonObject &fp)
 {
+    m_FingerprintError.clear();
     if (fp.isEmpty())
         return true;
+
+    QStringList mismatches;
 
     const struct
     {
@@ -85,6 +89,8 @@ bool HarmonicGuider::validateFingerprint(const QJsonObject &fp)
         {
             qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
                                          << fp[c.key].toDouble() << "current" << c.current;
+            mismatches << QString("%1: weights %2, current %3")
+                       .arg(c.key).arg(fp[c.key].toDouble()).arg(c.current);
             ok = false;
         }
     }
@@ -93,9 +99,12 @@ bool HarmonicGuider::validateFingerprint(const QJsonObject &fp)
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
                                      << fp["guide_binning"].toString() << "current" << Options::guideBinning();
+        mismatches << QString("guide_binning: weights %1, current %2")
+                   .arg(fp["guide_binning"].toString(), Options::guideBinning());
         ok = false;
     }
 
+    m_FingerprintError = mismatches.join("\n");
     return ok;
 }
 
@@ -131,6 +140,23 @@ bool HarmonicGuider::loadWeights(const QString &weightsPath)
     m_k_ref_dec = phys["k_ref_dec"].toDouble(0.0);
     m_pe_period = phys["pe_period"].toDouble(0.0);
     m_pe_amplitude = phys["pe_amplitude"].toDouble(0.0);
+
+    // Second oscillator: the strongest secondary line the trainer found. Only accept a
+    // period well separated from the primary so the two rotators cannot fight over one line.
+    m_pe2_period = 0.0;
+    m_pe2_amplitude = 0.0;
+    const QJsonArray peLines = phys["pe_lines"].toArray();
+    if (m_pe_period > 0.0 && peLines.size() >= 2)
+    {
+        const QJsonObject line2 = peLines[1].toObject();
+        const double p2 = line2["period_s"].toDouble(0.0);
+        const double a2 = line2["amplitude_px"].toDouble(0.0);
+        if (p2 > 0.0 && a2 > 0.05 && std::abs(p2 - m_pe_period) / m_pe_period > 0.15)
+        {
+            m_pe2_period = p2;
+            m_pe2_amplitude = a2;
+        }
+    }
     m_fit_alt_min = phys["fit_alt_min"].toDouble(35.0);
     m_fit_alt_max = phys["fit_alt_max"].toDouble(65.0);
 
@@ -200,9 +226,10 @@ void HarmonicGuider::resetSession(bool forceReset)
 
     // If the loaded weights describe a different mount (different PE period), the
     // persisted static Kalman state belongs to the previous mount — discard it entirely.
-    if (m_pe_period != s_activePePeriod)
+    if (m_pe_period != s_activePePeriod || m_pe2_period != s_activePe2Period)
     {
         s_activePePeriod = m_pe_period;
+        s_activePe2Period = m_pe2_period;
         forceReset = true;
     }
 
@@ -272,6 +299,24 @@ void HarmonicGuider::buildF(Eigen::Matrix<double, N_STATES, N_STATES> &F, double
         F(DEC_PE_COS, DEC_PE_SIN) = -sin_wdt;
         F(DEC_PE_COS, DEC_PE_COS) = cos_wdt;
     }
+
+    // Second PE line rotates at its own frequency
+    if (m_pe2_period > 0.0)
+    {
+        const double omega2 = 2.0 * M_PI / m_pe2_period;
+        const double c2 = std::cos(omega2 * dt);
+        const double s2 = std::sin(omega2 * dt);
+
+        F(RA_PE2_SIN, RA_PE2_SIN) = c2;
+        F(RA_PE2_SIN, RA_PE2_COS) = s2;
+        F(RA_PE2_COS, RA_PE2_SIN) = -s2;
+        F(RA_PE2_COS, RA_PE2_COS) = c2;
+
+        F(DEC_PE2_SIN, DEC_PE2_SIN) = c2;
+        F(DEC_PE2_SIN, DEC_PE2_COS) = s2;
+        F(DEC_PE2_COS, DEC_PE2_SIN) = -s2;
+        F(DEC_PE2_COS, DEC_PE2_COS) = c2;
+    }
 }
 
 // ── Q-net: compute adaptive process noise ────────────────────────────────────
@@ -320,6 +365,13 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
         Q(RA_PE_COS, RA_PE_COS) = 0.001 * dt;
         Q(DEC_PE_SIN, DEC_PE_SIN) = 0.001 * dt;
         Q(DEC_PE_COS, DEC_PE_COS) = 0.001 * dt;
+    }
+    if (m_pe2_period > 0.0)
+    {
+        Q(RA_PE2_SIN, RA_PE2_SIN) = 0.001 * dt;
+        Q(RA_PE2_COS, RA_PE2_COS) = 0.001 * dt;
+        Q(DEC_PE2_SIN, DEC_PE2_SIN) = 0.001 * dt;
+        Q(DEC_PE2_COS, DEC_PE2_COS) = 0.001 * dt;
     }
 
     return Q;
@@ -387,6 +439,11 @@ void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double 
     {
         H(0, RA_PE_SIN) = 1.0;
         H(1, DEC_PE_SIN) = 1.0;
+    }
+    if (m_pe2_period > 0.0)
+    {
+        H(0, RA_PE2_SIN) = 1.0;
+        H(1, DEC_PE2_SIN) = 1.0;
     }
 
     // Measurement noise from the current frame's SNR (~0.5 px at SNR 30)
@@ -461,6 +518,11 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
         post_ra  += m_x(RA_PE_SIN);
         post_dec += m_x(DEC_PE_SIN);
     }
+    if (m_pe2_period > 0.0)
+    {
+        post_ra  += m_x(RA_PE2_SIN);
+        post_dec += m_x(DEC_PE2_SIN);
+    }
 
     kalmanPredict(frame.dt, frame.altitude_deg, frame.parallactic_angle_deg);
 
@@ -470,6 +532,11 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     {
         pred_ra  += m_x(RA_PE_SIN);
         pred_dec += m_x(DEC_PE_SIN);
+    }
+    if (m_pe2_period > 0.0)
+    {
+        pred_ra  += m_x(RA_PE2_SIN);
+        pred_dec += m_x(DEC_PE2_SIN);
     }
 
     // Prediction is the expected uncorrected drift over the next interval
@@ -525,10 +592,13 @@ void HarmonicGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
 
 QString HarmonicGuider::stateString() const
 {
+    QString pe = QString::number(m_pe_period, 'f', 1);
+    if (m_pe2_period > 0.0)
+        pe += QString("+%1").arg(m_pe2_period, 0, 'f', 1);
     return QString("Harmonic κ_ra=%1 τ_ra=%2 PE=%3s conf=%4")
            .arg(m_kappa_ra, 0, 'f', 2)
            .arg(m_tau_ra, 0, 'f', 1)
-           .arg(m_pe_period, 0, 'f', 1)
+           .arg(pe)
            .arg(m_confidence, 0, 'f', 2);
 }
 
@@ -594,6 +664,11 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
         post_ra += x(RA_PE_SIN);
         post_dec += x(DEC_PE_SIN);
     }
+    if (m_pe2_period > 0.0)
+    {
+        post_ra += x(RA_PE2_SIN);
+        post_dec += x(DEC_PE2_SIN);
+    }
 
     const double release_ra  = x(RA_SPRING)  * (1.0 - std::exp(-dt_sec / m_tau_ra));
     const double release_dec = x(DEC_SPRING) * (1.0 - std::exp(-dt_sec / m_tau_dec));
@@ -612,6 +687,11 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
     {
         pred_ra += x(RA_PE_SIN);
         pred_dec += x(DEC_PE_SIN);
+    }
+    if (m_pe2_period > 0.0)
+    {
+        pred_ra += x(RA_PE2_SIN);
+        pred_dec += x(DEC_PE2_SIN);
     }
 
     GuideOutput out;

@@ -28,6 +28,64 @@ AIGuideProtocol::AIGuideProtocol(Guide *guide) : QObject(guide), m_Guide(guide)
     setObjectName("AIGuideProtocol");
 }
 
+QJsonObject AIGuideProtocol::buildFingerprint() const
+{
+    QJsonObject fingerprint;
+    fingerprint["guide_exposure_s"] = m_Guide ? m_Guide->exposure() : 0.0;
+    fingerprint["guide_binning"] = Options::guideBinning();
+    fingerprint["ra_proportional_gain"] = Options::rAProportionalGain();
+    fingerprint["dec_proportional_gain"] = Options::dECProportionalGain();
+    fingerprint["ra_integral_gain"] = Options::rAIntegralGain();
+    fingerprint["dec_integral_gain"] = Options::dECIntegralGain();
+    fingerprint["ra_min_pulse_arcsec"] = Options::rAMinimumPulseArcSec();
+    fingerprint["dec_min_pulse_arcsec"] = Options::dECMinimumPulseArcSec();
+    fingerprint["ra_max_pulse_arcsec"] = static_cast<double>(Options::rAMaximumPulseArcSec());
+    fingerprint["dec_max_pulse_arcsec"] = static_cast<double>(Options::dECMaximumPulseArcSec());
+    fingerprint["ra_hysteresis"] = Options::rAHysteresis();
+    fingerprint["dec_hysteresis"] = Options::dECHysteresis();
+    fingerprint["ra_pulse_algorithm"] = 0;
+    fingerprint["dec_pulse_algorithm"] = 0;
+    fingerprint["all_directions_enabled"] = true;
+    return fingerprint;
+}
+
+// Settings can change mid-protocol; the recorded fingerprint must describe the data
+// as collected, so it is rebuilt at every save and divergence is reported once.
+void AIGuideProtocol::refreshFingerprint()
+{
+    const QJsonObject current = buildFingerprint();
+    const QJsonObject recorded = m_SysIdData["model_fingerprint"].toObject();
+
+    QStringList changed;
+    for (auto it = current.begin(); it != current.end(); ++it)
+    {
+        const QJsonValue old = recorded[it.key()];
+        if (old != it.value())
+            changed << QString("%1: %2 -> %3").arg(it.key(), old.toVariant().toString(),
+                                                   it.value().toVariant().toString());
+    }
+    if (!changed.isEmpty())
+    {
+        if (!m_SettingsChangedWarned)
+        {
+            m_SettingsChangedWarned = true;
+            emit protocolLog(QString("WARNING: guide settings changed during the protocol (%1). "
+                                     "Recording the current values — guide with these same settings "
+                                     "or the weights will be rejected.").arg(changed.join(", ")));
+        }
+        m_SysIdData["model_fingerprint"] = current;
+
+        QJsonObject equipment = m_SysIdData["equipment"].toObject();
+        equipment["guide_exposure_ms"] = m_Guide ? static_cast<int>(m_Guide->exposure() * 1000.0) : 0;
+        if (m_Guide && m_Guide->focalLength() > 0)
+        {
+            const int binning = std::max(1, Options::guideBinning().left(1).toInt());
+            equipment["pixel_scale_arcsec_per_px"] = (206.265 * m_Guide->pixelSizeX() * binning) / m_Guide->focalLength();
+        }
+        m_SysIdData["equipment"] = equipment;
+    }
+}
+
 void AIGuideProtocol::enforceSettings()
 {
     if (!m_SettingsEnforced)
@@ -119,23 +177,8 @@ void AIGuideProtocol::start(const QString &mountType)
     }
     m_SysIdData["equipment"] = equipment;
 
-    QJsonObject fingerprint;
-    fingerprint["guide_exposure_s"] = m_Guide ? m_Guide->exposure() : 0.0;
-    fingerprint["guide_binning"] = Options::guideBinning();
-    fingerprint["ra_proportional_gain"] = Options::rAProportionalGain();
-    fingerprint["dec_proportional_gain"] = Options::dECProportionalGain();
-    fingerprint["ra_integral_gain"] = Options::rAIntegralGain();
-    fingerprint["dec_integral_gain"] = Options::dECIntegralGain();
-    fingerprint["ra_min_pulse_arcsec"] = Options::rAMinimumPulseArcSec();
-    fingerprint["dec_min_pulse_arcsec"] = Options::dECMinimumPulseArcSec();
-    fingerprint["ra_max_pulse_arcsec"] = static_cast<double>(Options::rAMaximumPulseArcSec());
-    fingerprint["dec_max_pulse_arcsec"] = static_cast<double>(Options::dECMaximumPulseArcSec());
-    fingerprint["ra_hysteresis"] = Options::rAHysteresis();
-    fingerprint["dec_hysteresis"] = Options::dECHysteresis();
-    fingerprint["ra_pulse_algorithm"] = 0;
-    fingerprint["dec_pulse_algorithm"] = 0;
-    fingerprint["all_directions_enabled"] = true;
-    m_SysIdData["model_fingerprint"] = fingerprint;
+    m_SettingsChangedWarned = false;
+    m_SysIdData["model_fingerprint"] = buildFingerprint();
 
     m_SysIdData["sessions"] = QJsonArray();
 
@@ -561,6 +604,7 @@ void AIGuideProtocol::processProtocol()
                 sessions.append(phaseRecord);
                 m_SysIdData["sessions"] = sessions;
 
+                refreshFingerprint();
                 m_LogFile.setFileName(m_LogFilename);
                 if (m_LogFile.open(QIODevice::WriteOnly | QIODevice::Text))
                 {
@@ -700,6 +744,7 @@ void AIGuideProtocol::processProtocol()
                     sessions.append(pulseSession);
                     m_SysIdData["sessions"] = sessions;
 
+                    refreshFingerprint();
                     m_LogFile.setFileName(m_LogFilename);
                     if (m_LogFile.open(QIODevice::WriteOnly | QIODevice::Text))
                     {

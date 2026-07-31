@@ -137,4 +137,16 @@ class MountSpecificGuider
         {
             return false;
         }
+
+        /**
+         * @brief Human-readable list of fingerprint mismatches from the last loadWeights()
+         * failure, e.g. "guide_exposure_s: weights 0.5, current 1". Empty when none.
+         */
+        QString fingerprintError() const
+        {
+            return m_FingerprintError;
+        }
+
+    protected:
+        QString m_FingerprintError;
 };

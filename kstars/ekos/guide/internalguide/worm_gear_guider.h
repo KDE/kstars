@@ -109,7 +109,7 @@ class WormGearGuider : public MountSpecificGuider
         static constexpr int INNOV_WINDOW = 20;
 
         // ── Helpers ───────────────────────────────────────────────────────────
-        static bool validateFingerprint(const QJsonObject &fp);
+        bool validateFingerprint(const QJsonObject &fp);
         double physicsRA(double t_sec, double altitude_deg) const;
         double physicsDEC(double altitude_deg, double parallactic_angle_deg) const;
         std::array<float, 2> runMLP(float altitude, float snr, float last_ra_pulse, float last_dec_pulse, float dt,

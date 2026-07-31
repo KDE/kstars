@@ -292,9 +292,14 @@ void cgmath::start()
                 qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER FAILED TO LOAD WEIGHTS OR FINGERPRINT MISMATCH:" << weightsPath;
                 if (useAIAlgorithm)
                 {
+                    const QString reason = m_AIGuider ? m_AIGuider->fingerprintError() : QString();
+                    const QString detail = reason.isEmpty()
+                                           ? i18n("The weights file could not be read or does not match this mount type.")
+                                           : i18n("Settings that do not match the weights:\n%1", reason);
                     emit newLog(i18n("AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."));
                     KSNotification::error(
-                        i18n("AI Guider failed to load weights or Fingerprint mismatched!\n\nRe-run the Guide AI Assistant to generate new weights for your current settings, or switch the Guide Algorithm back to a standard mode. Guiding has been aborted."),
+                        i18n("AI Guider failed to load weights!\n\n%1\n\nChange the settings back to match, re-run the Guide AI Assistant with your current settings, or switch the Guide Algorithm to a standard mode. Guiding has been aborted.",
+                             detail),
                         i18n("AI Guider Error"));
                 }
                 m_AIGuider.reset();

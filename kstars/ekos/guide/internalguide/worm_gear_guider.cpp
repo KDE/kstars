@@ -45,8 +45,11 @@ WormGearGuider::WormGearGuider()
 
 bool WormGearGuider::validateFingerprint(const QJsonObject &fp)
 {
+    m_FingerprintError.clear();
     if (fp.isEmpty())
         return true;
+
+    QStringList mismatches;
 
     const struct
     {
@@ -75,6 +78,8 @@ bool WormGearGuider::validateFingerprint(const QJsonObject &fp)
         {
             qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
                                          << fp[c.key].toDouble() << "current" << c.current;
+            mismatches << QString("%1: weights %2, current %3")
+                       .arg(c.key).arg(fp[c.key].toDouble()).arg(c.current);
             ok = false;
         }
     }
@@ -83,11 +88,14 @@ bool WormGearGuider::validateFingerprint(const QJsonObject &fp)
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
                                      << fp["guide_binning"].toString() << "current" << Options::guideBinning();
+        mismatches << QString("guide_binning: weights %1, current %2")
+                   .arg(fp["guide_binning"].toString(), Options::guideBinning());
         ok = false;
     }
 
     // Pulse algorithm is Standard (0) in training fingerprint; runtime uses AI — skip.
 
+    m_FingerprintError = mismatches.join("\n");
     return ok;
 }
 

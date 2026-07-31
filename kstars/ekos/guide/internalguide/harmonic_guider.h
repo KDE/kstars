@@ -2,12 +2,13 @@
 /*
  * harmonic_guider.h — Neural Kalman Filter guider for harmonic drive mounts
  *
- * Architecture: 10-state Kalman filter with spring dynamics and PE tracking,
+ * Architecture: 14-state Kalman filter with spring dynamics and two PE oscillators,
  *               plus a small Q-net MLP (~66 parameters) for adaptive process noise.
  *
  * State vector:
  *   [ra_err, ra_vel, spring_ra, pe_sin_ra, pe_cos_ra,
- *    dec_err, dec_vel, spring_dec, pe_sin_dec, pe_cos_dec]
+ *    dec_err, dec_vel, spring_dec, pe_sin_dec, pe_cos_dec,
+ *    pe2_sin_ra, pe2_cos_ra, pe2_sin_dec, pe2_cos_dec]
  *
  * The spring states model elastic wind-up: the flexspline absorbs a fraction κ
  * of each correction pulse and releases it exponentially with time constant τ.
@@ -52,7 +53,7 @@ class HarmonicGuider : public MountSpecificGuider
 
     private:
         // ── Kalman dimensions ────────────────────────────────────────────────
-        static constexpr int N_STATES = 10;
+        static constexpr int N_STATES = 14;
         static constexpr int N_OBS    = 2;
 
         // State indices
@@ -66,6 +67,10 @@ class HarmonicGuider : public MountSpecificGuider
         static constexpr int DEC_SPRING = 7;
         static constexpr int DEC_PE_SIN = 8;
         static constexpr int DEC_PE_COS = 9;
+        static constexpr int RA_PE2_SIN  = 10;
+        static constexpr int RA_PE2_COS  = 11;
+        static constexpr int DEC_PE2_SIN = 12;
+        static constexpr int DEC_PE2_COS = 13;
 
         // ── Spring parameters (loaded from weights JSON) ─────────────────────
         double m_kappa_ra    { 0.2 };   ///< Fraction of RA pulse absorbed by spring [0, 0.9]
@@ -76,6 +81,8 @@ class HarmonicGuider : public MountSpecificGuider
         // ── PE parameters (loaded from weights JSON) ─────────────────────────
         double m_pe_period   { 0.0 };   ///< PE period in seconds (0 = no PE detected)
         double m_pe_amplitude { 0.0 };  ///< Initial PE amplitude estimate (px)
+        double m_pe2_period  { 0.0 };   ///< Second PE line period (0 = single-line model)
+        double m_pe2_amplitude { 0.0 };
 
         // ── Drift / refraction parameters ────────────────────────────────────
         double m_drift_ra    { 0.0 };   ///< Baseline RA drift rate (px/s)
@@ -96,6 +103,7 @@ class HarmonicGuider : public MountSpecificGuider
         /// PE period the persisted static state was built for; a change means the
         /// loaded weights describe a different mount, so the static state is discarded.
         static double s_activePePeriod;
+        static double s_activePe2Period;
 
         // ── Q-net MLP weights (5 → 8 → 2) ───────────────────────────────────
         // Input: [snr_norm, snr_delta_norm, |innov_ra|, |innov_dec|, dt_norm]
@@ -138,7 +146,7 @@ class HarmonicGuider : public MountSpecificGuider
         static constexpr int INNOV_WINDOW = 20;
 
         // ── Helpers ──────────────────────────────────────────────────────────
-        static bool validateFingerprint(const QJsonObject &fp);
+        bool validateFingerprint(const QJsonObject &fp);
         void buildF(Eigen::Matrix<double, N_STATES, N_STATES> &F, double dt) const;
         Eigen::Matrix<double, N_STATES, N_STATES> computeQ(double snr, double snr_delta,
                 double innov_ra, double innov_dec, double dt) const;
