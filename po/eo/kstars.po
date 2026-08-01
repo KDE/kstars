@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-31 02:24+0000\n"
+"POT-Creation-Date: 2026-08-01 02:06+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -22878,17 +22878,17 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:205
+#: ekos/guide/aiguideprotocol.cpp:248
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:206
+#: ekos/guide/aiguideprotocol.cpp:249
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:211
+#: ekos/guide/aiguideprotocol.cpp:254
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""
@@ -23607,131 +23607,131 @@ msgstr ""
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1619
+#: ekos/guide/guide.cpp:1622
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Neniu fotilo detektita. Kontrolu fotilon en optikaj ĉenoj."
 
-#: ekos/guide/guide.cpp:1625
+#: ekos/guide/guide.cpp:1628
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Neniu gvidilo detektita. Kontrolu gvidi-per en optikaj ĉenoj."
 
-#: ekos/guide/guide.cpp:1706
+#: ekos/guide/guide.cpp:1709
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntaĵo estas parkumita. Malparku por komenci gvidadon."
 
-#: ekos/guide/guide.cpp:1815
+#: ekos/guide/guide.cpp:1818
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Kajoflankŝanĝo detektita. Nuligante kalibradon."
 
-#: ekos/guide/guide.cpp:1829
+#: ekos/guide/guide.cpp:1832
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Muntaĵo moviĝas. Restarigante kalibradon..."
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1849
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Muntaĵo parkumas. Ĉesigate gvidilon..."
 
-#: ekos/guide/guide.cpp:1848
+#: ekos/guide/guide.cpp:1851
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Muntaĵo turniĝas. Ĉesigante gvidilon..."
 
-#: ekos/guide/guide.cpp:1934
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrado estas forigita."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1965
 #, kde-format
 msgid "External guider connected."
 msgstr "Ekstera gvidilo konektita."
 
-#: ekos/guide/guide.cpp:1980
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Ekstera gvidilo malkonektita."
 
-#: ekos/guide/guide.cpp:1997
+#: ekos/guide/guide.cpp:2000
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrado finiĝis."
 
-#: ekos/guide/guide.cpp:2023
+#: ekos/guide/guide.cpp:2026
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrado komenciĝis."
 
-#: ekos/guide/guide.cpp:2039
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Gvidado rekomencis."
 
-#: ekos/guide/guide.cpp:2043
+#: ekos/guide/guide.cpp:2046
 #, fuzzy, kde-format
 #| msgid "Autoguiding resumed."
 msgid "Autoguiding running."
 msgstr "Aŭtogvidado rekomenciĝis."
 
-#: ekos/guide/guide.cpp:2065
+#: ekos/guide/guide.cpp:2068
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Aŭtogvidado ĉesigita."
 
-#: ekos/guide/guide.cpp:2073
+#: ekos/guide/guide.cpp:2076
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Gvidado ĉesigita."
 
-#: ekos/guide/guide.cpp:2082
+#: ekos/guide/guide.cpp:2085
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Mana dithering en progreso."
 
-#: ekos/guide/guide.cpp:2086
+#: ekos/guide/guide.cpp:2089
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Dithering en progreso."
 
-#: ekos/guide/guide.cpp:2090
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Post-ŝanceliĝa stabiliĝo dum %1 sekundo..."
 msgstr[1] "Post-ŝanceliĝa stabiliĝo dum %1 sekundoj..."
 
-#: ekos/guide/guide.cpp:2095
+#: ekos/guide/guide.cpp:2098
 #, kde-format
 msgid "Dithering failed."
 msgstr "Dithering malsukcesis."
 
-#: ekos/guide/guide.cpp:2106
+#: ekos/guide/guide.cpp:2109
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dithering finiĝis sukcese."
 
-#: ekos/guide/guide.cpp:2164
+#: ekos/guide/guide.cpp:2167
 #, fuzzy, kde-format
 #| msgid "%1x%1 guide binning is not supported."
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "%1x%1 gvida binding ne estas subtenata."
 
-#: ekos/guide/guide.cpp:2188
+#: ekos/guide/guide.cpp:2191
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Eksponiĝo malsukcesis. Rekomencante ekspozicion..."
 
-#: ekos/guide/guide.cpp:2323
+#: ekos/guide/guide.cpp:2326
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Ne povas ŝanĝi la tipon de gvidilo dum aktiva."
 
-#: ekos/guide/guide.cpp:2418
+#: ekos/guide/guide.cpp:2421
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23740,37 +23740,37 @@ msgstr ""
 "Averto: Restarigi Gvidan Kalibradon estas ebligita. Oni rekomendas malŝalti "
 "ĉi tiun elekteblon por PHD2."
 
-#: ekos/guide/guide.cpp:2872
+#: ekos/guide/guide.cpp:2875
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrado malsukcesis komenci."
 
-#: ekos/guide/guide.cpp:3023
+#: ekos/guide/guide.cpp:3026
 #, kde-format
 msgid "Auto star selected."
 msgstr "Aŭtomata stelo elektita."
 
-#: ekos/guide/guide.cpp:3027
+#: ekos/guide/guide.cpp:3030
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Malsukcesis elekti aŭtomatan stelon."
 
-#: ekos/guide/guide.cpp:3036
+#: ekos/guide/guide.cpp:3039
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Elektu gvidstelon por kalibri."
 
-#: ekos/guide/guide.cpp:3298
+#: ekos/guide/guide.cpp:3301
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (rastrumeroj)"
 
-#: ekos/guide/guide.cpp:3299
+#: ekos/guide/guide.cpp:3302
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (rastrumeroj)"
 
-#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
+#: ekos/guide/guide.cpp:3445 ekos/guide/guide.cpp:3594
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23779,7 +23779,7 @@ msgstr ""
 "La fotilo PHD2 ne disponeblas por Ekos, do vi ne povas vidi la kaptitajn "
 "bildojn. Sed vi ankoraŭ vidos la Gvidstelan Bildon kiam vi gvidos."
 
-#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
+#: ekos/guide/guide.cpp:3449 ekos/guide/guide.cpp:3598
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23790,67 +23790,67 @@ msgstr ""
 "nemarkita. Malmarku ĝin nun por ebligi viajn bildkaptojn. Vi povas reŝalti "
 "ĝin antaŭ Gvidado"
 
-#: ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3530
 #, fuzzy, kde-format
 #| msgid "Finding stars..."
 msgid "AI Guiding Assistant..."
 msgstr "Trovante stelojn..."
 
-#: ekos/guide/guide.cpp:3532
+#: ekos/guide/guide.cpp:3535
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Load Weights..."
 msgstr "Ŝargante..."
 
-#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
+#: ekos/guide/guide.cpp:3641 ekos/guide/guide.cpp:3646
 #, fuzzy, kde-format
 #| msgid "Solver failed: %1s"
 msgid "EkosLive AI training failed: %1"
 msgstr "Solvanto malsukcesis: %1s"
 
-#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
+#: ekos/guide/guide.cpp:3642 ekos/guide/guide.cpp:3647
 #, fuzzy, kde-format
 #| msgid "Unknown error"
 msgid "unknown error"
 msgstr "Nekonata eraro"
 
-#: ekos/guide/guide.cpp:3658
+#: ekos/guide/guide.cpp:3661
 #, fuzzy, kde-format
 #| msgid "Failed to save defect map to %1"
 msgid "Failed to save AI weights to %1"
 msgstr "Malsukcesis konservi difektan mapon al %1"
 
-#: ekos/guide/guide.cpp:3668
+#: ekos/guide/guide.cpp:3671
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3672
+#: ekos/guide/guide.cpp:3675
 #, fuzzy, kde-format
 #| msgid "Alignment List saved to %1"
 msgid "AI training complete. Weights saved to %1."
 msgstr "Viciga Listo konservita al %1"
 
-#: ekos/guide/guide.cpp:3678
+#: ekos/guide/guide.cpp:3681
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3679
+#: ekos/guide/guide.cpp:3682
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3683
+#: ekos/guide/guide.cpp:3686
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3854
+#: ekos/guide/guide.cpp:3857
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Ne povas ŝanĝi aktivan optikan ĉenon dum kiam PHD2 estas konektata"
@@ -24580,29 +24580,43 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:295
+#: ekos/guide/internalguide/gmath.cpp:297
+#, kde-format
+msgid "The weights file could not be read or does not match this mount type."
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:298
+#, kde-format
+msgid ""
+"Settings that do not match the weights:\n"
+"%1"
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:299
 #, kde-format
 msgid ""
 "AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:297
+#: ekos/guide/internalguide/gmath.cpp:301
 #, kde-format
 msgid ""
-"AI Guider failed to load weights or Fingerprint mismatched!\n"
+"AI Guider failed to load weights!\n"
 "\n"
-"Re-run the Guide AI Assistant to generate new weights for your current "
-"settings, or switch the Guide Algorithm back to a standard mode. Guiding has "
-"been aborted."
+"%1\n"
+"\n"
+"Change the settings back to match, re-run the Guide AI Assistant with your "
+"current settings, or switch the Guide Algorithm to a standard mode. Guiding "
+"has been aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:298
+#: ekos/guide/internalguide/gmath.cpp:303
 #, fuzzy, kde-format
 #| msgid "RA Guide Error"
 msgid "AI Guider Error"
 msgstr "RA Gvida Eraro"
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24610,7 +24624,7 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:317
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24620,12 +24634,12 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:315
+#: ekos/guide/internalguide/gmath.cpp:320
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:759
+#: ekos/guide/internalguide/gmath.cpp:764
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
@@ -24686,17 +24700,17 @@ msgstr "Gvida kalibrado malsukcesis"
 msgid "Guiding calibration completed successfully"
 msgstr "Gvida kalibrado kompletigita sukcese"
 
-#: ekos/guide/internalguide/internalguider.cpp:1198
+#: ekos/guide/internalguide/internalguider.cpp:1200
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Perdita spuro de la gvida stelo. Serĉante gvidstelojn..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1200
+#: ekos/guide/internalguide/internalguider.cpp:1202
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS-sojlovaloro superita. Serĉante gvidstelojn..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1384
+#: ekos/guide/internalguide/internalguider.cpp:1386
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Malsukcesis trovi taŭgajn gvidstelojn. Abortante..."

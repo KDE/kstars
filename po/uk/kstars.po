@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-31 02:24+0000\n"
-"PO-Revision-Date: 2026-07-28 08:28+0300\n"
+"POT-Creation-Date: 2026-08-01 02:06+0000\n"
+"PO-Revision-Date: 2026-07-31 08:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7370,16 +7370,13 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Ціль перебуває у межах області у %1 градусів від координат розв'язку."
 
 #: ekos/align/align_solver.cpp:917
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. Automatically reversing rotator "
-#| "direction and retrying..."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically compensating rotator "
 "direction and retrying..."
 msgstr ""
 "Обертання відбувається у помилковому напрямку. Автоматично виконуємо "
-"обернення напрямку обертання і повторюємо спробу…"
+"компенсацію напрямку обертання і повторюємо спробу…"
 
 #: ekos/align/align_solver.cpp:940
 #, kde-format
@@ -8435,28 +8432,22 @@ msgstr "Зберігати позиційний кут"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Якщо цю можливість увімкнено, якщо похибка полярного "
-"вирівнювання за віссю <b>збільшується</b> після першого виправлення ВПВ, "
-"система автоматично змінить напрямок виправлення для цієї вісі під час "
-"наступної спроби.</p></body></html>"
+"<html><head/><body><p>Увімкніть, якщо засіб обертання фізично обертається "
+"протилежно до очікуваного напрямку. Виявляється та встановлюється "
+"автоматично, якщо перевірка правильності напрямку підтверджує це; також "
+"можна налаштувати вручну.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "Reverse rotator direction"
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "Зворотний напрямок обертання"
+msgstr "Інверсія напрямку обертання"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -23130,17 +23121,17 @@ msgstr ""
 "Виправлення вже застосовано. Запустіть автоматичне фокусування знову для "
 "отримання свіжих значень вимірювання нахилу."
 
-#: ekos/guide/aiguideprotocol.cpp:205
+#: ekos/guide/aiguideprotocol.cpp:248
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "Немає даних для навчання. Будь ласка, спочатку запустіть протокол."
 
-#: ekos/guide/aiguideprotocol.cpp:206
+#: ekos/guide/aiguideprotocol.cpp:249
 #, kde-format
 msgid "No data to train"
 msgstr "Немає даних для навчання"
 
-#: ekos/guide/aiguideprotocol.cpp:211
+#: ekos/guide/aiguideprotocol.cpp:254
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Починаємо навчання ШІ за допомогою хмари EkosLive…"
@@ -23856,98 +23847,98 @@ msgstr ""
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Активний довільний ШІ-зсув. Придушено одинарну пульсацію (%1мс)"
 
-#: ekos/guide/guide.cpp:1619
+#: ekos/guide/guide.cpp:1622
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Не виявлено жодної камери. Перевірте, чи є камера в оптичних трактах."
 
-#: ekos/guide/guide.cpp:1625
+#: ekos/guide/guide.cpp:1628
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Не вибрано засобу наведення. Перевірте наведення в оптичних трактах."
 
-#: ekos/guide/guide.cpp:1706
+#: ekos/guide/guide.cpp:1709
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "Лафет запарковано. Зніміть лафет з паркування, щоб розпочати наведення."
 
-#: ekos/guide/guide.cpp:1815
+#: ekos/guide/guide.cpp:1818
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Виявлено зміну боку стійки. Вилучаємо дані калібрування."
 
-#: ekos/guide/guide.cpp:1829
+#: ekos/guide/guide.cpp:1832
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Лафет рухається. Скидаємо калібрування…"
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1849
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Лафет паркується! Перериваємо наведення…"
 
-#: ekos/guide/guide.cpp:1848
+#: ekos/guide/guide.cpp:1851
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Лафет рухається! Перериваємо наведення…"
 
-#: ekos/guide/guide.cpp:1934
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Дані калібрування вилучено."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1965
 #, kde-format
 msgid "External guider connected."
 msgstr "З'єднано зовнішнє наведення."
 
-#: ekos/guide/guide.cpp:1980
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Від'єднано зовнішнє наведення."
 
-#: ekos/guide/guide.cpp:1997
+#: ekos/guide/guide.cpp:2000
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калібрування завершено."
 
-#: ekos/guide/guide.cpp:2023
+#: ekos/guide/guide.cpp:2026
 #, kde-format
 msgid "Calibration started."
 msgstr "Розпочато калібрування."
 
-#: ekos/guide/guide.cpp:2039
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Наведення відновлено."
 
-#: ekos/guide/guide.cpp:2043
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Виконуємо автонаведення."
 
-#: ekos/guide/guide.cpp:2065
+#: ekos/guide/guide.cpp:2068
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Автонаведення перервано."
 
-#: ekos/guide/guide.cpp:2073
+#: ekos/guide/guide.cpp:2076
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Наведення призупинено."
 
-#: ekos/guide/guide.cpp:2082
+#: ekos/guide/guide.cpp:2085
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Виконуємо малий рух вручну."
 
-#: ekos/guide/guide.cpp:2086
+#: ekos/guide/guide.cpp:2089
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Виконуємо малий рух."
 
-#: ekos/guide/guide.cpp:2090
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23956,34 +23947,34 @@ msgstr[1] "Встановлення після малого руху за %1 с�
 msgstr[2] "Встановлення після малого руху за %1 секунд…"
 msgstr[3] "Встановлення після малого руху за секунду…"
 
-#: ekos/guide/guide.cpp:2095
+#: ekos/guide/guide.cpp:2098
 #, kde-format
 msgid "Dithering failed."
 msgstr "Помилка під час малого руху!"
 
-#: ekos/guide/guide.cpp:2106
+#: ekos/guide/guide.cpp:2109
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Малий рух успішно завершено."
 
-#: ekos/guide/guide.cpp:2164
+#: ekos/guide/guide.cpp:2167
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "Підтримки кроків напрямної %1⨯%1 не передбачено. Максимальне значення — %2⨯"
 "%2."
 
-#: ekos/guide/guide.cpp:2188
+#: ekos/guide/guide.cpp:2191
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Не вдалося виконати експонування. Виконуємо повторну спробу…"
 
-#: ekos/guide/guide.cpp:2323
+#: ekos/guide/guide.cpp:2326
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Не можна змінювати тип засобу наведення під час наведення."
 
-#: ekos/guide/guide.cpp:2418
+#: ekos/guide/guide.cpp:2421
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23992,37 +23983,37 @@ msgstr ""
 "Увага! Увімкнено скидання даних калібрування наведення. Рекомендуємо "
 "вимкнути його для PHD2."
 
-#: ekos/guide/guide.cpp:2872
+#: ekos/guide/guide.cpp:2875
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Не вдалося запустити процедуру калібрування!"
 
-#: ekos/guide/guide.cpp:3023
+#: ekos/guide/guide.cpp:3026
 #, kde-format
 msgid "Auto star selected."
 msgstr "Автоматично вибрано зірку."
 
-#: ekos/guide/guide.cpp:3027
+#: ekos/guide/guide.cpp:3030
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Не вдалося автоматично вибрати зірку."
 
-#: ekos/guide/guide.cpp:3036
+#: ekos/guide/guide.cpp:3039
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Виберіть зірку для наведення під час калібрування"
 
-#: ekos/guide/guide.cpp:3298
+#: ekos/guide/guide.cpp:3301
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (у точках)"
 
-#: ekos/guide/guide.cpp:3299
+#: ekos/guide/guide.cpp:3302
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (у точках)"
 
-#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
+#: ekos/guide/guide.cpp:3445 ekos/guide/guide.cpp:3594
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24032,7 +24023,7 @@ msgstr ""
 "зображення. Але, попри це, ви зможете бачити зображення напрямної зірки під "
 "час наведення."
 
-#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
+#: ekos/guide/guide.cpp:3449 ekos/guide/guide.cpp:3598
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24044,55 +24035,55 @@ msgstr ""
 "цього пункту, щоб уможливити захоплення зображень. Ви можете знову позначити "
 "цей пункт безпосередньо перед наведенням."
 
-#: ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3530
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Помічник ШІ-наведення…"
 
-#: ekos/guide/guide.cpp:3532
+#: ekos/guide/guide.cpp:3535
 #, kde-format
 msgid "Load Weights..."
 msgstr "Завантаження ваги…"
 
-#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
+#: ekos/guide/guide.cpp:3641 ekos/guide/guide.cpp:3646
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Не вдалося виконати ШІ-навчання EkosLive: %1"
 
-#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
+#: ekos/guide/guide.cpp:3642 ekos/guide/guide.cpp:3647
 #, kde-format
 msgid "unknown error"
 msgstr "невідома помилка"
 
-#: ekos/guide/guide.cpp:3658
+#: ekos/guide/guide.cpp:3661
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Не вдалося зберегти ШІ-вагу до %1"
 
-#: ekos/guide/guide.cpp:3668
+#: ekos/guide/guide.cpp:3671
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 "ШІ-навчання завершено. Вагу збережено до %1 і встановлено активну ШІ-вагу."
 
-#: ekos/guide/guide.cpp:3672
+#: ekos/guide/guide.cpp:3675
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "ШІ-навчання завершено. Вагу збережено до %1."
 
-#: ekos/guide/guide.cpp:3678
+#: ekos/guide/guide.cpp:3681
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Завантаження даних ваги ШІ-наведення"
 
-#: ekos/guide/guide.cpp:3679
+#: ekos/guide/guide.cpp:3682
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "ШІ-вага (*.json)"
 
-#: ekos/guide/guide.cpp:3683
+#: ekos/guide/guide.cpp:3686
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24101,7 +24092,7 @@ msgstr ""
 "Встановлення значення ваги ШІ-наведення %1. Їх буде застосовано під час "
 "наступного запуску наведення."
 
-#: ekos/guide/guide.cpp:3854
+#: ekos/guide/guide.cpp:3857
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Неможливо змінити активний оптичний тракт, доки з'єднано PHD2"
@@ -24857,7 +24848,19 @@ msgstr ""
 "Обернений напрямок Схил (ПС-Схил тепер у стандартній системі проти год. "
 "стрілки)."
 
-#: ekos/guide/internalguide/gmath.cpp:295
+#: ekos/guide/internalguide/gmath.cpp:297
+#, kde-format
+msgid "The weights file could not be read or does not match this mount type."
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:298
+#, kde-format
+msgid ""
+"Settings that do not match the weights:\n"
+"%1"
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:299
 #, kde-format
 msgid ""
 "AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."
@@ -24865,14 +24868,22 @@ msgstr ""
 "Засобу ШІ-наведення не вдалося завантажити дані щодо ваги або встановлено "
 "невідповідність відбитка. Наведення перервано."
 
-#: ekos/guide/internalguide/gmath.cpp:297
-#, kde-format
+#: ekos/guide/internalguide/gmath.cpp:301
+#, fuzzy, kde-format
+#| msgid ""
+#| "AI Guider failed to load weights or Fingerprint mismatched!\n"
+#| "\n"
+#| "Re-run the Guide AI Assistant to generate new weights for your current "
+#| "settings, or switch the Guide Algorithm back to a standard mode. Guiding "
+#| "has been aborted."
 msgid ""
-"AI Guider failed to load weights or Fingerprint mismatched!\n"
+"AI Guider failed to load weights!\n"
 "\n"
-"Re-run the Guide AI Assistant to generate new weights for your current "
-"settings, or switch the Guide Algorithm back to a standard mode. Guiding has "
-"been aborted."
+"%1\n"
+"\n"
+"Change the settings back to match, re-run the Guide AI Assistant with your "
+"current settings, or switch the Guide Algorithm to a standard mode. Guiding "
+"has been aborted."
 msgstr ""
 "Засобу ШІ-наведення не вдалося завантажити дані щодо ваги або встановлено "
 "невідповідність відбитка!\n"
@@ -24881,12 +24892,12 @@ msgstr ""
 "параметрів або перемкніть алгоритм наведення у стандартний режим. Наведення "
 "перервано."
 
-#: ekos/guide/internalguide/gmath.cpp:298
+#: ekos/guide/internalguide/gmath.cpp:303
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Помилка ШІ-наведення"
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24897,7 +24908,7 @@ msgstr ""
 "їх за допомогою кнопки ШІ > «Завантажити ваги...» або запустіть помічник ШІ-"
 "наведення. Наведення перервано."
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:317
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24912,12 +24923,12 @@ msgstr ""
 "запустіть помічник ШІ-наведення для визначення значень ваги для поточних "
 "параметрів. Наведення перервано."
 
-#: ekos/guide/internalguide/gmath.cpp:315
+#: ekos/guide/internalguide/gmath.cpp:320
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "ШІ-наведення: немає даних ваги"
 
-#: ekos/guide/internalguide/gmath.cpp:759
+#: ekos/guide/internalguide/gmath.cpp:764
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Обмежено довгу пульсацію у %1 мс до %2 мс"
@@ -24977,18 +24988,18 @@ msgstr "Не вдалося виконати калібрування навед
 msgid "Guiding calibration completed successfully"
 msgstr "Калібрування наведення успішно виконано"
 
-#: ekos/guide/internalguide/internalguider.cpp:1198
+#: ekos/guide/internalguide/internalguider.cpp:1200
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Втрачено зірку для наведення. Шукаємо інші зірки для наведення…."
 
-#: ekos/guide/internalguide/internalguider.cpp:1200
+#: ekos/guide/internalguide/internalguider.cpp:1202
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Перевищено порогове значення для різниці СКВ. Шукаємо зірки для наведення…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1384
+#: ekos/guide/internalguide/internalguider.cpp:1386
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Не вдалося знайти прийнятні напрямні зірки. Перериваємо завдання."
@@ -25155,7 +25166,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "Include Pulse Response Test in Data Collection Protocol"
-msgstr ""
+msgstr "Включити перевірку відповіді на пульсацію до протоколу збирання даних"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIProtocolPulseTest)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25165,6 +25176,9 @@ msgid ""
 "Adds about 20 minutes to the protocol and has not produced measurable "
 "results on rigs tested so far, so it is off by default."
 msgstr ""
+"Вимірює пружну реакцію лафета на пульсації наведення (гармонійні збудження). "
+"Додає приблизно 20 хвилин до протоколу та не дає вимірюваних результатів на "
+"протестованих досі установках, тому типово вимкнено."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -45913,6 +45927,10 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
+"Засіб обертання фізично обертає у напрямку, протилежному до того, який "
+"передбачає математика кута позиції KStars. Налаштовується автоматично, якщо "
+"перевірка на правильність напрямку автоматичного обертання підтверджує це, "
+"або може бути налаштоване вручну."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -46344,6 +46362,7 @@ msgstr ""
 #, kde-format
 msgid "Include the pulse response test in the AI data collection protocol."
 msgstr ""
+"Включити перевірку відповіді на пульсацію до протоколу збирання даних ШІ."
 
 #. i18n: ectx: whatsthis, entry (AIProtocolPulseTest), group (Guide)
 #: kstars.kcfg:3127
@@ -46354,6 +46373,10 @@ msgid ""
 "not produced measurable results on rigs tested so far, so it is off by "
 "default."
 msgstr ""
+"Перевірка реакції на пульсацію вимірює пружну реакцію лафета на пульсації "
+"наведення (гармонійні збудження). Додає приблизно 20 хвилин до протоколу та "
+"не дає вимірюваних результатів на протестованих досі установках, тому типово "
+"вимкнено."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-31 02:24+0000\n"
-"PO-Revision-Date: 2026-07-28 18:34+0100\n"
+"POT-Creation-Date: 2026-08-01 02:06+0000\n"
+"PO-Revision-Date: 2026-08-01 01:05+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7400,15 +7400,12 @@ msgstr ""
 "El objetivo está dentro de %1 grados de las coordenadas de la solución."
 
 #: ekos/align/align_solver.cpp:917
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. Automatically reversing rotator "
-#| "direction and retrying..."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically compensating rotator "
 "direction and retrying..."
 msgstr ""
-"El rotador se está moviendo en la dirección equivocada. Se invierte la "
+"El rotador se está moviendo en la dirección equivocada. Se compensa la "
 "dirección del rotador automáticamente y se vuelve a probar…"
 
 #: ekos/align/align_solver.cpp:940
@@ -8463,28 +8460,22 @@ msgstr "Preservar el ángulo de la posición"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cuando está activada, si el error de alineación polar "
-"de un eje <b>aumenta</b> tras la primera corrección de PAC, el sistema "
-"invertirá automáticamente la dirección de corrección para dicho eje en el "
-"siguiente intento.</p></body></html>"
+"<html><head/><body><p>Active esta opción si el rotador gira físicamente en "
+"dirección opuesta a la esperada. Se detecta y se activa automáticamente la "
+"primera vez que la comprobación de dirección incorrecta lo confirma; también "
+"se puede activar manualmente.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "RA drifting reverse..."
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "Deriva inversa de AR…"
+msgstr "Dirección del rotador invertida"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -23193,17 +23184,17 @@ msgstr ""
 "Ya se han aplicado las correcciones. Ejecute el enfoque automático de nuevo "
 "para obtener nuevas medidas de inclinación."
 
-#: ekos/guide/aiguideprotocol.cpp:205
+#: ekos/guide/aiguideprotocol.cpp:248
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "No hay datos de entrenamiento. Ejecute el protocolo primero."
 
-#: ekos/guide/aiguideprotocol.cpp:206
+#: ekos/guide/aiguideprotocol.cpp:249
 #, kde-format
 msgid "No data to train"
 msgstr "No hay datos de entrenamiento"
 
-#: ekos/guide/aiguideprotocol.cpp:211
+#: ekos/guide/aiguideprotocol.cpp:254
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Iniciando el entrenamiento de la IA mediante la nube de EkosLive…"
@@ -23924,132 +23915,132 @@ msgstr ""
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Deriva libre de IA activada. Pulso único suprimido (%1 ms)."
 
-#: ekos/guide/guide.cpp:1619
+#: ekos/guide/guide.cpp:1622
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 "No se ha detectado ninguna cámara. Compruebe la cámara en los trenes ópticos."
 
-#: ekos/guide/guide.cpp:1625
+#: ekos/guide/guide.cpp:1628
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "No se ha detectado ningún sistema de guiado. Compruebe el sistema de guiado "
 "en los trenes ópticos."
 
-#: ekos/guide/guide.cpp:1706
+#: ekos/guide/guide.cpp:1709
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La montura está aparcada. Desapárquela para empezar el guiado."
 
-#: ekos/guide/guide.cpp:1815
+#: ekos/guide/guide.cpp:1818
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Detectado cambio del lado de la columna. Borrando calibración."
 
-#: ekos/guide/guide.cpp:1829
+#: ekos/guide/guide.cpp:1832
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La montura se está moviendo. Reiniciando la calibración…"
 
-#: ekos/guide/guide.cpp:1846
+#: ekos/guide/guide.cpp:1849
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Se está aparcando la montura. Se interrumpe el guiado…"
 
-#: ekos/guide/guide.cpp:1848
+#: ekos/guide/guide.cpp:1851
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "La montura se está desplazando. Se interrumpe el guiado…"
 
-#: ekos/guide/guide.cpp:1934
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Datos de calibración borrados."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1965
 #, kde-format
 msgid "External guider connected."
 msgstr "Sistema de guiado externo conectado."
 
-#: ekos/guide/guide.cpp:1980
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Sistema de guiado externo desconectado."
 
-#: ekos/guide/guide.cpp:1997
+#: ekos/guide/guide.cpp:2000
 #, kde-format
 msgid "Calibration completed."
 msgstr "Calibración terminada."
 
-#: ekos/guide/guide.cpp:2023
+#: ekos/guide/guide.cpp:2026
 #, kde-format
 msgid "Calibration started."
 msgstr "Calibración iniciada."
 
-#: ekos/guide/guide.cpp:2039
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Se ha reanudado el guiado automático."
 
-#: ekos/guide/guide.cpp:2043
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Guiado automático en funcionamiento."
 
-#: ekos/guide/guide.cpp:2065
+#: ekos/guide/guide.cpp:2068
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Guiado automático interrumpido."
 
-#: ekos/guide/guide.cpp:2073
+#: ekos/guide/guide.cpp:2076
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guiado automático suspendido."
 
-#: ekos/guide/guide.cpp:2082
+#: ekos/guide/guide.cpp:2085
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Desvío manual en curso."
 
-#: ekos/guide/guide.cpp:2086
+#: ekos/guide/guide.cpp:2089
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Desvío en curso."
 
-#: ekos/guide/guide.cpp:2090
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Estabilizando tras el desvío durante %1 segundo…"
 msgstr[1] "Estabilizando tras el desvío durante %1 segundos…"
 
-#: ekos/guide/guide.cpp:2095
+#: ekos/guide/guide.cpp:2098
 #, kde-format
 msgid "Dithering failed."
 msgstr "El desvío ha fallado."
 
-#: ekos/guide/guide.cpp:2106
+#: ekos/guide/guide.cpp:2109
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "El desvío se ha completado con éxito."
 
-#: ekos/guide/guide.cpp:2164
+#: ekos/guide/guide.cpp:2167
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "El binning de guiado %1x%1 no está permitido. El máximo es %2x%2."
 
-#: ekos/guide/guide.cpp:2188
+#: ekos/guide/guide.cpp:2191
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "La exposición ha fallado. Reiniciando la exposición…"
 
-#: ekos/guide/guide.cpp:2323
+#: ekos/guide/guide.cpp:2326
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No se puede cambiar el sistema de guiado mientras esté activo."
 
-#: ekos/guide/guide.cpp:2418
+#: ekos/guide/guide.cpp:2421
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24058,37 +24049,37 @@ msgstr ""
 "Advertencia: está activado el reinicio de la calibración de guiado. Se le "
 "recomienda desactivar esta opción para PHD2."
 
-#: ekos/guide/guide.cpp:2872
+#: ekos/guide/guide.cpp:2875
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No se ha podido iniciar la calibración."
 
-#: ekos/guide/guide.cpp:3023
+#: ekos/guide/guide.cpp:3026
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrella seleccionada automáticamente."
 
-#: ekos/guide/guide.cpp:3027
+#: ekos/guide/guide.cpp:3030
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No se ha podido seleccionar una estrella automáticamente."
 
-#: ekos/guide/guide.cpp:3036
+#: ekos/guide/guide.cpp:3039
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccione una estrella guía para calibrar."
 
-#: ekos/guide/guide.cpp:3298
+#: ekos/guide/guide.cpp:3301
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (píxeles)"
 
-#: ekos/guide/guide.cpp:3299
+#: ekos/guide/guide.cpp:3302
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (píxeles)"
 
-#: ekos/guide/guide.cpp:3442 ekos/guide/guide.cpp:3591
+#: ekos/guide/guide.cpp:3445 ekos/guide/guide.cpp:3594
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24098,7 +24089,7 @@ msgstr ""
 "imágenes capturadas. Aún así, podrá seguir viendo la imagen de la estrella "
 "guía cuando esté realizando guiado."
 
-#: ekos/guide/guide.cpp:3446 ekos/guide/guide.cpp:3595
+#: ekos/guide/guide.cpp:3449 ekos/guide/guide.cpp:3598
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24109,32 +24100,32 @@ msgstr ""
 "quitar la marca de selección de «Subfotograma». Quítela ahora para permitir "
 "la captura de imágenes. Puede volver a marcarla antes de realizar un guiado."
 
-#: ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3530
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Asistente de guiado con IA…"
 
-#: ekos/guide/guide.cpp:3532
+#: ekos/guide/guide.cpp:3535
 #, kde-format
 msgid "Load Weights..."
 msgstr "Cargar pesos…"
 
-#: ekos/guide/guide.cpp:3638 ekos/guide/guide.cpp:3643
+#: ekos/guide/guide.cpp:3641 ekos/guide/guide.cpp:3646
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "El entrenamiento de la IA de EkosLive ha fallado: %1"
 
-#: ekos/guide/guide.cpp:3639 ekos/guide/guide.cpp:3644
+#: ekos/guide/guide.cpp:3642 ekos/guide/guide.cpp:3647
 #, kde-format
 msgid "unknown error"
 msgstr "error desconocido"
 
-#: ekos/guide/guide.cpp:3658
+#: ekos/guide/guide.cpp:3661
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "No se han podido guardar los pesos de la IA en %1"
 
-#: ekos/guide/guide.cpp:3668
+#: ekos/guide/guide.cpp:3671
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24142,23 +24133,23 @@ msgstr ""
 "Entrenamiento de IA completado. Los pesos se han guardado en %1 y se han "
 "definido como pesos activos de la IA."
 
-#: ekos/guide/guide.cpp:3672
+#: ekos/guide/guide.cpp:3675
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Entrenamiento de IA completado. Los pesos se han guardado en %1."
 
-#: ekos/guide/guide.cpp:3678
+#: ekos/guide/guide.cpp:3681
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Cargar pesos del sistema de guiado de IA"
 
-#: ekos/guide/guide.cpp:3679
+#: ekos/guide/guide.cpp:3682
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Pesos de IA (*.json)"
 
-#: ekos/guide/guide.cpp:3683
+#: ekos/guide/guide.cpp:3686
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24167,7 +24158,7 @@ msgstr ""
 "Los pesos del sistema de guiado de IA se han definido a %1. Se aplicarán la "
 "próxima vez que se inicie el guiado."
 
-#: ekos/guide/guide.cpp:3854
+#: ekos/guide/guide.cpp:3857
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No se puede cambiar el tren óptico activo mientras PHD2 esté conectado"
@@ -24911,7 +24902,19 @@ msgstr ""
 "Dirección DEC invertida (AR-DEC está ahora en el estándar del sistema "
 "antihorario)."
 
-#: ekos/guide/internalguide/gmath.cpp:295
+#: ekos/guide/internalguide/gmath.cpp:297
+#, kde-format
+msgid "The weights file could not be read or does not match this mount type."
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:298
+#, kde-format
+msgid ""
+"Settings that do not match the weights:\n"
+"%1"
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:299
 #, kde-format
 msgid ""
 "AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."
@@ -24919,14 +24922,22 @@ msgstr ""
 "El sistema de guiado por IA no ha podido cargar los pesos o la huella "
 "digital no coincide. El guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:297
-#, kde-format
+#: ekos/guide/internalguide/gmath.cpp:301
+#, fuzzy, kde-format
+#| msgid ""
+#| "AI Guider failed to load weights or Fingerprint mismatched!\n"
+#| "\n"
+#| "Re-run the Guide AI Assistant to generate new weights for your current "
+#| "settings, or switch the Guide Algorithm back to a standard mode. Guiding "
+#| "has been aborted."
 msgid ""
-"AI Guider failed to load weights or Fingerprint mismatched!\n"
+"AI Guider failed to load weights!\n"
 "\n"
-"Re-run the Guide AI Assistant to generate new weights for your current "
-"settings, or switch the Guide Algorithm back to a standard mode. Guiding has "
-"been aborted."
+"%1\n"
+"\n"
+"Change the settings back to match, re-run the Guide AI Assistant with your "
+"current settings, or switch the Guide Algorithm to a standard mode. Guiding "
+"has been aborted."
 msgstr ""
 "El sistema de guiado por IA no ha podido cargar los pesos o la huella "
 "digital no coincide.\n"
@@ -24935,12 +24946,12 @@ msgstr ""
 "para los ajustes actuales o cambie el algoritmo de guiado al modo estándar. "
 "El guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:298
+#: ekos/guide/internalguide/gmath.cpp:303
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Error del sistema de guiado con IA"
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24951,7 +24962,7 @@ msgstr ""
 "entrenados. Cárguelos mediante el botón de IA > «Cargar pesos…» o ejecute el "
 "asistente de guiado por IA. El guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:317
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24967,12 +24978,12 @@ msgstr ""
 "asistente de guiado por IA para generar pesos para los ajustes actuales. El "
 "guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:315
+#: ekos/guide/internalguide/gmath.cpp:320
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Sistema de guiado por IA: No hay pesos"
 
-#: ekos/guide/internalguide/gmath.cpp:759
+#: ekos/guide/internalguide/gmath.cpp:764
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pulso largo limitado de %1 ms a %2 ms"
@@ -25032,17 +25043,17 @@ msgstr "La calibración de guiado ha fallado"
 msgid "Guiding calibration completed successfully"
 msgstr "La calibración de guiado se ha completado con éxito"
 
-#: ekos/guide/internalguide/internalguider.cpp:1198
+#: ekos/guide/internalguide/internalguider.cpp:1200
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Se ha perdido el rastro de la estrella guía. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1200
+#: ekos/guide/internalguide/internalguider.cpp:1202
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Se ha excedido el valor de umbral RMS delta. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1384
+#: ekos/guide/internalguide/internalguider.cpp:1386
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No se ha encontrado ninguna estrella guía adecuada. Interrumpiendo…"
@@ -25210,6 +25221,8 @@ msgstr ""
 #, kde-format
 msgid "Include Pulse Response Test in Data Collection Protocol"
 msgstr ""
+"Incluir la prueba de respuesta a pulsos en el protocolo de recopilación de "
+"datos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIProtocolPulseTest)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25219,6 +25232,10 @@ msgid ""
 "Adds about 20 minutes to the protocol and has not produced measurable "
 "results on rigs tested so far, so it is off by default."
 msgstr ""
+"Mide la respuesta elástica de la montura a los pulsos de guiado "
+"(accionamientos armónicos). Añade unos 20 minutos al protocolo y, hasta el "
+"momento, no ha producido resultados medibles en los equipos probados, por lo "
+"que está desactivada de forma predeterminada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -46100,6 +46117,10 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
+"El rotador gira físicamente en dirección opuesta a la que presupone el "
+"cálculo de posición-ángulo de KStars. Se deduce automáticamente la primera "
+"vez que lo confirma la comprobación de inversión automática de dirección; "
+"también se puede configurar manualmente."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -46531,6 +46552,8 @@ msgstr ""
 #, kde-format
 msgid "Include the pulse response test in the AI data collection protocol."
 msgstr ""
+"Incluir la prueba de respuesta a pulsos en el protocolo de recopilación de "
+"datos de IA."
 
 #. i18n: ectx: whatsthis, entry (AIProtocolPulseTest), group (Guide)
 #: kstars.kcfg:3127
@@ -46541,6 +46564,10 @@ msgid ""
 "not produced measurable results on rigs tested so far, so it is off by "
 "default."
 msgstr ""
+"La prueba de respuesta a pulsos mide la respuesta elástica de la montura a "
+"los pulsos de guiado (accionamientos armónicos). Añade unos 20 minutos al "
+"protocolo y, como no ha producido resultados medibles en los equipos "
+"probados hasta el momento, está desactivada de forma predeterminada."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131
