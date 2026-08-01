@@ -1533,7 +1533,7 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
 
         m_PulseTimer.start(delay);
     }
-    else if (m_StreamingGuide)
+    else if (m_StreamingGuide && m_State != GUIDE_CALIBRATING)
     {
         // In streaming mode frames keep arriving continuously, so we must gate them
         // while the mount is still responding to this pulse.  Without this guard every
@@ -1541,6 +1541,12 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
         // rapid-fire overlapping pulses that produce oscillations.
         // The gate duration is the longer of the two pulse lengths plus a small
         // propagation margin, floored by the user's guide delay setting.
+        //
+        // Calibration is deliberately excluded: it is frame-driven and must observe the
+        // star move through every pulse to measure the mount response.  Discarding frames
+        // during calibration loses star tracking and makes the drift look stalled, which
+        // pushes calibration into its "double the pulse" branch and flings the star out
+        // of the box ("Lost track of the guide star").
         auto ms = std::max(ra_msecs, dec_msecs) + 100;
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
         qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms";
@@ -1594,9 +1600,11 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 
         m_PulseTimer.start(delay);
     }
-    else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses)
+    else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses && m_State != GUIDE_CALIBRATING)
     {
         // Same pulse-in-flight gate as sendMultiPulse() above — correction pulses only.
+        // Calibration is excluded on purpose (see sendMultiPulse): its per-axis pulses need
+        // continuous frames so the star stays tracked while it drifts across the field.
         auto ms = msecs + 100;
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
         qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms (single pulse)";
