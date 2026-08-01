@@ -156,6 +156,7 @@ class AIGuideProtocol : public QObject
         HighPassFilter m_NoiseHPF;
         AxisStats m_NoiseStats;
         int m_NoiseFrameCount { 0 };
+        int m_BestDriftNoiseFrames { 0 };
 
         int m_PulseFrameCount { 0 };
         int m_PulseSettleTimer { 0 };

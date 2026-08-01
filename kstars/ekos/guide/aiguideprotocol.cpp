@@ -178,6 +178,7 @@ void AIGuideProtocol::start(const QString &mountType)
     m_SysIdData["equipment"] = equipment;
 
     m_SettingsChangedWarned = false;
+    m_BestDriftNoiseFrames = 0;
     m_SysIdData["model_fingerprint"] = buildFingerprint();
 
     m_SysIdData["sessions"] = QJsonArray();
@@ -199,8 +200,9 @@ void AIGuideProtocol::start(const QString &mountType)
     }
     else if (mountStr == "Harmonic Drive")
     {
-        // Position 1: 720s standard guiding and 480 free drift
-        m_Phases.append({65.0, -45.0, 720, false, false, {}, {}, 0, 15, 20});
+        // Position 1: 1800s standard guiding (resolves PE to 900s — strain-wave
+        // fundamentals live at sidereal/ratio, 288-865s on rigs measured so far) and 480 free drift
+        m_Phases.append({65.0, -45.0, 1800, false, false, {}, {}, 0, 15, 20});
         m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
 
         // Pulse response: large pulses, alternating direction so drift/PE cancel in pairing.
@@ -321,6 +323,14 @@ void AIGuideProtocol::processProtocol()
 
         case STATE_ERROR:
             m_ProtocolTimer.stop();
+            // Same cleanup as stop(): without it a free-drift flag or enforced settings
+            // left behind would silently suppress all pulses in later guiding sessions.
+            if (m_Guide)
+            {
+                m_Guide->setAIFreeDrift(false);
+                disconnect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats);
+            }
+            restoreSettings();
             emit protocolStopped();
             break;
 
@@ -589,13 +599,17 @@ void AIGuideProtocol::processProtocol()
                 {
                     const double hf = m_NoiseStats.sigma();
                     phaseRecord["hf_motion_arcsec"] = hf;
-                    // Free drift is the clean (unguided) measurement; prefer it globally
-                    if (phase.freeDrift || !m_SysIdData.contains("noise_floor_arcsec"))
+                    // The clean value is the LONGEST free drift; guided phases only serve
+                    // as a fallback when no drift completed, and are never shown.
+                    if (phase.freeDrift && m_NoiseStats.count() > m_BestDriftNoiseFrames)
+                    {
+                        m_BestDriftNoiseFrames = m_NoiseStats.count();
                         m_SysIdData["noise_floor_arcsec"] = hf;
-                    emit protocolLog(QString("Phase noise floor: %1\" HF star motion (%2).")
-                                     .arg(hf, 0, 'f', 2)
-                                     .arg(phase.freeDrift ? "unguided — clean measurement"
-                                          : "guided — upper bound"));
+                        emit protocolLog(QString("Phase noise floor: %1\" HF star motion "
+                                                 "(unguided — clean measurement).").arg(hf, 0, 'f', 2));
+                    }
+                    else if (m_BestDriftNoiseFrames == 0 && !m_SysIdData.contains("noise_floor_arcsec"))
+                        m_SysIdData["noise_floor_arcsec"] = hf;
                 }
 
                 phaseRecord["frames"] = m_PhaseData;
@@ -878,14 +892,16 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
         m_PhaseData.append(frame);
 
         // Live noise floor: HPF removes drift/PE, sigma of the remainder is the
-        // unguidable high-frequency star motion (seeing + centroid error).
+        // unguidable high-frequency star motion (seeing + centroid error). Only shown
+        // during free drift: the guide loop injects HF motion, so guided values read high.
         if (snr > 0.0)
         {
             const double hf = m_NoiseHPF.addValue(raErr);
             m_NoiseFrameCount++;
             if (m_NoiseFrameCount > 5)
                 m_NoiseStats.add(m_NoiseFrameCount, hf);
-            if (m_NoiseFrameCount % 60 == 0 && m_NoiseStats.count() > 30)
+            const bool freeDrift = !m_Phases.isEmpty() && m_Phases.first().freeDrift;
+            if (freeDrift && m_NoiseFrameCount % 60 == 0 && m_NoiseStats.count() > 30)
                 emit protocolLog(QString("Measured noise floor (HF star motion): %1\" — "
                                          "guiding cannot correct below this.")
                                  .arg(m_NoiseStats.sigma(), 0, 'f', 2));
