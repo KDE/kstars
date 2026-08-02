@@ -32,6 +32,11 @@ def parse_args():
                    help="Use GPU if available (optional — all models train fine on CPU)")
     p.add_argument("--epochs",      type=int, default=None,
                    help="Override default epoch count for neural models")
+    p.add_argument("--pid-lambda-factor", type=float, default=None,
+                   help="HARMONIC_DRIVE only: SIMC design parameter for the advisory PID "
+                        "auto-tune recommendation (lambda = max(tau, factor * dead_time)). "
+                        "Larger = slower/more conservative gain recommendation. "
+                        "Default: train_harmonic.SIMC_LAMBDA_L_FACTOR")
     p.add_argument("--simulate",    action="store_true",
                    help="Run closed-loop simulation after training completes")
     p.add_argument("--plot",        action="store_true",
@@ -83,9 +88,9 @@ def main():
                                   epochs=args.epochs, verbose=args.verbose)
 
     elif mount_type == "HARMONIC_DRIVE":
-        from train_harmonic import train_harmonic
-        weights = train_harmonic(sysid, gpu=args.gpu,
-                                 epochs=args.epochs, verbose=args.verbose)
+        from train_harmonic import train_harmonic, SIMC_LAMBDA_L_FACTOR
+        weights = train_harmonic(sysid, gpu=args.gpu, epochs=args.epochs, verbose=args.verbose,
+                                 pid_lambda_factor=args.pid_lambda_factor or SIMC_LAMBDA_L_FACTOR)
 
     else:
         sys.exit(
@@ -100,6 +105,19 @@ def main():
 
     print(f"[Ekos AI Trainer] ✓ Weights saved to {args.output}")
     print(f"[Ekos AI Trainer] Load this file in KStars Equipment Profile → AI Guiding → Weights File")
+
+    pid = weights.get("pid_autotune")
+    if pid:
+        print(f"\n[Ekos AI Trainer] PID auto-tune recommendation (advisory -- not applied automatically):")
+        for axis in ("ra", "dec"):
+            r = pid[axis]
+            if r["confidence"] == "unavailable":
+                print(f"  {axis.upper()}: unavailable ({r['reason']})")
+            else:
+                print(f"  {axis.upper()}: proportional_gain={r['proportional_gain']:.3f}  "
+                      f"integral_gain={r['integral_gain']:.3f}  confidence={r['confidence']}"
+                      + ("  [dead time unresolved below sampling floor]" if r["resolution_limited"] else ""))
+        print(f"  Review before changing Options::rA/dECProportionalGain() in KStars -- see pid_autotune_plan.md.")
 
     if args.simulate:
         print(f"\n[Ekos AI Trainer] Launching simulation...")
