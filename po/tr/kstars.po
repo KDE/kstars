@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-01 02:06+0000\n"
-"PO-Revision-Date: 2026-07-31 19:21+0300\n"
+"POT-Creation-Date: 2026-08-02 02:32+0000\n"
+"PO-Revision-Date: 2026-08-01 19:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22880,17 +22880,17 @@ msgstr ""
 "Düzeltmeler hâlihazırda uygulandı. Tâze eğim ölçülerini almak için "
 "kendiliğinden odağı yeniden çalıştırın."
 
-#: ekos/guide/aiguideprotocol.cpp:248
+#: ekos/guide/aiguideprotocol.cpp:250
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "Çalıştırılacak veri yok! Lütfen önce protokolü çalıştırın."
 
-#: ekos/guide/aiguideprotocol.cpp:249
+#: ekos/guide/aiguideprotocol.cpp:251
 #, kde-format
 msgid "No data to train"
 msgstr "Çalıştırılacak veri yok"
 
-#: ekos/guide/aiguideprotocol.cpp:254
+#: ekos/guide/aiguideprotocol.cpp:256
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "EkosLive Cloud ile yapay zekâ eğitimi başlatılıyor…"
@@ -23600,136 +23600,136 @@ msgstr ""
 "Yapay zekâ serbest kayması etkin. Çoklu darbeler bastırıldı (RA: %1 ms, DEC: "
 "%2 ms)."
 
-#: ekos/guide/guide.cpp:1570
+#: ekos/guide/guide.cpp:1576
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Yapay zekâ serbest kayması etkin. Tekil darbe bastırıldı (%1 ms)."
 
-#: ekos/guide/guide.cpp:1622
+#: ekos/guide/guide.cpp:1630
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Algılanan kamera yok. Optik katarlarda kamerayı denetleyin."
 
-#: ekos/guide/guide.cpp:1628
+#: ekos/guide/guide.cpp:1636
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Algılanan kılavuz yok. Optik katarlarda kılavuzu denetleyin."
 
-#: ekos/guide/guide.cpp:1709
+#: ekos/guide/guide.cpp:1717
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Bu kaide park edilmiş. Kılavuzluğu başlatmak için parktan çıkın."
 
-#: ekos/guide/guide.cpp:1818
+#: ekos/guide/guide.cpp:1826
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
 
-#: ekos/guide/guide.cpp:1832
+#: ekos/guide/guide.cpp:1840
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Kaide hareket ediyor. Kalibrasyon yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:1849
+#: ekos/guide/guide.cpp:1857
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Kaide park ediliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1851
+#: ekos/guide/guide.cpp:1859
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1937
+#: ekos/guide/guide.cpp:1945
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
-#: ekos/guide/guide.cpp:1965
+#: ekos/guide/guide.cpp:1973
 #, kde-format
 msgid "External guider connected."
 msgstr "Dış kılavuz bağlandı."
 
-#: ekos/guide/guide.cpp:1983
+#: ekos/guide/guide.cpp:1991
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dış kılavuz bağlantısı kesildi."
 
-#: ekos/guide/guide.cpp:2000
+#: ekos/guide/guide.cpp:2008
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/guide/guide.cpp:2026
+#: ekos/guide/guide.cpp:2034
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrasyon başlatıldı."
 
-#: ekos/guide/guide.cpp:2042
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Kılavuzluk sürdürüldü."
 
-#: ekos/guide/guide.cpp:2046
+#: ekos/guide/guide.cpp:2054
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Kendiliğinden kılavuzluk çalışıyor."
 
-#: ekos/guide/guide.cpp:2068
+#: ekos/guide/guide.cpp:2076
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Kendiliğinden kılavuzluk iptal edildi."
 
-#: ekos/guide/guide.cpp:2076
+#: ekos/guide/guide.cpp:2084
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Kılavuzluk askıya alındı."
 
-#: ekos/guide/guide.cpp:2085
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Elle kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2089
+#: ekos/guide/guide.cpp:2097
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2101
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 msgstr[1] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 
-#: ekos/guide/guide.cpp:2098
+#: ekos/guide/guide.cpp:2106
 #, kde-format
 msgid "Dithering failed."
 msgstr "Kıpırdatma başarısız."
 
-#: ekos/guide/guide.cpp:2109
+#: ekos/guide/guide.cpp:2117
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Kıpırdatma başarıyla tamamlandı."
 
-#: ekos/guide/guide.cpp:2167
+#: ekos/guide/guide.cpp:2175
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "%1 × %1 kılavuz gruplaması desteklenmiyor. En büyük değer %2 × %2 olarak "
 "verilir."
 
-#: ekos/guide/guide.cpp:2191
+#: ekos/guide/guide.cpp:2199
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Pozlama başarısız. Pozlama yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:2326
+#: ekos/guide/guide.cpp:2334
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Etkinken kılavuz türü değiştirilemiyor."
 
-#: ekos/guide/guide.cpp:2421
+#: ekos/guide/guide.cpp:2429
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23738,37 +23738,37 @@ msgstr ""
 "Uyarı: Kılavuz kalibrasyonunu sıfırlama etkin. Bu seçeneğin PHD2 için "
 "kapatılması önerilir."
 
-#: ekos/guide/guide.cpp:2875
+#: ekos/guide/guide.cpp:2883
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrasyon başlatılamadı."
 
-#: ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:3034
 #, kde-format
 msgid "Auto star selected."
 msgstr "Kendiliğinden yıldız seçildi."
 
-#: ekos/guide/guide.cpp:3030
+#: ekos/guide/guide.cpp:3038
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Kendiliğinden bir yıldız seçilemedi."
 
-#: ekos/guide/guide.cpp:3039
+#: ekos/guide/guide.cpp:3047
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
-#: ekos/guide/guide.cpp:3301
+#: ekos/guide/guide.cpp:3309
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (piksel)"
 
-#: ekos/guide/guide.cpp:3302
+#: ekos/guide/guide.cpp:3310
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (piksel)"
 
-#: ekos/guide/guide.cpp:3445 ekos/guide/guide.cpp:3594
+#: ekos/guide/guide.cpp:3453 ekos/guide/guide.cpp:3602
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23778,7 +23778,7 @@ msgstr ""
 "göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
-#: ekos/guide/guide.cpp:3449 ekos/guide/guide.cpp:3598
+#: ekos/guide/guide.cpp:3457 ekos/guide/guide.cpp:3606
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23789,32 +23789,32 @@ msgstr ""
 "işareti kaldırılmalıdır. Görsel yakalamalarınızı etkinleştirmek için şimdi "
 "işaretini kaldırın. Kılavuzluktan önce yeniden etkinleştirebilirsiniz."
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3538
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Yapay Zekâ Kılavuz Yardımcısı…"
 
-#: ekos/guide/guide.cpp:3535
+#: ekos/guide/guide.cpp:3543
 #, kde-format
 msgid "Load Weights..."
 msgstr "Ağırlıklar Yükle…"
 
-#: ekos/guide/guide.cpp:3641 ekos/guide/guide.cpp:3646
+#: ekos/guide/guide.cpp:3649 ekos/guide/guide.cpp:3654
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive yapay zekâ eğitimi başarısız oldu: %1"
 
-#: ekos/guide/guide.cpp:3642 ekos/guide/guide.cpp:3647
+#: ekos/guide/guide.cpp:3650 ekos/guide/guide.cpp:3655
 #, kde-format
 msgid "unknown error"
 msgstr "Bilinmeyen hata"
 
-#: ekos/guide/guide.cpp:3661
+#: ekos/guide/guide.cpp:3669
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Yapay zekâ ağırlıkları %1 konumuna kaydedilemedi."
 
-#: ekos/guide/guide.cpp:3671
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23822,23 +23822,23 @@ msgstr ""
 "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
 "yapay zekâ ağırlıkları olarak ayarlandı."
 
-#: ekos/guide/guide.cpp:3675
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi."
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3689
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Yapay Zekâ Kılavuzu Ağırlıklarını Yükle"
 
-#: ekos/guide/guide.cpp:3682
+#: ekos/guide/guide.cpp:3690
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Yapay zekâ ağırlıkları (*.json)"
 
-#: ekos/guide/guide.cpp:3686
+#: ekos/guide/guide.cpp:3694
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23847,7 +23847,7 @@ msgstr ""
 "Yapay zekâ ağırlıkları %1 olarak ayarlandı. Bir sonraki sefere kılavuzluk "
 "başlatıldığında uygulanacaklar."
 
-#: ekos/guide/guide.cpp:3857
+#: ekos/guide/guide.cpp:3865
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "PHD2 bağlıyken etkin optik katar değiştirilemiyor"
@@ -24587,7 +24587,7 @@ msgstr "DEC yönü tersine çevrildi (RA-DEC artık standart CCW sistemidir)."
 #: ekos/guide/internalguide/gmath.cpp:297
 #, kde-format
 msgid "The weights file could not be read or does not match this mount type."
-msgstr ""
+msgstr "Ağırlıklar dosyası okunamadı veya bu kaide türüyle uyuşmuyor."
 
 #: ekos/guide/internalguide/gmath.cpp:298
 #, kde-format
@@ -24595,6 +24595,8 @@ msgid ""
 "Settings that do not match the weights:\n"
 "%1"
 msgstr ""
+"Ağırlıklarla uyuşmayan ayarlar:\n"
+"%1"
 
 #: ekos/guide/internalguide/gmath.cpp:299
 #, kde-format
@@ -24605,13 +24607,7 @@ msgstr ""
 "Kılavuzluk iptal edildi."
 
 #: ekos/guide/internalguide/gmath.cpp:301
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or Fingerprint mismatched!\n"
-#| "\n"
-#| "Re-run the Guide AI Assistant to generate new weights for your current "
-#| "settings, or switch the Guide Algorithm back to a standard mode. Guiding "
-#| "has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -24621,11 +24617,13 @@ msgid ""
 "current settings, or switch the Guide Algorithm to a standard mode. Guiding "
 "has been aborted."
 msgstr ""
-"Yapay zekâ kılavuzu ağırlıkları yükleyemedi veya parmak izi eşleşmiyor.\n"
+"Yapay zekâ kılavuzu ağırlıkları yükleyemedi.\n"
 "\n"
-"Geçerli ayarlarınız için yeni ağırlıklar üretmek üzere yapay zeka kılavuz "
-"yardımcısını yeniden çalıştırın veya kılavuz algoritmayı yeniden standart "
-"kipe çevirin. Kılavuzluk iptal edildi."
+"%1\n"
+"\n"
+"Ayarları uyuşması için geri değiştirin; yapay zekâ kılavuz yardımcısını "
+"geçerli ayarlarla yeniden çalıştırın veya kılavuz algoritmayı yeniden "
+"standart kipe çevirin. Kılavuzluk iptal edildi."
 
 #: ekos/guide/internalguide/gmath.cpp:303
 #, kde-format

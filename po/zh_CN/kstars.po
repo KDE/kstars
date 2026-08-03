@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-01 02:06+0000\n"
+"POT-Creation-Date: 2026-08-02 02:32+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8149,27 +8149,18 @@ msgstr "保留位置角"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>启用此功能后，如果在首次进行 PAC (极轴) 校正后，某个轴"
-"的极轴对齐误差反而<b>增大</b>，系统将在下一次尝试时自动反转该轴的校正方向。</"
-"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "RA drifting reverse..."
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "赤经反向漂移..."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -22002,17 +21993,17 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:248
+#: ekos/guide/aiguideprotocol.cpp:250
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:249
+#: ekos/guide/aiguideprotocol.cpp:251
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:254
+#: ekos/guide/aiguideprotocol.cpp:256
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""
@@ -22651,170 +22642,170 @@ msgstr ""
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1570
+#: ekos/guide/guide.cpp:1576
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1622
+#: ekos/guide/guide.cpp:1630
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "未检测到相机，请检查 optical train 内相机。"
 
-#: ekos/guide/guide.cpp:1628
+#: ekos/guide/guide.cpp:1636
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "未检测到导星镜，请 optical train 中“导星自”选项。"
 
-#: ekos/guide/guide.cpp:1709
+#: ekos/guide/guide.cpp:1717
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "支架已归位，请解除归位以开始导星。"
 
-#: ekos/guide/guide.cpp:1818
+#: ekos/guide/guide.cpp:1826
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "检测到立柱偏向改变。正在清除校准数据。"
 
-#: ekos/guide/guide.cpp:1832
+#: ekos/guide/guide.cpp:1840
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "赤道仪正在移动，正在重置校准..."
 
-#: ekos/guide/guide.cpp:1849
+#: ekos/guide/guide.cpp:1857
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "赤道仪正在归位，中止导星..."
 
-#: ekos/guide/guide.cpp:1851
+#: ekos/guide/guide.cpp:1859
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "赤道仪正在转动，中止导星..."
 
-#: ekos/guide/guide.cpp:1937
+#: ekos/guide/guide.cpp:1945
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "校准已清除。"
 
-#: ekos/guide/guide.cpp:1965
+#: ekos/guide/guide.cpp:1973
 #, kde-format
 msgid "External guider connected."
 msgstr "外部导星器连接成功。"
 
-#: ekos/guide/guide.cpp:1983
+#: ekos/guide/guide.cpp:1991
 #, kde-format
 msgid "External guider disconnected."
 msgstr "外部到星期连接断开。"
 
-#: ekos/guide/guide.cpp:2000
+#: ekos/guide/guide.cpp:2008
 #, kde-format
 msgid "Calibration completed."
 msgstr "校准完毕。"
 
-#: ekos/guide/guide.cpp:2026
+#: ekos/guide/guide.cpp:2034
 #, kde-format
 msgid "Calibration started."
 msgstr "校准开始。"
 
-#: ekos/guide/guide.cpp:2042
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid "Guiding resumed."
 msgstr "自动导星已经恢复。"
 
-#: ekos/guide/guide.cpp:2046
+#: ekos/guide/guide.cpp:2054
 #, kde-format
 msgid "Autoguiding running."
 msgstr "自动导星运行中。"
 
-#: ekos/guide/guide.cpp:2068
+#: ekos/guide/guide.cpp:2076
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "自动导星已中止。"
 
-#: ekos/guide/guide.cpp:2076
+#: ekos/guide/guide.cpp:2084
 #, kde-format
 msgid "Guiding suspended."
 msgstr "自动导星暂停。"
 
-#: ekos/guide/guide.cpp:2085
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "手动抖动中"
 
-#: ekos/guide/guide.cpp:2089
+#: ekos/guide/guide.cpp:2097
 #, kde-format
 msgid "Dithering in progress."
 msgstr "正在进行像素偏移。"
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2101
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "抖动后安定 %1 秒中..."
 
-#: ekos/guide/guide.cpp:2098
+#: ekos/guide/guide.cpp:2106
 #, kde-format
 msgid "Dithering failed."
 msgstr "像素偏移失败。"
 
-#: ekos/guide/guide.cpp:2109
+#: ekos/guide/guide.cpp:2117
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
-#: ekos/guide/guide.cpp:2167
+#: ekos/guide/guide.cpp:2175
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2191
+#: ekos/guide/guide.cpp:2199
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "曝光失败。重新启动曝光..."
 
-#: ekos/guide/guide.cpp:2326
+#: ekos/guide/guide.cpp:2334
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "激活后无法改变导星器类型。"
 
-#: ekos/guide/guide.cpp:2421
+#: ekos/guide/guide.cpp:2429
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr "警告：已启用导星校准重置。建议关闭此 PHD2 选项。"
 
-#: ekos/guide/guide.cpp:2875
+#: ekos/guide/guide.cpp:2883
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "校准启动失败。"
 
-#: ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:3034
 #, kde-format
 msgid "Auto star selected."
 msgstr "自动选中被导星。"
 
-#: ekos/guide/guide.cpp:3030
+#: ekos/guide/guide.cpp:3038
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "自动选择被导星失败。"
 
-#: ekos/guide/guide.cpp:3039
+#: ekos/guide/guide.cpp:3047
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "选择一颗被导星来进行校准。"
 
-#: ekos/guide/guide.cpp:3301
+#: ekos/guide/guide.cpp:3309
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx( 像素 )"
 
-#: ekos/guide/guide.cpp:3302
+#: ekos/guide/guide.cpp:3310
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (像素)"
 
-#: ekos/guide/guide.cpp:3445 ekos/guide/guide.cpp:3594
+#: ekos/guide/guide.cpp:3453 ekos/guide/guide.cpp:3602
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22823,7 +22814,7 @@ msgstr ""
 "PHD2 的相机在 Ekos 不可用，所以您未能看到拍摄的图像。 但您在导星时仍可看到被"
 "导星图像。"
 
-#: ekos/guide/guide.cpp:3449 ekos/guide/guide.cpp:3598
+#: ekos/guide/guide.cpp:3457 ekos/guide/guide.cpp:3606
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22833,61 +22824,61 @@ msgstr ""
 "为了接收 PHD2 图像而不是被导星图像，必须取消勾选截幅。 请现在取消勾选以拍摄图"
 "像。您可以在导星前重新启用它。"
 
-#: ekos/guide/guide.cpp:3530
+#: ekos/guide/guide.cpp:3538
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3535
+#: ekos/guide/guide.cpp:3543
 #, kde-format
 msgid "Load Weights..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3641 ekos/guide/guide.cpp:3646
+#: ekos/guide/guide.cpp:3649 ekos/guide/guide.cpp:3654
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3642 ekos/guide/guide.cpp:3647
+#: ekos/guide/guide.cpp:3650 ekos/guide/guide.cpp:3655
 #, kde-format
 msgid "unknown error"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3661
+#: ekos/guide/guide.cpp:3669
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3671
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3675
+#: ekos/guide/guide.cpp:3683
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3681
+#: ekos/guide/guide.cpp:3689
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3682
+#: ekos/guide/guide.cpp:3690
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3686
+#: ekos/guide/guide.cpp:3694
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3857
+#: ekos/guide/guide.cpp:3865
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "不能更改 optical train 当已连上 PHD2 时"
@@ -28985,11 +28976,9 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CameraWarmupRamp)
 #: ekos/scheduler/opsscriptssettings.ui:70
-#, fuzzy, kde-format
-#| msgctxt "Maximum temperature variation over time when regulating."
-#| msgid "Ramp (°C/min):"
+#, kde-format
 msgid " °C/min"
-msgstr "Ramp (°C/min):"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsweathersettings.ui:43
