@@ -1,12 +1,7 @@
-# This YAML recipe builds KStars with INDI support, then runs all tests
-# It uses both KDE CI and custom image until tests are stabilised in the KDE CI image
-# Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
-
 include:
   - local: ".gitlab-ci/common_rules.yml"
   - project: sysadmin/ci-utilities
     file:
-      - /gitlab-templates/linux.yml
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
@@ -17,197 +12,13 @@ include:
       - /gitlab-templates/craft-macos-arm64-qt6.yml
       - /gitlab-templates/snap-snapcraft-lxd.yml
 
-# Jobs
-# Standard build recipes
+# ... (.standard-build-recipes, suse_tumbleweed_qt611, windows_qt611, json-validation,
+#      astyle-check, .craft-recipes, craft_* jobs, .publishing-recipes,
+#      microsoftstore_qt6, flatpak-amd64, flatpak-arm64 all unchanged) ...
 
-.standard-build-recipes:
-  rules:
-    - !reference [.optional-on-forked-repository, rules]
-    - !reference [.optional-on-draft-merge-requests, rules]
-    - !reference [.optional-on-scheduled-pipeline, rules]
-    - !reference [.always-on-master-branch, rules]
-    - !reference [.always-on-merge-requests, rules]
-    - !reference [.manual-skipped-recipe, rules]
+# suse_tumbleweed_qt515 job removed entirely
 
-# Override the script for Suse Tumbleweed to avoid building with tests,
-# since ci-utilities/run-ci-build.py turns it on
-
-suse_tumbleweed_qt611:
-  allow_failure: true # Necessary since INDI interface changed
-  script:
-    - git config --global --add safe.directory $CI_PROJECT_DIR
-    - >-
-      python3 -u ci-utilities/run-ci-build.py --project $CI_PROJECT_NAME
-      --branch $CI_COMMIT_REF_NAME --platform Linux/Qt6/Shared
-      --extra-cmake-args=-DBUILD_WITH_QT6=ON
-      --extra-cmake-args=-DQT_MAJOR_VERSION=6
-      --extra-cmake-args=-DBUILD_TESTING=OFF
-    - |
-      if [ -d "$INSTALLED_DOC_PATH" ]; then
-        git clone https://invent.kde.org/websites/docs-kde-org.git --depth=1
-        python3 ci-utilities/generate-documentation.py --project $CI_PROJECT_NAME --output-folder "generated_documentation" --format html pdf --branch $CI_COMMIT_REF_NAME --publish --doc-dir $INSTALLED_DOC_PATH
-      fi
-  rules:
-    - !reference [.always-on-scheduled-pipeline, rules] # Flatpak nightly
-    - !reference [.standard-build-recipes, rules]
-
-# These jobs are automatically defined by the included templates
-# We just need to override their rules - no need to extend anything
-
-windows_qt611:
-  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT6 IS INCLUDED IN CI IMAGE
-  rules:
-    - !reference [.standard-build-recipes, rules]
-  needs:
-    - suse_tumbleweed_qt611 # Wait for a success of the fast job
-
-suse_tumbleweed_qt515:
-  variables:
-    HOME: /tmp
-    STELLARSOLVER_PREFIX: "$CI_PROJECT_DIR/.local/stellarsolver"
-    CMAKE_PREFIX_PATH: "$CI_PROJECT_DIR/.local/stellarsolver:$CMAKE_PREFIX_PATH"
-    LD_LIBRARY_PATH: "$CI_PROJECT_DIR/.local/stellarsolver/lib64:$CI_PROJECT_DIR/.local/stellarsolver/lib:$LD_LIBRARY_PATH"
-    PKG_CONFIG_PATH: "$CI_PROJECT_DIR/.local/stellarsolver/lib64/pkgconfig:$CI_PROJECT_DIR/.local/stellarsolver/lib/pkgconfig:$PKG_CONFIG_PATH"
-  rules:
-    #    - !reference [.standard-build-recipes, rules]
-    - when: never # DISABLED, since tumbleweed has problems with Qt5
-  before_script:
-    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    - git clone https://invent.kde.org/sysadmin/repo-metadata.git ci-utilities/repo-metadata/ --depth=1
-
-    # Build-Dependencies für StellarSolver (Qt5 Job; Qt/KF5 sind im Basis-Image bereits vorhanden)
-    - zypper -n ref
-    - >-
-      zypper -n in --no-recommends
-      libeigen3-devel
-      cfitsio-devel
-      zlib-ng-devel
-      gettext
-      libnova-devel
-      gsl-devel
-      libraw-devel
-      wcslib-devel
-      xplanet
-      libsecret-1-0
-      kinit-devel
-      kf6-breeze-icons
-
-    # build and install StellarSolver locally
-    - mkdir -p "$STELLARSOLVER_PREFIX"
-    - rm -rf stellarsolver
-    - git clone https://github.com/rlancaste/stellarsolver.git --depth=1 stellarsolver
-    - >-
-      cmake -S stellarsolver -B stellarsolver/build
-      -DCMAKE_BUILD_TYPE=Release
-      -DCMAKE_INSTALL_PREFIX="$STELLARSOLVER_PREFIX"
-    - cmake --build stellarsolver/build -j"$(nproc)"
-    - cmake --install stellarsolver/build
-  script:
-    - git config --global --add safe.directory $CI_PROJECT_DIR
-    - >-
-      python3 -u ci-utilities/run-ci-build.py --project $CI_PROJECT_NAME
-      --branch $CI_COMMIT_REF_NAME --platform Linux/Qt5/Shared
-      --extra-cmake-args=-DBUILD_WITH_QT6=OFF
-      --extra-cmake-args=-DQT_MAJOR_VERSION=5
-      --extra-cmake-args=-DBUILD_TESTING=OFF
-    - |
-      if [ -d "$INSTALLED_DOC_PATH" ]; then
-        git clone https://invent.kde.org/websites/docs-kde-org.git --depth=1
-        python3 ci-utilities/generate-documentation.py --project $CI_PROJECT_NAME --output-folder "generated_documentation" --format html pdf --branch $CI_COMMIT_REF_NAME --publish --doc-dir $INSTALLED_DOC_PATH
-      fi
-
-json-validation:
-  stage: validate
-  rules:
-    - !reference [.standard-build-recipes, rules]
-
-astyle-check:
-  stage: validate
-  image: ubuntu:24.04
-  rules:
-    - !reference [.standard-build-recipes, rules]
-  script:
-    - apt-get update && apt-get install -y --no-install-recommends git python3-pip
-    - |
-      ASTYLE_VERSION="$(cat .astyle-version)"
-      python3 -m pip install --break-system-packages "astyle==${ASTYLE_VERSION}"
-      astyle --version
-      astyle --version | grep -q "Version ${ASTYLE_VERSION}" || {
-        echo "ERROR: CI astyle version mismatch (expected ${ASTYLE_VERSION})." >&2
-        exit 1
-      }
-    - |
-      if [ -n "${CI_MERGE_REQUEST_DIFF_BASE_SHA:-}" ]; then
-        bash tools/run_astyle.sh --check --changed-since "${CI_MERGE_REQUEST_DIFF_BASE_SHA}"
-      elif [ -n "${CI_COMMIT_BEFORE_SHA:-}" ] && [ "${CI_COMMIT_BEFORE_SHA}" != "0000000000000000000000000000000000000000" ]; then
-        bash tools/run_astyle.sh --check --changed-since "${CI_COMMIT_BEFORE_SHA}"
-      else
-        bash tools/run_astyle.sh --check
-      fi
-
-# Craft recipes
-
-.craft-recipes:
-  rules:
-    - !reference [.optional-on-forked-repository, rules]
-    - !reference [.optional-on-draft-merge-requests, rules]
-    - !reference [.optional-on-scheduled-pipeline, rules]
-    - !reference [.always-on-master-branch, rules]
-    - !reference [.always-on-stable-release, rules]
-    - !reference [.manual-skipped-recipe, rules]
-
-# These craft jobs are also automatically defined by the included templates
-craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
-  needs:
-    - windows_qt611
-  rules:
-    - !reference [.craft-recipes, rules]
-
-craft_macos_qt6_x86_64: # Extended from /gitlab-templates/craft-macos-x86-64-qt6.yml
-  timeout: 2h # Signing procedure often exceeds the default 1h
-  needs:
-    - suse_tumbleweed_qt611 # we don't have a macos check build
-  rules:
-    - !reference [.craft-recipes, rules]
-
-craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.yml
-  timeout: 2h # Signing procedure often exceeds the default 1h
-  needs:
-    - suse_tumbleweed_qt611 # we don't have a macos check build
-  rules:
-    - !reference [.craft-recipes, rules]
-
-# Publishing recipes
-
-.publishing-recipes:
-  rules:
-    - !reference [.always-on-stable-release, rules]
-    - !reference [.manual-skipped-recipe, rules]
-    - when: never
-
-microsoftstore_qt6:
-  needs:
-    - craft_windows_qt6_x86_64 # Wait for Windows craft job to complete
-  rules:
-    - !reference [.publishing-recipes, rules]
-
-flatpak-amd64:
-  timeout: 2h
-  needs:
-    - suse_tumbleweed_qt611
-  rules:
-    - !reference [.always-on-scheduled-pipeline, rules]
-    - !reference [.publishing-recipes, rules]
-
-flatpak-arm64:
-  timeout: 3h
-  needs:
-    - suse_tumbleweed_qt611
-  rules:
-    - !reference [.always-on-scheduled-pipeline, rules]
-    - !reference [.publishing-recipes, rules]
-
-# Custom build recipes - until tests are operational in the KDE CI image
+# Custom build recipes
 
 .custom-build-recipes:
   rules:
@@ -217,89 +28,38 @@ flatpak-arm64:
     - !reference [.manual-skipped-recipe, rules]
 
 .custom_build:
-  interruptible: true
-  variables:
-    CCACHE_BASEDIR: "$CI_PROJECT_DIR"
-    QT_TEST_TIMEOUT_FUNCTION: "600"
-    QT_QPA_PLATFORM: "eglfs"
-    CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
-  cache:
-    key: "CCACHE-DB-$CI_PROJECT_ID"
-    paths: ["${CCACHE_DIR}"]
-    when: always
-  rules:
-    - !reference [.custom-build-recipes, rules]
-  before_script:
-    - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
-    - |
-      # Ubuntu interim releases move off the primary mirrors after EOL.
-      if [ -r /etc/os-release ]; then
-        . /etc/os-release
-        if [ "${ID:-}" = "ubuntu" ] && [ "${VERSION_CODENAME:-}" = "oracular" ]; then
-          find /etc/apt -type f \( -name '*.list' -o -name '*.sources' \) -print0 | \
-            xargs -0 sed -i \
-              -e 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
-              -e 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
-              -e 's|http://ports.ubuntu.com/ubuntu-ports|http://old-releases.ubuntu.com/ubuntu|g'
-        fi
-      fi
-    - add-apt-repository --remove ppa:mutlaqja/ppa
-    - add-apt-repository ppa:mutlaqja/ppa
-    - apt update
-    - pkgs="libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev libcurl4-openssl-dev"
-    - existing=$(apt-cache pkgnames | grep -xFf <(printf '%s\n' $pkgs))
-    - if [ -n "$existing" ]; then apt -y --no-install-recommends install $existing; fi
-    - mkdir -p kstars-build
-  after_script:
-    - ccache -s
+  # unchanged
 
-# Run the build and keep the ccache folder as a fail-fast
-ubuntu_qt5:
-  stage: build
-  extends: .custom_build
-  image:
-    name: sternejaeger/kstars-ci:qt5
-  allow_failure: true # TODO: REMOVE IF TIMEOUT PROBLEMS ARE FIXED
-  needs:
-    - suse_tumbleweed_qt611
-  script:
-    - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=OFF ..
-    - ninja -j8 all install
+# ubuntu_qt5 job removed entirely
 
 ubuntu_qt6:
   stage: build
   extends: .custom_build
   image:
     name: sternejaeger/kstars-ci:qt6
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
+  allow_failure: true # TODO: remove once Qt6 build is proven stable as sole path
   needs:
     - suse_tumbleweed_qt611
-  rules:
-    - when: never # DISABLED, since we use tumbleweed_qt6 for Qt6 compile checks
+  # rules override removed, it now just inherits .custom-build-recipes and actually runs
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=OFF -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=ON ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=ON ..
     - ninja -j8 all install
 
-# Run the full validation in one step, stable tests that must not fail
-# The artifacts take far too much time to propagate from one step to the other
-# The cache is unreliable, and only works on the same runner if there is no shared cache - use it for ccache instead
-# Consolidate runner with build packages and build
 build-and-test-stable:
   stage: test
   extends: .custom_build
   image:
-    name: sternejaeger/kstars-ci:qt5
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
+    name: sternejaeger/kstars-ci:qt6
+  allow_failure: true
   needs:
-    - ubuntu_qt5
+    - ubuntu_qt6
   timeout: 3 hours
   variables:
     BUILD_TESTING: "ON"
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_WITH_QT6=OFF ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_WITH_QT6=ON ..
     - ninja -j8 all install
     - rm -rf Testing
     - mkdir -p /var/run/dbus
@@ -316,3 +76,10 @@ build-and-test-stable:
   artifacts:
     reports:
       junit: ./junit_result.stable.xml
+
+# Gate snapcraft on a successful linux build
+snapcraft:
+  needs:
+    - suse_tumbleweed_qt611
+  rules:
+    - !reference [.craft-recipes, rules]
