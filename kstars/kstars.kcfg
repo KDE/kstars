@@ -3297,10 +3297,10 @@
          <default>true</default>
       </entry>
       <entry name="RAProportionalGain" type="Double">
-         <default>133.33</default>
+         <default>0.75</default>
       </entry>
       <entry name="DECProportionalGain" type="Double">
-         <default>133.33</default>
+         <default>0.75</default>
       </entry>
       <entry name="RAIntegralGain" type="Double">
          <default>0</default>

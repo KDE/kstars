@@ -14,6 +14,7 @@
 #include "Options.h"
 #include "internalguide/internalguider.h"
 #include "internalguide/calibration.h"
+#include "internalguide/mount_guider_factory.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -26,6 +27,14 @@ AIGuideProtocol::AIGuideProtocol(Guide *guide) : QObject(guide), m_Guide(guide)
 {
     connect(&m_ProtocolTimer, &QTimer::timeout, this, &AIGuideProtocol::processProtocol);
     setObjectName("AIGuideProtocol");
+}
+
+QString AIGuideProtocol::detectMountType() const
+{
+    if (!m_Guide || !m_Guide->mount())
+        return "NOT_FOUND";
+
+    return MountGuiderFactory::detectMountType(m_Guide->mount()->getDeviceName());
 }
 
 QJsonObject AIGuideProtocol::buildFingerprint() const

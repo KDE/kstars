@@ -78,6 +78,14 @@ class AIGuideProtocol : public QObject
             return m_LogFilename;
         }
 
+        /**
+         * @brief Auto-detect the mount class from the connected mount's device name via
+         * mount_types.json (MountGuiderFactory::detectMountType()).
+         * @return "WORM_GEAR" / "HARMONIC_DRIVE" / "DIRECT_DRIVE" / "NOT_FOUND" -- "NOT_FOUND"
+         * if no mount is connected or the name has no entry in the lookup table.
+         */
+        QString detectMountType() const;
+
     Q_SIGNALS:
         void protocolLog(const QString &message);
         void protocolProgress(int current, int total, const QString &status);

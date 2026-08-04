@@ -259,6 +259,29 @@ void AIGuideWizard::showEvent(QShowEvent *event)
 {
     QWizard::showEvent(event);
 
+    // Suggest a mount type from the connected mount's device name (mount_types.json), once.
+    // The user can still change the selection manually -- this only sets the initial value.
+    if (!m_MountTypeAutoDetectAttempted)
+    {
+        m_MountTypeAutoDetectAttempted = true;
+        QString comboText;
+        const QString detected = m_Protocol->detectMountType();
+        if (detected == "WORM_GEAR")
+            comboText = "Worm Gear";
+        else if (detected == "HARMONIC_DRIVE")
+            comboText = "Harmonic Drive";
+        else if (detected == "DIRECT_DRIVE")
+            comboText = "Direct Drive";
+
+        if (!comboText.isEmpty())
+        {
+            mountTypeCombo->setCurrentText(comboText);
+            appendLog(i18n("Detected mount type: %1. Change the selection above if this is incorrect.", comboText));
+        }
+        else
+            appendLog(i18n("Could not auto-detect the mount type. Please select it manually above."));
+    }
+
     m_AutoNavigating = true;
 
     // If protocol is already running (e.g. started via EkosLive), jump to page 2

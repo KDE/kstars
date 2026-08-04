@@ -65,6 +65,7 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
 
         AIGuideProtocol *m_Protocol { nullptr };
         bool m_AutoNavigating { false };
+        bool m_MountTypeAutoDetectAttempted { false };
 };
 
 }
