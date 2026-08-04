@@ -19,14 +19,6 @@
 #include <cmath>
 #include <algorithm>
 
-namespace
-{
-bool fpDoubleClose(double a, double b, double tol = 1e-4)
-{
-    return std::abs(a - b) <= tol;
-}
-}  // namespace
-
 // ── Static member initialization ──────────────────────────────────────────────
 Eigen::Matrix<double, HarmonicGuider::N_STATES, 1>
 HarmonicGuider::m_x { Eigen::Matrix<double, N_STATES, 1>::Zero() };
@@ -54,79 +46,42 @@ HarmonicGuider::HarmonicGuider()
     m_qb2.setZero();
 }
 
-bool HarmonicGuider::validateFingerprint(const QJsonObject &fp)
-{
-    m_FingerprintError.clear();
-    if (fp.isEmpty())
-        return true;
-
-    QStringList mismatches;
-
-    const struct
-    {
-        const char *key;
-        double current;
-        double tol;
-    } checks[] =
-    {
-        { "guide_exposure_s",      Options::guideExposure(),         0.05 },
-        { "ra_proportional_gain",  Options::rAProportionalGain(),    1e-4 },
-        { "dec_proportional_gain", Options::dECProportionalGain(),   1e-4 },
-        { "ra_integral_gain",      Options::rAIntegralGain(),        1e-4 },
-        { "dec_integral_gain",     Options::dECIntegralGain(),       1e-4 },
-        { "ra_min_pulse_arcsec",   Options::rAMinimumPulseArcSec(),  1e-4 },
-        { "dec_min_pulse_arcsec",  Options::dECMinimumPulseArcSec(), 1e-4 },
-        { "ra_max_pulse_arcsec",   static_cast<double>(Options::rAMaximumPulseArcSec()),  1e-4 },
-        { "dec_max_pulse_arcsec",  static_cast<double>(Options::dECMaximumPulseArcSec()), 1e-4 },
-        { "ra_hysteresis",         Options::rAHysteresis(),          1e-4 },
-        { "dec_hysteresis",        Options::dECHysteresis(),         1e-4 },
-    };
-
-    bool ok = true;
-    for (const auto &c : checks)
-    {
-        if (fp.contains(c.key) && !fpDoubleClose(fp[c.key].toDouble(), c.current, c.tol))
-        {
-            qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected:" << c.key << "recorded"
-                                         << fp[c.key].toDouble() << "current" << c.current;
-            mismatches << QString("%1: weights %2, current %3")
-                       .arg(c.key).arg(fp[c.key].toDouble()).arg(c.current);
-            ok = false;
-        }
-    }
-
-    if (fp.contains("guide_binning") && fp["guide_binning"].toString() != Options::guideBinning())
-    {
-        qCWarning(KSTARS_EKOS_GUIDE) << "AI weights rejected: guide_binning recorded"
-                                     << fp["guide_binning"].toString() << "current" << Options::guideBinning();
-        mismatches << QString("guide_binning: weights %1, current %2")
-                   .arg(fp["guide_binning"].toString(), Options::guideBinning());
-        ok = false;
-    }
-
-    m_FingerprintError = mismatches.join("\n");
-    return ok;
-}
-
 bool HarmonicGuider::loadWeights(const QString &weightsPath)
 {
     m_weightsLoaded = false;
+    m_FingerprintError.clear();
+    m_FingerprintApplied.clear();
 
     QFile file(weightsPath);
     if (!file.open(QIODevice::ReadOnly))
+    {
+        m_FingerprintError = "weights file could not be opened";
         return false;
+    }
 
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     if (doc.isNull() || !doc.isObject())
+    {
+        m_FingerprintError = "weights file is not valid JSON";
         return false;
+    }
 
     QJsonObject root = doc.object();
 
     if (root["mount_type"].toString() != "HARMONIC_DRIVE")
+    {
+        m_FingerprintError = "weights were trained for a different mount class";
         return false;
+    }
 
-    if (!validateFingerprint(root["model_fingerprint"].toObject()))
-        return false;
+    // Reinstate the settings this model was trained under (exposure, binning, gains, …)
+    // rather than requiring the user to have already matched them by hand.
+    const QStringList changes = applyFingerprintToOptions(root["model_fingerprint"].toObject());
+    if (!changes.isEmpty())
+    {
+        m_FingerprintApplied = changes.join("\n");
+        qCInfo(KSTARS_EKOS_GUIDE) << "AI weights: applied recorded settings -" << changes.join("; ");
+    }
 
     QJsonObject phys = root["physical"].toObject();
     m_kappa_ra  = phys["kappa_ra"].toDouble(0.2);

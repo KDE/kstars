@@ -273,6 +273,12 @@ void cgmath::start()
             m_AIGuider = MountGuiderFactory::createFromWeights(weightsPath);
             if (m_AIGuider && m_AIGuider->loadWeights(weightsPath))
             {
+                if (!m_AIGuider->fingerprintApplied().isEmpty())
+                {
+                    qCInfo(KSTARS_EKOS_GUIDE) << "[AI GUIDER] Applied recorded settings:" << m_AIGuider->fingerprintApplied();
+                    emit newLog(i18n("AI Guider: applied the trained model's recorded settings (%1).",
+                                      m_AIGuider->fingerprintApplied()));
+                }
                 if (useAIAlgorithm)
                 {
                     qCWarning(KSTARS_EKOS_GUIDE) << "=======================================================";
@@ -290,16 +296,16 @@ void cgmath::start()
             }
             else
             {
-                qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER FAILED TO LOAD WEIGHTS OR FINGERPRINT MISMATCH:" << weightsPath;
+                const QString reason = m_AIGuider ? m_AIGuider->fingerprintError() : QString();
+                qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER FAILED TO LOAD WEIGHTS:" << weightsPath << reason;
                 if (useAIAlgorithm)
                 {
-                    const QString reason = m_AIGuider ? m_AIGuider->fingerprintError() : QString();
                     const QString detail = reason.isEmpty()
-                                           ? i18n("The weights file could not be read or does not match this mount type.")
-                                           : i18n("Settings that do not match the weights:\n%1", reason);
-                    emit newLog(i18n("AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."));
+                                           ? i18n("The weights file could not be read.")
+                                           : reason;
+                    emit newLog(i18n("AI Guider failed to load weights. Guiding aborted."));
                     KSNotification::error(
-                        i18n("AI Guider failed to load weights!\n\n%1\n\nChange the settings back to match, re-run the Guide AI Assistant with your current settings, or switch the Guide Algorithm to a standard mode. Guiding has been aborted.",
+                        i18n("AI Guider failed to load weights!\n\n%1\n\nRe-run the Guide AI Assistant, load a different weights file, or switch the Guide Algorithm to a standard mode. Guiding has been aborted.",
                              detail),
                         i18n("AI Guider Error"));
                 }
@@ -368,6 +374,9 @@ bool cgmath::reloadAIWeights()
     }
 
     m_AIGuider = std::move(candidate);
+    if (!m_AIGuider->fingerprintApplied().isEmpty())
+        emit newLog(i18n("AI Guider: applied the trained model's recorded settings (%1).",
+                          m_AIGuider->fingerprintApplied()));
     // A plain (non-forced) reset is enough: HarmonicGuider::resetSession() already forces a
     // full reset itself when the new weights describe a different PE period than the currently
     // active static Kalman state, and otherwise only clears transient tracking state while

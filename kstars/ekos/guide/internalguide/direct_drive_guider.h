@@ -66,9 +66,4 @@ class DirectDriveGuider : public MountSpecificGuider
         // --- Physics helpers ---
         double physicsRA (double alt_deg) const;
         double physicsDEC(double alt_deg, double q_deg) const;
-
-        // Rejects weights whose recorded equipment fingerprint (exposure, binning, gains, …)
-        // does not match the current session, so a model trained at a different binning /
-        // pixel-scale is not silently applied. Mirrors WormGearGuider / HarmonicGuider.
-        bool validateFingerprint(const QJsonObject &fp);
 };

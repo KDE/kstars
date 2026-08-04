@@ -13,7 +13,21 @@
  */
 
 #include <QString>
+#include <QStringList>
+#include <QJsonObject>
 #include <cstdint>
+
+/**
+ * @brief Applies every field present in a training fingerprint (guide exposure, binning,
+ * RA/DEC proportional+integral gain, min/max pulse, hysteresis) directly to the live
+ * Options, so a trained model's recorded settings are reinstated automatically rather
+ * than requiring the user to go match them by hand across several settings panels.
+ * Exposure/binning changes take effect on the next guide session start, not retroactively
+ * mid-capture.
+ * @return A human-readable "key: old -> new" line per field that actually changed value
+ * (empty if the fingerprint was empty or every field already matched).
+ */
+QStringList applyFingerprintToOptions(const QJsonObject &fingerprint);
 
 // ---------------------------------------------------------------------------
 // Input frame data — populated by InternalGuider::processGuiding() each frame
@@ -139,14 +153,25 @@ class MountSpecificGuider
         }
 
         /**
-         * @brief Human-readable list of fingerprint mismatches from the last loadWeights()
-         * failure, e.g. "guide_exposure_s: weights 0.5, current 1". Empty when none.
+         * @brief Human-readable description of why the last loadWeights() call failed
+         * (missing/corrupt file, or a mount_type mismatch). Empty on success; a
+         * fingerprint mismatch is no longer a failure reason, see fingerprintApplied().
          */
         QString fingerprintError() const
         {
             return m_FingerprintError;
         }
 
+        /**
+         * @brief Human-readable "key: old -> new" summary of the settings applyFingerprintToOptions()
+         * changed on the last successful loadWeights() call. Empty if nothing needed changing.
+         */
+        QString fingerprintApplied() const
+        {
+            return m_FingerprintApplied;
+        }
+
     protected:
         QString m_FingerprintError;
+        QString m_FingerprintApplied;
 };

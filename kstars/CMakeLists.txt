@@ -403,6 +403,7 @@ if (INDI_FOUND)
             # Internal Guide
             ekos/guide/internalguide/assistant_stats.cpp
             ekos/guide/internalguide/gmath.cpp
+           ekos/guide/internalguide/mount_guider.cpp
            ekos/guide/internalguide/worm_gear_guider.cpp
            ekos/guide/internalguide/direct_drive_guider.cpp
            ekos/guide/internalguide/harmonic_guider.cpp

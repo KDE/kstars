@@ -146,7 +146,6 @@ class HarmonicGuider : public MountSpecificGuider
         static constexpr int INNOV_WINDOW = 20;
 
         // ── Helpers ──────────────────────────────────────────────────────────
-        bool validateFingerprint(const QJsonObject &fp);
         void buildF(Eigen::Matrix<double, N_STATES, N_STATES> &F, double dt) const;
         Eigen::Matrix<double, N_STATES, N_STATES> computeQ(double snr, double snr_delta,
                 double innov_ra, double innov_dec, double dt) const;
