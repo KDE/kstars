@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: William D. Pence <https:xheasarc.gsfc.nasa.gov/fitsio/>
     SPDX-FileCopyrightText: R. Seaman
 
-    SPDX-License-Identifier: LicenseRef-NASA-FV-License-Agreement
+    SPDX-License-Identifier: CFITSIO
 */
 
 #pragma once
