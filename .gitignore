@@ -5,6 +5,10 @@
 
 # Compiled Dynamic libraries
 *.so
+__pycache__/
+
+# Claude
+.claude
 
 # Sentry
 .sentryclirc

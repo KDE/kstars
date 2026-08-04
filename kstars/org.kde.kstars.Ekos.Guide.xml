@@ -47,7 +47,10 @@
     </method>
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
+    </method>
+    <method name="reloadAIWeights">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setDarkFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

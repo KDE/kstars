@@ -47,6 +47,7 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
 
     protected:
         void initializePage(int id) override;
+        bool validateCurrentPage() override;
         void done(int result) override;
         void showEvent(QShowEvent *event) override;
 

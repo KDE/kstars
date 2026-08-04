@@ -124,7 +124,7 @@
         <item>
          <widget class="QLabel" name="labelWormGear">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Worm Gear Protocol (~45 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude : Free drift, then standard guiding.&lt;br/&gt;2. Slew to Lower Altitude : Free drift, then standard guiding.&lt;br/&gt;3. Slew to High Altitude : Standard guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Worm Gear Protocol (~65 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude : Standard guiding, free drift, then PID auto-tune (step response).&lt;br/&gt;2. Slew to Lower Altitude : Standard guiding, then free drift.&lt;br/&gt;3. Slew to High Altitude : Standard guiding, then free drift.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -144,7 +144,7 @@
         <item>
          <widget class="QLabel" name="labelHarmonic">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Harmonic Drive Protocol (~35 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude: Free drift, pulse response test, then standard guiding.&lt;br/&gt;2. Slew to Lower Altitude: Free drift, then standard guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Harmonic Drive Protocol (~60 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude: Standard guiding, free drift, then PID auto-tune (step response).&lt;br/&gt;2. Slew to Lower Altitude: Free drift, then standard guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -164,7 +164,7 @@
         <item>
          <widget class="QLabel" name="labelDirectDrive">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Direct Drive Protocol (~20 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High, Mid, and Low Altitudes: Free drift at each position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Direct Drive Protocol (~30 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude: Standard guiding, free drift, then PID auto-tune (step response).&lt;br/&gt;2. Slew to Mid Altitude: Standard guiding, then free drift.&lt;br/&gt;3. Slew to Low Altitude: Standard guiding, then free drift.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>

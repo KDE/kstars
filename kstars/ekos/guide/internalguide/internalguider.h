@@ -155,6 +155,12 @@ class InternalGuider : public GuideInterface
             return pmath ? pmath->getAIGuider() : nullptr;
         }
 
+        // Live weight hot-reload, forwarded from Guide::reloadAIWeights() (DBus).
+        bool reloadAIWeights()
+        {
+            return pmath ? pmath->reloadAIWeights() : false;
+        }
+
     protected Q_SLOTS:
         void trackingStarSelected(int x, int y);
         void setDitherSettled();

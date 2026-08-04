@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QDir>
+#include <utility>
 
 // Qt version calming
 #include <qtendl.h>
@@ -334,6 +335,59 @@ void cgmath::start()
     m_aiRequiredButUnavailable = useAIAlgorithm && !(m_AIGuider && m_AIGuider->isLoaded());
 }
 
+bool cgmath::reloadAIWeights()
+{
+    const bool useAIAlgorithm = (raAlgorithmIsAI() || decAlgorithmIsAI());
+    const bool shadowRequested = Options::aIShadowMode();
+
+    if (!useAIAlgorithm && !shadowRequested)
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER RELOAD SKIPPED: AI algorithm/Shadow Mode is not selected.";
+        return false;
+    }
+
+    const QString weightsPath = Options::aIGuiderWeightsFile().toLocalFile();
+    if (weightsPath.isEmpty() || !QFile::exists(weightsPath))
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER RELOAD FAILED: no weights file configured or file missing:" <<
+                                     weightsPath;
+        return false;
+    }
+
+    // Build and validate the candidate before touching m_AIGuider: on failure, guiding
+    // continues uninterrupted with the previously-loaded guider (unlike start(), where a
+    // load failure aborts guiding since there is no previous guider to fall back to).
+    std::unique_ptr<MountSpecificGuider> candidate = MountGuiderFactory::createFromWeights(weightsPath);
+    if (!candidate || !candidate->loadWeights(weightsPath))
+    {
+        const QString reason = candidate ? candidate->fingerprintError() : QString();
+        qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER RELOAD FAILED:" << weightsPath << reason;
+        emit newLog(i18n("AI Guider weight reload failed: %1", reason.isEmpty()
+                          ? i18n("the weights file could not be read or does not match this mount type.") : reason));
+        return false;
+    }
+
+    m_AIGuider = std::move(candidate);
+    // A plain (non-forced) reset is enough: HarmonicGuider::resetSession() already forces a
+    // full reset itself when the new weights describe a different PE period than the currently
+    // active static Kalman state, and otherwise only clears transient tracking state while
+    // keeping the PE phase lock — the common case when just retuning gains/Q-net mid-session.
+    m_AIGuider->resetSession(false);
+    m_aiRequiredButUnavailable = useAIAlgorithm && !(m_AIGuider && m_AIGuider->isLoaded());
+
+    // Re-arm the per-frame log-emission flags so the existing state-transition messages in
+    // performProcessing() naturally re-announce WARMUP/ACTIVE, giving a clear marker in both
+    // the Guide log and the debug CSV timeline for when the reload took effect.
+    m_AILoggedActive = false;
+    m_AILoggedFullConfidence = false;
+    m_AILoggedWarmup = false;
+    setAIState(useAIAlgorithm ? AIGuideState::WARMUP : AIGuideState::SHADOW);
+
+    qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER WEIGHTS RELOADED LIVE:" << weightsPath;
+    emit newLog(i18n("AI Guider weights reloaded live from %1 — guiding continues uninterrupted.", weightsPath));
+    return true;
+}
+
 void cgmath::abort()
 {
     guideStars.reset();
@@ -510,6 +564,10 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
     GuideDirection pulseDirection = NO_DIR;
     int pulseLength = 0;  // milliseconds
     GuideDirection dir;
+    // Breakdown of how the pulse was actually computed this frame; stored into
+    // m_lastBlend[k] just before updateOutParams() so the AI debug CSV can log
+    // what was really sent to the mount, not just the AI's internal prediction.
+    AxisBlendDebug dbg;
 
     // Get the drift for this axis
     const int idx = driftUpto[k];
@@ -554,6 +612,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
     {
         gpg->darkGuiding(&pulseLength, &dir, calibration, timeStep);
         pulseDirection = dir;
+        dbg.algorithm = "GPG-Dark";
     }
     else if (useAI && darkGuide && m_AIGuider && m_AIGuider->isLoaded())
     {
@@ -565,6 +624,8 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             const double aiGain = Options::aIPredictionGain();
             const double aiResponse = ai_pulse_arcsec * pulseConverter;
             double total = aiGain * ai_out.confidence * aiResponse;
+            dbg.algorithm = "AI-Dark";
+            dbg.aiResponseMs = aiResponse;
 
             qCDebug(KSTARS_EKOS_GUIDE) << QString("[AI GUIDER] Dark Guiding [%1] | dt=%2s, conf=%3, AIResponse=%4ms -> Total=%5ms")
                                        .arg(k == GUIDE_RA ? "RA" : "DEC").arg(dt_sec, 0, 'f', 1).arg(ai_out.confidence, 0, 'f', 2)
@@ -597,6 +658,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
     {
         pulseDirection = dir;
         pulseLength = std::min(pulseLength, static_cast<int>(maxPulseMilliseconds + 0.5));
+        dbg.algorithm = "GPG";
     }
     else if (lGuider != nullptr)
     {
@@ -623,6 +685,8 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             pulseDirection = pulse > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
         }
         pulseLength = std::min(std::abs(pulse), maxPulseMilliseconds);
+        dbg.algorithm = "Linear";
+        dbg.proportionalResponseMs = pulse;
     }
     else if (hGuider != nullptr)
     {
@@ -644,6 +708,8 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             pulseDirection = pulse > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
         }
         pulseLength = std::min(std::abs(pulse), maxPulseMilliseconds);
+        dbg.algorithm = "Hysteresis";
+        dbg.proportionalResponseMs = pulse;
     }
     else if (useAI && m_AIGuider && m_AIGuider->isLoaded() && m_lastAIPrediction.valid)
     {
@@ -678,6 +744,12 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
                                    .arg(k == GUIDE_RA ? "RA" : "DEC").arg(proportionalResponse, 0, 'f', 1).arg(activePropGain, 0, 'f', 2)
                                    .arg(integralResponse, 0, 'f', 1).arg(aiResponse, 0, 'f', 1).arg(conf, 0, 'f', 2).arg(aiGain, 0, 'f', 2).arg(total, 0, 'f',
                                            1);
+
+        dbg.algorithm = "AI";
+        dbg.proportionalResponseMs = proportionalResponse;
+        dbg.integralResponseMs = integralResponse;
+        dbg.aiResponseMs = aiResponse;
+        dbg.activePropGain = activePropGain;
 
         pulseLength = std::min(std::abs(total), maxPulseMilliseconds);
         pulseDirection = (k == GUIDE_RA) ?
@@ -727,6 +799,9 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         const double proportionalResponse = arcsecDrift * in_params.proportional_gain[k] * arcsecPerMsPulse;
         const double integralResponse = drift_integral[k] * in_params.integral_gain[k] * arcsecPerMsPulse;
         pulseLength = std::min(std::abs(proportionalResponse + integralResponse), maxPulseMilliseconds);
+        dbg.algorithm = "Standard";
+        dbg.proportionalResponseMs = proportionalResponse;
+        dbg.integralResponseMs = integralResponse;
 
         // calculation of correcting mount pulse
         // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
@@ -764,6 +839,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         qCDebug(KSTARS_EKOS_GUIDE) << i18n("Limited long pulse of %1ms to %2ms", pulseLength, MAX_PULSE_MILLISECONDS);
         pulseLength = MAX_PULSE_MILLISECONDS;
     }
+    m_lastBlend[k] = dbg;
     updateOutParams(k, arcsecDrift, pulseLength, pulseDirection, !darkGuide);
 }
 
@@ -897,11 +973,17 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     const double raDrift = drift[GUIDE_RA][driftUpto[GUIDE_RA]];
     const double decDrift = drift[GUIDE_DEC][driftUpto[GUIDE_DEC]];
 
-    // --- AI Guider feed-forward prediction ---
-    if (m_AIGuider && m_AIGuider->isLoaded() && state == Ekos::GUIDE_GUIDING)
-    {
-        GuideFrameData frameData;
+    // Hoisted to function scope (rather than declared inside the block below) so the AI debug
+    // CSV writer — which runs after calculatePulses() so it can log the actual blended pulse,
+    // not just the AI's internal prediction — can still read the frame data and uncorrected
+    // drift values computed here.
+    GuideFrameData frameData;
+    double uncorrected_drift_ra_px = 0.0, uncorrected_drift_dec_px = 0.0;
+    const bool aiFrameProcessed = (m_AIGuider && m_AIGuider->isLoaded() && state == Ekos::GUIDE_GUIDING);
 
+    // --- AI Guider feed-forward prediction ---
+    if (aiFrameProcessed)
+    {
         // Pixel scale is in arcseconds per pixel
         frameData.pixel_scale = calibration.xPixelsPerArcsecond();
         if (frameData.pixel_scale == 0) frameData.pixel_scale = 1.0;
@@ -1074,8 +1156,8 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         double uncorrected_drift_ra_arcsec = raDrift - prev_ra_arcsec - applied_pulse_arcsec_ra;
         double uncorrected_drift_dec_arcsec = decDrift - prev_dec_arcsec - applied_pulse_arcsec_dec;
 
-        double uncorrected_drift_ra_px = uncorrected_drift_ra_arcsec / frameData.pixel_scale;
-        double uncorrected_drift_dec_px = uncorrected_drift_dec_arcsec / frameData.pixel_scale;
+        uncorrected_drift_ra_px = uncorrected_drift_ra_arcsec / frameData.pixel_scale;
+        uncorrected_drift_dec_px = uncorrected_drift_dec_arcsec / frameData.pixel_scale;
 
         m_AIGuider->update(ra_px, dec_px, uncorrected_drift_ra_px, uncorrected_drift_dec_px, frameData.snr,
                            applied_pulse_arcsec_ra / frameData.pixel_scale,
@@ -1137,7 +1219,17 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
             }
         }
 
-        // --- AI DEBUG FILE LOGGER ---
+    }
+
+    // make decision by axes
+    calculatePulses(state, timeStep);
+
+    // --- AI DEBUG FILE LOGGER ---
+    // Runs after calculatePulses() (which populates m_lastBlend[] and out_params via
+    // processAxis()) so this log records what was actually blended and sent to the mount
+    // this frame, not just the AI's internal prediction.
+    if (aiFrameProcessed)
+    {
         if (!m_AIDebugFile)
         {
             QString logDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
@@ -1164,9 +1256,24 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
             QTextStream out(m_AIDebugFile);
             if (!m_AIDebugHeaderWritten)
             {
-                out << "t_session,dt,altitude_deg,azimuth_deg,parallactic_angle_deg,ra_error_arcsec,uncorrected_ra_delta_px,dec_error_arcsec,uncorrected_dec_delta_px,conf,pred_ra_arcsec,physics_ra_arcsec,mlp_ra_arcsec,pred_dec_arcsec,physics_dec_arcsec,mlp_dec_arcsec,ai_state,pe_statestring\n";
+                out << "t_session,dt,altitude_deg,azimuth_deg,parallactic_angle_deg,ra_error_arcsec,uncorrected_ra_delta_px,dec_error_arcsec,uncorrected_dec_delta_px,conf,pred_ra_arcsec,physics_ra_arcsec,mlp_ra_arcsec,pred_dec_arcsec,physics_dec_arcsec,mlp_dec_arcsec,ai_state,pe_statestring,"
+                       "ra_algorithm,ra_prop_response_ms,ra_integral_response_ms,ra_ai_response_ms,ra_active_prop_gain,ra_total_pulse_ms,ra_direction,ra_suppressed,"
+                       "dec_algorithm,dec_prop_response_ms,dec_integral_response_ms,dec_ai_response_ms,dec_active_prop_gain,dec_total_pulse_ms,dec_direction,dec_suppressed\n";
                 m_AIDebugHeaderWritten = true;
             }
+            // Empty field for NaN (fields not meaningful for the algorithm that actually ran)
+            // rather than the literal string "nan", which not every CSV reader parses cleanly.
+            auto csvNum = [](double v) { return std::isnan(v) ? QString() : QString::number(v, 'f', 3); };
+            // Signed total pulse actually sent this frame, mirroring the sign convention
+            // updateOutParams() uses for m_accumulated_pulse_ra/dec (gmath.cpp:signed_pulse).
+            auto axisTotalMs = [this](int k) -> double
+            {
+                if (out_params.pulse_dir[k] == NO_DIR || out_params.pulse_length[k] == 0)
+                    return 0.0;
+                const bool neg = (k == GUIDE_RA && out_params.pulse_dir[k] == RA_DEC_DIR)
+                                 || (k == GUIDE_DEC && out_params.pulse_dir[k] == DEC_DEC_DIR);
+                return neg ? -out_params.pulse_length[k] : out_params.pulse_length[k];
+            };
             out << frameData.t_session_sec << ","
                 << frameData.dt << ","
                 << frameData.altitude_deg << ","
@@ -1184,13 +1291,26 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                 << m_lastAIPrediction.physics_dec_arcsec << ","
                 << m_lastAIPrediction.mlp_dec_arcsec << ","
                 << aiGuideStateString(m_aiState) << ","
-                << m_AIGuider->stateString() << "\n";
+                << m_AIGuider->stateString() << ","
+                << m_lastBlend[GUIDE_RA].algorithm << ","
+                << csvNum(m_lastBlend[GUIDE_RA].proportionalResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_RA].integralResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_RA].aiResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_RA].activePropGain) << ","
+                << axisTotalMs(GUIDE_RA) << ","
+                << directionStr(out_params.pulse_dir[GUIDE_RA]) << ","
+                << (out_params.pulse_dir[GUIDE_RA] == NO_DIR ? 1 : 0) << ","
+                << m_lastBlend[GUIDE_DEC].algorithm << ","
+                << csvNum(m_lastBlend[GUIDE_DEC].proportionalResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_DEC].integralResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_DEC].aiResponseMs) << ","
+                << csvNum(m_lastBlend[GUIDE_DEC].activePropGain) << ","
+                << axisTotalMs(GUIDE_DEC) << ","
+                << directionStr(out_params.pulse_dir[GUIDE_DEC]) << ","
+                << (out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 1 : 0) << "\n";
             out.flush();
         }
     }
-
-    // make decision by axes
-    calculatePulses(state, timeStep);
 
     if (state == Ekos::GUIDE_GUIDING)
     {

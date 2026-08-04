@@ -257,6 +257,16 @@ class Guide : public QWidget, public Ui::Guide
             return m_AIFreeDrift;
         }
 
+        // Used by AIGuideProtocol to pick the correct CaptureAfterPulses mode when firing
+        // pulse-response test pulses: DontCaptureAfterPulses in streaming mode (frames
+        // arrive automatically), StartCaptureAfterPulses otherwise (an explicit new
+        // exposure must be requested) — matching the convention InternalGuider already
+        // uses for regular guiding pulses.
+        bool isStreamingGuide() const
+        {
+            return m_StreamingGuide;
+        }
+
         /** DBUS interface function.
              * Stop any active calibration, guiding, or dithering operation
              * @return Returns true if operation is stopped successfully, false otherwise.
@@ -273,6 +283,15 @@ class Guide : public QWidget, public Ui::Guide
              * Clear calibration data. Next time any guide operation is performed, a calibration is first started.
              */
         Q_SCRIPTABLE Q_NOREPLY void clearCalibration();
+
+        /** DBUS interface function.
+             * @brief Hot-reload the AI Guider weights file from disk into the currently running
+             *        guide session, without stopping guiding or recalibrating. Only effective
+             *        when the Internal Guider is active and the AI algorithm (or Shadow Mode) is
+             *        selected; otherwise a log message explains why nothing happened. Progress
+             *        and failures are reported via the Guide log.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void reloadAIWeights();
 
         /** DBUS interface function.
              * @brief dither Starts dithering process in a random direction restricted by the number of pixels specified in dither options

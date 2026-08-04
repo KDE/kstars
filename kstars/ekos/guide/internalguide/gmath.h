@@ -20,6 +20,7 @@
 #include <QElapsedTimer>
 
 #include <cstdint>
+#include <limits>
 #include <sys/types.h>
 #include "guidestars.h"
 #include "calibration.h"
@@ -82,6 +83,22 @@ inline QString aiGuideStateString(AIGuideState s)
     }
     return QStringLiteral("UNKNOWN");
 }
+
+/**
+ * @brief Breakdown of how the guide pulse for one axis was actually computed this frame,
+ *        captured by cgmath::processAxis() for every pulse algorithm branch (AI, GPG,
+ *        Linear, Hysteresis, Standard). Fields not meaningful for a given algorithm are
+ *        left NaN. This exists so the AI debug CSV can record what was actually sent to
+ *        the mount, not just the AI's internal prediction.
+ */
+struct AxisBlendDebug
+{
+    QString algorithm;   ///< "AI" | "AI-Dark" | "GPG" | "GPG-Dark" | "Linear" | "Hysteresis" | "Standard"
+    double proportionalResponseMs { std::numeric_limits<double>::quiet_NaN() };
+    double integralResponseMs     { std::numeric_limits<double>::quiet_NaN() };
+    double aiResponseMs           { std::numeric_limits<double>::quiet_NaN() };
+    double activePropGain         { std::numeric_limits<double>::quiet_NaN() };
+};
 
 // input params
 class cproc_in_params
@@ -156,6 +173,16 @@ class cgmath : public QObject
         {
             return m_aiRequiredButUnavailable;
         }
+
+        /**
+         * @brief Re-reads Options::aIGuiderWeightsFile() and swaps it into the live
+         *        m_AIGuider without touching drift buffers or other algorithms' state.
+         *        Unlike start(), failure here is non-fatal: guiding continues with the
+         *        previously-loaded guider. Intended for live retuning of weights.json
+         *        during a bench session (DBus-triggered via Guide::reloadAIWeights()).
+         * @return true if a new guider was loaded and swapped in.
+         */
+        bool reloadAIWeights();
 
         /**
          * @brief Pointing state of the mount, pushed in by the guider whenever the mount reports new
@@ -307,6 +334,9 @@ class cgmath : public QObject
 
         std::unique_ptr < MountSpecificGuider > m_AIGuider;
         GuideOutput m_lastAIPrediction;
+        /// Actual blended-pulse breakdown for the last frame, one per axis; populated by
+        /// processAxis() regardless of which pulse algorithm ran. See AxisBlendDebug.
+        AxisBlendDebug m_lastBlend[CHANNEL_CNT];
         double m_sessionStartTime { 0.0 };
 
         /// Latest mount pointing state; see setMountState(). Stays invalid if no mount is connected.

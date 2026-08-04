@@ -5,6 +5,7 @@
 */
 
 #include "aiguidewizard.h"
+#include <QTimer>
 #include "aiguideprotocol.h"
 #include "guide.h"
 #include "kspaths.h"
@@ -207,6 +208,8 @@ AIGuideWizard::AIGuideWizard(AIGuideProtocol *protocol, QWidget *parent) : QWiza
     {
         progressBar->setValue(100);
         exportOfflineButton->setEnabled(true);
+        if (auto *nextBtn = button(QWizard::NextButton))
+            nextBtn->setEnabled(true);
         this->next();
     });
 
@@ -215,6 +218,8 @@ AIGuideWizard::AIGuideWizard(AIGuideProtocol *protocol, QWidget *parent) : QWiza
 
     connect(m_Protocol, &AIGuideProtocol::protocolStopped, this, [this]()
     {
+        if (auto *nextBtn = button(QWizard::NextButton))
+            nextBtn->setEnabled(true);
         stopButton->setText(i18n("Start"));
         stopButton->setEnabled(true);
         disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol);
@@ -296,6 +301,12 @@ void AIGuideWizard::showEvent(QShowEvent *event)
         stopButton->setEnabled(true);
         disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
         connect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol, Qt::UniqueConnection);
+
+        QTimer::singleShot(0, this, [this]()
+        {
+            if (auto *nextBtn = button(QWizard::NextButton))
+                nextBtn->setEnabled(false);
+        });
     }
     // If protocol already completed, jump to training page (page 3)
     else if (m_Protocol->state() == AIGuideProtocol::STATE_DONE)
@@ -403,6 +414,23 @@ void AIGuideWizard::slotExportLogs()
     }));
 }
 
+bool AIGuideWizard::validateCurrentPage()
+{
+    // Progress page: Next is blocked while the protocol runs; protocolComplete advances it
+    if (currentId() == 2 && m_Protocol)
+    {
+        const auto s = m_Protocol->state();
+        const bool running = s != AIGuideProtocol::STATE_IDLE
+                             && s != AIGuideProtocol::STATE_DONE
+                             && s != AIGuideProtocol::STATE_ERROR
+                             && s != AIGuideProtocol::STATE_TRAINING
+                             && s != AIGuideProtocol::STATE_TRAINING_DONE;
+        if (running)
+            return false;
+    }
+    return QWizard::validateCurrentPage();
+}
+
 void AIGuideWizard::initializePage(int id)
 {
     QWizard::initializePage(id);
@@ -418,6 +446,14 @@ void AIGuideWizard::initializePage(int id)
         stopButton->setEnabled(true);
         disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
         connect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol, Qt::UniqueConnection);
+
+        // No skipping ahead: the page auto-advances on protocolComplete.
+        // Deferred: QWizard re-enables its buttons right after initializePage().
+        QTimer::singleShot(0, this, [this]()
+        {
+            if (auto *nextBtn = button(QWizard::NextButton))
+                nextBtn->setEnabled(false);
+        });
 
         m_Protocol->start(mountTypeCombo->currentText());
     }

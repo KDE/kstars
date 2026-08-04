@@ -39,6 +39,7 @@ class AIGuideProtocol : public QObject
             STATE_SLEWING,
             STATE_SETTLING,
             STATE_CAPTURING_DATA,
+            STATE_DRIFT_RECENTER,
             STATE_PULSE_RESPONSE_INIT,
             STATE_PULSE_SENDING,
             STATE_PULSE_RECORDING,
@@ -113,6 +114,28 @@ class AIGuideProtocol : public QObject
         void restoreSettings();
         QJsonObject buildFingerprint() const;
         void refreshFingerprint();
+        // Actually sends the armed pulse-response test pulse. Called from onGuideStats()
+        // at the first clean frame boundary once STATE_PULSE_SENDING is armed — NOT from
+        // processProtocol()'s 1Hz tick — so the pulse can never land mid-exposure,
+        // regardless of whether guiding is streaming or single-capture. See
+        // STATE_PULSE_SETTLING / STATE_PULSE_SENDING handling in processProtocol() and
+        // onGuideStats() for the full rationale.
+        void firePulseResponsePulse();
+
+        // Computes a recommended base RA/DEC proportional (+ conservative integral)
+        // guide gain from the pulse_response sessions collected so far (a live C++
+        // equivalent of offline_trainer/pid_autotune.py's SIMC-style calculation) and,
+        // if the data is usable, applies it via Options::setRA/dECProportionalGain()
+        // (+ integral gain) before the rest of the protocol runs. Called once from
+        // STATE_PRECHECK, right after the PID Auto-Tune pulses (if any) are exhausted
+        // and before the first real phase -- see pid_autotune_plan.md §7 for why this
+        // must happen before, not after. A no-op if Options::aIPIDAutoTune() was
+        // off or the collected data isn't usable (too few fits, inconsistent signs,
+        // no calibration on record); the previously-set gain is left untouched.
+        void applyPIDAutoTuneGainLock();
+        // One axis of the above; returns true if it computed and applied a gain.
+        bool computeAndApplyAxisGain(const QString &axis, double msPerArcsec);
+        bool m_GainLocked { false };
 
         Guide *m_Guide { nullptr };
         int m_TotalPhases { 0 };
@@ -132,6 +155,11 @@ class AIGuideProtocol : public QObject
         };
         QList<ProtocolPhase> m_Phases;
 
+        // Writes one captured segment as a session and flushes the log. recordedDuration is
+        // what the segment was meant to run for: the trainer discards drift sessions much
+        // shorter than it.
+        void flushPhaseSegment(const ProtocolPhase &phase, int recordedDuration);
+
         ProtocolState m_State { STATE_IDLE };
         QTimer m_ProtocolTimer;
         double m_TargetAz { 0 };
@@ -140,6 +168,12 @@ class AIGuideProtocol : public QObject
         int m_CaptureTimer { 0 };
         int m_AbortRetries { 0 };
         bool m_FreeDriftOverflow { false };
+        bool m_PhaseAborted { false };
+        int m_SegmentSeconds { 0 };      ///< seconds captured in the current drift segment
+        int m_RecenterTimer { 0 };
+        int m_RecenterAttempts { 0 };
+        double m_LastRAErrArcsec { 0.0 };
+        double m_LastDECErrArcsec { 0.0 };
 
         QFile m_LogFile;
         QString m_LogFilename;

@@ -74,12 +74,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="kcfg_AIProtocolPulseTest">
+       <widget class="QCheckBox" name="kcfg_AIPIDAutoTune">
         <property name="text">
-         <string>Include Pulse Response Test in Data Collection Protocol</string>
+         <string>PID Auto-Tune (Step-Response Gain Calibration)</string>
         </property>
         <property name="toolTip">
-         <string>Measures the mount's elastic response to guide pulses (harmonic drives). Adds about 20 minutes to the protocol and has not produced measurable results on rigs tested so far, so it is off by default.</string>
+         <string>Sends known pulses at the start of the protocol and measures the mount's step response to recommend a base RA/DEC guiding gain for any mount type (offline trainer only, never applied automatically). Adds roughly 10 minutes to the protocol; enabled by default.</string>
         </property>
        </widget>
       </item>

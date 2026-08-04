@@ -1948,6 +1948,18 @@ void Guide::clearCalibration()
 
 }
 
+void Guide::reloadAIWeights()
+{
+    InternalGuider *ig = dynamic_cast<InternalGuider *>(m_GuiderInstance);
+    if (!ig)
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "AI weight hot-reload requires the Internal Guider.";
+        return;
+    }
+    ig->reloadAIWeights();
+    // Success/failure is already logged by cgmath::reloadAIWeights() via qCWarning + newLog().
+}
+
 void Guide::setStatus(Ekos::GuideState newState)
 {
     if (newState == m_State)

@@ -18,10 +18,22 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QMap>
+#include <QSet>
+#include <QVector>
 #include <algorithm>
+#include <cmath>
 
 namespace Ekos
 {
+
+// Free drift ends a segment when the star reaches this offset; the guider then re-centers
+// and the drift resumes, so the star never wanders further than this.
+static constexpr double FREE_DRIFT_LIMIT_ARCSEC = 25.0;
+static constexpr double RECENTER_DONE_ARCSEC = 3.0;
+static constexpr int RECENTER_TIMEOUT_S = 90;
+static constexpr int MAX_RECENTER_ATTEMPTS = 6;
+static constexpr int MIN_SEGMENT_FRAMES = 30;
 
 AIGuideProtocol::AIGuideProtocol(Guide *guide) : QObject(guide), m_Guide(guide)
 {
@@ -188,6 +200,7 @@ void AIGuideProtocol::start(const QString &mountType)
 
     m_SettingsChangedWarned = false;
     m_BestDriftNoiseFrames = 0;
+    m_GainLocked = false;
     m_SysIdData["model_fingerprint"] = buildFingerprint();
 
     m_SysIdData["sessions"] = QJsonArray();
@@ -200,6 +213,30 @@ void AIGuideProtocol::start(const QString &mountType)
 
     if (mountStr == "Worm Gear")
     {
+        // PID Auto-Tune: step-response system-ID used to recommend a base RA/DEC
+        // guiding gain on any mount class (pid_autotune_plan.md §7-8) -- worm-gear
+        // backlash on DEC direction reversal should show up directly as dead time (L)
+        // in the fitted model. Runs FIRST, at Position 1's sky location, before any
+        // other phase: applyPIDAutoTuneGainLock() (called from STATE_PRECHECK once
+        // these pulses are exhausted) computes K/L/tau from them and locks
+        // Options::rA/dECProportionalGain() (+ integral gain) before the long
+        // standard-guiding phase runs under it -- see pid_autotune_plan.md §7 for why
+        // this must happen before, not after, the rest of the protocol. On by default.
+        if (Options::aIPIDAutoTune())
+        {
+            for (int rep = 0; rep < 3; rep++)
+            {
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
+            }
+        }
+
         m_Phases.append({65.0, -45.0, 480, false, false, "", "", 0, 0, 0});
         m_Phases.append({65.0, -45.0, 600, true, false, "", "", 0, 0, 0});
         m_Phases.append({40.0, -45.0, 480, false, false, "", "", 0, 0, 0});
@@ -209,27 +246,43 @@ void AIGuideProtocol::start(const QString &mountType)
     }
     else if (mountStr == "Harmonic Drive")
     {
-        // Position 1: 1800s standard guiding (resolves PE to 900s — strain-wave
-        // fundamentals live at sidereal/ratio, 288-865s on rigs measured so far) and 480 free drift
-        m_Phases.append({65.0, -45.0, 1800, false, false, {}, {}, 0, 15, 20});
-        m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
-
-        // Pulse response: large pulses, alternating direction so drift/PE cancel in pairing.
-        // Off by default: the spring response has not been measurable on rigs tested so far.
-        if (Options::aIProtocolPulseTest())
+        // PID Auto-Tune: large pulses, alternating direction so drift/PE cancel in
+        // pairing. Runs FIRST, before the long standard-guiding phase below --
+        // applyPIDAutoTuneGainLock() (called from STATE_PRECHECK once these pulses
+        // are exhausted) computes K/L/tau from them and locks
+        // Options::rA/dECProportionalGain() (+ integral gain) before anything else
+        // runs under it. This matters for two reasons (pid_autotune_plan.md §7):
+        // (1) fingerprint locking -- changing the gain mid- or post-protocol would
+        // invalidate all the sysid data already collected under the old gain; (2)
+        // data quality -- the long PE-detection phase's reconstruction of the
+        // "uncorrected" trajectory assumes a well-behaved, non-oscillating
+        // correction, so it needs to run under an already-good gain, not whatever
+        // was last manually set. The harmonic-drive elastic/spring (kappa/tau) fit
+        // that used to also consume this same pulse data is commented out in
+        // train_harmonic.py -- it has never resolved above the noise floor on any
+        // rig tested so far (pid_autotune_plan.md §9.1); flagged there for future
+        // exploration rather than run unconditionally every time. On by default;
+        // no new slew (runs at Position 1's sky location).
+        if (Options::aIPIDAutoTune())
         {
             for (int rep = 0; rep < 3; rep++)
             {
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 15, 20});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 15, 20});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
             }
         }
+
+        // Position 1: 1800s standard guiding (resolves PE to 900s — strain-wave
+        // fundamentals live at sidereal/ratio, 288-865s on rigs measured so far) and 480 free drift.
+        // Now runs under the gain locked above, not whatever was last manually set.
+        m_Phases.append({65.0, -45.0, 1800, false, false, {}, {}, 0, 15, 20});
+        m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
 
         // Position 2 east of the meridian: parallactic spread for the DEC refraction fit
         m_Phases.append({45.0, 45.0, 120, true,  false, {}, {}, 0, 15, 20});
@@ -237,6 +290,30 @@ void AIGuideProtocol::start(const QString &mountType)
     }
     else
     {
+        // PID Auto-Tune: step-response system-ID used to recommend a base RA/DEC
+        // guiding gain on any mount class (pid_autotune_plan.md §7-8) -- direct-drive
+        // motors are expected to show a small, near-negligible tau/dead-time; a
+        // confidently-small result is itself a useful finding, not just a null one.
+        // Runs FIRST, at Position 1's sky location, before any other phase --
+        // applyPIDAutoTuneGainLock() (called from STATE_PRECHECK once these pulses
+        // are exhausted) computes K/L/tau from them and locks
+        // Options::rA/dECProportionalGain() (+ integral gain) before the rest of the
+        // protocol runs under it. On by default.
+        if (Options::aIPIDAutoTune())
+        {
+            for (int rep = 0; rep < 3; rep++)
+            {
+                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
+            }
+        }
+
         m_Phases.append({70.0,   0.0, 120, false, false, "", "", 0, 0, 0});
         m_Phases.append({70.0,   0.0, 180, true, false, "", "", 0, 0, 0});
         m_Phases.append({50.0, -60.0, 120, false, false, "", "", 0, 0, 0});
@@ -321,6 +398,83 @@ void AIGuideProtocol::stop()
     emit protocolStopped();
 }
 
+// Writes one captured segment as a session and flushes the log. recordedDuration is what
+// the segment was meant to run for: the trainer discards drift sessions much shorter than it.
+void AIGuideProtocol::flushPhaseSegment(const ProtocolPhase &phase, int recordedDuration)
+{
+    QJsonObject phaseRecord;
+    phaseRecord["session_id"] = QString("phase_alt%1_%2").arg(phase.targetAlt).arg(
+                                    QDateTime::currentDateTime().toString("HHmmss"));
+    phaseRecord["type"] = phase.freeDrift ? "free_drift" : "standard_guiding";
+
+    double meanAlt = m_TargetAlt;
+    if (!m_PhaseData.isEmpty())
+    {
+        double sumAlt = 0.0;
+        for (int i = 0; i < m_PhaseData.size(); ++i)
+            sumAlt += m_PhaseData.at(i).toObject()["altitude_deg"].toDouble();
+        meanAlt = sumAlt / m_PhaseData.size();
+    }
+    phaseRecord["altitude_deg"] = meanAlt;
+    phaseRecord["azimuth_deg"] = m_TargetAz;
+    if (m_Guide && m_Guide->mount())
+    {
+        auto pierSide = m_Guide->mount()->pierSide();
+        phaseRecord["pier_side"] = (pierSide == ISD::Mount::PIER_EAST) ? "EAST" : "WEST";
+    }
+    phaseRecord["duration_s"] = recordedDuration;
+    phaseRecord["aggressiveness_ra"] = phase.freeDrift ? 0.0 : Options::rAProportionalGain();
+    phaseRecord["aggressiveness_dec"] = phase.freeDrift ? 0.0 : Options::dECProportionalGain();
+    phaseRecord["min_pulse_ra_arcsec"] = phase.freeDrift ? 0.0 : Options::rAMinimumPulseArcSec();
+    phaseRecord["min_pulse_dec_arcsec"] = phase.freeDrift ? 0.0 : Options::dECMinimumPulseArcSec();
+    phaseRecord["max_pulse_ra_arcsec"] = phase.freeDrift ? 0.0 : Options::rAMaximumPulseArcSec();
+    phaseRecord["max_pulse_dec_arcsec"] = phase.freeDrift ? 0.0 : Options::dECMaximumPulseArcSec();
+
+    if (m_Guide)
+    {
+        auto *internalGuider = qobject_cast<Ekos::InternalGuider*>(m_Guide->getGuiderInstance());
+        if (internalGuider)
+        {
+            const auto &cal = internalGuider->getCalibration();
+            phaseRecord["ra_ms_per_arcsec"] = cal.raPulseMillisecondsPerArcsecond();
+            phaseRecord["dec_ms_per_arcsec"] = cal.decPulseMillisecondsPerArcsecond();
+        }
+    }
+
+    if (m_NoiseStats.count() > 30)
+    {
+        const double hf = m_NoiseStats.sigma();
+        phaseRecord["hf_motion_arcsec"] = hf;
+        // The clean value is the LONGEST free drift; guided phases only serve
+        // as a fallback when no drift completed, and are never shown.
+        if (phase.freeDrift && m_NoiseStats.count() > m_BestDriftNoiseFrames)
+        {
+            m_BestDriftNoiseFrames = m_NoiseStats.count();
+            m_SysIdData["noise_floor_arcsec"] = hf;
+            emit protocolLog(QString("Phase noise floor: %1\" HF star motion "
+                                     "(unguided — clean measurement).").arg(hf, 0, 'f', 2));
+        }
+        else if (m_BestDriftNoiseFrames == 0 && !m_SysIdData.contains("noise_floor_arcsec"))
+            m_SysIdData["noise_floor_arcsec"] = hf;
+    }
+
+    phaseRecord["frames"] = m_PhaseData;
+
+    QJsonArray sessions = m_SysIdData["sessions"].toArray();
+    sessions.append(phaseRecord);
+    m_SysIdData["sessions"] = sessions;
+
+    refreshFingerprint();
+    m_LogFile.setFileName(m_LogFilename);
+    if (m_LogFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QJsonDocument doc(m_SysIdData);
+        m_LogFile.write(doc.toJson());
+        m_LogFile.close();
+    }
+
+}
+
 void AIGuideProtocol::processProtocol()
 {
     switch (m_State)
@@ -369,12 +523,21 @@ void AIGuideProtocol::processProtocol()
                 break;
             }
 
-            if (m_Phases.first().pulseResponse)
-            {
-                m_State = STATE_PULSE_RESPONSE_INIT;
-                break;
-            }
+            // First non-pulse-response phase reached: the PID Auto-Tune pulses (if any
+            // were collected -- see the mount-type branches in start()) are all in by
+            // now. Lock the base gain from them, once, before anything else runs --
+            // pid_autotune_plan.md §7. A no-op (leaves the current gain untouched) if
+            // the option was off or the data wasn't usable.
+            if (!m_GainLocked && !m_Phases.first().pulseResponse)
+                applyPIDAutoTuneGainLock();
 
+            // Pulse-response phases go through the same horizon-scan/slew/settle path as
+            // every other phase (see STATE_HORIZON_SCAN, STATE_SETTLING below) -- they are
+            // NOT special-cased into skipping the slew. That used to be safe when the pulse
+            // test ran after Position 1's standard-guiding/free-drift phases had already
+            // slewed there; now that it runs first (pid_autotune_plan.md §7), skipping the
+            // slew would fire calibration pulses wherever the mount happened to be at
+            // startup (parked / pointed at the pole), which is exactly wrong for this test.
             m_State = STATE_HORIZON_SCAN;
             break;
         }
@@ -486,11 +649,22 @@ void AIGuideProtocol::processProtocol()
             }
             else
             {
-                emit protocolLog("Settling complete. Starting phase data collection...");
                 ProtocolPhase phase = m_Phases.first();
+
+                if (phase.pulseResponse)
+                {
+                    emit protocolLog("Settling complete. Starting PID Auto-Tune pulse-response test...");
+                    m_State = STATE_PULSE_RESPONSE_INIT;
+                    break;
+                }
+
+                emit protocolLog("Settling complete. Starting phase data collection...");
                 m_CaptureTimer = phase.durationSeconds;
                 m_AbortRetries = 0;
                 m_FreeDriftOverflow = false;
+                m_SegmentSeconds = 0;
+                m_PhaseAborted = false;
+                m_RecenterAttempts = 0;
 
                 m_NoiseHPF.configure(1.0, m_Guide ? m_Guide->exposure() : 1.0);
                 m_NoiseStats.reset();
@@ -530,6 +704,7 @@ void AIGuideProtocol::processProtocol()
                 }
                 emit protocolLog(QString("Phase ended early (guide star lost after %1 retries). Saving %2 frames.")
                                  .arg(MAX_RETRIES).arg(m_PhaseData.size()));
+                m_PhaseAborted = true;
                 if (m_Guide)
                 {
                     m_Guide->setAIFreeDrift(false);
@@ -549,6 +724,27 @@ void AIGuideProtocol::processProtocol()
             const bool phaseTimedOut = (m_CaptureTimer <= 0);
             const bool freeDriftOverflowed = m_FreeDriftOverflow;
 
+            // The star reached the safety limit but the phase still has time: bank this
+            // segment, let the guider pull the star back, then resume the drift.
+            if (freeDriftOverflowed && !phaseTimedOut && m_Phases.first().freeDrift
+                    && m_RecenterAttempts < MAX_RECENTER_ATTEMPTS)
+            {
+                m_RecenterAttempts++;
+                emit protocolLog(QString("Free drift reached the %1\" limit after %2s. Re-centering the star "
+                                         "to continue (%3s of drift remaining).")
+                                 .arg(FREE_DRIFT_LIMIT_ARCSEC, 0, 'f', 0).arg(m_SegmentSeconds).arg(m_CaptureTimer));
+                // Too few frames to fit anything — drop rather than record a junk session
+                if (m_PhaseData.size() >= MIN_SEGMENT_FRAMES)
+                    flushPhaseSegment(m_Phases.first(), m_SegmentSeconds);
+                else
+                    emit protocolLog(QString("Segment too short (%1 frames) — discarded.").arg(m_PhaseData.size()));
+                if (m_Guide)
+                    m_Guide->setAIFreeDrift(false);   // pulses resume: the loop re-centers
+                m_RecenterTimer = RECENTER_TIMEOUT_S;
+                m_State = STATE_DRIFT_RECENTER;
+                break;
+            }
+
             if (phaseTimedOut || freeDriftOverflowed)
             {
                 if (freeDriftOverflowed)
@@ -565,76 +761,11 @@ void AIGuideProtocol::processProtocol()
                 }
 
                 ProtocolPhase phase = m_Phases.first();
-                QJsonObject phaseRecord;
-                phaseRecord["session_id"] = QString("phase_alt%1_%2").arg(phase.targetAlt).arg(
-                                                QDateTime::currentDateTime().toString("HHmmss"));
-                phaseRecord["type"] = phase.freeDrift ? "free_drift" : "standard_guiding";
-
-                double meanAlt = m_TargetAlt;
-                if (!m_PhaseData.isEmpty())
-                {
-                    double sumAlt = 0.0;
-                    for (int i = 0; i < m_PhaseData.size(); ++i)
-                        sumAlt += m_PhaseData.at(i).toObject()["altitude_deg"].toDouble();
-                    meanAlt = sumAlt / m_PhaseData.size();
-                }
-                phaseRecord["altitude_deg"] = meanAlt;
-                phaseRecord["azimuth_deg"] = m_TargetAz;
-                if (m_Guide && m_Guide->mount())
-                {
-                    auto pierSide = m_Guide->mount()->pierSide();
-                    phaseRecord["pier_side"] = (pierSide == ISD::Mount::PIER_EAST) ? "EAST" : "WEST";
-                }
-                phaseRecord["duration_s"] = phase.durationSeconds;
-                phaseRecord["aggressiveness_ra"] = phase.freeDrift ? 0.0 : Options::rAProportionalGain();
-                phaseRecord["aggressiveness_dec"] = phase.freeDrift ? 0.0 : Options::dECProportionalGain();
-                phaseRecord["min_pulse_ra_arcsec"] = phase.freeDrift ? 0.0 : Options::rAMinimumPulseArcSec();
-                phaseRecord["min_pulse_dec_arcsec"] = phase.freeDrift ? 0.0 : Options::dECMinimumPulseArcSec();
-                phaseRecord["max_pulse_ra_arcsec"] = phase.freeDrift ? 0.0 : Options::rAMaximumPulseArcSec();
-                phaseRecord["max_pulse_dec_arcsec"] = phase.freeDrift ? 0.0 : Options::dECMaximumPulseArcSec();
-
-                if (m_Guide)
-                {
-                    auto *internalGuider = qobject_cast<Ekos::InternalGuider*>(m_Guide->getGuiderInstance());
-                    if (internalGuider)
-                    {
-                        const auto &cal = internalGuider->getCalibration();
-                        phaseRecord["ra_ms_per_arcsec"] = cal.raPulseMillisecondsPerArcsecond();
-                        phaseRecord["dec_ms_per_arcsec"] = cal.decPulseMillisecondsPerArcsecond();
-                    }
-                }
-
-                if (m_NoiseStats.count() > 30)
-                {
-                    const double hf = m_NoiseStats.sigma();
-                    phaseRecord["hf_motion_arcsec"] = hf;
-                    // The clean value is the LONGEST free drift; guided phases only serve
-                    // as a fallback when no drift completed, and are never shown.
-                    if (phase.freeDrift && m_NoiseStats.count() > m_BestDriftNoiseFrames)
-                    {
-                        m_BestDriftNoiseFrames = m_NoiseStats.count();
-                        m_SysIdData["noise_floor_arcsec"] = hf;
-                        emit protocolLog(QString("Phase noise floor: %1\" HF star motion "
-                                                 "(unguided — clean measurement).").arg(hf, 0, 'f', 2));
-                    }
-                    else if (m_BestDriftNoiseFrames == 0 && !m_SysIdData.contains("noise_floor_arcsec"))
-                        m_SysIdData["noise_floor_arcsec"] = hf;
-                }
-
-                phaseRecord["frames"] = m_PhaseData;
-
-                QJsonArray sessions = m_SysIdData["sessions"].toArray();
-                sessions.append(phaseRecord);
-                m_SysIdData["sessions"] = sessions;
-
-                refreshFingerprint();
-                m_LogFile.setFileName(m_LogFilename);
-                if (m_LogFile.open(QIODevice::WriteOnly | QIODevice::Text))
-                {
-                    QJsonDocument doc(m_SysIdData);
-                    m_LogFile.write(doc.toJson());
-                    m_LogFile.close();
-                }
+                // Segments cut short by star loss keep the full requested duration so the
+                // trainer's truncation guard can still discard them.
+                const int recordedDuration = (phase.freeDrift && !m_PhaseAborted)
+                                             ? m_SegmentSeconds : phase.durationSeconds;
+                flushPhaseSegment(phase, recordedDuration);
 
                 m_Phases.removeFirst();
                 m_State = STATE_PRECHECK;
@@ -644,7 +775,75 @@ void AIGuideProtocol::processProtocol()
                 emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
                                       QString("Capturing Data... %1s remaining").arg(m_CaptureTimer));
                 m_CaptureTimer--;
+                m_SegmentSeconds++;
             }
+            break;
+        }
+
+        case STATE_DRIFT_RECENTER:
+        {
+            const bool centered = std::abs(m_LastRAErrArcsec) < RECENTER_DONE_ARCSEC
+                                  && std::abs(m_LastDECErrArcsec) < RECENTER_DONE_ARCSEC;
+            const bool starLost = (!m_Guide || m_Guide->status() == GUIDE_ABORTED);
+
+            if (starLost)
+            {
+                emit protocolLog("Lost the star while re-centering. Ending the drift phase.");
+                if (m_Guide)
+                {
+                    m_Guide->abort();
+                    m_Guide->setAIFreeDrift(false);
+                    disconnect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats);
+                }
+                m_PhaseData = QJsonArray();
+                m_Phases.removeFirst();
+                m_State = STATE_PRECHECK;
+                break;
+            }
+
+            const bool insideFence = std::abs(m_LastRAErrArcsec) < FREE_DRIFT_LIMIT_ARCSEC
+                                     && std::abs(m_LastDECErrArcsec) < FREE_DRIFT_LIMIT_ARCSEC;
+
+            // Timed out and still at the fence: the loop cannot recover the star, so
+            // resuming would just trip the limit again. End the phase with what we have.
+            if (m_RecenterTimer <= 0 && !insideFence)
+            {
+                emit protocolLog(QString("Re-centering failed (star still %1\" off). Ending the drift phase.")
+                                 .arg(std::max(std::abs(m_LastRAErrArcsec), std::abs(m_LastDECErrArcsec)), 0, 'f', 1));
+                if (m_Guide)
+                {
+                    m_Guide->abort();
+                    m_Guide->setAIFreeDrift(false);
+                    disconnect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats);
+                }
+                m_PhaseData = QJsonArray();
+                m_Phases.removeFirst();
+                m_State = STATE_PRECHECK;
+                break;
+            }
+
+            if (centered || m_RecenterTimer <= 0)
+            {
+                if (!centered)
+                    emit protocolLog("Re-centering timed out; resuming drift from the current position.");
+                emit protocolLog(QString("Star re-centered. Resuming free drift (%1s remaining).").arg(m_CaptureTimer));
+
+                m_PhaseData = QJsonArray();
+                m_NoiseStats.reset();
+                m_NoiseFrameCount = 0;
+                m_FreeDriftOverflow = false;
+                m_SegmentSeconds = 0;
+                if (m_Guide)
+                    m_Guide->setAIFreeDrift(true);
+                m_FrameTimer.start();
+                m_State = STATE_CAPTURING_DATA;
+                break;
+            }
+
+            emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+                                  QString("Re-centering star... (RA %1\" DEC %2\")")
+                                  .arg(m_LastRAErrArcsec, 0, 'f', 1).arg(m_LastDECErrArcsec, 0, 'f', 1));
+            m_RecenterTimer--;
             break;
         }
 
@@ -656,6 +855,47 @@ void AIGuideProtocol::processProtocol()
                 break;
             }
 
+            // Pulse-response can now run before any other guiding phase (it's first in
+            // the protocol -- pid_autotune_plan.md §7), so unlike before, the guider may
+            // not be calibrated/locked yet. RA/DEC error isn't decomposable without a
+            // completed calibration, so firing test pulses before GUIDE_GUIDING is
+            // reached records nothing but zeros (confirmed in a real run: every
+            // ra_raw_px/dec_raw_px came back exactly 0.0). Wait here for calibration to
+            // actually finish instead of a fixed short settle.
+            if (m_Guide->status() != GUIDE_GUIDING)
+            {
+                if (m_Guide->status() == GUIDE_IDLE || m_Guide->status() == GUIDE_ABORTED)
+                {
+                    if (m_AbortRetries >= 3)
+                    {
+                        emit protocolLog("Pulse Response: guide calibration failed repeatedly -- skipping this pulse.");
+                        m_Phases.removeFirst();
+                        m_AbortRetries = 0;
+                        m_State = STATE_PRECHECK;
+                        break;
+                    }
+                    m_AbortRetries++;
+                    emit protocolLog("Pulse Response: starting guide calibration/lock before firing test pulses...");
+                    m_Guide->guide();
+                    m_PulseWatchdog = 300; // ~5 minutes at 1Hz for calibration to complete
+                }
+                else if (m_PulseWatchdog > 0)
+                {
+                    m_PulseWatchdog--;
+                    if (m_PulseWatchdog % 30 == 0)
+                        emit protocolLog(QString("Pulse Response: still waiting for guide calibration/lock (status=%1)...")
+                                         .arg(m_Guide->status()));
+                }
+                else
+                {
+                    emit protocolLog("Pulse Response: timed out waiting for guide calibration/lock -- skipping this pulse.");
+                    m_Phases.removeFirst();
+                    m_State = STATE_PRECHECK;
+                }
+                break; // stay in STATE_PULSE_RESPONSE_INIT, re-check next tick
+            }
+
+            m_AbortRetries = 0;
             ProtocolPhase phase = m_Phases.first();
             emit protocolLog(QString("Pulse Response: %1 %2 %3ms — preparing...")
                              .arg(phase.pulseAxis, phase.pulseDirection).arg(phase.pulseMagnitudeMs));
@@ -667,52 +907,35 @@ void AIGuideProtocol::processProtocol()
 
             connect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats, Qt::UniqueConnection);
 
-            if (m_Guide->status() == GUIDE_IDLE || m_Guide->status() == GUIDE_ABORTED)
-                m_Guide->guide();
-
             m_FrameTimer.start();
-            m_PulseSettleTimer = 5;
+            m_PulseSettleTimer = 3;
             m_State = STATE_PULSE_SETTLING;
             break;
         }
 
         case STATE_PULSE_SENDING:
         {
-            if (!m_Guide)
+            // Armed and waiting for a clean frame boundary: the pulse itself is fired from
+            // onGuideStats() (see firePulseResponsePulse()), the instant the next guide
+            // frame completes, not from this 1Hz tick. Firing here unconditionally was the
+            // bug — it could land the pulse mid-exposure (the free-drift capture loop keeps
+            // running all through STATE_PULSE_SETTLING), which is what made the recorded
+            // response shape inconsistent frame-to-frame. This watchdog only guards against
+            // no frame ever arriving at all (e.g. star lost) while armed.
+            if (!m_Guide || m_Guide->status() == GUIDE_ABORTED)
             {
-                m_State = STATE_ERROR;
+                emit protocolLog("Pulse response: guider aborted while waiting to fire pulse.");
+                m_Phases.removeFirst();
+                m_State = STATE_PRECHECK;
                 break;
             }
-
-            ProtocolPhase phase = m_Phases.first();
-
-            m_Guide->setAIFreeDrift(false);
-            if (phase.pulseAxis == "RA")
+            if (m_PulseWatchdog > 0) m_PulseWatchdog--;
+            if (m_PulseWatchdog <= 0)
             {
-                if (phase.pulseDirection == "EAST")
-                    m_Guide->sendSinglePulse(RA_INC_DIR, phase.pulseMagnitudeMs, StartCaptureAfterPulses);
-                else
-                    m_Guide->sendSinglePulse(RA_DEC_DIR, phase.pulseMagnitudeMs, StartCaptureAfterPulses);
+                emit protocolLog("Pulse response: timed out waiting for a clean frame boundary to fire the pulse (no frames arriving?). Skipping this test.");
+                m_Phases.removeFirst();
+                m_State = STATE_PRECHECK;
             }
-            else
-            {
-                if (phase.pulseDirection == "NORTH")
-                    m_Guide->sendSinglePulse(DEC_INC_DIR, phase.pulseMagnitudeMs, StartCaptureAfterPulses);
-                else
-                    m_Guide->sendSinglePulse(DEC_DEC_DIR, phase.pulseMagnitudeMs, StartCaptureAfterPulses);
-            }
-            m_Guide->setAIFreeDrift(true);
-
-            emit protocolLog(QString("Sent %1ms %2 %3 pulse. Recording %4 response frames...")
-                             .arg(phase.pulseMagnitudeMs).arg(phase.pulseAxis).arg(phase.pulseDirection)
-                             .arg(phase.responseFrames));
-
-            m_PulseFrameCount = 0;
-            m_PulseResponseData = QJsonArray();
-            m_PulseSentAtMs = QDateTime::currentMSecsSinceEpoch();
-            m_FrameTimer.start();
-            m_PulseWatchdog = phase.responseFrames * 6 + 30;
-            m_State = STATE_PULSE_RECORDING;
             break;
         }
 
@@ -808,6 +1031,12 @@ void AIGuideProtocol::processProtocol()
             {
                 if (m_PulseFrameCount == 0 && m_PulseResponseData.isEmpty())
                 {
+                    // Arm the pulse; it fires from onGuideStats() at the next clean frame
+                    // boundary, not from this timer tick — see firePulseResponsePulse().
+                    // The watchdog here only guards against no frames arriving at all
+                    // (e.g. star lost) while armed; it is unrelated to the recording-phase
+                    // watchdog below.
+                    m_PulseWatchdog = 30;
                     m_State = STATE_PULSE_SENDING;
                 }
                 else
@@ -835,13 +1064,27 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
     Q_UNUSED(skyBg)
     Q_UNUSED(numStars)
 
+    m_LastRAErrArcsec = raErr;
+    m_LastDECErrArcsec = decErr;
+
+    // Armed by STATE_PULSE_SETTLING once the settle countdown elapses (see
+    // processProtocol()). This guideStats call marks a clean frame-completion boundary —
+    // firing here, rather than from the 1Hz protocol timer, guarantees the pulse is never
+    // sent while a capture is mid-exposure, for both streaming and single-capture guiding.
+    // This frame itself is the last pre-pulse sample, not a response frame, so return
+    // immediately after firing rather than falling through.
+    if (m_State == STATE_PULSE_SENDING)
+    {
+        firePulseResponsePulse();
+        return;
+    }
+
     if (m_State == STATE_CAPTURING_DATA)
     {
         double dt = m_FrameTimer.isValid() ? (m_FrameTimer.restart() / 1000.0) : 0.0;
 
         if (m_Phases.first().freeDrift && !m_FreeDriftOverflow)
         {
-            constexpr double FREE_DRIFT_LIMIT_ARCSEC = 25.0;
             if (std::abs(raErr) > FREE_DRIFT_LIMIT_ARCSEC || std::abs(decErr) > FREE_DRIFT_LIMIT_ARCSEC)
             {
                 emit protocolLog(QString("Free drift limit reached (RA=%1\" DEC=%2\"). Ending phase early to protect star.")
@@ -962,6 +1205,293 @@ void AIGuideProtocol::onGuideStats(double raErr, double decErr, int raPulse, int
         m_PulseResponseData.append(frame);
         m_PulseFrameCount++;
     }
+}
+
+void AIGuideProtocol::firePulseResponsePulse()
+{
+    if (!m_Guide)
+    {
+        m_State = STATE_ERROR;
+        return;
+    }
+
+    ProtocolPhase phase = m_Phases.first();
+
+    // Streaming guiding delivers the next frame automatically once the pulse-in-flight
+    // guard (m_streamingPulseGuard) expires; single-capture guiding needs an explicit new
+    // exposure requested after the pulse (m_PulseTimer -> capture()). Passing the wrong
+    // one here previously meant an extra, unneeded capture() request could be issued even
+    // in streaming mode — matching the convention InternalGuider already uses for regular
+    // guiding pulses (see internalguider.cpp).
+    const CaptureAfterPulses captureMode = m_Guide->isStreamingGuide() ? DontCaptureAfterPulses : StartCaptureAfterPulses;
+
+    m_Guide->setAIFreeDrift(false);
+    if (phase.pulseAxis == "RA")
+    {
+        if (phase.pulseDirection == "EAST")
+            m_Guide->sendSinglePulse(RA_INC_DIR, phase.pulseMagnitudeMs, captureMode);
+        else
+            m_Guide->sendSinglePulse(RA_DEC_DIR, phase.pulseMagnitudeMs, captureMode);
+    }
+    else
+    {
+        if (phase.pulseDirection == "NORTH")
+            m_Guide->sendSinglePulse(DEC_INC_DIR, phase.pulseMagnitudeMs, captureMode);
+        else
+            m_Guide->sendSinglePulse(DEC_DEC_DIR, phase.pulseMagnitudeMs, captureMode);
+    }
+    m_Guide->setAIFreeDrift(true);
+
+    emit protocolLog(QString("Sent %1ms %2 %3 pulse. Recording %4 response frames...")
+                     .arg(phase.pulseMagnitudeMs).arg(phase.pulseAxis).arg(phase.pulseDirection)
+                     .arg(phase.responseFrames));
+
+    m_PulseFrameCount = 0;
+    m_PulseResponseData = QJsonArray();
+    m_PulseSentAtMs = QDateTime::currentMSecsSinceEpoch();
+    m_FrameTimer.start();
+    m_PulseWatchdog = phase.responseFrames * 6 + 30;
+    m_State = STATE_PULSE_RECORDING;
+}
+
+namespace
+{
+
+// One pulse-response session's response curve: seconds since the pulse, and
+// baseline-subtracted raw pixel displacement along the relevant axis.
+struct PulseCurve
+{
+    QVector<double> t;
+    QVector<double> pos;
+};
+
+PulseCurve extractPulseCurve(const QJsonObject &session, const QString &axisKey)
+{
+    PulseCurve curve;
+    const QJsonArray baseline = session.value("baseline_frames").toArray();
+    double baselineMean = 0.0;
+    if (!baseline.isEmpty())
+    {
+        double sum = 0.0;
+        for (const auto &bf : baseline)
+            sum += bf.toObject().value(axisKey).toDouble();
+        baselineMean = sum / baseline.size();
+    }
+    const QJsonArray frames = session.value("response_frames").toArray();
+    curve.t.reserve(frames.size());
+    curve.pos.reserve(frames.size());
+    for (const auto &f : frames)
+    {
+        const QJsonObject fo = f.toObject();
+        curve.t.append(fo.value("t").toDouble());
+        curve.pos.append(fo.value(axisKey).toDouble() - baselineMean);
+    }
+    return curve;
+}
+
+// Linear interpolation of (t, v) at queryT; clamps to the curve's endpoints outside its range.
+double interpAt(const QVector<double> &t, const QVector<double> &v, double queryT)
+{
+    if (t.isEmpty())
+        return 0.0;
+    if (queryT <= t.first())
+        return v.first();
+    if (queryT >= t.last())
+        return v.last();
+    for (int i = 1; i < t.size(); ++i)
+    {
+        if (t[i] >= queryT)
+        {
+            const double frac = (queryT - t[i - 1]) / std::max(t[i] - t[i - 1], 1e-9);
+            return v[i - 1] + frac * (v[i] - v[i - 1]);
+        }
+    }
+    return v.last();
+}
+
+double medianOf(QVector<double> values)
+{
+    if (values.isEmpty())
+        return 0.0;
+    std::sort(values.begin(), values.end());
+    const int n = values.size();
+    return (n % 2 == 0) ? (values[n / 2 - 1] + values[n / 2]) / 2.0 : values[n / 2];
+}
+
+// Below this many usable step-response fits, don't trust the result enough to apply
+// it automatically -- offline_trainer/pid_autotune.py uses the same style of gate
+// (MIN_FITS_FOR_MEDIUM_CONFIDENCE) for its advisory recommendation; applied here as a
+// hard floor since this result is applied live, not just surfaced for review.
+constexpr int MIN_FITS_TO_APPLY = 4;
+// Same default as offline_trainer/pid_autotune.py's SIMC_LAMBDA_L_FACTOR.
+constexpr double SIMC_LAMBDA_L_FACTOR = 3.0;
+constexpr double INTEGRAL_GAIN_CONSERVATIVE_FRACTION = 0.25;
+
+} // namespace
+
+// Live C++ port of offline_trainer/pid_autotune.py's per-axis SIMC-style calculation,
+// simplified to avoid a nonlinear curve fit: the plateau amplitude is estimated as the
+// mean of the last third of a paired pulse's response curve rather than fit, since on
+// every rig tested so far the step response is effectively flat well before the
+// response-frame window ends and the fitted tau has never resolved below the sampling
+// floor anyway (pid_autotune_plan.md §9.1) -- this is a reasonable same-night stand-in,
+// not a replacement for the offline trainer's fuller fit.
+bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerArcsec)
+{
+    if (msPerArcsec <= 0.0)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: no calibrated ms/arcsec on record -- keeping current gain.").arg(axis));
+        return false;
+    }
+
+    const QString axisKey = (axis == "RA") ? "ra_raw_px" : "dec_raw_px";
+    const QString posDir  = (axis == "RA") ? "EAST" : "NORTH";
+    const QString negDir  = (axis == "RA") ? "WEST" : "SOUTH";
+    const double pixelScale = m_SysIdData.value("equipment").toObject()
+                              .value("pixel_scale_arcsec_per_px").toDouble(1.0);
+
+    QMap<double, QList<QJsonObject>> posByMag, negByMag;
+    const QJsonArray sessions = m_SysIdData.value("sessions").toArray();
+    for (const auto &s : sessions)
+    {
+        const QJsonObject so = s.toObject();
+        if (so.value("type").toString() != "pulse_response" || so.value("pulse_axis").toString() != axis)
+            continue;
+        const double mag = so.value("pulse_magnitude_ms").toDouble();
+        const QString dir = so.value("pulse_direction").toString();
+        if (dir == posDir)
+            posByMag[mag].append(so);
+        else if (dir == negDir)
+            negByMag[mag].append(so);
+    }
+
+    QVector<double> kSamples, lSamples, tFirstSamples;
+    QSet<int> signSet;
+
+    for (auto it = posByMag.constBegin(); it != posByMag.constEnd(); ++it)
+    {
+        const double mag = it.key();
+        const QList<QJsonObject> &posList = it.value();
+        const QList<QJsonObject> &negList = negByMag.value(mag);
+        const int pairs = std::min(posList.size(), negList.size());
+        for (int i = 0; i < pairs; ++i)
+        {
+            const PulseCurve cp = extractPulseCurve(posList.at(i), axisKey);
+            const PulseCurve cn = extractPulseCurve(negList.at(i), axisKey);
+            if (cp.t.size() < 5 || cn.t.size() < 5)
+                continue;
+
+            QVector<double> tArr, diff;
+            for (int j = 0; j < cp.t.size(); ++j)
+            {
+                if (cp.t[j] < cn.t.first() || cp.t[j] > cn.t.last())
+                    continue;
+                tArr.append(cp.t[j]);
+                diff.append(cp.pos[j] - interpAt(cn.t, cn.pos, cp.t[j]));
+            }
+            if (tArr.size() < 5)
+                continue;
+
+            // Plateau amplitude/noise estimate from the last third of samples.
+            const int tailCount = std::max(1, static_cast<int>(tArr.size()) / 3);
+            double tailSum = 0.0;
+            for (int j = tArr.size() - tailCount; j < tArr.size(); ++j)
+                tailSum += diff[j];
+            const double pFit = tailSum / tailCount;
+
+            double varSum = 0.0;
+            for (int j = tArr.size() - tailCount; j < tArr.size(); ++j)
+                varSum += (diff[j] - pFit) * (diff[j] - pFit);
+            const double residualStd = std::sqrt(varSum / tailCount);
+
+            if (std::abs(pFit) < 2.0 * std::max(residualStd, 1e-6))
+                continue; // noise-dominated, skip -- same gate as pulse_response_fit.py
+
+            double lSample = tArr.last();
+            const double threshold = std::max(2.5 * residualStd, 1e-6);
+            for (int j = 0; j < tArr.size(); ++j)
+            {
+                if (std::abs(diff[j]) > threshold)
+                {
+                    lSample = tArr[j];
+                    break;
+                }
+            }
+
+            kSamples.append(std::abs(pFit) * pixelScale / mag);
+            lSamples.append(lSample);
+            tFirstSamples.append(tArr.first());
+            signSet.insert(pFit > 0 ? 1 : -1);
+        }
+    }
+
+    if (kSamples.size() < MIN_FITS_TO_APPLY)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: only %2 usable pulse-response fit(s) (need >= %3) -- keeping current gain.")
+                         .arg(axis).arg(kSamples.size()).arg(MIN_FITS_TO_APPLY));
+        return false;
+    }
+    if (signSet.size() > 1)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: pulse-response signs inconsistent across pulses -- "
+                                 "data looks like noise, keeping current gain.").arg(axis));
+        return false;
+    }
+
+    const double K   = medianOf(kSamples);
+    const double L   = medianOf(lSamples);
+    const double tau = std::max(medianOf(tFirstSamples), L);
+
+    if (K <= 0.0)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: computed process gain is zero -- keeping current gain.").arg(axis));
+        return false;
+    }
+
+    const double lambda = std::max(tau, SIMC_LAMBDA_L_FACTOR * L);
+    const double Kc = (1.0 / K) * tau / (lambda + L);
+    const double proportionalGain = std::max(0.0, std::min(1.0, Kc / msPerArcsec));
+    const double integralGain = std::max(0.0, std::min(1.0, INTEGRAL_GAIN_CONSERVATIVE_FRACTION * proportionalGain));
+
+    const double oldGain = (axis == "RA") ? Options::rAProportionalGain() : Options::dECProportionalGain();
+    if (axis == "RA")
+    {
+        Options::setRAProportionalGain(proportionalGain);
+        Options::setRAIntegralGain(integralGain);
+    }
+    else
+    {
+        Options::setDECProportionalGain(proportionalGain);
+        Options::setDECIntegralGain(integralGain);
+    }
+
+    emit protocolLog(QString("PID Auto-Tune [%1]: K=%2\"/ms  L=%3s  tau=%4s  (n=%5 fits) "
+                             "-- gain %6 -> %7 (locked for the rest of this session)")
+                     .arg(axis).arg(K, 0, 'f', 5).arg(L, 0, 'f', 2).arg(tau, 0, 'f', 2)
+                     .arg(kSamples.size()).arg(oldGain, 0, 'f', 3).arg(proportionalGain, 0, 'f', 3));
+    return true;
+}
+
+void AIGuideProtocol::applyPIDAutoTuneGainLock()
+{
+    m_GainLocked = true;
+
+    if (!Options::aIPIDAutoTune())
+        return;
+
+    auto *internalGuider = m_Guide ? qobject_cast<InternalGuider *>(m_Guide->getGuiderInstance()) : nullptr;
+    if (!internalGuider)
+    {
+        emit protocolLog("PID Auto-Tune: Internal Guider required to read calibration -- skipping gain lock.");
+        return;
+    }
+    const auto &cal = internalGuider->getCalibration();
+
+    const bool raApplied  = computeAndApplyAxisGain("RA",  cal.raPulseMillisecondsPerArcsecond());
+    const bool decApplied = computeAndApplyAxisGain("DEC", cal.decPulseMillisecondsPerArcsecond());
+
+    if (raApplied || decApplied)
+        refreshFingerprint();
 }
 
 }
