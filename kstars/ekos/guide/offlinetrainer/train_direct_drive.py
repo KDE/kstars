@@ -18,6 +18,8 @@ import scipy.stats
 from typing import Optional
 from datetime import datetime
 
+from pid_autotune import recommend_pid_gains, SIMC_LAMBDA_L_FACTOR
+
 
 
 def _effective_pixel_scale(sysid):
@@ -37,11 +39,20 @@ def _effective_pixel_scale(sysid):
     return ps
 
 def train_direct_drive(sysid: dict,
-                       verbose: bool = False) -> dict:
+                       verbose: bool = False,
+                       pid_lambda_factor: float = SIMC_LAMBDA_L_FACTOR) -> dict:
     """
     Fit the 4-parameter refraction model from free-drift sysid sessions.
 
     Returns a weights dict compatible with DirectDriveGuider::loadWeights().
+
+    Also computes an advisory "pid_autotune" PID gain recommendation from any
+    pulse_response sessions present (see pid_autotune.py / pid_autotune_plan.md
+    §8). DIRECT_DRIVE mounts are expected to show a small, near-negligible tau/
+    dead-time -- a confidently small result is itself a useful finding, not
+    just a null result. Returns confidence "unavailable" per axis if this
+    sysid run has no pulse_response data (Options::aIPIDAutoTune() was
+    off, or an older protocol run predates this mount type collecting it).
     """
     eq = sysid["equipment"]
     pixel_scale = _effective_pixel_scale(sysid)   # arcsec/px
@@ -146,6 +157,14 @@ def train_direct_drive(sysid: dict,
     # Build model fingerprint from equipment block
     fingerprint = _build_fingerprint(sysid)
 
+    # Advisory PID auto-tune recommendation from pulse_response sessions, if any
+    # (see pid_autotune.py). Not applied automatically -- a human reviews and
+    # manually updates Options::rA/dECProportionalGain() in KStars.
+    pid_autotune = recommend_pid_gains(sysid, guide_exp, verbose, pid_lambda_factor)
+
+    def _recommended(axis_result, field):
+        return axis_result[field] if axis_result["confidence"] != "unavailable" else None
+
     return {
         "format_version":   "1.0",
         "mount_type":       "DIRECT_DRIVE",
@@ -153,6 +172,13 @@ def train_direct_drive(sysid: dict,
         "mount_name":       eq.get("mount_name", "unknown"),
         "pixel_scale":      pixel_scale,
         "model_fingerprint": fingerprint,
+        # Advisory PID auto-tune recommendation -- see train_direct_drive()'s docstring.
+        # recommended_* fields are None when confidence is "unavailable" (don't apply).
+        "recommended_ra_proportional_gain":  _recommended(pid_autotune["ra"], "proportional_gain"),
+        "recommended_ra_integral_gain":      _recommended(pid_autotune["ra"], "integral_gain"),
+        "recommended_dec_proportional_gain": _recommended(pid_autotune["dec"], "proportional_gain"),
+        "recommended_dec_integral_gain":     _recommended(pid_autotune["dec"], "integral_gain"),
+        "pid_autotune": pid_autotune,
         "parameters": {
             "k_ref":      float(k_ref),
             "d_polar":    float(d_polar),

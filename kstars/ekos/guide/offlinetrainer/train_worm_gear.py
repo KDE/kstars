@@ -27,6 +27,8 @@ try:
 except ImportError:
     TORCH_AVAILABLE = False
 
+from pid_autotune import recommend_pid_gains, SIMC_LAMBDA_L_FACTOR
+
 
 
 def _effective_pixel_scale(sysid):
@@ -48,10 +50,19 @@ def _effective_pixel_scale(sysid):
 def train_worm_gear(sysid: dict,
                     gpu: bool = False,
                     epochs: int = None,
-                    verbose: bool = False) -> dict:
+                    verbose: bool = False,
+                    pid_lambda_factor: float = SIMC_LAMBDA_L_FACTOR) -> dict:
     """
     Train the PINN + residual MLP for a worm-gear mount.
     Returns a weights dict compatible with WormGearGuider::loadWeights().
+
+    Also computes an advisory "pid_autotune" PID gain recommendation from any
+    pulse_response sessions present (see pid_autotune.py / pid_autotune_plan.md
+    §8). Worm-gear mounts are exactly the class where backlash on DEC direction
+    reversal is a well-known effect -- it should show up directly as dead time
+    (L) in the FOPDT model. Returns confidence "unavailable" per axis if this
+    sysid run has no pulse_response data (Options::aIPIDAutoTune() was
+    off, or an older protocol run predates this mount type collecting it).
     """
     if not TORCH_AVAILABLE:
         print("[ERROR] PyTorch is required to train the WormGearGuider MLP.")
@@ -101,6 +112,14 @@ def train_worm_gear(sysid: dict,
             "dec_pulse_algorithm": fp.get("dec_pulse_algorithm", 0),
         }
 
+    # Advisory PID auto-tune recommendation from pulse_response sessions, if any
+    # (see pid_autotune.py). Not applied automatically -- a human reviews and
+    # manually updates Options::rA/dECProportionalGain() in KStars.
+    pid_autotune = recommend_pid_gains(sysid, guide_exp, verbose, pid_lambda_factor)
+
+    def _recommended(axis_result, field):
+        return axis_result[field] if axis_result["confidence"] != "unavailable" else None
+
     return {
         "format_version":    "1.0",
         "mount_type":        "WORM_GEAR",
@@ -108,6 +127,13 @@ def train_worm_gear(sysid: dict,
         "mount_name":        eq.get("mount_name", "unknown"),
         "pixel_scale":       pixel_scale,
         "model_fingerprint": _build_fingerprint(sysid),
+        # Advisory PID auto-tune recommendation -- see train_worm_gear()'s docstring.
+        # recommended_* fields are None when confidence is "unavailable" (don't apply).
+        "recommended_ra_proportional_gain":  _recommended(pid_autotune["ra"], "proportional_gain"),
+        "recommended_ra_integral_gain":      _recommended(pid_autotune["ra"], "integral_gain"),
+        "recommended_dec_proportional_gain": _recommended(pid_autotune["dec"], "proportional_gain"),
+        "recommended_dec_integral_gain":     _recommended(pid_autotune["dec"], "integral_gain"),
+        "pid_autotune": pid_autotune,
         "physics": {
             "pe_amplitude": float(pe_amplitude),
             "pe_period":    float(pe_period),

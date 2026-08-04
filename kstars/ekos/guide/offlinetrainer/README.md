@@ -32,7 +32,7 @@ python train.py --sysid-data ./sysid_data.json --output ./weights.json
 *   `--mount-type <type>`: Force a specific mount type (`WORM_GEAR`, `HARMONIC_DRIVE`, `DIRECT_DRIVE`). Usually not needed as it auto-detects from the sysid file.
 *   `--verbose`: Print detailed logs of the physics fitting and the MLP training epochs.
 *   `--gpu`: Use CUDA/MPS to accelerate training if available (not necessary for these small models).
-*   `--pid-lambda-factor <float>`: HARMONIC_DRIVE only. Design parameter for the advisory PID auto-tune recommendation below (default `3.0`); larger values recommend a slower, more conservative gain.
+*   `--pid-lambda-factor <float>`: Design parameter for the advisory PID auto-tune recommendation below (default `3.0`); larger values recommend a slower, more conservative gain. Applies to any mount type whose sysid data includes `pulse_response` sessions.
 
 ## 4. Loading the Model into KStars
 
@@ -41,16 +41,24 @@ python train.py --sysid-data ./sysid_data.json --output ./weights.json
 3. Under the **AI Guiding** section, set the **Weights File** path to point to your `weights.json`.
 4. Start guiding. The AI will automatically engage!
 
-## 5. PID Auto-Tune Recommendation (HARMONIC_DRIVE, advisory only)
+## 5. PID Auto-Tune Recommendation (all mount types, advisory only)
 
-For `HARMONIC_DRIVE` mounts, the trainer also derives a recommended base RA/DEC
-proportional (+ conservative integral) gain from the same `pulse_response`
-step-response sessions used to fit κ/τ, via a conservative SIMC/IMC-style
-step-response tuning rule. This is printed to the console and saved into
-`weights.json` as `recommended_ra_proportional_gain`, `recommended_ra_integral_gain`,
+For any mount type whose sysid data includes `pulse_response` sessions, the
+trainer also derives a recommended base RA/DEC proportional (+ conservative
+integral) gain from that step-response data, via a conservative SIMC/IMC-style
+step-response tuning rule (`pid_autotune.py`, shared by all three trainers).
+This is printed to the console and saved into `weights.json` as
+`recommended_ra_proportional_gain`, `recommended_ra_integral_gain`,
 `recommended_dec_proportional_gain`, `recommended_dec_integral_gain`, plus a
 `pid_autotune` block with the underlying fit diagnostics (process gain, τ, dead
 time, confidence).
+
+`pulse_response` sessions are collected by a protocol phase (**PID Auto-Tune
+(Step-Response Gain Calibration)** in AI Guiding settings, enabled by default —
+it adds roughly 10 minutes to the AI Guide Wizard run). If disabled,
+`recommended_*` fields are `null` and `pid_autotune` reports
+`"confidence": "unavailable"` per axis — this is the normal, expected result
+for a run collected with the option off.
 
 **This is advisory only and is never applied automatically.** Nothing in KStars
 reads these fields back — review the numbers (especially the `confidence` flag:

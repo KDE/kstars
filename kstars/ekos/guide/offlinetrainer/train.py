@@ -33,10 +33,10 @@ def parse_args():
     p.add_argument("--epochs",      type=int, default=None,
                    help="Override default epoch count for neural models")
     p.add_argument("--pid-lambda-factor", type=float, default=None,
-                   help="HARMONIC_DRIVE only: SIMC design parameter for the advisory PID "
-                        "auto-tune recommendation (lambda = max(tau, factor * dead_time)). "
-                        "Larger = slower/more conservative gain recommendation. "
-                        "Default: train_harmonic.SIMC_LAMBDA_L_FACTOR")
+                   help="SIMC design parameter for the advisory PID auto-tune recommendation "
+                        "(lambda = max(tau, factor * dead_time)), computed for any mount type "
+                        "whose sysid data includes pulse_response sessions. Larger = slower/"
+                        "more conservative gain recommendation. Default: pid_autotune.SIMC_LAMBDA_L_FACTOR")
     p.add_argument("--simulate",    action="store_true",
                    help="Run closed-loop simulation after training completes")
     p.add_argument("--plot",        action="store_true",
@@ -77,20 +77,23 @@ def main():
     print(f"[Ekos AI Trainer] Mount type: {mount_type}")
     print(f"[Ekos AI Trainer] Mount name: {sysid['equipment'].get('mount_name', 'unknown')}")
 
+    from pid_autotune import SIMC_LAMBDA_L_FACTOR
+    pid_lambda_factor = args.pid_lambda_factor or SIMC_LAMBDA_L_FACTOR
+
     # Dispatch to the appropriate trainer
     if mount_type == "DIRECT_DRIVE":
         from train_direct_drive import train_direct_drive
-        weights = train_direct_drive(sysid, verbose=args.verbose)
+        weights = train_direct_drive(sysid, verbose=args.verbose, pid_lambda_factor=pid_lambda_factor)
 
     elif mount_type == "WORM_GEAR":
         from train_worm_gear import train_worm_gear
-        weights = train_worm_gear(sysid, gpu=args.gpu,
-                                  epochs=args.epochs, verbose=args.verbose)
+        weights = train_worm_gear(sysid, gpu=args.gpu, epochs=args.epochs, verbose=args.verbose,
+                                  pid_lambda_factor=pid_lambda_factor)
 
     elif mount_type == "HARMONIC_DRIVE":
-        from train_harmonic import train_harmonic, SIMC_LAMBDA_L_FACTOR
+        from train_harmonic import train_harmonic
         weights = train_harmonic(sysid, gpu=args.gpu, epochs=args.epochs, verbose=args.verbose,
-                                 pid_lambda_factor=args.pid_lambda_factor or SIMC_LAMBDA_L_FACTOR)
+                                 pid_lambda_factor=pid_lambda_factor)
 
     else:
         sys.exit(

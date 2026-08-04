@@ -26,28 +26,10 @@ try:
 except ImportError:
     TORCH_AVAILABLE = False
 
-
-
-# Default SIMC design parameter for the PID auto-tune recommendation (§ Phase 1b
-# below): lambda = max(tau, SIMC_LAMBDA_L_FACTOR * dead_time). Larger -> slower/
-# more robust closed loop; smaller -> faster/less margin. Kept as an explicit,
-# overridable constant per the plan's "expose lambda as a documented knob, not a
-# hidden constant" (pid_autotune_plan.md §3.2).
-SIMC_LAMBDA_L_FACTOR = 3.0
-
-# KStars' "integral gain" (Options::rAIntegralGain()/dECIntegralGain()) multiplies
-# a ~100-frame moving average of drift (gmath.cpp::processAxis(), drift_integral[k]),
-# not a classical accumulating integrator. SIMC's tau_I (a reset *time*) has no
-# principled mapping onto that EMA-style term, so rather than inventing one, the
-# integral recommendation is a conservative fixed fraction of the proportional
-# recommendation (pid_autotune_plan.md §1: "keep I conservative"). tau_I is still
-# reported in the output for reference.
-INTEGRAL_GAIN_CONSERVATIVE_FRACTION = 0.25
-
-# Below this many usable step-response fits, the recommendation is flagged "low"
-# confidence rather than withheld outright -- still informative, not to be applied
-# unattended (pid_autotune_plan.md §4).
-MIN_FITS_FOR_MEDIUM_CONFIDENCE = 6
+# Elastic-windup (kappa/tau) spring fitting is disabled for now -- see the note
+# in train_harmonic() below. Re-import this if that fit is ever revisited.
+# from pulse_response_fit import fit_pulse_response as _fit_spring_params
+from pid_autotune import recommend_pid_gains as _recommend_pid_gains, SIMC_LAMBDA_L_FACTOR
 
 
 def _effective_pixel_scale(sysid):
@@ -89,15 +71,29 @@ def train_harmonic(sysid: dict,
     guide_exp   = eq.get("guide_exposure_ms", 1000.0) / 1000.0
 
     if verbose:
-        print(f"\n--- Phase 1: Spring Parameter Fitting ---")
+        print(f"\n--- Phase 1: Spring Parameter Fitting (disabled -- see note below) ---")
 
-    # ── Step 1: Fit spring parameters from pulse_response sessions ─────────
-    kappa_ra, tau_ra   = _fit_spring_params(sysid, "RA",  guide_exp, verbose)
-    kappa_dec, tau_dec = _fit_spring_params(sysid, "DEC", guide_exp, verbose)
+    # ── Step 1: Elastic/spring (kappa/tau) fitting -- commented out for now ────
+    # _fit_spring_params() (pulse_response_fit.fit_pulse_response()) has never
+    # resolved a spring response above the noise floor on any rig tested so far
+    # (pid_autotune_plan.md §9.1): kappa has come back 0.0 on every real run,
+    # bounded by the achieved guide-frame cadence being too coarse relative to
+    # any plausible spring time constant. Rather than spend the pulse_response
+    # phase's frame budget on a fit that has never once produced a usable
+    # result, this is disabled for now and left as a future-exploration item
+    # (e.g. revisit if a rig ever shows a resolvable spring, or add a separate
+    # opt-in toggle specifically for elastic-windup modeling rather than always
+    # attempting it as a side effect of PID auto-tune's data collection).
+    # The same pulse_response sessions still fully serve PID auto-tune (Step 1b
+    # below), which never depended on this fit succeeding.
+    kappa_ra, tau_ra   = 0.0, 1.5
+    kappa_dec, tau_dec = 0.0, 1.5
+    # kappa_ra, tau_ra   = _fit_spring_params(sysid, "RA",  guide_exp, verbose)
+    # kappa_dec, tau_dec = _fit_spring_params(sysid, "DEC", guide_exp, verbose)
 
     if verbose:
-        print(f"  κ_ra={kappa_ra:.3f}  τ_ra={tau_ra:.2f}s")
-        print(f"  κ_dec={kappa_dec:.3f}  τ_dec={tau_dec:.2f}s")
+        print(f"  κ_ra={kappa_ra:.3f}  τ_ra={tau_ra:.2f}s (fit disabled, using default)")
+        print(f"  κ_dec={kappa_dec:.3f}  τ_dec={tau_dec:.2f}s (fit disabled, using default)")
         print(f"\n--- Phase 1b: PID Auto-tune (recommendation only, not applied) ---")
 
     # ── Step 1b: Recommend base P(+I) guide gains from the same step-response data ──
@@ -171,355 +167,6 @@ def train_harmonic(sysid: dict,
             "fit_alt_max":   float(fit_alt_max),
         },
         "qnet": qnet_weights,
-    }
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# Phase 1: Spring parameter fitting from pulse_response sessions
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def _fit_spring_params(sysid: dict, axis: str, guide_exp: float, verbose: bool,
-                       return_fits: bool = False):
-    """
-    Fit spring constant κ and time constant τ from pulse_response sessions.
-
-    Model: d(t) = P * (1 - κ * exp(-t/τ)) + v*t + c. Fits whose |P| is not
-    significantly above the residual noise are skipped.
-
-    Returns: (kappa, tau_seconds), or (kappa, tau_seconds, fit_info) if
-    return_fits is True. fit_info["fits"] is the list of per-fit records
-    (P_fit_px, tau_fit_s, residual_std_px, t_first_s, t_arr, pos_arr) this
-    function already computes and would otherwise discard — reused by
-    _recommend_pid_gains() as the step-response data for PID auto-tune, a
-    second, independent consumer of the same pulse_response sessions.
-    fit_info["sign_consistent"] mirrors the gate this function itself uses
-    to decide the fits are real mechanics rather than noise.
-    """
-    # Unmeasured means unmodeled: the default kappa stays 0
-    DEFAULTS = (0.0, 1.5)
-
-    def _finish(kappa, tau, fit_records, sign_consistent):
-        if not return_fits:
-            return kappa, tau
-        return kappa, tau, {"fits": fit_records, "sign_consistent": sign_consistent}
-
-    pulse_sessions = [
-        s for s in sysid["sessions"]
-        if s.get("type") == "pulse_response" and s.get("pulse_axis", "").upper() == axis.upper()
-    ]
-
-    if not pulse_sessions:
-        if verbose:
-            print(f"  [{axis}] No pulse_response sessions found. Using defaults (κ=0.2, τ=1.5s)")
-        return _finish(*DEFAULTS, [], None)
-
-    axis_key = "ra_raw_px" if axis.upper() == "RA" else "dec_raw_px"
-
-    def session_curve(s):
-        """(t, signed displacement from baseline) for one pulse session, or None."""
-        frames = s.get("response_frames", [])
-        if len(frames) < 5:
-            return None
-        base = s.get("baseline_frames", [])
-        if base:
-            # New protocol: dedicated pre-pulse baseline; t is true seconds since the pulse.
-            baseline = float(np.mean([f.get(axis_key, 0.0) for f in base]))
-            t_vals = [f.get("t", (i + 1) * guide_exp) for i, f in enumerate(frames)]
-            pos_vals = [f.get(axis_key, 0.0) - baseline for f in frames]
-        else:
-            # Legacy: first frame doubles as the baseline.
-            baseline = frames[0].get(axis_key, 0.0)
-            t0 = frames[0].get("t", 0.0)
-            t_vals, pos_vals = [], []
-            for i, f in enumerate(frames):
-                if i == 0:
-                    continue
-                t = f.get("t", 0.0) - t0
-                if t <= 0:
-                    t = i * guide_exp
-                t_vals.append(t)
-                pos_vals.append(f.get(axis_key, 0.0) - baseline)
-        if len(t_vals) < 5:
-            return None
-        return np.array(t_vals, dtype=float), np.array(pos_vals, dtype=float)
-
-    def fit_curve(t_arr, pos_arr, with_drift):
-        """Fit the spring model; returns (P, kappa, tau, residual_std) or None."""
-        try:
-            if with_drift:
-                def model(t, P, kappa, tau, v, c):
-                    return P * (1.0 - kappa * np.exp(-t / tau)) + v * t + c
-                slope0 = (pos_arr[-1] - pos_arr[0]) / max(t_arr[-1] - t_arr[0], 1e-3)
-                p0 = [pos_arr[-1] - slope0 * t_arr[-1], 0.3, 1.5, slope0, 0.0]
-                bounds = ([-50.0, 0.0, 0.1, -2.0, -10.0], [50.0, 0.9, 10.0, 2.0, 10.0])
-            else:
-                def model(t, P, kappa, tau, c):
-                    return P * (1.0 - kappa * np.exp(-t / tau)) + c
-                p0 = [pos_arr[-1], 0.3, 1.5, 0.0]
-                bounds = ([-100.0, 0.0, 0.1, -10.0], [100.0, 0.9, 10.0, 10.0])
-            popt, _ = scipy.optimize.curve_fit(model, t_arr, pos_arr, p0=p0,
-                                               bounds=bounds, maxfev=10000)
-            residual_std = float(np.std(pos_arr - model(t_arr, *popt)))
-            return popt[0], popt[1], popt[2], residual_std
-        except (RuntimeError, ValueError):
-            return None
-
-    kappas = []
-    taus = []
-    fit_signs = []
-    paired_signs = set()
-    skipped_noise = 0
-    fit_records = []
-
-    def accept_fit(kappa_fit, tau_fit, t_first):
-        # tau at the upper bound: exponential degenerate with the drift term
-        if tau_fit > 9.8:
-            return
-        # spring released before the first sample is indistinguishable from none
-        if tau_fit < t_first:
-            kappas.append(0.0)
-        else:
-            kappas.append(kappa_fit)
-            taus.append(tau_fit)
-
-    # Pair opposite-direction sessions: the difference doubles the response
-    pos_dir, neg_dir = ("EAST", "WEST") if axis.upper() == "RA" else ("NORTH", "SOUTH")
-    by_mag = {}
-    for s in pulse_sessions:
-        by_mag.setdefault(s.get("pulse_magnitude_ms", 100.0), []).append(s)
-
-    for pulse_mag, group in sorted(by_mag.items()):
-        pos_list = [s for s in group if s.get("pulse_direction", "").upper() == pos_dir]
-        neg_list = [s for s in group if s.get("pulse_direction", "").upper() == neg_dir]
-        paired = list(zip(pos_list, neg_list))
-        leftovers = pos_list[len(paired):] + neg_list[len(paired):]
-
-        for sp, sn in paired:
-            cp, cn = session_curve(sp), session_curve(sn)
-            if cp is None or cn is None:
-                continue
-            tp, pp = cp
-            tn, pn = cn
-            mask = (tp >= tn[0]) & (tp <= tn[-1])
-            if mask.sum() < 5:
-                continue
-            t_arr = tp[mask]
-            diff = pp[mask] - np.interp(t_arr, tn, pn)
-            # Sessions are minutes apart so PE does not cancel exactly; v absorbs the leak
-            fit = fit_curve(t_arr, diff, with_drift=True)
-            if fit is None:
-                if verbose:
-                    print(f"  [{axis}] Pulse {pulse_mag}ms paired: curve_fit failed")
-                continue
-            P_fit, kappa_fit, tau_fit, residual_std = fit
-            if abs(P_fit) < 2.0 * residual_std:
-                skipped_noise += 1
-                if verbose:
-                    print(f"  [{axis}] Pulse {pulse_mag}ms paired: |P|={abs(P_fit):.2f}px "
-                          f"below noise ({residual_std:.2f}px) — skipped")
-                continue
-            paired_signs.add(1.0 if P_fit > 0 else -1.0)
-            accept_fit(kappa_fit, tau_fit, t_arr[0])
-            fit_records.append({
-                "pulse_magnitude_ms": float(pulse_mag), "P_fit_px": float(P_fit),
-                "tau_fit_s": float(tau_fit), "residual_std_px": float(residual_std),
-                "t_first_s": float(t_arr[0]), "t_arr": t_arr, "pos_arr": diff,
-            })
-            if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms paired {pos_dir}-{neg_dir}: "
-                      f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
-
-        for s in leftovers:
-            c = session_curve(s)
-            if c is None:
-                continue
-            t_arr, pos_arr = c
-            fit = fit_curve(t_arr, pos_arr, with_drift=True)
-            if fit is None:
-                if verbose:
-                    print(f"  [{axis}] Pulse {pulse_mag}ms: curve_fit failed")
-                continue
-            P_fit, kappa_fit, tau_fit, residual_std = fit
-            if abs(P_fit) < 2.0 * residual_std:
-                skipped_noise += 1
-                if verbose:
-                    print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
-                          f"response |P|={abs(P_fit):.2f}px below noise ({residual_std:.2f}px) — skipped")
-                continue
-            accept_fit(kappa_fit, tau_fit, t_arr[0])
-            fit_signs.append((s.get("pulse_direction", "?"), np.sign(P_fit)))
-            fit_records.append({
-                "pulse_magnitude_ms": float(pulse_mag), "P_fit_px": float(P_fit),
-                "tau_fit_s": float(tau_fit), "residual_std_px": float(residual_std),
-                "t_first_s": float(t_arr[0]), "t_arr": t_arr, "pos_arr": pos_arr,
-            })
-            if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
-                      f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
-
-    if not kappas:
-        if verbose:
-            print(f"  [{axis}] No pulse response measurable above noise "
-                  f"({skipped_noise} skipped). Using defaults (κ=0.2, τ=1.5s). "
-                  f"Consider larger protocol pulses.")
-        return _finish(*DEFAULTS, fit_records, None)
-
-    # Real responses have consistent signs per direction; paired diffs share one sign
-    by_dir = {}
-    for direction, sign in fit_signs:
-        by_dir.setdefault(direction, set()).add(sign)
-    dir_signs = [next(iter(s)) for s in by_dir.values() if len(s) == 1]
-    consistent = (len(paired_signs) <= 1 and
-                  all(len(s) == 1 for s in by_dir.values()) and
-                  (len(by_dir) < 2 or len(set(dir_signs)) == len(by_dir)))
-    if not consistent:
-        if verbose:
-            print(f"  [{axis}] WARNING: response signs inconsistent across pulse directions "
-                  f"— fits are noise, not mechanics. Using defaults (κ=0.2, τ=1.5s).")
-        return _finish(*DEFAULTS, fit_records, False)
-
-    kappa_result = float(np.median(kappas))
-    tau_result = float(np.median(taus)) if taus and kappa_result > 0.0 else DEFAULTS[1]
-
-    # A median within ~2% of the fit bounds means the model chased noise/drift, not physics.
-    if kappa_result > 0.88 or tau_result > 9.8:
-        if verbose:
-            print(f"  [{axis}] WARNING: fit pinned at bounds (κ={kappa_result:.3f}, "
-                  f"τ={tau_result:.2f}s) — unphysical. Using defaults (κ=0.2, τ=1.5s).")
-        return _finish(*DEFAULTS, fit_records, consistent)
-
-    if verbose:
-        print(f"  [{axis}] Final: κ={kappa_result:.3f} (from {len(kappas)} fits), "
-              f"τ={tau_result:.2f}s")
-
-    return _finish(kappa_result, tau_result, fit_records, consistent)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# Phase 1b: PID auto-tune -- SIMC step-response gain recommendation
-#
-# Offline, calibration-time-only calculation (pid_autotune_plan.md). Reuses the
-# per-fit P_fit/tau_fit/residual_std/t_arr values _fit_spring_params() already
-# computes from pulse_response sessions -- no new data collection, just a second
-# consumer of the existing step-response fits.
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def _estimate_dead_time_s(t_arr: np.ndarray, pos_arr: np.ndarray, residual_std: float) -> float:
-    """
-    First t at which |pos(t)| exceeds ~2.5x the fit's residual noise -- a proxy
-    for FOPDT dead time L (pid_autotune_plan.md §3.1). If even the first sample
-    already exceeds threshold (the common case at ~2-3s/frame cadence), this
-    returns t_arr[0]: L is only known to be <= the first sample, not resolved any
-    finer -- see _recommend_axis_pid_gain()'s "resolution_limited" flag.
-    """
-    threshold = max(2.5 * residual_std, 1e-6)
-    for t, p in zip(t_arr, pos_arr):
-        if abs(p) > threshold:
-            return float(t)
-    return float(t_arr[-1])
-
-
-def _calibration_ms_per_arcsec(sysid: dict, axis: str) -> float:
-    """
-    Median calibrated ms-per-arcsec pulse rate for this axis, from whichever
-    sessions recorded it (standard_guiding sessions carry ra_ms_per_arcsec/
-    dec_ms_per_arcsec). This is Calibration::ra/decPulseMillisecondsPerArcsecond()
-    at collection time -- the same normalization gmath.cpp::processAxis() applies
-    to proportional_gain, needed to convert a physical SIMC Kc (ms/arcsec) back
-    into KStars' dimensionless aggressiveness (pid_autotune_plan.md §3.3).
-    """
-    key = "ra_ms_per_arcsec" if axis.upper() == "RA" else "dec_ms_per_arcsec"
-    values = [s[key] for s in sysid["sessions"] if s.get(key, 0.0) and s[key] > 0.0]
-    return float(np.median(values)) if values else 0.0
-
-
-def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
-                             lambda_l_factor: float, verbose: bool) -> dict:
-    """
-    Derive a recommended base proportional/integral gain for one axis from its
-    pulse_response step-response fits, via a conservative SIMC/IMC-style PI rule
-    (pid_autotune_plan.md §3.2). Returns a dict; confidence "unavailable" means
-    the numbers (if present at all) should not be used.
-    """
-    _, _, fit_info = _fit_spring_params(sysid, axis, guide_exp, False, return_fits=True)
-    fits = fit_info["fits"]
-
-    if fit_info["sign_consistent"] is False:
-        return {"confidence": "unavailable",
-                "reason": "pulse-response signs inconsistent across directions -- fits are noise, not mechanics"}
-    if not fits:
-        return {"confidence": "unavailable", "reason": "no usable pulse-response step-response fits"}
-
-    cal_ms_per_arcsec = _calibration_ms_per_arcsec(sysid, axis)
-    if cal_ms_per_arcsec <= 0.0:
-        return {"confidence": "unavailable",
-                "reason": "no calibrated ms_per_arcsec recorded for this axis (need a standard_guiding session)"}
-
-    pixel_scale = _effective_pixel_scale(sysid)
-
-    K_samples, tau_samples, L_samples, t_first_samples = [], [], [], []
-    for f in fits:
-        if f["pulse_magnitude_ms"] <= 0.0:
-            continue
-        K_samples.append(abs(f["P_fit_px"]) * pixel_scale / f["pulse_magnitude_ms"])
-        t_first_samples.append(f["t_first_s"])
-        L_samples.append(_estimate_dead_time_s(f["t_arr"], f["pos_arr"], f["residual_std_px"]))
-        if f["tau_fit_s"] <= 9.8:  # same "pinned at bound, degenerate with drift" guard as the spring fit
-            tau_samples.append(f["tau_fit_s"])
-
-    if not K_samples:
-        return {"confidence": "unavailable", "reason": "no fit had a usable pulse magnitude"}
-
-    K = float(np.median(K_samples))  # arcsec of steady-state response per ms of pulse
-    L = float(np.median(L_samples))
-    # tau can't be resolved below the sampling floor either: a fit whose tau_fit
-    # landed below t_first ("spring already released") is only known to be
-    # <= t_first, not physically ~0 -- floor it the same way L is floored, so a
-    # spuriously tiny fitted tau can't produce a dangerously aggressive Kc.
-    tau_raw = float(np.median(tau_samples)) if tau_samples else float(np.median(t_first_samples))
-    tau = max(tau_raw, L)
-    resolution_limited = bool(np.isclose(L, float(np.median(t_first_samples)), rtol=0.05))
-
-    lam = max(tau, lambda_l_factor * L)
-    Kc = (1.0 / K) * tau / (lam + L)               # ms of pulse per arcsec of error
-    tau_i = min(tau, 4.0 * (lam + L))              # SIMC reset time, reported only -- see constant doc above
-
-    proportional_gain = Kc / cal_ms_per_arcsec
-    integral_gain = INTEGRAL_GAIN_CONSERVATIVE_FRACTION * proportional_gain
-    confidence = "low" if (resolution_limited or len(fits) < MIN_FITS_FOR_MEDIUM_CONFIDENCE) else "medium"
-
-    if verbose:
-        print(f"  [{axis} PID] K={K:.5f} arcsec/ms  tau={tau:.2f}s  L={L:.2f}s  lambda={lam:.2f}s "
-              f"(n={len(fits)} fits, cal={cal_ms_per_arcsec:.1f}ms/arcsec)")
-        print(f"  [{axis} PID] Recommended proportional_gain={proportional_gain:.3f}  "
-              f"integral_gain={integral_gain:.3f}  confidence={confidence}")
-
-    return {
-        "confidence":                 confidence,
-        "proportional_gain":          float(np.clip(proportional_gain, 0.0, 1.0)),
-        "integral_gain":              float(np.clip(integral_gain, 0.0, 1.0)),
-        "process_gain_arcsec_per_ms": K,
-        "tau_s":                      tau,
-        "dead_time_s":                L,
-        "lambda_s":                   lam,
-        "tau_i_s":                    tau_i,
-        "calibration_ms_per_arcsec":  cal_ms_per_arcsec,
-        "n_fits":                     len(fits),
-        "resolution_limited":         resolution_limited,
-    }
-
-
-def _recommend_pid_gains(sysid: dict, guide_exp: float, verbose: bool,
-                         lambda_l_factor: float = SIMC_LAMBDA_L_FACTOR) -> dict:
-    """
-    Recommend base RA/DEC proportional (+ conservative integral) gains from the
-    pulse_response step-response data, via a conservative SIMC/IMC-style PI rule
-    (pid_autotune_plan.md §3). Calibration-time only, never auto-applied -- see
-    train_harmonic()'s docstring for how these surface in the weights JSON.
-    """
-    return {
-        "ra":  _recommend_axis_pid_gain(sysid, "RA",  guide_exp, lambda_l_factor, verbose),
-        "dec": _recommend_axis_pid_gain(sysid, "DEC", guide_exp, lambda_l_factor, verbose),
     }
 
 
@@ -945,16 +592,17 @@ def _train_qnet(sysid, kappa_ra, tau_ra, kappa_dec, tau_dec,
     }
 
 
-class QNet(nn.Module):
-    """5 → 8 (ReLU) → 2 Q-net for adaptive process noise."""
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(5, 8)
-        self.fc2 = nn.Linear(8, 2)
+if TORCH_AVAILABLE:
+    class QNet(nn.Module):
+        """5 → 8 (ReLU) → 2 Q-net for adaptive process noise."""
+        def __init__(self):
+            super().__init__()
+            self.fc1 = nn.Linear(5, 8)
+            self.fc2 = nn.Linear(8, 2)
 
-    def forward(self, x):
-        h = torch.relu(self.fc1(x))
-        return self.fc2(h)
+        def forward(self, x):
+            h = torch.relu(self.fc1(x))
+            return self.fc2(h)
 
 
 def _zero_qnet_weights():
