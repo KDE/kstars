@@ -79,7 +79,7 @@
          <string>PID Auto-Tune (Step-Response Gain Calibration)</string>
         </property>
         <property name="toolTip">
-         <string>Sends known pulses at the start of the protocol and measures the mount's step response to recommend a base RA/DEC guiding gain for any mount type (offline trainer only, never applied automatically). Adds roughly 10 minutes to the protocol; enabled by default.</string>
+         <string>Sends known pulses at the start of the protocol and measures the mount's step response to derive a base RA/DEC guiding gain for any mount type. The measured gain is applied and locked for the rest of the session; the current gain is kept if the responses do not pass the consistency checks. Adds roughly 20 minutes to the protocol; enabled by default.</string>
         </property>
        </widget>
       </item>

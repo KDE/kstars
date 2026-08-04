@@ -3124,7 +3124,7 @@
       </entry>
       <entry name="AIPIDAutoTune" type="Bool">
          <label>Run PID Auto-Tune (step-response gain calibration) as part of the AI data collection protocol.</label>
-         <whatsthis>Sends known pulses at the start of the protocol and measures the mount's step response to recommend a base RA/DEC guiding gain for any mount type. Advisory only -- never applied automatically. Adds roughly 10 minutes to the protocol. Enabled by default.</whatsthis>
+         <whatsthis>Sends known pulses at the start of the protocol and measures the mount's step response to derive a base RA/DEC guiding gain for any mount type. The measured gain is applied and locked for the rest of the session, so the data that follows is collected under it; the current gain is kept unchanged if the responses do not pass the consistency checks. Adds roughly 20 minutes to the protocol. Enabled by default.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="AIShadowMode" type="Bool">

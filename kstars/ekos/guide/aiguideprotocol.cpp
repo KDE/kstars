@@ -22,6 +22,7 @@
 #include <QSet>
 #include <QVector>
 #include <algorithm>
+#include <limits>
 #include <cmath>
 
 namespace Ekos
@@ -1289,26 +1290,6 @@ PulseCurve extractPulseCurve(const QJsonObject &session, const QString &axisKey)
     return curve;
 }
 
-// Linear interpolation of (t, v) at queryT; clamps to the curve's endpoints outside its range.
-double interpAt(const QVector<double> &t, const QVector<double> &v, double queryT)
-{
-    if (t.isEmpty())
-        return 0.0;
-    if (queryT <= t.first())
-        return v.first();
-    if (queryT >= t.last())
-        return v.last();
-    for (int i = 1; i < t.size(); ++i)
-    {
-        if (t[i] >= queryT)
-        {
-            const double frac = (queryT - t[i - 1]) / std::max(t[i] - t[i - 1], 1e-9);
-            return v[i - 1] + frac * (v[i] - v[i - 1]);
-        }
-    }
-    return v.last();
-}
-
 double medianOf(QVector<double> values)
 {
     if (values.isEmpty())
@@ -1326,16 +1307,20 @@ constexpr int MIN_FITS_TO_APPLY = 4;
 // Same default as offline_trainer/pid_autotune.py's SIMC_LAMBDA_L_FACTOR.
 constexpr double SIMC_LAMBDA_L_FACTOR = 3.0;
 constexpr double INTEGRAL_GAIN_CONSERVATIVE_FRACTION = 0.25;
+// K is arcsec of motion per ms of pulse, so it must not depend on the pulse magnitude used
+// to measure it. When the per-magnitude estimates disagree by more than this, the response
+// is contaminated (drift/PE that did not cancel in the pairing) and the fit is not trusted.
+constexpr double K_MAGNITUDE_CONSISTENCY_TOLERANCE = 0.25;
 
 } // namespace
 
-// Live C++ port of offline_trainer/pid_autotune.py's per-axis SIMC-style calculation,
-// simplified to avoid a nonlinear curve fit: the plateau amplitude is estimated as the
-// mean of the last third of a paired pulse's response curve rather than fit, since on
-// every rig tested so far the step response is effectively flat well before the
-// response-frame window ends and the fitted tau has never resolved below the sampling
-// floor anyway (pid_autotune_plan.md §9.1) -- this is a reasonable same-night stand-in,
-// not a replacement for the offline trainer's fuller fit.
+// Live C++ counterpart of offline_trainer/pid_autotune.py's per-axis SIMC-style
+// calculation; both estimate the step the same way so the applied gain and the trainer's
+// advisory agree. Each response is fitted on its own as a step plus a local linear trend
+// and the step is read off the fitted line, which removes drift, periodic error and the
+// residual tracking-rate offset an RA pulse leaves behind. Note tau and the dead time L
+// are not resolvable at guide cadence -- the mount reaches its plateau within one frame --
+// so the SIMC arithmetic reduces to a conservative constant over the process gain.
 bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerArcsec)
 {
     if (msPerArcsec <= 0.0)
@@ -1350,85 +1335,97 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
     const double pixelScale = m_SysIdData.value("equipment").toObject()
                               .value("pixel_scale_arcsec_per_px").toDouble(1.0);
 
-    QMap<double, QList<QJsonObject>> posByMag, negByMag;
+    QMap<double, QList<QJsonObject>> curvesByMag;
     const QJsonArray sessions = m_SysIdData.value("sessions").toArray();
     for (const auto &s : sessions)
     {
         const QJsonObject so = s.toObject();
         if (so.value("type").toString() != "pulse_response" || so.value("pulse_axis").toString() != axis)
             continue;
-        const double mag = so.value("pulse_magnitude_ms").toDouble();
         const QString dir = so.value("pulse_direction").toString();
-        if (dir == posDir)
-            posByMag[mag].append(so);
-        else if (dir == negDir)
-            negByMag[mag].append(so);
+        if (dir == posDir || dir == negDir)
+            curvesByMag[so.value("pulse_magnitude_ms").toDouble()].append(so);
     }
 
-    QVector<double> kSamples, lSamples, tFirstSamples;
+    QMap<double, QVector<double>> kByMag, lByMag, tFirstByMag;
     QSet<int> signSet;
 
-    for (auto it = posByMag.constBegin(); it != posByMag.constEnd(); ++it)
+    // Each response is fitted on its own as a step plus a local linear trend, and the step
+    // is read off at the pulse instant. Detrending removes anything moving at a steady rate
+    // during the window -- drift, periodic error, and the residual tracking-rate offset an
+    // RA pulse leaves behind -- so the estimate no longer needs the opposite-direction pulse
+    // to have been fired close enough in time for those to cancel by subtraction.
+    for (auto it = curvesByMag.constBegin(); it != curvesByMag.constEnd(); ++it)
     {
         const double mag = it.key();
-        const QList<QJsonObject> &posList = it.value();
-        const QList<QJsonObject> &negList = negByMag.value(mag);
-        const int pairs = std::min(posList.size(), negList.size());
-        for (int i = 0; i < pairs; ++i)
+        for (const QJsonObject &so : it.value())
         {
-            const PulseCurve cp = extractPulseCurve(posList.at(i), axisKey);
-            const PulseCurve cn = extractPulseCurve(negList.at(i), axisKey);
-            if (cp.t.size() < 5 || cn.t.size() < 5)
+            const PulseCurve curve = extractPulseCurve(so, axisKey);
+            if (curve.t.size() < 6)
                 continue;
 
-            QVector<double> tArr, diff;
-            for (int j = 0; j < cp.t.size(); ++j)
+            // Frames whose exposure overlapped the pulse only integrate part of the motion
+            // and do not sit on the post-step trend line. At least one frame is always
+            // dropped; at a fast cadence more than one can fall inside the pulse.
+            int first = 1;
+            while (first < curve.t.size() - 4 && curve.t[first] < mag / 1000.0)
+                ++first;
+
+            double sumT = 0.0, sumV = 0.0, sumTT = 0.0, sumTV = 0.0;
+            const int n = curve.t.size() - first;
+            for (int j = first; j < curve.t.size(); ++j)
             {
-                if (cp.t[j] < cn.t.first() || cp.t[j] > cn.t.last())
-                    continue;
-                tArr.append(cp.t[j]);
-                diff.append(cp.pos[j] - interpAt(cn.t, cn.pos, cp.t[j]));
+                sumT  += curve.t[j];
+                sumV  += curve.pos[j];
+                sumTT += curve.t[j] * curve.t[j];
+                sumTV += curve.t[j] * curve.pos[j];
             }
-            if (tArr.size() < 5)
+            const double denom = n * sumTT - sumT * sumT;
+            if (std::abs(denom) < 1e-12)
                 continue;
-
-            // Plateau amplitude/noise estimate from the last third of samples.
-            const int tailCount = std::max(1, static_cast<int>(tArr.size()) / 3);
-            double tailSum = 0.0;
-            for (int j = tArr.size() - tailCount; j < tArr.size(); ++j)
-                tailSum += diff[j];
-            const double pFit = tailSum / tailCount;
+            const double slope     = (n * sumTV - sumT * sumV) / denom;
+            const double intercept = (sumV - slope * sumT) / n;
 
             double varSum = 0.0;
-            for (int j = tArr.size() - tailCount; j < tArr.size(); ++j)
-                varSum += (diff[j] - pFit) * (diff[j] - pFit);
-            const double residualStd = std::sqrt(varSum / tailCount);
-
-            if (std::abs(pFit) < 2.0 * std::max(residualStd, 1e-6))
-                continue; // noise-dominated, skip -- same gate as pulse_response_fit.py
-
-            double lSample = tArr.last();
-            const double threshold = std::max(2.5 * residualStd, 1e-6);
-            for (int j = 0; j < tArr.size(); ++j)
+            for (int j = first; j < curve.t.size(); ++j)
             {
-                if (std::abs(diff[j]) > threshold)
+                const double resid = curve.pos[j] - (intercept + slope * curve.t[j]);
+                varSum += resid * resid;
+            }
+            // Two parameters were fitted, so n-2 is the unbiased residual estimate.
+            const double residualStd = std::sqrt(varSum / std::max(n - 2, 1));
+
+            if (std::abs(intercept) < 2.0 * std::max(residualStd, 1e-6))
+                continue; // noise-dominated, skip
+
+            double lSample = curve.t.last();
+            const double threshold = std::max(2.5 * residualStd, 1e-6);
+            for (int j = 0; j < curve.t.size(); ++j)
+            {
+                if (std::abs(curve.pos[j]) > threshold)
                 {
-                    lSample = tArr[j];
+                    lSample = curve.t[j];
                     break;
                 }
             }
 
-            kSamples.append(std::abs(pFit) * pixelScale / mag);
-            lSamples.append(lSample);
-            tFirstSamples.append(tArr.first());
-            signSet.insert(pFit > 0 ? 1 : -1);
+            kByMag[mag].append(std::abs(intercept) * pixelScale / mag);
+            lByMag[mag].append(lSample);
+            tFirstByMag[mag].append(curve.t.first());
+            // The two directions must move the star opposite ways; anything else is noise.
+            const int dirSign = (so.value("pulse_direction").toString() == posDir) ? 1 : -1;
+            signSet.insert(dirSign * (intercept > 0 ? 1 : -1));
         }
     }
 
-    if (kSamples.size() < MIN_FITS_TO_APPLY)
+    int totalFits = 0;
+    for (auto it = kByMag.constBegin(); it != kByMag.constEnd(); ++it)
+        totalFits += it.value().size();
+
+    if (totalFits < MIN_FITS_TO_APPLY)
     {
         emit protocolLog(QString("PID Auto-Tune [%1]: only %2 usable pulse-response fit(s) (need >= %3) -- keeping current gain.")
-                         .arg(axis).arg(kSamples.size()).arg(MIN_FITS_TO_APPLY));
+                         .arg(axis).arg(totalFits).arg(MIN_FITS_TO_APPLY));
         return false;
     }
     if (signSet.size() > 1)
@@ -1438,9 +1435,45 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
         return false;
     }
 
-    const double K   = medianOf(kSamples);
-    const double L   = medianOf(lSamples);
-    const double tau = std::max(medianOf(tFirstSamples), L);
+    // K must be magnitude-independent; disagreement means the pairing failed to cancel
+    // drift/PE, and pooling the samples would produce a median between two populations
+    // that no single measurement supports.
+    double kMin = std::numeric_limits<double>::max(), kMax = 0.0;
+    QStringList perMag;
+    for (auto it = kByMag.constBegin(); it != kByMag.constEnd(); ++it)
+    {
+        const double km = medianOf(it.value());
+        kMin = std::min(kMin, km);
+        kMax = std::max(kMax, km);
+        perMag << QString("%1ms: %2\"/ms (n=%3)").arg(it.key(), 0, 'f', 0).arg(km, 0, 'f', 5).arg(it.value().size());
+    }
+    if (kByMag.size() < 2)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: only one usable pulse magnitude (%2) -- the "
+                                 "cross-magnitude check cannot run, keeping current gain.")
+                         .arg(axis, perMag.join(", ")));
+        return false;
+    }
+    if (kMin <= 0.0 || (kMax - kMin) / kMin > K_MAGNITUDE_CONSISTENCY_TOLERANCE)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: process gain disagrees across pulse magnitudes "
+                                 "(%2) -- responses are contaminated, keeping current gain.")
+                         .arg(axis, perMag.join(", ")));
+        return false;
+    }
+
+    // The largest pulse has the best signal-to-contamination ratio, so prefer its estimate.
+    const double bestMag = kByMag.lastKey();
+    if (kByMag.value(bestMag).size() < MIN_FITS_TO_APPLY)
+    {
+        emit protocolLog(QString("PID Auto-Tune [%1]: only %2 usable fit(s) at %3ms (need >= %4) -- "
+                                 "keeping current gain.")
+                         .arg(axis).arg(kByMag.value(bestMag).size()).arg(bestMag, 0, 'f', 0).arg(MIN_FITS_TO_APPLY));
+        return false;
+    }
+    const double K   = medianOf(kByMag.value(bestMag));
+    const double L   = medianOf(lByMag.value(bestMag));
+    const double tau = std::max(medianOf(tFirstByMag.value(bestMag)), L);
 
     if (K <= 0.0)
     {
@@ -1468,7 +1501,7 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
     emit protocolLog(QString("PID Auto-Tune [%1]: K=%2\"/ms  L=%3s  tau=%4s  (n=%5 fits) "
                              "-- gain %6 -> %7 (locked for the rest of this session)")
                      .arg(axis).arg(K, 0, 'f', 5).arg(L, 0, 'f', 2).arg(tau, 0, 'f', 2)
-                     .arg(kSamples.size()).arg(oldGain, 0, 'f', 3).arg(proportionalGain, 0, 'f', 3));
+                     .arg(kByMag.value(bestMag).size()).arg(oldGain, 0, 'f', 3).arg(proportionalGain, 0, 'f', 3));
     return true;
 }
 
@@ -1490,8 +1523,12 @@ void AIGuideProtocol::applyPIDAutoTuneGainLock()
     const bool raApplied  = computeAndApplyAxisGain("RA",  cal.raPulseMillisecondsPerArcsecond());
     const bool decApplied = computeAndApplyAxisGain("DEC", cal.decPulseMillisecondsPerArcsecond());
 
+    // The gains just written are the protocol's own doing, so re-baseline the fingerprint
+    // directly rather than through refreshFingerprint(), which would report them as a user
+    // changing settings mid-run -- and would leave that warning suppressed for the rest of
+    // the protocol, hiding a genuine change made later.
     if (raApplied || decApplied)
-        refreshFingerprint();
+        m_SysIdData["model_fingerprint"] = buildFingerprint();
 }
 
 }

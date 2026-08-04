@@ -26,7 +26,6 @@ SPDX-License-Identifier: GPL-2.0-or-later
 
 import numpy as np
 
-from pulse_response_fit import fit_pulse_response
 
 # Default SIMC design parameter: lambda = max(tau, SIMC_LAMBDA_L_FACTOR * dead_time).
 # Larger -> slower/more robust closed loop; smaller -> faster/less margin. Kept as
@@ -93,6 +92,66 @@ def _calibration_ms_per_arcsec(sysid: dict, axis: str) -> float:
     return float(np.median(values)) if values else 0.0
 
 
+
+def _step_samples_by_magnitude(sysid: dict, axis: str) -> dict:
+    """
+    Step amplitude of each pulse response, in pixels, keyed by pulse magnitude.
+
+    Each response is fitted on its own as a step plus a local linear trend and the
+    step is read off at the pulse instant. Detrending per curve removes anything
+    moving at a steady rate during the window -- drift, periodic error, and the
+    residual tracking-rate offset an RA pulse leaves behind -- so the estimate does
+    not depend on the opposite-direction pulse having been fired close enough in
+    time for those to cancel by subtraction. This mirrors
+    AIGuideProtocol::computeAndApplyAxisGain() so the advisory and the gain the
+    protocol applies live are computed the same way.
+    """
+    axis_key = "ra_raw_px" if axis.upper() == "RA" else "dec_raw_px"
+    pos_dir, neg_dir = ("EAST", "WEST") if axis.upper() == "RA" else ("NORTH", "SOUTH")
+
+    by_mag, dead_times, first_times, signs = {}, {}, {}, set()
+    for s in sysid["sessions"]:
+        if s.get("type") != "pulse_response" or s.get("pulse_axis", "").upper() != axis.upper():
+            continue
+        direction = s.get("pulse_direction", "")
+        if direction not in (pos_dir, neg_dir):
+            continue
+        mag = float(s.get("pulse_magnitude_ms", 0.0))
+        frames = s.get("response_frames", [])
+        # The pulse lands mid-exposure, so the first frame integrates only part of
+        # the motion and does not sit on the post-step trend line.
+        if mag <= 0.0 or len(frames) < 6:
+            continue
+        base_frames = s.get("baseline_frames", [])
+        baseline = float(np.mean([f.get(axis_key, 0.0) for f in base_frames])) if base_frames else 0.0
+        t = np.array([f.get("t", 0.0) for f in frames], dtype=float)
+        pos = np.array([f.get(axis_key, 0.0) for f in frames], dtype=float) - baseline
+
+        # Frames whose exposure overlapped the pulse only integrate part of the motion.
+        # At least one is always dropped; at a fast cadence more than one can fall inside.
+        first = 1
+        while first < len(t) - 4 and t[first] < mag / 1000.0:
+            first += 1
+        slope, intercept = np.polyfit(t[first:], pos[first:], 1)
+        resid = pos[first:] - (intercept + slope * t[first:])
+        # Two parameters were fitted, so n-2 is the unbiased residual estimate.
+        residual_std = float(np.sqrt(np.sum(resid ** 2) / max(len(resid) - 2, 1)))
+        if abs(intercept) < 2.0 * max(residual_std, 1e-6):
+            continue  # noise-dominated
+
+        by_mag.setdefault(mag, []).append(abs(intercept))
+        dead_times.setdefault(mag, []).append(
+            _estimate_dead_time_s(t, pos, max(residual_std, 1e-6)))
+        first_times.setdefault(mag, []).append(float(t[0]))
+        signs.add((1 if direction == pos_dir else -1) * (1 if intercept > 0 else -1))
+
+    return {"by_mag": by_mag, "dead_times": dead_times,
+            "first_times": first_times, "signs": signs}
+
+# Mirrors K_MAGNITUDE_CONSISTENCY_TOLERANCE in aiguideprotocol.cpp.
+K_MAGNITUDE_CONSISTENCY_TOLERANCE = 0.25
+
+
 def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
                              lambda_l_factor: float, verbose: bool) -> dict:
     """
@@ -105,15 +164,6 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
     data yet (Options::aIPIDAutoTune() was off, or this mount class's
     protocol doesn't collect it).
     """
-    _, _, fit_info = fit_pulse_response(sysid, axis, guide_exp, False, return_fits=True)
-    fits = fit_info["fits"]
-
-    if fit_info["sign_consistent"] is False:
-        return {"confidence": "unavailable",
-                "reason": "pulse-response signs inconsistent across directions -- fits are noise, not mechanics"}
-    if not fits:
-        return {"confidence": "unavailable", "reason": "no usable pulse-response step-response fits"}
-
     cal_ms_per_arcsec = _calibration_ms_per_arcsec(sysid, axis)
     if cal_ms_per_arcsec <= 0.0:
         return {"confidence": "unavailable",
@@ -121,28 +171,39 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
 
     pixel_scale = _effective_pixel_scale(sysid)
 
-    K_samples, tau_samples, L_samples, t_first_samples = [], [], [], []
-    for f in fits:
-        if f["pulse_magnitude_ms"] <= 0.0:
-            continue
-        K_samples.append(abs(f["P_fit_px"]) * pixel_scale / f["pulse_magnitude_ms"])
-        t_first_samples.append(f["t_first_s"])
-        L_samples.append(_estimate_dead_time_s(f["t_arr"], f["pos_arr"], f["residual_std_px"]))
-        if f["tau_fit_s"] <= 9.8:  # same "pinned at bound, degenerate with drift" guard as the spring fit
-            tau_samples.append(f["tau_fit_s"])
+    steps = _step_samples_by_magnitude(sysid, axis)
+    by_mag = steps["by_mag"]
+    if not by_mag:
+        return {"confidence": "unavailable",
+                "reason": "no usable pulse-response step-response fits"}
+    if len(steps["signs"]) > 1:
+        return {"confidence": "unavailable",
+                "reason": "pulse-response signs inconsistent across directions -- fits are noise, not mechanics"}
 
-    if not K_samples:
-        return {"confidence": "unavailable", "reason": "no fit had a usable pulse magnitude"}
+    n_fits = sum(len(v) for v in by_mag.values())
+    # K is arcsec per ms of pulse, so it must not depend on the magnitude used to
+    # measure it. Disagreement means the responses are contaminated and no median
+    # over the pooled samples would be meaningful.
+    k_by_mag = {mag: float(np.median(v)) * pixel_scale / mag for mag, v in by_mag.items()}
+    k_lo, k_hi = min(k_by_mag.values()), max(k_by_mag.values())
+    detail = ", ".join(f"{m:.0f}ms: {k:.5f}" for m, k in sorted(k_by_mag.items()))
+    if len(k_by_mag) < 2:
+        return {"confidence": "unavailable",
+                "reason": f"only one usable pulse magnitude ({detail}) -- the cross-magnitude check cannot run"}
+    if k_lo <= 0.0 or (k_hi - k_lo) / k_lo > K_MAGNITUDE_CONSISTENCY_TOLERANCE:
+        return {"confidence": "unavailable",
+                "reason": f"process gain disagrees across pulse magnitudes ({detail}) -- responses are contaminated"}
 
-    K = float(np.median(K_samples))  # arcsec of steady-state response per ms of pulse
-    L = float(np.median(L_samples))
-    # tau can't be resolved below the sampling floor either: a fit whose tau_fit
-    # landed below t_first ("spring already released") is only known to be
-    # <= t_first, not physically ~0 -- floor it the same way L is floored, so a
-    # spuriously tiny fitted tau can't produce a dangerously aggressive Kc.
-    tau_raw = float(np.median(tau_samples)) if tau_samples else float(np.median(t_first_samples))
-    tau = max(tau_raw, L)
-    resolution_limited = bool(np.isclose(L, float(np.median(t_first_samples)), rtol=0.05))
+    # The largest pulse has the best signal-to-contamination ratio.
+    best_mag = max(by_mag)
+    if len(by_mag[best_mag]) < MIN_FITS_FOR_MEDIUM_CONFIDENCE:
+        return {"confidence": "unavailable",
+                "reason": f"only {len(by_mag[best_mag])} usable fit(s) at {best_mag:.0f}ms"}
+    K = k_by_mag[best_mag]                      # arcsec of response per ms of pulse
+    L = float(np.median(steps["dead_times"][best_mag]))
+    t_first = float(np.median(steps["first_times"][best_mag]))
+    tau = max(t_first, L)
+    resolution_limited = bool(np.isclose(L, t_first, rtol=0.05))
 
     lam = max(tau, lambda_l_factor * L)
     Kc = (1.0 / K) * tau / (lam + L)               # ms of pulse per arcsec of error
@@ -150,11 +211,11 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
 
     proportional_gain = Kc / cal_ms_per_arcsec
     integral_gain = INTEGRAL_GAIN_CONSERVATIVE_FRACTION * proportional_gain
-    confidence = "low" if (resolution_limited or len(fits) < MIN_FITS_FOR_MEDIUM_CONFIDENCE) else "medium"
+    confidence = "low" if (resolution_limited or n_fits < MIN_FITS_FOR_MEDIUM_CONFIDENCE) else "medium"
 
     if verbose:
         print(f"  [{axis} PID] K={K:.5f} arcsec/ms  tau={tau:.2f}s  L={L:.2f}s  lambda={lam:.2f}s "
-              f"(n={len(fits)} fits, cal={cal_ms_per_arcsec:.1f}ms/arcsec)")
+              f"(n={n_fits} fits @ {best_mag:.0f}ms, cal={cal_ms_per_arcsec:.1f}ms/arcsec)")
         print(f"  [{axis} PID] Recommended proportional_gain={proportional_gain:.3f}  "
               f"integral_gain={integral_gain:.3f}  confidence={confidence}")
 
@@ -168,7 +229,7 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
         "lambda_s":                   lam,
         "tau_i_s":                    tau_i,
         "calibration_ms_per_arcsec":  cal_ms_per_arcsec,
-        "n_fits":                     len(fits),
+        "n_fits":                     n_fits,
         "resolution_limited":         resolution_limited,
     }
 
