@@ -9,6 +9,7 @@
 #include "aiguideprotocol.h"
 #include "guide.h"
 #include "kspaths.h"
+#include "Options.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QDesktopServices>
@@ -258,17 +259,44 @@ AIGuideWizard::AIGuideWizard(AIGuideProtocol *protocol, QWidget *parent) : QWiza
     });
 
     progressBar->setValue(0);
+    updateLockedSettingsLabel();
+}
+
+// The exposure/aggressiveness/pulse settings active when the protocol runs get baked into
+// the model fingerprint. Which of those the user needs to have set correctly beforehand
+// depends on whether PID Auto-Tune is enabled: with it on, the protocol determines and
+// locks the RA/DEC aggressiveness itself, so the user only needs exposure and pulse
+// settings right; with it off, all three need to already match what they normally guide
+// with. Re-run every time the wizard is shown so toggling the option in Guide Options
+// between wizard runs is reflected without needing to reopen KStars.
+void AIGuideWizard::updateLockedSettingsLabel()
+{
+    QString text;
+    if (Options::aIPIDAutoTune())
+    {
+        text = i18n("PID Auto-Tune is enabled, so this run will measure your mount's response "
+                     "and automatically determine and lock in the RA/DEC aggressiveness for "
+                     "you; there is no need to set it beforehand. The AI model is still "
+                     "trained and locked to your current guide exposure and pulse settings, "
+                     "so use the values you normally guide with for those.");
+    }
+    else
+    {
+        text = i18n("The AI model is trained and locked to your current guide exposure, "
+                     "aggressiveness, and pulse settings; use the values you normally guide with.");
+    }
+    lockedSettingsLabel->setText(QString("<html><body><p><span style=\" color:#ff5500;\">%1</span></p></body></html>").arg(text));
 }
 
 void AIGuideWizard::showEvent(QShowEvent *event)
 {
     QWizard::showEvent(event);
+    updateLockedSettingsLabel();
 
-    // Suggest a mount type from the connected mount's device name (mount_types.json), once.
-    // The user can still change the selection manually -- this only sets the initial value.
-    if (!m_MountTypeAutoDetectAttempted)
+    // Suggest a mount type from the connected mount's device name (mount_types.json).
+    // Re-attempted every time the wizard is shown; see m_LastAutoDetectedMountType's
+    // comment for why this is safe to redo without fighting a manual selection.
     {
-        m_MountTypeAutoDetectAttempted = true;
         QString comboText;
         const QString detected = m_Protocol->detectMountType();
         if (detected == "WORM_GEAR")
@@ -278,12 +306,17 @@ void AIGuideWizard::showEvent(QShowEvent *event)
         else if (detected == "DIRECT_DRIVE")
             comboText = "Direct Drive";
 
-        if (!comboText.isEmpty())
+        const QString current = mountTypeCombo->currentText();
+        const bool untouchedSinceLastDetect = (current == "Worm Gear" && m_LastAutoDetectedMountType.isEmpty())
+                                              || current == m_LastAutoDetectedMountType;
+
+        if (!comboText.isEmpty() && untouchedSinceLastDetect)
         {
             mountTypeCombo->setCurrentText(comboText);
+            m_LastAutoDetectedMountType = comboText;
             appendLog(i18n("Detected mount type: %1. Change the selection above if this is incorrect.", comboText));
         }
-        else
+        else if (comboText.isEmpty() && untouchedSinceLastDetect)
             appendLog(i18n("Could not auto-detect the mount type. Please select it manually above."));
     }
 

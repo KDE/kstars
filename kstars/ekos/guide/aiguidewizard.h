@@ -63,10 +63,16 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
 
     private:
         void appendLog(const QString &message);
+        void updateLockedSettingsLabel();
 
         AIGuideProtocol *m_Protocol { nullptr };
         bool m_AutoNavigating { false };
-        bool m_MountTypeAutoDetectAttempted { false };
+        // Combo text we last auto-set (empty if detection never succeeded yet). Re-checked
+        // every time the wizard is shown, but only applied if the combo still shows either
+        // the untouched Designer default or exactly this value, so a manual override
+        // survives reopening the dialog, while a failed/missing detection can "heal" itself
+        // (e.g. after mount_types.json gains an entry) without requiring an app restart.
+        QString m_LastAutoDetectedMountType;
 };
 
 }
