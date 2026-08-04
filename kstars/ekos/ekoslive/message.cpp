@@ -24,6 +24,7 @@
 #include "ekos/guide/aiguidewizard.h"
 #include "ekos/guide/internalguide/internalguider.h"
 #include "ekos/guide/internalguide/gmath.h"
+#include "ekos/guide/internalguide/mount_guider_factory.h"
 #include "ekos/mount/mount.h"
 #include "ekos/scheduler/scheduler.h"
 #include "ekos/scheduler/schedulermodulestate.h"
@@ -382,7 +383,14 @@ void Message::sendTrains()
     QJsonArray trains;
 
     for(auto &train : Ekos::OpticalTrainManager::Instance()->getOpticalTrains())
-        trains.append(QJsonObject::fromVariantMap(train));
+    {
+        QJsonObject trainObject = QJsonObject::fromVariantMap(train);
+        // Auto-detected mount class (WORM_GEAR/HARMONIC_DRIVE/DIRECT_DRIVE/NOT_FOUND) from
+        // mount_types.json, keyed by the train's mount device name. Computed fresh on every
+        // request so it stays correct as trains are added/edited/reassigned.
+        trainObject["mount_type"] = MountGuiderFactory::detectMountType(train["mount"].toString());
+        trains.append(trainObject);
+    }
 
     sendResponse(commands[TRAIN_GET_ALL], trains);
 }
