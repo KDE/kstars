@@ -246,8 +246,10 @@ build-and-test-stable:
       junit: ./junit_result.stable.xml
 
 # Gate snapcraft on a successful linux build
-snapcraft:
+snap_snapcraft_lxd:
   needs:
     - suse_tumbleweed_qt611
-  rules:
-    - !reference [.craft-recipes, rules]
+
+snap_snapcraft_lxd_arm64:
+  needs:
+    - suse_tumbleweed_qt611
