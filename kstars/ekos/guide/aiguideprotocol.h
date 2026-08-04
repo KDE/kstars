@@ -17,6 +17,7 @@
 #include <QElapsedTimer>
 #include <QList>
 #include <QString>
+#include <QVector>
 
 namespace Ekos
 {
@@ -160,6 +161,15 @@ class AIGuideProtocol : public QObject
         // shorter than it.
         void flushPhaseSegment(const ProtocolPhase &phase, int recordedDuration);
 
+        // Rough per-phase duration estimate (seconds), used only to weight the progress bar
+        // by expected time rather than raw phase count; see start()'s comment for why a
+        // count-based progress bar is badly misleading for Harmonic Drive specifically.
+        int estimatePhaseSeconds(const ProtocolPhase &phase, bool newPosition) const;
+        // Sum of estimatePhaseSeconds() for every phase completed so far.
+        int estimatedElapsedSeconds() const;
+        QVector<int> m_PhaseEstimatedSeconds;
+        int m_TotalEstimatedSeconds { 0 };
+
         ProtocolState m_State { STATE_IDLE };
         QTimer m_ProtocolTimer;
         double m_TargetAz { 0 };
@@ -167,6 +177,9 @@ class AIGuideProtocol : public QObject
         int m_SettlingTimer { 0 };
         int m_CaptureTimer { 0 };
         int m_AbortRetries { 0 };
+        // Ticks to wait after calling m_Guide->guide() before trusting a still-IDLE/ABORTED
+        // status as a real failure worth retrying -- see STATE_PULSE_RESPONSE_INIT.
+        int m_GuideCallGraceTicks { 0 };
         bool m_FreeDriftOverflow { false };
         bool m_PhaseAborted { false };
         int m_SegmentSeconds { 0 };      ///< seconds captured in the current drift segment

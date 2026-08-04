@@ -710,6 +710,7 @@ bool InternalGuider::calibrate()
             new CalibrationProcess(calibrationStartX, calibrationStartY,
                                    !Options::twoAxisEnabled()));
         state = GUIDE_CALIBRATING;
+        m_calibrationStarLostCounter = 0;
         Q_EMIT newStatus(GUIDE_CALIBRATING);
     }
 
@@ -776,14 +777,29 @@ void InternalGuider::iterateCalibration()
 
         if (pmath->isStarLost())
         {
-            Q_EMIT newLog(i18n("Lost track of the guide star. "
-                               "Try increasing binning, square size or reducing pulse duration."));
-            Q_EMIT newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-            Q_EMIT calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY,
-                                     i18n("Guide Star lost."));
-            reset();
+            // A single lost-star frame used to abort calibration unconditionally, discarding
+            // every step already completed (West/East/North could all be done and South
+            // would still throw all of it away on one bad frame). Tolerate the same number
+            // of consecutive misses guiding/dithering already do before giving up, since a
+            // transient blip (seeing, a passing cloud) is common and calibration itself
+            // takes long enough that restarting it from scratch each time is expensive.
+            if (++m_calibrationStarLostCounter > MAX_LOST_STAR_THRESHOLD)
+            {
+                qCDebug(KSTARS_EKOS_GUIDE) << "Too many consecutive lost stars during calibration."
+                                           << m_calibrationStarLostCounter << "Aborting.";
+                Q_EMIT newLog(i18n("Lost track of the guide star. "
+                                   "Try increasing binning, square size or reducing pulse duration."));
+                Q_EMIT newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+                Q_EMIT calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY,
+                                         i18n("Guide Star lost."));
+                reset();
+                return;
+            }
+            qCDebug(KSTARS_EKOS_GUIDE) << "Calibration lost star, try" << m_calibrationStarLostCounter
+                                       << "of" << static_cast<int>(MAX_LOST_STAR_THRESHOLD) << "; waiting for next frame.";
             return;
         }
+        m_calibrationStarLostCounter = 0;
     }
     double starX, starY;
     pmath->getStarScreenPosition(&starX, &starY);

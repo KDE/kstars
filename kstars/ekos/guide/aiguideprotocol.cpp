@@ -326,8 +326,60 @@ void AIGuideProtocol::start(const QString &mountType)
     emit protocolLog(QString("Loaded %1 phases for %2").arg(m_Phases.size()).arg(mountStr));
 
     m_TotalPhases = m_Phases.size();
+
+    // Progress used to be reported as a raw phase count (m_TotalPhases - m_Phases.size()),
+    // which is badly misleading for Harmonic Drive: the 24 short PID Auto-Tune pulse-response
+    // phases (each ~1 minute) are 86% of the phase COUNT but only a fraction of the actual
+    // protocol duration, since the remaining 4 phases include a standalone 1800s
+    // standard-guiding phase. That made the progress bar read "78%" with the longest phase
+    // still entirely ahead. Weight by estimated duration instead so the percentage is
+    // actually representative of time remaining, not phase count.
+    m_PhaseEstimatedSeconds.clear();
+    m_PhaseEstimatedSeconds.reserve(m_Phases.size());
+    m_TotalEstimatedSeconds = 0;
+    for (int i = 0; i < m_Phases.size(); ++i)
+    {
+        const bool newPosition = (i == 0)
+                                 || m_Phases[i].targetAlt != m_Phases[i - 1].targetAlt
+                                 || m_Phases[i].azOffset != m_Phases[i - 1].azOffset;
+        const int est = estimatePhaseSeconds(m_Phases[i], newPosition);
+        m_PhaseEstimatedSeconds.append(est);
+        m_TotalEstimatedSeconds += est;
+    }
+
     m_State = STATE_PRECHECK;
     m_ProtocolTimer.start(1000);
+}
+
+// Rough per-phase duration estimate used only to weight the progress bar (see start());
+// not a scheduling or timeout value, so it doesn't need to be exact, just proportionate.
+int AIGuideProtocol::estimatePhaseSeconds(const ProtocolPhase &phase, bool newPosition) const
+{
+    constexpr int SLEW_ESTIMATE_SECONDS = 30;
+    // Settle/frame-boundary-wait/pulse-settle overhead around the actual response-frame
+    // recording; not itself timed anywhere, estimated from observed real-run pulse-response
+    // durations (~55-60s at 12 response frames, 10s settle, ~1-2s guide exposure).
+    constexpr int PULSE_FIXED_OVERHEAD_SECONDS = 15;
+    const double guideExposure = (m_Guide && m_Guide->exposure() > 0.0) ? m_Guide->exposure() : 2.0;
+
+    int seconds = newPosition ? SLEW_ESTIMATE_SECONDS : 0;
+    if (phase.pulseResponse)
+        seconds += phase.settleSeconds + static_cast<int>(std::lround(phase.responseFrames * guideExposure))
+                   + PULSE_FIXED_OVERHEAD_SECONDS;
+    else
+        seconds += phase.durationSeconds + phase.settleSeconds;
+    return std::max(seconds, 1);
+}
+
+// Sum of estimatePhaseSeconds() for every phase already completed (removed from m_Phases).
+// Used as the progress-bar numerator instead of a raw phase count; see start().
+int AIGuideProtocol::estimatedElapsedSeconds() const
+{
+    const int completed = m_TotalPhases - m_Phases.size();
+    int sum = 0;
+    for (int i = 0; i < completed && i < m_PhaseEstimatedSeconds.size(); ++i)
+        sum += m_PhaseEstimatedSeconds[i];
+    return sum;
 }
 
 void AIGuideProtocol::requestTraining()
@@ -644,7 +696,7 @@ void AIGuideProtocol::processProtocol()
         case STATE_SETTLING:
             if (m_SettlingTimer > 0)
             {
-                emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+                emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                       QString("Settling... %1s").arg(m_SettlingTimer));
                 m_SettlingTimer--;
             }
@@ -716,7 +768,7 @@ void AIGuideProtocol::processProtocol()
 
             if (m_Guide && m_Guide->status() != GUIDE_GUIDING && m_Guide->status() != GUIDE_ABORTED)
             {
-                emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+                emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                       "Waiting for Guider to calibrate/start...");
                 m_FrameTimer.start();
                 break;
@@ -773,7 +825,7 @@ void AIGuideProtocol::processProtocol()
             }
             else
             {
-                emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+                emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                       QString("Capturing Data... %1s remaining").arg(m_CaptureTimer));
                 m_CaptureTimer--;
                 m_SegmentSeconds++;
@@ -841,7 +893,7 @@ void AIGuideProtocol::processProtocol()
                 break;
             }
 
-            emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+            emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                   QString("Re-centering star... (RA %1\" DEC %2\")")
                                   .arg(m_LastRAErrArcsec, 0, 'f', 1).arg(m_LastDECErrArcsec, 0, 'f', 1));
             m_RecenterTimer--;
@@ -867,6 +919,19 @@ void AIGuideProtocol::processProtocol()
             {
                 if (m_Guide->status() == GUIDE_IDLE || m_Guide->status() == GUIDE_ABORTED)
                 {
+                    // guide() itself takes a few seconds to visibly leave IDLE/ABORTED (star
+                    // detection, first capture, etc. before the state machine reaches
+                    // CALIBRATING); checking every tick with no grace period meant this
+                    // branch re-called guide() on nearly every tick right after the call that
+                    // was actually working, burning all 3 retries and skipping the pulse
+                    // before calibration had a chance to show up as a status change. Confirmed
+                    // in a real run: calibration genuinely started and completed a few seconds
+                    // after the retries had already given up and moved on.
+                    if (m_GuideCallGraceTicks > 0)
+                    {
+                        m_GuideCallGraceTicks--;
+                        break;
+                    }
                     if (m_AbortRetries >= 3)
                     {
                         emit protocolLog("Pulse Response: guide calibration failed repeatedly -- skipping this pulse.");
@@ -878,6 +943,7 @@ void AIGuideProtocol::processProtocol()
                     m_AbortRetries++;
                     emit protocolLog("Pulse Response: starting guide calibration/lock before firing test pulses...");
                     m_Guide->guide();
+                    m_GuideCallGraceTicks = 15; // let calibration actually start before re-checking
                     m_PulseWatchdog = 300; // ~5 minutes at 1Hz for calibration to complete
                 }
                 else if (m_PulseWatchdog > 0)
@@ -897,6 +963,7 @@ void AIGuideProtocol::processProtocol()
             }
 
             m_AbortRetries = 0;
+            m_GuideCallGraceTicks = 0;
             ProtocolPhase phase = m_Phases.first();
             emit protocolLog(QString("Pulse Response: %1 %2 %3ms — preparing...")
                              .arg(phase.pulseAxis, phase.pulseDirection).arg(phase.pulseMagnitudeMs));
@@ -949,7 +1016,7 @@ void AIGuideProtocol::processProtocol()
             const bool completed   = (m_PulseFrameCount >= phase.responseFrames);
             const bool interrupted = (!completed && (guiderAborted || m_PulseWatchdog <= 0));
 
-            emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+            emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                   QString("Recording pulse response: %1/%2 frames")
                                   .arg(m_PulseFrameCount).arg(phase.responseFrames));
 
@@ -1024,7 +1091,7 @@ void AIGuideProtocol::processProtocol()
         {
             if (m_PulseSettleTimer > 0)
             {
-                emit protocolProgress(m_TotalPhases - m_Phases.size(), m_TotalPhases,
+                emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
                                       QString("Pulse settling... %1s").arg(m_PulseSettleTimer));
                 m_PulseSettleTimer--;
             }

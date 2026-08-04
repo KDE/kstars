@@ -196,6 +196,12 @@ class InternalGuider : public GuideInterface
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };
         int m_starLostCounter { 0 };
+        // Separate from m_starLostCounter (guiding/dithering's own counter, with its own
+        // reset points): calibration previously aborted unconditionally on the very first
+        // lost-star frame, discarding all progress (West/East/North/South steps already
+        // completed) even for a single transient blip. Reset at the start of each fresh
+        // calibration attempt; see iterateCalibration().
+        int m_calibrationStarLostCounter { 0 };
 
         // When true, the guide camera is streaming continuously.
         // In this mode processGuiding() must NOT emit frameCaptureRequested after sending pulses,
