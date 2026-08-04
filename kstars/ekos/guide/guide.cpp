@@ -3550,7 +3550,10 @@ void Guide::initConnections()
     connect(aiMenu->addAction(QIcon::fromTheme("tools-wizard"), i18n("AI Guiding Assistant...")),
             &QAction::triggered, this, [this]()
     {
-        getAIGuide()->show();
+        AIGuideWizard *wizard = getAIGuide();
+        wizard->show();
+        wizard->raise();  // for MacOS
+        wizard->activateWindow(); // for Windows
     });
     connect(aiMenu->addAction(QIcon::fromTheme("document-open"), i18n("Load Weights...")),
             &QAction::triggered, this, &Ekos::Guide::loadAIWeights);

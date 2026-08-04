@@ -7,8 +7,11 @@
 #include "mount_guider.h"
 
 #include "Options.h"
+#include "ekos/guide/opsguide.h"
 
+#include <KConfigDialog>
 #include <QJsonObject>
+#include <QMetaObject>
 #include <cmath>
 
 QStringList applyFingerprintToOptions(const QJsonObject &fp)
@@ -79,6 +82,35 @@ QStringList applyFingerprintToOptions(const QJsonObject &fp)
             changes << QString("%1: %2 -> %3").arg(f.key).arg(f.current).arg(recorded);
             f.setter(recorded);
         }
+    }
+
+    // Loading a trained model implies the intent to actually use it, so switch both
+    // axes to the AI Guider pulse algorithm if they aren't already — otherwise the
+    // just-applied gains sit unused (raAlgorithmIsAI()/decAlgorithmIsAI() in gmath.cpp
+    // gate the AI feed-forward blend on this exact setting). The user can still switch
+    // back manually afterward; this only runs at load time.
+    if (Options::rAGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM))
+    {
+        changes << QString("ra_guide_algorithm: %1 -> AI Guider").arg(Options::rAGuidePulseAlgorithm());
+        Options::setRAGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM));
+    }
+    if (Options::dECGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1))
+    {
+        changes << QString("dec_guide_algorithm: %1 -> AI Guider").arg(Options::dECGuidePulseAlgorithm());
+        Options::setDECGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1));
+    }
+
+    // The Guide Options dialog ("guidesettings") binds its kcfg_ widgets to Options once,
+    // when the page is built, and never re-syncs them on its own. Without this, the dialog
+    // would keep showing stale values (e.g. aggressiveness 1.0) after the fingerprint above
+    // changed Options directly — and clicking Apply there would silently clobber the
+    // just-loaded values back to whatever the stale widgets displayed. updateWidgets() is a
+    // protected slot, but Qt's meta-object dispatch does not enforce C++ access control, so
+    // invoking it by name is the standard way to trigger a re-sync from outside the class.
+    if (!changes.isEmpty())
+    {
+        if (KConfigDialog *dialog = KConfigDialog::exists("guidesettings"))
+            QMetaObject::invokeMethod(dialog, "updateWidgets");
     }
 
     return changes;
