@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-02 02:32+0000\n"
+"POT-Creation-Date: 2026-08-05 02:11+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -6487,8 +6487,8 @@ msgstr ""
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:272
-#: ekos/guide/aiguidewizard.cpp:394 ekos/guide/aiguidewizard.ui:223
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:333
+#: ekos/guide/aiguidewizard.cpp:478 ekos/guide/aiguidewizard.ui:233
 #: ekos/guide/guide.ui:258 ekos/manager.cpp:258
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -10883,7 +10883,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/guide/aiguidewizard.cpp:218 ekos/manager.cpp:157 ekos/manager.cpp:264
+#: ekos/guide/aiguidewizard.cpp:224 ekos/manager.cpp:157 ekos/manager.cpp:264
 #: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -18853,14 +18853,14 @@ msgstr "मैने"
 msgid "Offline"
 msgstr "मैने"
 
-#: ekos/ekoslive/message.cpp:815
+#: ekos/ekoslive/message.cpp:823
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sacramento"
 msgid "target"
 msgstr "सैक्रोमेंटो"
 
-#: ekos/ekoslive/message.cpp:1142
+#: ekos/ekoslive/message.cpp:1150
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -22840,19 +22840,47 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:250
+#: ekos/guide/aiguideprotocol.cpp:389
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:251
+#: ekos/guide/aiguideprotocol.cpp:390
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:256
+#: ekos/guide/aiguideprotocol.cpp:395
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:277
+#, kde-format
+msgid ""
+"PID Auto-Tune is enabled, so this run will measure your mount's response and "
+"automatically determine and lock in the RA/DEC aggressiveness for you; there "
+"is no need to set it beforehand. The AI model is still trained and locked to "
+"your current guide exposure and pulse settings, so use the values you "
+"normally guide with for those."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:285
+#, kde-format
+msgid ""
+"The AI model is trained and locked to your current guide exposure, "
+"aggressiveness, and pulse settings; use the values you normally guide with."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:317
+#, kde-format
+msgid ""
+"Detected mount type: %1. Change the selection above if this is incorrect."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:320
+#, kde-format
+msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
@@ -22923,16 +22951,14 @@ msgid ""
 "\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span style=\" font-"
 "weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s (depends on guide "
 "star SNR)</li><li><span style=\" font-weight:600;\">Direct Drive:</span> "
-"exposure 1.0s to 3.0s</li></ul><p><span style=\" color:#ff5500;\">The AI "
-"model is trained and locked to your current guide exposure, aggressiveness "
-"and pulse settings — use the values you normally guide with.</span></"
-"p><p>Define an <span style=\" font-weight:600;\">Artificial Horizon</span> "
-"(Settings → Artificial Horizon) before running — the protocol slews by Alt/"
-"Az and uses it to pick safe targets.</p></body></html>"
+"exposure 1.0s to 3.0s</li></ul><p>Define an <span style=\" font-weight:600;"
+"\">Artificial Horizon</span> (Settings → Artificial Horizon) before running "
+"— the protocol slews by Alt/Az and uses it to pick safe targets.</p></body></"
+"html>"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
-#: ekos/guide/aiguidewizard.ui:95
+#: ekos/guide/aiguidewizard.ui:105
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Point Hope"
@@ -22940,7 +22966,7 @@ msgid "Protocol Preview"
 msgstr "प्वाइंट होप"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
-#: ekos/guide/aiguidewizard.ui:98
+#: ekos/guide/aiguidewizard.ui:108
 #, kde-format
 msgid ""
 "The assistant will perform the following steps to characterize the tracking "
@@ -22948,7 +22974,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
-#: ekos/guide/aiguidewizard.ui:104
+#: ekos/guide/aiguidewizard.ui:114
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
@@ -22959,44 +22985,49 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
-#: ekos/guide/aiguidewizard.ui:127
-#, kde-format
+#: ekos/guide/aiguidewizard.ui:137
+#, fuzzy, kde-format
+#| msgid "Scope"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
-"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
-"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
-"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
-msgstr ""
+"(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
+"drift, then PID auto-tune (step response).<br/>2. Slew to Lower Altitude : "
+"Standard guiding, then free drift.<br/>3. Slew to High Altitude : Standard "
+"guiding, then free drift.</p></body></html>"
+msgstr "स्कोप"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
-#: ekos/guide/aiguidewizard.ui:147
-#, kde-format
+#: ekos/guide/aiguidewizard.ui:157
+#, fuzzy, kde-format
+#| msgid "Scope"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
-"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
-"drift, then standard guiding.</p></body></html>"
-msgstr ""
+"Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
+"free drift, then PID auto-tune (step response).<br/>2. Slew to Lower "
+"Altitude: Free drift, then standard guiding.</p></body></html>"
+msgstr "स्कोप"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
-#: ekos/guide/aiguidewizard.ui:167
+#: ekos/guide/aiguidewizard.ui:177
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
-"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
-"Free drift at each position.</p></body></html>"
+"Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
+"free drift, then PID auto-tune (step response).<br/>2. Slew to Mid Altitude: "
+"Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
+"guiding, then free drift.</p></body></html>"
 msgstr "स्कोप"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
-#: ekos/guide/aiguidewizard.ui:198
+#: ekos/guide/aiguidewizard.ui:208
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "System Identification Progress"
 msgstr "स्कोप"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
-#: ekos/guide/aiguidewizard.ui:201
+#: ekos/guide/aiguidewizard.ui:211
 #, kde-format
 msgid ""
 "Collecting mount telemetry. Please do not interrupt the process unless "
@@ -23004,13 +23035,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
-#: ekos/guide/aiguidewizard.ui:207
+#: ekos/guide/aiguidewizard.ui:217
 #, kde-format
 msgid "Ready to begin..."
 msgstr ""
 
 #. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
-#: ekos/guide/aiguidewizard.ui:242
+#: ekos/guide/aiguidewizard.ui:252
 #, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -23026,27 +23057,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
-#: ekos/guide/aiguidewizard.ui:250
+#: ekos/guide/aiguidewizard.ui:260
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Data Collection Complete"
 msgstr "क्लाएँट"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
-#: ekos/guide/aiguidewizard.ui:253
+#: ekos/guide/aiguidewizard.ui:263
 #, kde-format
 msgid ""
 "System identification data has been saved. Please choose a training method."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/aiguidewizard.ui:266
+#: ekos/guide/aiguidewizard.ui:276
 #, kde-format
 msgid "Export for offline training"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/aiguidewizard.ui:269
+#: ekos/guide/aiguidewizard.ui:279
 #, kde-format
 msgid ""
 "Saves the system identification data to a JSON file so you can train the AI "
@@ -23054,14 +23085,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/aiguidewizard.ui:285
+#: ekos/guide/aiguidewizard.ui:295
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Train in EkosLive"
 msgstr "ट्रैक"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/aiguidewizard.ui:288
+#: ekos/guide/aiguidewizard.ui:298
 #, kde-format
 msgid ""
 "Uploads anonymized data to EkosLive Cloud to instantly train your model "
@@ -23069,13 +23100,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, offlineDocsButton)
-#: ekos/guide/aiguidewizard.ui:304
+#: ekos/guide/aiguidewizard.ui:314
 #, kde-format
 msgid "Offline Training Guide"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
-#: ekos/guide/aiguidewizard.ui:307
+#: ekos/guide/aiguidewizard.ui:317
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
 msgstr ""
@@ -23591,153 +23622,153 @@ msgstr "स्थानः"
 msgid "Calibration is cleared."
 msgstr "क्लाएँट"
 
-#: ekos/guide/guide.cpp:1973
+#: ekos/guide/guide.cpp:1985
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1991
+#: ekos/guide/guide.cpp:2003
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2008
+#: ekos/guide/guide.cpp:2020
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration completed."
 msgstr "क्लाएँट"
 
-#: ekos/guide/guide.cpp:2034
+#: ekos/guide/guide.cpp:2046
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration started."
 msgstr "क्लाएँट"
 
-#: ekos/guide/guide.cpp:2050
+#: ekos/guide/guide.cpp:2062
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding resumed."
 msgstr "निर्देश"
 
-#: ekos/guide/guide.cpp:2054
+#: ekos/guide/guide.cpp:2066
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Autoguiding running."
 msgstr "निर्देश"
 
-#: ekos/guide/guide.cpp:2076
+#: ekos/guide/guide.cpp:2088
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Autoguiding aborted."
 msgstr "निर्देश"
 
-#: ekos/guide/guide.cpp:2084
+#: ekos/guide/guide.cpp:2096
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding suspended."
 msgstr "निर्देश"
 
-#: ekos/guide/guide.cpp:2093
+#: ekos/guide/guide.cpp:2105
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dawson Creek"
 msgid "Manual dithering in progress."
 msgstr "डाउसन क्रीक"
 
-#: ekos/guide/guide.cpp:2097
+#: ekos/guide/guide.cpp:2109
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dawson Creek"
 msgid "Dithering in progress."
 msgstr "डाउसन क्रीक"
 
-#: ekos/guide/guide.cpp:2101
+#: ekos/guide/guide.cpp:2113
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:2106
+#: ekos/guide/guide.cpp:2118
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "आन"
 
-#: ekos/guide/guide.cpp:2117
+#: ekos/guide/guide.cpp:2129
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Dithering completed successfully."
 msgstr "निर्देशाँक"
 
-#: ekos/guide/guide.cpp:2175
+#: ekos/guide/guide.cpp:2187
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "स्कोप"
 
-#: ekos/guide/guide.cpp:2199
+#: ekos/guide/guide.cpp:2211
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2334
+#: ekos/guide/guide.cpp:2346
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2429
+#: ekos/guide/guide.cpp:2441
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2883
+#: ekos/guide/guide.cpp:2895
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration failed to start."
 msgstr "क्लाएँट"
 
-#: ekos/guide/guide.cpp:3034
+#: ekos/guide/guide.cpp:3046
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Auto star selected."
 msgstr "निर्देश"
 
-#: ekos/guide/guide.cpp:3038
+#: ekos/guide/guide.cpp:3050
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to select an auto star."
 msgstr "चित्र सहेजबामे विफल"
 
-#: ekos/guide/guide.cpp:3047
+#: ekos/guide/guide.cpp:3059
 #, fuzzy, kde-format
 #| msgid "Select All"
 msgid "Select a guide star to calibrate."
 msgstr "सभ चुनू"
 
-#: ekos/guide/guide.cpp:3309
+#: ekos/guide/guide.cpp:3321
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "पिक्सेल्स"
 
-#: ekos/guide/guide.cpp:3310
+#: ekos/guide/guide.cpp:3322
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "पिक्सेल्स"
 
-#: ekos/guide/guide.cpp:3453 ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3465 ekos/guide/guide.cpp:3617
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3457 ekos/guide/guide.cpp:3606
+#: ekos/guide/guide.cpp:3469 ekos/guide/guide.cpp:3621
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23745,67 +23776,67 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3538
+#: ekos/guide/guide.cpp:3550
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "AI Guiding Assistant..."
 msgstr "स्कोप"
 
-#: ekos/guide/guide.cpp:3543
+#: ekos/guide/guide.cpp:3558
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Load Weights..."
 msgstr "नवीन डाटा डाउनलोड करू..."
 
-#: ekos/guide/guide.cpp:3649 ekos/guide/guide.cpp:3654
+#: ekos/guide/guide.cpp:3664 ekos/guide/guide.cpp:3669
 #, fuzzy, kde-format
 #| msgid "No Fill"
 msgid "EkosLive AI training failed: %1"
 msgstr "नहि भरब"
 
-#: ekos/guide/guide.cpp:3650 ekos/guide/guide.cpp:3655
+#: ekos/guide/guide.cpp:3665 ekos/guide/guide.cpp:3670
 #, fuzzy, kde-format
 #| msgid "Unknown Type"
 msgid "unknown error"
 msgstr "अज्ञात किस्म"
 
-#: ekos/guide/guide.cpp:3669
+#: ekos/guide/guide.cpp:3684
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Failed to save AI weights to %1"
 msgstr "फाइल %1 खोलि नहि सकल"
 
-#: ekos/guide/guide.cpp:3679
+#: ekos/guide/guide.cpp:3694
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3683
+#: ekos/guide/guide.cpp:3698
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "AI training complete. Weights saved to %1."
 msgstr "फाइल %1 खोलि नहि सकल"
 
-#: ekos/guide/guide.cpp:3689
+#: ekos/guide/guide.cpp:3704
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3690
+#: ekos/guide/guide.cpp:3705
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3694
+#: ekos/guide/guide.cpp:3709
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3865
+#: ekos/guide/guide.cpp:3880
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -24519,43 +24550,40 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:297
+#: ekos/guide/internalguide/gmath.cpp:279
+#: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
-msgid "The weights file could not be read or does not match this mount type."
+msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:298
+#: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
-msgid ""
-"Settings that do not match the weights:\n"
-"%1"
+msgid "The weights file could not be read."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:299
+#: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
-msgid ""
-"AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."
+msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:301
+#: ekos/guide/internalguide/gmath.cpp:308
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
 "%1\n"
 "\n"
-"Change the settings back to match, re-run the Guide AI Assistant with your "
-"current settings, or switch the Guide Algorithm to a standard mode. Guiding "
-"has been aborted."
+"Re-run the Guide AI Assistant, load a different weights file, or switch the "
+"Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:303
+#: ekos/guide/internalguide/gmath.cpp:310
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "AI Guider Error"
 msgstr "निर्देश"
 
-#: ekos/guide/internalguide/gmath.cpp:314
+#: ekos/guide/internalguide/gmath.cpp:321
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24563,7 +24591,7 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:317
+#: ekos/guide/internalguide/gmath.cpp:324
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24573,12 +24601,28 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:320
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:764
+#: ekos/guide/internalguide/gmath.cpp:371
+#, kde-format
+msgid "AI Guider weight reload failed: %1"
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:372
+#, kde-format
+msgid "the weights file could not be read or does not match this mount type."
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:396
+#, kde-format
+msgid ""
+"AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
+msgstr ""
+
+#: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
@@ -24608,48 +24652,48 @@ msgstr ""
 msgid "Missing Information"
 msgstr "सूचना"
 
-#: ekos/guide/internalguide/internalguider.cpp:727
+#: ekos/guide/internalguide/internalguider.cpp:728
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration restored"
 msgstr "क्लाएँट"
 
-#: ekos/guide/internalguide/internalguider.cpp:779
+#: ekos/guide/internalguide/internalguider.cpp:790
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
 "reducing pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:783
+#: ekos/guide/internalguide/internalguider.cpp:794
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "निर्देश"
 
-#: ekos/guide/internalguide/internalguider.cpp:820
+#: ekos/guide/internalguide/internalguider.cpp:836
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration failed"
 msgstr "क्लाएँट"
 
-#: ekos/guide/internalguide/internalguider.cpp:827
+#: ekos/guide/internalguide/internalguider.cpp:843
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration completed successfully"
 msgstr "क्लाएँट"
 
-#: ekos/guide/internalguide/internalguider.cpp:1200
+#: ekos/guide/internalguide/internalguider.cpp:1216
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1202
+#: ekos/guide/internalguide/internalguider.cpp:1218
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1386
+#: ekos/guide/internalguide/internalguider.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to find any suitable guide stars. Aborting..."
@@ -24804,19 +24848,21 @@ msgid ""
 "guiding."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIProtocolPulseTest)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
-msgid "Include Pulse Response Test in Data Collection Protocol"
+msgid "PID Auto-Tune (Step-Response Gain Calibration)"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIProtocolPulseTest)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
 #, kde-format
 msgid ""
-"Measures the mount's elastic response to guide pulses (harmonic drives). "
-"Adds about 20 minutes to the protocol and has not produced measurable "
-"results on rigs tested so far, so it is off by default."
+"Sends known pulses at the start of the protocol and measures the mount's "
+"step response to derive a base RA/DEC guiding gain for any mount type. The "
+"measured gain is applied and locked for the rest of the session; the current "
+"gain is kept if the responses do not pass the consistency checks. Adds "
+"roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
@@ -45485,20 +45531,24 @@ msgid ""
 "confident."
 msgstr ""
 
-#. i18n: ectx: label, entry (AIProtocolPulseTest), group (Guide)
+#. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
 #, kde-format
-msgid "Include the pulse response test in the AI data collection protocol."
+msgid ""
+"Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
+"collection protocol."
 msgstr ""
 
-#. i18n: ectx: whatsthis, entry (AIProtocolPulseTest), group (Guide)
+#. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
 #, kde-format
 msgid ""
-"The pulse response test measures the mount's elastic response to guide "
-"pulses (harmonic drives). It adds about 20 minutes to the protocol and has "
-"not produced measurable results on rigs tested so far, so it is off by "
-"default."
+"Sends known pulses at the start of the protocol and measures the mount's "
+"step response to derive a base RA/DEC guiding gain for any mount type. The "
+"measured gain is applied and locked for the rest of the session, so the data "
+"that follows is collected under it; the current gain is kept unchanged if "
+"the responses do not pass the consistency checks. Adds roughly 20 minutes to "
+"the protocol. Enabled by default."
 msgstr ""
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
