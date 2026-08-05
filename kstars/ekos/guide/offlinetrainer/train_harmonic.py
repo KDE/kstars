@@ -113,14 +113,15 @@ def train_harmonic(sysid: dict,
         print(f"\n--- Phase 3: Drift Parameter Fitting ---")
 
     # ── Step 3: Fit drift parameters from free_drift sessions ──────────────
-    drift_ra, drift_dec, d_polar, k_ref, k_ref_dec = _fit_drift_params(
-        sysid, guide_exp, verbose)
+    (drift_ra, drift_dec, d_polar, k_ref, k_ref_dec,
+     fit_alts, fit_qs) = _fit_drift_params(sysid, guide_exp, verbose)
 
-    # Altitude range the drift/refraction fit is valid for (runtime clamps to it).
-    fit_alts = [s.get("altitude_deg", 45.0) for s in sysid["sessions"]
-                if s.get("type") == "free_drift" and len(s.get("frames", [])) >= 10]
+    # Geometry the drift/refraction fit is valid for (runtime clamps to it) — from the
+    # sessions the fit actually used, not everything recorded.
     fit_alt_min = min(fit_alts) if fit_alts else 35.0
     fit_alt_max = max(fit_alts) if fit_alts else 65.0
+    fit_par_min = min(fit_qs) if fit_qs else -90.0
+    fit_par_max = max(fit_qs) if fit_qs else 90.0
 
     if verbose:
         print(f"  drift_ra={drift_ra:.6e} px/s  drift_dec={drift_dec:.6e} px/s")
@@ -165,6 +166,8 @@ def train_harmonic(sysid: dict,
             "k_ref_dec":     float(k_ref_dec),
             "fit_alt_min":   float(fit_alt_min),
             "fit_alt_max":   float(fit_alt_max),
+            "fit_par_min":   float(fit_par_min),
+            "fit_par_max":   float(fit_par_max),
         },
         "qnet": qnet_weights,
     }
@@ -374,11 +377,17 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
     """
     free_drift_sessions = [s for s in sysid["sessions"] if s["type"] == "free_drift"]
 
+    # A rate from a very short window is noise, not a measurement: at a ~0.5" noise
+    # floor a 25s sample has ~±0.07 "/s slope uncertainty — one such point silently
+    # set k_ref_dec on real data (see DEC_OFFSET_ROOT_CAUSE.md).
+    MIN_FIT_SPAN_S = 120.0
+
     ra_rates = []
     dec_rates = []
     cos2_alts = []  # 1/cos²(alt) for each session
     q_factors = []  # sin(q)/cos²(alt) for each session
     q_angles = []
+    fit_alts = []   # altitudes of the sessions actually used (runtime clamps to these)
 
     for s in free_drift_sessions:
         frames = s["frames"]
@@ -393,6 +402,11 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
             if verbose:
                 print(f"  [drift] skipping {s.get('session_id', '?')}: only {span:.0f}s of "
                       f"{requested:.0f}s requested — truncated, not a drift measurement")
+            continue
+        if span < MIN_FIT_SPAN_S:
+            if verbose:
+                print(f"  [drift] skipping {s.get('session_id', '?')}: {span:.0f}s span — "
+                      f"too short to constrain a rate (need >= {MIN_FIT_SPAN_S:.0f}s)")
             continue
 
         alt = s.get("altitude_deg", 45.0)
@@ -419,16 +433,21 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
         q_angles.append(avg_q_deg)
         q_rad = np.radians(avg_q_deg)
         q_factors.append(np.sin(q_rad) / (cos_alt ** 2))
+        fit_alts.append(alt)
 
     if not ra_rates:
-        return 0.0, 0.0, 0.0, 0.0, 0.0
+        return 0.0, 0.0, 0.0, 0.0, 0.0, [], []
 
-    # RA: rate = k_ref / cos²(alt) + drift_ra_extra
-    if len(ra_rates) >= 2:
+    # RA: rate = k_ref / cos²(alt) + drift_ra_extra. Without real altitude spread the
+    # regression divides by ~zero variance and returns garbage — fall back to the mean.
+    alt_range = max(fit_alts) - min(fit_alts) if len(fit_alts) >= 2 else 0.0
+    if len(ra_rates) >= 2 and alt_range >= 10.0:
         k_ref, drift_ra = scipy.stats.linregress(cos2_alts, ra_rates)[:2]
     else:
+        if verbose and len(ra_rates) >= 2:
+            print(f"  [RA] altitude range: {alt_range:.1f}° < 10° — k_ref = 0, using mean rate")
         k_ref = 0.0
-        drift_ra = ra_rates[0]
+        drift_ra = float(np.mean(ra_rates))
 
     # DEC: rate = d_polar + k_ref_dec * sin(q)/cos²(alt)
     q_range = max(q_angles) - min(q_angles) if len(q_angles) >= 2 else 0.0
@@ -438,18 +457,20 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
         if verbose:
             print(f"  [DEC] Parallactic angle range: {q_range:.1f}° (sufficient)")
     elif len(dec_rates) >= 2:
+        # No geometric spread means sin(q)/cos²(alt) is unconstrained; borrowing k_ref
+        # would apply an RA coefficient to DEC geometry it was never fitted at.
         if verbose:
-            print(f"  [DEC] Parallactic angle range: {q_range:.1f}° < 20° — "
-                  f"falling back k_ref_dec = k_ref")
-        k_ref_dec = k_ref
-        d_polar = float(np.mean([r - k_ref * qf for r, qf in zip(dec_rates, q_factors)]))
+            print(f"  [DEC] Parallactic angle range: {q_range:.1f}° < 20° — k_ref_dec = 0")
+        k_ref_dec = 0.0
+        d_polar = float(np.mean(dec_rates))
     else:
         d_polar = dec_rates[0] if dec_rates else 0.0
         k_ref_dec = 0.0
 
     drift_dec = 0.0  # Absorbed into d_polar
 
-    return float(drift_ra), float(drift_dec), float(d_polar), float(k_ref), float(k_ref_dec)
+    return (float(drift_ra), float(drift_dec), float(d_polar), float(k_ref), float(k_ref_dec),
+            fit_alts, q_angles)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -277,7 +277,7 @@ void cgmath::start()
                 {
                     qCInfo(KSTARS_EKOS_GUIDE) << "[AI GUIDER] Applied recorded settings:" << m_AIGuider->fingerprintApplied();
                     emit newLog(i18n("AI Guider: applied the trained model's recorded settings (%1).",
-                                      m_AIGuider->fingerprintApplied()));
+                                     m_AIGuider->fingerprintApplied()));
                 }
                 if (useAIAlgorithm)
                 {
@@ -369,14 +369,14 @@ bool cgmath::reloadAIWeights()
         const QString reason = candidate ? candidate->fingerprintError() : QString();
         qCWarning(KSTARS_EKOS_GUIDE) << ">>> AI GUIDER RELOAD FAILED:" << weightsPath << reason;
         emit newLog(i18n("AI Guider weight reload failed: %1", reason.isEmpty()
-                          ? i18n("the weights file could not be read or does not match this mount type.") : reason));
+                         ? i18n("the weights file could not be read or does not match this mount type.") : reason));
         return false;
     }
 
     m_AIGuider = std::move(candidate);
     if (!m_AIGuider->fingerprintApplied().isEmpty())
         emit newLog(i18n("AI Guider: applied the trained model's recorded settings (%1).",
-                          m_AIGuider->fingerprintApplied()));
+                         m_AIGuider->fingerprintApplied()));
     // A plain (non-forced) reset is enough: HarmonicGuider::resetSession() already forces a
     // full reset itself when the new weights describe a different PE period than the currently
     // active static Kalman state, and otherwise only clears transient tracking state while
@@ -1267,12 +1267,16 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
             {
                 out << "t_session,dt,altitude_deg,azimuth_deg,parallactic_angle_deg,ra_error_arcsec,uncorrected_ra_delta_px,dec_error_arcsec,uncorrected_dec_delta_px,conf,pred_ra_arcsec,physics_ra_arcsec,mlp_ra_arcsec,pred_dec_arcsec,physics_dec_arcsec,mlp_dec_arcsec,ai_state,pe_statestring,"
                        "ra_algorithm,ra_prop_response_ms,ra_integral_response_ms,ra_ai_response_ms,ra_active_prop_gain,ra_total_pulse_ms,ra_direction,ra_suppressed,"
-                       "dec_algorithm,dec_prop_response_ms,dec_integral_response_ms,dec_ai_response_ms,dec_active_prop_gain,dec_total_pulse_ms,dec_direction,dec_suppressed\n";
+                       "dec_algorithm,dec_prop_response_ms,dec_integral_response_ms,dec_ai_response_ms,dec_active_prop_gain,dec_total_pulse_ms,dec_direction,dec_suppressed,"
+                       "ra_drift_arcsec,dec_drift_arcsec\n";
                 m_AIDebugHeaderWritten = true;
             }
             // Empty field for NaN (fields not meaningful for the algorithm that actually ran)
             // rather than the literal string "nan", which not every CSV reader parses cleanly.
-            auto csvNum = [](double v) { return std::isnan(v) ? QString() : QString::number(v, 'f', 3); };
+            auto csvNum = [](double v)
+            {
+                return std::isnan(v) ? QString() : QString::number(v, 'f', 3);
+            };
             // Signed total pulse actually sent this frame, mirroring the sign convention
             // updateOutParams() uses for m_accumulated_pulse_ra/dec (gmath.cpp:signed_pulse).
             auto axisTotalMs = [this](int k) -> double
@@ -1280,7 +1284,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                 if (out_params.pulse_dir[k] == NO_DIR || out_params.pulse_length[k] == 0)
                     return 0.0;
                 const bool neg = (k == GUIDE_RA && out_params.pulse_dir[k] == RA_DEC_DIR)
-                                 || (k == GUIDE_DEC && out_params.pulse_dir[k] == DEC_DEC_DIR);
+                || (k == GUIDE_DEC && out_params.pulse_dir[k] == DEC_DEC_DIR);
                 return neg ? -out_params.pulse_length[k] : out_params.pulse_length[k];
             };
             out << frameData.t_session_sec << ","
@@ -1316,7 +1320,9 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                 << csvNum(m_lastBlend[GUIDE_DEC].activePropGain) << ","
                 << axisTotalMs(GUIDE_DEC) << ","
                 << directionStr(out_params.pulse_dir[GUIDE_DEC]) << ","
-                << (out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 1 : 0) << "\n";
+                << (out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 1 : 0) << ","
+                << m_lastAIPrediction.drift_ra_arcsec << ","
+                << m_lastAIPrediction.drift_dec_arcsec << "\n";
             out.flush();
         }
     }

@@ -114,6 +114,8 @@ bool HarmonicGuider::loadWeights(const QString &weightsPath)
     }
     m_fit_alt_min = phys["fit_alt_min"].toDouble(35.0);
     m_fit_alt_max = phys["fit_alt_max"].toDouble(65.0);
+    m_fit_par_min = phys["fit_par_min"].toDouble(-90.0);
+    m_fit_par_max = phys["fit_par_max"].toDouble(90.0);
 
     // Sanity bounds on spring parameters
     m_kappa_ra  = std::clamp(m_kappa_ra, 0.0, 0.9);
@@ -313,22 +315,20 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
     Q(RA_SPRING, RA_SPRING) = 0.001 * dt;
     Q(DEC_SPRING, DEC_SPRING) = 0.001 * dt;
 
-    // PE process noise (small — PE is nearly deterministic). RA only: strain-wave
-    // periodic error comes from the continuously rotating RA drive, so a DEC PE
-    // oscillator has nothing real to lock onto. With no measurement on those states
-    // either (see kalmanUpdate()), a slow sinusoid and DEC_VEL's linear ramp become
-    // degenerate over a session shorter than one PE period, and the filter settles
-    // into a large, growing, mutually-cancelling pair whose small residual is a
-    // steadily growing DEC bias.
+    // PE process noise (small — PE is nearly deterministic)
     if (m_pe_period > 0.0)
     {
         Q(RA_PE_SIN, RA_PE_SIN) = 0.001 * dt;
         Q(RA_PE_COS, RA_PE_COS) = 0.001 * dt;
+        Q(DEC_PE_SIN, DEC_PE_SIN) = 0.001 * dt;
+        Q(DEC_PE_COS, DEC_PE_COS) = 0.001 * dt;
     }
     if (m_pe2_period > 0.0)
     {
         Q(RA_PE2_SIN, RA_PE2_SIN) = 0.001 * dt;
         Q(RA_PE2_COS, RA_PE2_COS) = 0.001 * dt;
+        Q(DEC_PE2_SIN, DEC_PE2_SIN) = 0.001 * dt;
+        Q(DEC_PE2_COS, DEC_PE2_COS) = 0.001 * dt;
     }
 
     return Q;
@@ -340,7 +340,10 @@ void HarmonicGuider::driftRates(double alt_deg, double parallactic_angle_deg,
 {
     const double alt_rad = std::clamp(alt_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
     const double cos_alt = std::cos(alt_rad);
-    const double q_rad = parallactic_angle_deg * M_PI / 180.0;
+    // Clamp to the fitted range like altitude: a coefficient fitted at sin(q) <= 0.1 must
+    // not be extrapolated to sin(q) = 1 (that turned a noise fit into a -0.32"/s phantom
+    // DEC drift on real data — see DEC_OFFSET_ROOT_CAUSE.md).
+    const double q_rad = std::clamp(parallactic_angle_deg, m_fit_par_min, m_fit_par_max) * M_PI / 180.0;
 
     ra_rate = m_drift_ra;
     dec_rate = m_drift_dec + m_d_polar;
@@ -387,20 +390,20 @@ void HarmonicGuider::kalmanPredict(double dt, double alt_deg, double parallactic
 // ── Kalman update step ───────────────────────────────────────────────────────
 void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double snr)
 {
-    // Observation matrix: observe position + PE_sin, RA only (see computeQ() for why
-    // DEC has no PE oscillator to observe). DEC_PE_SIN/DEC_PE2_SIN never receive a
-    // Kalman gain and stay at their zero-initialized value for the whole session.
-    // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err
+    // Observation matrix: observe position + PE_sin
+    // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err + pe_sin_dec
     Eigen::Matrix<double, N_OBS, N_STATES> H = Eigen::Matrix<double, N_OBS, N_STATES>::Zero();
     H(0, RA_POS) = 1.0;
     H(1, DEC_POS) = 1.0;
     if (m_pe_period > 0.0)
     {
         H(0, RA_PE_SIN) = 1.0;
+        H(1, DEC_PE_SIN) = 1.0;
     }
     if (m_pe2_period > 0.0)
     {
         H(0, RA_PE2_SIN) = 1.0;
+        H(1, DEC_PE2_SIN) = 1.0;
     }
 
     // Measurement noise from the current frame's SNR (~0.5 px at SNR 30)
@@ -512,13 +515,19 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     out.ra_correction_arcsec  = m_lastPredRA * frame.pixel_scale;
     out.dec_correction_arcsec = m_lastPredDEC * frame.pixel_scale;
 
-    // Debug breakdown: physics = trend (VEL), mlp = spring + PE (the "learned" part)
-    const double drift_ra_px = m_x(RA_VEL) * frame.dt;
-    const double drift_dec_px = m_x(DEC_VEL) * frame.dt;
-    out.physics_ra_arcsec  = drift_ra_px * frame.pixel_scale;
-    out.physics_dec_arcsec = drift_dec_px * frame.pixel_scale;
-    out.mlp_ra_arcsec  = (m_lastPredRA - drift_ra_px) * frame.pixel_scale;
-    out.mlp_dec_arcsec = (m_lastPredDEC - drift_dec_px) * frame.pixel_scale;
+    // Debug breakdown: physics = trend (VEL), drift = static model injection,
+    // mlp = spring + PE. Keeping the injection out of mlp_* matters: bundled together
+    // they made a bad drift coefficient look like an oscillator fault.
+    const double vel_ra_px = m_x(RA_VEL) * frame.dt;
+    const double vel_dec_px = m_x(DEC_VEL) * frame.dt;
+    double inj_ra_rate = 0.0, inj_dec_rate = 0.0;
+    driftRates(frame.altitude_deg, frame.parallactic_angle_deg, inj_ra_rate, inj_dec_rate);
+    out.physics_ra_arcsec  = vel_ra_px * frame.pixel_scale;
+    out.physics_dec_arcsec = vel_dec_px * frame.pixel_scale;
+    out.drift_ra_arcsec  = inj_ra_rate * frame.dt * frame.pixel_scale;
+    out.drift_dec_arcsec = inj_dec_rate * frame.dt * frame.pixel_scale;
+    out.mlp_ra_arcsec  = (m_lastPredRA - vel_ra_px - inj_ra_rate * frame.dt) * frame.pixel_scale;
+    out.mlp_dec_arcsec = (m_lastPredDEC - vel_dec_px - inj_dec_rate * frame.dt) * frame.pixel_scale;
 
     return out;
 }
@@ -660,8 +669,10 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
 
     out.physics_ra_arcsec  = x(RA_VEL) * dt_sec * m_lastPixelScale;
     out.physics_dec_arcsec = x(DEC_VEL) * dt_sec * m_lastPixelScale;
-    out.mlp_ra_arcsec  = (pred_ra - post_ra - x(RA_VEL) * dt_sec) * m_lastPixelScale;
-    out.mlp_dec_arcsec = (pred_dec - post_dec - x(DEC_VEL) * dt_sec) * m_lastPixelScale;
+    out.drift_ra_arcsec  = ra_rate * dt_sec * m_lastPixelScale;
+    out.drift_dec_arcsec = dec_rate * dt_sec * m_lastPixelScale;
+    out.mlp_ra_arcsec  = (pred_ra - post_ra - (x(RA_VEL) + ra_rate) * dt_sec) * m_lastPixelScale;
+    out.mlp_dec_arcsec = (pred_dec - post_dec - (x(DEC_VEL) + dec_rate) * dt_sec) * m_lastPixelScale;
 
     return out;
 }

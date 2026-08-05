@@ -818,7 +818,13 @@ void AIGuideProtocol::processProtocol()
                 // trainer's truncation guard can still discard them.
                 const int recordedDuration = (phase.freeDrift && !m_PhaseAborted)
                                              ? m_SegmentSeconds : phase.durationSeconds;
-                flushPhaseSegment(phase, recordedDuration);
+                // A drift tail too short to fit is not worth recording — the same rule the
+                // re-center path applies (a 12-frame tail once set k_ref_dec from noise).
+                if (phase.freeDrift && !m_PhaseAborted && m_PhaseData.size() < MIN_SEGMENT_FRAMES)
+                    emit protocolLog(QString("Final drift segment too short (%1 frames) — discarded.")
+                                     .arg(m_PhaseData.size()));
+                else
+                    flushPhaseSegment(phase, recordedDuration);
 
                 m_Phases.removeFirst();
                 m_State = STATE_PRECHECK;

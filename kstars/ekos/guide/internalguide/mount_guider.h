@@ -67,6 +67,8 @@ struct GuideOutput
     double dec_correction_arcsec   { 0.0 };   ///< Feed-forward DEC correction (arcsec)
 
     // Debug specific outputs
+    double drift_ra_arcsec         { 0.0 };   ///< Static drift-model injection (RA)
+    double drift_dec_arcsec        { 0.0 };   ///< Static drift-model injection (DEC)
     double physics_ra_arcsec       { 0.0 };   ///< Physics layer RA drift prediction
     double physics_dec_arcsec      { 0.0 };   ///< Physics layer DEC drift prediction
     double mlp_ra_arcsec           { 0.0 };   ///< MLP layer RA residual prediction

@@ -15,10 +15,6 @@
  *
  * The PE states evolve as a 2D rotation at the detected PE frequency, allowing
  * the Kalman filter to automatically estimate PE amplitude and phase online.
- * PE is an RA-only phenomenon (strain-wave error from the continuously rotating
- * RA drive); pe_sin_dec/pe_cos_dec/pe2_sin_dec/pe2_cos_dec occupy state-vector
- * slots but are never driven by process noise or observed (see computeQ() and
- * kalmanUpdate()), so they stay at zero for the whole session.
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -96,6 +92,8 @@ class HarmonicGuider : public MountSpecificGuider
         double m_k_ref_dec   { 0.0 };   ///< DEC refraction coefficient
         double m_fit_alt_min { 35.0 };  ///< Altitude range the drift fit is valid for
         double m_fit_alt_max { 65.0 };
+        double m_fit_par_min   { -90.0 };  ///< Parallactic range the DEC drift fit is valid for
+        double m_fit_par_max   { 90.0 };
 
         // ── Kalman filter state (static to survive object recreation) ────────
         static Eigen::Matrix<double, N_STATES, 1> m_x;       ///< State estimate
