@@ -313,20 +313,22 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
     Q(RA_SPRING, RA_SPRING) = 0.001 * dt;
     Q(DEC_SPRING, DEC_SPRING) = 0.001 * dt;
 
-    // PE process noise (small — PE is nearly deterministic)
+    // PE process noise (small — PE is nearly deterministic). RA only: strain-wave
+    // periodic error comes from the continuously rotating RA drive, so a DEC PE
+    // oscillator has nothing real to lock onto. With no measurement on those states
+    // either (see kalmanUpdate()), a slow sinusoid and DEC_VEL's linear ramp become
+    // degenerate over a session shorter than one PE period, and the filter settles
+    // into a large, growing, mutually-cancelling pair whose small residual is a
+    // steadily growing DEC bias.
     if (m_pe_period > 0.0)
     {
         Q(RA_PE_SIN, RA_PE_SIN) = 0.001 * dt;
         Q(RA_PE_COS, RA_PE_COS) = 0.001 * dt;
-        Q(DEC_PE_SIN, DEC_PE_SIN) = 0.001 * dt;
-        Q(DEC_PE_COS, DEC_PE_COS) = 0.001 * dt;
     }
     if (m_pe2_period > 0.0)
     {
         Q(RA_PE2_SIN, RA_PE2_SIN) = 0.001 * dt;
         Q(RA_PE2_COS, RA_PE2_COS) = 0.001 * dt;
-        Q(DEC_PE2_SIN, DEC_PE2_SIN) = 0.001 * dt;
-        Q(DEC_PE2_COS, DEC_PE2_COS) = 0.001 * dt;
     }
 
     return Q;
@@ -385,20 +387,20 @@ void HarmonicGuider::kalmanPredict(double dt, double alt_deg, double parallactic
 // ── Kalman update step ───────────────────────────────────────────────────────
 void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double snr)
 {
-    // Observation matrix: observe position + PE_sin
-    // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err + pe_sin_dec
+    // Observation matrix: observe position + PE_sin, RA only (see computeQ() for why
+    // DEC has no PE oscillator to observe). DEC_PE_SIN/DEC_PE2_SIN never receive a
+    // Kalman gain and stay at their zero-initialized value for the whole session.
+    // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err
     Eigen::Matrix<double, N_OBS, N_STATES> H = Eigen::Matrix<double, N_OBS, N_STATES>::Zero();
     H(0, RA_POS) = 1.0;
     H(1, DEC_POS) = 1.0;
     if (m_pe_period > 0.0)
     {
         H(0, RA_PE_SIN) = 1.0;
-        H(1, DEC_PE_SIN) = 1.0;
     }
     if (m_pe2_period > 0.0)
     {
         H(0, RA_PE2_SIN) = 1.0;
-        H(1, DEC_PE2_SIN) = 1.0;
     }
 
     // Measurement noise from the current frame's SNR (~0.5 px at SNR 30)

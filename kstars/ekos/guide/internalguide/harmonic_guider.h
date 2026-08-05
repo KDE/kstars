@@ -15,6 +15,10 @@
  *
  * The PE states evolve as a 2D rotation at the detected PE frequency, allowing
  * the Kalman filter to automatically estimate PE amplitude and phase online.
+ * PE is an RA-only phenomenon (strain-wave error from the continuously rotating
+ * RA drive); pe_sin_dec/pe_cos_dec/pe2_sin_dec/pe2_cos_dec occupy state-vector
+ * slots but are never driven by process noise or observed (see computeQ() and
+ * kalmanUpdate()), so they stay at zero for the whole session.
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
