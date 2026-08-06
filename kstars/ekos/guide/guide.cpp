@@ -1543,7 +1543,7 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
 
         m_PulseTimer.start(delay);
     }
-    else if (m_StreamingGuide && m_State != GUIDE_CALIBRATING)
+    else if (m_StreamingGuide)
     {
         // In streaming mode frames keep arriving continuously, so we must gate them
         // while the mount is still responding to this pulse.  Without this guard every
@@ -1551,12 +1551,8 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
         // rapid-fire overlapping pulses that produce oscillations.
         // The gate duration is the longer of the two pulse lengths plus a small
         // propagation margin, floored by the user's guide delay setting.
-        //
-        // Calibration is deliberately excluded: it is frame-driven and must observe the
-        // star move through every pulse to measure the mount response.  Discarding frames
-        // during calibration loses star tracking and makes the drift look stalled, which
-        // pushes calibration into its "double the pulse" branch and flings the star out
-        // of the box ("Lost track of the guide star").
+        // (Calibration never streams — see Guide::calibrate() — so this only ever gates
+        // closed-loop correction pulses.)
         auto ms = std::max(ra_msecs, dec_msecs) + 100;
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
         qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms";
@@ -1610,11 +1606,11 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 
         m_PulseTimer.start(delay);
     }
-    else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses && m_State != GUIDE_CALIBRATING)
+    else if (m_StreamingGuide && followWithCapture == DontCaptureAfterPulses)
     {
         // Same pulse-in-flight gate as sendMultiPulse() above — correction pulses only.
-        // Calibration is excluded on purpose (see sendMultiPulse): its per-axis pulses need
-        // continuous frames so the star stays tracked while it drifts across the field.
+        // (Calibration never streams — see Guide::calibrate() — so this only gates the
+        // closed-loop guiding correction pulses.)
         auto ms = msecs + 100;
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
         qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms (single pulse)";
@@ -1664,6 +1660,17 @@ bool Guide::calibrate()
             subFramed = false;
         }
     }
+
+    // Calibration must always run in single-frame mode. It is frame-driven and issues one pulse
+    // per frame, expecting each measurement to reflect a completed, settled pulse. Streaming
+    // delivers frames continuously with no pulse-to-frame synchronization, so the star is still
+    // moving (and smearing) when the next frame is measured, corrupting the per-step drift and
+    // tripping the "double the pulse" escalation. Stop any active stream here, before the
+    // operation stack is built, so the single-frame capture path (and the correct dark/subframe
+    // handling in buildOperationStack) is used throughout. Streaming is (re)started on entry to
+    // GUIDE_GUIDING if the user enabled it.
+    if (guiderType == GUIDE_INTERNAL && m_StreamingGuide)
+        stopGuideStreaming();
 
     buildOperationStack(GUIDE_CALIBRATING);
 
@@ -2056,14 +2063,12 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Calibration started."));
             setBusy(true);
             manualPulseB->setEnabled(false);
-            // Start streaming for calibration if enabled and camera supports it.
-            // Guard against double-starting in case we are already streaming.
-            if (guiderType == GUIDE_INTERNAL && m_Camera && !m_StreamingGuide)
-            {
-                auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
-                if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera->hasVideoStream())
-                    startGuideStreaming();
-            }
+            // Calibration always runs single-frame (see Guide::calibrate()). Do NOT start
+            // streaming here regardless of the streaming checkbox — streaming has no benefit
+            // during calibration and desynchronizes pulses from frames. As a safeguard against
+            // any path that reaches this state with a stream still active, stop it now.
+            if (guiderType == GUIDE_INTERNAL && m_StreamingGuide)
+                stopGuideStreaming();
             break;
 
         case GUIDE_GUIDING:
