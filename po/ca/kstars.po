@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-05 02:11+0000\n"
-"PO-Revision-Date: 2026-08-01 10:27+0200\n"
+"PO-Revision-Date: 2026-08-05 12:31+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23250,6 +23250,12 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"Està habilitat l'ajust automàtic del PID, de manera que aquesta execució "
+"mesurarà la resposta de la muntura i determinarà automàticament i bloquejarà "
+"l'agressivitat AR/Dec per a vós; no hi ha necessitat d'establir-la "
+"prèviament. El model d'IA encara està entrenat i bloquejat a la configuració "
+"actual de l'exposició i el pols de la guia, de manera que utilitzeu els "
+"valors amb els quals feu normalment el guiatge."
 
 #: ekos/guide/aiguidewizard.cpp:285
 #, kde-format
@@ -23257,21 +23263,24 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"El model d'IA està entrenat i bloquejat a l'exposició, l'agressivitat i la "
+"configuració del pols de guiatge actual; utilitzeu els valors amb els quals "
+"normalment feu el guiatge."
 
 #: ekos/guide/aiguidewizard.cpp:317
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
+"S'ha detectat el tipus de muntura: %1. Canvieu la selecció a dalt si això és "
+"incorrecte."
 
 #: ekos/guide/aiguidewizard.cpp:320
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr ""
-"No s'ha pogut seleccionar automàticament cap estrella. Seleccioneu-ne una "
-"manualment."
+"No s'ha pogut detectar automàticament el tipus de muntura. Seleccioneu-la "
+"manualment a dalt."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -23331,20 +23340,7 @@ msgstr "Unitat directa"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Recommended "
-#| "Settings (set BEFORE running):</span></p><ul><li><span style=\" font-"
-#| "weight:600;\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span "
-#| "style=\" font-weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s "
-#| "(depends on guide star SNR)</li><li><span style=\" font-weight:600;"
-#| "\">Direct Drive:</span> exposure 1.0s to 3.0s</li></ul><p><span style=\" "
-#| "color:#ff5500;\">The AI model is trained and locked to your current guide "
-#| "exposure, aggressiveness and pulse settings — use the values you normally "
-#| "guide with.</span></p><p>Define an <span style=\" font-weight:600;"
-#| "\">Artificial Horizon</span> (Settings → Artificial Horizon) before "
-#| "running — the protocol slews by Alt/Az and uses it to pick safe targets.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23361,13 +23357,10 @@ msgstr ""
 "weight:600;\">Engranatge sense fi:</span> exposició 2,0 s (predeterminat)</"
 "li><li><span style=\" font-weight:600;\">Unitat harmònica:</span> exposició "
 "0,5 a 1,0 s (depèn del SNR de l'estrella guia)</li><li><span style=\" font-"
-"weight:600;\">Unitat directa:</span> exposició 1,0 a 3,0 s</li></ul><p><span "
-"style=\" color:#ff5500;\">El model d'IA s'entrenarà i bloquejarà als "
-"paràmetres d'exposició, agressivitat i pols de guiatge actual; feu servir "
-"els valors amb els quals feu normalment el guiatge.</span></p><p>Definiu un "
-"<span style=\" font-weight:600;\">Horitzó artificial</span> (Arranjament → "
-"Horitzó artificial) abans d'executar; el protocol orienta per Alt/Az i "
-"l'utilitza per a triar objectius segurs.</p></body></html>"
+"weight:600;\">Unitat directa:</span> exposició 1,0 a 3,0 s</li></"
+"ul><p>Definiu un <span style=\" font-weight:600;\">Horitzó artificial</span> "
+"(Arranjament → Horitzó artificial) abans d'executar; el protocol orienta per "
+"Alt/Az i l'utilitza per a triar objectius segurs.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
@@ -23403,13 +23396,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23418,19 +23405,15 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocol "
-"d'engranatge sense fi (45 min):</span><br/>1. Orienta a latitud alta: deriva "
-"lliure, després guiatge estàndard.<br/>2. Orienta a altitud més baixa: "
-"deriva lliure, després guiatge estàndard.<br/>3. Orientació a latitud alta: "
-"guiatge estàndard.</p></body></html>"
+"d'engranatge sense fi (~65 min):</span><br/>1. Orienta a latitud alta: "
+"guiatge estàndard, deriva lliure, després ajust automàtic del PID (resposta "
+"de pas).<br/>2. Orienta a altitud més baixa: guiatge estàndard, després "
+"deriva lliure.<br/>3. Orientació a latitud alta: guiatge estàndard, després "
+"deriva lliure.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23438,20 +23421,14 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocol d'unitat "
-"harmònica (35 min):</span><br/>1. Orienta a latitud alta: deriva lliure, "
-"prova de resposta de pols, i després guiatge estàndard.<br/>2. Orienta a "
-"altitud més baixa: deriva lliure, després guiatge estàndard.</p></body></"
-"html>"
+"harmònica (~60 min):</span><br/>1. Orienta a latitud alta: guiatge "
+"estàndard, deriva lliure, després ajust automàtic del PID (resposta de pas)."
+"<br/>2. Orienta a altitud més baixa: deriva lliure, després guiatge "
+"estàndard.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23459,11 +23436,12 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Protocol "
-"d'engranatge sense fi (45 min):</span><br/>1. Orienta a latitud alta: deriva "
-"lliure, després guiatge estàndard.<br/>2. Orienta a altitud més baixa: "
-"deriva lliure, després guiatge estàndard.<br/>3. Orientació a latitud alta: "
-"guiatge estàndard.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocol d'unitat "
+"directa (~30 min):</span><br/>1. Orienta a latitud alta: guiatge estàndard, "
+"deriva lliure, després ajust automàtic del PID (resposta de pas).<br/>2. "
+"Orienta a altitud mitjana: guiatge estàndard, després deriva lliure.<br/>3. "
+"Orientació a altitud baixa: guiatge estàndard, després deriva lliure.</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
@@ -25014,36 +24992,23 @@ msgstr ""
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
+"Sistema de guiatge d'IA: s'ha aplicat la configuració enregistrada del model "
+"entrenat (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "The weights file could not be read."
-msgstr ""
-"No s'ha pogut llegir el fitxer de ponderacions o no coincideix amb aquest "
-"tipus de muntura."
+msgstr "No s'ha pogut llegir el fitxer de ponderacions."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
-"El sistema de guiatge d'IA no ha pogut carregar les ponderacions o "
-"l'empremta digital no coincideix. S'ha interromput el guiatge."
+"El sistema de guiatge d'IA ha fallat en carregar les ponderacions. S'ha "
+"interromput el guiatge."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights!\n"
-#| "\n"
-#| "%1\n"
-#| "\n"
-#| "Change the settings back to match, re-run the Guide AI Assistant with "
-#| "your current settings, or switch the Guide Algorithm to a standard mode. "
-#| "Guiding has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -25056,9 +25021,9 @@ msgstr ""
 "\n"
 "%1\n"
 "\n"
-"Canvieu a la configuració anterior que coincideixi, torneu a executar "
-"l'assistent de guiatge d'IA amb la configuració actual o canvieu l'algorisme "
-"de guiatge a un mode estàndard. S'ha interromput el guiatge."
+"Torneu a executar l'assistent de guiatge d'IA, carregueu un fitxer de "
+"ponderacions diferent o canvieu l'algorisme de guiatge a un mode estàndard. "
+"S'ha interromput el guiatge."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -25102,14 +25067,13 @@ msgstr "Sistema de guiatge d'IA: sense ponderacions"
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr ""
+"Ha fallat la recàrrega de la ponderació del sistema de guiatge d'IA: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
-"No s'ha pogut llegir el fitxer de ponderacions o no coincideix amb aquest "
+"no s'ha pogut llegir el fitxer de ponderacions o no coincideix amb aquest "
 "tipus de muntura."
 
 #: ekos/guide/internalguide/gmath.cpp:396
@@ -25117,6 +25081,8 @@ msgstr ""
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Les ponderacions del sistema de guiatge d'IA s'han carregat en viu a partir "
+"de %1; el guiatge continua sense interrupcions."
 
 #: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
@@ -25357,7 +25323,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "Ajust automàtic de PID (calibratge de guany de resposta de pas)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25369,6 +25335,12 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Envia polsos coneguts a l'inici del protocol i mesura la resposta de pas de "
+"la muntura per derivar un guany de guiatge AR/Dec base per a qualsevol tipus "
+"de muntura. El guany mesurat s'aplica i es bloqueja per a la resta de la "
+"sessió; el guany actual es manté si les respostes no passen les "
+"comprovacions de coherència. Afegeix aproximadament 20 minuts al protocol; "
+"habilitat de manera predeterminada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -46753,14 +46725,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
-#, fuzzy, kde-format
-#| msgid "Include the pulse response test in the AI data collection protocol."
+#, kde-format
 msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
-"Inclou la prova de resposta de polsos en el protocol de recollida de dades "
-"d'IA."
+"Executa l'ajusta automàtic de PID (calibratge de guany de resposta de pas) "
+"com a part del protocol de recollida de dades d'IA."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46773,6 +46744,13 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Envia polsos coneguts a l'inici del protocol i mesura la resposta de pas de "
+"la muntura per derivar un guany de guiatge AR/Dec base per a qualsevol tipus "
+"de muntura. El guany mesurat s'aplica i es bloqueja per a la resta de la "
+"sessió, de manera que les dades que segueixen es recullen amb ell; el guany "
+"actual es manté si les respostes no passen les comprovacions de coherència. "
+"Afegeix aproximadament 20 minuts al protocol; habilitat de manera "
+"predeterminada."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131

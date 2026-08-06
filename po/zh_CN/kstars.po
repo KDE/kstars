@@ -22032,11 +22032,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/aiguidewizard.cpp:320
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
-msgstr "自动选择星点失败，请手动选择。"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14

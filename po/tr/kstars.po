@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-05 02:11+0000\n"
-"PO-Revision-Date: 2026-08-01 19:44+0300\n"
+"PO-Revision-Date: 2026-08-05 09:09+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22904,6 +22904,12 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"PID Otomatik Ayarlama etkinleştirildi, bu nedenle bu çalıştırma, kaidenizin "
+"tepkisini ölçecek ve sizin için RA/DEC agresifliğini kendiliğinden "
+"belirleyip kilitleyecektir; önceden ayarlamanıza gerek yoktur. Yapay zekâ "
+"modeli hâlâ geçerli kılavuz pozlama ve darbe ayarlarınıza göre eğitilmiş ve "
+"kilitlenmiştir, bu nedenle bunlar için normalde kullandığınız değerleri "
+"kullanın."
 
 #: ekos/guide/aiguidewizard.cpp:285
 #, kde-format
@@ -22911,19 +22917,19 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"Yapay zekâ modeli, geçerli kılavuz pozlama, agresiflik ve darbe ayarlarınıza "
+"göre eğitilmiş ve kilitlenmiştir; normalde kullandığınız değerleri kullanın."
 
 #: ekos/guide/aiguidewizard.cpp:317
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
-msgstr ""
+msgstr "Algılanan kaide türü: %1. Bu yanlışsa yukarıdaki seçimi değiştirin."
 
 #: ekos/guide/aiguidewizard.cpp:320
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
-msgstr "Kendiliğinden bir yıldız seçilemedi. Lütfen bir tanesini elle seçin."
+msgstr "Kaide türü kendiliğinden algılanamadı. Lütfen yukarıda elle seçin."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -22983,20 +22989,7 @@ msgstr "Doğrudan Sürme"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Recommended "
-#| "Settings (set BEFORE running):</span></p><ul><li><span style=\" font-"
-#| "weight:600;\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span "
-#| "style=\" font-weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s "
-#| "(depends on guide star SNR)</li><li><span style=\" font-weight:600;"
-#| "\">Direct Drive:</span> exposure 1.0s to 3.0s</li></ul><p><span style=\" "
-#| "color:#ff5500;\">The AI model is trained and locked to your current guide "
-#| "exposure, aggressiveness and pulse settings — use the values you normally "
-#| "guide with.</span></p><p>Define an <span style=\" font-weight:600;"
-#| "\">Artificial Horizon</span> (Settings → Artificial Horizon) before "
-#| "running — the protocol slews by Alt/Az and uses it to pick safe targets.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23014,10 +23007,7 @@ msgstr ""
 "style=\" font-weight:600;\">Armonik Sürme:</span> Pozlama 0,5–1,0 sn "
 "arasında (kılavuz yıldız SNR değerine bağlı)</li><li><span style=\" font-"
 "weight:600;\">Doğrudan Sürme:</span> Pozlama 1,0–3,0 sn arasında</li></"
-"ul><p><span style=\" color:#ff5500;\">Yapay zekâ modeli şu anki kılavuz "
-"pozlamanıza, agresifliğinize ve darbe ayarlarınıza göre eğitilmiş ve "
-"kilitlenmiştir; normalde kullandığınız kılavuz ayarlarını kullanın.</span></"
-"p><p>Çalıştırmadan önce bir <span style=\" font-weight:600;\">Yapay Ufuk</"
+"ul><p>Çalıştırmadan önce bir <span style=\" font-weight:600;\">Yapay Ufuk</"
 "span> (Ayarlar → Yapay Ufuk) ayarlayın; protokol, Yükseklik/Yanca ile "
 "çevirir ve güvenli hedefler seçmek için onu kullanır.</p></body></html>"
 
@@ -23055,13 +23045,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23070,19 +23054,15 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Sonsuz Dişli "
-"Protokolü (~45 dak.):</span><br/>1. Yüksek irtifaya çevir: Önce serbest "
-"kayma, sonra standart kılavuzluk<br/>2. Alçak irtifaya çevir: Serbest kayma, "
-"sonra standart kılavuzluk<br/>3. Yüksek irtifaya çevir: Standart kılavuzluk</"
+"Protokolü (~65 dak.):</span><br/>1. Yüksek irtifaya çevir: Standart "
+"kılavuzluk, serbest kayma, sonrasında PID otomatik ayarlama (adım yanıtı)<br/"
+">2. Alçak irtifaya çevir: Standart kılavuzluk, sonrasında serbest kayma<br/"
+">3. Yüksek irtifaya çevir: Standart kılavuzluk, sonrasında serbest kayma</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23090,19 +23070,14 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Armonik Sürme "
-"Protokolü (~35 dak.):</span><br/>1. Yüksek irtifaya çevir: Serbest kayma, "
-"darbe yanıt testi, sonra standart kılavuzluk<br/>2. Alçak irtifaya çevir: "
-"Serbest kayma, sonra standart kılavuzluk</p></body></html>"
+"Protokolü (~60 dak.):</span><br/>1. Yüksek irtifaya çevir: Standart "
+"kılavuzluk, serbest kayma, sonrasında PID otomatik ayarlama<br/>2. Alçak "
+"irtifaya çevir: Serbest kayma, sonrasında standart kılavuzluk</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23111,10 +23086,11 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Sonsuz Dişli "
-"Protokolü (~45 dak.):</span><br/>1. Yüksek irtifaya çevir: Önce serbest "
-"kayma, sonra standart kılavuzluk<br/>2. Alçak irtifaya çevir: Serbest kayma, "
-"sonra standart kılavuzluk<br/>3. Yüksek irtifaya çevir: Standart kılavuzluk</"
-"p></body></html>"
+"Protokolü (~30 dak.):</span><br/>1. Yüksek irtifaya çevir: Standart "
+"kılavuzluk, serbest kayma, sonrasında PID otomatik ayarlama (adım yanıtı)<br/"
+">2. Orta irtifaya çevir: Standart kılavuzluk, sonrasında serbest kayma<br/"
+">3. Düşük irtifaya çevir: Standart kılavuzluk, sonrasında serbest kayma</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
@@ -24652,34 +24628,20 @@ msgstr "DEC yönü tersine çevrildi (RA-DEC artık standart CCW sistemidir)."
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
+"Yapay zekâ kılavuzu: Eğitilmiş modelin kaydedilmiş ayarları uygulandı (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "The weights file could not be read."
-msgstr "Ağırlıklar dosyası okunamadı veya bu kaide türüyle uyuşmuyor."
+msgstr "Ağırlıklar dosyası okunamadı."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
-msgstr ""
-"Yapay zekâ kılavuzu ağırlıkları yükleyemedi veya parmak izi eşleşmiyor. "
-"Kılavuzluk iptal edildi."
+msgstr "Yapay zekâ kılavuzu ağırlıkları yükleyemedi. Kılavuzluk iptal edildi."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights!\n"
-#| "\n"
-#| "%1\n"
-#| "\n"
-#| "Change the settings back to match, re-run the Guide AI Assistant with "
-#| "your current settings, or switch the Guide Algorithm to a standard mode. "
-#| "Guiding has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -24692,9 +24654,9 @@ msgstr ""
 "\n"
 "%1\n"
 "\n"
-"Ayarları uyuşması için geri değiştirin; yapay zekâ kılavuz yardımcısını "
-"geçerli ayarlarla yeniden çalıştırın veya kılavuz algoritmayı yeniden "
-"standart kipe çevirin. Kılavuzluk iptal edildi."
+"Yapay zekâ kılavuz yardımcısını yeniden çalıştırın, başka bir ağırlıklar "
+"dosyası yükleyin veya kılavuz algoritmayı yeniden standart kipe çevirin. "
+"Kılavuzluk iptal edildi."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -24735,12 +24697,10 @@ msgstr "Yapay zekâ kılavuzu: Ağırlık yok"
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "Yapay zekâ kılavuzu ağırlığı yeniden yüklenemedi: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr "Ağırlıklar dosyası okunamadı veya bu kaide türüyle uyuşmuyor."
 
@@ -24749,6 +24709,8 @@ msgstr "Ağırlıklar dosyası okunamadı veya bu kaide türüyle uyuşmuyor."
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Yapay zekâ kılavuzu ağırlıkları canlı olarak %1 konumundan yeniden yüklendi "
+"— kılavuzluk yarıda kesilmeden sürdürülüyor."
 
 #: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
@@ -24987,7 +24949,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "PID otomatik ayarlama (adım yanıtı kazancı kalibrasyonu)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -24999,6 +24961,11 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Protokolün başlangıcında bilinen darbeleri gönderir ve herhangi bir kaide "
+"türü için temel RA/DEC kılavuz kazancını türetmek üzere kaidenin adım "
+"yanıtını ölçer. Ölçülen kazanç oturumun geri kalanında uygulanır ve "
+"kilitlenir; Yanıtlar tutarlılık denetimlerini geçemezse geçerli kazanç "
+"korunur. Protokole yaklaşık 20 dakika ekler; öntanımlı olarak etkindir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -46015,12 +45982,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
-#, fuzzy, kde-format
-#| msgid "Include the pulse response test in the AI data collection protocol."
+#, kde-format
 msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
-msgstr "Darbe yanıt testini yapay zekâ veri toplama protokolüne ekleyin."
+msgstr ""
+"Yapay zekâ veri toplama protokolünün bir parçası olarak PID Otomatik "
+"Ayarlamayı (adım yanıtlı kazanç kalibrasyonu) çalıştırın."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46033,6 +46001,12 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Protokolün başlangıcında bilinen darbeleri gönderir ve herhangi bir kaide "
+"türü için temel RA/DEC kılavuz kazancını türetmek üzere kaidenin adım "
+"yanıtını ölçer. Ölçülen kazanç oturumun geri kalanında uygulanır ve "
+"kilitlenir, böylece aşağıdaki veriler bunun altında toplanır; yanıtlar "
+"tutarlılık denetimlerini geçemezse mevcut kazanç değişmeden kalır. Protokole "
+"yaklaşık 20 dakika ekler. Öntanımlı olarak etkindir."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131

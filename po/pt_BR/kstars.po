@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-05 02:11+0000\n"
-"PO-Revision-Date: 2026-08-01 08:34-0300\n"
+"PO-Revision-Date: 2026-08-05 06:15-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -23086,6 +23086,13 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"O recurso de ajuste automático de PID (PID Auto-Tune) está ativado; "
+"portanto, esta execução medirá a resposta da sua montagem e determinará e "
+"definirá automaticamente os níveis de agressividade para os eixos AR e DEC. "
+"Não é necessário configurá-los previamente. O modelo de IA é treinado e "
+"vinculado às suas configurações atuais de tempo de exposição e de pulso para "
+"guiagem; por isso, utilize os valores que você normalmente emprega nessas "
+"configurações."
 
 #: ekos/guide/aiguidewizard.cpp:285
 #, kde-format
@@ -23093,21 +23100,24 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"O modelo de IA é treinado e vinculado às suas configurações atuais de "
+"exposição, agressividade e pulso de guiagem; utilize os valores que você "
+"normalmente usa para guiar."
 
 #: ekos/guide/aiguidewizard.cpp:317
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
+"Tipo de montagem detectado: %1. Altere a seleção acima se isso estiver "
+"incorreto."
 
 #: ekos/guide/aiguidewizard.cpp:320
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr ""
-"Não foi possível selecionar uma estrela de forma automática. Selecione-a "
-"manualmente."
+"Não foi possível detectar automaticamente o tipo de montagem. Por favor, "
+"selecione-o manualmente acima."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -23167,20 +23177,7 @@ msgstr "Acionamento direto"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Recommended "
-#| "Settings (set BEFORE running):</span></p><ul><li><span style=\" font-"
-#| "weight:600;\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span "
-#| "style=\" font-weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s "
-#| "(depends on guide star SNR)</li><li><span style=\" font-weight:600;"
-#| "\">Direct Drive:</span> exposure 1.0s to 3.0s</li></ul><p><span style=\" "
-#| "color:#ff5500;\">The AI model is trained and locked to your current guide "
-#| "exposure, aggressiveness and pulse settings — use the values you normally "
-#| "guide with.</span></p><p>Define an <span style=\" font-weight:600;"
-#| "\">Artificial Horizon</span> (Settings → Artificial Horizon) before "
-#| "running — the protocol slews by Alt/Az and uses it to pick safe targets.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23198,11 +23195,8 @@ msgstr ""
 "li><li><span style=\" font-peso:600;\">Redutor harmônico:</span> exposição "
 "0,5 a 1,0s (depende da estrela guia SNR)</li><li><span style=\" font-"
 "weight:600;\">Acionamento direto:</span> exposição de 1,0s a 3,0s</li></"
-"ul><p><span style=\" color:#ff5500;\">O modelo de IA é treinado e vinculado "
-"às suas configurações atuais de exposição de guiagem, agressividade e pulsos "
-"— utilize os valores que você normalmente usa para guiar..</span></"
-"p><p>Defina um <span style=\" font-weight:600;\">Horizonte artificial</span> "
-"(Configurações → Horizonte artificial) antes de executar — o protocolo "
+"ul><p>Defina um <span style=\" font-weight:600;\">Horizonte artificial</"
+"span> (Configurações → Horizonte artificial) antes de executar — o protocolo "
 "realiza o movimento com base em Altitude/Azimute e utiliza essa definição "
 "para selecionar alvos seguros.</p></body></html>"
 
@@ -23240,13 +23234,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23255,19 +23243,15 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocolo da rosca "
-"sem-fim (~45 min):</span><br/>1. Deslocamento para alta altitude: Deriva "
-"livre, seguida de guiagem padrão.<br/>2. Deslocamento para baixa altitude: "
-"Deriva livre, seguida de guiagem padrão. <br/>3. Deslocamento para alta "
-"altitude: Guiagem padrão.</p></body></html>"
+"sem-fim (~45 min):</span><br/>1. Deslocamento para alta altitude: Guiagem "
+"padrão, deriva livre e, em seguida, ajuste automático PID (resposta ao "
+"degrau).<br/>2. Deslocamento para baixa altitude: Guiagem padrão e, em "
+"seguida, deriva livre. <br/>3. Deslocamento para alta altitude: Guiagem "
+"padrão e, em seguida, deriva livre.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23275,20 +23259,14 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocolo do redutor "
-"harmônico (~35 min):</span><br/>1. Deslocamento para alta altitude: Deriva "
-"livre, teste de resposta a pulso e, em seguida, guiagem padrão.<br/>2. "
-"Deslocamento para altitude mais baixa: Deriva livre e, em seguida, guiagem "
-"padrão.</p></body></html>"
+"harmônico (~60 min):</span><br/>1. Deslocamento para alta altitude: Guiagem "
+"padrão, deriva livre e, em seguida, ajuste automático PID (resposta ao "
+"degrau).<br/>2. Deslocamento para altitude mais baixa: Deriva livre e, em "
+"seguida, guiagem padrão.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23296,11 +23274,12 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Protocolo da rosca "
-"sem-fim (~45 min):</span><br/>1. Deslocamento para alta altitude: Deriva "
-"livre, seguida de guiagem padrão.<br/>2. Deslocamento para baixa altitude: "
-"Deriva livre, seguida de guiagem padrão. <br/>3. Deslocamento para alta "
-"altitude: Guiagem padrão.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocolo de "
+"acionamento direto (~30 min):</span><br/>1. Deslocamento para alta altitude: "
+"Guiagem padrão, deriva livre e, em seguida, ajuste automático PID (resposta "
+"ao degrau).<br/>2. Deslocamento para altitude média: Guiagem padrão e, em "
+"seguida, deriva livre.<br/>3. Deslocamento para baixa altitude: Guiagem "
+"padrão e, em seguida, deriva livre.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
@@ -24835,36 +24814,21 @@ msgstr "Direção DEC invertida (AR-DEC agora é sistema CCW padrão)."
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
+"Guiamento por IA: aplicou as configurações gravadas do modelo treinado (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "The weights file could not be read."
-msgstr ""
-"O arquivo de pesos não pôde ser lido ou não corresponde a este tipo de "
-"montagem."
+msgstr "Não foi possível ler o arquivo de pesos."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
-"O guiamento por IA falhou ao carregar os pesos ou houve incompatibilidade de "
-"impressão digital. A guiagem foi cancelada."
+"O guiamento por IA falhou ao carregar os pesos. A guiagem foi cancelada."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights!\n"
-#| "\n"
-#| "%1\n"
-#| "\n"
-#| "Change the settings back to match, re-run the Guide AI Assistant with "
-#| "your current settings, or switch the Guide Algorithm to a standard mode. "
-#| "Guiding has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -24877,9 +24841,9 @@ msgstr ""
 "\n"
 "%1\n"
 "\n"
-"Reajuste as configurações para que correspondam, execute novamente o "
-"Assistente de guiamento por IA com suas configurações atuais ou alterne o "
-"algoritmo de guiagem para um modo padrão. A guiagem foi  cancelada."
+"Execute novamente o Assistente de Guiamento por IA, carregue um arquivo de "
+"pesos diferente ou alterne o algoritmo de guia para um modo padrão. O "
+"guiamento foi cancelado."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -24921,15 +24885,13 @@ msgstr "Guiamento por IA: Nenhum peso"
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "Falha na recarga de pesos do guiamento por IA: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
-"O arquivo de pesos não pôde ser lido ou não corresponde a este tipo de "
+"o arquivo de pesos não pôde ser lido ou não corresponde a este tipo de "
 "montagem."
 
 #: ekos/guide/internalguide/gmath.cpp:396
@@ -24937,6 +24899,8 @@ msgstr ""
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Pesos do guiamento por IA recarregados ao vivo a partir de %1 — a guiagem "
+"continua ininterrupta."
 
 #: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
@@ -25175,7 +25139,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "Ajuste automático de PID (Calibração de Ganho por Resposta ao Degrau)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25187,6 +25151,12 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Envia pulsos conhecidos no início do protocolo e mede a resposta ao degrau "
+"da montagem para determinar um ganho base de guiagem em AR/DEC para qualquer "
+"tipo de montagem. O ganho medido é aplicado e fixado pelo restante da "
+"sessão; o ganho atual é mantido caso as respostas não passem nas "
+"verificações de consistência. Acrescenta cerca de 20 minutos ao protocolo; "
+"habilitado por padrão."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -46334,13 +46304,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
-#, fuzzy, kde-format
-#| msgid "Include the pulse response test in the AI data collection protocol."
+#, kde-format
 msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
-"Incluir o teste de resposta ao pulso no protocolo de coleta de dados da IA."
+"Executa o ajuste automático de PID (calibração de ganho por resposta ao "
+"degrau) como parte do protocolo de coleta de dados de IA."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46353,6 +46323,13 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Envia pulsos conhecidos no início do protocolo e mede a resposta ao degrau "
+"da montagem para determinar um ganho base de guiagem em AR/Dec para qualquer "
+"tipo de montagem. O ganho medido é aplicado e fixado pelo restante da "
+"sessão, de modo que os dados subsequentes sejam coletados com base nele; o "
+"ganho atual permanece inalterado caso as respostas não passem nas "
+"verificações de consistência. Acrescenta cerca de 20 minutos ao protocolo. "
+"Habilitado por padrão."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131
