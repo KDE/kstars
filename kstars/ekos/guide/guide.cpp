@@ -663,6 +663,16 @@ void Guide::updateGuideParams()
         guideBinning->setCurrentIndex( guideBinIndex );
 
         guideBinning->blockSignals(false);
+
+        // setAllSettings() (per-train restore) skips syncing this combo to Options when
+        // it runs before the camera connects, since the combo is still empty and its
+        // currentIndex() would be -1 (see the comment above) — it never gets a second
+        // chance once the real value is restored here, signals blocked. Close that gap
+        // directly so the global Options mirror doesn't stay stale relative to the
+        // per-train binning actually in use. Guarded on change to avoid redundant writes
+        // on every reconnect.
+        if (Options::guideBinning() != guideBinning->currentText())
+            Options::setGuideBinning(guideBinning->currentText());
     }
 
     // If frame setting does not exist, create a new one.
@@ -3779,7 +3789,15 @@ void Guide::setAllSettings(const QVariantMap &settings)
         }
     }
 
-    // Sync to options: build a map with combo indices for kcfg (UInt properties)
+    // Sync to options: build a map with combo indices for kcfg (UInt properties).
+    // guideBinning/guideSquareSize are the exception: their kcfg entries are Strings
+    // expecting the displayed value as text ("NxN" binning, pixel count for square
+    // size -- Options::setGuideBinning()/AIGuideProtocol::buildFingerprint() and every
+    // guideSquareSize->currentText().toInt() call site rely on that), not an index --
+    // pushing currentIndex() for them corrupts the global mirror to a bare digit that
+    // gets misread as the real value itself (index 1 = "2x2" looks like "bin 1x1" to a
+    // reader expecting text; index 3 = "64" looks like a 3px tracking box).
+    static const QSet<QString> textValuedCombos { "guideBinning", "guideSquareSize" };
     QVariantMap optionValues = settings;
     for (auto &key : comboKeys)
     {
@@ -3787,10 +3805,12 @@ void Guide::setAllSettings(const QVariantMap &settings)
         // Skip combos that aren't populated yet (e.g. device-dependent combos
         // like guide binning before the camera connects). currentIndex() would
         // be -1 in that case, which must not overwrite the persisted option.
-        if (cb && cb->count() > 0 && cb->currentIndex() >= 0)
-            optionValues[key] = cb->currentIndex();
-        else
+        if (!cb || cb->count() == 0 || cb->currentIndex() < 0)
+        {
             optionValues.remove(key);
+            continue;
+        }
+        optionValues[key] = textValuedCombos.contains(key) ? QVariant(cb->currentText()) : QVariant(cb->currentIndex());
     }
     KSUtils::setGlobalSettings(optionValues);
 
