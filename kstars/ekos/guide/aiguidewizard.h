@@ -53,6 +53,7 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
 
     public slots:
         Q_INVOKABLE void slotStartProtocol();
+        void slotStartNewSession();
         Q_INVOKABLE void slotStopProtocol();
 
         void onTrainingResult(bool success, const QJsonObject &result);
@@ -67,6 +68,9 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
 
         AIGuideProtocol *m_Protocol { nullptr };
         bool m_AutoNavigating { false };
+        // Set on the explicit forward transition into the progress page; navigation
+        // (Back, auto-jump, reopen) must never start the protocol by itself.
+        bool m_StartRequested { false };
         // Combo text we last auto-set (empty if detection never succeeded yet). Re-checked
         // every time the wizard is shown, but only applied if the combo still shows either
         // the untouched Designer default or exactly this value, so a manual override

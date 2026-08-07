@@ -190,9 +190,32 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
     if len(k_by_mag) < 2:
         return {"confidence": "unavailable",
                 "reason": f"only one usable pulse magnitude ({detail}) -- the cross-magnitude check cannot run"}
+    loss_modeled = False
+    loss_ms = 0.0
     if k_lo <= 0.0 or (k_hi - k_lo) / k_lo > K_MAGNITUDE_CONSISTENCY_TOLERANCE:
-        return {"confidence": "unavailable",
-                "reason": f"process gain disagrees across pulse magnitudes ({detail}) -- responses are contaminated"}
+        # Short pulses delivering LESS per ms is the signature of a fixed per-pulse loss
+        # (ramp/stiction on an at-rest axis): K(mag) = K_inf * (1 - L/mag). Solve the two
+        # magnitudes instead of refusing, inside strict sanity bounds. Mirrors
+        # AIGuideProtocol::computeAndApplyAxisGain().
+        mags = sorted(k_by_mag)
+        mag_lo, mag_hi = mags[0], mags[-1]
+        km_lo, km_hi = k_by_mag[mag_lo], k_by_mag[mag_hi]
+        hi = by_mag[mag_hi]
+        hi_med = float(np.median(hi)) * pixel_scale / mag_hi
+        hi_spread = ((max(hi) - min(hi)) * pixel_scale / mag_hi) / hi_med if hi_med > 0 else 1.0
+        solved = False
+        # range-based spread over n~6 samples runs wide; 0.25 keeps a real bar
+        if 0.0 < km_lo < km_hi and hi_spread <= 0.25:
+            r = km_lo / km_hi
+            L = (1.0 - r) / (1.0 / mag_lo - r / mag_hi)
+            if 0.0 < L < mag_lo:
+                k_inf = km_hi / (1.0 - L / mag_hi)
+                if 0.5 < k_inf * cal_ms_per_arcsec < 2.0:
+                    solved, loss_modeled, loss_ms = True, True, L
+                    k_by_mag[mag_hi] = k_inf   # rung-2 gain flows through the normal path
+        if not solved:
+            return {"confidence": "unavailable",
+                    "reason": f"process gain disagrees across pulse magnitudes ({detail}) -- responses are contaminated"}
 
     # The largest pulse has the best signal-to-contamination ratio.
     best_mag = max(by_mag)
@@ -214,8 +237,10 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
     confidence = "low" if (resolution_limited or n_fits < MIN_FITS_FOR_MEDIUM_CONFIDENCE) else "medium"
 
     if verbose:
-        print(f"  [{axis} PID] K={K:.5f} arcsec/ms  tau={tau:.2f}s  L={L:.2f}s  lambda={lam:.2f}s "
-              f"(n={n_fits} fits @ {best_mag:.0f}ms, cal={cal_ms_per_arcsec:.1f}ms/arcsec)")
+        loss_note = f"  startup_loss={loss_ms:.0f}ms" if loss_modeled else ""
+        print(f"  [{axis} PID] K={K:.5f} arcsec/ms{loss_note} "
+              f"(n={n_fits} fits @ {best_mag:.0f}ms, cal={cal_ms_per_arcsec:.1f}ms/arcsec; "
+              f"settle within one frame, conservative 0.25/K rule)")
         print(f"  [{axis} PID] Recommended proportional_gain={proportional_gain:.3f}  "
               f"integral_gain={integral_gain:.3f}  confidence={confidence}")
 
@@ -231,6 +256,8 @@ def _recommend_axis_pid_gain(sysid: dict, axis: str, guide_exp: float,
         "calibration_ms_per_arcsec":  cal_ms_per_arcsec,
         "n_fits":                     n_fits,
         "resolution_limited":         resolution_limited,
+        "startup_loss_ms":            float(loss_ms) if loss_modeled else None,
+        "method":                     "startup_loss_model" if loss_modeled else "linear",
     }
 
 

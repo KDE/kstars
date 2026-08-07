@@ -252,10 +252,16 @@ AIGuideWizard::AIGuideWizard(AIGuideProtocol *protocol, QWidget *parent) : QWiza
 
     setButtonText(QWizard::CustomButton1, "Export Logs");
     setOption(QWizard::HaveCustomButton1, true);
+    setButtonText(QWizard::CustomButton2, i18n("Start New Session"));
+    if (auto *b = button(QWizard::CustomButton2))
+        b->setToolTip(i18n("Return to the first page and run the protocol again. "
+                           "Existing weights stay active until new training completes."));
     connect(this, &QWizard::customButtonClicked, this, [this](int which)
     {
         if (which == QWizard::CustomButton1)
             slotExportLogs();
+        else if (which == QWizard::CustomButton2)
+            slotStartNewSession();
     });
 
     progressBar->setValue(0);
@@ -275,17 +281,18 @@ void AIGuideWizard::updateLockedSettingsLabel()
     if (Options::aIPIDAutoTune())
     {
         text = i18n("PID Auto-Tune is enabled, so this run will measure your mount's response "
-                     "and automatically determine and lock in the RA/DEC aggressiveness for "
-                     "you; there is no need to set it beforehand. The AI model is still "
-                     "trained and locked to your current guide exposure and pulse settings, "
-                     "so use the values you normally guide with for those.");
+                    "and automatically determine and lock in the RA/DEC aggressiveness for "
+                    "you; there is no need to set it beforehand. The AI model is still "
+                    "trained and locked to your current guide exposure and pulse settings, "
+                    "so use the values you normally guide with for those.");
     }
     else
     {
         text = i18n("The AI model is trained and locked to your current guide exposure, "
-                     "aggressiveness, and pulse settings; use the values you normally guide with.");
+                    "aggressiveness, and pulse settings; use the values you normally guide with.");
     }
-    lockedSettingsLabel->setText(QString("<html><body><p><span style=\" color:#ff5500;\">%1</span></p></body></html>").arg(text));
+    lockedSettingsLabel->setText(QString("<html><body><p><span style=\" color:#ff5500;\">%1</span></p></body></html>").arg(
+                                     text));
 }
 
 void AIGuideWizard::showEvent(QShowEvent *event)
@@ -461,6 +468,9 @@ bool AIGuideWizard::validateCurrentPage()
         if (running)
             return false;
     }
+    // Leaving page 1 forward is the user's explicit "go" for the protocol
+    if (currentId() == 1)
+        m_StartRequested = true;
     return QWizard::validateCurrentPage();
 }
 
@@ -468,28 +478,79 @@ void AIGuideWizard::initializePage(int id)
 {
     QWizard::initializePage(id);
 
+    // "Start New Session" is only useful once a run exists to restart from
+    setOption(QWizard::HaveCustomButton2, id >= 2);
+
     // Page 2 (0-indexed) is the "System Identification Progress" page
     if (id == 2 && !m_AutoNavigating)
     {
-        progressBar->setValue(0);
-        logTextEdit->clear();
-        exportOfflineButton->setEnabled(false);
+        const auto s = m_Protocol->state();
+        const bool running = s != AIGuideProtocol::STATE_IDLE
+                             && s != AIGuideProtocol::STATE_DONE
+                             && s != AIGuideProtocol::STATE_ERROR
+                             && s != AIGuideProtocol::STATE_TRAINING_DONE;
 
-        stopButton->setText(i18n("Stop"));
-        stopButton->setEnabled(true);
-        disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
-        connect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol, Qt::UniqueConnection);
-
-        // No skipping ahead: the page auto-advances on protocolComplete.
-        // Deferred: QWizard re-enables its buttons right after initializePage().
-        QTimer::singleShot(0, this, [this]()
+        if (m_StartRequested && !running)
         {
-            if (auto *nextBtn = button(QWizard::NextButton))
-                nextBtn->setEnabled(false);
-        });
+            m_StartRequested = false;
+            progressBar->setValue(0);
+            logTextEdit->clear();
+            exportOfflineButton->setEnabled(false);
 
-        m_Protocol->start(mountTypeCombo->currentText());
+            stopButton->setText(i18n("Stop"));
+            stopButton->setEnabled(true);
+            disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
+            connect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol, Qt::UniqueConnection);
+
+            // No skipping ahead: the page auto-advances on protocolComplete.
+            // Deferred: QWizard re-enables its buttons right after initializePage().
+            QTimer::singleShot(0, this, [this]()
+            {
+                if (auto *nextBtn = button(QWizard::NextButton))
+                    nextBtn->setEnabled(false);
+            });
+
+            m_Protocol->start(mountTypeCombo->currentText());
+        }
+        else
+        {
+            // Navigation-only entry: reflect the protocol's state, start nothing
+            m_StartRequested = false;
+            stopButton->setText(running ? i18n("Stop") : i18n("Start"));
+            stopButton->setEnabled(true);
+            disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
+            disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol);
+            connect(stopButton, &QPushButton::clicked, this,
+                    running ? &AIGuideWizard::slotStopProtocol : &AIGuideWizard::slotStartProtocol,
+                    Qt::UniqueConnection);
+            if (running)
+            {
+                QTimer::singleShot(0, this, [this]()
+                {
+                    if (auto *nextBtn = button(QWizard::NextButton))
+                        nextBtn->setEnabled(false);
+                });
+            }
+        }
     }
+}
+
+// One click back to a clean slate: stop a live protocol, return to the first page.
+// Existing weights stay active until a new training run completes and overwrites them.
+void AIGuideWizard::slotStartNewSession()
+{
+    const auto s = m_Protocol->state();
+    const bool running = s != AIGuideProtocol::STATE_IDLE
+                         && s != AIGuideProtocol::STATE_DONE
+                         && s != AIGuideProtocol::STATE_ERROR
+                         && s != AIGuideProtocol::STATE_TRAINING_DONE;
+    if (running)
+        m_Protocol->stop();
+
+    m_StartRequested = false;
+    m_AutoNavigating = true;
+    restart();
+    m_AutoNavigating = false;
 }
 
 void AIGuideWizard::appendLog(const QString &message)
@@ -503,6 +564,7 @@ void AIGuideWizard::slotStartProtocol()
     // Navigate to the progress page (page 2) so the user sees logs/progress,
     // even when called programmatically via DBus/EkosLive.
     // initializePage(2) handles UI setup and protocol start.
+    m_StartRequested = true;
     restart();
     for (int i = 0; i < 2; ++i)
         next();
