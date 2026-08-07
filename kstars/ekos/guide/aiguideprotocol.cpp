@@ -1527,12 +1527,56 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
                          .arg(axis, perMag.join(", ")));
         return false;
     }
+    bool lossModeled = false;
+    double kOverride = 0.0, lossMs = 0.0;
     if (kMin <= 0.0 || (kMax - kMin) / kMin > K_MAGNITUDE_CONSISTENCY_TOLERANCE)
     {
-        emit protocolLog(QString("PID Auto-Tune [%1]: process gain disagrees across pulse magnitudes "
-                                 "(%2) -- responses are contaminated, keeping current gain.")
-                         .arg(axis, perMag.join(", ")));
-        return false;
+        // Short pulses delivering LESS per ms is the signature of a fixed per-pulse loss
+        // (motor ramp / stiction on an axis that starts each pulse at rest):
+        // K(mag) = K_inf * (1 - L/mag). Two magnitudes give two equations -- solve them
+        // instead of refusing, but only inside strict sanity bounds.
+        const double magLo = kByMag.firstKey();
+        const double magHi = kByMag.lastKey();
+        const double kLo = medianOf(kByMag.value(magLo));
+        const double kHi = medianOf(kByMag.value(magHi));
+        double hiSpread = 1.0;
+        {
+            const QVector<double> &hi = kByMag.value(magHi);
+            const double hiMin = *std::min_element(hi.begin(), hi.end());
+            const double hiMax = *std::max_element(hi.begin(), hi.end());
+            const double hiMed = medianOf(hi);
+            if (hiMed > 0.0)
+                hiSpread = (hiMax - hiMin) / hiMed;
+        }
+        // Range-based spread over n~6 samples runs wide; 0.25 keeps a real reliability
+        // bar without rejecting a group whose median is well determined.
+        if (kLo > 0.0 && kLo < kHi && hiSpread <= 0.25)
+        {
+            const double r = kLo / kHi;
+            const double L = (1.0 - r) / (1.0 / magLo - r / magHi);
+            if (L > 0.0 && L < magLo)
+            {
+                const double kInf = kHi / (1.0 - L / magHi);
+                // K_inf must land near what the guider's own calibration implies
+                const double calRatio = kInf * msPerArcsec;
+                if (calRatio > 0.5 && calRatio < 2.0)
+                {
+                    lossModeled = true;
+                    kOverride = kInf;
+                    lossMs = L;
+                }
+            }
+        }
+        if (!lossModeled)
+        {
+            emit protocolLog(QString("PID Auto-Tune [%1]: process gain disagrees across pulse magnitudes "
+                                     "(%2) -- responses are contaminated, keeping current gain.")
+                             .arg(axis, perMag.join(", ")));
+            return false;
+        }
+        emit protocolLog(QString("PID Auto-Tune [%1]: short pulses under-deliver (%2) -- modeled as a "
+                                 "fixed %3ms start-up loss per pulse, true gain %4\"/ms.")
+                         .arg(axis, perMag.join(", ")).arg(lossMs, 0, 'f', 0).arg(kOverride, 0, 'f', 5));
     }
 
     // The largest pulse has the best signal-to-contamination ratio, so prefer its estimate.
@@ -1544,7 +1588,7 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
                          .arg(axis).arg(kByMag.value(bestMag).size()).arg(bestMag, 0, 'f', 0).arg(MIN_FITS_TO_APPLY));
         return false;
     }
-    const double K   = medianOf(kByMag.value(bestMag));
+    const double K   = lossModeled ? kOverride : medianOf(kByMag.value(bestMag));
     const double L   = medianOf(lByMag.value(bestMag));
     const double tau = std::max(medianOf(tFirstByMag.value(bestMag)), L);
 
@@ -1571,9 +1615,22 @@ bool AIGuideProtocol::computeAndApplyAxisGain(const QString &axis, double msPerA
         Options::setDECIntegralGain(integralGain);
     }
 
-    emit protocolLog(QString("PID Auto-Tune [%1]: K=%2\"/ms  L=%3s  tau=%4s  (n=%5 fits) "
-                             "-- gain %6 -> %7 (locked for the rest of this session)")
-                     .arg(axis).arg(K, 0, 'f', 5).arg(L, 0, 'f', 2).arg(tau, 0, 'f', 2)
+    QJsonObject live = m_SysIdData.value("pid_autotune_live").toObject();
+    QJsonObject entry;
+    entry["method"] = lossModeled ? "startup_loss_model" : "linear";
+    entry["process_gain_arcsec_per_ms"] = K;
+    if (lossModeled)
+        entry["startup_loss_ms"] = lossMs;
+    entry["per_magnitude"] = perMag.join("; ");
+    entry["applied_proportional_gain"] = proportionalGain;
+    entry["applied_integral_gain"] = integralGain;
+    live[axis.toLower()] = entry;
+    m_SysIdData["pid_autotune_live"] = live;
+
+    emit protocolLog(QString("PID Auto-Tune [%1]: K=%2\"/ms%3 (n=%4 fits; settle within one frame, "
+                             "conservative 0.25/K rule) -- gain %5 -> %6 (locked for the rest of this session)")
+                     .arg(axis).arg(K, 0, 'f', 5)
+                     .arg(lossModeled ? QString(" after removing %1ms/pulse start-up loss").arg(lossMs, 0, 'f', 0) : QString())
                      .arg(kByMag.value(bestMag).size()).arg(oldGain, 0, 'f', 3).arg(proportionalGain, 0, 'f', 3));
     return true;
 }
