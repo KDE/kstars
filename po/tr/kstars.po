@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 02:10+0000\n"
+"POT-Creation-Date: 2026-08-08 02:07+0000\n"
 "PO-Revision-Date: 2026-08-05 09:09+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -6285,9 +6285,9 @@ msgstr "Yükle ve Çevir…"
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:333
-#: ekos/guide/aiguidewizard.cpp:478 ekos/guide/aiguidewizard.ui:233
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:258
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
+#: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:258
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -10804,8 +10804,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/guide/aiguidewizard.cpp:224 ekos/manager.cpp:157 ekos/manager.cpp:264
-#: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
+#: ekos/manager.cpp:157 ekos/manager.cpp:264 ekos/manager.cpp:1124
+#: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
@@ -22895,7 +22896,21 @@ msgstr "Çalıştırılacak veri yok"
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "EkosLive Cloud ile yapay zekâ eğitimi başlatılıyor…"
 
-#: ekos/guide/aiguidewizard.cpp:277
+#: ekos/guide/aiguidewizard.cpp:255
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Save Session"
+msgid "Start New Session"
+msgstr "Oturumu Kaydet"
+
+#: ekos/guide/aiguidewizard.cpp:257
+#, kde-format
+msgid ""
+"Return to the first page and run the protocol again. Existing weights stay "
+"active until new training completes."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
 msgid ""
 "PID Auto-Tune is enabled, so this run will measure your mount's response and "
@@ -22911,7 +22926,7 @@ msgstr ""
 "kilitlenmiştir, bu nedenle bunlar için normalde kullandığınız değerleri "
 "kullanın."
 
-#: ekos/guide/aiguidewizard.cpp:285
+#: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
 msgid ""
 "The AI model is trained and locked to your current guide exposure, "
@@ -22920,13 +22935,13 @@ msgstr ""
 "Yapay zekâ modeli, geçerli kılavuz pozlama, agresiflik ve darbe ayarlarınıza "
 "göre eğitilmiş ve kilitlenmiştir; normalde kullandığınız değerleri kullanın."
 
-#: ekos/guide/aiguidewizard.cpp:317
+#: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr "Algılanan kaide türü: %1. Bu yanlışsa yukarıdaki seçimi değiştirin."
 
-#: ekos/guide/aiguidewizard.cpp:320
+#: ekos/guide/aiguidewizard.cpp:327
 #, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr "Kaide türü kendiliğinden algılanamadı. Lütfen yukarıda elle seçin."

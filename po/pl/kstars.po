@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1743195 $
+# Version: $Revision: 1743269 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-07 02:10+0000\n"
+"POT-Creation-Date: 2026-08-08 02:07+0000\n"
 "PO-Revision-Date: 2026-03-21 07:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -6319,9 +6319,9 @@ msgstr "Wczytaj i obróć..."
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:333
-#: ekos/guide/aiguidewizard.cpp:478 ekos/guide/aiguidewizard.ui:233
-#: ekos/guide/guide.ui:258 ekos/manager.cpp:258
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
+#: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:258
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -10851,8 +10851,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/guide/aiguidewizard.cpp:224 ekos/manager.cpp:157 ekos/manager.cpp:264
-#: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
+#: ekos/manager.cpp:157 ekos/manager.cpp:264 ekos/manager.cpp:1124
+#: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
@@ -23400,7 +23401,21 @@ msgstr ""
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""
 
-#: ekos/guide/aiguidewizard.cpp:277
+#: ekos/guide/aiguidewizard.cpp:255
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Save Session"
+msgid "Start New Session"
+msgstr "Zapisywanie sesji"
+
+#: ekos/guide/aiguidewizard.cpp:257
+#, kde-format
+msgid ""
+"Return to the first page and run the protocol again. Existing weights stay "
+"active until new training completes."
+msgstr ""
+
+#: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
 msgid ""
 "PID Auto-Tune is enabled, so this run will measure your mount's response and "
@@ -23410,20 +23425,20 @@ msgid ""
 "normally guide with for those."
 msgstr ""
 
-#: ekos/guide/aiguidewizard.cpp:285
+#: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
 msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
 
-#: ekos/guide/aiguidewizard.cpp:317
+#: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
 
-#: ekos/guide/aiguidewizard.cpp:320
+#: ekos/guide/aiguidewizard.cpp:327
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
