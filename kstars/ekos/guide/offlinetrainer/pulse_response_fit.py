@@ -25,6 +25,17 @@ SPDX-License-Identifier: GPL-2.0-or-later
 import numpy as np
 import scipy.optimize
 
+# Raised from 0.9: that bound could clip a real, well-determined kappa before
+# curve_fit even gets a chance to converge on it. The pinned-at-bounds check
+# below (kappa_result > KAPPA_MAX - 0.02) is what actually judges whether a
+# result is trustworthy, so the bound itself doesn't need to double as that
+# judgment. Note kappa->1 is degenerate, not just large: d(0) = P*(1-kappa),
+# so once a curve's first sample sits near 0, P and kappa trade off freely and
+# curve_fit's own covariance on kappa blows up (confirmed on SAL-33 data) --
+# pinning at any bound near 1 is a sign of an unidentified fit, not a measured
+# spring constant.
+KAPPA_MAX = 0.98
+
 
 def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                        return_fits: bool = False):
@@ -99,12 +110,12 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                     return P * (1.0 - kappa * np.exp(-t / tau)) + v * t + c
                 slope0 = (pos_arr[-1] - pos_arr[0]) / max(t_arr[-1] - t_arr[0], 1e-3)
                 p0 = [pos_arr[-1] - slope0 * t_arr[-1], 0.3, 1.5, slope0, 0.0]
-                bounds = ([-50.0, 0.0, 0.1, -2.0, -10.0], [50.0, 0.9, 10.0, 2.0, 10.0])
+                bounds = ([-50.0, 0.0, 0.1, -2.0, -10.0], [50.0, KAPPA_MAX, 10.0, 2.0, 10.0])
             else:
                 def model(t, P, kappa, tau, c):
                     return P * (1.0 - kappa * np.exp(-t / tau)) + c
                 p0 = [pos_arr[-1], 0.3, 1.5, 0.0]
-                bounds = ([-100.0, 0.0, 0.1, -10.0], [100.0, 0.9, 10.0, 10.0])
+                bounds = ([-100.0, 0.0, 0.1, -10.0], [100.0, KAPPA_MAX, 10.0, 10.0])
             popt, _ = scipy.optimize.curve_fit(model, t_arr, pos_arr, p0=p0,
                                                bounds=bounds, maxfev=10000)
             residual_std = float(np.std(pos_arr - model(t_arr, *popt)))
@@ -148,11 +159,23 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                 continue
             tp, pp = cp
             tn, pn = cn
-            mask = (tp >= tn[0]) & (tp <= tn[-1])
+            # Sample on whichever curve's own grid started later, interpolating the
+            # other one onto it. Always basing this on tp (as a naive tp>=tn[0] mask
+            # would) drops tp's entire leading frame whenever tp merely happened to
+            # start a fraction of a frame before tn -- an alignment coincidence
+            # between two independently-fired pulses, not a real resolution limit --
+            # which was silently halving the usable lead time on roughly half of all
+            # pairs at fast cadence.
+            if tp[0] >= tn[0]:
+                t_arr_full, base_v, other_t, other_v, base_is_pos = tp, pp, tn, pn, True
+            else:
+                t_arr_full, base_v, other_t, other_v, base_is_pos = tn, pn, tp, pp, False
+            mask = (t_arr_full >= other_t[0]) & (t_arr_full <= other_t[-1])
             if mask.sum() < 5:
                 continue
-            t_arr = tp[mask]
-            diff = pp[mask] - np.interp(t_arr, tn, pn)
+            t_arr = t_arr_full[mask]
+            interp_v = np.interp(t_arr, other_t, other_v)
+            diff = (base_v[mask] - interp_v) if base_is_pos else (interp_v - base_v[mask])
             # Sessions are minutes apart so PE does not cancel exactly; v absorbs the leak
             fit = fit_curve(t_arr, diff, with_drift=True)
             if fit is None:
@@ -230,7 +253,7 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
     tau_result = float(np.median(taus)) if taus and kappa_result > 0.0 else DEFAULTS[1]
 
     # A median within ~2% of the fit bounds means the model chased noise/drift, not physics.
-    if kappa_result > 0.88 or tau_result > 9.8:
+    if kappa_result > KAPPA_MAX - 0.02 or tau_result > 9.8:
         if verbose:
             print(f"  [{axis}] WARNING: fit pinned at bounds (κ={kappa_result:.3f}, "
                   f"τ={tau_result:.2f}s) — unphysical. Using defaults (κ=0.2, τ=1.5s).")
