@@ -223,19 +223,40 @@ void AIGuideProtocol::start(const QString &mountType)
         // Options::rA/dECProportionalGain() (+ integral gain) before the long
         // standard-guiding phase runs under it -- see pid_autotune_plan.md §7 for why
         // this must happen before, not after, the rest of the protocol. On by default.
+        // Each axis/direction/magnitude fires 3 consecutive pulses in the same
+        // direction rather than one; only the first is a true reversal (the previous
+        // combo left the mount going the other way), so it's "cold", while the next
+        // two are "warm" (ProtocolPhase::pulseWarm, already engaged, no direction
+        // change since the last pulse). Comparing cold vs. warm dead-time tells real
+        // mechanical backlash apart from latency that would affect both equally --
+        // this needs no extra pulses or protocol time over the old one-pulse-per-combo
+        // design, just this reordering.
         if (Options::aIPIDAutoTune())
         {
-            for (int rep = 0; rep < 3; rep++)
-            {
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
-            }
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
         }
 
         m_Phases.append({65.0, -45.0, 480, false, false, "", "", 0, 0, 0});
@@ -263,20 +284,39 @@ void AIGuideProtocol::start(const QString &mountType)
         // train_harmonic.py -- it has never resolved above the noise floor on any
         // rig tested so far (pid_autotune_plan.md §9.1); flagged there for future
         // exploration rather than run unconditionally every time. On by default;
-        // no new slew (runs at Position 1's sky location).
+        // no new slew (runs at Position 1's sky location). Each axis/direction/
+        // magnitude fires 3 consecutive same-direction pulses instead of one: only the
+        // first is a true reversal ("cold"), the next two are "warm" (ProtocolPhase::
+        // pulseWarm, already engaged) -- same total pulse count and protocol time as
+        // before, just reordered so cold vs. warm dead-time can be compared directly.
+        // See pulse_response_fit.py's KAPPA_MAX comment for why the disabled kappa/tau
+        // fit above couldn't make this distinction on its own.
         if (Options::aIPIDAutoTune())
         {
-            for (int rep = 0; rep < 3; rep++)
-            {
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
-                m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
-            }
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
         }
 
         // Position 1: 1800s standard guiding (resolves PE to 900s — strain-wave
@@ -299,20 +339,37 @@ void AIGuideProtocol::start(const QString &mountType)
         // applyPIDAutoTuneGainLock() (called from STATE_PRECHECK once these pulses
         // are exhausted) computes K/L/tau from them and locks
         // Options::rA/dECProportionalGain() (+ integral gain) before the rest of the
-        // protocol runs under it. On by default.
+        // protocol runs under it. On by default. Each axis/direction/magnitude fires 3
+        // consecutive same-direction pulses instead of one -- only the first is a true
+        // reversal ("cold"), the next two are "warm" (ProtocolPhase::pulseWarm) -- so a
+        // confidently-small dead-time finding can also confirm there's no cold-vs-warm
+        // gap, not just that the single-pulse number is small.
         if (Options::aIPIDAutoTune())
         {
-            for (int rep = 0; rep < 3; rep++)
-            {
-                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",   500, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",   500, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
-                m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
-            }
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",   500, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",   500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",   500, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",   500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",  1000, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "EAST",  1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",  1000, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
+            m_Phases.append({70.0, 0.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
         }
 
         m_Phases.append({70.0,   0.0, 120, false, false, "", "", 0, 0, 0});
@@ -971,8 +1028,9 @@ void AIGuideProtocol::processProtocol()
             m_AbortRetries = 0;
             m_GuideCallGraceTicks = 0;
             ProtocolPhase phase = m_Phases.first();
-            emit protocolLog(QString("Pulse Response: %1 %2 %3ms — preparing...")
-                             .arg(phase.pulseAxis, phase.pulseDirection).arg(phase.pulseMagnitudeMs));
+            emit protocolLog(QString("Pulse Response: %1 %2 %3ms (%4) — preparing...")
+                             .arg(phase.pulseAxis, phase.pulseDirection).arg(phase.pulseMagnitudeMs)
+                             .arg(phase.pulseWarm ? "warm, same dir as previous" : "cold/reversal"));
 
             m_Guide->setAIFreeDrift(true);
             m_PulseFrameCount = 0;
@@ -1047,6 +1105,10 @@ void AIGuideProtocol::processProtocol()
                     pulseSession["pulse_axis"] = p.pulseAxis;
                     pulseSession["pulse_direction"] = p.pulseDirection;
                     pulseSession["pulse_magnitude_ms"] = p.pulseMagnitudeMs;
+                    // false only for a "warm" pulse deliberately fired right after another
+                    // pulse of the same axis/direction/magnitude -- see ProtocolPhase::
+                    // pulseWarm. Every other pulse reverses from whatever came before it.
+                    pulseSession["pulse_is_reversal"] = !p.pulseWarm;
                     pulseSession["altitude_deg"] = m_TargetAlt;
                     pulseSession["azimuth_deg"] = m_TargetAz;
 

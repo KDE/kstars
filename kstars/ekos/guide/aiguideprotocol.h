@@ -153,6 +153,15 @@ class AIGuideProtocol : public QObject
             int pulseMagnitudeMs {0};
             int responseFrames {15};
             int settleSeconds {30};
+            // True for a pulse fired immediately after another pulse of the same axis/
+            // direction/magnitude (no reversal in between): the mount should already be
+            // engaged in this direction, so any dead-time/backlash gap that shows up on
+            // the preceding ("cold", reversal) pulse should not reappear here. Comparing
+            // cold vs. warm dead-time is how a real mechanical backlash/windup signature
+            // is told apart from e.g. camera/processing latency, which would affect both
+            // equally. See pulse_response_fit.py's KAPPA_MAX comment for why the previous
+            // paired-differencing approach couldn't distinguish these on its own.
+            bool pulseWarm {false};
         };
         QList<ProtocolPhase> m_Phases;
 
