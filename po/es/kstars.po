@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-08 02:07+0000\n"
-"PO-Revision-Date: 2026-08-06 01:01+0100\n"
+"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"PO-Revision-Date: 2026-08-08 17:18+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -23185,27 +23185,25 @@ msgstr ""
 "Ya se han aplicado las correcciones. Ejecute el enfoque automático de nuevo "
 "para obtener nuevas medidas de inclinación."
 
-#: ekos/guide/aiguideprotocol.cpp:389
+#: ekos/guide/aiguideprotocol.cpp:446
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "No hay datos de entrenamiento. Ejecute el protocolo primero."
 
-#: ekos/guide/aiguideprotocol.cpp:390
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train"
 msgstr "No hay datos de entrenamiento"
 
-#: ekos/guide/aiguideprotocol.cpp:395
+#: ekos/guide/aiguideprotocol.cpp:452
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Iniciando el entrenamiento de la IA mediante la nube de EkosLive…"
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "Guardar sesión"
+msgstr "Iniciar nueva sesión"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -23213,6 +23211,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"vuelva a la primera página y ejecute el protocolo otra vez. Los pesos "
+"existentes permanecerán activos hasta que se complete el nuevo entrenamiento."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format

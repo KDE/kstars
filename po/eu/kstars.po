@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-08 02:07+0000\n"
+"POT-Creation-Date: 2026-08-09 02:07+0000\n"
 "PO-Revision-Date: 2025-07-29 14:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -22606,17 +22606,17 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:389
+#: ekos/guide/aiguideprotocol.cpp:446
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:390
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:395
+#: ekos/guide/aiguideprotocol.cpp:452
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""

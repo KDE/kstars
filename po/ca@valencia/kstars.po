@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-08 02:07+0000\n"
-"PO-Revision-Date: 2026-08-05 22:25+0200\n"
+"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"PO-Revision-Date: 2026-08-08 11:34+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -23485,27 +23485,25 @@ msgstr ""
 "Ja s'han aplicat les correccions. Torneu a executar l'enfocament automàtic "
 "per a obtindre mesures recents de la inclinació."
 
-#: ekos/guide/aiguideprotocol.cpp:389
+#: ekos/guide/aiguideprotocol.cpp:446
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "Sense dades per a entrenar! Executeu primer el protocol."
 
-#: ekos/guide/aiguideprotocol.cpp:390
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train"
 msgstr "Sense dades per a entrenar"
 
-#: ekos/guide/aiguideprotocol.cpp:395
+#: ekos/guide/aiguideprotocol.cpp:452
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "S'està iniciant l'entrenament en IA a través del núvol EkosLive…"
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "Guardeu la sessió"
+msgstr "Inicia una sessió nova"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -23513,6 +23511,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"Torneu a la primera pàgina i torneu a executar el protocol. Les ponderacions "
+"existents es mantindran actives fins que es complete un entrenament nou."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format

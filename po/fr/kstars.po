@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.8.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-08 02:07+0000\n"
+"POT-Creation-Date: 2026-08-09 02:07+0000\n"
 "PO-Revision-Date: 2026-07-03 13:40+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -23252,18 +23252,18 @@ msgstr ""
 "Corrections déjà appliquées. Relancez la mise au point automatique pour "
 "obtenir de nouvelles mesures d'inclinaison."
 
-#: ekos/guide/aiguideprotocol.cpp:389
+#: ekos/guide/aiguideprotocol.cpp:446
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 "Aucune donnée pour l'entraînement ! Veuillez d'abord exécuter le protocole."
 
-#: ekos/guide/aiguideprotocol.cpp:390
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train"
 msgstr "Aucune donnée pour l'entraînement"
 
-#: ekos/guide/aiguideprotocol.cpp:395
+#: ekos/guide/aiguideprotocol.cpp:452
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Démarrage de l'entraînement IA via le cloud EkosLive…"
