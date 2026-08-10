@@ -325,8 +325,9 @@ void AIGuideProtocol::start(const QString &mountType)
         m_Phases.append({65.0, -45.0, 1800, false, false, {}, {}, 0, 15, 20});
         m_Phases.append({65.0, -45.0, 480, true,  false, {}, {}, 0, 15, 20});
 
-        // Position 2 east of the meridian: parallactic spread for the DEC refraction fit
-        m_Phases.append({45.0, 45.0, 120, true,  false, {}, {}, 0, 15, 20});
+        // Position 2 east of the meridian: parallactic spread for the DEC refraction fit.
+        // Longer than the trainer's minimum drift span so a full-length phase clears it.
+        m_Phases.append({45.0, 45.0, 180, true,  false, {}, {}, 0, 15, 20});
         m_Phases.append({45.0, 45.0, 300, false, false, {}, {}, 0, 15, 20});
     }
     else

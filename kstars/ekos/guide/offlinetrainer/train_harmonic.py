@@ -382,6 +382,9 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
     # set k_ref_dec on real data (see DEC_OFFSET_ROOT_CAUSE.md).
     MIN_FIT_SPAN_S = 120.0
 
+    # A rate uncertain by less than this cannot meaningfully mis-inject either way
+    SCATTER_FLOOR_PX_S = 0.02 / _effective_pixel_scale(sysid)
+
     ra_rates = []
     dec_rates = []
     cos2_alts = []  # 1/cos²(alt) for each session
@@ -389,47 +392,86 @@ def _fit_drift_params(sysid: dict, guide_exp: float, verbose: bool):
     q_angles = []
     fit_alts = []   # altitudes of the sessions actually used (runtime clamps to these)
 
+    # Re-centering banks one drift phase as several short segments. Judged individually
+    # they all fail the span floor, so group them back by phase and fit the phase.
+    phases = {}
     for s in free_drift_sessions:
-        frames = s["frames"]
-        if len(frames) < 10:
+        phases.setdefault(str(s.get("session_id", "?")).rsplit("_", 1)[0], []).append(s)
+
+    for phase_id, segments in phases.items():
+        seg_fits = []
+        for s in segments:
+            frames = s["frames"]
+            if len(frames) < 10:
+                continue
+
+            # A truncated drift (stopped by the excursion guard) right after a slew measures
+            # settling motion, not drift — one such point poisons the whole refraction fit.
+            requested = float(s.get("duration_s", 0.0))
+            span = sum(f.get("dt", guide_exp) for f in frames[1:])
+            if requested > 0.0 and span < 0.5 * requested:
+                if verbose:
+                    print(f"  [drift] skipping {s.get('session_id', '?')}: only {span:.0f}s of "
+                          f"{requested:.0f}s requested — truncated, not a drift measurement")
+                continue
+
+            t = 0.0
+            t_vals, ra_vals, dec_vals = [], [], []
+            q_sum = 0.0
+            for f in frames:
+                t += f.get("dt", guide_exp)
+                t_vals.append(t)
+                ra_vals.append(f["ra_raw_px"])
+                dec_vals.append(f.get("dec_raw_px", 0.0))
+                q_sum += f.get("parallactic_angle_deg", 0.0)
+
+            ra_fit = scipy.stats.linregress(t_vals, ra_vals)
+            dec_fit = scipy.stats.linregress(t_vals, dec_vals)
+            seg_fits.append((span, ra_fit.slope, ra_fit.stderr, dec_fit.slope, dec_fit.stderr,
+                             s.get("altitude_deg", 45.0), q_sum / len(frames)))
+
+        if not seg_fits:
             continue
 
-        # A truncated drift (stopped by the excursion guard) right after a slew measures
-        # settling motion, not drift — one such point poisons the whole refraction fit.
-        requested = float(s.get("duration_s", 0.0))
-        span = sum(f.get("dt", guide_exp) for f in frames[1:])
-        if requested > 0.0 and span < 0.5 * requested:
+        total_span = sum(f[0] for f in seg_fits)
+        if total_span < MIN_FIT_SPAN_S:
             if verbose:
-                print(f"  [drift] skipping {s.get('session_id', '?')}: only {span:.0f}s of "
-                      f"{requested:.0f}s requested — truncated, not a drift measurement")
-            continue
-        if span < MIN_FIT_SPAN_S:
-            if verbose:
-                print(f"  [drift] skipping {s.get('session_id', '?')}: {span:.0f}s span — "
-                      f"too short to constrain a rate (need >= {MIN_FIT_SPAN_S:.0f}s)")
+                print(f"  [drift] skipping {phase_id}: {total_span:.0f}s over "
+                      f"{len(seg_fits)} segment(s) — too short to constrain a rate "
+                      f"(need >= {MIN_FIT_SPAN_S:.0f}s)")
             continue
 
-        alt = s.get("altitude_deg", 45.0)
+        # Inverse-variance weighting: the phase rate is better determined than any one segment
+        def _combine(slope_idx, err_idx):
+            slopes = [f[slope_idx] for f in seg_fits]
+            w = np.array([1.0 / max(f[err_idx], 1e-9) ** 2 for f in seg_fits])
+            rate = float(np.dot(slopes, w) / w.sum())
+            # Segments sample different phases of any PE, so on a strong-PE axis their
+            # slopes scatter far beyond the drift itself — that mean is aliasing, not a rate.
+            # Only worth rejecting when the scatter is also large enough to do damage.
+            if (len(slopes) > 1 and np.std(slopes) > 0.5 * abs(rate)
+                    and np.std(slopes) > SCATTER_FLOOR_PX_S):
+                if verbose:
+                    print(f"  [drift] {phase_id}: segment rates scatter {np.std(slopes):.4g} px/s "
+                          f"about {rate:.4g} px/s — periodic error, not drift. Rate = 0.")
+                return 0.0
+            return rate
 
-        t = 0.0
-        t_vals, ra_vals, dec_vals = [], [], []
-        q_sum = 0.0
-        for f in frames:
-            t += f.get("dt", guide_exp)
-            t_vals.append(t)
-            ra_vals.append(f["ra_raw_px"])
-            dec_vals.append(f.get("dec_raw_px", 0.0))
-            q_sum += f.get("parallactic_angle_deg", 0.0)
+        ra_slope = _combine(1, 2)
+        dec_slope = _combine(3, 4)
+        alt = float(np.mean([f[5] for f in seg_fits]))
+        avg_q_deg = float(np.mean([f[6] for f in seg_fits]))
 
-        ra_slope, _, _, _, _ = scipy.stats.linregress(t_vals, ra_vals)
-        dec_slope, _, _, _, _ = scipy.stats.linregress(t_vals, dec_vals)
+        if verbose and len(seg_fits) > 1:
+            print(f"  [drift] {phase_id}: {len(seg_fits)} banked segments stitched, "
+                  f"{total_span:.0f}s total")
+
         ra_rates.append(ra_slope)
         dec_rates.append(dec_slope)
 
         cos_alt = max(abs(np.cos(np.radians(alt))), 1e-4)
         cos2_alts.append(1.0 / (cos_alt ** 2))
 
-        avg_q_deg = q_sum / len(frames)
         q_angles.append(avg_q_deg)
         q_rad = np.radians(avg_q_deg)
         q_factors.append(np.sin(q_rad) / (cos_alt ** 2))
