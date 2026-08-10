@@ -796,8 +796,8 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
-"Impossible de trouver dcraw et cjpeg. Veuillez installer les outils de "
-"conversion des formats CR2/ NEF vers JPEG."
+"Impossible de trouver « dcraw » et « cjpeg ». Veuillez installer les outils "
+"de conversion des formats « CR2 / NEF » vers « JPEG »."
 
 #: auxiliary/ksutils.cpp:1803
 #, kde-format
@@ -4730,13 +4730,13 @@ msgstr "Orthoscopique (typique)"
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
-msgstr "Ploessl (typique)"
+msgstr "Ploessl (Typique)"
 
 #: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
-msgstr "Erfle (typique)"
+msgstr "Erfle (Typique)"
 
 #: dialogs/fovdialog.cpp:243
 #, kde-format
@@ -11461,8 +11461,8 @@ msgstr "Entrée"
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afficher le fichier .analyze précédent.</p></body></"
-"html>"
+"<html><head/><body><p>Afficher le fichier « .analyze » précédent.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
@@ -14583,7 +14583,7 @@ msgstr "Cont. Min."
 msgid ""
 "This sets the Kron Factor for use with the kron radius for flux calculations."
 msgstr ""
-"Ceci définit le facteur Kron à utiliser avec le rayon de kron pour les "
+"Ceci définit le facteur Kron à utiliser avec le rayon de Kron pour les "
 "calculs de flux."
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
@@ -15297,8 +15297,8 @@ msgid ""
 "shall be accepted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Accepte des valeurs ADU qui sont dans la plage autour "
-"de la valeur ADU désirée. Par exemple, si la valeur ADU est définie à 10 000 "
-"et la tolérance à 100, alors les valeurs ADU de 9900 and 10100 seront "
+"de la valeur ADU désirée. Par exemple, si la valeur ADU est définie à 10 000 "
+"et la tolérance à 100, alors les valeurs ADU de 9900 et de 10100 seront "
 "acceptées.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -22246,13 +22246,14 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:691
 #, kde-format
 msgid "Check to denoise the image before further processing."
-msgstr "Cochez pour débruiter l'image avant de poursuivre le traitement"
+msgstr ""
+"Cochez pour réduire le bruit dans l'image avant de poursuivre le traitement"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
 #, kde-format
 msgid "Denoise"
-msgstr "Débruiter"
+msgstr "Réduire le bruit"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -29839,7 +29840,7 @@ msgid ""
 "in micrometers.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Largeur d'un photosite unique de la "
-"caméra, en micromètres.</p></body></html>"
+"caméra en micromètres.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelWSizeSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelHSizeSpin)
@@ -33295,7 +33296,7 @@ msgstr "Périphérique : %1"
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:236
 #, kde-format
 msgid "Browse..."
-msgstr "Prcourir…"
+msgstr "Parcourir…"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:241
 #, kde-format
@@ -37095,9 +37096,9 @@ msgid ""
 "unless you have something else using this port in which case pick 8081, etc."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Port à utiliser pour le webdiffusion. Habituellement, "
-"8080 conviendra, sauf si vous avez quelque chose d'autre utilisant ce port, "
-"auquel cas choisissez 8081, etc.</p></body></html>"
+"<html><head/><body><p>Port à utiliser pour la diffusion Internet. "
+"Habituellement, 8080 conviendra, sauf si vous avez quelque chose d'autre "
+"utilisant ce port, auquel cas choisissez 8081, etc.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, logoLLabel)
 #: fitsviewer/livestackwebcast.ui:109
@@ -37161,7 +37162,7 @@ msgstr "Abonnés"
 #: fitsviewer/livestackwebcast.ui:222
 #, kde-format
 msgid "Logo (Right) for the webcast event."
-msgstr "Logo (à droite) pour l'évènement webdiffusé."
+msgstr "Logo (à droite) pour l'évènement diffusé par Internet."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, titleLabel)
 #: fitsviewer/livestackwebcast.ui:235
@@ -37189,7 +37190,7 @@ msgstr ""
 #: fitsviewer/livestackwebcast.ui:273
 #, kde-format
 msgid "Logo (Left) for the webcast event."
-msgstr "Logo (à gauche) pour l'évènement webdiffusé."
+msgstr "Logo (à gauche) pour l'évènement diffusé par Internet."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, titleEntry)
 #: fitsviewer/livestackwebcast.ui:280
@@ -42421,7 +42422,7 @@ msgstr ""
 msgid "Should the imaging Planner tool process supernova remnants."
 msgstr ""
 "Est-ce que l'outil de planification d'acquisition des images doit traiter "
-"les rémanents de supernovae ?"
+"les rémanents de supernova ?"
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxy), group (ImagingPlanner)
 #: kstars.kcfg:970
@@ -46584,7 +46585,7 @@ msgstr "Emplacement du fichier de résolution astrometry.net"
 #: kstars.kcfg:3008
 #, kde-format
 msgid "astrometry.net wcsinfo binary"
-msgstr "Exécutable wcsinfo d'astrometry.net"
+msgstr "Exécutable wcsinfo provenant de « astrometry.net »"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:3009
@@ -52994,7 +52995,7 @@ msgstr "Arnavutköy"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "Arnold's Cove"
-msgstr "Arnold's Cove"
+msgstr "Baie de Arnold"
 
 #: kstars_i18n.cpp:899
 #, kde-kuit-format
@@ -53804,7 +53805,7 @@ msgstr "Barrow"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Barry's Bay"
-msgstr "Barry's Bay"
+msgstr "Baie de Barry"
 
 #: kstars_i18n.cpp:1034
 #, kde-kuit-format
@@ -55946,7 +55947,7 @@ msgstr "Cerro Cala"
 #, kde-kuit-format
 msgctxt "City in Chile"
 msgid "Cerro Tololo Int'l Obs."
-msgstr "Cerro Tololo (Obs. int. de)"
+msgstr "Cerro Tololo (Observatoire International de)"
 
 #: kstars_i18n.cpp:1391
 #, kde-kuit-format
@@ -56450,7 +56451,7 @@ msgstr "Clark"
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Clark's Harbour"
-msgstr "Clark's Harbour"
+msgstr "Port de Clark"
 
 #: kstars_i18n.cpp:1475
 #, kde-kuit-format
@@ -56978,7 +56979,7 @@ msgstr "Crestwood"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Creve Coeur"
-msgstr "Creve Coeur"
+msgstr "Crève Coeur"
 
 #: kstars_i18n.cpp:1563
 #, kde-kuit-format
@@ -85771,7 +85772,7 @@ msgstr "Teinte"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Humidity Perc."
-msgstr "Pourc. d'humidité"
+msgstr "Pourcentage d'humidité"
 
 #: libindi_strings.cpp:249
 #, kde-kuit-format
@@ -89609,8 +89610,8 @@ msgid ""
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Option remplacée par l'option <span style=\" font-"
-"weight:600;\">nb max d'images de mise au point</span> dans les options de "
-"mise au point.</p></body></html>"
+"weight:600;\">nombre maximum d'images de mise au point</span> dans les "
+"options de mise au point.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:78
