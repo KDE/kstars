@@ -43,6 +43,13 @@ class DarkProcessor : public QObject
         void denoise(int trainID, ISD::CameraChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
                      uint16_t offsetX, uint16_t offsetY);
 
+        // Synchronous variant of denoise(): applies the defect map or dark subtraction on
+        // the calling thread and returns true if a correction was applied. Used by the
+        // streaming guide path, which has no capture lifecycle to await the asynchronous
+        // darkFrameCompleted signal and must have the frame corrected before star detection.
+        bool denoiseSynchronous(int trainID, ISD::CameraChip *targetChip, const QSharedPointer<FITSData> &targetData,
+                                double duration, uint16_t offsetX, uint16_t offsetY);
+
 
     private:
 

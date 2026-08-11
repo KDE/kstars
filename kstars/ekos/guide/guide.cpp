@@ -980,6 +980,9 @@ bool Guide::startGuideStreaming()
 
     m_StreamingGuide = true;
 
+    // Allow the per-frame dark/defect-map lookup to run again for this streaming session.
+    m_streamDarkUnavailable = false;
+
     // Tell the internal guider not to request captures after pulses — frames arrive continuously
     if (guiderType == GUIDE_INTERNAL)
         internalGuider->setStreamingMode(true);
@@ -1326,6 +1329,36 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
 
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
+
+    // Streaming guide has no single-capture lifecycle, so the GUIDE_DARK operation step
+    // is skipped (see buildOperationStack). Apply the master dark / defect map here,
+    // synchronously and BEFORE the frame is loaded into the view or handed to the guider,
+    // so the live view, the guider's star detection, and any saved guide image all use the
+    // same corrected buffer. Inline (not the async denoise()) so it is ready before
+    // setCaptureComplete() runs the solver, and to avoid re-entrancy with the streaming
+    // newImage dispatch.
+    if (m_StreamingGuide && guideDarkFrame->isChecked() && data && !m_streamDarkUnavailable)
+    {
+        uint16_t offsetX = 0, offsetY = 0;
+        if (frameSettings.contains(targetChip))
+        {
+            QVariantMap settings = frameSettings[targetChip];
+            if (settings["x"].isValid() && settings["y"].isValid() &&
+                    settings["binx"].isValid() && settings["biny"].isValid())
+            {
+                offsetX = settings["x"].toInt() / settings["binx"].toInt();
+                offsetY = settings["y"].toInt() / settings["biny"].toInt();
+            }
+        }
+
+        const int trainID = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+        if (!m_DarkProcessor->denoiseSynchronous(trainID, targetChip, data,
+                guideExposure->value(), offsetX, offsetY))
+            // No matching dark/defect map — stop retrying so we don't repeat the lookup
+            // and log message on every incoming stream frame. Reset when streaming
+            // restarts or the dark checkbox is toggled.
+            m_streamDarkUnavailable = true;
+    }
 
     if (data && (!guideShowFrame->isEnabled() || guideShowFrame->isChecked()))
     {
@@ -2258,6 +2291,10 @@ void Guide::setDarkFrameEnabled(bool enable)
 {
     if (guideDarkFrame->isChecked() != enable)
         guideDarkFrame->setChecked(enable);
+
+    // Re-arm the streaming per-frame dark lookup whenever darks are (re-)enabled.
+    if (enable)
+        m_streamDarkUnavailable = false;
 }
 
 void Guide::saveDefaultGuideExposure()
