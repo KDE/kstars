@@ -113,8 +113,7 @@ msgstr "Ekliptika"
 
 #: auxiliary/colorscheme.cpp:45 kstarslite/qml/modules/TopMenu.qml:256
 #: projections/equirectangularprojector.cpp:171 projections/projector.cpp:317
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid "Horizon"
+#, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "Horizont"
 
@@ -3805,11 +3804,9 @@ msgstr "Cirkumpolarna"
 #: kstarslite/dialogs/detaildialoglite.cpp:528
 #: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:629
 #: printing/detailstable.cpp:630 tools/observinglist.cpp:192
-#, fuzzy, kde-format
-#| msgctxt "angular size in arcseconds"
-#| msgid "%1 arcsec"
+#, kde-format
 msgid "Never rises"
-msgstr "%1 arcsec"
+msgstr "Nikad se ne uspinje"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
 #: ekos/observatory/observatory.cpp:144
@@ -10627,7 +10624,8 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
-#, kde-format, kde-kuit-format
+#, fuzzy, kde-format, kde-kuit-format
+#| msgid "Start"
 msgid "Start"
 msgstr "Pokreni"
 
@@ -20973,8 +20971,7 @@ msgstr "Francuska Polinezija"
 #. i18n: ectx: property (text), item, widget (QComboBox, Normalization)
 #: ekos/focus/opsfocusprocess.ui:390 ekos/guide/opsguide.ui:106
 #: ekos/guide/opsguide.ui:147 fitsviewer/livestacking.ui:1702
-#, fuzzy, kde-format
-#| msgid "Linear"
+#, kde-format
 msgid "Linear"
 msgstr "Linearno"
 
@@ -25351,8 +25348,7 @@ msgstr "Prekini vezu"
 
 #: ekos/manager.cpp:2039 ekos/manager.cpp:2048 ekos/manager.cpp:2081
 #: indi/indistd.cpp:732
-#, fuzzy, kde-format
-#| msgid "%1 is online."
+#, kde-format
 msgid "%1 is online."
 msgstr "%1 je prisutan."
 
@@ -31583,7 +31579,8 @@ msgid "Task"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:121
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Progress"
 msgid "Progress"
 msgstr "Napredovanje"
 
@@ -85846,8 +85843,7 @@ msgid "Catalogs"
 msgstr "Katalozi"
 
 #: kstarsactions.cpp:1151
-#, fuzzy, kde-format
-#| msgid "Guides"
+#, kde-format
 msgid "Guides"
 msgstr "Vodiči"
 
@@ -87084,8 +87080,7 @@ msgstr " Dobrodošli u KStars "
 
 #: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:112
-#, fuzzy, kde-format
-#| msgid "nothing"
+#, kde-format
 msgid "nothing"
 msgstr "ništa"
 
@@ -88114,8 +88109,7 @@ msgid "Hour"
 msgstr "sat"
 
 #: kstarslite/qml/modules/TimePage.qml:479
-#, fuzzy, kde-kuit-format
-#| msgid "Min."
+#, kde-kuit-format
 msgid "Min."
 msgstr "Najm."
 
@@ -99272,13 +99266,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1423
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Min:"
 msgid "Min:"
 msgstr "Najm:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1469
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Max:"
 msgid "Max:"
 msgstr "Najv:"
 
@@ -102495,7 +102491,8 @@ msgid "Print the Sky Calendar"
 msgstr ""
 
 #: tools/skycalendar.cpp:74 tools/skycalendar.cpp:139 tools/skycalendar.cpp:142
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Please Wait"
 msgid "Please Wait"
 msgstr "Pričekajte"
 
@@ -103296,9 +103293,7 @@ msgstr "Nova re.:"
 #: widgets/timespinbox.cpp:121 widgets/timespinbox.cpp:122
 #: widgets/timespinbox.cpp:123 widgets/timespinbox.cpp:124
 #: widgets/timespinbox.cpp:125
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgctxt "seconds"
 msgid "secs"
 msgstr "sek"

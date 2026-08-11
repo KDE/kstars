@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-09 02:07+0000\n"
-"PO-Revision-Date: 2026-07-17 18:16+0400\n"
+"PO-Revision-Date: 2026-08-10 18:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -845,7 +845,7 @@ msgstr "خطأ كتابة الملف."
 #: auxiliary/kswizard.cpp:398
 #, kde-format
 msgid "Data folder permissions error."
-msgstr "خطأ في صلاحيات مجلد البيانات."
+msgstr "خطأ في أذون مجلد البيانات."
 
 #: auxiliary/skymapview.cpp:54
 #, kde-format
@@ -7239,14 +7239,11 @@ msgid "Remote solver completed after %1 seconds."
 msgstr "أكمل برنامج الحل عن بعد بعد %1 ثانية."
 
 #: ekos/align/align_solver.cpp:789
-#, fuzzy, kde-format
-#| msgid ""
-#| "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+#, kde-format
 msgid ""
 "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
-"برنامج الحل: مطلع مستقيم (%1) ميل (%2) توجيه (%3) مقياس البكسل (%4) تماثل "
-"(%5)"
+"مطلع RA (%1) DEC (%2) الاتجاه (%3) مقياس البكسل (%4) التكافؤ (%5) PA (%6)"
 
 #: ekos/align/align_solver.cpp:831
 #, kde-format
@@ -7272,15 +7269,13 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "الهدف ضمن %1 درجة من إحداثيات الحل."
 
 #: ekos/align/align_solver.cpp:917
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. Automatically reversing rotator "
-#| "direction and retrying..."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically compensating rotator "
 "direction and retrying..."
 msgstr ""
-"المدوّر يتحرك في الاتجاه الخاطئ. جارٍ عكس اتجاه المدوّر آليًا وإعادة المحاولة..."
+"المدوّر يتحرك في الاتجاه الخاطئ. جارٍ التعويض آليًا عن اتجاه المدوّر وإعادة "
+"المحاولة..."
 
 #: ekos/align/align_solver.cpp:940
 #, kde-format
@@ -8276,27 +8271,21 @@ msgstr "حافظ على زاوية الموضع"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>عند التفعيل، إذا <b>ازداد</b> خطأ المحاذاة القطبية في "
-"محور ما بعد تصحيح المحاذاة القطبية الأولى، سيعكس النظام اتجاه التصحيح آليًا "
-"لهذا المحور في المحاولة التالية.</p></body></html>"
+"<html><head/><body><p>فعّل إذا كان المدوّر يدور فعليًا عكس الاتجاه المتوقع. "
+"يُكتشف ويُضبط آليًا في أول مرة يؤكد فيها فحص الاتجاه الخاطئ ذلك؛ ويمكن أيضًا "
+"ضبطه يدويًا.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "Target object or direction"
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "الجسم او الاتجاه"
+msgstr "اتجاه المدوّر معكوس"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -8828,7 +8817,7 @@ msgstr "التنزيلات ممكنة، الدليل موجود وقابل لل�
 #: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
-msgstr "التنزيلات معطّلة، مشكلة في صلاحيات الدليل."
+msgstr "التنزيلات معطّلة، مشكلة في أذون الدليل."
 
 #: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
@@ -8881,7 +8870,7 @@ msgstr "اكتمل تنزيل %1."
 #: ekos/align/opsastrometryindexfiles.cpp:753
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
-msgstr "خطأ في صلاحيات مجلد القياسات الفلكية (Astrometry)"
+msgstr "خطأ في أذون مجلد القياسات الفلكية (Astrometry)"
 
 #: ekos/align/opsastrometryindexfiles.cpp:659
 #, kde-format
@@ -16213,7 +16202,7 @@ msgid ""
 "Please check folder, filename & permissions."
 msgstr ""
 "أخفق كتابة الصورة إلى %1\n"
-"تحقَّق من المجلد، واسم الملف، والأذونات من فضلك."
+"تحقَّق من المجلد، واسم الملف، والأذون من فضلك."
 
 #: ekos/capture/cameraprocess.cpp:1097
 #, kde-format
@@ -17656,18 +17645,16 @@ msgstr "اِنتظِر هذا العدد من الثواني بعد استئنا
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
 "time the scheduler spends establishing guiding (calibration and lock) before "
 "starting capture."
 msgstr ""
-"العدد الأقصى من الثواني للانتظار قبل إجهاض الالتقاط إذا استغرقت العمليات مثل "
-"تغيرات عجلة المرشح أو قلب الزوال وقتاً طويلاً."
+"الحد الأقصى لعدد الثواني للانتظار قبل إحباط الالتقاط إذا استغرقت عمليات مثل "
+"تغييرات عجلة المرشح أو انقلابات خط الزوال وقتًا طويلًا. كما يحدّ الوقت الذي "
+"يقضيه المجدول في إنشاء التوجيه (المعايرة والقفل) قبل بدء الالتقاط."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -18629,26 +18616,20 @@ msgstr "حسِّن مراكز البلاط"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:125
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
 "Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>اسحب شريط التمرير لضبط مقياس رسوم بيانية للتصحيحات "
-"بالنسبة لمقياس رسوم بيانية للانحراف.</p></body></html>"
+"<html><head/><body><p>علّم إذا كان لديك لوحة ضبط إمالة مثبّتة. يعرض لوحة "
+"استشارات تصحيح الإمالة مع التعديلات المقترحة.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:128
-#, fuzzy, kde-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "North Platte"
+#, kde-format
 msgid "Tilt Plate"
-msgstr "نورث بلات"
+msgstr "لوحة الإمالة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:238
@@ -18688,10 +18669,9 @@ msgstr "ميل يسار-يمين:"
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
 #: ekos/focus/tiltcorrectionwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Tilt Correction Advisory"
-msgstr "مهلة التصحيح:"
+msgstr "استشارات تصحيح الإمالة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:336
@@ -22034,53 +22014,47 @@ msgstr "الحد الأقصى للحركة الكلية:"
 #: ekos/focus/tiltcorrectionwidget.cpp:124
 #, kde-format
 msgid "Sensor (rear view)"
-msgstr ""
+msgstr "المستشعر (منظر خلفي)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "Loading city data"
+#, kde-format
 msgid "No tilt data"
-msgstr "حَمِّل بيانات المدينة"
+msgstr "لا توجد بيانات إمالة"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:140
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
-msgstr ""
+msgstr "↑ أعلى الكاميرا (جانب الشعار) ↑"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:141
 #, kde-format
 msgid "Camera top rotated %1°"
-msgstr ""
+msgstr "أعلى الكاميرا مُدوّر %1°"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:147
 #, kde-format
 msgid "View from behind camera"
-msgstr ""
+msgstr "عرض من خلف الكاميرا"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:249
 #, kde-format
 msgid "%1%2 μm"
-msgstr ""
+msgstr "%1%2 ميكرومتر"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:284
-#, fuzzy, kde-format
-#| msgid "Date:"
+#, kde-format
 msgid "Plate:"
-msgstr "التاريخ:"
+msgstr "اللوحة:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "3-point"
-msgstr "ساندبوينت"
+msgstr "3 نقاط"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:287
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "4-point"
-msgstr "ساندبوينت"
+msgstr "4 نقاط"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:288
 #, kde-format
@@ -22090,6 +22064,11 @@ msgid ""
 "4-point: Plates with screws at the four corners (UL/UR/LL/LR) — typical for "
 "TouTek-style tilt rings."
 msgstr ""
+"حدد نوع لوحة الإمالة.\n"
+"ثلاث نقاط: ETA، أو Octopi، أو أي لوحة ذات 3 براغي (2 في الأعلى، و1 في "
+"الأسفل).\n"
+"أربع نقاط: لوحات مزودة بمسامير في الزوايا الأربع (UL/UR/LL/LR) — وهي نموذجية "
+"لحلقات الإمالة من طراز TouTek."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
@@ -22098,11 +22077,10 @@ msgid "Radius:"
 msgstr "نصف القطر:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
-msgstr "مم"
+msgstr " مم"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:301
 #, kde-format
@@ -22113,73 +22091,76 @@ msgid ""
 "  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 msgstr ""
+"المسافة من مركز اللوحة إلى نقطة الضبط (نصف قطر دائرة البراغي).\n"
+"القيم المعروفة:\n"
+"  Wanderer ETA M54: 64 مم\n"
+"  لوحات الإمالة ZWO (M42/M48/M54/M68): 40 مم\n"
+"  جهاز الإمالة TouTek M42 (قطر 100 مم): 46 مم"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:309
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Thread:"
-msgstr "العتبة:"
+msgstr "السن:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:311
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
-msgstr ""
+msgstr "M2.5 (0.45 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:312
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
-msgstr ""
+msgstr "M3 (0.50 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:313
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
-msgstr ""
+msgstr "M3 ناعم (0.35 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
-msgstr ""
+msgstr "M4 (0.70 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:315
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
-msgstr ""
+msgstr "M4 ناعم (0.50 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:316
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
-msgstr ""
+msgstr "M5 (0.80 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:317
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
-msgstr ""
+msgstr "M5 ناعم (0.50 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:318
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
-msgstr ""
+msgstr "M6 (1.00 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:319
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
-msgstr ""
+msgstr "Wanderer ETA (0.50 مم)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
-msgstr "المعتاد"
+msgstr "مخصص"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:322
 #, kde-format
@@ -22187,24 +22168,25 @@ msgid ""
 "Common adjustment screw thread types.\n"
 "Select to auto-fill pitch, or choose Custom to enter manually."
 msgstr ""
+"أنواع خيوط براغي الضبط الشائعة.\n"
+"اختر «املأ آليًا» لإدخال قيمة الخطوة آليًا، أو اختر «مخصص» لإدخالها يدويًّا."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "Pixel Pitch:"
+#, kde-format
 msgid "Pitch:"
-msgstr "خطوة البكسل:"
+msgstr "الميل:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:331
 #, kde-format
 msgctxt "millimeters per turn suffix"
 msgid " mm/turn"
-msgstr ""
+msgstr " مم/لفة"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:333
 #, kde-format
 msgid ""
 "Screw pitch (mm per full turn). Used to show turn count for manual plates."
-msgstr ""
+msgstr "ميل البرغي (مم لكل لفة كاملة). يُستخدم لعرض عدد اللفات للوحات اليدوية."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:344
 #, kde-format
@@ -22213,6 +22195,10 @@ msgid ""
 "Positive values rotate the camera clockwise as seen from behind.\n"
 "Diagram is adjusted so screw positions match what you physically see."
 msgstr ""
+"دوران الكاميرا في المسار البصري (0° = شعار الكاميرا في الأعلى).\n"
+"تؤدي القيم الموجبة إلى تدوير الكاميرا في اتجاه عقارب الساعة عند النظر إليها "
+"من الخلف.\n"
+"يعاد ضبط الرسم التخطيطي بحيث تتطابق مواضع البراغي مع ما تراه فعليًّا."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
@@ -22224,13 +22210,13 @@ msgstr "النمط:"
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Relative (± deltas)"
-msgstr ""
+msgstr "نسبي (± فروق)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:353
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Push-only (from zero)"
-msgstr ""
+msgstr "دفع فقط (من الصفر)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:355
 #, kde-format
@@ -22245,32 +22231,40 @@ msgid ""
 "  Push-only plates physically can't go negative, so use this for first-time "
 "tuning."
 msgstr ""
+"اختر كيفية عرض التصحيحات:\n"
+"نسبي: فروق موقعة (+ و -) تُطبَّق فوق الموضع الحالي.\n"
+"  الأفضل للضبط التكراري عندما تكون في منتصف المدى ويمكن أن تتحرك البراغي في "
+"الاتجاهين.\n"
+"دفع فقط: جميع القيم مُزاحة لتكون موجبة (الأصغر = 0).\n"
+"  الأفضل عند البدء من وضع مرتد بالكامل (مثل ETA عند 0، براغي يدوية مفكوكة).\n"
+"ألواح الدفع فقط لا يمكنها فيزيائيًا أن تذهب إلى السالب، لذا استخدم هذا للضبط "
+"الأول."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:392
 #, kde-format
 msgid "Point 1: —"
-msgstr ""
+msgstr "النقطة 1: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:393
 #, kde-format
 msgid "Point 2: —"
-msgstr ""
+msgstr "النقطة 2: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:394
 #, kde-format
 msgid "Point 3: —"
-msgstr ""
+msgstr "النقطة 3: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:395
 #, kde-format
 msgid "Point 4: —"
-msgstr ""
+msgstr "النقطة 4: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:413
 #: ekos/focus/tiltcorrectionwidget.cpp:666
 #, kde-format
 msgid "Apply to ETA"
-msgstr ""
+msgstr "طبّق على ETA"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:414
 #: ekos/focus/tiltcorrectionwidget.cpp:562
@@ -22281,84 +22275,85 @@ msgid ""
 "Reads current positions, adds the computed deltas, and moves all three "
 "points."
 msgstr ""
+"أرسل التصحيحات المحسوبة إلى لوحة الإمالة Wanderer ETA M54 عبر INDI.\n"
+"يقرأ المواضع الحالية، ويضيف الفروق المحسوبة، ويحرّك النقاط الثلاث جميعها."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:488
 #, kde-format
 msgid "Point 1: N/A"
-msgstr ""
+msgstr "النقطة 1: غير متاح"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:489
 #, kde-format
 msgid "Point 2: N/A"
-msgstr ""
+msgstr "النقطة 2: غير متاح"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:490
 #, kde-format
 msgid "Point 3: N/A"
-msgstr ""
+msgstr "النقطة 3: غير متاح"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:491
 #, kde-format
 msgid "Point 4: N/A"
-msgstr ""
+msgstr "النقطة 4: غير متاح"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:557
 #, kde-format
 msgid "Locked: Wanderer ETA M54 radius is 64 mm"
-msgstr ""
+msgstr "مقفل: نصف قطر Wanderer ETA M54 هو 64 مم"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:558
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
-msgstr ""
+msgstr "مقفل: ميل Wanderer ETA M54 هو 0.50 مم/لفة"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:559
 #, kde-format
 msgid "Locked: Wanderer ETA M54 detected"
-msgstr ""
+msgstr "مقفل: تم اكتشاف Wanderer ETA M54"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:638
 #: ekos/focus/tiltcorrectionwidget.cpp:710
 #, kde-format
 msgid "%1: no change"
-msgstr ""
+msgstr "%1: لا تغيير"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:639
 #: ekos/focus/tiltcorrectionwidget.cpp:711
 #, kde-format
 msgid "%1: %2%3 mm (%4%5 turns)"
-msgstr ""
+msgstr "%1: %2%3 مم (%4%5 لفات)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:647
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (upper-right)"
-msgstr ""
+msgstr "النقطة 1 (أعلى-يمين)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:648
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (bottom)"
-msgstr ""
+msgstr "النقطة 2 (أسفل)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:649
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (upper-left)"
-msgstr ""
+msgstr "النقطة 3 (أعلى-يسار)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:653
 #: ekos/focus/tiltcorrectionwidget.cpp:730
 #, kde-format
 msgid "Push-only mode (from zero)"
-msgstr ""
+msgstr "وضع الدفع فقط (من الصفر)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:654
 #: ekos/focus/tiltcorrectionwidget.cpp:731
-#, fuzzy, kde-format
-#| msgid "Relative offset in steps"
+#, kde-format
 msgid "Relative mode (± deltas)"
-msgstr "إزاحة نسبية في خطوات"
+msgstr "الوضع النسبي (± فروق)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:655
 #, kde-format
@@ -22367,30 +22362,33 @@ msgid ""
 "Max adjustment: %2 mm\n"
 "%3"
 msgstr ""
+"الإمالة الكلية: %1 ميكرومتر\n"
+"أقصى ضبط: %2 مم\n"
+"%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:719
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (top-left)"
-msgstr ""
+msgstr "البرغي 1 (أعلى-يسار)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:720
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (top-right)"
-msgstr ""
+msgstr "البرغي 2 (أعلى-يمين)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:721
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (bottom-left)"
-msgstr ""
+msgstr "البرغي 3 (أسفل-يسار)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:722
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (bottom-right)"
-msgstr ""
+msgstr "البرغي 4 (أسفل-يمين)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:732
 #, kde-format
@@ -22400,27 +22398,30 @@ msgid ""
 "Max adjustment: %4 mm\n"
 "%5"
 msgstr ""
+"الإمالة الكلية: %1 ميكرومتر\n"
+"يسار/يمين: %2 ميكرومتر | أعلى/أسفل: %3 ميكرومتر\n"
+"أقصى ضبط: %4 مم\n"
+"%5"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:817
 #, kde-format
 msgid "⚠ Wanderer ETA M54 not connected"
-msgstr ""
+msgstr "⚠ Wanderer ETA M54 غير متصل"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Where is your equipment connected?"
+#, kde-format
 msgid "Wanderer ETA not connected"
-msgstr "أين ستكون منظومة أجهزتك موصلة؟"
+msgstr "Wanderer ETA غير متصل"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:827
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
-msgstr ""
+msgstr "⚠ تعذّرت قراءة مواضع ETA (POSITION_READBACK غير متاح)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:837
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
-msgstr ""
+msgstr "⚠ حقول قراءة مواضع ETA غير موجودة"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:871
 #, kde-format
@@ -22428,13 +22429,13 @@ msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
 "Cannot apply even partially. Zero the plate first."
 msgstr ""
+"⚠ نطاق التصحيح (%1 مم) يتجاوز مدى حركة لوحة ETA (%2 مم).\n"
+"لا يمكن التطبيق حتى جزئيًا. صفّر اللوحة أولًا."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:884
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Correction"
+#, kde-format
 msgid "Partial Correction"
-msgstr "فشل تصحيح %1"
+msgstr "تصحيح جزئي"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:885
 #, kde-format
@@ -22445,33 +22446,40 @@ msgid ""
 "\n"
 "Run autofocus again afterward to apply the remainder."
 msgstr ""
+"التصحيح الكامل يتجاوز مدى حركة اللوحة. هل تريد تطبيق تصحيح جزئي بأفضل "
+"ملاءمة؟\n"
+"\n"
+"P1: %1 مم، P2: %2 مم، P3: %3 مم\n"
+"\n"
+"شغّل الضبط التلقائي للبؤرة مرة أخرى بعد ذلك لتطبيق الباقي."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgid "⚠ ETA target properties not available"
-msgstr "%1 خصائص متوفرة"
+msgstr "⚠ خصائص هدف ETA غير متاحة"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:922
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
-msgstr ""
+msgstr "⏳ جارٍ تطبيق التصحيحات على ETA (النقطة 1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:966
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
-msgstr ""
+msgstr "⚠ فشلت حركة نقطة ETA %1. توقف."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:979
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
-msgstr ""
+msgstr "⏳ جارٍ تطبيق التصحيحات على ETA (النقطة %1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:985
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
 msgstr ""
+"✓ طُبّق على ETA: P1→%1  P2→%2  P3→%3 مم. شغّل الضبط التلقائي للبؤرة مرة أخرى "
+"لإعادة القياس."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:991
 #, kde-format
@@ -22479,28 +22487,28 @@ msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
 msgstr ""
+"التصحيحات مطبّقة بالفعل. شغّل الضبط التلقائي للبؤرة مرة أخرى للحصول على قياسات "
+"إمالة جديدة."
 
 #: ekos/guide/aiguideprotocol.cpp:446
 #, kde-format
 msgid "No data to train! Please run the protocol first."
-msgstr ""
+msgstr "لا توجد بيانات للتدريب! يرجى تشغيل البروتوكول أولًا."
 
 #: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train"
-msgstr ""
+msgstr "لا توجد بيانات للتدريب"
 
 #: ekos/guide/aiguideprotocol.cpp:452
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
-msgstr ""
+msgstr "جارٍ بدء تدريب الذكاء الاصطناعي عبر سحابة EkosLive..."
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "احفظ الجلسة"
+msgstr "ابدأ جلسة جديدة"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -22508,6 +22516,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"عد إلى الصفحة الأولى وشغّل البروتوكول مرة أخرى. تبقى الأوزان الحالية نشطة حتى "
+"يكتمل التدريب الجديد."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
@@ -22518,6 +22528,10 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"الضبط التلقائي PID مفعّل، لذا ستقيس هذه الجلسة استجابة حاملك وتحدد وتثبّت "
+"تلقائيًا عدوانية RA/DEC لك؛ لا حاجة لضبطها مسبقًا. لا يزال نموذج الذكاء "
+"الاصطناعي يُدرَّب ويُثبَّت على إعدادات التعريض والنبض الحالية للتوجيه، لذا استخدم "
+"القيم التي توجه بها عادةً لتلك."
 
 #: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
@@ -22525,19 +22539,19 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"يُدرَّب نموذج الذكاء الاصطناعي ويُثبَّت على إعدادات التعريض والعدوانية والنبض "
+"الحالية للتوجيه؛ استخدم القيم التي توجه بها عادةً."
 
 #: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
-msgstr ""
+msgstr "نوع الحامل المكتشف: %1. غيّر التحديد أعلاه إذا كان هذا غير صحيح."
 
 #: ekos/guide/aiguidewizard.cpp:327
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
-msgstr "فَشِل الترشيح الآلي لنجم. الرجاء اختيار نجم يدوياً."
+msgstr "تعذّر الاكتشاف التلقائي لنوع الحامل. يرجى تحديده يدويًا أعلاه."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -22597,16 +22611,7 @@ msgstr "محرك مباشر"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-#| "Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-#| "Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-#| "\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-#| "li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to "
-#| "3.0s</li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will "
-#| "be trained and locked to your current guide exposure.</span></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -22618,13 +22623,10 @@ msgid ""
 "— the protocol slews by Alt/Az and uses it to pick safe targets.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">توصيات التعريض:</"
-"span></p><ul><li><span style=\" font-weight:600;\">ترس دودي:</span> 2.0 "
-"ثانية (مبدئي)</li><li><span style=\" font-weight:600;\">محرك توافقي:</span> "
-"0.5 ثانية أو 1.0 ثانية (يعتمد على SNR نجم التوجيه)</li><li><span style=\" "
-"font-weight:600;\">محرك مباشر:</span> 1.0 ثانية إلى 3.0 ثوانٍ</li></"
-"ul><p><span style=\" color:#ff5500;\">ملاحظة: سيُدرّب نموذج الذكاء الاصطناعي "
-"ويُقفل على تعريض التوجيه الحالي.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">الإعدادات الموصى بها "
+"(اضبطها قبل التشغيل):</span></p><ul><li><span style=\" font-weight:600;"
+"\">ترس دودي:</span> تعريض 2.0 ثانية (مبدئي)</li><li><span style=\" font-"
+"weight:600;"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
@@ -22657,13 +22659,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -22672,18 +22668,14 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">بروتوكول الترس "
-"الدودي (~45 دقيقة):</span><br/>1. انطلق إلى ارتفاع عالٍ: انجراف حر، ثم توجيه "
-"قياسي.<br/>2. انطلق إلى ارتفاع أقل: انجراف حر، ثم توجيه قياسي.<br/>3. انطلق "
-"إلى ارتفاع عالٍ: توجيه قياسي.</p></body></html>"
+"الدودي (~65 دقيقة):</span><br/>1. انقل إلى ارتفاع عالٍ: توجيه قياسي، انجراف "
+"حر، ثم ضبط تلقائي PID (استجابة خطوية).<br/>2. انقل إلى ارتفاع أقل: توجيه "
+"قياسي، ثم انجراف حر.<br/>3. انقل إلى ارتفاع عالٍ: توجيه قياسي، ثم انجراف حر.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -22691,19 +22683,13 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">بروتوكول المحرك "
-"التوافقي (~35 دقيقة):</span><br/>1. انطلق إلى ارتفاع عالٍ: انجراف حر، اختبار "
-"استجابة النبضة، ثم توجيه قياسي.<br/>2. انطلق إلى ارتفاع أقل: انجراف حر، ثم "
-"توجيه قياسي.</p></body></html>"
+"التوافقي (~60 دقيقة):</span><br/>1. انقل إلى ارتفاع عالٍ: توجيه قياسي، انجراف "
+"حر، ثم ضبط تلقائي PID (استجابة خطوية).<br/>2. انقل إلى ارتفاع أقل: انجراف "
+"حر، ثم توجيه قياسي.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -22711,10 +22697,11 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">بروتوكول الترس "
-"الدودي (~45 دقيقة):</span><br/>1. انطلق إلى ارتفاع عالٍ: انجراف حر، ثم توجيه "
-"قياسي.<br/>2. انطلق إلى ارتفاع أقل: انجراف حر، ثم توجيه قياسي.<br/>3. انطلق "
-"إلى ارتفاع عالٍ: توجيه قياسي.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">بروتوكول الدفع "
+"المباشر (~30 دقيقة):</span><br/>1. انقل إلى ارتفاع عالٍ: توجيه قياسي، انجراف "
+"حر، ثم ضبط تلقائي PID (استجابة خطوية).<br/>2. انقل إلى ارتفاع متوسط: توجيه "
+"قياسي، ثم انجراف حر.<br/>3. انقل إلى ارتفاع منخفض: توجيه قياسي، ثم انجراف حر."
+"</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
@@ -22812,13 +22799,13 @@ msgstr ""
 #: ekos/guide/aiguidewizard.ui:314
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "دليل التدريب دون اتصال"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:317
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
-msgstr ""
+msgstr "افتح توثيق KStars حول تدريب النموذج دون اتصال."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -23471,14 +23458,9 @@ msgstr ""
 "الاصطناعي النشطة."
 
 #: ekos/guide/guide.cpp:3713
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI training complete. Weights saved to %1 and set as the active AI "
-#| "weights."
+#, kde-format
 msgid "AI training complete. Weights saved to %1."
-msgstr ""
-"اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1 وعُيّنت كأوزان الذكاء "
-"الاصطناعي النشطة."
+msgstr "اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1."
 
 #: ekos/guide/guide.cpp:3719
 #, kde-format
@@ -24258,31 +24240,20 @@ msgstr ""
 #: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
-msgstr ""
+msgstr "موجّه الذكاء الاصطناعي: طُبّقت الإعدادات المسجلة للنموذج المدرب (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
 msgid "The weights file could not be read."
-msgstr ""
+msgstr "تعذّرت قراءة ملف الأوزان."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
-msgstr ""
-"فشل الموجّه بالذكاء الاصطناعي في تحميل الأوزان أو عدم تطابق البصمة. أُبطل "
-"التوجيه."
+msgstr "فشل موجّه الذكاء الاصطناعي في تحميل الأوزان. أُجهض التوجيه."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or Fingerprint mismatched!\n"
-#| "\n"
-#| "Re-run the Guide AI Assistant to generate new weights for your current "
-#| "settings, or switch the Guide Algorithm back to a standard mode. Guiding "
-#| "has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -24291,10 +24262,12 @@ msgid ""
 "Re-run the Guide AI Assistant, load a different weights file, or switch the "
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
-"فشل الموجّه بالذكاء الاصطناعي في تحميل الأوزان أو عدم تطابق البصمة!\n"
+"فشل موجّه الذكاء الاصطناعي في تحميل الأوزان!\n"
 "\n"
-"أعد تشغيل مساعد الذكاء الاصطناعي للتوجيه لتوليد أوزان جديدة لإعداداتك "
-"الحالية، أو حوّل خوارزمية التوجيه إلى وضع قياسي. أُبطل التوجيه."
+"%1\n"
+"\n"
+"أعد تشغيل مساعد الذكاء الاصطناعي للتوجيه، أو حمّل ملف أوزان مختلفًا، أو بدّل "
+"خوارزمية التوجيه إلى وضع قياسي. أُجهض التوجيه."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -24334,18 +24307,18 @@ msgstr "الموجّه بالذكاء الاصطناعي: لا أوزان"
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "فشل إعادة تحميل أوزان موجّه الذكاء الاصطناعي: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
-msgstr ""
+msgstr "تعذّرت قراءة ملف الأوزان أو لا يطابق نوع هذا الحامل."
 
 #: ekos/guide/internalguide/gmath.cpp:396
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
-msgstr ""
+msgstr "أُعيد تحميل أوزان الموجّه الذكي مباشرة من %1 — يستمر التوجيه دون انقطاع."
 
 #: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
@@ -24577,7 +24550,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "الضبط الذاتي PID (معايرة الكسب باستجابة الخطوة)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -24589,6 +24562,10 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"يرسل نبضات معروفة في بداية البروتوكول ويقيس استجابة الخطوة للحامل لاشتقاق "
+"كسب توجيه أساسي للصعود/الانحراف لأي نوع حامل. يُطبَّق الكسب المُقاس ويُثبَّت لبقية "
+"الجلسة؛ ويُحتفظ بالكسب الحالي إذا لم تجتز الاستجابات فحوصات الاتساق. يضيف نحو "
+"20 دقيقة إلى البروتوكول؛ مفعّل افتراضيًا."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -29826,27 +29803,25 @@ msgstr "سكربت الإيقاف ينهي INDI"
 #: ekos/scheduler/opsscriptssettings.ui:57
 #, kde-format
 msgid "Warm up the camera sensor before shutting down."
-msgstr ""
+msgstr "دفّئ مستشعر الكاميرا قبل الإيقاف."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CameraWarmupEnabled)
 #: ekos/scheduler/opsscriptssettings.ui:60
 #, kde-format
 msgid "Warm camera before shutdown"
-msgstr ""
+msgstr "تدفئة الكاميرا قبل الإيقاف"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CameraWarmupRamp)
 #: ekos/scheduler/opsscriptssettings.ui:67
 #, kde-format
 msgid "Temperature ramp rate for camera warmup in °C per minute."
-msgstr ""
+msgstr "معدل انحدار درجة الحرارة لتدفئة الكاميرا بالدرجات المئوية لكل دقيقة."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CameraWarmupRamp)
 #: ekos/scheduler/opsscriptssettings.ui:70
-#, fuzzy, kde-format
-#| msgctxt "Maximum temperature variation over time when regulating."
-#| msgid "Ramp (°C/min):"
+#, kde-format
 msgid " °C/min"
-msgstr "المُنحدَر (درجة مئوية/دقيقة):"
+msgstr " °م/دقيقة"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsweathersettings.ui:43
@@ -31508,12 +31483,13 @@ msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "تحذير: فشل إجراء تركيز المهمة ”%1“، اِجعلها مُجهَضة."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
-msgstr "تحذير: فشل إجراء دليل المهمة ”%1“، اِجعلها مُجهَضة."
+msgstr ""
+"تحذير: تجاوزت مرحلة التوجيه للوظيفة «%1» مهلة العمليات (%2 ثانية)، ووُسمت "
+"كملغاة."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773
@@ -44374,44 +44350,43 @@ msgstr "إظهار سطح بتزفال في الرسوم البيانية ثلا
 #: kstars.kcfg:2779
 #, kde-format
 msgid "Tilt Correction Advisory plate type (0=3-point, 1=4-point)."
-msgstr ""
+msgstr "نوع لوحة إرشاد تصحيح الميل (0=ثلاثية النقاط، 1=رباعية النقاط)."
 
 #. i18n: ectx: label, entry (tiltRadius), group (Focus)
 #: kstars.kcfg:2783
 #, kde-format
 msgid "Tilt plate bolt circle radius in mm."
-msgstr ""
+msgstr "نصف قطر دائرة مسامير لوحة الميل بالمليمتر."
 
 #. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
 #: kstars.kcfg:2787
 #, kde-format
 msgid "Tilt Correction Advisory thread preset index."
-msgstr ""
+msgstr "مؤشر الإعداد المسبق للسن اللولبي في إرشاد تصحيح الميل."
 
 #. i18n: ectx: label, entry (tiltScrewPitch), group (Focus)
 #: kstars.kcfg:2791
 #, kde-format
 msgid "Tilt plate screw pitch in mm per turn."
-msgstr ""
+msgstr "خطوة لولب لوحة الميل بالمليمتر لكل لفة."
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
-#, fuzzy, kde-format
-#| msgid "Terrain image altitude correction degrees:"
+#, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
-msgstr "درجات تصحيح ارتفاع صورة التضاريس:"
+msgstr "دوران الكاميرا لمخطط تصحيح الميل بالدرجات."
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
 #, kde-format
 msgid "Tilt Correction Advisory mode (0=relative, 1=push-only)."
-msgstr ""
+msgstr "وضع إرشاد تصحيح الميل (0=نسبي، 1=دفع فقط)."
 
 #. i18n: ectx: label, entry (tiltPlatePresent), group (Focus)
 #: kstars.kcfg:2803
 #, kde-format
 msgid "Whether a tilt adjustment plate is present in the imaging train."
-msgstr ""
+msgstr "ما إذا كانت لوحة ضبط الميل موجودة في مسار التصوير."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2809
@@ -44586,6 +44561,9 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
+"يدور المُدوِّر فعليًا بعكس الاتجاه الذي يفترضه حساب زاوية الموضع في كيستارز. "
+"يُكتشف تلقائيًا أول مرة يؤكد فيها فحص الاتجاه الخاطئ للعكس التلقائي ذلك، أو "
+"يمكن ضبطه يدويًا."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -44990,6 +44968,8 @@ msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
+"شغّل الضبط الذاتي PID (معايرة الكسب باستجابة الخطوة) كجزء من بروتوكول جمع "
+"بيانات الذكاء الاصطناعي."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -45002,6 +44982,11 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"يرسل نبضات معروفة في بداية البروتوكول ويقيس استجابة الخطوة للحامل لاشتقاق "
+"كسب توجيه أساسي للصعود/الانحراف لأي نوع حامل. يُطبَّق الكسب المُقاس ويُثبَّت لبقية "
+"الجلسة، فتُجمع البيانات اللاحقة في ظله؛ ويُحتفظ بالكسب الحالي دون تغيير إذا لم "
+"تجتز الاستجابات فحوصات الاتساق. يضيف نحو 20 دقيقة إلى البروتوكول. مفعّل "
+"افتراضيًا."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131
@@ -45355,13 +45340,13 @@ msgstr "هل ينهي نص إيقاف التشغيل، إذا وُجد، خاد�
 #: kstars.kcfg:3435
 #, kde-format
 msgid "Warm up the camera sensor before the shutdown sequence."
-msgstr ""
+msgstr "دفّئ مستشعر الكاميرا قبل تسلسل الإيقاف."
 
 #. i18n: ectx: label, entry (CameraWarmupRamp), group (Scheduler)
 #: kstars.kcfg:3439
 #, kde-format
 msgid "Camera warmup ramp rate in °C per minute."
-msgstr ""
+msgstr "معدل انحدار تدفئة الكاميرا بالدرجات المئوية لكل دقيقة."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:3445

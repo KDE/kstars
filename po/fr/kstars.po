@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: kstars_3.8.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-09 02:07+0000\n"
-"PO-Revision-Date: 2026-07-03 13:40+0200\n"
-"Last-Translator: steve <stax@ik.me>\n"
+"PO-Revision-Date: 2026-08-08 12:26+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.04.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -6191,8 +6191,8 @@ msgstr ""
 "de KStars de prendre des images réalistes. Cela est utile pour tester les "
 "séquences, la résolution astrométrique des clichés et l'apprentissage de "
 "l'utilisation de KStars. Cliquez juste sur le bouton pour l'installer ou "
-"décompresser le fichier zip et installer le dossier gsc dans le dossier de "
-"données."
+"décompresser le fichier zip et installer le dossier « gsc » dans le dossier "
+"de données."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -6495,7 +6495,7 @@ msgstr ""
 #: ekos/align/align.ui:425
 #, kde-format
 msgid "Pix:"
-msgstr "Éch."
+msgstr "Pixel :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
 #: ekos/align/align.ui:439
@@ -14533,8 +14533,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"Variable pour stocker fwhm en pixels, utilisé pour générer le filtre de "
-"convolution pour la détection d'étoiles."
+"Variable pour enregistrer « fwhm » en pixels, utilisé pour générer le filtre "
+"de convolution pour la détection d'étoiles."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -14543,8 +14543,8 @@ msgid ""
 "This is the 'zero' magnitude used for setting the magnitude scale for the "
 "stars in the image during sextraction."
 msgstr ""
-"Il s'agit de la magnitude zéro utilisée pour définir l'échelle de magnitude "
-"des étoiles dans l'image pendant le traitement sextraction."
+"Il s'agit de la magnitude « zéro » utilisée pour définir l'échelle de "
+"magnitude des étoiles dans l'image pendant le traitement « sextraction ». »"
 
 #. i18n: ectx: property (text), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:379
@@ -54381,7 +54381,7 @@ msgstr "Biddeford"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Big Bear Solar Obs."
-msgstr "Big Bear (Obs. solaire de)"
+msgstr "Big Bear (Observatoire solaire de)"
 
 #: kstars_i18n.cpp:1130
 #, kde-kuit-format
@@ -56979,7 +56979,7 @@ msgstr "Crestwood"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Creve Coeur"
-msgstr "Crève Coeur"
+msgstr "Crève Cœur"
 
 #: kstars_i18n.cpp:1563
 #, kde-kuit-format
@@ -58065,7 +58065,7 @@ msgstr "Dwingeloo (Observatoire de)"
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Dyer Observatory"
-msgstr "Dyer (Obs.)"
+msgstr "Dyer (Observatoire)"
 
 #: kstars_i18n.cpp:1744
 #, kde-kuit-format
@@ -61149,7 +61149,7 @@ msgstr "Hastings"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Hat Creek Radio Obs."
-msgstr "Hat Creek (Obs. radio de)"
+msgstr "Hat Creek (Observatoire radio de)"
 
 #: kstars_i18n.cpp:2258
 #, kde-kuit-format
@@ -65775,13 +65775,13 @@ msgstr "McCook"
 #, kde-kuit-format
 msgctxt "City in Virginia USA"
 msgid "McCormick Obs."
-msgstr "McCormick (Obs.)"
+msgstr "McCormick (Observatoire)"
 
 #: kstars_i18n.cpp:3029
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "McDonald Obs."
-msgstr "McDonald (Obs.)"
+msgstr "McDonald (Observatoire)"
 
 #: kstars_i18n.cpp:3030
 #, kde-kuit-format
@@ -67107,7 +67107,7 @@ msgstr "Mount Forest"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Graham Obs."
-msgstr "Mont Graham (Obs. du)"
+msgstr "Mont Graham (Observatoire du)"
 
 #: kstars_i18n.cpp:3251
 #, kde-kuit-format
@@ -67119,7 +67119,7 @@ msgstr "Mount John"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Lemmon Obs."
-msgstr "Mont Lemmon (Obs. du)"
+msgstr "Mont Lemmon (Observatoire du)"
 
 #: kstars_i18n.cpp:3253
 #, kde-kuit-format
@@ -67131,7 +67131,7 @@ msgstr "Mont Mario"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Palomar Obs."
-msgstr "Mont Palomar (Obs. du)"
+msgstr "Mont Palomar (Observatoire du)"
 
 #: kstars_i18n.cpp:3255
 #, kde-kuit-format
@@ -67155,7 +67155,7 @@ msgstr "Mount Vernon"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Wilson Obs."
-msgstr "Mont Wilson (Obs. du)"
+msgstr "Mont Wilson (Observatoire du)"
 
 #: kstars_i18n.cpp:3259
 #, kde-kuit-format
@@ -68085,7 +68085,7 @@ msgstr "North Las Vegas"
 #, kde-kuit-format
 msgctxt "City in Iowa USA"
 msgid "North Liberty Obs."
-msgstr "North Liberty (Obs.)"
+msgstr "North Liberty (Observatoire)"
 
 #: kstars_i18n.cpp:3414
 #, kde-kuit-format
@@ -68265,7 +68265,7 @@ msgstr "Oak Ridge"
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "Oak Ridge Obs."
-msgstr "Oak Ridge (Obs.)"
+msgstr "Oak Ridge (Observatoire)"
 
 #: kstars_i18n.cpp:3444
 #, kde-kuit-format
@@ -68313,7 +68313,7 @@ msgstr "Oberpfaffenhofen"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Obs. Astronomico de Madrid"
-msgstr "Madrid (Obs. astronomique de)"
+msgstr "Madrid (Observatoire astronomique de)"
 
 #: kstars_i18n.cpp:3452
 #, kde-kuit-format
@@ -68781,7 +68781,7 @@ msgstr "Owen Sound"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Owens Valley Radio Obs."
-msgstr "Owens Valley (Obs. radio de)"
+msgstr "Owens Valley (Observatoire radio de)"
 
 #: kstars_i18n.cpp:3530
 #, kde-kuit-format
@@ -69303,7 +69303,7 @@ msgstr "Peoria"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Perkins Obs."
-msgstr "Perkins (Obs.)"
+msgstr "Perkins (Observatoire)"
 
 #: kstars_i18n.cpp:3617
 #, kde-kuit-format
@@ -69333,7 +69333,7 @@ msgstr "Perth Amboy"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Peru"
-msgstr "Peru"
+msgstr "Pérou"
 
 #: kstars_i18n.cpp:3622
 #, kde-kuit-format
@@ -69459,7 +69459,7 @@ msgstr "Plaisance"
 #, kde-kuit-format
 msgctxt "City in Hautes-Pyrénées France"
 msgid "Pic du Midi (observatory)"
-msgstr "Pic du Midi (Obs. du)"
+msgstr "Pic du Midi (Observatoire du)"
 
 #: kstars_i18n.cpp:3643
 #, kde-kuit-format
@@ -72441,7 +72441,7 @@ msgstr "Skopje"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Sky's The Limit Obs."
-msgstr "Sky's The Limit Obs."
+msgstr "Sky's The Limit Observatoire"
 
 #: kstars_i18n.cpp:4140
 #, kde-kuit-format
@@ -72867,7 +72867,7 @@ msgstr "St. George"
 #, kde-kuit-format
 msgctxt "City in Antigua and Barbuda"
 msgid "St. John's"
-msgstr "Saint John's"
+msgstr "Saint John"
 
 #: kstars_i18n.cpp:4211
 #, kde-kuit-format
@@ -74421,7 +74421,7 @@ msgstr "Türkoğlu"
 #, kde-kuit-format
 msgctxt "City in Washington, DC USA"
 msgid "US Naval Observatory"
-msgstr "US Naval (Obs.)"
+msgstr "US Naval (Observatoire)"
 
 #: kstars_i18n.cpp:4470
 #, kde-kuit-format
@@ -75699,7 +75699,7 @@ msgstr "Wiesbaden"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Wilcox Solar Obs."
-msgstr "Wilcox (Obs. solaire de)"
+msgstr "Wilcox (Observatoire solaire de)"
 
 #: kstars_i18n.cpp:4683
 #, kde-kuit-format
@@ -76263,7 +76263,7 @@ msgstr "Yeosu"
 #, kde-kuit-format
 msgctxt "City in Wisconsin USA"
 msgid "Yerkes Obs."
-msgstr "Yerkes (Obs.)"
+msgstr "Yerkes (Observatoire)"
 
 #: kstars_i18n.cpp:4777
 #, kde-kuit-format
@@ -95792,8 +95792,8 @@ msgstr "PN"
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cacher les rémanents de supernovae si décoché.</p></"
-"body></html>"
+"<html><head/><body><p>Cacher les rémanents de supernova si l'option est "
+"décochée.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1889
