@@ -753,6 +753,13 @@ class Guide : public QWidget, public Ui::Guide
         // Setting this flag causes those re-entrant calls to be silently dropped.
         bool m_isProcessingFrame { false };
 
+        // Streaming-mode dark/defect-map handling. The GUIDE_DARK operation step is
+        // skipped in streaming (no single-capture lifecycle), so dark subtraction is
+        // applied inline per stream frame in processData(). If no matching dark/defect
+        // map is found, this latches true so we stop retrying (and logging) every frame.
+        // Reset when streaming (re)starts or the dark checkbox is re-enabled.
+        bool m_streamDarkUnavailable { false };
+
         // Single-shot timer used as a "pulse in-flight" gate in streaming mode.
         // After a guide pulse is sent the timer is started for the pulse duration
         // plus the configured guide delay.  While it is active, processData() discards

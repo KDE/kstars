@@ -139,7 +139,7 @@
             <item row="4" column="1">
              <widget class="QCheckBox" name="guideDarkFrame">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;p&gt;The dark must be created in the same binning mode used while guiding — including hardware vs. software binning if the camera supports it — otherwise the correction will not match.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Dark</string>

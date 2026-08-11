@@ -243,6 +243,25 @@ void DarkProcessor::denoise(int trainID, ISD::CameraChip *m_TargetChip, const QS
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
+bool DarkProcessor::denoiseSynchronous(int trainID, ISD::CameraChip *targetChip,
+                                       const QSharedPointer<FITSData> &targetData,
+                                       double duration, uint16_t offsetX, uint16_t offsetY)
+{
+    info = {trainID, targetChip, targetData, duration, offsetX, offsetY};
+
+    bool useDefect = false;
+    // Get the train settings
+    OpticalTrainSettings::Instance()->setOpticalTrainID(trainID);
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
+    if (settings.isValid())
+        useDefect = settings.toMap().contains("preferDefectsRadio");
+
+    return denoiseInternal(useDefect);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 bool DarkProcessor::denoiseInternal(bool useDefect)
 {
     // Check if we have preference for defect map
