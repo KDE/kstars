@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.8.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"POT-Creation-Date: 2026-08-12 02:34+0000\n"
 "PO-Revision-Date: 2026-08-08 12:26+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -6288,7 +6288,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1458 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6594,9 +6594,7 @@ msgstr "Afficher dans l'afficheur FITS…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
-#: ekos/guide/guide.ui:142
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
@@ -7520,13 +7518,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Durée d'exposition écoulée. Annulation…"
 
 #: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1209
+#: ekos/guide/guide.cpp:1212
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Durée d'exposition écoulée. Trop d'essais. Redémarrage du pilote…"
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1174
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1177
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
@@ -13132,7 +13130,7 @@ msgstr "Effacer les éléments expirés"
 msgid "Double click to load dark frame"
 msgstr "Double clic pour charger le dark"
 
-#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
+#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -23253,18 +23251,18 @@ msgstr ""
 "Corrections déjà appliquées. Relancez la mise au point automatique pour "
 "obtenir de nouvelles mesures d'inclinaison."
 
-#: ekos/guide/aiguideprotocol.cpp:446
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 "Aucune donnée pour l'entraînement ! Veuillez d'abord exécuter le protocole."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
 msgstr "Aucune donnée pour l'entraînement"
 
-#: ekos/guide/aiguideprotocol.cpp:452
+#: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Démarrage de l'entraînement IA via le cloud EkosLive…"
@@ -24016,181 +24014,181 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr "La connexion à l'appareil de guidage est perdue."
 
-#: ekos/guide/guide.cpp:987
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Démarrage de l'enregistrement du guide."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Arrêt de l'enregistrement du guide."
 
-#: ekos/guide/guide.cpp:1168
+#: ekos/guide/guide.cpp:1171
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Durée d'exposition écoulée, opération suspendue et ignorée…"
 
-#: ekos/guide/guide.cpp:1196
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Délai d'exposition dépassé. Annulation du guidage automatique."
 
-#: ekos/guide/guide.cpp:1198
+#: ekos/guide/guide.cpp:1201
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Délai d'exposition dépassé. Annulation du décalage."
 
-#: ekos/guide/guide.cpp:1200
+#: ekos/guide/guide.cpp:1203
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Délai d'exposition dépassé. Annulation de la calibration."
 
-#: ekos/guide/guide.cpp:1255
+#: ekos/guide/guide.cpp:1258
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Échec de la reconnexion de la caméra après le redémarrage du pilote."
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Dérive libre IA active. Impulsion multiple supprimée (AD : %1 ms, DEC : %2 "
 "ms)."
 
-#: ekos/guide/guide.cpp:1582
+#: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Dérive libre IA active. Impulsion simple supprimée (%1 ms)."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Aucun appareil détecté. Veuillez vérifier la caméra du train optique."
 
-#: ekos/guide/guide.cpp:1642
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Aucun guide détecté. Veuillez vérifier guide-via dans les trains optiques."
 
-#: ekos/guide/guide.cpp:1734
+#: ekos/guide/guide.cpp:1767
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La monture est parquée. Déparquer pour démarrer le guidage."
 
-#: ekos/guide/guide.cpp:1843
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Détection d'un changement de côté du pied. Réinitialisation de la "
 "calibration."
 
-#: ekos/guide/guide.cpp:1857
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La monture se déplace. Réinitialisation de la calibration…"
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1907
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Parcage de la monture. Annulation du guidage en cours…"
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1909
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "La monture est en cours de pointage. Annulation du guidage…"
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "La calibration est effacée."
 
-#: ekos/guide/guide.cpp:2002
+#: ekos/guide/guide.cpp:2035
 #, kde-format
 msgid "External guider connected."
 msgstr "Guidage externe connecté."
 
-#: ekos/guide/guide.cpp:2020
+#: ekos/guide/guide.cpp:2053
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Guidage externe déconnecté."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2070
 #, kde-format
 msgid "Calibration completed."
 msgstr "Calibration terminée."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2096
 #, kde-format
 msgid "Calibration started."
 msgstr "Démarrage de la calibration."
 
-#: ekos/guide/guide.cpp:2077
+#: ekos/guide/guide.cpp:2110
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Reprise du guidage."
 
-#: ekos/guide/guide.cpp:2081
+#: ekos/guide/guide.cpp:2114
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Le guidage automatique est lancé."
 
-#: ekos/guide/guide.cpp:2103
+#: ekos/guide/guide.cpp:2136
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Guidage automatique annulé."
 
-#: ekos/guide/guide.cpp:2111
+#: ekos/guide/guide.cpp:2144
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guidage mis en pause."
 
-#: ekos/guide/guide.cpp:2120
+#: ekos/guide/guide.cpp:2153
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Décalage manuel en cours."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2157
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Décalage en cours."
 
-#: ekos/guide/guide.cpp:2128
+#: ekos/guide/guide.cpp:2161
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Délai après décalage de %1 seconde…"
 msgstr[1] "Délai après décalage de %1 secondes…"
 
-#: ekos/guide/guide.cpp:2133
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Dithering failed."
 msgstr "Échec du décalage."
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2177
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Décalage totalement réussi."
 
-#: ekos/guide/guide.cpp:2202
+#: ekos/guide/guide.cpp:2235
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "Le regroupement %1 x %1 n'est pas pris en charge pour le guidage. Le maximum "
 "est %2 x %2."
 
-#: ekos/guide/guide.cpp:2226
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Échec de l'exposition. Nouvelle exposition…"
 
-#: ekos/guide/guide.cpp:2361
+#: ekos/guide/guide.cpp:2398
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Impossible de modifier le type de guide quand il est actif."
 
-#: ekos/guide/guide.cpp:2456
+#: ekos/guide/guide.cpp:2493
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24199,37 +24197,37 @@ msgstr ""
 "Attention : la réinitialisation de la calibration du guidage est activée. Il "
 "est recommandé de désactiver cette option pour PHD2."
 
-#: ekos/guide/guide.cpp:2910
+#: ekos/guide/guide.cpp:2947
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Échec du démarrage de calibration."
 
-#: ekos/guide/guide.cpp:3061
+#: ekos/guide/guide.cpp:3098
 #, kde-format
 msgid "Auto star selected."
 msgstr "Sélection automatique d'une étoile."
 
-#: ekos/guide/guide.cpp:3065
+#: ekos/guide/guide.cpp:3102
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Échec de la sélection automatique d'une étoile."
 
-#: ekos/guide/guide.cpp:3074
+#: ekos/guide/guide.cpp:3111
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Sélectionner une étoile de guidage à calibrer."
 
-#: ekos/guide/guide.cpp:3336
+#: ekos/guide/guide.cpp:3373
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (pixels)"
 
-#: ekos/guide/guide.cpp:3337
+#: ekos/guide/guide.cpp:3374
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (pixels)"
 
-#: ekos/guide/guide.cpp:3480 ekos/guide/guide.cpp:3632
+#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24239,7 +24237,7 @@ msgstr ""
 "images acquises. Mais, vous devriez toujours voir l'image de l'étoile ciblée "
 "lors du guidage."
 
-#: ekos/guide/guide.cpp:3484 ekos/guide/guide.cpp:3636
+#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24251,32 +24249,32 @@ msgstr ""
 "maintenant de faire des acquisitions d'images. Vous pouvez le réactiver "
 "avant le guidage."
 
-#: ekos/guide/guide.cpp:3565
+#: ekos/guide/guide.cpp:3602
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Assistant de guidage IA…"
 
-#: ekos/guide/guide.cpp:3573
+#: ekos/guide/guide.cpp:3610
 #, kde-format
 msgid "Load Weights..."
 msgstr "Charger les poids…"
 
-#: ekos/guide/guide.cpp:3679 ekos/guide/guide.cpp:3684
+#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Échec de l'entraînement IA sur EkosLive : %1"
 
-#: ekos/guide/guide.cpp:3680 ekos/guide/guide.cpp:3685
+#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
 #, kde-format
 msgid "unknown error"
 msgstr "Erreur inconnue"
 
-#: ekos/guide/guide.cpp:3699
+#: ekos/guide/guide.cpp:3736
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Impossible d’enregistrer les poids IA dans %1"
 
-#: ekos/guide/guide.cpp:3709
+#: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24284,23 +24282,23 @@ msgstr ""
 "Entraînement IA terminé. Poids enregistrés dans %1 et définis comme poids IA "
 "actifs."
 
-#: ekos/guide/guide.cpp:3713
+#: ekos/guide/guide.cpp:3750
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Entraînement IA terminé. Poids enregistrés dans %1."
 
-#: ekos/guide/guide.cpp:3719
+#: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Charger les poids du Guide IA"
 
-#: ekos/guide/guide.cpp:3720
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Poids IA (*.json)"
 
-#: ekos/guide/guide.cpp:3724
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24309,7 +24307,7 @@ msgstr ""
 "Poids du Guide IA définis sur %1. Ils seront appliqués au prochain démarrage "
 "du guidage."
 
-#: ekos/guide/guide.cpp:3905
+#: ekos/guide/guide.cpp:3942
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -24320,6 +24318,17 @@ msgstr ""
 #, kde-format
 msgid "Control"
 msgstr "Contrôle"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
+#: ekos/guide/guide.ui:142
+#, kde-format
+msgid ""
+"<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
+"in the Dark Library tool in the capture module.</p><p>The dark must be "
+"created in the same binning mode used while guiding — including hardware vs. "
+"software binning if the camera supports it — otherwise the correction will "
+"not match.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -72807,7 +72816,7 @@ msgstr "Squamish"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. Alban's"
-msgstr "Saint Alban's"
+msgstr "Saint Alban"
 
 #: kstars_i18n.cpp:4201
 #, kde-kuit-format
@@ -72873,7 +72882,7 @@ msgstr "Saint John"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. John's"
-msgstr "Saint John's"
+msgstr "Saint John"
 
 #: kstars_i18n.cpp:4212
 #, kde-kuit-format
@@ -72933,7 +72942,7 @@ msgstr "St. Peter-Port"
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "St. Peter's"
-msgstr "St. Peter's"
+msgstr "St. Peter"
 
 #: kstars_i18n.cpp:4222
 #, kde-kuit-format
@@ -84944,7 +84953,7 @@ msgstr "Périphérique"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Diff. Eq."
-msgstr "Éq diff."
+msgstr "Équation diff."
 
 #: libindi_strings.cpp:108
 #, kde-kuit-format

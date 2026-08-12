@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 02:07+0000\n"
-"PO-Revision-Date: 2026-08-01 20:30+0200\n"
+"POT-Creation-Date: 2026-08-12 02:34+0000\n"
+"PO-Revision-Date: 2026-08-08 20:41+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6267,7 +6267,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1458 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6572,9 +6572,7 @@ msgstr "Mostra nel visore FITS..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
-#: ekos/guide/guide.ui:142
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
@@ -7490,13 +7488,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Tempo scaduto per l'esposizione. Interruzione..."
 
 #: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1209
+#: ekos/guide/guide.cpp:1212
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Tempo scaduto. Troppi. Riavvio del driver."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1174
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1177
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Tempo scaduto per l'esposizione. Riavvio dell'esposizione..."
@@ -11406,7 +11404,7 @@ msgstr "Dithering riuscito"
 #: ekos/analyze/analyze.cpp:3550 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
-msgstr "Impostazioni"
+msgstr "Stabilizzazione"
 
 #. i18n: ectx: property (text), widget (QLabel, timelineLabel)
 #: ekos/analyze/analyze.ui:50
@@ -13092,7 +13090,7 @@ msgstr "Cancella gli scaduti"
 msgid "Double click to load dark frame"
 msgstr "Doppio clic per caricare dark frame"
 
-#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
+#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -23180,27 +23178,25 @@ msgstr ""
 "Correzioni già applicate. Riesegui la messa a fuoco automatica per ottenere "
 "le misure di inclinazione aggiornate."
 
-#: ekos/guide/aiguideprotocol.cpp:446
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "Nessun dato da addestrare! Esegui prima il protocollo."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
 msgstr "Nessun dato da addestrare"
 
-#: ekos/guide/aiguideprotocol.cpp:452
+#: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Avvio dell'addestramento IA tramite cloud di EkosLive..."
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "Salva sessione"
+msgstr "Avvia nuova sessione"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -23208,6 +23204,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"Ritorna alla prima pagina ed esegue di nuovo il protocollo. I pesi esistenti "
+"rimangono attivi fino a quando termina il nuovo addestramento."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
@@ -23218,6 +23216,12 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"La regolazione automatica PID è abilitata, questa esecuzione misurerà la "
+"risposta della tua montatura e determinerà e bloccherà automaticamente "
+"nell'aggressività AR/DEC al tuo posto; non è necessario impostarla in "
+"anticipo. Il modello IA è ancora addestrato e bloccato agli attuali valori "
+"di esposizione di guida e alle impostazioni degli impulsi, pertanto usa i "
+"valori con cui normalmente eseguiresti la guida."
 
 #: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
@@ -23225,21 +23229,24 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"Il modello IA è ancora addestrato e bloccato agli attuali valori di "
+"esposizione di guida, aggressività e impostazioni degli impulsi; usa i "
+"valori con cui normalmente eseguiresti la guida."
 
 #: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
+"Tipo di montatura rilevata: %1. Modifica la selezione sopra se non fosse "
+"corretta."
 
 #: ekos/guide/aiguidewizard.cpp:327
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr ""
-"Selezione automatica di una stella non riuscita. Seleziona una stella "
-"manualmente."
+"Impossibile rilevare automaticamente il tipo di montatura. Selezionala "
+"manualmente sopra."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -23299,20 +23306,7 @@ msgstr "Direct Drive"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Recommended "
-#| "Settings (set BEFORE running):</span></p><ul><li><span style=\" font-"
-#| "weight:600;\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span "
-#| "style=\" font-weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s "
-#| "(depends on guide star SNR)</li><li><span style=\" font-weight:600;"
-#| "\">Direct Drive:</span> exposure 1.0s to 3.0s</li></ul><p><span style=\" "
-#| "color:#ff5500;\">The AI model is trained and locked to your current guide "
-#| "exposure, aggressiveness and pulse settings — use the values you normally "
-#| "guide with.</span></p><p>Define an <span style=\" font-weight:600;"
-#| "\">Artificial Horizon</span> (Settings → Artificial Horizon) before "
-#| "running — the protocol slews by Alt/Az and uses it to pick safe targets.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23330,13 +23324,10 @@ msgstr ""
 "li><li><span style=\" font-weight:600;\">Harmonic Drive:</span> esposizione "
 "da 0,5 a 1,0s (dipende dall'SNR della guida stella)</li><li><span style=\" "
 "font-weight:600;\">Direct Drive:</span> esposizione da 1,0s a 3,0s</li></"
-"ul><p><span style=\" color:#ff5500;\">Il modello IA è addestrato e bloccato "
-"all'esposizione attuale della tua guida, e alle impostazioni degli impulsi e "
-"di aggressività — usa i valori con cui normalmente utilizzi la guida.</"
-"span></p><p>Definisci un <span style=\" font-weight:600;\">orizzonte "
-"artificiale</span> (Impostazioni → Orizzonte artificiale) prima "
-"dell'esecuzione — il protocollo ruota per Alt/Az e lo usa per scegliere "
-"bersagli sicuri.</p></body></html>"
+"ul><p>Definisci un <span style=\" font-weight:600;\">orizzonte artificiale</"
+"span> (Impostazioni → Orizzonte artificiale) prima dell'esecuzione — il "
+"protocollo ruota per Alt/Az e lo usa per scegliere bersagli sicuri.</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
@@ -23372,13 +23363,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23387,19 +23372,15 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocollo Worm Gear "
-"(~45 min):</span><br/>1. Rotazione verso altezza elevata: deriva libera, poi "
-"guida standard.<br/>2. Rotazione verso altezza inferiore: deriva libera, poi "
-"guida standard.<br/>3. Rotazione verso altezza elevata: guida standard.</p></"
+"(~65 min):</span><br/>1. Rotazione verso altezza elevata: guida standard, "
+"deriva libera, poi regolazione automatica PID (risposta passi).<br/>2. "
+"Rotazione verso altezza inferiore: guida standard, poi deriva libera.<br/>3. "
+"Rotazione verso altezza elevata: guida standard, poi deriva libera.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23407,19 +23388,14 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocollo Harmonic "
-"Drive (~35 min):</span><br/>1. Rotazione verso altezza elevata: deriva "
-"libera, test di risposta impulso, poi guida standard.<br/>2. Rotazione verso "
-"altezza inferiore: deriva libera, poi guida standard.</p></body></html>"
+"Drive (~60 min):</span><br/>1. Rotazione verso altezza elevata: guida "
+"standard, deriva libera, poi regolazione automatica PID (risposta passi).<br/"
+">2. Rotazione verso altezza inferiore: deriva libera, poi guida standard.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23427,10 +23403,11 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Protocollo Worm Gear "
-"(~45 min):</span><br/>1. Rotazione verso altezza elevata: deriva libera, poi "
-"guida standard.<br/>2. Rotazione verso altezza inferiore: deriva libera, poi "
-"guida standard.<br/>3. Rotazione verso altezza elevata: guida standard.</p></"
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocollo Direct "
+"Drive (~30 min):</span><br/>1. Rotazione verso altezza elevata: guida "
+"standard, deriva libera, poi regolazione automatica PID (risposta passi).<br/"
+">2. Rotazione verso altezza media: guida standard, poi deriva libera.<br/>3. "
+"Rotazione verso altezza inferiore: guida standard, poi deriva libera.</p></"
 "body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
@@ -23943,178 +23920,178 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr "La connessione alla fotocamera guida è stata persa."
 
-#: ekos/guide/guide.cpp:987
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Flusso guida avviato."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Flusso guida interrotto."
 
-#: ekos/guide/guide.cpp:1168
+#: ekos/guide/guide.cpp:1171
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Tempo scaduto, ma sospeso. Sto ignorando..."
 
-#: ekos/guide/guide.cpp:1196
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Tempo scaduto per l'esposizione. Interruzione guida automatica."
 
-#: ekos/guide/guide.cpp:1198
+#: ekos/guide/guide.cpp:1201
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Tempo scaduto per l'esposizione. Interruzione dithering."
 
-#: ekos/guide/guide.cpp:1200
+#: ekos/guide/guide.cpp:1203
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tempo scaduto per l'esposizione. Interruzione calibrazione."
 
-#: ekos/guide/guide.cpp:1255
+#: ekos/guide/guide.cpp:1258
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Riconnessione fotocamera dopo riavvio del driver non riuscita."
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Deriva libera IA attiva. Multi-impulso trattenuto (AR: %1ms, DEC: %2ms)."
 
-#: ekos/guide/guide.cpp:1582
+#: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Deriva libera IA attiva. Impulso singolo trattenuto (%1ms)."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Nessuna fotocamera rilevata. Verifica la fotocamera nei gruppi ottici."
 
-#: ekos/guide/guide.cpp:1642
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Nessuna dispositivo di guida rilevato. Verifica la guida nei treni ottici."
 
-#: ekos/guide/guide.cpp:1734
+#: ekos/guide/guide.cpp:1767
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La montatura è parcheggiata. Sparcheggiala per iniziare la guida."
 
-#: ekos/guide/guide.cpp:1843
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Rilevata modifica dello stato di puntamento. Cancellazione della "
 "calibrazione."
 
-#: ekos/guide/guide.cpp:1857
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La montatura si sta spostando. Ripristino calibrazione..."
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1907
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "La montatura si sta parcheggiando. Interruzione della guida..."
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1909
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "La montatura sta ruotando. Guida interrotta..."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "La calibrazione è stata cancellata."
 
-#: ekos/guide/guide.cpp:2002
+#: ekos/guide/guide.cpp:2035
 #, kde-format
 msgid "External guider connected."
 msgstr "Dispositivo di guida esterno connesso."
 
-#: ekos/guide/guide.cpp:2020
+#: ekos/guide/guide.cpp:2053
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dispositivo di guida esterno disconnesso."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2070
 #, kde-format
 msgid "Calibration completed."
 msgstr "Calibrazione completata."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2096
 #, kde-format
 msgid "Calibration started."
 msgstr "Calibrazione iniziata."
 
-#: ekos/guide/guide.cpp:2077
+#: ekos/guide/guide.cpp:2110
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Guida ripresa."
 
-#: ekos/guide/guide.cpp:2081
+#: ekos/guide/guide.cpp:2114
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Guida automatica in esecuzione."
 
-#: ekos/guide/guide.cpp:2103
+#: ekos/guide/guide.cpp:2136
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Guida automatica interrotta."
 
-#: ekos/guide/guide.cpp:2111
+#: ekos/guide/guide.cpp:2144
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guida sospesa."
 
-#: ekos/guide/guide.cpp:2120
+#: ekos/guide/guide.cpp:2153
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Dithering manuale in corso."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2157
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Dithering in corso."
 
-#: ekos/guide/guide.cpp:2128
+#: ekos/guide/guide.cpp:2161
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Stabilizzazione post-dither per 1 secondo..."
 msgstr[1] "Stabilizzazione post-dither per %1 secondi..."
 
-#: ekos/guide/guide.cpp:2133
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Dithering failed."
 msgstr "Dithering non riuscito."
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2177
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dithering completato correttamente."
 
-#: ekos/guide/guide.cpp:2202
+#: ekos/guide/guide.cpp:2235
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Il binning di guida %1x%1 non è supportato. Il massimo è %2x%2."
 
-#: ekos/guide/guide.cpp:2226
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Esposizione non riuscita. Riavvio dell'esposizione..."
 
-#: ekos/guide/guide.cpp:2361
+#: ekos/guide/guide.cpp:2398
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Impossibile cambiare il tipo di dispositivo di guida mentre è attivo."
 
-#: ekos/guide/guide.cpp:2456
+#: ekos/guide/guide.cpp:2493
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24123,37 +24100,37 @@ msgstr ""
 "Attenzione: Ripristina la calibrazione della guida è abilitato. È "
 "raccomandato disattivare questa opzione per PHD2."
 
-#: ekos/guide/guide.cpp:2910
+#: ekos/guide/guide.cpp:2947
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "La calibrazione non si è avviata."
 
-#: ekos/guide/guide.cpp:3061
+#: ekos/guide/guide.cpp:3098
 #, kde-format
 msgid "Auto star selected."
 msgstr "Stella automatica selezionata."
 
-#: ekos/guide/guide.cpp:3065
+#: ekos/guide/guide.cpp:3102
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Selezione di una stella automatica non riuscita."
 
-#: ekos/guide/guide.cpp:3074
+#: ekos/guide/guide.cpp:3111
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleziona una stella guida per calibrare."
 
-#: ekos/guide/guide.cpp:3336
+#: ekos/guide/guide.cpp:3373
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (pixel)"
 
-#: ekos/guide/guide.cpp:3337
+#: ekos/guide/guide.cpp:3374
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (pixel)"
 
-#: ekos/guide/guide.cpp:3480 ekos/guide/guide.cpp:3632
+#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24163,7 +24140,7 @@ msgstr ""
 "immagini catturate; vedrai però l'immagine della stella guida durante la "
 "guida."
 
-#: ekos/guide/guide.cpp:3484 ekos/guide/guide.cpp:3636
+#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24175,32 +24152,32 @@ msgstr ""
 "l'acquisizione delle tue immagini. Puoi riabilitarla prima dell'esecuzione "
 "della guida."
 
-#: ekos/guide/guide.cpp:3565
+#: ekos/guide/guide.cpp:3602
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Assistente al sistema di guida IA..."
 
-#: ekos/guide/guide.cpp:3573
+#: ekos/guide/guide.cpp:3610
 #, kde-format
 msgid "Load Weights..."
 msgstr "Carica pesi..."
 
-#: ekos/guide/guide.cpp:3679 ekos/guide/guide.cpp:3684
+#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Addestramento dell'IA di EkosLive non riuscito: %1"
 
-#: ekos/guide/guide.cpp:3680 ekos/guide/guide.cpp:3685
+#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
 #, kde-format
 msgid "unknown error"
 msgstr "errore sconosciuto"
 
-#: ekos/guide/guide.cpp:3699
+#: ekos/guide/guide.cpp:3736
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Impossibile salvare i pesi IA in %1"
 
-#: ekos/guide/guide.cpp:3709
+#: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24208,23 +24185,23 @@ msgstr ""
 "Addestramento IA completato. I pesi sono stati salvati in %1 e configurati "
 "come pesi IA attivi."
 
-#: ekos/guide/guide.cpp:3713
+#: ekos/guide/guide.cpp:3750
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Addestramento IA completato. I pesi sono stati salvati in %1."
 
-#: ekos/guide/guide.cpp:3719
+#: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Carica pesi del dispositivo di guida IA"
 
-#: ekos/guide/guide.cpp:3720
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Pesi IA (*.json)"
 
-#: ekos/guide/guide.cpp:3724
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24233,7 +24210,7 @@ msgstr ""
 "Pesi del dispositivo di guida IA impostati a %1. Essi saranno applicati al "
 "prossimo avvio del sistema di guida."
 
-#: ekos/guide/guide.cpp:3905
+#: ekos/guide/guide.cpp:3942
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Impossibile cambiare il gruppo ottico attivo mentre PHD2 è connesso"
@@ -24243,6 +24220,17 @@ msgstr "Impossibile cambiare il gruppo ottico attivo mentre PHD2 è connesso"
 #, kde-format
 msgid "Control"
 msgstr "Controllo"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
+#: ekos/guide/guide.ui:142
+#, kde-format
+msgid ""
+"<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
+"in the Dark Library tool in the capture module.</p><p>The dark must be "
+"created in the same binning mode used while guiding — including hardware vs. "
+"software binning if the camera supports it — otherwise the correction will "
+"not match.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -24980,36 +24968,23 @@ msgstr "Direzione DEC inversa (AR-DEC è ora sistema antiorario standard)."
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
+"Autoguida IA: applicate le impostazioni registrate del modello addestrato "
+"(%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "The weights file could not be read."
-msgstr ""
-"Il file dei pesi non può essere letto oppure non corrisponde a questo tipo "
-"di montatura."
+msgstr "Il file dei pesi non può essere letto."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
-"Il dispositivo di guida IA non è riuscito a caricare i pesi o il codice di "
-"controllo non corrisponde. Guida interrotta."
+"Il dispositivo di guida IA non è riuscito a caricare i pesi. Guida "
+"interrotta."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights!\n"
-#| "\n"
-#| "%1\n"
-#| "\n"
-#| "Change the settings back to match, re-run the Guide AI Assistant with "
-#| "your current settings, or switch the Guide Algorithm to a standard mode. "
-#| "Guiding has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -25022,9 +24997,8 @@ msgstr ""
 "\n"
 "%1\n"
 "\n"
-"Ricambia le impostazioni in modo da corrispondere, esegui di nuovo "
-"l'Assistente IA con le attuali impostazioni, o passa l'algoritmo di guida "
-"alla modalità standard. La guida è stata interrotta."
+"Esegui di nuovo l'Assistente IA o passa l'algoritmo di guida alla modalità "
+"standard. La guida è stata interrotta."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -25065,15 +25039,13 @@ msgstr "Dispositivo di guida IA: nessun peso"
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "Ricaricamento dei pesi dell'autoguida IA non riuscito: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
-#, fuzzy, kde-format
-#| msgid ""
-#| "The weights file could not be read or does not match this mount type."
+#, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
-"Il file dei pesi non può essere letto oppure non corrisponde a questo tipo "
+"il file dei pesi non può essere letto oppure non corrisponde a questo tipo "
 "di montatura."
 
 #: ekos/guide/internalguide/gmath.cpp:396
@@ -25081,6 +25053,8 @@ msgstr ""
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Pesi dell'autoguida IA ricaricati in diretta da %1 — la guida continua senza "
+"interruzioni."
 
 #: ekos/guide/internalguide/gmath.cpp:848
 #, kde-format
@@ -25323,7 +25297,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "Regolazione automatica PID (calibrazione guadagno risposta-passo)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25335,6 +25309,12 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Invia impulsi conosciuti all'inizio del protocollo e misura la risposta "
+"passi della montatura per ottenere un guadagno di guida AR/DEC di base per "
+"qualsiasi tipo di montatura. Il guadagno misurato viene applicato e bloccato "
+"per il resto della sessione; il guadagno attuale viene mantenuto se le "
+"risposte non passano i controlli di coerenza. Aggiunge circa 20 minuti al "
+"protocollo; opzione abilitata in modo predefinito."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -25812,7 +25792,7 @@ msgstr ""
 "color:#8ae234;\">Controllo del guadagno</span> e <span style=\" font-"
 "weight:600; color:#8ae234;\">Spostamento minimo</span>, con una "
 "correzione<br/>predittiva controllata da <span style=\" font-weight:600; "
-"color:#8ae234;\">Guadagno predizione</span>.</p><p>Il parametro più "
+"color:#8ae234;\">Guadagno previsione</span>.</p><p>Il parametro più "
 "importante è <span style=\" font-weight:600; color:#8ae234;\">Periodo "
 "principale</span>. Se puoi determinarlo per la tua montatura, è molto<br/"
 ">meglio impostarlo da te e deselezionare <span style=\" font-weight:600; "
@@ -25874,13 +25854,13 @@ msgstr "Periodo principale"
 #, kde-format
 msgid "The fraction of its prediction the GPG uses to move the mount."
 msgstr ""
-"La frazione della sua predizione che il GPG usa per spostare la montatura."
+"La frazione della sua previsione che il GPG usa per spostare la montatura."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs2a)
 #: ekos/guide/opsgpg.ui:149
 #, kde-format
 msgid "Prediction Gain"
-msgstr "Guadagno predizione"
+msgstr "Guadagno previsione"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgsDarkGuiding)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGDarkGuiding)
@@ -26175,7 +26155,7 @@ msgid ""
 "used. Before that, it is mixed with the control/proportional guider."
 msgstr ""
 "Il numero minimo di periodi che devono essere campionati prima che la "
-"predizione sia completamente utilizzata. Prima di quello, è mescolata "
+"previsione sia completamente utilizzata. Prima di quello, è mescolata "
 "assieme all'autoguida proporzionale/di controllo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas7a)
@@ -46638,14 +46618,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
-#, fuzzy, kde-format
-#| msgid "Include the pulse response test in the AI data collection protocol."
+#, kde-format
 msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
-"Includi il test di risposta agli impulsi nel protocollo di raccolta dei dati "
-"IA."
+"Esegui la regolazione automatica PID (calibrazione guadagno risposta-passo) "
+"come parte del protocollo di raccolta dati dell'intelligenza artificiale."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46658,6 +46637,13 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Invia impulsi conosciuti all'inizio del protocollo e misura la risposta "
+"passi della montatura per ottenere un guadagno di guida AR/DEC di base per "
+"qualsiasi tipo di montatura. Il guadagno misurato viene applicato e bloccato "
+"per il resto della sessione, in modo che i dati che seguono siano raccolti "
+"sotto di esso; il guadagno attuale non viene modificato se le risposte non "
+"passano i controlli di coerenza. Aggiunge circa 20 minuti al protocollo; "
+"opzione abilitata in modo predefinito."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131

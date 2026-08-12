@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"POT-Creation-Date: 2026-08-12 02:34+0000\n"
 "PO-Revision-Date: 2026-08-10 18:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -479,7 +479,7 @@ msgstr "احفظ الصورة"
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
-msgstr "الملف المسمى \"%1\" موجود سلفاً. الكتابة فوقه?"
+msgstr "الملف المسمى \"%1\" موجود سلفًا. الكتابة فوقه?"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:441
 #: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
@@ -1639,7 +1639,7 @@ msgstr "فشل حفظ الصورة إلى %1."
 #: catalogsdb/catalogsdb.cpp:325
 #, kde-format
 msgid "Catalog with that ID already exists."
-msgstr "كتالوج يحمل معرّفاً كهذا موجود بالفعل."
+msgstr "كتالوج يحمل معرّفًا كهذا موجود بالفعل."
 
 #: catalogsdb/catalogsdb.cpp:619 catalogsdb/catalogsdb.cpp:756
 #, kde-format
@@ -1759,7 +1759,7 @@ msgstr "يجب أن يكون كلا الكتالوجين موجودَين!"
 #: catalogsdb/catalogsdb.cpp:935
 #, kde-format
 msgid "Destination catalog has to be mutable!"
-msgstr "يجب أن يكون كتالوج الوجهة قابلاً للتغيير!"
+msgstr "يجب أن يكون كتالوج الوجهة قابلًا للتغيير!"
 
 #: catalogsdb/catalogsdb.cpp:951
 #, kde-format
@@ -2292,7 +2292,7 @@ msgid ""
 "the currently selected object."
 msgstr ""
 "يُعيد تحميل هذا الزر قائمة الأجرام الحالية، ويُحدِّث كل المعلومات المَعروضة، "
-"ويُحدِّث أي صور، ويُحدِّث المعلومات والصور للجرم المُختار حالياً."
+"ويُحدِّث أي صور، ويُحدِّث المعلومات والصور للجرم المُختار حاليًا."
 
 #: data/qml/whatisinteresting/wiview.qml:1699
 #, kde-kuit-format
@@ -2303,7 +2303,7 @@ msgid ""
 "current observing equipment, and the current sky conditions based on the "
 "What's Interesting Settings."
 msgstr ""
-"هذا الزر يبدّل ما إن تُرشّح القائمة لعرض الأجرام المرئية حاليّاً فقط في القائمة "
+"هذا الزر يبدّل ما إن تُرشّح القائمة لعرض الأجرام المرئية حاليًّا فقط في القائمة "
 "أو عرض جميع الأجرام في القائمة. يحدد الوضوح بناءً على تاريخ ووقت نجوم‌ك "
 "الحالي، ومعدات الرصد الحالية، وظروف السماء الحالية بناءً على إعدادات «ما هو "
 "مثير للاهتمام»."
@@ -2336,7 +2336,7 @@ msgstr ""
 "هذا الزر يحاول تحميل المعلومات والصور حول الجرم (الأجرام) من ويكيبيديا. "
 "يمكنك تحديد ما إن تحمل المعلومات عن جرم واحد فقط، أو جميع الأجرام في قائمة، "
 "أو الكائنات في قائمة لم تحمل بياناتها بعد. يرجى الملاحظة: إن ترشّح القائمة "
-"حاليّاً للكائنات المرئية أو الأجرام «المثيرة للاهتمام»، ستحمل الأجرام المُرشّحة "
+"حاليًّا للكائنات المرئية أو الأجرام «المثيرة للاهتمام»، ستحمل الأجرام المُرشّحة "
 "فقط. إن تريد بالفعل جميع الأجرام في القائمة، أوقف المرشحات."
 
 #: data/qml/whatisinteresting/wiview.qml:1781
@@ -2641,13 +2641,13 @@ msgstr "اِحفَظْ الكتالوج باسم:"
 #: dialogs/addcatdialog.ui:373
 #, kde-format
 msgid "Enter a name for the catalog"
-msgstr "أَدخِلْ اسماً للكتالوج"
+msgstr "أَدخِلْ اسمًا للكتالوج"
 
 #: dialogs/addlinkdialog.cpp:30
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom URL to %1"
-msgstr "%1 أضف رابطاً مخصصاً إلى"
+msgstr "%1 أضف رابطًا مخصصًا إلى"
 
 #: dialogs/addlinkdialog.cpp:46 dialogs/addlinkdialog.cpp:72
 #, kde-format
@@ -2827,7 +2827,7 @@ msgstr "ساعة"
 #, kde-format
 msgctxt "@title:window"
 msgid "Import Catalog"
-msgstr "أستورد دليلاً"
+msgstr "أستورد دليلًا"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToFile)
 #: dialogs/catalogcsvimport.cpp:107 ekos/auxiliary/opslogs.ui:215
@@ -2860,7 +2860,7 @@ msgstr[0] "جرم"
 msgstr[1] "جرم واحد"
 msgstr[2] "جرمان"
 msgstr[3] "%1 أجرام"
-msgstr[4] "%1 جرماً"
+msgstr[4] "%1 جرمًا"
 msgstr[5] "%1 جرم"
 
 #: dialogs/catalogcsvimport.cpp:189
@@ -2984,7 +2984,7 @@ msgid ""
 "Showing <= %1 entries. Enter a name (case sensitive) to narrow down the "
 "search."
 msgstr ""
-"يُظهِر <= %1 من الإدخالات. أَدخِلْ اسماً (حساس لحالة الأحرف) لتضييق نطاق البحث."
+"يُظهِر <= %1 من الإدخالات. أَدخِلْ اسمًا (حساس لحالة الأحرف) لتضييق نطاق البحث."
 
 #: dialogs/catalogdetails.cpp:84
 #, kde-format
@@ -3386,13 +3386,13 @@ msgstr "كتالوجات أجرام السماء العميقة"
 #: dialogs/catalogsdbui.ui:43
 #, kde-format
 msgid "Import Catalog..."
-msgstr "أستورد دليلاً ..."
+msgstr "أستورد دليلًا ..."
 
 #. i18n: ectx: property (text), widget (QPushButton, createButton)
 #: dialogs/catalogsdbui.ui:50
 #, kde-format
 msgid "Create Catalog..."
-msgstr "أَنشِئْ كتالوجاً..."
+msgstr "أَنشِئْ كتالوجًا..."
 
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
 #. i18n: ectx: property (text), widget (QPushButton, ExportButton)
@@ -3774,7 +3774,7 @@ msgstr "لم يُعثَر على حوامل موصولة."
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr "الحامل %1 غير متصل. اِتَّصِلْ وأَعِدْ المُحاوَلة مجدداً."
+msgstr "الحامل %1 غير متصل. اِتَّصِلْ وأَعِدْ المُحاوَلة مجددًا."
 
 #: dialogs/detaildialog.cpp:1127
 #, kde-format
@@ -4496,7 +4496,7 @@ msgstr "ابحث في الإنترنت عن (لا شيء)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Coordinates Manually"
-msgstr "حدد الإحداثيات يدوياً"
+msgstr "حدد الإحداثيات يدويًا"
 
 #: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
@@ -4696,7 +4696,7 @@ msgstr "تيلي فوي ديلوس"
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Meade UWA"
-msgstr "ميد واسع الزاوية جداً"
+msgstr "ميد واسع الزاوية جدًا"
 
 #: dialogs/fovdialog.cpp:248
 #, kde-format
@@ -4769,7 +4769,7 @@ msgstr "حرّر رموز مجال الرؤية"
 #: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
-msgstr "أضف رمزاً جديداً لمجال الرؤية"
+msgstr "أضف رمزًا جديدًا لمجال الرؤية"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:57
@@ -4778,7 +4778,7 @@ msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
 "shape, and color of the new symbol."
 msgstr ""
-"أضف رمزاً جديداً لمجال الرؤية. باستطاعتك تحديد حجم وشكل ولون الرمز الجديد."
+"أضف رمزًا جديدًا لمجال الرؤية. باستطاعتك تحديد حجم وشكل ولون الرمز الجديد."
 
 #. i18n: ectx: property (text), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:60 dialogs/viewsdialog.ui:71
@@ -4987,8 +4987,8 @@ msgid ""
 "<html><head/><body><p>Latitude in degrees. North of equator is positive and "
 "South is negative.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>خط العرض بالدرجات. يكون شمال خط الاستواء إيجابيّاً "
-"وجنوبه سلبيّاً.</p></body></html>"
+"<html><head/><body><p>خط العرض بالدرجات. يكون شمال خط الاستواء إيجابيًّا "
+"وجنوبه سلبيًّا.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LongLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -5013,7 +5013,7 @@ msgid ""
 "<html><head/><body><p>Longitude in degrees. East of Greenwich is positive "
 "and West is negative.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>خط الطول بالدرجات. يكون شرق غرينتش إيجابيّاً وغربه سلبيّاً."
+"<html><head/><body><p>خط الطول بالدرجات. يكون شرق غرينتش إيجابيًّا وغربه سلبيًّا."
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LatLabel)
@@ -5265,7 +5265,7 @@ msgid ""
 "view\" edit box."
 msgstr ""
 "هذا الزر يحسب زاوية مجال الرؤية (FOV) لتركيبة معينة من عدسة مقراب/مقراب. يجب "
-"أن تحدد أولاً الأبعاد البؤرية للمقراب وعدسة المقراب، وزاوية مجال الرؤية لعدسة "
+"أن تحدد أولًا الأبعاد البؤرية للمقراب وعدسة المقراب، وزاوية مجال الرؤية لعدسة "
 "المقراب في حقول الإدخال أعلاه.\n"
 "\n"
 "ستعرض زاوية مجال الرؤية المحسوبة (بالدقائق القوسية) في مربع تحرير «مجال "
@@ -5389,7 +5389,7 @@ msgid ""
 "view\" edit box."
 msgstr ""
 "هذا الزر يحسب زاوية مجال الرؤية (FOV) لتركيبة معينة من كاميرا/مقراب. يجب أن "
-"تحدد أولاً البعد البؤري للمقراب وحجم شريحة CCD أو الفيلم السلبي.\n"
+"تحدد أولًا البعد البؤري للمقراب وحجم شريحة CCD أو الفيلم السلبي.\n"
 "\n"
 "ستعرض زاوية مجال الرؤية المحسوبة (بالدقائق القوسية) في مربع تحرير «مجال "
 "الرؤية»."
@@ -5485,7 +5485,7 @@ msgid ""
 msgstr ""
 "هذا الزر يحسب زاوية عرض الحزمة بنصف القدرة (HPBW) لتركيبة معينة من مقراب "
 "لاسلكي وطول موجة رصد، بافتراض عدم توفر مستقبل متعدد الحزم عند المقراب. يجب "
-"أن تحدد أولاً قطر المقراب اللاسلكي وطول موجة الرصد.\n"
+"أن تحدد أولًا قطر المقراب اللاسلكي وطول موجة الرصد.\n"
 "\n"
 "ستعرض زاوية عرض الحزمة بنصف القدرة المحسوبة (بالدقائق القوسية) في مربع تحرير "
 "«مجال الرؤية»."
@@ -5571,7 +5571,7 @@ msgstr "الانحراف الصادي:"
 #: dialogs/newfov.ui:1088
 #, kde-format
 msgid "Degrees E of N"
-msgstr "درجة شرقاً عن الشمال"
+msgstr "درجة شرقًا عن الشمال"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1102
@@ -5816,7 +5816,7 @@ msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
-"اعرض محملاً على المقراب (أَشِّر على هذا أيضا إذا كنت تَسْتَعْمِل كاميرا بدلاً من "
+"اعرض محملًا على المقراب (أَشِّر على هذا أيضا إذا كنت تَسْتَعْمِل كاميرا بدلًا من "
 "المراقبة البصرية)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
@@ -6109,8 +6109,8 @@ msgid ""
 "</p>"
 msgstr ""
 "<p>الآن يمكنك تحميل بيانات إضافية اختيارية لتعزيز «نجوم‌ك»، مثل صور أجرام "
-"ميسييه أو دليل NGC/IC أكثر كمالاً، اضغط زر  <b>حمّل بيانات إضافية</b> "
-"للمواصلة. </p><p>أيضاً تستطيع استخدام هذه الأداة في وقت لاحق باختيار <b>حمّل "
+"ميسييه أو دليل NGC/IC أكثر كمالًا، اضغط زر  <b>حمّل بيانات إضافية</b> "
+"للمواصلة. </p><p>أيضًا تستطيع استخدام هذه الأداة في وقت لاحق باختيار <b>حمّل "
 "بيانات إضافية</b> من قائمة <b>البيانات</b> على شريط البرنامج الرئيسي.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, DownloadButton)
@@ -6179,7 +6179,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1458 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6473,9 +6473,7 @@ msgstr "أظهر في عارض FITS..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
-#: ekos/guide/guide.ui:142
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
@@ -7350,13 +7348,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "انقضى زمن التعريض. يُلغَى..."
 
 #: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1209
+#: ekos/guide/guide.cpp:1212
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "انتهت مهلة التعريض. عدد كثير. أعد تشغيل المُشغِّل."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1174
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1177
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "انقضى زمن التعريض. يُعاد تشغيل التعريض..."
@@ -8303,7 +8301,7 @@ msgid ""
 "adjustments.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>عند تفعيله واتصال جهاز PAC (مصحح المحاذاة القطبية)، "
-"سيرسل النظام أوامر التصحيح آليًا إلى PAC أثناء مرحلة التحديث بدلاً من تطلب "
+"سيرسل النظام أوامر التصحيح آليًا إلى PAC أثناء مرحلة التحديث بدلًا من تطلب "
 "تعديلات يدوية بالمقبض.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPACCorrection)
@@ -8497,7 +8495,7 @@ msgid ""
 "The lower end of the imager scale, calculated as a little smaller than the "
 "shorter dimension of the image."
 msgstr ""
-"الطرف الأدنى لمقياس المصوّر، يُحسَب ليكون أصغر قليلاً من البعد الأقصر للصورة."
+"الطرف الأدنى لمقياس المصوّر، يُحسَب ليكون أصغر قليلًا من البعد الأقصر للصورة."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_41)
 #: ekos/align/opsastrometry.ui:50
@@ -8556,7 +8554,7 @@ msgid ""
 "The high end of the imager scale, calculated as a little bigger than the "
 "longer dimension of the image."
 msgstr ""
-"الطرف الأعلى لمقياس المصوّر، يُحسَب ليكون أكبر قليلاً من البعد الأطول للصورة."
+"الطرف الأعلى لمقياس المصوّر، يُحسَب ليكون أكبر قليلًا من البعد الأطول للصورة."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -9001,7 +8999,7 @@ msgstr "تفاصيل المجلد:"
 #: ekos/align/opsastrometryindexfiles.ui:253
 #, kde-format
 msgid "Add a folder where index files are stored"
-msgstr "أضف مجلداً تُخزّن فيه ملفات الفهرس"
+msgstr "أضف مجلدًا تُخزّن فيه ملفات الفهرس"
 
 #. i18n: ectx: property (text), widget (QPushButton, addIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomInB)
@@ -9022,7 +9020,7 @@ msgstr "+"
 #: ekos/align/opsastrometryindexfiles.ui:263
 #, kde-format
 msgid "Remove an index files location"
-msgstr "أزِل موقعاً لملفات الفهرس"
+msgstr "أزِل موقعًا لملفات الفهرس"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomOutB)
@@ -10743,7 +10741,7 @@ msgstr "حل الموضع"
 #: ekos/align/pushtoassistant.cpp:263
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
-msgstr "ابدأ بحل اللوحة للموضع الذي تستهدفه حالياً."
+msgstr "ابدأ بحل اللوحة للموضع الذي تستهدفه حاليًا."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
@@ -10836,7 +10834,7 @@ msgstr ""
 "تكرار&quot;، يتكرر التقاط وحل اللوحة بعد التأخير المضبوط.</li><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">إذا فشل حل اللوحة، تحقق من ضبط البعد "
-"البؤري لمنظار البحث الخاص بك بشكل صحيح، وأن تلسكوبك يشير تقريباً إلى الهدف "
+"البؤري لمنظار البحث الخاص بك بشكل صحيح، وأن تلسكوبك يشير تقريبًا إلى الهدف "
 "الذي اخترته.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
@@ -12702,7 +12700,7 @@ msgstr "رئيسيات"
 msgid ""
 "Remove one row from the database and delete the associated dark frame from "
 "disk"
-msgstr "أزل  سطراً من قاعدة المعلومات واحذف الإطار الأسود المرتبط به من القرص"
+msgstr "أزل  سطرًا من قاعدة المعلومات واحذف الإطار الأسود المرتبط به من القرص"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearRowB)
 #: ekos/auxiliary/darklibrary.ui:1095
@@ -12756,7 +12754,7 @@ msgid ""
 "new dark frame shall be captured and stored for future use."
 msgstr ""
 "أعد استخدام الإطارات السوداء لفترة عدد الأيام هذه. إذا زادت الفترة عن ذلك، "
-"يجب التقاط إطار أسود جديد وتخزينه للاستخدام مستقبلاً."
+"يجب التقاط إطار أسود جديد وتخزينه للاستخدام مستقبلًا."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/darklibrary.ui:1132
@@ -12788,7 +12786,7 @@ msgstr "أزِل من انتهت صلاحيته"
 msgid "Double click to load dark frame"
 msgstr "نقرة مزدوجة لتحميل الإطار الأسود"
 
-#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
+#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -13204,7 +13202,7 @@ msgid ""
 "Log debug messages to default output device used by the platform (e.g. "
 "Standard Error)"
 msgstr ""
-"سجّل رسائل التصحيح إلى جهاز المخرجات المستخدم بالمنصة (مثلاً، الخطأ القياسي)"
+"سجّل رسائل التصحيح إلى جهاز المخرجات المستخدم بالمنصة (مثلًا، الخطأ القياسي)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToDefault)
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
@@ -13836,7 +13834,7 @@ msgid ""
 "<html><head/><body><p>Welcome to StellarMate <span style=\" font-weight:600;"
 "\">Serial Port Assistant</span> tool.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>أهلاً بك في أداة <span style=\" font-weight:600;"
+"<html><head/><body><p>أهلًا بك في أداة <span style=\" font-weight:600;"
 "\">مساعد المنفذ التسلسلي</span> لـ StellarMate.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -14434,13 +14432,13 @@ msgstr "النسبة المئوية لألمع النجوم التي أَزِل�
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:709
 #, kde-format
 msgid "Cut Dimmest"
-msgstr "اِقطع الأقل لمعاناً"
+msgstr "اِقطع الأقل لمعانًا"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, dimmestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
 #, kde-format
 msgid "The percentage of dimmest stars to remove from the list"
-msgstr "النسبة المئوية لأقل النجوم لمعاناً التي أَزِلْها من القائمة"
+msgstr "النسبة المئوية لأقل النجوم لمعانًا التي أَزِلْها من القائمة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_52)
 #. i18n: ectx: property (text), widget (QLabel, label_51)
@@ -14472,7 +14470,7 @@ msgid ""
 "The minimum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"الحد الأدنى لحجم النجوم التي اِشملْها في القائمة النهائية بالبكسل، استناداً إلى "
+"الحد الأدنى لحجم النجوم التي اِشملْها في القائمة النهائية بالبكسل، استنادًا إلى "
 "المحور شبه الرئيسي وشبه الفرعي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
@@ -14500,7 +14498,7 @@ msgid ""
 "The maximum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"الحد الأقصى لحجم النجوم التي اِشملْها في القائمة النهائية بالبكسل، استناداً إلى "
+"الحد الأقصى لحجم النجوم التي اِشملْها في القائمة النهائية بالبكسل، استنادًا إلى "
 "المحور شبه الرئيسي وشبه الفرعي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
@@ -14515,7 +14513,7 @@ msgstr "بكسل"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:805
 #, kde-format
 msgid "Cut Brightest"
-msgstr "اِقطع الأشد لمعاناً"
+msgstr "اِقطع الأشد لمعانًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:833
@@ -14836,8 +14834,8 @@ msgid ""
 "Calculate optimal exposure time given the required ADU. If a controllable "
 "device is selected, calculate optimal brightness."
 msgstr ""
-"اِحسب وقت التعريض الأمثل بناءً على وحدة الـ ADU المطلوبة. إذا اِخترْت جهازاً "
-"قابلاً للتحكم، اِحسب السطوع الأمثل."
+"اِحسب وقت التعريض الأمثل بناءً على وحدة الـ ADU المطلوبة. إذا اِخترْت جهازًا "
+"قابلًا للتحكم، اِحسب السطوع الأمثل."
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationUseADU)
 #: ekos/capture/calibrationoptions.ui:175
@@ -15375,7 +15373,7 @@ msgstr ""
 "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">محلياً</span>: اِحفظْ الصور الملتقطة محلياً على "
+"style=\" font-weight:600;\">محليًا</span>: اِحفظْ الصور الملتقطة محليًا على "
 "القرص في الدليل المحدد أعلاه.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">عن بُعد</span>: عند الاتصال "
@@ -15383,11 +15381,11 @@ msgstr ""
 "إلى إيكوس.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">كلاهما</span>: اِحفظْ الصور الملتقطة على كل من "
-"الحاسوب <span style=\" font-weight:600;\">و</span> القرص المحلي أيضاً.</li></"
+"الحاسوب <span style=\" font-weight:600;\">و</span> القرص المحلي أيضًا.</li></"
 "ol><p>عند اختيار <span style=\" font-style:italic;\">عن بُعد</span> أو <span "
 "style=\" font-style:italic;\">كلاهما</span>، اِضبطْ الدليل البعيد الذي تُحفَظ "
 "فيه الصور البعيدة. اِحفظْ جميع الصور الملتقطة <span style=\" font-style:italic;"
-"\">محلياً</span> بشكل مبدئي.</p></body></html>"
+"\">محليًا</span> بشكل مبدئي.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1836
@@ -16736,7 +16734,7 @@ msgstr "المقراب مغطى"
 #: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
-msgstr "هل يملك %1 مصراعاً؟"
+msgstr "هل يملك %1 مصراعًا؟"
 
 #: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
@@ -16806,7 +16804,7 @@ msgstr "احذف مباشرةً، لا تنقل إلى سلة المهملات."
 #: ekos/capture/capturepreviewwidget.cpp:243
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
-msgstr "هل حقاً تريد حذف %1 من نظام الملفات؟"
+msgstr "هل حقًا تريد حذف %1 من نظام الملفات؟"
 
 #: ekos/capture/capturepreviewwidget.cpp:245
 #, kde-format
@@ -17678,7 +17676,7 @@ msgstr ""
 #: ekos/capture/opsmiscsettings.ui:208
 #, kde-format
 msgid "Always reset sequence when starting"
-msgstr "اِعد ضبط التسلسل دائماً عند البدء"
+msgstr "اِعد ضبط التسلسل دائمًا عند البدء"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/capture/opsmiscsettings.ui:218
@@ -18951,7 +18949,7 @@ msgstr "نقطة بدء تكيفية، لا توجد درجة حرارة لآخ�
 #: ekos/focus/adaptivefocus.cpp:411
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr "نقطة بدء تكيفية، فرق حرارة كبير جداً، تجاهُل"
+msgstr "نقطة بدء تكيفية، فرق حرارة كبير جدًا، تجاهُل"
 
 #: ekos/focus/adaptivefocus.cpp:423
 #, kde-format
@@ -18961,7 +18959,7 @@ msgstr "نقطة بدء تكيفية، لم يسجّل ارتفاع لآخر ح�
 #: ekos/focus/adaptivefocus.cpp:425
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr "نقطة بدء تكيفية، فرق ارتفاع كبير جداً، تجاهُل"
+msgstr "نقطة بدء تكيفية، فرق ارتفاع كبير جدًا، تجاهُل"
 
 #: ekos/focus/adaptivefocus.cpp:435
 #, kde-format
@@ -19165,7 +19163,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>اضبُط حجم الخطوة (بالميكرومتر) للمركِّز. لاحتساب ذلك، حرِّك "
 "المركِّز من إحدى نهايتي حركته إلى الأخرى (مع توخّي الحذر كي لا تُجبِر المركِّز على "
-"تجاوز حدوده). قِس المسافة التي يتحرّكها أنبوب السحب بأكبر دقة تستطيعها (مثلاً "
+"تجاوز حدوده). قِس المسافة التي يتحرّكها أنبوب السحب بأكبر دقة تستطيعها (مثلًا "
 "باستخدام الفرجار) وحَوِّل هذه المسافة إلى ميكرومتر. سجِّل عدد الخطوات التي حرّكت "
 "بها المركِّز. حجم الخطوة = المسافة_بالميكرومتر / عدد_الخطوات.</p></body></html>"
 
@@ -19238,7 +19236,7 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">كلاسيكية (Classic)</span>: استخدِم الصيغة، منطقة "
 "التركيز الحرجة (CFZ) = 4.88 t λ f<span style=\" vertical-align:super;\">2.</"
-"span>. اضبُط التفاوت t=1 للصيغة الأساسية. اقترِح البعض قيمة t=1/3 تجريبياً.</"
+"span>. اضبُط التفاوت t=1 للصيغة الأساسية. اقترِح البعض قيمة t=1/3 تجريبيًا.</"
 "li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
 "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
@@ -19374,7 +19372,7 @@ msgstr "اكتُشف خطأ في غطاء الغبار. إيقاف التركي�
 #: ekos/focus/focus.cpp:978
 #, kde-format
 msgid "Finally found temperature source %1"
-msgstr "أخيراً وجِدَ مصدر الحرارة %1"
+msgstr "أخيرًا وجِدَ مصدر الحرارة %1"
 
 #: ekos/focus/focus.cpp:1125
 #, kde-format
@@ -19400,7 +19398,7 @@ msgstr "لا توجد كاميرا موصولة."
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
-msgstr "خطوة النبضة البدائية منخفضة جداً. زِد حجم الخطوة إلى %1 أو أعلى..."
+msgstr "خطوة النبضة البدائية منخفضة جدًا. زِد حجم الخطوة إلى %1 أو أعلى..."
 
 #: ekos/focus/focus.cpp:1169
 #, kde-format
@@ -19620,9 +19618,9 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "إجراء التركيز اكتمل بعد %1 تكرار."
 msgstr[1] "إجراء التركيز اكتمل بعد %1 تكرارين."
 msgstr[2] "إجراء التركيز اكتمل بعد %1 تكرارات."
-msgstr[3] "إجراء التركيز اكتمل بعد %1 تكراراً."
-msgstr[4] "إجراء التركيز اكتمل بعد %1 تكراراً."
-msgstr[5] "إجراء التركيز اكتمل بعد %1 تكراراً."
+msgstr[3] "إجراء التركيز اكتمل بعد %1 تكرارًا."
+msgstr[4] "إجراء التركيز اكتمل بعد %1 تكرارًا."
+msgstr[5] "إجراء التركيز اكتمل بعد %1 تكرارًا."
 
 #: ekos/focus/focus.cpp:2863
 #, kde-format
@@ -19637,7 +19635,7 @@ msgstr "الاستقرار اكتمل."
 #: ekos/focus/focus.cpp:2884
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
-msgstr "التركيز الآلي فَشِل، تَحَرَّك عائداً إلى موضع التركيز المبدئي %1."
+msgstr "التركيز الآلي فَشِل، تَحَرَّك عائدًا إلى موضع التركيز المبدئي %1."
 
 #: ekos/focus/focus.cpp:2917
 #, kde-format
@@ -19652,12 +19650,12 @@ msgstr "التقاط اكتمل. اختَر منطقة اهتمام."
 #: ekos/focus/focus.cpp:3291
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
-msgstr "فَشِل الترشيح الآلي لنجم. الرجاء اختيار نجم يدوياً."
+msgstr "فَشِل الترشيح الآلي لنجم. الرجاء اختيار نجم يدويًا."
 
 #: ekos/focus/focus.cpp:3385
 #, kde-format
 msgid "Capture complete. Select a star to focus."
-msgstr "التقاط اكتمل. اختَر نجماً للتركيز عليه."
+msgstr "التقاط اكتمل. اختَر نجمًا للتركيز عليه."
 
 #: ekos/focus/focus.cpp:3416
 #, kde-format
@@ -19776,7 +19774,7 @@ msgstr "استقبال FITS. HFR %1 @ %2."
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
-msgstr "التغير في HFR صغير جداً. حاول زيادة حجم الخطوة أو تقليل التفاوت."
+msgstr "التغير في HFR صغير جدًا. حاول زيادة حجم الخطوة أو تقليل التفاوت."
 
 #: ekos/focus/focus.cpp:4108
 #, kde-format
@@ -19847,7 +19845,7 @@ msgstr "بدء تعريض مستمر..."
 #: ekos/focus/focus.cpp:5453
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
-msgstr "تعطيل الاختيار الآلي للنجم لأن صندوق اختيار النجم حُرِّك يدوياً."
+msgstr "تعطيل الاختيار الآلي للنجم لأن صندوق اختيار النجم حُرِّك يدويًا."
 
 #: ekos/focus/focus.cpp:5459
 #, kde-format
@@ -21586,7 +21584,7 @@ msgid ""
 "option to be active.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>مدى قوة تطبيق رفض الشواذ. القيم الأعلى ترفض شواذ أكثر."
-"</p><p>يجب تعيين صقّل مطابقة المنحنى ليصبح هذا الخيار فعالاً.</p></body></html>"
+"</p><p>يجب تعيين صقّل مطابقة المنحنى ليصبح هذا الخيار فعالًا.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:827
@@ -22490,17 +22488,17 @@ msgstr ""
 "التصحيحات مطبّقة بالفعل. شغّل الضبط التلقائي للبؤرة مرة أخرى للحصول على قياسات "
 "إمالة جديدة."
 
-#: ekos/guide/aiguideprotocol.cpp:446
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "لا توجد بيانات للتدريب! يرجى تشغيل البروتوكول أولًا."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
 msgstr "لا توجد بيانات للتدريب"
 
-#: ekos/guide/aiguideprotocol.cpp:452
+#: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "جارٍ بدء تدريب الذكاء الاصطناعي عبر سحابة EkosLive..."
@@ -23194,144 +23192,144 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr "اِفقِد الاتصال بكاميرة الدليل."
 
-#: ekos/guide/guide.cpp:987
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Guide streaming started."
 msgstr "بدأ بث التتبع"
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "أوقِف بث التتبع"
 
-#: ekos/guide/guide.cpp:1168
+#: ekos/guide/guide.cpp:1171
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "اِنتهاء مهلة التعريض، لكن علّقه. تجاوزه..."
 
-#: ekos/guide/guide.cpp:1196
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "اِنتهاء مهلة التعريض. أجهِض التوجيه الآلي."
 
-#: ekos/guide/guide.cpp:1198
+#: ekos/guide/guide.cpp:1201
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "اِنتهاء مهلة التعريض. أجهِض الاهتزاز الدقيق."
 
-#: ekos/guide/guide.cpp:1200
+#: ekos/guide/guide.cpp:1203
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "اِنتهاء مهلة التعريض. أجهِض المعايرة."
 
-#: ekos/guide/guide.cpp:1255
+#: ekos/guide/guide.cpp:1258
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "فشل إعادة توصيل الكاميرا بعد إعادة تشغيل المُشغل."
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "الانجراف الحر بالذكاء الاصطناعي نشط. كبت النبضات المتعددة (الصعود المباشر: "
 "%1ملّي، الانحدار: %2ملّي)."
 
-#: ekos/guide/guide.cpp:1582
+#: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "الانجراف الحر بالذكاء الاصطناعي نشط. كبت النبضة المفردة (%1ملّي)."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "لم يُكتشف أي كاميرا. تحقق من الكاميرا في الأنساق البصرية."
 
-#: ekos/guide/guide.cpp:1642
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "لم يُكتشف أي دليل. تحقق من «دليل عبر» في الأنساق البصرية."
 
-#: ekos/guide/guide.cpp:1734
+#: ekos/guide/guide.cpp:1767
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "الحامل متوقف. أزل الإيقاف لبدء الدليل."
 
-#: ekos/guide/guide.cpp:1843
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "اكتشف تغيير جانب الركيزة. أزل المعايرة."
 
-#: ekos/guide/guide.cpp:1857
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "الحامل يتحرك. أعد تعيين المعايرة..."
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1907
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "الحامل يتوقف. أجهِض الدليل..."
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1909
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "الحامل يجول. أجهِض الدليل..."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "أُزيلت المعايرة."
 
-#: ekos/guide/guide.cpp:2002
+#: ekos/guide/guide.cpp:2035
 #, kde-format
 msgid "External guider connected."
 msgstr "اتصل الدليل الخارجي."
 
-#: ekos/guide/guide.cpp:2020
+#: ekos/guide/guide.cpp:2053
 #, kde-format
 msgid "External guider disconnected."
 msgstr "فُصل الدليل الخارجي."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2070
 #, kde-format
 msgid "Calibration completed."
 msgstr "اكتملت المعايرة."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2096
 #, kde-format
 msgid "Calibration started."
 msgstr "بدأت المعايرة."
 
-#: ekos/guide/guide.cpp:2077
+#: ekos/guide/guide.cpp:2110
 #, kde-format
 msgid "Guiding resumed."
 msgstr "اِستأنِف التوجيه."
 
-#: ekos/guide/guide.cpp:2081
+#: ekos/guide/guide.cpp:2114
 #, kde-format
 msgid "Autoguiding running."
 msgstr "الدليل الآلي يجري."
 
-#: ekos/guide/guide.cpp:2103
+#: ekos/guide/guide.cpp:2136
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "أُجهِض الدليل الآلي."
 
-#: ekos/guide/guide.cpp:2111
+#: ekos/guide/guide.cpp:2144
 #, kde-format
 msgid "Guiding suspended."
 msgstr "عُلِّق الدليل."
 
-#: ekos/guide/guide.cpp:2120
+#: ekos/guide/guide.cpp:2153
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "التنخيل اليدوي قيد التقدم."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2157
 #, kde-format
 msgid "Dithering in progress."
 msgstr "التنخيل قيد التقدم."
 
-#: ekos/guide/guide.cpp:2128
+#: ekos/guide/guide.cpp:2161
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23342,32 +23340,32 @@ msgstr[3] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 msgstr[4] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 msgstr[5] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 
-#: ekos/guide/guide.cpp:2133
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Dithering failed."
 msgstr "فشل التنخيل."
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2177
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "اكتمل التنخيل بنجاح."
 
-#: ekos/guide/guide.cpp:2202
+#: ekos/guide/guide.cpp:2235
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "تجميع دليل %1×%1 غير متاح. الحد الأقصى %2×%2."
 
-#: ekos/guide/guide.cpp:2226
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "فشل التعريض. أعد بدء التعريض..."
 
-#: ekos/guide/guide.cpp:2361
+#: ekos/guide/guide.cpp:2398
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "لا تغيّر نوع الدليل أثناء نشاطه."
 
-#: ekos/guide/guide.cpp:2456
+#: ekos/guide/guide.cpp:2493
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23375,37 +23373,37 @@ msgid ""
 msgstr ""
 "تحذير: «إعادة تعيين معايرة الدليل» مُفعَّل. ينصح بإيقاف هذا الخيار لـ PHD2."
 
-#: ekos/guide/guide.cpp:2910
+#: ekos/guide/guide.cpp:2947
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "فشلت المعايرة في البدء."
 
-#: ekos/guide/guide.cpp:3061
+#: ekos/guide/guide.cpp:3098
 #, kde-format
 msgid "Auto star selected."
 msgstr "اختار نجم آلي."
 
-#: ekos/guide/guide.cpp:3065
+#: ekos/guide/guide.cpp:3102
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "فشل في اختيار نجم آلي."
 
-#: ekos/guide/guide.cpp:3074
+#: ekos/guide/guide.cpp:3111
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "اختر نجم دليل لمعايرته."
 
-#: ekos/guide/guide.cpp:3336
+#: ekos/guide/guide.cpp:3373
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (بكسلات)"
 
-#: ekos/guide/guide.cpp:3337
+#: ekos/guide/guide.cpp:3374
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (بكسلات)"
 
-#: ekos/guide/guide.cpp:3480 ekos/guide/guide.cpp:3632
+#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23414,7 +23412,7 @@ msgstr ""
 "كاميرا PHD2 غير متاحة لـ إيكوس، لذا لا ترى الصور المُلتقطة. ولكنك ستظل ترى "
 "صورة نجم الدليل عندما توجِّه."
 
-#: ekos/guide/guide.cpp:3484 ekos/guide/guide.cpp:3636
+#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23424,32 +23422,32 @@ msgstr ""
 "لاستقبال صور PHD2 بخلاف صورة نجم الدليل، يجب إلغاء تحديد «الإطار الفرعي».  "
 "أزل تحديده الآن لتمكين التقاطات صورك.  يمكنك إعادة تمكينه قبل الدليل"
 
-#: ekos/guide/guide.cpp:3565
+#: ekos/guide/guide.cpp:3602
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "مساعد التوجيه بالذكاء الاصطناعي..."
 
-#: ekos/guide/guide.cpp:3573
+#: ekos/guide/guide.cpp:3610
 #, kde-format
 msgid "Load Weights..."
 msgstr "تحميل الأوزان..."
 
-#: ekos/guide/guide.cpp:3679 ekos/guide/guide.cpp:3684
+#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "فشل تدريب الذكاء الاصطناعي في إيكوسلايف: %1"
 
-#: ekos/guide/guide.cpp:3680 ekos/guide/guide.cpp:3685
+#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
 #, kde-format
 msgid "unknown error"
 msgstr "خطأ غير معروف"
 
-#: ekos/guide/guide.cpp:3699
+#: ekos/guide/guide.cpp:3736
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "فشل حفظ أوزان الذكاء الاصطناعي في %1"
 
-#: ekos/guide/guide.cpp:3709
+#: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23457,23 +23455,23 @@ msgstr ""
 "اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1 وعُيّنت كأوزان الذكاء "
 "الاصطناعي النشطة."
 
-#: ekos/guide/guide.cpp:3713
+#: ekos/guide/guide.cpp:3750
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1."
 
-#: ekos/guide/guide.cpp:3719
+#: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "تحميل أوزان الموجّه بالذكاء الاصطناعي"
 
-#: ekos/guide/guide.cpp:3720
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "أوزان الذكاء الاصطناعي (*.json)"
 
-#: ekos/guide/guide.cpp:3724
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23482,7 +23480,7 @@ msgstr ""
 "عُيّنت أوزان الموجّه بالذكاء الاصطناعي إلى %1. ستُطبّق في المرة القادمة التي يبدأ "
 "فيها التوجيه."
 
-#: ekos/guide/guide.cpp:3905
+#: ekos/guide/guide.cpp:3942
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "لا تغيّر النسق البصري النشط أثناء اتصال PHD2"
@@ -23492,6 +23490,17 @@ msgstr "لا تغيّر النسق البصري النشط أثناء اتصال
 #, kde-format
 msgid "Control"
 msgstr "تحكم"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
+#: ekos/guide/guide.ui:142
+#, kde-format
+msgid ""
+"<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
+"in the Dark Library tool in the capture module.</p><p>The dark must be "
+"created in the same binning mode used while guiding — including hardware vs. "
+"software binning if the camera supports it — otherwise the correction will "
+"not match.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -23554,7 +23563,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>تمكين وضع دليل البث. عند تحديد هذا الخيار وكانت "
 "الكاميرا تتيح بث الفيديو، تقوم وحدة الدليل بالتقاط الإطارات عبر بث فيديو "
-"مستمر بدلاً من التعرضات الفردية. وهذا يقلل بشكل كبير من الحمل الزائد لكل إطار "
+"مستمر بدلًا من التعرضات الفردية. وهذا يقلل بشكل كبير من الحمل الزائد لكل إطار "
 "ويسمح بترددات توجيه أعلى (على سبيل المثال 2-5 هرتز) التي تتطلبها المحركات "
 "التوافقية. غير متوافق مع طرح الإطارات المظلمة.</p></body></html>"
 
@@ -24752,7 +24761,7 @@ msgid ""
 "normally.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>عند التفعيل، يُفترض أن زاوية محور DEC تساوي 90° تمامًا "
-"من زاوية RA المُقاسة بدلاً من قياسها مستقلة. يساعد هذا عندما يُسبب الخطأ الدوري "
+"من زاوية RA المُقاسة بدلًا من قياسها مستقلة. يساعد هذا عندما يُسبب الخطأ الدوري "
 "أو الارتخاء نقاط بيانات معايرة DEC غير منتظمة. لا يزال معدل نبضات DEC "
 "(السرعة) يُقاس بشكل طبيعي.</p></body></html>"
 
@@ -26023,7 +26032,7 @@ msgstr "إنشاء اتصال مع مدير الويب لـ INDI البعيد...
 #: ekos/manager.cpp:1501
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
-msgstr "خطأ: مدير الويب لـ INDI ليس متصلاً عند %1:%2"
+msgstr "خطأ: مدير الويب لـ INDI ليس متصلًا عند %1:%2"
 
 #: ekos/manager.cpp:1542
 #, kde-format
@@ -26803,7 +26812,7 @@ msgstr ""
 "<html><head/><body><p>فعّل أو عطّل حد زاوية الساعة للحامل. عند التفعيل، يراقب "
 "إيكوس زاوية الساعة للحامل أثناء التوجيه أو التتبع. إذا وجّه/تتبّع الحامل "
 "متجاوزًا الحدّ بينما يكون 'جانب الدعامة' في حالة لا تسمح بذلك، يأمر إيكوس "
-"الحامل بالتوقف وإيقاف التتبع. يتطلب حاملاً يبلّغ عن جانب الدعامة بصورة صحيحة.</"
+"الحامل بالتوقف وإيقاف التتبع. يتطلب حاملًا يبلّغ عن جانب الدعامة بصورة صحيحة.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
@@ -27396,7 +27405,7 @@ msgid ""
 "<html><head/><body><p>If selected, the weather needs to be OK for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>إذا اخترت، يتطلب أن يكون الطقس جيداً كي تكون حالة "
+"<html><head/><body><p>إذا اخترت، يتطلب أن يكون الطقس جيدًا كي تكون حالة "
 "المرصد &quot;جاهز&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, statusReadyButton)
@@ -27601,7 +27610,7 @@ msgstr "أعد تشغيل «نجوم‌ك» ليصبح هذا التغيير س�
 #: ekos/opsekos.cpp:44
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "اضبط مجلداً أساسياً بديلاً لصور Analyze الملتقطة"
+msgstr "اضبط مجلدًا أساسيًا بديلًا لصور Analyze الملتقطة"
 
 #: ekos/opsekos.cpp:132 ekos/opsekos.cpp:155
 #, kde-format
@@ -27678,7 +27687,7 @@ msgstr "&عند الاتصال"
 #: ekos/opsekos.ui:82
 #, kde-format
 msgid "Alwa&ys load defaults"
-msgstr "حمّل المبدئيات &دائماً"
+msgstr "حمّل المبدئيات &دائمًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/opsekos.ui:97
@@ -27865,7 +27874,7 @@ msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
-"<nobr>متاح كمُشغِّل <b>عن بُعد</b>. للاستعمال محلياً، ثبّت المشغِّل المقابل.<nobr/>"
+"<nobr>متاح كمُشغِّل <b>عن بُعد</b>. للاستعمال محليًا، ثبّت المشغِّل المقابل.<nobr/>"
 
 #: ekos/profileeditor.cpp:344
 #, kde-format
@@ -27885,12 +27894,12 @@ msgstr "المشغّلات"
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
-msgstr "مسح الشبكة ضوئياً"
+msgstr "مسح الشبكة ضوئيًا"
 
 #: ekos/profileeditor.cpp:752
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
-msgstr "مسح الشبكة ضوئياً بحثاً عن مديري ويب INDI..."
+msgstr "مسح الشبكة ضوئيًا بحثًا عن مديري ويب INDI..."
 
 #: ekos/profileeditor.cpp:816
 #, kde-format
@@ -27911,7 +27920,7 @@ msgid ""
 "<html><head/><body><p>After establishing connection with INDI server, "
 "automatically connect all devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>بعد إنشاء اتصال بخادم INDI، أوصل جميع الأجهزة آلياً.</"
+"<html><head/><body><p>بعد إنشاء اتصال بخادم INDI، أوصل جميع الأجهزة آليًا.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoConnectCheck)
@@ -27927,7 +27936,7 @@ msgid ""
 "Show port selector dialog when first connecting to equipment. It is "
 "automatically disabled after connection is established."
 msgstr ""
-"أظهر حوار اختيار المنفذ عند أول اتصال بالجهاز. يبطَل تفعيله آلياً بعد إنشاء "
+"أظهر حوار اختيار المنفذ عند أول اتصال بالجهاز. يبطَل تفعيله آليًا بعد إنشاء "
 "الاتصال."
 
 #. i18n: ectx: property (text), widget (QCheckBox, portSelectorCheck)
@@ -28014,7 +28023,7 @@ msgstr "مدير شبكة الإنترنت"
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
 msgstr ""
-"<html><body><p>امسح الشبكة المحلية ضوئياً بحثاً عن مديري ويب INDI.</p></body></"
+"<html><body><p>امسح الشبكة المحلية ضوئيًا بحثًا عن مديري ويب INDI.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
@@ -28309,12 +28318,12 @@ msgstr "منفذ غير صالح."
 #: ekos/profilewizard.cpp:148 ekos/profilewizard.cpp:179
 #, kde-format
 msgid "Host name cannot be empty."
-msgstr "لا يمكن أن يكون اسم المضيف فارغاً."
+msgstr "لا يمكن أن يكون اسم المضيف فارغًا."
 
 #: ekos/profilewizard.cpp:221
 #, kde-format
 msgid "Profile name cannot be empty."
-msgstr "لا يمكن أن يكون اسم التشكيلة فارغاً."
+msgstr "لا يمكن أن يكون اسم التشكيلة فارغًا."
 
 #: ekos/profilewizard.cpp:273
 #, kde-format
@@ -28351,7 +28360,7 @@ msgid ""
 "will be asked to verify some basic information. </p><p>Please click <span "
 "style=\" font-weight:600;\">next</span> to continue. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>أهلاً بك في <span style=\" font-weight:600;\">معالج "
+"<html><head/><body><p>أهلًا بك في <span style=\" font-weight:600;\">معالج "
 "تشكيلة إيكوس</span></p><p>إيكوس هو منصة التحكم والأتمتة المتميزة للمراصد. مع "
 "إيكوس، التقط الصور واجمع البيانات العلمية بسهولة. ساعد على إنشاء تشكيلة "
 "جهازك. سيطلب منك التحقق من بعض المعلومات الأساسية. </p><p>انقر <span style="
@@ -28481,7 +28490,7 @@ msgstr ""
 #: ekos/profilewizard.ui:574
 #, kde-format
 msgid "Not Sure"
-msgstr "لست متأكداً"
+msgstr "لست متأكدًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/profilewizard.ui:604
@@ -28521,7 +28530,7 @@ msgid ""
 "<html><head/><body><p>Using Ekos locally on Windows is not supported. You "
 "must connect to a remote gadget to control devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>تشغيل إيكوس محلياً على Windows غير مدعوم. اتصل بجهاز "
+"<html><head/><body><p>تشغيل إيكوس محليًا على Windows غير مدعوم. اتصل بجهاز "
 "بعيد للتحكم بالأجهزة.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -28563,14 +28572,14 @@ msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">تلميح</span>: يمكن "
 "أن يكون خادم INDI الخارجي <a href=\"http://www.cloudmakers.eu/indigoserver/"
 "\"><span style=\" text-decoration: underline; color:#007af4;\">خادم INDI لـ "
-"OSX</span></a> أو خادم INDI يبدأ تشغيله يدوياً محلياً. إن كنت غير متأكد، فاختر "
+"OSX</span></a> أو خادم INDI يبدأ تشغيله يدويًا محليًا. إن كنت غير متأكد، فاختر "
 "خادم INDI الداخلي.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/profilewizard.ui:915
 #, kde-format
 msgid "<html><head/><body><p>You're almost done...</p></body></html>"
-msgstr "لقد انتهيت من الإعداد تقريباً ..."
+msgstr "لقد انتهيت من الإعداد تقريبًا ..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/profilewizard.ui:928
@@ -28954,7 +28963,7 @@ msgid ""
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">عدد المقاطع في عرض الفسيفساء.</p><p "
-"align=\"justify\">تغيير هذه القيمة يغير عرض الحقل الذي تغطيه الفسيفساء فوراً."
+"align=\"justify\">تغيير هذه القيمة يغير عرض الحقل الذي تغطيه الفسيفساء فورًا."
 "</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicHSpin)
@@ -28967,7 +28976,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">عدد المقاطع في ارتفاع الفسيفساء.</"
 "p><p align=\"justify\">تغيير هذه القيمة يغير ارتفاع الحقل الذي تغطيه "
-"الفسيفساء فوراً.</p></body></html>"
+"الفسيفساء فورًا.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
 #: ekos/scheduler/framingassistant.ui:596
@@ -28977,7 +28986,7 @@ msgid ""
 "or enter it manually."
 msgstr ""
 "حجم مجال الرؤية للفسيفساء النهائية بالدقائق القوسية. انقر على تحديث لحسابه "
-"أو أدخله يدوياً."
+"أو أدخله يدويًا."
 
 #. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
 #: ekos/scheduler/framingassistant.ui:599
@@ -29706,7 +29715,7 @@ msgstr ""
 "<html><head/><body><p>فارق الوقت المتقدم هو أدنى وقت بالدقائق بين الأعمال. "
 "المجدول يبدأ بتنفيذ عمل قبل وقته المجدول بهذا الفارق من الوقت. التنفيذ "
 "المبكر مفيد لأن التركيز البؤري وضبط الاستقامة وإجراءات التوجيه قد تستغرق "
-"وقتاً مطولاً لإتمامها.</p></body></html>"
+"وقتًا مطولًا لإتمامها.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
 #: ekos/scheduler/opsoffsetsettings.ui:61
@@ -29722,9 +29731,9 @@ msgid ""
 "hours, perform a complete shutdown procedure and restart observatory "
 "operations once the next job is ready.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>إذا لم يكن هناك عملاً مجدولاً قبل مضي هذا العدد من "
+"<html><head/><body><p>إذا لم يكن هناك عملًا مجدولًا قبل مضي هذا العدد من "
 "الساعات، نفّذ إجراء الإطفاء الكامل وأعد تشغيل المرصد عندما يكون العمل التالي "
-"جاهزاً.</p></body></html>"
+"جاهزًا.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/scheduler/opsoffsetsettings.ui:71
@@ -30013,7 +30022,7 @@ msgstr ""
 "وقت بدء المهمة الأولى.\n"
 "يرتب هذا الإجراء الأهداف الغاربة قبل الأهداف الصاعدة، وقد يساعد في الجدولة "
 "عند بدء الرصد.\n"
-"لاحظ أن الخوارزمية تحسب أولاً كل الارتفاعات باستخدام نفس الوقت، ثم تقيّم "
+"لاحظ أن الخوارزمية تحسب أولًا كل الارتفاعات باستخدام نفس الوقت، ثم تقيّم "
 "المهام."
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2449
@@ -30596,13 +30605,13 @@ msgid ""
 "The best candidate target shall be imaged first."
 msgstr ""
 "اِبدأ مهمة الرصد بمجرد تلبية جميع القيود، إن وُجِدت. يجب تصوير أفضل هدف مُرشَّح "
-"أولاً."
+"أولًا."
 
 #. i18n: ectx: property (text), widget (QRadioButton, asapConditionR)
 #: ekos/scheduler/scheduler.ui:1623
 #, kde-format
 msgid "ASAP"
-msgstr "حالاً قدر المستطاع"
+msgstr "حالًا قدر المستطاع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, contraintsGroup)
 #: ekos/scheduler/scheduler.ui:1660
@@ -30872,7 +30881,7 @@ msgstr "طابور بدء التشغيل المبدئي المختار لتشغ�
 #: ekos/scheduler/scheduler.ui:2092
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr "تصفح بحثاً عن ملف طابور/تجميع بدء التشغيل المبدئي"
+msgstr "تصفح بحثًا عن ملف طابور/تجميع بدء التشغيل المبدئي"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2118
@@ -30891,7 +30900,7 @@ msgstr "صفّر أو ارجع للمبدئي إذا كان فارغًا"
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr "تصفح بحثاً عن ملف طابور/تجميع ما بعد بدء التشغيل"
+msgstr "تصفح بحثًا عن ملف طابور/تجميع ما بعد بدء التشغيل"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -30923,7 +30932,7 @@ msgstr "طابور الإيقاف المبدئي المختار لتشغيله �
 #: ekos/scheduler/scheduler.ui:2251
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr "تصفح بحثاً عن ملف طابور/تجميع الإيقاف المبدئي"
+msgstr "تصفح بحثًا عن ملف طابور/تجميع الإيقاف المبدئي"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2277
@@ -30935,7 +30944,7 @@ msgstr "طابور ما بعد الإيقاف المختار لتشغيله بع
 #: ekos/scheduler/scheduler.ui:2306
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr "تصفح بحثاً عن ملف طابور/تجميع ما بعد الإيقاف"
+msgstr "تصفح بحثًا عن ملف طابور/تجميع ما بعد الإيقاف"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:205
 #, kde-format
@@ -31318,7 +31327,7 @@ msgstr "اِنفصلت أجهزة INDI."
 #: ekos/scheduler/schedulerprocess.cpp:1750
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
-msgstr "أجهزة INDI جاهزة. المضي قدماً في مرحلة ما بعد بدء التشغيل..."
+msgstr "أجهزة INDI جاهزة. المضي قدمًا في مرحلة ما بعد بدء التشغيل..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1825
 #, kde-format
@@ -31412,7 +31421,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:2149
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
-msgstr "لا مهام إيقاف مبدئية، المضي قدماً لإيقاف إيكوس/INDI."
+msgstr "لا مهام إيقاف مبدئية، المضي قدمًا لإيقاف إيكوس/INDI."
 
 #: ekos/scheduler/schedulerprocess.cpp:2192
 #, kde-format
@@ -32389,7 +32398,7 @@ msgstr "القيمة المتوقعة:"
 #: skycomponents/imageoverlaycomponent.cpp:557
 #, kde-format
 msgid "OK"
-msgstr "حسناً"
+msgstr "حسنًا"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #: indi/indilightbox.cpp:20
@@ -32570,7 +32579,7 @@ msgstr "الطابور قيد التشغيل"
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
-"لا يمكن تحرير المهام أثناء تشغيل الطابور. يرجى إيقاف قائمة الانتظار أولاً."
+"لا يمكن تحرير المهام أثناء تشغيل الطابور. يرجى إيقاف قائمة الانتظار أولًا."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:410
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:968
@@ -32621,7 +32630,7 @@ msgstr "الطابور قيد التشغيل"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:523
 #, kde-format
 msgid "Queue paused"
-msgstr "الطابور أوقف مؤقتاً"
+msgstr "الطابور أوقف مؤقتًا"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:526
 #, kde-format
@@ -32871,7 +32880,7 @@ msgid ""
 "engine<br/>• Faster than libdc1394<br/>• Better edge handling"
 msgstr ""
 "<b>DC1394</b>: يستخدم محرك فك باير libdc1394 الموروث<br/>• أبطأ لكنه موثوق "
-"جداً<br/><br/><b>OpenCV</b>: محرك فك باير تجريبي مبني على OpenCV<br/>• أسرع "
+"جدًا<br/><br/><b>OpenCV</b>: محرك فك باير تجريبي مبني على OpenCV<br/>• أسرع "
 "من libdc1394<br/> • معالجة أفضل للحواف"
 
 #: fitsviewer/bayerparameters.cpp:45
@@ -32907,10 +32916,10 @@ msgid ""
 "reconstruction<br/>• 8-bit images only<br/><br/><b>Edge-Aware</b>: Edge-"
 "aware interpolation<br/>• High quality and very fast"
 msgstr ""
-"<b>خطي مزدوج</b>: استكمال خطي مزدوج بسيط<br/>• سريع جداً، حواف ناعمة<br/><br/"
+"<b>خطي مزدوج</b>: استكمال خطي مزدوج بسيط<br/>• سريع جدًا، حواف ناعمة<br/><br/"
 "><b>VNG</b>: عدد متغير من التدرجات<br/>• إعادة بناء ألوان محسنة<br/>• لصور 8 "
 "بت فقط<br/><br/><b>مدرك للحواف</b>: استكمال مدرك للحواف<br/>• جودة عالية "
-"وسريع جداً"
+"وسريع جدًا"
 
 #: fitsviewer/bayerparameters.cpp:74
 #, kde-format
@@ -32965,7 +32974,7 @@ msgid ""
 "Highest quality, slowest"
 msgstr ""
 "<b>الأقرب</b>: أسرع طريقة، أدنى جودة<br/><br/><b>بسيط</b>: استكمال أساسي،"
-"منعم قليلاً<br/><br/><b>خطي مزدوج</b>: توازن جيد بين السرعة والجودة<br/><br/"
+"منعم قليلًا<br/><br/><b>خطي مزدوج</b>: توازن جيد بين السرعة والجودة<br/><br/"
 "><b>خطي عالي الجودة</b>:جودة أعلى، أبطأ<br/><br/><b>تحسس الحواف</b>: يحافظ "
 "على الحواف، جودة عالية<br/> <br/><b>VNG</b>: أعلى جودة، الأبطأ"
 
@@ -34106,7 +34115,7 @@ msgstr "اِمكِّن أو عطّل عرض المدرج التكراري."
 #: fitsviewer/fitsstretchui.ui:369
 #, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "ابحث آلياً عن معلمة التمديد."
+msgstr "ابحث آليًا عن معلمة التمديد."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchPreset)
 #: fitsviewer/fitsstretchui.ui:394
@@ -34223,17 +34232,17 @@ msgstr "رقم مرجع العنصر"
 #: fitsviewer/fitstab.cpp:835
 #, kde-format
 msgid "Double click to launch CDS Portal browser"
-msgstr "انقر نقراً مزدوجاً لفتح متصفح بوابة CDS"
+msgstr "انقر نقرًا مزدوجًا لفتح متصفح بوابة CDS"
 
 #: fitsviewer/fitstab.cpp:837
 #, kde-format
 msgid "Double click to launch Simbad browser"
-msgstr "انقر نقراً مزدوجاً لفتح متصفح سيمباد"
+msgstr "انقر نقرًا مزدوجًا لفتح متصفح سيمباد"
 
 #: fitsviewer/fitstab.cpp:838
 #, kde-format
 msgid "Double click to launch NED browser"
-msgstr "انقر نقراً مزدوجاً لفتح متصفح NED"
+msgstr "انقر نقرًا مزدوجًا لفتح متصفح NED"
 
 #: fitsviewer/fitstab.cpp:839
 #, kde-format
@@ -34247,7 +34256,7 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
-"رمز نوع الجرم. انقر نقراً مزدوجاً لتشغيل مُرشِّح نوع الجرم.\n"
+"رمز نوع الجرم. انقر نقرًا مزدوجًا لتشغيل مُرشِّح نوع الجرم.\n"
 "\n"
 "اطلع على https://simbad.cds.unistra.fr/guide/otypes.htx للمزيد من التفاصيل"
 
@@ -34258,7 +34267,7 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
-"لصيقة نوع الجرم. انقر نقراً مزدوجاً لتشغيل مُرشِّح نوع الجرم.\n"
+"لصيقة نوع الجرم. انقر نقرًا مزدوجًا لتشغيل مُرشِّح نوع الجرم.\n"
 "\n"
 "اطلع على https://simbad.cds.unistra.fr/guide/otypes.htx للمزيد من التفاصيل"
 
@@ -34483,17 +34492,17 @@ msgstr "غشاوة غوسيّة"
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:109
 #, kde-format
 msgid "Rotate Right"
-msgstr "أدر يميناً"
+msgstr "أدر يمينًا"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:113
 #, kde-format
 msgid "Rotate Left"
-msgstr "أدر شمالاً"
+msgstr "أدر شمالًا"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:117
 #, kde-format
 msgid "Flip Horizontal"
-msgstr "اقلب أفقياً"
+msgstr "اقلب أفقيًا"
 
 #: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:122
 #, kde-format
@@ -34987,7 +34996,7 @@ msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>مراقب الذاكرة. انقر نقراً مزدوجاً لتبديل تشغيل/إيقاف "
+"<html><head/><body><p>مراقب الذاكرة. انقر نقرًا مزدوجًا لتبديل تشغيل/إيقاف "
 "النص.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
@@ -35132,7 +35141,7 @@ msgid ""
 "Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>تثبت Kappa تحديث البكسل في نطاق 1/kappa إلى kappa "
-"مقابل القيمة الأصلية. لذا 1 لا يعني تغييراً، وكلما زادت kappa زادت التحديثات "
+"مقابل القيمة الأصلية. لذا 1 لا يعني تغييرًا، وكلما زادت kappa زادت التحديثات "
 "الممكنة.</p><p>تتراوح القيم المعتادة بين 1.5 إلى 2.0. قللها إذا بدت الصور "
 "معالجة بإفراط، مثل تشويش النجوم.</p></body></html>"
 
@@ -35217,10 +35226,10 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>طريقة التكديس:</p><p>- المتوسط. أستخدم متوسطاً بسيطاً. "
+"<html><head/><body><p>طريقة التكديس:</p><p>- المتوسط. أستخدم متوسطًا بسيطًا. "
 "لا أطبق أي رفض للبكسلات. </p><p>- قص سيغما. أرفض البكسلات البعيدة. </p><p>- "
 "قصاصات سيغما وينسور. نسخة وينسور من قصاصات سيغما</p><p>- ImageMM. أنفّذ تكديس "
-"ImageMM وفقاً لـ https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 "
+"ImageMM وفقًا لـ https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 "
 "ملاحظة: هذه الطريقة تستهلك موارد كثيرة جدًا</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
@@ -35445,7 +35454,7 @@ msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>كمية التحديد للتطبيق. القيم الأكبر تطبّق تحديداً أكثر.</"
+"<html><head/><body><p>كمية التحديد للتطبيق. القيم الأكبر تطبّق تحديدًا أكثر.</"
 "p><p>اضبط القيمة على ٠ لتخطي التحديد.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
@@ -35992,7 +36001,7 @@ msgstr "طريقة العرض"
 #: fitsviewer/opsfits.ui:51
 #, kde-format
 msgid "Automatically display received images in the FITS Viewer"
-msgstr "اعرض آلياً الصور المستلمة في عارض FITS"
+msgstr "اعرض آليًا الصور المستلمة في عارض FITS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:54
@@ -36007,7 +36016,7 @@ msgstr "استخدم عارض FITS"
 msgid ""
 "Display all captured FITS images in a single tab instead of multiple tabs "
 "per image."
-msgstr "اعرض جميع صور FITS الملتقطة في لسان واحد عوضاً عن عدة ألسنة لكل صورة."
+msgstr "اعرض جميع صور FITS الملتقطة في لسان واحد عوضًا عن عدة ألسنة لكل صورة."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singlePreviewFITS)
 #: fitsviewer/opsfits.ui:70
@@ -36022,7 +36031,7 @@ msgid ""
 "Display captured FITS images from all cameras in a single FITS Viewer window "
 "instead of a dedicated window to each camera."
 msgstr ""
-"اعرض جميع صور FITS الملتقطة من كل آلات التصوير في نافذة واحدة بدلاً من نافذة "
+"اعرض جميع صور FITS الملتقطة من كل آلات التصوير في نافذة واحدة بدلًا من نافذة "
 "مخصصة لكل آلة تصوير."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
@@ -36038,7 +36047,7 @@ msgid ""
 "Display opened FITS images in a single FITS Viewer window instead of a "
 "dedicated window to each file."
 msgstr ""
-"اعرض جميع صور FITS المفتوحة في نافذة واحدة بدلاً من نافذة مخصصة لكل ملف."
+"اعرض جميع صور FITS المفتوحة في نافذة واحدة بدلًا من نافذة مخصصة لكل ملف."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:102
@@ -36185,7 +36194,7 @@ msgstr "المعالجة"
 #: fitsviewer/opsfits.ui:361
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
-msgstr "دائماً طبق التوسيع الآليّ لنطاق التباين في الصورة"
+msgstr "دائمًا طبق التوسيع الآليّ لنطاق التباين في الصورة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:364
@@ -36239,7 +36248,7 @@ msgstr "نمط الموارد المحدودة"
 #: fitsviewer/opsfits.ui:381
 #, kde-format
 msgid "Automatically debayer captured image if it contains a bayer pattern"
-msgstr "ابن الألوان الكاملة للصورة الملتقطة آليّاً إذا كانت تحوي نمط البناء"
+msgstr "ابن الألوان الكاملة للصورة الملتقطة آليًّا إذا كانت تحوي نمط البناء"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:384
@@ -36259,7 +36268,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p> حمّل بيانات نظام الإحداثيات العالمي (WCS) عند فتح ملف "
 "FITS.</p><p><span style=\" font-weight:600;\">تحذير: مكّن هذا الخيار فقط في "
-"الحواسيب ذات المعالجات السريعة جداً إذ أنها قد تقود إلى نتائج غير متوقعة تؤدي "
+"الحواسيب ذات المعالجات السريعة جدًا إذ أنها قد تقود إلى نتائج غير متوقعة تؤدي "
 "إلى التوقف في الأنظمة البطيئة.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
@@ -37215,7 +37224,7 @@ msgstr "المصنّع:"
 #: oal/equipmentwriter.ui:886 oal/equipmentwriter.ui:1277
 #, kde-format
 msgid "Add New"
-msgstr "أضف أيضاً"
+msgstr "أضف أيضًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/customdrivers.ui:210
@@ -37861,7 +37870,7 @@ msgstr "نافذة INDI عند بدء التشغيل"
 #: indi/opsindi.ui:434 kstars.kcfg:216
 #, kde-format
 msgid "Show INDI messages as desktop notifications instead of dialogs."
-msgstr "اعرض رسائل INDI كإشعارات سطح المكتب بدلاً من نوافذ حوارية."
+msgstr "اعرض رسائل INDI كإشعارات سطح المكتب بدلًا من نوافذ حوارية."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_messageNotificationINDI)
 #: indi/opsindi.ui:437
@@ -38363,7 +38372,7 @@ msgid ""
 "settings and try again."
 msgstr ""
 "آسف. فشل «نجوم‌ك» في اكتشاف أي مقاريب موصولة، يرجى التحقق من إعداداتك "
-"والمحاولة مجدداً."
+"والمحاولة مجددًا."
 
 #: indi/telescopewizardprocess.cpp:354
 #, kde-format
@@ -38384,22 +38393,22 @@ msgstr "وقت الغياب: %1"
 #: kspopupmenu.cpp:92
 #, kde-format
 msgid "No rise time: Circumpolar"
-msgstr "لا يوجد وقت للطلوع: فوق الأفق دائماً"
+msgstr "لا يوجد وقت للطلوع: فوق الأفق دائمًا"
 
 #: kspopupmenu.cpp:93
 #, kde-format
 msgid "No set time: Circumpolar"
-msgstr "لا يوجد وقت للغياب: فوق الأفق دائماً"
+msgstr "لا يوجد وقت للغياب: فوق الأفق دائمًا"
 
 #: kspopupmenu.cpp:95
 #, kde-format
 msgid "No rise time: Never rises"
-msgstr "لا يوجد وقت للطلوع: تحت الأفق دائماً"
+msgstr "لا يوجد وقت للطلوع: تحت الأفق دائمًا"
 
 #: kspopupmenu.cpp:96
 #, kde-format
 msgid "No set time: Never rises"
-msgstr "لا يوجد وقت للغياب: تحت الأفق دائماً"
+msgstr "لا يوجد وقت للغياب: تحت الأفق دائمًا"
 
 #: kspopupmenu.cpp:106
 #, kde-format
@@ -39941,7 +39950,7 @@ msgstr "بدّل إظهار خط الاستواء في خريطة السماء."
 #: kstars.kcfg:586 options/opsguides.ui:262
 #, kde-format
 msgid "Draw grids according to active coordinate system?"
-msgstr "ارسم الشبكات وفقاً لنظام الإحداثيات النشط؟"
+msgstr "ارسم الشبكات وفقًا لنظام الإحداثيات النشط؟"
 
 #. i18n: ectx: whatsthis, entry (AutoSelectGrid), group (View)
 #: kstars.kcfg:587
@@ -39949,7 +39958,7 @@ msgstr "ارسم الشبكات وفقاً لنظام الإحداثيات ال�
 msgid ""
 "Coordinate grids will automatically change according to active coordinate "
 "system."
-msgstr "تتغيّر شبكات الإحداثيات آلياً وفقاً لنظام الإحداثيات النشط."
+msgstr "تتغيّر شبكات الإحداثيات آليًا وفقًا لنظام الإحداثيات النشط."
 
 #. i18n: ectx: label, entry (ShowEquatorialGrid), group (View)
 #: kstars.kcfg:591
@@ -40033,7 +40042,7 @@ msgstr "حاكِ وقت النهار؟"
 #: kstars.kcfg:622
 #, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "إن حدّدتَ هذا الخيار، يصبح لون السماء ساطعاً في النهار."
+msgstr "إن حدّدتَ هذا الخيار، يصبح لون السماء ساطعًا في النهار."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:626
@@ -40412,7 +40421,7 @@ msgid ""
 "default to Latin names)."
 msgstr ""
 "استخدِم أسماء الكوكبات المترجَمَة (إن لم تتوفّر الأسماء المترجَمَة، استخدِم أسماء "
-"لاتينية مبدئياً)."
+"لاتينية مبدئيًا)."
 
 #. i18n: ectx: label, entry (UseAltAz), group (View)
 #: kstars.kcfg:779
@@ -40434,14 +40443,14 @@ msgstr ""
 #: kstars.kcfg:784
 #, kde-format
 msgid "Automatically label focused object?"
-msgstr "ضَع لصيقة آلياً على الجرم المُرَكَّز عليه؟"
+msgstr "ضَع لصيقة آليًا على الجرم المُرَكَّز عليه؟"
 
 #. i18n: ectx: whatsthis, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:785
 #, kde-format
 msgid ""
 "Toggle whether a centered object automatically gets a name label attached."
-msgstr "بدّل ما إذا يُضاف اسم لصيقة آلياً لكائن مُتَوَسِّط."
+msgstr "بدّل ما إذا يُضاف اسم لصيقة آليًا لكائن مُتَوَسِّط."
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
 #: kstars.kcfg:789 tools/scriptbuilder.cpp:665
@@ -40456,8 +40465,8 @@ msgid ""
 "Toggle whether a centered solar system object automatically gets a trail "
 "attached, as long as it remains centered."
 msgstr ""
-"بدّل ما إذا يُضاف مسار آلياً لكائن في النظام الشمسي متوسّط، طالما أنه يبقَى "
-"مُتَوَسِّطاً."
+"بدّل ما إذا يُضاف مسار آليًا لكائن في النظام الشمسي متوسّط، طالما أنه يبقَى "
+"مُتَوَسِّطًا."
 
 #. i18n: ectx: label, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:794
@@ -40518,7 +40527,7 @@ msgid ""
 "smoother with antialiasing, but rendering the screen will take more time."
 msgstr ""
 "بدّل ما إذا تُعْرَضُ السماء باستخدام مُضاد التعرُّج. تصبح الخطوط والأشكال أكثر سلاسة "
-"مع مُضاد التعرُّج، لكن عرض الشاشة يأخذ وقتاً أطول."
+"مع مُضاد التعرُّج، لكن عرض الشاشة يأخذ وقتًا أطول."
 
 #. i18n: ectx: label, entry (ZoomFactor), group (View)
 #: kstars.kcfg:814
@@ -40530,7 +40539,7 @@ msgstr "عامل التكبير، بالبكسلات لكل راديان"
 #: kstars.kcfg:815
 #, kde-format
 msgid "The zoom level, measured in pixels per radian."
-msgstr "مستوى التكبير، مقيساً بالبكسلات لكل راديان."
+msgstr "مستوى التكبير، مقيسًا بالبكسلات لكل راديان."
 
 #. i18n: ectx: label, entry (SkyRotation), group (View)
 #: kstars.kcfg:821
@@ -40562,8 +40571,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
-"شَغِّل هذا إن أردتَ عكس خريطة السماء يميناً ويساراً، لمطابقة المنظر عبر موشور "
-"(منشور) قائم مثلاً."
+"شَغِّل هذا إن أردتَ عكس خريطة السماء يمينًا ويسارًا، لمطابقة المنظر عبر موشور "
+"(منشور) قائم مثلًا."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:833
@@ -40584,9 +40593,9 @@ msgid ""
 "telescope"
 msgstr ""
 "شَغِّل هذا إن تستخدِم عينك على العدسة العينية في مقراب نيوتوني مُرَكَّب بمنظومة "
-"سَمْتِيَّة-اِرْتِفَاعِيَّة. يراعي هذا حقيقة وقوف المراقب قائماً عندما يتحرَّك المقراب لأعلى "
+"سَمْتِيَّة-اِرْتِفَاعِيَّة. يراعي هذا حقيقة وقوف المراقب قائمًا عندما يتحرَّك المقراب لأعلى "
 "ولأسفل، وبذلك يتتبَّع اتجاه خريطة السماء ما تراه في عدستك العينية فور إعدادها "
-"صحيحاً. اختَر اليدوية للتصحيح حسب الجانب الذي تظهر فيه العدسة العينية عندما "
+"صحيحًا. اختَر اليدوية للتصحيح حسب الجانب الذي تظهر فيه العدسة العينية عندما "
 "تنظر من خلف المقراب."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
@@ -41742,7 +41751,7 @@ msgstr "استخدِم ملف FIFO"
 #: kstars.kcfg:1357
 #, kde-format
 msgid "Option to use a FIFO file instead of saving to the hard disk"
-msgstr "خيار استخدام ملف FIFO بدلاً من الحفظ على القرص الصلب"
+msgstr "خيار استخدام ملف FIFO بدلًا من الحفظ على القرص الصلب"
 
 #. i18n: ectx: label, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1361
@@ -41811,7 +41820,7 @@ msgstr "اظهر الوقت المحلي."
 #: kstars.kcfg:1392
 #, kde-format
 msgid "Show GMT instead of local time."
-msgstr "اظهر GMT بدلاً من التوقيت المحلي."
+msgstr "اظهر GMT بدلًا من التوقيت المحلي."
 
 #. i18n: ectx: label, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1396
@@ -41827,7 +41836,7 @@ msgid ""
 "something like \"Looking at Earth\". Any instances of %t will be replaced by "
 "the target name, and any instances of %o will be replaced by the origin name."
 msgstr ""
-"حدد نص السطر الأول من اللصيقة. مبدئيا، يقول شيئاً مثل \"أنظر إلى الأرض\". "
+"حدد نص السطر الأول من اللصيقة. مبدئيا، يقول شيئًا مثل \"أنظر إلى الأرض\". "
 "استبدِل أي تكرارات لـ %t باسم الهدف، واستبدِل أي تكرارات لـ %o باسم الأصل."
 
 #. i18n: ectx: label, entry (XplanetFontSize), group (Xplanet)
@@ -41916,7 +41925,7 @@ msgid ""
 "Draw a glare around the sun with a radius of the specified value larger than "
 "the Sun. The default value is 28."
 msgstr ""
-"ارسم وهجاً حول الشمس بنصف قطر القيمة المحددة الأكبر من الشمس. القيمة المبدئية "
+"ارسم وهجًا حول الشمس بنصف قطر القيمة المحددة الأكبر من الشمس. القيمة المبدئية "
 "هي 28."
 
 #. i18n: ectx: label, entry (XplanetRandom), group (Xplanet)
@@ -41958,7 +41967,7 @@ msgid ""
 "Render the target body as seen from above the specified latitude (in "
 "degrees). The default value is 0."
 msgstr ""
-"اجعل الجسم الهدف مرئياً كما يُرى من فوق خط العرض المحدد (بالدرجات). القيمة "
+"اجعل الجسم الهدف مرئيًا كما يُرى من فوق خط العرض المحدد (بالدرجات). القيمة "
 "المبدئية هي 0."
 
 #. i18n: ectx: label, entry (XplanetLongitude), group (Xplanet)
@@ -41976,8 +41985,8 @@ msgid ""
 "positive going east, negative going west (for the earth and moon), so for "
 "example Los Angeles is at -118 or 242. The default value is 0."
 msgstr ""
-"اِجعل الراصد فوق خط الطول المحدد (بالدرجات). خط الطول موجب عند الذهاب شرقاً، "
-"وسالب عند الذهاب غرباً (للأرض والقمر)، لذا على سبيل المثال لوس أنجلوس تكون "
+"اِجعل الراصد فوق خط الطول المحدد (بالدرجات). خط الطول موجب عند الذهاب شرقًا، "
+"وسالب عند الذهاب غربًا (للأرض والقمر)، لذا على سبيل المثال لوس أنجلوس تكون "
 "عند -118 أو 242. القيمة المبدئية هي 0."
 
 #. i18n: ectx: label, entry (XplanetProjection), group (Xplanet)
@@ -42012,8 +42021,8 @@ msgid ""
 "it. This option is only meaningful with the -projection option. A color may "
 "also be supplied."
 msgstr ""
-"استخدِم ملفاً كصورة خلفية، مع وضع الكوكب عليها. هذا الخيار له معنى فقط مع خيار "
-"-projection. يجوز تزويد لون أيضاً."
+"استخدِم ملفًا كصورة خلفية، مع وضع الكوكب عليها. هذا الخيار له معنى فقط مع خيار "
+"-projection. يجوز تزويد لون أيضًا."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImage), group (Xplanet)
 #: kstars.kcfg:1467
@@ -42313,7 +42322,7 @@ msgstr "اِسمَح لنجوم‌ك بأداء العديد من العمليا
 #: kstars.kcfg:1585 options/opsadvanced.ui:91
 #, kde-format
 msgid "Always recompute coordinates"
-msgstr "دائماً، أعد حسابات الإحداثيات"
+msgstr "دائمًا، أعد حسابات الإحداثيات"
 
 #. i18n: ectx: whatsthis, entry (AlwaysRecomputeCoordinates), group (General)
 #: kstars.kcfg:1586
@@ -42646,7 +42655,7 @@ msgid ""
 "Create histogram from non-linear auto-stretched image rather than linear raw "
 "image data."
 msgstr ""
-"أنشِئ رسمًا بيانيًا من صورة ممدودة آليًا وغير خطية بدلاً من بيانات الصورة الخام "
+"أنشِئ رسمًا بيانيًا من صورة ممدودة آليًا وغير خطية بدلًا من بيانات الصورة الخام "
 "الخطية."
 
 #. i18n: ectx: label, entry (HIPSOpacity), group (FITSViewer)
@@ -43287,7 +43296,7 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
-"عدد العينات المتتالية التي يحتاج إليها انحراف دليل ليكون عالياً لإجهاض التقاط."
+"عدد العينات المتتالية التي يحتاج إليها انحراف دليل ليكون عاليًا لإجهاض التقاط."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:2189
@@ -43296,7 +43305,7 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
-"اضبط عدد العينات المتتالية التي يحتاج إليها انحراف دليل ليكون عالياً لإجهاض "
+"اضبط عدد العينات المتتالية التي يحتاج إليها انحراف دليل ليكون عاليًا لإجهاض "
 "التقاط."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
@@ -43359,7 +43368,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Automatically apply dark subtraction if a suitable dark frame is available."
-msgstr "طَبِّق آليا طرح الظلام إذا كان إطار مظلم مناسب متوفراً."
+msgstr "طَبِّق آليا طرح الظلام إذا كان إطار مظلم مناسب متوفرًا."
 
 #. i18n: ectx: label, entry (EnforceGuideDeviation), group (Capture)
 #: kstars.kcfg:2216
@@ -43417,7 +43426,7 @@ msgstr ""
 #: kstars.kcfg:2245
 #, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "استخدِم قلب الزوال القسري إذا كان مدعوماً."
+msgstr "استخدِم قلب الزوال القسري إذا كان مدعومًا."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:2249
@@ -43589,7 +43598,7 @@ msgid ""
 "Force exposure times to align with DSLR exposure presets. This insures "
 "accurate exposure times for sub-second exposures."
 msgstr ""
-"اجعل أوقات التعرض تتوافق قسراً مع إعدادات تعرض DSLR المسبقة. هذا يضمن أوقات "
+"اجعل أوقات التعرض تتوافق قسرًا مع إعدادات تعرض DSLR المسبقة. هذا يضمن أوقات "
 "تعرض دقيقة للتعرضات الأقل من ثانية."
 
 #. i18n: ectx: label, entry (CaptureDirectory), group (Capture)
@@ -43632,7 +43641,7 @@ msgstr "اِحسب الموضع بعد الالتقاطات."
 #: kstars.kcfg:2370
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr "معرِّف المسار البصري المستخدم مؤخراً في الالتقاط."
+msgstr "معرِّف المسار البصري المستخدم مؤخرًا في الالتقاط."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:2373
@@ -43747,7 +43756,7 @@ msgstr "مرشح عجلة المرشح المبدئي"
 #: kstars.kcfg:2435
 #, kde-format
 msgid "Take a dark frame and subtract it before running autofocus operation."
-msgstr "التقِط إطاراً مظلماً واطرحه قبل تشغيل عملية التركيز الآلي."
+msgstr "التقِط إطارًا مظلمًا واطرحه قبل تشغيل عملية التركيز الآلي."
 
 #. i18n: ectx: label, entry (FocusSubFrame), group (Focus)
 #: kstars.kcfg:2439
@@ -43776,7 +43785,7 @@ msgid ""
 "performance decreases as the number of stars increases."
 msgstr ""
 "قِس متوسط HFR من كل النجوم المجمعة في إطار كامل. هذه الطريقة مبدئيا تستخدم "
-"اكتشاف المركز، لكن يمكن أن تستخدم اكتشاف SEP أيضاً. يقل أداؤها مع زيادة عدد "
+"اكتشاف المركز، لكن يمكن أن تستخدم اكتشاف SEP أيضًا. يقل أداؤها مع زيادة عدد "
 "النجوم."
 
 #. i18n: ectx: label, entry (FocusNoMaskRB), group (Focus)
@@ -43813,7 +43822,7 @@ msgid ""
 msgstr ""
 "أثناء التركيز على الحقل الكامل، تُصفَّى النجوم التي تكون داخل هذه النسبة "
 "المئوية من الإطار من حساب HFR (مبدئيا 0%). يجوز لخوارزميات الاكتشاف أن يكون "
-"لها مرشح جوهري أيضاً."
+"لها مرشح جوهري أيضًا."
 
 #. i18n: ectx: label, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2469
@@ -43831,7 +43840,7 @@ msgid ""
 msgstr ""
 "أثناء التركيز على الحقل الكامل، تُصفَّى النجوم التي تكون خارج هذه النسبة "
 "المئوية من الإطار من حساب HFR (مبدئيا 100%). يجوز لخوارزميات الاكتشاف أن "
-"يكون لها مرشح جوهري أيضاً."
+"يكون لها مرشح جوهري أيضًا."
 
 #. i18n: ectx: label, entry (FocusMosaicTileWidth), group (Focus)
 #: kstars.kcfg:2474
@@ -43849,7 +43858,7 @@ msgstr "المساحة بين عناصر الفسيفساء لمرشح الفس�
 #: kstars.kcfg:2482
 #, kde-format
 msgid "Automatically select a star to focus."
-msgstr "اِختر آليا نجماً للتركيز."
+msgstr "اِختر آليا نجمًا للتركيز."
 
 #. i18n: ectx: label, entry (FocusSuspendGuiding), group (Focus)
 #: kstars.kcfg:2486
@@ -43873,7 +43882,7 @@ msgstr "وحدات العرض لـ HFR و FWHM"
 #: kstars.kcfg:2498
 #, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "سواء كان التركيز التكيفي مفعلاً أم لا."
+msgstr "سواء كان التركيز التكيفي مفعلًا أم لا."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:2502
@@ -44030,7 +44039,7 @@ msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"سواء كان المسح لموضع البدء مستخدماً دائماً أم فقط بعد فشل في التركيز الآلي."
+"سواء كان المسح لموضع البدء مستخدمًا دائمًا أم فقط بعد فشل في التركيز الآلي."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2594
@@ -44073,7 +44082,7 @@ msgid ""
 msgstr ""
 "يحدد التسامح الفرق بالنسبة المئوية بين موضع التركيز الحالي والحد الأدنى "
 "المتحقق أثناء تشغيل التركيز. ضبط هذه القيمة ضروري لمنع خوارزمية التركيز من "
-"التذبذب ذهاباً وإياباً."
+"التذبذب ذهابًا وإيابًا."
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:2612
@@ -44113,7 +44122,7 @@ msgstr ""
 #: kstars.kcfg:2625
 #, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
-msgstr "عدد الخطوات للتحرك خارجاً لتشغيل التركيز الآلي التقليدي."
+msgstr "عدد الخطوات للتحرك خارجًا لتشغيل التركيز الآلي التقليدي."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2629
@@ -44795,7 +44804,7 @@ msgid ""
 "Use JPEG format, instead of FITS, to upload images to the astrometry.net "
 "online service."
 msgstr ""
-"استخدم تنسيق JPEG، بدلاً من FITS، لرفع الصور إلى خدمة astrometry.net عبر "
+"استخدم تنسيق JPEG، بدلًا من FITS، لرفع الصور إلى خدمة astrometry.net عبر "
 "الإنترنت."
 
 #. i18n: ectx: label, entry (AstrometryTimeout), group (Align)
@@ -45403,7 +45412,7 @@ msgid ""
 "Assume DEC is orthogonal to RA during calibration instead of measuring the "
 "DEC angle independently."
 msgstr ""
-"افترض أن DEC عمودي على RA أثناء المعايرة بدلاً من قياس زاوية DEC مستقلة."
+"افترض أن DEC عمودي على RA أثناء المعايرة بدلًا من قياس زاوية DEC مستقلة."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:3481
@@ -72951,7 +72960,7 @@ msgstr "فيرونا"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Very Large Array"
-msgstr "مجموعة المرصد الكبير جداً"
+msgstr "مجموعة المرصد الكبير جدًا"
 
 #: kstars_i18n.cpp:4555
 #, kde-kuit-format
@@ -80064,7 +80073,7 @@ msgid ""
 "Chart color scheme for printing?"
 msgstr ""
 "تستطيع توفير حبر الطابعة باستخدام نسق ألوان \"خارطة النجوم الورقية\" حيث "
-"تكون الخلفية بيضاء. هل تريد التحوّل مؤقتاً إلى نسق ألوان خارطة النجوم الورقية "
+"تكون الخلفية بيضاء. هل تريد التحوّل مؤقتًا إلى نسق ألوان خارطة النجوم الورقية "
 "للطباعة ؟"
 
 #: kstarsactions.cpp:1511
@@ -80234,7 +80243,7 @@ msgstr ""
 "ملف سجل ملاحظات المستخدِم %1 تالف التنسيق في فتح المدخل الذي يبدأ عند %2. "
 "نجوم‌ك يظل قادرًا على التشغيل دون قراءة هذا الملف كليًا. اضغط متابعة لتشغيل "
 "نجوم‌ك بكل ما نجح من قراءة جزئية. قد يقُصُّ الملف إن كتب نجوم‌ك إليه لاحقًا. اضغط "
-"إلغاء للإنهاء الآن وتصحيح المشكلة يدويًا بدلاً من ذلك. "
+"إلغاء للإنهاء الآن وتصحيح المشكلة يدويًا بدلًا من ذلك. "
 
 #: kstarsdata.cpp:814
 #, kde-format
@@ -80430,7 +80439,7 @@ msgstr "ابحث عن جرم ..."
 #: kstarsinit.cpp:255
 #, kde-format
 msgid "Set Coordinates &Manually..."
-msgstr "حدد الإحداثيات يدوياً ..."
+msgstr "حدد الإحداثيات يدويًا ..."
 
 #: kstarsinit.cpp:267
 #, kde-format
@@ -82165,7 +82174,7 @@ msgstr "اخرج"
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:36
 #, kde-kuit-format
 msgid "Welcome to KStars Lite"
-msgstr "أهلاً بك في نجوم‌ك لايت"
+msgstr "أهلًا بك في نجوم‌ك لايت"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:44
 #, kde-kuit-format
@@ -83057,7 +83066,7 @@ msgstr "شرق (ملي ثانية)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (pointing west)"
-msgstr "شرق (يشير غرباً)"
+msgstr "شرق (يشير غربًا)"
 
 #: libindi_strings.cpp:131
 #, kde-kuit-format
@@ -86007,7 +86016,7 @@ msgstr "لا يمكن تحيل نسق الصورة من نوع %1،  سوف يف
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "سلسلة التاريخ الموردة غير صالحة: %1. استعمل تاريخ/وقت وحدة المعالجة المركزية "
-"بدلاً من ذلك."
+"بدلًا من ذلك."
 
 #: main.cpp:377
 #, kde-format
@@ -86022,7 +86031,7 @@ msgstr "لم يمكن تنفيذ النص البرمجي."
 #: main.cpp:405
 #, kde-format
 msgid "Using CPU date/time instead."
-msgstr "استخدام تاريخ/ووقت المعالج بدلاً عن ذلك."
+msgstr "استخدام تاريخ/ووقت المعالج بدلًا عن ذلك."
 
 #: oal/equipmentwriter.cpp:32
 #, kde-format
@@ -86525,13 +86534,13 @@ msgstr "الخطوة الأولى: تفاصيل حصة الرصد"
 #: oal/execute.ui:503
 #, kde-format
 msgid "Add new object to list"
-msgstr "أضف جرماً إلى القائمة"
+msgstr "أضف جرمًا إلى القائمة"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, RemoveObject)
 #: oal/execute.ui:516
 #, kde-format
 msgid "Remove object from list"
-msgstr "احذف جرماً من القائمة"
+msgstr "احذف جرمًا من القائمة"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, ObservationsURL)
 #: oal/execute.ui:538
@@ -86554,7 +86563,7 @@ msgstr "إدارة الراصدين"
 #, kde-format
 msgid ""
 "Another Observer already exists with the given Name and Surname, Overwrite?"
-msgstr "راصد آخر بنفس الاسم والعائلة موجود مسبقاً، هل تريد استبداله؟"
+msgstr "راصد آخر بنفس الاسم والعائلة موجود مسبقًا، هل تريد استبداله؟"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: oal/observeradd.ui:63
@@ -87247,7 +87256,7 @@ msgstr "نسق ألوان جديد"
 #: options/opscolors.cpp:222
 #, kde-format
 msgid "Enter a name for the new color scheme:"
-msgstr "ادخل اسماً لنسق الألوان الجديد:"
+msgstr "ادخل اسمًا لنسق الألوان الجديد:"
 
 #: options/opscolors.cpp:266
 #, kde-format
@@ -87791,7 +87800,7 @@ msgstr "إن اختِير، فستتغير شبكات الإحداثيات آل�
 #: options/opsguides.ui:268
 #, kde-format
 msgid "Automatically select coordinate grid"
-msgstr "اختر شبكة الإحداثيات آليّاً"
+msgstr "اختر شبكة الإحداثيات آليًّا"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:278
@@ -88400,7 +88409,7 @@ msgid ""
 "this case."
 msgstr ""
 "في حال تحديد الخيار، تُرفق لصائق أسماء للمذنبات القريبة من الشمس. تتفاوت "
-"المذنبات في سطوعها في مداراتها، لذا لا يُعتبر القدر الظاهري الخافت فعالاً في "
+"المذنبات في سطوعها في مداراتها، لذا لا يُعتبر القدر الظاهري الخافت فعالًا في "
 "هذه الحالة."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
@@ -88520,7 +88529,7 @@ msgstr "في حال تحديد الخيار، يُمزج لون أثر الكو�
 #: options/opssolarsystem.ui:631
 #, kde-format
 msgid "Fade trails to background color"
-msgstr "اجعل خط المسار يختفي تدريجياً مع لون الخلفية"
+msgstr "اجعل خط المسار يختفي تدريجيًا مع لون الخلفية"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ClearAllTrails)
 #: options/opssolarsystem.ui:657
@@ -88777,7 +88786,7 @@ msgstr "م.ر (%1/%2): %3 (%4' × %5')"
 #: printing/foveditordialog.ui:154
 #, kde-format
 msgid "Capture again..."
-msgstr "التقط مجدداً..."
+msgstr "التقط مجددًا..."
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
 #: printing/foveditordialog.ui:174
@@ -88896,7 +88905,7 @@ msgid ""
 "Star hopper returned empty path. We advise you to change star hopping "
 "settings or use manual capture mode."
 msgstr ""
-"باحث النجوم أعاد مساراً فارغاً. ننصحك بتغيير إعدادات باحث النجوم أو استخدام "
+"باحث النجوم أعاد مسارًا فارغًا. ننصحك بتغيير إعدادات باحث النجوم أو استخدام "
 "نمط الالتقاط اليدوي."
 
 #: printing/printingwizard.cpp:222
@@ -89120,7 +89129,7 @@ msgstr "نوع المخطط:"
 #: printing/pwizfovmanual.ui:71
 #, kde-format
 msgid "Manually Capture Field of View Snapshots"
-msgstr "التقط لقطات مجال الرؤية يدوياً"
+msgstr "التقط لقطات مجال الرؤية يدويًا"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovmanual.ui:96
@@ -89226,7 +89235,7 @@ msgstr ""
 "النجوم.</p>\n"
 "<p>في <b>الطريقة اليدوية</b>، أبحر في خريطة السماء للعثور على الأجسام "
 "المثيرة للاهتمام، ثم التقط تمثيلات متعددة لمجالات الرؤية.</p>\n"
-"<p><b>الطريقة القائمة على باحث النجوم</b> تلتقط لقطات مجال الرؤية آلياً "
+"<p><b>الطريقة القائمة على باحث النجوم</b> تلتقط لقطات مجال الرؤية آليًا "
 "باستخدام باحث النجوم. هذه ميزة تجريبية.</p>\n"
 "<p>عند اختيار طريقة التقاط مجال الرؤية، اضغط على <b>التالي</b>.</p>"
 
@@ -89240,7 +89249,7 @@ msgstr "طريقة تعريف مجال الرؤية:"
 #: printing/pwizfovtypeselection.ui:136
 #, kde-format
 msgid "Manually capture field of view snapshots"
-msgstr "التقط لقطات مجال الرؤية يدوياً"
+msgstr "التقط لقطات مجال الرؤية يدويًا"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hopperRadio)
 #: printing/pwizfovtypeselection.ui:152
@@ -89305,7 +89314,7 @@ msgid ""
 "button to get back to previous steps.</p>"
 msgstr ""
 "<p>مستندك جاهز للطباعة. انقر على زر <b>معاينة الطباعة</b> لمعاينته، وزر "
-"<b>طباعة</b> لبدء الطباعة. يمكنك أيضاً تصديره إلى ملف.</p>\n"
+"<b>طباعة</b> لبدء الطباعة. يمكنك أيضًا تصديره إلى ملف.</p>\n"
 "<p>إذا كنت ترغب في تغيير محتويات المستند المطبوع، انقر على زر <b>السابق</b> "
 "للعودة إلى الخطوات السابقة.</p>"
 
@@ -89514,28 +89523,28 @@ msgstr "أُدخلت سلسلة زاوية مقياس غير صالحة لـ %1.
 #: skycomponents/imageoverlaycomponent.cpp:236
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
-msgstr "لا يمكن ضبط الحالة على \"حسناً\". تتطلب قيمة RA قانونية غير صفرية."
+msgstr "لا يمكن ضبط الحالة على \"حسنًا\". تتطلب قيمة RA قانونية غير صفرية."
 
 #: skycomponents/imageoverlaycomponent.cpp:247
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
-msgstr "لا يمكن ضبط الحالة على \"حسناً\". تتطلب قيمة DEC قانونية غير صفرية."
+msgstr "لا يمكن ضبط الحالة على \"حسنًا\". تتطلب قيمة DEC قانونية غير صفرية."
 
 #: skycomponents/imageoverlaycomponent.cpp:258
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr "لا يمكن ضبط الحالة على \"حسناً\". تتطلب قيمة توجيه قانونية."
+msgstr "لا يمكن ضبط الحالة على \"حسنًا\". تتطلب قيمة توجيه قانونية."
 
 #: skycomponents/imageoverlaycomponent.cpp:269
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
-"لا يمكن ضبط الحالة على \"حسناً\". تتطلب قيمة ث.ق/بكسل قانونية غير صفرية."
+"لا يمكن ضبط الحالة على \"حسنًا\". تتطلب قيمة ث.ق/بكسل قانونية غير صفرية."
 
 #: skycomponents/imageoverlaycomponent.cpp:299
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr "خُزنت حالة \"حسناً\" لـ %1."
+msgstr "خُزنت حالة \"حسنًا\" لـ %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:399
 #, kde-format
@@ -89617,17 +89626,17 @@ msgstr "أُجهض الحل."
 #: skycomponents/imageoverlaycomponent.cpp:782
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr "يُتخطى ما حُلَّ مسبقاً: %1."
+msgstr "يُتخطى ما حُلَّ مسبقًا: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:801
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr "حُل %1 مسبقاً. يُتخطى."
+msgstr "حُل %1 مسبقًا. يُتخطى."
 
 #: skycomponents/imageoverlaycomponent.cpp:819
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr "إعادة تحميل. تراكبات الصور مُعطلة مؤقتاً."
+msgstr "إعادة تحميل. تراكبات الصور مُعطلة مؤقتًا."
 
 #: skycomponents/imageoverlaycomponent.cpp:838
 #, kde-format
@@ -90127,7 +90136,7 @@ msgstr "SEDS اعرض صورة"
 #: skyobjects/skyobject.cpp:463
 #, kde-format
 msgid "%1: SEDS, http://www.seds.org [free for non-commercial use]"
-msgstr "%1: SEDS، http://www.seds.org [مجاناً للاستعمال غير التّجاري]"
+msgstr "%1: SEDS، http://www.seds.org [مجانًا للاستعمال غير التّجاري]"
 
 #: skyobjects/skyobject.cpp:467
 #, kde-format
@@ -90140,7 +90149,7 @@ msgid ""
 "%1: Advanced Observing Program at Kitt Peak National Observatory [free for "
 "non-commercial use; no physical reproductions]"
 msgstr ""
-"%1: البرنامج الملاحِظ المتقدّم في Kitt Peak المرصد الوطني [مجاناً للاستعمال غير "
+"%1: البرنامج الملاحِظ المتقدّم في Kitt Peak المرصد الوطني [مجانًا للاستعمال غير "
 "التّجاري؛ لا إعادة إنتاج طبيعية]"
 
 #: skyobjects/skyobject.cpp:475
@@ -90154,7 +90163,7 @@ msgid ""
 "%1: National Optical Astronomy Observatories and AURA [free for non-"
 "commercial use]"
 msgstr ""
-"%1: مراصد علم الفلك البصرية الوطنية و AURA [مجاناً للاستخدام غير التجاري]"
+"%1: مراصد علم الفلك البصرية الوطنية و AURA [مجانًا للاستخدام غير التجاري]"
 
 #: skyobjects/skyobject.cpp:484
 #, kde-format
@@ -90162,7 +90171,7 @@ msgid ""
 "%1: Very Large Telescope, operated by the European Southern Observatory "
 "[free for non-commercial use; no reproductions]"
 msgstr ""
-"%1: مقراب كبير جداً، مُشغل بواسطة المرصد الجنوبي الأوروبي [مجاناً للاستعمال غير "
+"%1: مقراب كبير جدًا، مُشغل بواسطة المرصد الجنوبي الأوروبي [مجانًا للاستعمال غير "
 "التّجاري؛ لا إعادة إنتاج]"
 
 #: skyobjects/skyobject.cpp:490
@@ -90557,7 +90566,7 @@ msgstr ""
 "\t\t\tفي قائمة العرض. تستطيع ضبط مستوى التقريب يدويًا باستخدام عنصر «قرّب لـ "
 "حجم\n"
 "\t\t\tزاوي» في قائمة العرض (Shift+Ctrl+Z)، وتستطيع ضبطه بيانيًا عبر\n"
-"\t\t\tعلق على زر Ctrl بينما تسحب الفأرة لتحدد مستطيلاً لـ\n"
+"\t\t\tعلق على زر Ctrl بينما تسحب الفأرة لتحدد مستطيلًا لـ\n"
 "\t\t\tحدود النافذة الجديدة.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -90817,7 +90826,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>حاسبة نجوم‌ك الفلكية (Ctrl+C) تمنحك وصولاً مباشرًا إلى العديد\n"
+"\t\t<p>حاسبة نجوم‌ك الفلكية (Ctrl+C) تمنحك وصولًا مباشرًا إلى العديد\n"
 "\t\t\tمن الحسابات التي يجريها نجوم‌ك خلف الكواليس.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -91034,7 +91043,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>مبدئيًا، نجوم‌ك يشحن بفهرس نجوم يصل إلى قدر 8 تقريبًا. تستطيع تنزيل "
-"فهارس نجوم إضافية (Tycho-2 و USNO NOMAD) لعرض ما يصل إلى 100 مليون نجم وصولاً "
+"فهارس نجوم إضافية (Tycho-2 و USNO NOMAD) لعرض ما يصل إلى 100 مليون نجم وصولًا "
 "إلى قدر 16 تقريبًا باستخدام خيار الملف -> نزّل بيانات جديدة.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -91466,7 +91475,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>إدوين هابل أجرى القياسات الأولى التي عرضت أن المجرات البعيدة تبتعد "
-"عنا بسرعات عالية جدًا. كان هذا دليلاً مبكرًا على تمدد الكون. تعلّم المزيد في "
+"عنا بسرعات عالية جدًا. كان هذا دليلًا مبكرًا على تمدد الكون. تعلّم المزيد في "
 "مشروع معلومات فلك في دليل نجوم‌ك (المساعدة -> دليل نجوم‌ك).\n"
 "\t\t</p>\n"
 "\t\n"
@@ -91562,7 +91571,7 @@ msgstr ""
 "1. ببساطة اكتب اسم الجرم المعروف ثم اضغط على زر \"Plot\" (أو اضغط Enter).  "
 "ارتفاع الجسم vs. منحنى الوقت سَيُضاف إلى الخريطة، وسيُعرض نظرائه أسفل.\n"
 "\n"
-"2. اكتب علامة اسم للجسم المخصص.  وستحتاج أيضاً لتحديد RA و Dec نظائر الجسم، "
+"2. اكتب علامة اسم للجسم المخصص.  وستحتاج أيضًا لتحديد RA و Dec نظائر الجسم، "
 "ثم اضغط على زر \"الخريطة\" لإضافة منحناه إلى الخريطة."
 
 #. i18n: ectx: property (text), widget (QPushButton, browseButton)
@@ -91686,7 +91695,7 @@ msgid ""
 "Select an option from this list to set its value.  You may also select the "
 "option using an organized Tree List using the \"Browse Tree...\" button."
 msgstr ""
-"اختر خياراً من هذه القائمة لإعداد القيمة.  أنت قَدْ تَختار الخيار أيضاً باستخدام "
+"اختر خيارًا من هذه القائمة لإعداد القيمة.  أنت قَدْ تَختار الخيار أيضًا باستخدام "
 "قائمة الشجرة المنظَّمة باستخدام زر \"تصفّحْ شجرة…\" ."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, TreeButton)
@@ -91727,8 +91736,8 @@ msgid ""
 "examine the Tree View of options using the \"Browse Tree...\" button."
 msgstr ""
 "أعد القيمة لخيار العرض هنا.  تأكد بأن القيمة المدخلة تطابق نوع البيانات "
-"المتوقعة من الخيار.  مثلاً، الخيار \"UseAltAz\" تَتوقّع قيمة منطقية، فيجب عليك "
-"إدخال \"حقيقي\"، \"باطل\"، \"1\"، أو \"0\".  إذا لم تكن متأكداً ما هو نوع "
+"المتوقعة من الخيار.  مثلًا، الخيار \"UseAltAz\" تَتوقّع قيمة منطقية، فيجب عليك "
+"إدخال \"حقيقي\"، \"باطل\"، \"1\"، أو \"0\".  إذا لم تكن متأكدًا ما هو نوع "
 "البيانات المتوقعة، فاختبر شجرة عرض الخيارات باستخدام \" زر استعراض الشجرة…"
 "\" ."
 
@@ -91924,7 +91933,7 @@ msgstr ""
 "السماوية. لذلك ، عند استخدامك لـ \"انظر إلى\" مع اسم جسم ، فلا داعي لتفعيل "
 "التتبع حيث أن تفعيله آلي في هذا المثال.\n"
 "\n"
-"إذا لم تختار هذا، فإن التتبع سيبطل جبراً حتى عند تركيز الأجسام. مع مرور "
+"إذا لم تختار هذا، فإن التتبع سيبطل جبرًا حتى عند تركيز الأجسام. مع مرور "
 "الوقت، سوف تلاحظ أن السماء بدأت بالدوران، وهذا يرجع إلى دوران الأرض حول "
 "نفسها."
 
@@ -92253,7 +92262,7 @@ msgstr ""
 msgid ""
 "Please select an object to check conjunctions with, by clicking on the 'Find "
 "Object' button."
-msgstr "الرجاء اختر جرماً لحساب الاقتران معه بالنقر على زر ابحث عن جرم"
+msgstr "الرجاء اختر جرمًا لحساب الاقتران معه بالنقر على زر ابحث عن جرم"
 
 #: tools/conjunctions.cpp:276
 #, kde-format
@@ -92476,7 +92485,7 @@ msgstr "الإحداثيات غير صالحة."
 #: tools/flagmanager.cpp:281
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
-msgstr "المقراب %1 غير متصل. اتصل وأعد المحاولة مجدداً."
+msgstr "المقراب %1 غير متصل. اتصل وأعد المحاولة مجددًا."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
@@ -92592,7 +92601,7 @@ msgstr "صدّر الأفق المحدد إلى ملف"
 #: tools/horizonmanager.ui:161
 #, kde-format
 msgid "Import a previously exported horizon file"
-msgstr "استورد ملف أفق مُصدَّر سابقاً"
+msgstr "استورد ملف أفق مُصدَّر سابقًا"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:199
@@ -92685,7 +92694,7 @@ msgstr ""
 "indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ضبط <span "
 "style=\" font-style:italic;\">وضع السقف/النافذة</span> لقائمة من النقاط يضبط "
-"بدلاً من ذلك <span style=\" font-weight:600;\">الحجب أعلى</span> الخطوط.</"
+"بدلًا من ذلك <span style=\" font-weight:600;\">الحجب أعلى</span> الخطوط.</"
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">أضف النقاط يدويًا، أو "
 "الأفضل، باختيارها من خارطة السماء بعد النقر على زر <span style=\" font-style:"
@@ -92701,7 +92710,7 @@ msgstr ""
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">تعريف المناطق أسهل "
 "عندما تستخدم بالترافق مع ميزة خلفية التضاريس.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">يمكنك تصدير (واستيراد لاحقاً) المناطق باستخدام "
+"indent:0; text-indent:0px;\">يمكنك تصدير (واستيراد لاحقًا) المناطق باستخدام "
 "أزرار تصدير/استيراد المنطقة.</li></ul></body></html>"
 
 #: tools/imagingplanner.cpp:86
@@ -93687,7 +93696,7 @@ msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>اِبدَأ التحليل لوحيًّا فَوْر التقاط صورة الشاشة، بدلاً من "
+"<html><head/><body><p>اِبدَأ التحليل لوحيًّا فَوْر التقاط صورة الشاشة، بدلًا من "
 "انتظار ضغط زر الحلّ.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
@@ -93820,7 +93829,7 @@ msgstr "زاوية الموقع:"
 #: tools/modcalcangdist.ui:363
 #, kde-format
 msgid "degrees E of N"
-msgstr "درجة شرقاً عن الشمال"
+msgstr "درجة شرقًا عن الشمال"
 
 #. i18n: ectx: attribute (title), widget (QWidget, batch)
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
@@ -94687,7 +94696,7 @@ msgstr "خطأ أثناء مُحاولة الحصول على استجابة XML 
 msgid ""
 "Empty result instead of expected XML from CDS Sesame. Maybe bad Internet "
 "connection?"
-msgstr "نتيجة فارغة بدلاً من XML المتوقعة من CDS Sesame. ربما اتصال إنترنت سيئ؟"
+msgstr "نتيجة فارغة بدلًا من XML المتوقعة من CDS Sesame. ربما اتصال إنترنت سيئ؟"
 
 #: tools/nameresolver.cpp:220
 #, kde-kuit-format
@@ -94762,12 +94771,12 @@ msgstr ""
 #: tools/observinglist.cpp:277
 #, kde-format
 msgid "%1 is already in your wishlist."
-msgstr "الجرم %1 موجود مسبقاً في القائمة المرغوبة"
+msgstr "الجرم %1 موجود مسبقًا في القائمة المرغوبة"
 
 #: tools/observinglist.cpp:292
 #, kde-format
 msgid "%1 is already in the session plan."
-msgstr "الجرم %1 موجود مسبقاً في خطة الرصد"
+msgstr "الجرم %1 موجود مسبقًا في خطة الرصد"
 
 #: tools/observinglist.cpp:355
 #, kde-format
@@ -95009,7 +95018,7 @@ msgstr "لا يمكن حفظ قائمة جلسة فارغة."
 #: tools/observinglist.cpp:1173
 #, kde-format
 msgid "Could not open file %1.  Try a different filename?"
-msgstr "تعذر فتح الملف %1. أحاول اسم ملف مختلفاً؟"
+msgstr "تعذر فتح الملف %1. أحاول اسم ملف مختلفًا؟"
 
 #: tools/observinglist.cpp:1174
 #, kde-format
@@ -95248,7 +95257,7 @@ msgstr "الوقت المجدول"
 #: tools/observinglist.ui:545
 #, kde-format
 msgid "Select an Object to View Information here"
-msgstr "اختر جرماً لعرض معلوماته هنا"
+msgstr "اختر جرمًا لعرض معلوماته هنا"
 
 #. i18n: ectx: property (text), widget (QLabel, ImagePreview)
 #: tools/observinglist.ui:597
@@ -95391,10 +95400,10 @@ msgstr "الدائرة المحددة غير صالحة، اختيار المن�
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
 msgstr[0] "قائمتك الرصدية لا تحوي أي جرم حاليا، %1 جرم."
-msgstr[1] "قائمتك الرصدية تحوي %1 جرماً واحداً."
+msgstr[1] "قائمتك الرصدية تحوي %1 جرمًا واحدًا."
 msgstr[2] "قائمتك الرصدية تحوي %1 جرمين اثنين."
 msgstr[3] "قائمتك الرصدية تحوي %1 أجرام."
-msgstr[4] "قائمتك الرصدية تحوي %1 جرماً."
+msgstr[4] "قائمتك الرصدية تحوي %1 جرمًا."
 msgstr[5] "قائمتك الرصدية تحوي %1 جرم."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
@@ -95415,11 +95424,11 @@ msgid ""
 "in your observing list.</p></body></html>"
 msgstr ""
 "<html><head></head><body><p>مرحبًا في مرشد تجهيز قائمة الرصد</p><p></p><p>من "
-"خلال هذه الأداة يمكنك بناء قائمة رصد بفرز القائمة بطرق متعددة. أولاً، يمكنك "
+"خلال هذه الأداة يمكنك بناء قائمة رصد بفرز القائمة بطرق متعددة. أولًا، يمكنك "
 "اختيار الأجرام حسب  <span style=\" font-weight:600;\">النوع</span>. ثم "
 "تستطيع اختيار الأجرام الموجودة في <span style=\" font-weight:600;\">بقعة "
-"معينة في السماء</span>.  تستطيع أيضاً تقليص القائمة باختيار الأجرام في  <span "
-"style=\" font-weight:600;\">نطاق قدر معين من السطوع</span>.  أخيراً يمكنك "
+"معينة في السماء</span>.  تستطيع أيضًا تقليص القائمة باختيار الأجرام في  <span "
+"style=\" font-weight:600;\">نطاق قدر معين من السطوع</span>.  أخيرًا يمكنك "
 "الإبقاء فقط على الأجرام التي تكون <span style=\" font-weight:600;\">قابلة "
 "للرصد في تاريخ معيّن</span>.</p><p></p><p>اضغط على زر <span style=\" font-"
 "weight:600;\">التالي</span> لتبدأ باختيار أنواع الأجرام التي تريد أن تكون "
@@ -95487,12 +95496,12 @@ msgid ""
 "selection below, and press <span style=\" font-weight:600;\">Next</span>.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>اختر حسب البقعة من السماء</p><p></p><p>تالياً، "
+"<html><head></head><body><p>اختر حسب البقعة من السماء</p><p></p><p>تاليًا، "
 "يمكنك تقليص القائمة لتحوي فقط الأجرام التي تقع في بقعة معينة من السماء.  "
 "هناك ثلاث طرق لتحديد منطقة البقعة السماوية:  حسب <span style=\" font-"
 "weight:600;\">الكوكبة</span>، بتحديد <span style=\" font-weight:600;\">بقعة "
 "مستطيلة</span>، أو بتحديد <span style=\" font-weight:600;\">بقعة دائرية</"
-"span>.  يمكنك أيضاً اجتياز هذه الخطوة باختيار الأجرام من <span style=\" font-"
+"span>.  يمكنك أيضًا اجتياز هذه الخطوة باختيار الأجرام من <span style=\" font-"
 "weight:600;\">كل السماء</span>.</p><p></p><p>حدد اختيارك أدناه واضغط زر "
 "<span style=\" font-weight:600;\">التالي</span>.</p></body></html>"
 
@@ -95635,7 +95644,7 @@ msgstr ""
 "بالأجرام التي يمكن رصدها في تاريخ معيّن (ومن موقع معيّن).  لفرز قائمتك بهذه "
 "الطريقة، علّم على المربع الصغير تحت، ثم اختر التاريخ المرغوب.  إذا تركت هذا "
 "المربع من دون تعليم، فإن القائمة ستحوي الأجرام بغض النظر عن كونها قابلة "
-"للرصد (هذا هو الاختيار المبدئي).  بإمكانك أيضاً تغيير موقعك الجغرافي لتحديد "
+"للرصد (هذا هو الاختيار المبدئي).  بإمكانك أيضًا تغيير موقعك الجغرافي لتحديد "
 "إذا كانت الأجرام قابلة للرصد حسب الموقع.</p><p></p><p>عند الانتهاء، اضغط "
 "<span style=\" font-weight:600;\">التالي</span> للاستمرار.</p><p></p></"
 "body></html>"
@@ -95695,7 +95704,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>اختر الأجرام الساطعة</p><p>في هذه الصفحة، يمكنك حصر "
 "قائمة الرصد الخاصة بك على الأجرام الأكثر سطوعًا من قدر معين. كن حذرًا مع هذا "
-"الاختيار، لأن نجوم‌ك لا يمتلك قدراً لكل جرم في قاعدة بياناته. تحتاج إلى "
+"الاختيار، لأن نجوم‌ك لا يمتلك قدرًا لكل جرم في قاعدة بياناته. تحتاج إلى "
 "الإشارة إلى ما إذا كنت تريد تضمين الأجرام ذات القدر غير المعرّف.</p><p>إذا لم "
 "ترغب في استثناء الأجرام الخافتة بهذا الاختيار، ببساطة اترك مربع الاختيار "
 "أدناه غير محدد.</p><p>هذه هي الصفحة الأخيرة من معالج قائمة الرصد. يمكنك "
@@ -95720,7 +95729,7 @@ msgstr "ضمّن الأجرام التي لا يعرف قدر سطوعها"
 #: tools/obslistwizard.ui:1035
 #, kde-format
 msgid "Your observing list currently has 0 objects."
-msgstr "قائمتك الرصدية لا تحوي أي جرم حالياً."
+msgstr "قائمتك الرصدية لا تحوي أي جرم حاليًا."
 
 #. i18n: ectx: property (text), widget (QPushButton, updateButton)
 #: tools/obslistwizard.ui:1042
@@ -95844,7 +95853,7 @@ msgstr "أزل لصيقة الاسم من الجرم المسمى %1."
 #: tools/scriptbuilder.cpp:186
 #, kde-format
 msgid "Add a trail to the solar system body named %1."
-msgstr "أضف أثراً لجسم النظام الشمسي المسمى %1."
+msgstr "أضف أثرًا لجسم النظام الشمسي المسمى %1."
 
 #: tools/scriptbuilder.cpp:188
 #, kde-format
@@ -96448,7 +96457,7 @@ msgstr "خاطئ"
 #: tools/scriptbuilder.cpp:2831
 #, kde-format
 msgid "Mismatch between function and Arg widget (expected %1.)"
-msgstr "تضارب بين الدالة وودجة الوسيط (كان متوقعاً %1)."
+msgstr "تضارب بين الدالة وودجة الوسيط (كان متوقعًا %1)."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: tools/scriptbuilder.ui:67
@@ -96463,7 +96472,7 @@ msgid ""
 "Discards current script and starts a new one.  Will prompt to save any "
 "unsaved changes in the current script."
 msgstr ""
-"تخلص من السكربت الحالي وابدأ سكربتًا جديداً. سأطالب بحفظ أية تغييرات غير "
+"تخلص من السكربت الحالي وابدأ سكربتًا جديدًا. سأطالب بحفظ أية تغييرات غير "
 "محفوظة في السكربت الحالي."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
@@ -96479,7 +96488,7 @@ msgid ""
 "Opens an existing script.  Will prompt to save any unsaved changes in the "
 "current script."
 msgstr ""
-"افتح سكربتًا موجوداً. سأطالب بحفظ أية تغييرات غير محفوظة في السكربت الحالي."
+"افتح سكربتًا موجودًا. سأطالب بحفظ أية تغييرات غير محفوظة في السكربت الحالي."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:135
@@ -96508,7 +96517,7 @@ msgstr "احفظ البرنامج النصي كـ ..."
 msgid ""
 "Saves the script to a file, allowing you to first specify the filename and a "
 "name for the script."
-msgstr "احفظ السكربت في ملف، واسمح أولاً بتحديد اسم الملف واسم السكربت."
+msgstr "احفظ السكربت في ملف، واسمح أولًا بتحديد اسم الملف واسم السكربت."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:197
@@ -96643,7 +96652,7 @@ msgstr ""
 #: tools/scriptnamedialog.ui:29
 #, kde-format
 msgid "Enter name for the script"
-msgstr "أدخل اسماً السكربت"
+msgstr "أدخل اسمًا السكربت"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:32
@@ -96651,7 +96660,7 @@ msgstr "أدخل اسماً السكربت"
 msgid ""
 "Enter a name for the script.  This is not the file name, just a short "
 "descriptive line of text."
-msgstr "أدخل اسماً السكربت. هذا ليس اسم الملف، بل مجرد سطر وصفي قصير من النص."
+msgstr "أدخل اسمًا السكربت. هذا ليس اسم الملف، بل مجرد سطر وصفي قصير من النص."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AuthorName)
 #: tools/scriptnamedialog.ui:39
@@ -96757,7 +96766,7 @@ msgstr "الفترة الفاصلة:"
 #: tools/skycalendar.ui:215
 #, kde-format
 msgid "day(s)"
-msgstr "يوماً"
+msgstr "يومًا"
 
 #: tools/starhopper.cpp:104
 #, kde-format
@@ -96817,18 +96826,18 @@ msgstr "نتائج الاستدلال بالنجوم"
 #: tools/whatsinteresting/skyobjitem.cpp:114
 #, kde-kuit-format
 msgid "NOT VISIBLE: About %1 degrees below the %2 horizon"
-msgstr "لا يمكن رؤيته: تقريباً %1 درجة تحت %2 الأفق"
+msgstr "لا يمكن رؤيته: تقريبًا %1 درجة تحت %2 الأفق"
 
 #: tools/whatsinteresting/skyobjitem.cpp:119
 #, kde-kuit-format
 msgid "Now visible: About %1 degrees above the %2 horizon"
-msgstr "الآن يمكن رؤيته: تقريباً %1 درجة فوق %2 الأفق"
+msgstr "الآن يمكن رؤيته: تقريبًا %1 درجة فوق %2 الأفق"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeSelectLabel)
 #: tools/whatsinteresting/wiequipsettings.ui:50
 #, kde-format
 msgid "Select telescope from list to use or add a new telescope"
-msgstr "اختر مقرابًا من القائمة أو أضف مقرابًا جديداً"
+msgstr "اختر مقرابًا من القائمة أو أضف مقرابًا جديدًا"
 
 #. i18n: ectx: property (title), widget (QGroupBox, scopeDetailsBox)
 #: tools/whatsinteresting/wiequipsettings.ui:82
@@ -96856,7 +96865,7 @@ msgstr "--        "
 #: tools/whatsinteresting/wiequipsettings.ui:152
 #, kde-format
 msgid "Add new telescope"
-msgstr "أضف مقرابًا جديداً"
+msgstr "أضف مقرابًا جديدًا"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_BinocularsCheck)
 #: tools/whatsinteresting/wiequipsettings.ui:186
@@ -96880,9 +96889,9 @@ msgid ""
 "<b>brilliantly lit inner-city sky</b>.</p>"
 msgstr ""
 "<p>ماهو مقدار التلوث الضوئي في سمائك؟ قيّم ظروف السماء عندك من 1 إلى 9 بناءً "
-"على <b>مقياس بورتل للسماء المعتمة</b>. القيمة  <b>1</b> تعني <b>موقعاً متميزاً "
+"على <b>مقياس بورتل للسماء المعتمة</b>. القيمة  <b>1</b> تعني <b>موقعًا متميزًا "
 "سماؤه معتمة</b>، بينما <b>9</b> تعني <b>سماء وسط المدينة حيث الإضاءة قوية "
-"جداً</b>.</p>"
+"جدًا</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleClassLabel1)
 #: tools/whatsinteresting/wilpsettings.ui:83
@@ -97045,7 +97054,7 @@ msgstr "ليلة تاريخ"
 #: tools/wutdialog.ui:43
 #, kde-format
 msgid "Choose a new date"
-msgstr "اختر تاريخاً جديداً"
+msgstr "اختر تاريخًا جديدًا"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:46
@@ -97073,7 +97082,7 @@ msgstr "في موقع"
 #: tools/wutdialog.ui:86
 #, kde-format
 msgid "Choose a new geographic location"
-msgstr "اختر موقعاً جغرافياً جديداً"
+msgstr "اختر موقعًا جغرافيًا جديدًا"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
@@ -97115,7 +97124,7 @@ msgid ""
 msgstr ""
 "أداة \"السماء هذه الليلة\" تعرض لك كل الأجرام التي تكون ظاهرة فوق الأفق بين "
 "مغيب الشمس حتى منتصف الليل باختيار (\"نصف الليل الأول\") وهذا هو الاختيار "
-"المبدئي.  يمكنك أيضاً عرض الأجرام التي تكون ظاهرة بين منتصف الليل إلى الفجر "
+"المبدئي.  يمكنك أيضًا عرض الأجرام التي تكون ظاهرة بين منتصف الليل إلى الفجر "
 "باختيار (\"نصف الليل الأخير\")، أو كل الأجرام التي تكون ظاهرة فوق الأفق بين "
 "مغيب الشمس وطلوعها باختيار  (\"أي وقت من الليل\")"
 
@@ -97255,7 +97264,7 @@ msgstr "إضاءة القمر: 42%"
 #: tools/wutdialog.ui:356
 #, kde-format
 msgid "Select a category:"
-msgstr "اختر تصنيفاً:"
+msgstr "اختر تصنيفًا:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel16)
 #: tools/wutdialog.ui:374

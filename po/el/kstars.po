@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"POT-Creation-Date: 2026-08-12 02:34+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -6475,7 +6475,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1458 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6790,9 +6790,7 @@ msgstr "Προβολέας FITS του KStars"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
-#: ekos/guide/guide.ui:142
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -7716,14 +7714,14 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
 #: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1209
+#: ekos/guide/guide.cpp:1212
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1174
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1177
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure timeout. Restarting exposure..."
@@ -13202,7 +13200,7 @@ msgstr "Καθαρισμός πεδίων"
 msgid "Double click to load dark frame"
 msgstr "Αποτυχία φόρτωσης της εικόνας στο %1"
 
-#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
+#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -23333,17 +23331,17 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:446
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:452
+#: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""
@@ -24071,245 +24069,245 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr ""
 
-#: ekos/guide/guide.cpp:987
+#: ekos/guide/guide.cpp:990
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Guide streaming started."
 msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "Guide streaming stopped."
 msgstr "Διακοπή"
 
-#: ekos/guide/guide.cpp:1168
+#: ekos/guide/guide.cpp:1171
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/guide/guide.cpp:1196
+#: ekos/guide/guide.cpp:1199
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/guide/guide.cpp:1198
+#: ekos/guide/guide.cpp:1201
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/guide/guide.cpp:1200
+#: ekos/guide/guide.cpp:1203
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/guide/guide.cpp:1255
+#: ekos/guide/guide.cpp:1258
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1582
+#: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1642
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1734
+#: ekos/guide/guide.cpp:1767
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1843
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1857
+#: ekos/guide/guide.cpp:1890
 #, fuzzy, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1907
 #, fuzzy, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1909
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Ημερομηνία, ώρα και θέση:"
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1995
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration is cleared."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/guide/guide.cpp:2002
+#: ekos/guide/guide.cpp:2035
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2020
+#: ekos/guide/guide.cpp:2053
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2070
 #, kde-format
 msgid "Calibration completed."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2096
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration started."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/guide/guide.cpp:2077
+#: ekos/guide/guide.cpp:2110
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Guiding resumed."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/guide/guide.cpp:2081
+#: ekos/guide/guide.cpp:2114
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Autoguiding running."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/guide/guide.cpp:2103
+#: ekos/guide/guide.cpp:2136
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 
-#: ekos/guide/guide.cpp:2111
+#: ekos/guide/guide.cpp:2144
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Guiding suspended."
 msgstr "Η αυτόματη οδήγηση διακόπηκε."
 
-#: ekos/guide/guide.cpp:2120
+#: ekos/guide/guide.cpp:2153
 #, fuzzy, kde-format
 msgid "Manual dithering in progress."
 msgstr "Ντομ Κρικ"
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2157
 #, fuzzy, kde-format
 msgid "Dithering in progress."
 msgstr "Ντομ Κρικ"
 
-#: ekos/guide/guide.cpp:2128
+#: ekos/guide/guide.cpp:2161
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:2133
+#: ekos/guide/guide.cpp:2166
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "Άλλο"
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2177
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Dithering completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/guide/guide.cpp:2202
+#: ekos/guide/guide.cpp:2235
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/guide/guide.cpp:2226
+#: ekos/guide/guide.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/guide/guide.cpp:2361
+#: ekos/guide/guide.cpp:2398
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/guide/guide.cpp:2456
+#: ekos/guide/guide.cpp:2493
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2910
+#: ekos/guide/guide.cpp:2947
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration failed to start."
 msgstr "Βαθμονόμηση"
 
-#: ekos/guide/guide.cpp:3061
+#: ekos/guide/guide.cpp:3098
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Auto star selected."
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/guide/guide.cpp:3065
+#: ekos/guide/guide.cpp:3102
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to select an auto star."
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/guide/guide.cpp:3074
+#: ekos/guide/guide.cpp:3111
 #, fuzzy, kde-format
 #| msgid "2. Select guide star"
 msgid "Select a guide star to calibrate."
 msgstr "2. Επιλογή αστέρα - οδηγού "
 
-#: ekos/guide/guide.cpp:3336
+#: ekos/guide/guide.cpp:3373
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "εικονοστοιχεία"
 
-#: ekos/guide/guide.cpp:3337
+#: ekos/guide/guide.cpp:3374
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "εικονοστοιχεία"
 
-#: ekos/guide/guide.cpp:3480 ekos/guide/guide.cpp:3632
+#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3484 ekos/guide/guide.cpp:3636
+#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24317,67 +24315,67 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3565
+#: ekos/guide/guide.cpp:3602
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "AI Guiding Assistant..."
 msgstr "Φόρτωση αστέρων"
 
-#: ekos/guide/guide.cpp:3573
+#: ekos/guide/guide.cpp:3610
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Load Weights..."
 msgstr "Λήψη νέων δεδομένων..."
 
-#: ekos/guide/guide.cpp:3679 ekos/guide/guide.cpp:3684
+#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "EkosLive AI training failed: %1"
 msgstr "Χωρίς FOV"
 
-#: ekos/guide/guide.cpp:3680 ekos/guide/guide.cpp:3685
+#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
 #, fuzzy, kde-format
 #| msgid "Unknown Type"
 msgid "unknown error"
 msgstr "Άγνωστος τύπος"
 
-#: ekos/guide/guide.cpp:3699
+#: ekos/guide/guide.cpp:3736
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save AI weights to %1"
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: ekos/guide/guide.cpp:3709
+#: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3713
+#: ekos/guide/guide.cpp:3750
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "AI training complete. Weights saved to %1."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/guide/guide.cpp:3719
+#: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3720
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3724
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3905
+#: ekos/guide/guide.cpp:3942
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -24387,6 +24385,17 @@ msgstr ""
 #, kde-format
 msgid "Control"
 msgstr "Έλεγχος"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
+#: ekos/guide/guide.ui:142
+#, kde-format
+msgid ""
+"<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
+"in the Dark Library tool in the capture module.</p><p>The dark must be "
+"created in the same binning mode used while guiding — including hardware vs. "
+"software binning if the camera supports it — otherwise the correction will "
+"not match.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152

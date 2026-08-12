@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-09 02:07+0000\n"
+"POT-Creation-Date: 2026-08-12 02:34+0000\n"
 "PO-Revision-Date: 2026-08-08 18:01+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -6245,7 +6245,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1458 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6546,9 +6546,7 @@ msgstr "Tonen van FITS-afbeeldingen..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
-#: ekos/guide/guide.ui:142
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
@@ -7457,13 +7455,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Belichtingstijd verlopen. Wordt afgebroken..."
 
 #: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
-#: ekos/guide/guide.cpp:1209
+#: ekos/guide/guide.cpp:1212
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Belichtingstijd verlopen. Te veel. Stuurprogramma wordt herstart."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1174
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1177
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Belichtingstijd verlopen. Belichten wordt herstart..."
@@ -13011,7 +13009,7 @@ msgstr "Tijd verlopen wissen"
 msgid "Double click to load dark frame"
 msgstr "Dubbelklikken om dark-frame in te lezen"
 
-#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
+#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -22945,17 +22943,17 @@ msgstr ""
 "Correcties zijn al toegepast. Voer autofocus opnieuw uit om actuele "
 "kantelmetingen te verkrijgen."
 
-#: ekos/guide/aiguideprotocol.cpp:446
+#: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "Geen gegevens om te trainen! Voer eerst het protocol uit."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
 msgstr "Geen gegevens om te trainen"
 
-#: ekos/guide/aiguideprotocol.cpp:452
+#: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Beginnen met AI-training via EkosLive cloud..."
@@ -23679,179 +23677,179 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr "Verbinding met de camera voor volgen is verbroken."
 
-#: ekos/guide/guide.cpp:987
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Streamen van volgen gestart."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Streamen van volgen gestopt."
 
-#: ekos/guide/guide.cpp:1168
+#: ekos/guide/guide.cpp:1171
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Belichtingstijd verlopen,maar wordt onderbroken. Wordt genegeerd..."
 
-#: ekos/guide/guide.cpp:1196
+#: ekos/guide/guide.cpp:1199
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Belichtingstijd verlopen. Autovolgen afgebroken."
 
-#: ekos/guide/guide.cpp:1198
+#: ekos/guide/guide.cpp:1201
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Belichtingstijd verlopen. Ditheren afgebroken."
 
-#: ekos/guide/guide.cpp:1200
+#: ekos/guide/guide.cpp:1203
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Belichtingstijd verlopen. Calibratie afgebroken."
 
-#: ekos/guide/guide.cpp:1255
+#: ekos/guide/guide.cpp:1258
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr ""
 "Het opnieuw verbinden van de camera na het herstarten van het stuurprogramma "
 "is mislukt."
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr "AI Free Drift actief. Multipuls onderdrukt (RK: %1 ms, DEC: %2 ms)."
 
-#: ekos/guide/guide.cpp:1582
+#: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "AI Free Drift actief. Onderdrukt enkele puls (%1ms)."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Geen camera gedetecteerd. Controleer de camera in optische treinen."
 
-#: ekos/guide/guide.cpp:1642
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Geen richter gedetecteerd. Controleer richten-via in optische treinen."
 
-#: ekos/guide/guide.cpp:1734
+#: ekos/guide/guide.cpp:1767
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "De opstelling is geparkeerd. Haal die uit de parkeerstand en start het "
 "volgen."
 
-#: ekos/guide/guide.cpp:1843
+#: ekos/guide/guide.cpp:1876
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Pier-kant (kijkrichting) wijziging gedetecteerd. Calibratie wordt gewist."
 
-#: ekos/guide/guide.cpp:1857
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Opstelling beweegt. Reset van kalibratie..."
 
-#: ekos/guide/guide.cpp:1874
+#: ekos/guide/guide.cpp:1907
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Opstelling wordt geparkeerd. Volgen wordt afgebroken..."
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1909
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Opstelling draait. Volgen gestopt..."
 
-#: ekos/guide/guide.cpp:1962
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibreren gewist."
 
-#: ekos/guide/guide.cpp:2002
+#: ekos/guide/guide.cpp:2035
 #, kde-format
 msgid "External guider connected."
 msgstr "Verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:2020
+#: ekos/guide/guide.cpp:2053
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Niet verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:2037
+#: ekos/guide/guide.cpp:2070
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibratie voltooid."
 
-#: ekos/guide/guide.cpp:2063
+#: ekos/guide/guide.cpp:2096
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibreren gestart."
 
-#: ekos/guide/guide.cpp:2077
+#: ekos/guide/guide.cpp:2110
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Volgen hervat"
 
-#: ekos/guide/guide.cpp:2081
+#: ekos/guide/guide.cpp:2114
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Automatisch volgen is actief."
 
-#: ekos/guide/guide.cpp:2103
+#: ekos/guide/guide.cpp:2136
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Autovolgen afgebroken."
 
-#: ekos/guide/guide.cpp:2111
+#: ekos/guide/guide.cpp:2144
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Volgen onderbroken."
 
-#: ekos/guide/guide.cpp:2120
+#: ekos/guide/guide.cpp:2153
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Er wordt met de hand geditherd."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2157
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Er wordt geditherd."
 
-#: ekos/guide/guide.cpp:2128
+#: ekos/guide/guide.cpp:2161
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Instellen gedurende %1 seconde na ditheren..."
 msgstr[1] "Instellen gedurende %1 seconden na ditheren..."
 
-#: ekos/guide/guide.cpp:2133
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ditheren is mislukt."
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2177
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Ditheren met succes voltooid."
 
-#: ekos/guide/guide.cpp:2202
+#: ekos/guide/guide.cpp:2235
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Binning bij volgen met %1x%1 wordt niet ondersteund. Maximum is %2x%2."
 
-#: ekos/guide/guide.cpp:2226
+#: ekos/guide/guide.cpp:2259
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Belichten is mislukt. Belichten wordt herhaald..."
 
-#: ekos/guide/guide.cpp:2361
+#: ekos/guide/guide.cpp:2398
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Kan actief volgtype niet wijzigen."
 
-#: ekos/guide/guide.cpp:2456
+#: ekos/guide/guide.cpp:2493
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23860,37 +23858,37 @@ msgstr ""
 "Waarschuwing: Reset van volgkalibratie is aan. U kunt deze optie beter "
 "uitzetten voor PHD2."
 
-#: ekos/guide/guide.cpp:2910
+#: ekos/guide/guide.cpp:2947
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibratie kon niet worden gestart."
 
-#: ekos/guide/guide.cpp:3061
+#: ekos/guide/guide.cpp:3098
 #, kde-format
 msgid "Auto star selected."
 msgstr "Autoster geselecteerd."
 
-#: ekos/guide/guide.cpp:3065
+#: ekos/guide/guide.cpp:3102
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Autoster selecteren is mislukt.."
 
-#: ekos/guide/guide.cpp:3074
+#: ekos/guide/guide.cpp:3111
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Selecteer een te kalibreren volgster."
 
-#: ekos/guide/guide.cpp:3336
+#: ekos/guide/guide.cpp:3373
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (pixels)"
 
-#: ekos/guide/guide.cpp:3337
+#: ekos/guide/guide.cpp:3374
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (pixels)"
 
-#: ekos/guide/guide.cpp:3480 ekos/guide/guide.cpp:3632
+#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23900,7 +23898,7 @@ msgstr ""
 "afbeeldingen niet bekijken. Maar desondanks kunt u de afbeelding van de volg-"
 "ster zien bij het volgen."
 
-#: ekos/guide/guide.cpp:3484 ekos/guide/guide.cpp:3636
+#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23911,32 +23909,32 @@ msgstr ""
 "als SubFrame niet is gekozen. Na dit uitschakelen kunt opnames maken. "
 "Voordat u gaat volgen kunt u dit weer aanzetten."
 
-#: ekos/guide/guide.cpp:3565
+#: ekos/guide/guide.cpp:3602
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "AI-volgenassistent..."
 
-#: ekos/guide/guide.cpp:3573
+#: ekos/guide/guide.cpp:3610
 #, kde-format
 msgid "Load Weights..."
 msgstr "Gewichten worden geladen..."
 
-#: ekos/guide/guide.cpp:3679 ekos/guide/guide.cpp:3684
+#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive AI-training is mislukt: %1"
 
-#: ekos/guide/guide.cpp:3680 ekos/guide/guide.cpp:3685
+#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
 #, kde-format
 msgid "unknown error"
 msgstr "onbekende fout"
 
-#: ekos/guide/guide.cpp:3699
+#: ekos/guide/guide.cpp:3736
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "AI-gewichten opslaan naar %1 is mislukt"
 
-#: ekos/guide/guide.cpp:3709
+#: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23944,23 +23942,23 @@ msgstr ""
 "AI-training voltooid. Gewichten opgeslagen in %1 en ingesteld als de actieve "
 "AI-gewichten."
 
-#: ekos/guide/guide.cpp:3713
+#: ekos/guide/guide.cpp:3750
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "AI-training voltooid. Gewichten opgeslagen in %1."
 
-#: ekos/guide/guide.cpp:3719
+#: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "AI-volgergewichten laden"
 
-#: ekos/guide/guide.cpp:3720
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "AI-gewichten (*.json)"
 
-#: ekos/guide/guide.cpp:3724
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23969,7 +23967,7 @@ msgstr ""
 "AI-volgergewichten zijn ingesteld op %1. Ze worden toegepast zodra het "
 "volgen (guiding) de volgende keer start."
 
-#: ekos/guide/guide.cpp:3905
+#: ekos/guide/guide.cpp:3942
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Kan actieve optische trein niet wijzigen terwijl PHD2 is verbonden"
@@ -23979,6 +23977,17 @@ msgstr "Kan actieve optische trein niet wijzigen terwijl PHD2 is verbonden"
 #, kde-format
 msgid "Control"
 msgstr "Besturing"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
+#: ekos/guide/guide.ui:142
+#, kde-format
+msgid ""
+"<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
+"in the Dark Library tool in the capture module.</p><p>The dark must be "
+"created in the same binning mode used while guiding — including hardware vs. "
+"software binning if the camera supports it — otherwise the correction will "
+"not match.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
