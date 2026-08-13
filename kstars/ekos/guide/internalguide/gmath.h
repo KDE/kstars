@@ -314,6 +314,9 @@ class cgmath : public QObject
 
         double drift_integral[2];
 
+        // RMS of the recent drift buffer, used to sanity-limit AI feed-forward.
+        double recentDriftRms(int k) const;
+
         // overlays...
         cproc_in_params in_params;
         cproc_out_params out_params;

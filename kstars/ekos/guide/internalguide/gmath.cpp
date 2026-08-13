@@ -566,6 +566,14 @@ void cgmath::outputGuideLog()
     }
 }
 
+double cgmath::recentDriftRms(int k) const
+{
+    double sumSq = 0;
+    for (int i = 0; i < CIRCULAR_BUFFER_SIZE; ++i)
+        sumSq += drift[k][i] * drift[k][i];
+    return std::sqrt(sumSq / CIRCULAR_BUFFER_SIZE);
+}
+
 void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide, const Seconds &timeStep,
                          const QString &label)
 {
@@ -630,6 +638,9 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         if (ai_out.valid)
         {
             double ai_pulse_arcsec = (k == GUIDE_RA) ? ai_out.ra_correction_arcsec : ai_out.dec_correction_arcsec;
+            const double aiLimit = std::max(3.0 * recentDriftRms(k), 1.0);
+            if (std::abs(ai_pulse_arcsec) > aiLimit)
+                ai_pulse_arcsec = std::copysign(aiLimit, ai_pulse_arcsec);
             const double aiGain = Options::aIPredictionGain();
             const double aiResponse = ai_pulse_arcsec * pulseConverter;
             double total = aiGain * ai_out.confidence * aiResponse;
@@ -725,6 +736,15 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         double ai_pulse_arcsec = (k == GUIDE_RA) ?
                                  m_lastAIPrediction.ra_correction_arcsec :
                                  m_lastAIPrediction.dec_correction_arcsec;
+        // Never trust a prediction far beyond the scale of anything recently measured.
+        const double aiLimit = std::max(3.0 * recentDriftRms(k), 1.0);
+        if (std::abs(ai_pulse_arcsec) > aiLimit)
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("[AI GUIDER] Clamping %1 prediction %2\" to %3\"")
+                                       .arg(k == GUIDE_RA ? "RA" : "DEC")
+                                       .arg(ai_pulse_arcsec, 0, 'f', 1).arg(aiLimit, 0, 'f', 1);
+            ai_pulse_arcsec = std::copysign(aiLimit, ai_pulse_arcsec);
+        }
         const double conf = m_lastAIPrediction.confidence;
         const double aiGain = Options::aIPredictionGain();
 

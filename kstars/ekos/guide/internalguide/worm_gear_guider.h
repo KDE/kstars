@@ -104,9 +104,14 @@ class WormGearGuider : public MountSpecificGuider
         double m_lastDECPulseMs   { 0.0 };
         float  m_lastPierSide     { 1.0f };
         bool   m_hasLastPred      { false };
+        bool   m_isStable         { false };
         std::deque<double> m_innovRA;
         std::deque<double> m_innovDec;
         static constexpr int INNOV_WINDOW = 20;
+        /// Windowed innovation above this rate means the loop is unstable, not noisy.
+        static constexpr double INSTABILITY_ARCSEC_PER_SEC = 1.5;
+        /// Confidence falls freely but may rise at most this much per frame.
+        static constexpr double CONF_RISE_PER_FRAME = 0.05;
 
         // ── Helpers ───────────────────────────────────────────────────────────
         double physicsRA(double t_sec, double altitude_deg) const;
