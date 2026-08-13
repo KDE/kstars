@@ -214,6 +214,13 @@ def _estimate_pe_from_fft(sysid: dict, guide_exp: float, verbose: bool):
     peak_idx = np.argmax(Pxx_valid)
     best_f = f_valid[peak_idx]
     best_period = 1.0 / best_f
+
+    # A weak peak means no usable PE line; the argmax is noise or a harmonic.
+    far = np.abs(f_valid - best_f) > 0.2 * best_f
+    dominance = Pxx_valid[peak_idx] / max(Pxx_valid[far].max(), 1e-9)
+    if dominance < 2.0:
+        print(f"  [FFT] WARNING: no dominant PE line (peak/far-field ratio {dominance:.2f}) -- "
+              f"period {best_period:.1f}s is unreliable; free drift may not have truly drifted.")
     
     if known_period is not None and known_period > 0:
         if verbose:
@@ -371,6 +378,7 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
     
     X_all = []
     Y_all = []
+    W_all = []  # per-sample [ra, dec] loss weights; dec=0 drops contaminated supervision
     
     pixel_scale = _effective_pixel_scale(sysid)
     
@@ -391,6 +399,13 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
         # Load calibration rates (fallback to large number to prevent division by zero)
         ra_cal = s.get("ra_ms_per_arcsec", 1000.0)
         dec_cal = s.get("dec_ms_per_arcsec", 1000.0)
+
+        # DEC rate far below RA means the calibration ate backlash; drop its DEC targets.
+        dec_suspect = ("dec_ms_per_arcsec" in s and "ra_ms_per_arcsec" in s
+                       and dec_cal > 2.0 * ra_cal)
+        if dec_suspect:
+            print(f"  [Session {s_idx}] WARNING: dec_ms_per_arcsec={dec_cal:.0f} vs ra={ra_cal:.0f} "
+                  f"-- backlash-poisoned DEC calibration, dropping this session's DEC targets.")
         
         max_ra_pulse_ms = s.get("max_pulse_ra_arcsec", 2.5) * ra_cal
         max_dec_pulse_ms = s.get("max_pulse_dec_arcsec", 2.5) * dec_cal
@@ -513,6 +528,7 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
             
             X_all.append(x)
             Y_all.append([target_ra, target_dec])
+            W_all.append([1.0, 0.0 if dec_suspect else 1.0])
             
     if total_frames > 0:
         sat_pct = (saturated_frames / total_frames) * 100.0
@@ -523,28 +539,29 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
             print("Your mount is constantly struggling. Please increase your Max Pulse setting in")
             print("the Guide Options, or check your polar alignment and balance.\n")
 
-    return np.array(X_all, dtype=np.float32), np.array(Y_all, dtype=np.float32)
+    return np.array(X_all, dtype=np.float32), np.array(Y_all, dtype=np.float32), np.array(W_all, dtype=np.float32)
 
 def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose) -> dict:
     epochs = epochs or 300
     
-    X_np, Y_np = _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose)
+    X_np, Y_np, W_np = _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose)
     if len(X_np) < 50:
         if verbose: print("[WARNING] Insufficient data for MLP training. Returning zero weights.")
         return _zero_weights()
-        
+
     # Simple split (last 20% is validation)
     split_idx = int(0.8 * len(X_np))
-    X_train, Y_train = torch.tensor(X_np[:split_idx]), torch.tensor(Y_np[:split_idx])
-    X_val, Y_val = torch.tensor(X_np[split_idx:]), torch.tensor(Y_np[split_idx:])
-    
+    X_train, Y_train, W_train = torch.tensor(X_np[:split_idx]), torch.tensor(Y_np[:split_idx]), torch.tensor(W_np[:split_idx])
+    X_val, Y_val, W_val = torch.tensor(X_np[split_idx:]), torch.tensor(Y_np[split_idx:]), torch.tensor(W_np[split_idx:])
+
     device = torch.device("cuda" if gpu and torch.cuda.is_available() else "cpu")
     model = ResidualMLP().to(device)
-    X_train, Y_train = X_train.to(device), Y_train.to(device)
-    X_val, Y_val = X_val.to(device), Y_val.to(device)
-    
+    X_train, Y_train, W_train = X_train.to(device), Y_train.to(device), W_train.to(device)
+    X_val, Y_val, W_val = X_val.to(device), Y_val.to(device), W_val.to(device)
+
     optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
-    criterion = nn.MSELoss()
+    # MSE with per-sample [ra, dec] weights so contaminated DEC targets carry no gradient.
+    criterion = lambda pred, target, w: ((pred - target) ** 2 * w).sum() / w.sum().clamp_min(1.0)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
     
     best_val_loss = float('inf')
@@ -559,7 +576,7 @@ def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_pol
         model.train()
         optimizer.zero_grad()
         pred = model(X_train)
-        loss = criterion(pred, Y_train)
+        loss = criterion(pred, Y_train, W_train)
         loss.backward()
         
         # Gradient clipping
@@ -570,7 +587,7 @@ def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_pol
         model.eval()
         with torch.no_grad():
             val_pred = model(X_val)
-            val_loss = criterion(val_pred, Y_val)
+            val_loss = criterion(val_pred, Y_val, W_val)
             
         if val_loss.item() < best_val_loss:
             best_val_loss = val_loss.item()

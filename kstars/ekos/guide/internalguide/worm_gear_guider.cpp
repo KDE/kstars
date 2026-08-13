@@ -129,6 +129,7 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
 void WormGearGuider::resetSession(bool forceReset)
 {
     m_confidence = 0.0;
+    m_isStable = false;
     m_lastDt = 2.0;
     m_lastAltRad = M_PI / 4.0;
     m_lastSessionSec = 0.0;
@@ -197,7 +198,8 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
                                 m_lastPierSide);
 
     GuideOutput out;
-    out.valid      = (m_frameCount > warmupFrames());
+    // Hold the AI out of an unstable loop.
+    out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
     out.confidence = m_confidence;
 
     m_lastPredDriftRA  = phys_ra + mlp_out[0];
@@ -358,11 +360,17 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
     const double dec_rms = axisRms(m_innovDec);
     const double innov_rms = std::sqrt((ra_rms * ra_rms + dec_rms * dec_rms) / 2.0);
 
+    // Absolute innovation rate, independent of the adaptive baseline.
+    const double innov_arcsec_per_sec = innov_rms * m_lastPixelScale / std::max(0.5, m_lastDt);
+    m_isStable = innov_arcsec_per_sec < INSTABILITY_ARCSEC_PER_SEC &&
+                 m_innovRA.size() >= INNOV_WINDOW / 2;
+
     // Use EMA after warmup so m_typicalRMS adapts to changing conditions
     // (seeing changes, altitude changes) instead of staying frozen from warmup.
+    // Adapt on calm frames only, so the baseline never learns instability as normal.
     if (m_frameCount <= warmupFrames())
         m_typicalRMS = std::max(0.05, innov_rms);
-    else
+    else if (innov_rms < m_typicalRMS * 1.5)
         m_typicalRMS = 0.99 * m_typicalRMS + 0.01 * innov_rms;
 
     const double error_ratio = innov_rms / (m_typicalRMS + 1e-6);
@@ -381,8 +389,16 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
     // Lorentzian confidence instead of exponential.
     // exp(-r) gives ~0.37 at r=1, crushing the AI contribution.
     // 1/(1+r²) gives ~0.50 at r=1, allowing meaningful feed-forward.
-    const double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
-    m_confidence = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+    double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
+
+    // Collapse on absolute innovation too; the ratio is blind to a poisoned baseline.
+    const double instability = innov_arcsec_per_sec / INSTABILITY_ARCSEC_PER_SEC;
+    if (instability > 1.0)
+        prediction_quality /= instability * instability;
+
+    // Falls freely, rebuilds slowly: a briefly quiet star must not restore full trust.
+    const double target = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+    m_confidence = std::min(target, m_confidence + CONF_RISE_PER_FRAME);
 }
 
 GuideOutput WormGearGuider::darkPredict(double dt_sec)
@@ -403,7 +419,7 @@ GuideOutput WormGearGuider::darkPredict(double dt_sec)
                                 m_lastPierSide);
 
     GuideOutput out;
-    out.valid      = (m_frameCount > warmupFrames());
+    out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
     out.confidence = m_confidence; // Use last known confidence
 
     // We do NOT update m_lastPredDriftRA because there's no actual frame

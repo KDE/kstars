@@ -3120,7 +3120,7 @@
       </entry>
       <entry name="AIProportionalBackoff" type="Bool">
          <label>Dynamically scale down standard proportional gain when AI is highly confident.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="AIPIDAutoTune" type="Bool">
          <label>Run PID Auto-Tune (step-response gain calibration) as part of the AI data collection protocol.</label>

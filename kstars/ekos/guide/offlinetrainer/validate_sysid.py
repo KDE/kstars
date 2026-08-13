@@ -225,6 +225,41 @@ def _check_artifacts(sysid, verbose):
             findings.append(("MEDIUM", f"{lost_pct:.1f}% of frames flagged star-lost across the run "
                                         f"-- check guide star SNR/exposure for this rig"))
 
+    # DEC rate far below RA means the calibration ate DEC backlash.
+    suspect_cal = []
+    for s in sessions:
+        if s.get("type") not in ("free_drift", "standard_guiding"):
+            continue
+        ra_cal, dec_cal = s.get("ra_ms_per_arcsec"), s.get("dec_ms_per_arcsec")
+        if ra_cal and dec_cal and dec_cal > 2.0 * ra_cal:
+            suspect_cal.append(f"{s.get('session_id', '?')} (dec={dec_cal:.0f} vs ra={ra_cal:.0f} ms/\")")
+    if suspect_cal:
+        findings.append(("HIGH", f"backlash-poisoned DEC calibration in {len(suspect_cal)} guiding "
+                                 f"session(s): {', '.join(suspect_cal)} -- recalibrate DEC (rate "
+                                 f"should roughly match RA) and re-collect before training"))
+
+    # PE line check on the longest free drift (the one train_worm_gear's FFT uses).
+    fd = [s for s in sessions if s.get("type") == "free_drift" and len(s.get("frames", [])) >= 60]
+    if fd:
+        import scipy.signal
+        import scipy.stats
+        s = max(fd, key=lambda x: len(x["frames"]))
+        t = np.cumsum([f.get("dt", 2.0) for f in s["frames"]])
+        ra = np.array([f["ra_raw_px"] for f in s["frames"]])
+        slope, ic, _, _, _ = scipy.stats.linregress(t, ra)
+        fv = np.linspace(0.001, 0.03, 2000)
+        P = scipy.signal.lombscargle(t, ra - (slope * t + ic), 2 * np.pi * fv, precenter=True)
+        pk = np.argmax(P)
+        far = np.abs(fv - fv[pk]) > 0.2 * fv[pk]
+        dom = P[pk] / max(P[far].max(), 1e-9)
+        print(f"  Free-drift PE line: peak {1.0 / fv[pk]:.0f}s, dominance {dom:.2f} "
+              f"(from {s.get('session_id', '?')})")
+        if dom < 2.0:
+            findings.append(("HIGH", f"no dominant PE line in the longest free drift "
+                                     f"(dominance {dom:.2f}) -- the period estimate is unreliable; "
+                                     f"check whether the drift phase actually guided (pulses "
+                                     f"executed) and re-collect"))
+
     # Pier-side and sky coverage -- directly relevant both to training (drift/refraction fit
     # validity range) and to planning the later live-evaluation position matrix.
     pier_sides = {s.get("pier_side") for s in sessions if s.get("pier_side")}
