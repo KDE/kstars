@@ -16,6 +16,7 @@
 #include <QColor>
 #include <QIcon>
 #include <QImage>
+#include <QKeyEvent>
 #include <QPaintEvent>
 #include <QPixmap>
 #include <QResizeEvent>
@@ -69,6 +70,7 @@ class StreamWG : public QDialog, public Ui::streamForm
     protected:
         void closeEvent(QCloseEvent *ev) override;
         void showEvent(QShowEvent *ev) override;
+        void keyPressEvent(QKeyEvent *ev) override;
         QSize sizeHint() const override;
 
     public Q_SLOTS:
@@ -76,6 +78,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         void updateRecordStatus(bool enabled);
         void resetFrame();
         void syncDebayerParameters();
+        void toggleFullScreen();
 
     protected Q_SLOTS:
         void setStreamingFrame(QRect newFrame);
@@ -94,6 +97,8 @@ class StreamWG : public QDialog, public Ui::streamForm
         bool colorFrame, isRecording;
         bool showOverlay = false;
         QIcon recordIcon, stopIcon;
+        QIcon fullScreenIcon, restoreScreenIcon;
+        bool m_FullScreen {false};
         ISD::Camera *m_Camera {nullptr};
 
         // Debayer

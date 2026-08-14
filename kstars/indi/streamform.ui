@@ -36,7 +36,8 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <widget class="QWidget" name="toolbarWidget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -422,7 +423,36 @@
        </property>
       </widget>
      </item>
-    </layout>
+     <item>
+      <widget class="QPushButton" name="fullScreenB">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Toggle Full Screen</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="VideoWG" name="videoFrame">
@@ -468,6 +498,7 @@
   <tabstop>NSSlider</tabstop>
   <tabstop>targetFrameDurationSpin</tabstop>
   <tabstop>changeFPSB</tabstop>
+  <tabstop>fullScreenB</tabstop>
  </tabstops>
  <resources/>
  <connections/>

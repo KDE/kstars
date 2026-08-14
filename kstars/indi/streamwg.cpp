@@ -223,6 +223,11 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
         m_DebayerActive = !m_DebayerActive;
     });
     syncDebayerParameters();
+
+    fullScreenIcon = QIcon::fromTheme("view-fullscreen");
+    restoreScreenIcon = QIcon::fromTheme("view-restore");
+    fullScreenB->setIcon(fullScreenIcon);
+    connect(fullScreenB, &QPushButton::clicked, this, &StreamWG::toggleFullScreen);
 }
 
 void StreamWG::syncDebayerParameters()
@@ -347,12 +352,47 @@ void StreamWG::closeEvent(QCloseEvent * ev)
 {
     processStream = false;
 
+    if (m_FullScreen)
+        toggleFullScreen();
+
     Options::setStreamWindowWidth(width());
     Options::setStreamWindowHeight(height());
 
     ev->accept();
 
     Q_EMIT hidden();
+}
+
+void StreamWG::keyPressEvent(QKeyEvent *ev)
+{
+    if (ev->key() == Qt::Key_F11 || (m_FullScreen && ev->key() == Qt::Key_Escape))
+    {
+        toggleFullScreen();
+        ev->accept();
+        return;
+    }
+
+    QDialog::keyPressEvent(ev);
+}
+
+void StreamWG::toggleFullScreen()
+{
+    m_FullScreen = !m_FullScreen;
+
+    toolbarWidget->setVisible(!m_FullScreen);
+
+    if (m_FullScreen)
+    {
+        fullScreenB->setIcon(restoreScreenIcon);
+        fullScreenB->setToolTip(i18n("Exit Full Screen"));
+        showFullScreen();
+    }
+    else
+    {
+        fullScreenB->setIcon(fullScreenIcon);
+        fullScreenB->setToolTip(i18n("Toggle Full Screen"));
+        showNormal();
+    }
 }
 
 void StreamWG::setColorFrame(bool color)
