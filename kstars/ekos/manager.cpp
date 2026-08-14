@@ -58,6 +58,7 @@
 #include "mcp/mcpserver.h"
 #include "mcp/tools/catalogtools.h"
 #include "mcp/tools/ekostools.h"
+#include "mcp/tools/aligntools.h"
 #include "mcp/tools/focusertools.h"
 #include "mcp/tools/imagetools.h"
 #include "mcp/tools/mounttools.h"
@@ -651,6 +652,7 @@ void Manager::ensureMCPServer()
         MCP::Tools::initMountTools(m_MCPServer->registry(), this);
         MCP::Tools::initFocuserTools(m_MCPServer->registry());
         MCP::Tools::initImageTools(m_MCPServer->registry(), m_MCPServer.get());
+        MCP::Tools::initAlignTools(m_MCPServer->registry(), this);
     }
 
     if (m_MCPServer->isListening())

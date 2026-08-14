@@ -779,6 +779,22 @@ QList<double> Align::getTargetCoords()
     return QList<double>() << m_TargetCoord.ra0().Hours() << m_TargetCoord.dec0().Degrees();
 }
 
+QList<double> Align::getAlignErrorResult()
+{
+    return QList<double>() << m_TargetDiffTotal << m_TargetDiffRA << m_TargetDiffDE
+           << m_TargetDiffAZ << m_TargetDiffAL;
+}
+
+double Align::getAccuracyThreshold()
+{
+    return static_cast<double>(alignAccuracyThreshold->value());
+}
+
+int Align::getMaxSolverIterations()
+{
+    return MAXIMUM_SOLVER_ITERATIONS;
+}
+
 void Align::setTargetPositionAngle(double value)
 {
     m_TargetPositionAngle =  value;

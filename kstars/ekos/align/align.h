@@ -474,6 +474,34 @@ class Align : public QWidget, public Ui::Align
          */
         Q_SCRIPTABLE QList<double> getTargetCoords();
 
+        /**
+         * @brief getAlignErrorResult The pointing error of the last solve (solved vs target).
+         * @return {total, dRA, dDE, dAZ, dAL} in arcsec. Each value is the sentinel 1e6
+         *         before the first solve of the session.
+         */
+        Q_SCRIPTABLE QList<double> getAlignErrorResult();
+
+        /**
+         * @brief getAccuracyThreshold The configured alignment accuracy threshold.
+         * @return Accuracy threshold in arcsec (the alignAccuracyThreshold spin box value).
+         */
+        Q_SCRIPTABLE double getAccuracyThreshold();
+
+        /**
+         * @brief getSolverIterations Number of solve/slew passes performed in the active
+         *        slew_to_target convergence loop.
+         */
+        Q_SCRIPTABLE int getSolverIterations()
+        {
+            return solverIterations;
+        }
+
+        /**
+         * @brief getMaxSolverIterations Maximum number of solve/slew passes before the
+         *        convergence loop aborts (MAXIMUM_SOLVER_ITERATIONS).
+         */
+        Q_SCRIPTABLE int getMaxSolverIterations();
+
 
         /**
           * @brief Set the alignment target where the mount is expected to point at.
