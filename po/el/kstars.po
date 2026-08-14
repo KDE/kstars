@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-12 02:34+0000\n"
+"POT-Creation-Date: 2026-08-14 02:11+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -25186,7 +25186,7 @@ msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:848
+#: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-12 02:34+0000\n"
-"PO-Revision-Date: 2026-08-08 11:34+0200\n"
+"POT-Creation-Date: 2026-08-14 02:11+0000\n"
+"PO-Revision-Date: 2026-08-13 17:22+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6645,8 +6645,8 @@ msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Resta el fotograma fosc. Es creen fotogrames foscos o "
-"mapes de defectes en l'eina «Biblioteca fosca» en el mòdul «Captura».</p></"
+"<html><head/><body><p>Sostrau el fotograma fosc. Es creen fotogrames foscos "
+"o mapes de defectes en l'eina «Biblioteca fosca» en el mòdul «Captura».</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
@@ -24544,6 +24544,12 @@ msgid ""
 "software binning if the camera supports it — otherwise the correction will "
 "not match.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sostrau el fotograma fosc. Es creen fotogrames foscos "
+"o mapes de defectes en l'eina «Biblioteca fosca» del mòdul «Captura».</"
+"p><p>La foscor s'haurà d'haver creat amb el mateix mode d'agrupació que s'ha "
+"emprat durant el guiatge, inclosa l'agrupació per maquinari i programari si "
+"la càmera ho admet, en cas contrari, la correcció no coincidirà.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -25395,7 +25401,7 @@ msgstr ""
 "S'han tornat a carregar en calent les ponderacions del sistema de guiatge "
 "per IA des de %1 — el guiatge continua sense interrupcions."
 
-#: ekos/guide/internalguide/gmath.cpp:848
+#: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pols llarg limitat de %1 ms a %2 ms"

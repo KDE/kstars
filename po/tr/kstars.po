@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-12 02:34+0000\n"
+"POT-Creation-Date: 2026-08-14 02:11+0000\n"
 "PO-Revision-Date: 2026-08-12 09:03+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -24741,7 +24741,7 @@ msgstr ""
 "Yapay zekâ kılavuzu ağırlıkları canlı olarak %1 konumundan yeniden yüklendi "
 "— kılavuzluk yarıda kesilmeden sürdürülüyor."
 
-#: ekos/guide/internalguide/gmath.cpp:848
+#: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Uzun darbeyi %1 ms’den %2 ms’ye sınırla"

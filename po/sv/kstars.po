@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-12 02:34+0000\n"
+"POT-Creation-Date: 2026-08-14 02:11+0000\n"
 "PO-Revision-Date: 2026-08-12 17:01+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -24689,7 +24689,7 @@ msgstr ""
 "AI-guidningens vikter återinlästes i realtid från %1: guidningen fortsätter "
 "utan avbrott."
 
-#: ekos/guide/internalguide/gmath.cpp:848
+#: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Begränsa %1 ms long puls till %2 ms"
