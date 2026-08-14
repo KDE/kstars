@@ -30,8 +30,7 @@ double HarmonicGuider::m_uncorrPosRA { 0.0 };
 double HarmonicGuider::m_uncorrPosDEC { 0.0 };
 int HarmonicGuider::m_frameCount { 0 };
 double HarmonicGuider::m_typicalRMS { 0.5 };
-double HarmonicGuider::s_activePePeriod { -1.0 };
-double HarmonicGuider::s_activePe2Period { -1.0 };
+std::array<double, HarmonicGuider::N_LINES_MAX> HarmonicGuider::s_activeLinePeriod { };
 
 HarmonicGuider::HarmonicGuider()
 {
@@ -93,25 +92,58 @@ bool HarmonicGuider::loadWeights(const QString &weightsPath)
     m_k_ref     = phys["k_ref"].toDouble(0.0);
     m_d_polar   = phys["d_polar"].toDouble(0.0);
     m_k_ref_dec = phys["k_ref_dec"].toDouble(0.0);
-    m_pe_period = phys["pe_period"].toDouble(0.0);
-    m_pe_amplitude = phys["pe_amplitude"].toDouble(0.0);
 
-    // Second oscillator: the strongest secondary line the trainer found. Only accept a
-    // period well separated from the primary so the two rotators cannot fight over one line.
-    m_pe2_period = 0.0;
-    m_pe2_amplitude = 0.0;
+    // Falls back to the legacy pe_period/pe_amplitude pair when pe_lines is absent.
+    m_linePeriod.fill(0.0);
+    m_lineAmplitude.fill(0.0);
+    m_activeLines = 0;
+
     const QJsonArray peLines = phys["pe_lines"].toArray();
-    if (m_pe_period > 0.0 && peLines.size() >= 2)
+    if (!peLines.isEmpty())
     {
-        const QJsonObject line2 = peLines[1].toObject();
-        const double p2 = line2["period_s"].toDouble(0.0);
-        const double a2 = line2["amplitude_px"].toDouble(0.0);
-        if (p2 > 0.0 && a2 > 0.05 && std::abs(p2 - m_pe_period) / m_pe_period > 0.15)
+        for (const QJsonValue &v : peLines)
         {
-            m_pe2_period = p2;
-            m_pe2_amplitude = a2;
+            if (m_activeLines >= N_LINES_MAX)
+                break;
+            const QJsonObject line = v.toObject();
+            const double period = line["period_s"].toDouble(0.0);
+            const double amplitude = line["amplitude_px"].toDouble(0.0);
+            if (period <= 0.0)
+                continue;
+            // Later lines must clear an amplitude floor and stay separated from every line already kept.
+            if (m_activeLines > 0)
+            {
+                if (amplitude <= 0.05)
+                    continue;
+                bool tooClose = false;
+                for (int i = 0; i < m_activeLines; ++i)
+                {
+                    if (std::abs(period - m_linePeriod[i]) / m_linePeriod[i] <= 0.15)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+                if (tooClose)
+                    continue;
+            }
+            m_linePeriod[m_activeLines] = period;
+            m_lineAmplitude[m_activeLines] = amplitude;
+            m_activeLines++;
         }
     }
+    else
+    {
+        const double p0 = phys["pe_period"].toDouble(0.0);
+        const double a0 = phys["pe_amplitude"].toDouble(0.0);
+        if (p0 > 0.0)
+        {
+            m_linePeriod[0] = p0;
+            m_lineAmplitude[0] = a0;
+            m_activeLines = 1;
+        }
+    }
+
     m_fit_alt_min = phys["fit_alt_min"].toDouble(35.0);
     m_fit_alt_max = phys["fit_alt_max"].toDouble(65.0);
     m_fit_par_min = phys["fit_par_min"].toDouble(-90.0);
@@ -181,12 +213,11 @@ void HarmonicGuider::resetSession(bool forceReset)
     m_qFeatRA      = 0.0;
     m_qFeatDec     = 0.0;
 
-    // If the loaded weights describe a different mount (different PE period), the
+    // If the loaded weights describe a different mount (different PE lines), the
     // persisted static Kalman state belongs to the previous mount — discard it entirely.
-    if (m_pe_period != s_activePePeriod || m_pe2_period != s_activePe2Period)
+    if (m_linePeriod != s_activeLinePeriod)
     {
-        s_activePePeriod = m_pe_period;
-        s_activePe2Period = m_pe2_period;
+        s_activeLinePeriod = m_linePeriod;
         forceReset = true;
     }
 
@@ -237,42 +268,24 @@ void HarmonicGuider::buildF(Eigen::Matrix<double, N_STATES, N_STATES> &F, double
     F(RA_SPRING, RA_SPRING) = std::exp(-dt / m_tau_ra);
     F(DEC_SPRING, DEC_SPRING) = std::exp(-dt / m_tau_dec);
 
-    // PE states evolve as 2D rotation at the PE frequency
-    if (m_pe_period > 0.0)
+    // Each active PE line evolves as its own 2D rotation, independent of the others.
+    for (int l = 0; l < m_activeLines; ++l)
     {
-        const double omega = 2.0 * M_PI / m_pe_period;
-        const double cos_wdt = std::cos(omega * dt);
-        const double sin_wdt = std::sin(omega * dt);
+        const double omega = 2.0 * M_PI / m_linePeriod[l];
+        const double c = std::cos(omega * dt);
+        const double s = std::sin(omega * dt);
+        const int raS = raSinIdx(l), raC = raCosIdx(l);
+        const int deS = decSinIdx(l), deC = decCosIdx(l);
 
-        // RA PE rotation
-        F(RA_PE_SIN, RA_PE_SIN) = cos_wdt;
-        F(RA_PE_SIN, RA_PE_COS) = sin_wdt;
-        F(RA_PE_COS, RA_PE_SIN) = -sin_wdt;
-        F(RA_PE_COS, RA_PE_COS) = cos_wdt;
+        F(raS, raS) = c;
+        F(raS, raC) = s;
+        F(raC, raS) = -s;
+        F(raC, raC) = c;
 
-        // DEC PE rotation
-        F(DEC_PE_SIN, DEC_PE_SIN) = cos_wdt;
-        F(DEC_PE_SIN, DEC_PE_COS) = sin_wdt;
-        F(DEC_PE_COS, DEC_PE_SIN) = -sin_wdt;
-        F(DEC_PE_COS, DEC_PE_COS) = cos_wdt;
-    }
-
-    // Second PE line rotates at its own frequency
-    if (m_pe2_period > 0.0)
-    {
-        const double omega2 = 2.0 * M_PI / m_pe2_period;
-        const double c2 = std::cos(omega2 * dt);
-        const double s2 = std::sin(omega2 * dt);
-
-        F(RA_PE2_SIN, RA_PE2_SIN) = c2;
-        F(RA_PE2_SIN, RA_PE2_COS) = s2;
-        F(RA_PE2_COS, RA_PE2_SIN) = -s2;
-        F(RA_PE2_COS, RA_PE2_COS) = c2;
-
-        F(DEC_PE2_SIN, DEC_PE2_SIN) = c2;
-        F(DEC_PE2_SIN, DEC_PE2_COS) = s2;
-        F(DEC_PE2_COS, DEC_PE2_SIN) = -s2;
-        F(DEC_PE2_COS, DEC_PE2_COS) = c2;
+        F(deS, deS) = c;
+        F(deS, deC) = s;
+        F(deC, deS) = -s;
+        F(deC, deC) = c;
     }
 }
 
@@ -315,20 +328,14 @@ HarmonicGuider::computeQ(double snr, double snr_delta,
     Q(RA_SPRING, RA_SPRING) = 0.001 * dt;
     Q(DEC_SPRING, DEC_SPRING) = 0.001 * dt;
 
-    // PE process noise (small — PE is nearly deterministic)
-    if (m_pe_period > 0.0)
+    // PE process noise (small — PE is nearly deterministic), same fixed constant
+    // for every active line; per-line scaling is a possible future refinement.
+    for (int l = 0; l < m_activeLines; ++l)
     {
-        Q(RA_PE_SIN, RA_PE_SIN) = 0.001 * dt;
-        Q(RA_PE_COS, RA_PE_COS) = 0.001 * dt;
-        Q(DEC_PE_SIN, DEC_PE_SIN) = 0.001 * dt;
-        Q(DEC_PE_COS, DEC_PE_COS) = 0.001 * dt;
-    }
-    if (m_pe2_period > 0.0)
-    {
-        Q(RA_PE2_SIN, RA_PE2_SIN) = 0.001 * dt;
-        Q(RA_PE2_COS, RA_PE2_COS) = 0.001 * dt;
-        Q(DEC_PE2_SIN, DEC_PE2_SIN) = 0.001 * dt;
-        Q(DEC_PE2_COS, DEC_PE2_COS) = 0.001 * dt;
+        Q(raSinIdx(l), raSinIdx(l)) = 0.001 * dt;
+        Q(raCosIdx(l), raCosIdx(l)) = 0.001 * dt;
+        Q(decSinIdx(l), decSinIdx(l)) = 0.001 * dt;
+        Q(decCosIdx(l), decCosIdx(l)) = 0.001 * dt;
     }
 
     return Q;
@@ -352,6 +359,22 @@ void HarmonicGuider::driftRates(double alt_deg, double parallactic_angle_deg,
         ra_rate += m_k_ref / (cos_alt * cos_alt);
         dec_rate += m_k_ref_dec * std::sin(q_rad) / (cos_alt * cos_alt);
     }
+}
+
+double HarmonicGuider::peSumRA(const Eigen::Matrix<double, N_STATES, 1> &x) const
+{
+    double sum = 0.0;
+    for (int l = 0; l < m_activeLines; ++l)
+        sum += x(raSinIdx(l));
+    return sum;
+}
+
+double HarmonicGuider::peSumDEC(const Eigen::Matrix<double, N_STATES, 1> &x) const
+{
+    double sum = 0.0;
+    for (int l = 0; l < m_activeLines; ++l)
+        sum += x(decSinIdx(l));
+    return sum;
 }
 
 // ── Kalman predict step: free dynamics only, pulses are applied in update() ──
@@ -390,20 +413,15 @@ void HarmonicGuider::kalmanPredict(double dt, double alt_deg, double parallactic
 // ── Kalman update step ───────────────────────────────────────────────────────
 void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double snr)
 {
-    // Observation matrix: observe position + PE_sin
-    // H extracts: ra_obs = ra_err + pe_sin_ra, dec_obs = dec_err + pe_sin_dec
+    // Observation matrix: observe position + the sin component of every active PE line.
+    // ra_obs = ra_err + Σ pe_sin_ra[l], dec_obs = dec_err + Σ pe_sin_dec[l]
     Eigen::Matrix<double, N_OBS, N_STATES> H = Eigen::Matrix<double, N_OBS, N_STATES>::Zero();
     H(0, RA_POS) = 1.0;
     H(1, DEC_POS) = 1.0;
-    if (m_pe_period > 0.0)
+    for (int l = 0; l < m_activeLines; ++l)
     {
-        H(0, RA_PE_SIN) = 1.0;
-        H(1, DEC_PE_SIN) = 1.0;
-    }
-    if (m_pe2_period > 0.0)
-    {
-        H(0, RA_PE2_SIN) = 1.0;
-        H(1, DEC_PE2_SIN) = 1.0;
+        H(0, raSinIdx(l)) = 1.0;
+        H(1, decSinIdx(l)) = 1.0;
     }
 
     // Measurement noise from the current frame's SNR (~0.5 px at SNR 30)
@@ -418,7 +436,7 @@ void HarmonicGuider::kalmanUpdate(double ra_meas_px, double dec_meas_px, double 
     // Innovation covariance
     Eigen::Matrix2d S = H * m_P * H.transpose() + R;
 
-    // Kalman gain (2x10 matrix)
+    // Kalman gain
     Eigen::Matrix<double, N_STATES, N_OBS> K = m_P * H.transpose() * S.inverse();
 
     // State update
@@ -471,33 +489,13 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
     m_hasPrevRaw   = true;
 
     // Posterior (POS + PE) before propagation
-    double post_ra  = m_x(RA_POS);
-    double post_dec = m_x(DEC_POS);
-    if (m_pe_period > 0.0)
-    {
-        post_ra  += m_x(RA_PE_SIN);
-        post_dec += m_x(DEC_PE_SIN);
-    }
-    if (m_pe2_period > 0.0)
-    {
-        post_ra  += m_x(RA_PE2_SIN);
-        post_dec += m_x(DEC_PE2_SIN);
-    }
+    const double post_ra  = m_x(RA_POS)  + peSumRA(m_x);
+    const double post_dec = m_x(DEC_POS) + peSumDEC(m_x);
 
     kalmanPredict(frame.dt, frame.altitude_deg, frame.parallactic_angle_deg);
 
-    double pred_ra  = m_x(RA_POS);
-    double pred_dec = m_x(DEC_POS);
-    if (m_pe_period > 0.0)
-    {
-        pred_ra  += m_x(RA_PE_SIN);
-        pred_dec += m_x(DEC_PE_SIN);
-    }
-    if (m_pe2_period > 0.0)
-    {
-        pred_ra  += m_x(RA_PE2_SIN);
-        pred_dec += m_x(DEC_PE2_SIN);
-    }
+    const double pred_ra  = m_x(RA_POS)  + peSumRA(m_x);
+    const double pred_dec = m_x(DEC_POS) + peSumDEC(m_x);
 
     // Prediction is the expected uncorrected drift over the next interval
     m_lastPredRA  = pred_ra - post_ra;
@@ -558,9 +556,13 @@ void HarmonicGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
 
 QString HarmonicGuider::stateString() const
 {
-    QString pe = QString::number(m_pe_period, 'f', 1);
-    if (m_pe2_period > 0.0)
-        pe += QString("+%1").arg(m_pe2_period, 0, 'f', 1);
+    QString pe;
+    for (int l = 0; l < m_activeLines; ++l)
+    {
+        if (l > 0) pe += "+";
+        pe += QString::number(m_linePeriod[l], 'f', 1);
+    }
+    if (pe.isEmpty()) pe = "0";
     return QString("Harmonic κ_ra=%1 τ_ra=%2 PE=%3s conf=%4")
            .arg(m_kappa_ra, 0, 'f', 2)
            .arg(m_tau_ra, 0, 'f', 1)
@@ -623,18 +625,8 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
     Eigen::Matrix<double, N_STATES, N_STATES> F;
     buildF(F, dt_sec);
 
-    double post_ra = x(RA_POS);
-    double post_dec = x(DEC_POS);
-    if (m_pe_period > 0.0)
-    {
-        post_ra += x(RA_PE_SIN);
-        post_dec += x(DEC_PE_SIN);
-    }
-    if (m_pe2_period > 0.0)
-    {
-        post_ra += x(RA_PE2_SIN);
-        post_dec += x(DEC_PE2_SIN);
-    }
+    const double post_ra = x(RA_POS) + peSumRA(x);
+    const double post_dec = x(DEC_POS) + peSumDEC(x);
 
     const double release_ra  = x(RA_SPRING)  * (1.0 - std::exp(-dt_sec / m_tau_ra));
     const double release_dec = x(DEC_SPRING) * (1.0 - std::exp(-dt_sec / m_tau_dec));
@@ -647,18 +639,8 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
     x(RA_POS)  += ra_rate * dt_sec;
     x(DEC_POS) += dec_rate * dt_sec;
 
-    double pred_ra = x(RA_POS);
-    double pred_dec = x(DEC_POS);
-    if (m_pe_period > 0.0)
-    {
-        pred_ra += x(RA_PE_SIN);
-        pred_dec += x(DEC_PE_SIN);
-    }
-    if (m_pe2_period > 0.0)
-    {
-        pred_ra += x(RA_PE2_SIN);
-        pred_dec += x(DEC_PE2_SIN);
-    }
+    const double pred_ra = x(RA_POS) + peSumRA(x);
+    const double pred_dec = x(DEC_POS) + peSumDEC(x);
 
     GuideOutput out;
     out.valid = (m_frameCount > warmupFrames());
