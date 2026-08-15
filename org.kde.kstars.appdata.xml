@@ -554,6 +554,8 @@
   </provides>
   <custom>
     <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9pprz2qhlxtg</value>
+    <value key="KDE::mailinglist">kde-edu@kde.org</value>
+    <value key="KDE::mailinglist-devel">kstars-devel@kde.org</value>
   </custom>
   <content_rating type="oars-1.1"/>
   <releases>
