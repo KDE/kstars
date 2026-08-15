@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-14 02:11+0000\n"
+"POT-Creation-Date: 2026-08-15 02:19+0000\n"
 "PO-Revision-Date: 2026-08-12 12:23+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -625,7 +625,7 @@ msgstr "Prekliči"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1591 ekos/manager.cpp:1606 ekos/manager.cpp:1622
+#: ekos/manager.cpp:1593 ekos/manager.cpp:1608 ekos/manager.cpp:1624
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -1950,7 +1950,7 @@ msgid "Reverse"
 msgstr "Obratno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: data/qml/mount/mountbox.qml:496 indi/streamform.ui:219
+#: data/qml/mount/mountbox.qml:496 indi/streamform.ui:220
 #, kde-format, kde-kuit-format
 msgid "1x"
 msgstr "1×"
@@ -2097,7 +2097,7 @@ msgstr "Stanje:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1116 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1118 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -3941,7 +3941,7 @@ msgstr "0,0 pc"
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
 #: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:757 ekos/guide/guide.ui:632
-#: ekos/guide/guide.ui:756 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
+#: ekos/guide/guide.ui:756 indi/streamform.ui:419 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -5344,7 +5344,7 @@ msgstr "Izračunaj VP"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2512
+#: ekos/manager.cpp:2514
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6251,7 +6251,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2462 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6303,7 +6303,7 @@ msgstr "Naloži in obrni…"
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
 #: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
-#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:258
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:259
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -6575,7 +6575,9 @@ msgid "Camera binning"
 msgstr "Združevanje kamere"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:628 ekos/focus/focus.ui:638
+#. i18n: ectx: property (toolTip), widget (QPushButton, fullScreenB)
+#: ekos/align/align.ui:628 ekos/focus/focus.ui:638 indi/streamform.ui:441
+#: indi/streamwg.cpp:393
 #, kde-format
 msgid "Toggle Full Screen"
 msgstr "Preklopi celotni zaslon"
@@ -10814,7 +10816,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
-#: ekos/manager.cpp:157 ekos/manager.cpp:264 ekos/manager.cpp:1124
+#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1126
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10863,7 +10865,7 @@ msgid "Slew"
 msgstr "Obrni"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:405
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:406
 #, kde-format
 msgid "Setup"
 msgstr "Nastavi"
@@ -11043,7 +11045,7 @@ msgstr "zaženi Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2564 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2566 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -11055,7 +11057,7 @@ msgstr "Poravnavanje"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2756 ekos/manager.ui:778
+#: ekos/manager.cpp:2758 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11146,7 +11148,7 @@ msgstr "Začasne slikovne datoteke ni moč prikazati: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2609 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2611 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -11158,7 +11160,7 @@ msgstr "Fokus"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2831
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2833
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13278,7 +13280,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Beleži dejavnost razporejevalnega modula EKOS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:410
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:411
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13463,7 +13465,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2897
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2899
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -26357,90 +26359,90 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Uporabi namenski vodilni čip za vodenje"
 
-#: ekos/manager.cpp:259
+#: ekos/manager.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - profil %1"
 
-#: ekos/manager.cpp:270
+#: ekos/manager.cpp:271
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Povezovanje je v teku. Kliknite, če ga želite prekiniti."
 
-#: ekos/manager.cpp:293
+#: ekos/manager.cpp:294
 #, kde-format
 msgid "Logging"
 msgstr "Beleženje"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:445 ekos/opsekos.ui:174
+#: ekos/manager.cpp:446 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analiziraj"
 
-#: ekos/manager.cpp:460
+#: ekos/manager.cpp:461
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Razširitev '%1' se ni zagnala, sledi prekinjanje"
 
-#: ekos/manager.cpp:474
+#: ekos/manager.cpp:475
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Razširitev '%1' se ni ustavila, prekinitev je omogočena"
 
-#: ekos/manager.cpp:483
+#: ekos/manager.cpp:484
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Razširitev '%1' se prekinja"
 
-#: ekos/manager.cpp:493
+#: ekos/manager.cpp:494
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Zahtevan začetek razširitve '%1'"
 
-#: ekos/manager.cpp:498
+#: ekos/manager.cpp:499
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Razširitev '%1' se je zagnala"
 
-#: ekos/manager.cpp:506
+#: ekos/manager.cpp:507
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Zahtevana zaustavitev razširitve '%1'"
 
-#: ekos/manager.cpp:511
+#: ekos/manager.cpp:512
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Opravilo '%1'je zaustavljeno"
 
-#: ekos/manager.cpp:527
+#: ekos/manager.cpp:528
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Razširitev '%1': %2"
 
-#: ekos/manager.cpp:663 ekos/opsekos.cpp:103
+#: ekos/manager.cpp:665 ekos/opsekos.cpp:103
 #, kde-format
 msgid "Failed: port in use"
 msgstr "Neuspelo: vrata v uporabi"
 
-#: ekos/manager.cpp:991
+#: ekos/manager.cpp:993
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Uvožen profil '%1' iz INDI Web Managerja."
 
-#: ekos/manager.cpp:1145
+#: ekos/manager.cpp:1147
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1293 ekos/manager.cpp:1318
+#: ekos/manager.cpp:1295 ekos/manager.cpp:1320
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos za delovanje potrebuje vsaj eno kamero."
 
-#: ekos/manager.cpp:1381
+#: ekos/manager.cpp:1383
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -26449,17 +26451,17 @@ msgstr ""
 "Ekos je zaznal, da kamera PTP deluje in lahko prepreči, da bi se kamera "
 "Canon ali Nikon povezala z Ekos. Ali želite zdaj zapreti kamero PTP?"
 
-#: ekos/manager.cpp:1382
+#: ekos/manager.cpp:1384
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP kamera"
 
-#: ekos/manager.cpp:1396
+#: ekos/manager.cpp:1398
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Zaganjanje storitev INDI…"
 
-#: ekos/manager.cpp:1427
+#: ekos/manager.cpp:1429
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -26469,48 +26471,48 @@ msgstr ""
 "obstoječi primerek, preden zaženete novega?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1429 indi/opsindi.ui:248
+#: ekos/manager.cpp:1431 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Strežnik INDI"
 
-#: ekos/manager.cpp:1444
+#: ekos/manager.cpp:1446
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Povezovanje s strežnikom INDI na %1 in vratih %2 …"
 
-#: ekos/manager.cpp:1465
+#: ekos/manager.cpp:1467
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 "Ni bilo mogoče zagnati profila na oddaljenem spletnem upravljalniku INDI."
 
-#: ekos/manager.cpp:1469
+#: ekos/manager.cpp:1471
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Zaganjanje profila na oddaljenem spletnem upravljalniku INDI …"
 
-#: ekos/manager.cpp:1482
+#: ekos/manager.cpp:1484
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Vzpostavljanje komunikacije z oddaljenim spletnem upravljalniku INDI…"
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Napaka: Spletni upravljalnik INDI ni povezan na %1:%2"
 
-#: ekos/manager.cpp:1542
+#: ekos/manager.cpp:1544
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Storitve INDI so bile zagnane na vratih %1."
 
-#: ekos/manager.cpp:1545
+#: ekos/manager.cpp:1547
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Storitve INDI so bile zagnane na vratih %1. Povežite naprave."
 
-#: ekos/manager.cpp:1550
+#: ekos/manager.cpp:1552
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -26519,27 +26521,27 @@ msgstr ""
 "Storitve INDI zagnane. Povezava z oddaljenim strežnikom INDI %1:%2 je "
 "uspešna. Čakanje na naprave…"
 
-#: ekos/manager.cpp:1582
+#: ekos/manager.cpp:1584
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Ni se bilo mogoče povezati z lokalnim strežnikom INDI %1:%2"
 
-#: ekos/manager.cpp:1584
+#: ekos/manager.cpp:1586
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI %1:%2"
 
-#: ekos/manager.cpp:1597
+#: ekos/manager.cpp:1599
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Izgubljena povezava s krajevnim strežnikom INDI %1:%2"
 
-#: ekos/manager.cpp:1599
+#: ekos/manager.cpp:1601
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Izgubljena povezava z oddaljenim strežnikom INDI %1:%2"
 
-#: ekos/manager.cpp:1666
+#: ekos/manager.cpp:1668
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -26547,7 +26549,7 @@ msgstr ""
 "Povezava z %1 ni uspela. Prepričajte se, da je naprava povezana in "
 "vklopljena."
 
-#: ekos/manager.cpp:1668
+#: ekos/manager.cpp:1670
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -26558,7 +26560,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1707
+#: ekos/manager.cpp:1709
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -26569,13 +26571,13 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1711 ekos/manager.cpp:1719 ekos/manager.cpp:1752
-#: ekos/manager.cpp:1760
+#: ekos/manager.cpp:1713 ekos/manager.cpp:1721 ekos/manager.cpp:1754
+#: ekos/manager.cpp:1762
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Napaka med zagonom Ekos-a"
 
-#: ekos/manager.cpp:1715
+#: ekos/manager.cpp:1717
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -26586,7 +26588,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je vsaka naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1748
+#: ekos/manager.cpp:1750
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -26597,7 +26599,7 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1756
+#: ekos/manager.cpp:1758
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -26608,32 +26610,32 @@ msgstr ""
 "%1\n"
 "Prepričajte se, da je vsaka naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:1817
+#: ekos/manager.cpp:1819
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Povezovanje naprav INDI …"
 
-#: ekos/manager.cpp:1836
+#: ekos/manager.cpp:1838
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Prekinjanje povezav z napravami INDI …"
 
-#: ekos/manager.cpp:1876
+#: ekos/manager.cpp:1878
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Storitve INDI so bile zaustavljene."
 
-#: ekos/manager.cpp:1944
+#: ekos/manager.cpp:1946
 #, kde-format
 msgid "Remote devices established."
 msgstr "Oddaljene naprava so bile vzpostavljene."
 
-#: ekos/manager.cpp:1947
+#: ekos/manager.cpp:1949
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Oddaljene naprava so bile vzpostavljene. Povežite naprave."
 
-#: ekos/manager.cpp:2011
+#: ekos/manager.cpp:2013
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -26642,118 +26644,118 @@ msgstr ""
 "%1 se ne more povezati:\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
-#: ekos/manager.cpp:2018
+#: ekos/manager.cpp:2020
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 ni povezan."
 
-#: ekos/manager.cpp:2039 ekos/manager.cpp:2048 ekos/manager.cpp:2081
+#: ekos/manager.cpp:2041 ekos/manager.cpp:2050 ekos/manager.cpp:2083
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je povezana."
 
-#: ekos/manager.cpp:2056
+#: ekos/manager.cpp:2058
 #, kde-format
 msgid "%1 filter is online."
 msgstr "Filter %1 je povezan."
 
-#: ekos/manager.cpp:2065
+#: ekos/manager.cpp:2067
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "fokuser %1 je povezan."
 
-#: ekos/manager.cpp:2072
+#: ekos/manager.cpp:2074
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Rotator %1 je povezan."
 
-#: ekos/manager.cpp:2088
+#: ekos/manager.cpp:2090
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 vreme je povezano."
 
-#: ekos/manager.cpp:2095
+#: ekos/manager.cpp:2097
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS je povezano."
 
-#: ekos/manager.cpp:2102
+#: ekos/manager.cpp:2104
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "%1 PAC je povezan."
 
-#: ekos/manager.cpp:2111
+#: ekos/manager.cpp:2113
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Pokrov proti prahu je na spletu."
 
-#: ekos/manager.cpp:2118
+#: ekos/manager.cpp:2120
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 svetlobni okvir je povezan."
 
-#: ekos/manager.cpp:2263
+#: ekos/manager.cpp:2265
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 ni povezana."
 
-#: ekos/manager.cpp:2914
+#: ekos/manager.cpp:2916
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Vrata vodnika z %1 so pripravljena."
 
-#: ekos/manager.cpp:3177
+#: ekos/manager.cpp:3179
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ali ste prepričani, da želite izbrisati profil?"
 
-#: ekos/manager.cpp:3178
+#: ekos/manager.cpp:3180
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potrditev izbrisa"
 
-#: ekos/manager.cpp:3230
+#: ekos/manager.cpp:3232
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Položaj mesta posodobljen v %1."
 
-#: ekos/manager.cpp:3232
+#: ekos/manager.cpp:3234
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Ni bilo mogoče posodobiti položaja mesta v %1. Mesto ni bilo najdeno."
 
-#: ekos/manager.cpp:3505
+#: ekos/manager.cpp:3507
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Omogočanje dnevnika odpravljanja napak za %1…"
 
-#: ekos/manager.cpp:3513
+#: ekos/manager.cpp:3515
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Onemogočanje dnevnika odpravljanja napak za %1…"
 
-#: ekos/manager.cpp:3541
+#: ekos/manager.cpp:3543
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1…"
 
-#: ekos/manager.cpp:3553
+#: ekos/manager.cpp:3555
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ponovno onemogočanje dnevnika odpravljanja napak za %1…"
 
-#: ekos/manager.cpp:4349
+#: ekos/manager.cpp:4351
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Vir predogleda je nastavljen na zunanje"
 
-#: ekos/manager.cpp:4356
+#: ekos/manager.cpp:4358
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Vir predogleda je nastavljen na notranje"
 
-#: ekos/manager.cpp:4363
+#: ekos/manager.cpp:4365
 #, kde-format
 msgid "Received external preview file"
 msgstr "Prejeta zunanja datoteka za predogled"
@@ -38791,98 +38793,98 @@ msgid "Video Stream"
 msgstr "Pretok videa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
-#: indi/streamform.ui:58
+#: indi/streamform.ui:59
 #, kde-format
 msgid "Start Recording"
 msgstr "Začni snemati"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
-#: indi/streamform.ui:86
+#: indi/streamform.ui:87
 #, kde-format
 msgid "Recording Options..."
 msgstr "Možnosti snemanja…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: indi/streamform.ui:114
+#: indi/streamform.ui:115
 #, kde-format
 msgid "Reset Frame"
 msgstr "Ponastavi sličico"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
-#: indi/streamform.ui:143
+#: indi/streamform.ui:144
 #, kde-format
 msgid "Toggle Debayer"
 msgstr "Preklopi debayer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
-#: indi/streamform.ui:165
+#: indi/streamform.ui:166
 #, kde-format
 msgid "Toggle Collimation Overlay"
 msgstr "Preklopi plast kolimacije"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
-#: indi/streamform.ui:193
+#: indi/streamform.ui:194
 #, kde-format
 msgid "Collimation Overlay Options..."
 msgstr "Možnosti plasti kolimacije..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:215
+#: indi/streamform.ui:216
 #, kde-format
 msgid "Zoom level"
 msgstr "Raven povečave"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:224
+#: indi/streamform.ui:225
 #, kde-format
 msgid "5x"
 msgstr "5x"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:229
+#: indi/streamform.ui:230
 #, kde-format
 msgid "10x"
 msgstr "10×"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
-#: indi/streamform.ui:257
+#: indi/streamform.ui:258
 #, kde-format
 msgid "Move zoomed view Up/Down"
 msgstr "Premakni povečan pogled gor/dol"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
-#: indi/streamform.ui:282
+#: indi/streamform.ui:283
 #, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr "Premakni povečani pogled levo/desno"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
-#: indi/streamform.ui:326 indi/streamform.ui:342
+#: indi/streamform.ui:327 indi/streamform.ui:343
 #, kde-format
 msgid "Video frame duration in seconds"
 msgstr "Trajanje sličice videa v sekundah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: indi/streamform.ui:329
+#: indi/streamform.ui:330
 #, kde-format
 msgid "Frame(s):"
 msgstr "Sličic:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
-#: indi/streamform.ui:370
+#: indi/streamform.ui:371
 #, kde-format
 msgid "Apply FPS and restart stream"
 msgstr "Uveljavi FPS in znova zaženi tok"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: indi/streamform.ui:393
+#: indi/streamform.ui:394
 #, kde-format
 msgid "FPS:"
 msgstr "Sličic na sekundo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
-#: indi/streamform.ui:406
+#: indi/streamform.ui:407
 #, kde-format
 msgid "Average FPS"
 msgstr "Povprečno sl/s"
@@ -38899,12 +38901,18 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "%1 Video v živo"
 
-#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
+#: indi/streamwg.cpp:387
+#, fuzzy, kde-format
+#| msgid "Toggle Full Screen"
+msgid "Exit Full Screen"
+msgstr "Preklopi celotni zaslon"
+
+#: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
 msgid "Stop recording"
 msgstr "Ustavi snemanje"
 
-#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
+#: indi/streamwg.cpp:456 indi/streamwg.cpp:466
 #, kde-format
 msgid "Start recording"
 msgstr "Začni snemati"

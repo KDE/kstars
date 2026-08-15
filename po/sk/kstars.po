@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-14 02:11+0000\n"
+"POT-Creation-Date: 2026-08-15 02:19+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -589,7 +589,7 @@ msgstr "Zrušiť"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1591 ekos/manager.cpp:1606 ekos/manager.cpp:1622
+#: ekos/manager.cpp:1593 ekos/manager.cpp:1608 ekos/manager.cpp:1624
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -1913,7 +1913,7 @@ msgid "Reverse"
 msgstr "Otočiť"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: data/qml/mount/mountbox.qml:496 indi/streamform.ui:219
+#: data/qml/mount/mountbox.qml:496 indi/streamform.ui:220
 #, kde-format, kde-kuit-format
 msgid "1x"
 msgstr "x"
@@ -2060,7 +2060,7 @@ msgstr "Stav:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1116 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1118 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -3905,7 +3905,7 @@ msgstr "0.0 pc"
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
 #: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:757 ekos/guide/guide.ui:632
-#: ekos/guide/guide.ui:756 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
+#: ekos/guide/guide.ui:756 indi/streamform.ui:419 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -5306,7 +5306,7 @@ msgstr "Vypočítať ZU"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2512
+#: ekos/manager.cpp:2514
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6215,7 +6215,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2460 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1491 ekos/manager.cpp:2462 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6269,7 +6269,7 @@ msgstr "Načítať && Natočiť..."
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
 #: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
-#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:258
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:258 ekos/manager.cpp:259
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -6539,7 +6539,9 @@ msgid "Camera binning"
 msgstr "Binning kamery"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:628 ekos/focus/focus.ui:638
+#. i18n: ectx: property (toolTip), widget (QPushButton, fullScreenB)
+#: ekos/align/align.ui:628 ekos/focus/focus.ui:638 indi/streamform.ui:441
+#: indi/streamwg.cpp:393
 #, kde-format
 msgid "Toggle Full Screen"
 msgstr "Prepnúť na celú obrazovku"
@@ -10755,7 +10757,7 @@ msgstr "Chyba výšky polárneho zarovnania odhadnutá po nedávnych úpravách.
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
-#: ekos/manager.cpp:157 ekos/manager.cpp:264 ekos/manager.cpp:1124
+#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1126
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10804,7 +10806,7 @@ msgid "Slew"
 msgstr "Otočiť"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:405
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:406
 #, kde-format
 msgid "Setup"
 msgstr "Nastavenie"
@@ -10986,7 +10988,7 @@ msgstr "Automatické spustenie"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2564 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2566 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -10998,7 +11000,7 @@ msgstr "Zarovnať"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2756 ekos/manager.ui:778
+#: ekos/manager.cpp:2758 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11089,7 +11091,7 @@ msgstr "Nedá sa zobraziť dočasný súbor obrázku: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2609 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2611 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -11101,7 +11103,7 @@ msgstr "Zameranie"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2831
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2833
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13126,7 +13128,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Záznam aktivity modulu plánovača Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:410
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:411
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13309,7 +13311,7 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2897
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2899
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -22202,8 +22204,7 @@ msgid "Radius:"
 msgstr "Polomer:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr "mm"
@@ -22279,8 +22280,7 @@ msgid "Wanderer ETA (0.50 mm)"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Užívateľský"
@@ -25976,91 +25976,91 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Použiť vyhradený čip vedenia pre vedenie"
 
-#: ekos/manager.cpp:259
+#: ekos/manager.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - %1 profil"
 
-#: ekos/manager.cpp:270
+#: ekos/manager.cpp:271
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Pripojenie prebieha. Kliknite pre zrušenie."
 
-#: ekos/manager.cpp:293
+#: ekos/manager.cpp:294
 #, kde-format
 msgid "Logging"
 msgstr "Záznam"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:445 ekos/opsekos.ui:174
+#: ekos/manager.cpp:446 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analýza"
 
-#: ekos/manager.cpp:460
+#: ekos/manager.cpp:461
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Rozšírenie '%1' sa nepodarilo spustiť, ruší sa"
 
-#: ekos/manager.cpp:474
+#: ekos/manager.cpp:475
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Rozšírenie '%1' sa nepodarilo zastaviť, povolenie prerušenia"
 
-#: ekos/manager.cpp:483
+#: ekos/manager.cpp:484
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Rozšírenie '%1' sa ruší"
 
-#: ekos/manager.cpp:493
+#: ekos/manager.cpp:494
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Rozšírenie '%1': požiadavka na spustenie"
 
-#: ekos/manager.cpp:498
+#: ekos/manager.cpp:499
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Rozšírenie '%1' spustené"
 
-#: ekos/manager.cpp:506
+#: ekos/manager.cpp:507
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Rozšírenie '%1': požiadavka na zastavenie"
 
-#: ekos/manager.cpp:511
+#: ekos/manager.cpp:512
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Rozšírenie '%1' zastavené"
 
-#: ekos/manager.cpp:527
+#: ekos/manager.cpp:528
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Rozšírenie '%1': %2"
 
-#: ekos/manager.cpp:663 ekos/opsekos.cpp:103
+#: ekos/manager.cpp:665 ekos/opsekos.cpp:103
 #, fuzzy, kde-format
 #| msgid "Failed to start: Port %1 may be in use."
 msgid "Failed: port in use"
 msgstr "Zlyhalo odhadnutie času pre úlohu pozorovania %1."
 
-#: ekos/manager.cpp:991
+#: ekos/manager.cpp:993
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Importovaný profil '%1' z INDI Web Manager."
 
-#: ekos/manager.cpp:1145
+#: ekos/manager.cpp:1147
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1293 ekos/manager.cpp:1318
+#: ekos/manager.cpp:1295 ekos/manager.cpp:1320
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos požaduje aspoň jeden CCD alebo Navádzač k činnosti"
 
-#: ekos/manager.cpp:1381
+#: ekos/manager.cpp:1383
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -26069,17 +26069,17 @@ msgstr ""
 "Ekos zistil, že PTP Camera beží a môže brániť pripojeniu kamery Canon alebo "
 "Nikon k Ekos. Chcete teraz ukončiť PTP Camera?"
 
-#: ekos/manager.cpp:1382
+#: ekos/manager.cpp:1384
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP kamera"
 
-#: ekos/manager.cpp:1396
+#: ekos/manager.cpp:1398
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Spúšťam INDI služby..."
 
-#: ekos/manager.cpp:1427
+#: ekos/manager.cpp:1429
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -26089,47 +26089,47 @@ msgstr ""
 "inštanciu servera pred spustením novej?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1429 indi/opsindi.ui:248
+#: ekos/manager.cpp:1431 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI Server"
 
-#: ekos/manager.cpp:1444
+#: ekos/manager.cpp:1446
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Pripojenie na vzdialený INDI server na %1 s portom %2..."
 
-#: ekos/manager.cpp:1465
+#: ekos/manager.cpp:1467
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Zlyhalo spustenie profilu na vzdialenom web správcovi INDI."
 
-#: ekos/manager.cpp:1469
+#: ekos/manager.cpp:1471
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Spúšťam profil na vzdialenom webovom správcovi INDI..."
 
-#: ekos/manager.cpp:1482
+#: ekos/manager.cpp:1484
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Nadväzujem komunikáciu so vzdialonym webovým správcom INDI..."
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Chyba: INDI Web Manager nie je online na %1:%2"
 
-#: ekos/manager.cpp:1542
+#: ekos/manager.cpp:1544
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Služby INDI spustené na porte %1."
 
-#: ekos/manager.cpp:1545
+#: ekos/manager.cpp:1547
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Služby INDI spustené na porte %1. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:1550
+#: ekos/manager.cpp:1552
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -26138,27 +26138,27 @@ msgstr ""
 "Služby INDI spustené. Pripojenie k vzdialenému serveru INDI %1:%2 je "
 "úspešné. Čaká sa na zariadenia..."
 
-#: ekos/manager.cpp:1582
+#: ekos/manager.cpp:1584
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Nepodarilo sa pripojiť k lokálnemu serveru INDI %1:%2"
 
-#: ekos/manager.cpp:1584
+#: ekos/manager.cpp:1586
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Zlyhalo pripojenie na vzdialený INDI server %1:%2"
 
-#: ekos/manager.cpp:1597
+#: ekos/manager.cpp:1599
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Stratené spojenie s lokálnym serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1599
+#: ekos/manager.cpp:1601
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Stratené spojenie so vzdialeným serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1666
+#: ekos/manager.cpp:1668
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -26166,7 +26166,7 @@ msgstr ""
 "Nepodarilo sa pripojiť k %1. Uistite sa, že zariadenie je pripojené a "
 "zapnuté."
 
-#: ekos/manager.cpp:1668
+#: ekos/manager.cpp:1670
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -26177,7 +26177,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1707
+#: ekos/manager.cpp:1709
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -26188,13 +26188,13 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1711 ekos/manager.cpp:1719 ekos/manager.cpp:1752
-#: ekos/manager.cpp:1760
+#: ekos/manager.cpp:1713 ekos/manager.cpp:1721 ekos/manager.cpp:1754
+#: ekos/manager.cpp:1762
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Chyba spustenia Ekos"
 
-#: ekos/manager.cpp:1715
+#: ekos/manager.cpp:1717
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -26205,7 +26205,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1748
+#: ekos/manager.cpp:1750
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -26216,7 +26216,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1756
+#: ekos/manager.cpp:1758
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -26227,32 +26227,32 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1817
+#: ekos/manager.cpp:1819
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Pripájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1836
+#: ekos/manager.cpp:1838
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Odpájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1876
+#: ekos/manager.cpp:1878
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Služby INDI zastavené."
 
-#: ekos/manager.cpp:1944
+#: ekos/manager.cpp:1946
 #, kde-format
 msgid "Remote devices established."
 msgstr "Vzdialené zariadenia zistené."
 
-#: ekos/manager.cpp:1947
+#: ekos/manager.cpp:1949
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Vzdialené zariadenia zistené. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:2011
+#: ekos/manager.cpp:2013
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -26261,118 +26261,118 @@ msgstr ""
 "%1 sa nepodarilo pripojiť.\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:2018
+#: ekos/manager.cpp:2020
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 je odpojené"
 
-#: ekos/manager.cpp:2039 ekos/manager.cpp:2048 ekos/manager.cpp:2081
+#: ekos/manager.cpp:2041 ekos/manager.cpp:2050 ekos/manager.cpp:2083
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je pripojený."
 
-#: ekos/manager.cpp:2056
+#: ekos/manager.cpp:2058
 #, kde-format
 msgid "%1 filter is online."
 msgstr "filter %1 je pripojený."
 
-#: ekos/manager.cpp:2065
+#: ekos/manager.cpp:2067
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "focuser %1 je pripojený."
 
-#: ekos/manager.cpp:2072
+#: ekos/manager.cpp:2074
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Rotátor %1 je online."
 
-#: ekos/manager.cpp:2088
+#: ekos/manager.cpp:2090
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "Weather %1 je pripojený."
 
-#: ekos/manager.cpp:2095
+#: ekos/manager.cpp:2097
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS je online."
 
-#: ekos/manager.cpp:2102
+#: ekos/manager.cpp:2104
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "%1 PAC je online."
 
-#: ekos/manager.cpp:2111
+#: ekos/manager.cpp:2113
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Kryt pred prachom je pripojený."
 
-#: ekos/manager.cpp:2118
+#: ekos/manager.cpp:2120
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Svetelná krabica je pripojená."
 
-#: ekos/manager.cpp:2263
+#: ekos/manager.cpp:2265
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 je  v režime offline."
 
-#: ekos/manager.cpp:2914
+#: ekos/manager.cpp:2916
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Port navádzača z %1 je pripravený."
 
-#: ekos/manager.cpp:3177
+#: ekos/manager.cpp:3179
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Naozaj chcete vymazať profil?"
 
-#: ekos/manager.cpp:3178
+#: ekos/manager.cpp:3180
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potvrdiť vymazanie"
 
-#: ekos/manager.cpp:3230
+#: ekos/manager.cpp:3232
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Umiestnenie aktualizované na %1."
 
-#: ekos/manager.cpp:3232
+#: ekos/manager.cpp:3234
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Zlyhala aktualizácia umiestnenia na %1. Mesto nenájdené."
 
-#: ekos/manager.cpp:3505
+#: ekos/manager.cpp:3507
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3513
+#: ekos/manager.cpp:3515
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3541
+#: ekos/manager.cpp:3543
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Znova zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3553
+#: ekos/manager.cpp:3555
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Znova vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:4349
+#: ekos/manager.cpp:4351
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Zdroj náhľadu nastavený na externý"
 
-#: ekos/manager.cpp:4356
+#: ekos/manager.cpp:4358
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Zdroj náhľadu obnovený na interný"
 
-#: ekos/manager.cpp:4363
+#: ekos/manager.cpp:4365
 #, kde-format
 msgid "Received external preview file"
 msgstr "Prijímať externé vodiace snímky"
@@ -27909,7 +27909,7 @@ msgstr "Stav observatória"
 #: ekos/opsekos.ui:381
 #, kde-format
 msgid "Token:"
-msgstr ""
+msgstr "Žetón"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyROTokenButton)
@@ -38259,98 +38259,98 @@ msgid "Video Stream"
 msgstr "Video Stream"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
-#: indi/streamform.ui:58
+#: indi/streamform.ui:59
 #, kde-format
 msgid "Start Recording"
 msgstr "Spustiť nahrávanie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
-#: indi/streamform.ui:86
+#: indi/streamform.ui:87
 #, kde-format
 msgid "Recording Options..."
 msgstr "Možnosti nahrávania..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: indi/streamform.ui:114
+#: indi/streamform.ui:115
 #, kde-format
 msgid "Reset Frame"
 msgstr "Vynulovať snímku"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
-#: indi/streamform.ui:143
+#: indi/streamform.ui:144
 #, kde-format
 msgid "Toggle Debayer"
 msgstr "Prepnúť debayerovanie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
-#: indi/streamform.ui:165
+#: indi/streamform.ui:166
 #, kde-format
 msgid "Toggle Collimation Overlay"
 msgstr "Prepnúť prekrytie kolimácie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
-#: indi/streamform.ui:193
+#: indi/streamform.ui:194
 #, kde-format
 msgid "Collimation Overlay Options..."
 msgstr "Možnosti prekrytia kolimácie..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:215
+#: indi/streamform.ui:216
 #, kde-format
 msgid "Zoom level"
 msgstr "Úroveň priblíženia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:224
+#: indi/streamform.ui:225
 #, kde-format
 msgid "5x"
 msgstr "5x"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:229
+#: indi/streamform.ui:230
 #, kde-format
 msgid "10x"
 msgstr "x"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
-#: indi/streamform.ui:257
+#: indi/streamform.ui:258
 #, kde-format
 msgid "Move zoomed view Up/Down"
 msgstr "Posunúť priblížené zobrazenie nahor/nadol"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
-#: indi/streamform.ui:282
+#: indi/streamform.ui:283
 #, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr "Posunúť priblížené zobrazenie vľavo/vpravo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
-#: indi/streamform.ui:326 indi/streamform.ui:342
+#: indi/streamform.ui:327 indi/streamform.ui:343
 #, kde-format
 msgid "Video frame duration in seconds"
 msgstr "Trvanie video rámca v sekundách"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: indi/streamform.ui:329
+#: indi/streamform.ui:330
 #, kde-format
 msgid "Frame(s):"
 msgstr "Rámec(e):"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
-#: indi/streamform.ui:370
+#: indi/streamform.ui:371
 #, kde-format
 msgid "Apply FPS and restart stream"
 msgstr "Použiť FPS a reštartovať prúd"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: indi/streamform.ui:393
+#: indi/streamform.ui:394
 #, kde-format
 msgid "FPS:"
 msgstr "FPS:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
-#: indi/streamform.ui:406
+#: indi/streamform.ui:407
 #, kde-format
 msgid "Average FPS"
 msgstr "Priemerné FPS"
@@ -38367,12 +38367,18 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "%1 Živé video"
 
-#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
+#: indi/streamwg.cpp:387
+#, fuzzy, kde-format
+#| msgid "Toggle Full Screen"
+msgid "Exit Full Screen"
+msgstr "Prepnúť na celú obrazovku"
+
+#: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
 msgid "Stop recording"
 msgstr "Zastaviť nahrávanie"
 
-#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
+#: indi/streamwg.cpp:456 indi/streamwg.cpp:466
 #, kde-format
 msgid "Start recording"
 msgstr "Spustiť nahrávanie"
@@ -50284,9 +50290,7 @@ msgid "Aberdeen"
 msgstr "Aberdeen"
 
 #: kstars_i18n.cpp:714
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ivory coast"
-#| msgid "Abidjan"
+#, kde-kuit-format
 msgctxt "City in Ivory Coast"
 msgid "Abidjan"
 msgstr "Abidjan"
@@ -50368,9 +50372,7 @@ msgid "Adams"
 msgstr "Adams"
 
 #: kstars_i18n.cpp:727
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Pitcairn Islands"
-#| msgid "Adamstown"
+#, kde-kuit-format
 msgctxt "City in Pitcairn"
 msgid "Adamstown"
 msgstr "Adamstown"
@@ -51921,9 +51923,7 @@ msgid "Badger"
 msgstr "Badger"
 
 #: kstars_i18n.cpp:983
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Guinea Bissau"
-#| msgid "Bafata"
+#, kde-kuit-format
 msgctxt "City in Guinea-Bissau"
 msgid "Bafata"
 msgstr "Bafata"
@@ -52527,9 +52527,7 @@ msgid "Belem"
 msgstr "Belém"
 
 #: kstars_i18n.cpp:1082
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Mexico USA"
-#| msgid "Belen"
+#, kde-kuit-format
 msgctxt "City in Hatay Türkiye"
 msgid "Belen"
 msgstr "Belen"
@@ -52553,9 +52551,7 @@ msgid "Belgorod"
 msgstr "Belgorod"
 
 #: kstars_i18n.cpp:1086
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Yugoslavia"
-#| msgid "Belgrade"
+#, kde-kuit-format
 msgctxt "City in Serbia"
 msgid "Belgrade"
 msgstr "Belehrad"
@@ -52949,9 +52945,7 @@ msgid "Bismil"
 msgstr ""
 
 #: kstars_i18n.cpp:1151
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Guinea Bissau"
-#| msgid "Bissau"
+#, kde-kuit-format
 msgctxt "City in Guinea-Bissau"
 msgid "Bissau"
 msgstr "Bissau"
@@ -53467,9 +53461,7 @@ msgid "Brazos Bend SP (Needville)"
 msgstr "Brazos Bend SP (Needville)"
 
 #: kstars_i18n.cpp:1236
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo"
-#| msgid "Brazzaville"
+#, kde-kuit-format
 msgctxt "City in Republic of the Congo"
 msgid "Brazzaville"
 msgstr "Brazzaville"
@@ -54317,9 +54309,7 @@ msgid "Castlerock"
 msgstr "Castlerock"
 
 #: kstars_i18n.cpp:1377
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-kuit-format
 msgctxt "City in Saint Lucia"
 msgid "Castries"
 msgstr "Castries"
@@ -55345,9 +55335,7 @@ msgid "Costa Mesa"
 msgstr "Costa Mesa"
 
 #: kstars_i18n.cpp:1548
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Bénin"
-#| msgid "Cotonou"
+#, kde-kuit-format
 msgctxt "City in Benin"
 msgid "Cotonou"
 msgstr "Cotonou"
@@ -55557,9 +55545,7 @@ msgid "Dakar"
 msgstr "Dakar"
 
 #: kstars_i18n.cpp:1583
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Western sahara"
-#| msgid "Dakhla"
+#, kde-kuit-format
 msgctxt "City in Western Sahara"
 msgid "Dakhla"
 msgstr "Dakhla"
@@ -56071,9 +56057,7 @@ msgid "Didim"
 msgstr ""
 
 #: kstars_i18n.cpp:1667
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Diego Garcia"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Diego Garcia"
 msgstr "Diego Garcia"
@@ -56807,9 +56791,7 @@ msgid "Ekinözü"
 msgstr ""
 
 #: kstars_i18n.cpp:1788
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Western sahara"
-#| msgid "El Aaiun"
+#, kde-kuit-format
 msgctxt "City in Western Sahara"
 msgid "El Aaiun"
 msgstr "El Aaiun"
@@ -58372,9 +58354,7 @@ msgid "Georgetown"
 msgstr "Georgetown"
 
 #: kstars_i18n.cpp:2046
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ascension Island"
-#| msgid "Georgetown"
+#, kde-kuit-format
 msgctxt "City in Saint Helena"
 msgid "Georgetown"
 msgstr "Georgetown"
@@ -60756,9 +60736,7 @@ msgid "Johnson City"
 msgstr "Johnson City"
 
 #: kstars_i18n.cpp:2439
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Johnston Atoll"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Johnston Atoll"
 msgstr "Atol Johnston"
@@ -61792,9 +61770,7 @@ msgid "Kingston"
 msgstr "Kingston"
 
 #: kstars_i18n.cpp:2606
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo (Democratic Republic)"
-#| msgid "Kinshasa"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Kinshasa"
 msgstr "Kinshasa"
@@ -61832,9 +61808,7 @@ msgid "Kiruna"
 msgstr "Kiruna"
 
 #: kstars_i18n.cpp:2612
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Kisangani"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Kisangani"
 msgstr "Kisangani"
@@ -64251,9 +64225,7 @@ msgid "Matachewan"
 msgstr "Matachewan"
 
 #: kstars_i18n.cpp:3009
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Matadi"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Matadi"
 msgstr "Matadi"
@@ -64325,9 +64297,7 @@ msgid "Mbabane"
 msgstr "Mbabane"
 
 #: kstars_i18n.cpp:3021
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Mbandaka"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Mbandaka"
 msgstr "Mbandaka"
@@ -65162,9 +65132,7 @@ msgid "Midnapore"
 msgstr "Midnapore"
 
 #: kstars_i18n.cpp:3147
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Midway Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Midway Island"
 msgstr "Midway Island"
@@ -67577,9 +67545,7 @@ msgid "Paducah"
 msgstr "Paducah"
 
 #: kstars_i18n.cpp:3546
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Pagan Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Pagan Island"
 msgstr "Pagan Island"
@@ -68368,9 +68334,7 @@ msgid "Point Hope"
 msgstr "Point Hope"
 
 #: kstars_i18n.cpp:3676
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo"
-#| msgid "Pointe Noire"
+#, kde-kuit-format
 msgctxt "City in Republic of the Congo"
 msgid "Pointe Noire"
 msgstr "Pointe Noire"
@@ -68600,9 +68564,7 @@ msgid "Portneuf"
 msgstr "Portneuf"
 
 #: kstars_i18n.cpp:3714
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Bénin"
-#| msgid "Porto Novo"
+#, kde-kuit-format
 msgctxt "City in Benin"
 msgid "Porto Novo"
 msgstr "Porto Novo"
@@ -69672,9 +69634,7 @@ msgid "Roswell"
 msgstr "Roswell"
 
 #: kstars_i18n.cpp:3892
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Rota Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Rota Island"
 msgstr "Rota"
@@ -69926,9 +69886,7 @@ msgid "Sainte-Adele"
 msgstr "Sainte-Adele"
 
 #: kstars_i18n.cpp:3934
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Saipan Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Saipan Island"
 msgstr "Ostrov Saipan"
@@ -70266,9 +70224,7 @@ msgid "Santa Cruz"
 msgstr "Santa Cruz"
 
 #: kstars_i18n.cpp:3989
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Bolivia"
-#| msgid "Santa Cruz"
+#, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Santa Cruz"
 msgstr "Santa Cruz"
@@ -71594,9 +71550,7 @@ msgid "St. Cloud"
 msgstr "St. Cloud"
 
 #: kstars_i18n.cpp:4207
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Virgin Islands"
-#| msgid "St. Croix"
+#, kde-kuit-format
 msgctxt "City in U.S. Virgin Islands"
 msgid "St. Croix"
 msgstr "St. Croix"
@@ -71704,9 +71658,7 @@ msgid "St. Stephen"
 msgstr "St. Stephen"
 
 #: kstars_i18n.cpp:4225
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Virgin Islands"
-#| msgid "St. Thomas"
+#, kde-kuit-format
 msgctxt "City in U.S. Virgin Islands"
 msgid "St. Thomas"
 msgstr "St. Thomas"
@@ -72711,9 +72663,7 @@ msgid "Tindouf"
 msgstr "Tindouf"
 
 #: kstars_i18n.cpp:4390
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Tinian Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Tinian Island"
 msgstr "Tinian"
@@ -73986,9 +73936,7 @@ msgid "Waipahu"
 msgstr "Waipahu"
 
 #: kstars_i18n.cpp:4601
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Wake Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Wake Island"
 msgstr "Ostrov Wake"
@@ -74852,9 +74800,7 @@ msgid "Yalıhüyük"
 msgstr ""
 
 #: kstars_i18n.cpp:4744
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ivory coast"
-#| msgid "Yamoussoukro"
+#, kde-kuit-format
 msgctxt "City in Ivory Coast"
 msgid "Yamoussoukro"
 msgstr "Yamoussoukro"
@@ -75989,9 +75935,7 @@ msgid "Andhra Pradesh"
 msgstr "Ándhrapradéš"
 
 #: kstars_i18n.cpp:4929
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Turkey"
-#| msgid "Ankara"
+#, kde-kuit-format
 msgctxt "Region/state in Türkiye"
 msgid "Ankara"
 msgstr "Ankara"
