@@ -528,7 +528,11 @@ void MeridianFlipState::updateTelescopeCoord(const SkyPoint &position, ISD::Moun
     if (m_MountStatus == ISD::Mount::MOUNT_TRACKING && m_PrevMountStatus == ISD::Mount::MOUNT_SLEWING
             && isEnabled())
     {
-        if (meridianFlipMountState == MOUNT_FLIP_NONE)
+        // Only clear a pending retry delay once the whole meridian flip process (including any
+        // post-flip re-alignment / re-guiding) is done - otherwise a Slewing->Tracking transition
+        // caused by Align's own correction slew during MF_ALIGNING would wipe out the delay set
+        // for the next flip attempt after a failed (pier side unchanged) flip.
+        if (meridianFlipMountState == MOUNT_FLIP_NONE && !checkMeridianFlipActive())
         {
             setFlipDelayHrs(0);
         }
