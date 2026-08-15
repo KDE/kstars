@@ -915,6 +915,11 @@ class Align : public QWidget, public Ui::Align
         // Only wait this many milliseconds for slew to start.
         // Otherwise assume it has begun.
         static constexpr int MAX_WAIT_FOR_SLEW_START_MSEC = 10000;
+        // Mount's reported RA/DE (raw property values) right before the last Slew() was
+        // commanded. Lets the ALIGN_SLEWING/IPS_OK handler recognize a fresh completion even
+        // when no IPS_BUSY was ever observed for that slew.
+        double m_PreSlewRA { 0 };
+        double m_PreSlewDE { 0 };
 
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };

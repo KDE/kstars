@@ -185,7 +185,17 @@ void Align::updateProperty(INDI::Property prop)
 
                     case ALIGN_SLEWING:
 
-                        if (!didSlewStart())
+                        // didSlewStart() only trusts an IPS_OK if we previously witnessed an
+                        // IPS_BUSY for this slew (or a 10s timer has elapsed). Some drivers
+                        // complete very short slews within a single status tick and never emit
+                        // an observable IPS_BUSY, so that condition alone can stay false forever
+                        // even though the mount genuinely already moved. Also accept the update
+                        // if the reported position differs from what it was right before this
+                        // slew was commanded: IPS_OK means "not busy" by INDI convention, so a
+                        // changed position can only mean the mount already reported completion,
+                        // never that it's still mid-slew.
+                        if (!didSlewStart() &&
+                                nvp->np[0].value == m_PreSlewRA && nvp->np[1].value == m_PreSlewDE)
                         {
                             qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
                             break;
@@ -483,6 +493,18 @@ void Align::Slew()
 {
     setState(ALIGN_SLEWING);
     Q_EMIT newStatus(state);
+
+    // Snapshot the mount's currently-reported coordinates before commanding the slew, so the
+    // ALIGN_SLEWING/IPS_OK handler above can tell a fresh completion from a stale, pre-slew
+    // property value that simply hasn't been superseded by an observable IPS_BUSY yet.
+    if (auto pn = m_Mount->getNumber(m_Mount->isJ2000() ? "EQUATORIAL_COORD" : "EQUATORIAL_EOD_COORD"))
+    {
+        if (auto nvp = pn.getNumber())
+        {
+            m_PreSlewRA = nvp->np[0].value;
+            m_PreSlewDE = nvp->np[1].value;
+        }
+    }
 
     if (m_Mount->Slew(&m_TargetCoord))
     {
