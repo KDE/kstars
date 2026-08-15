@@ -89,6 +89,16 @@ class TestEkosMeridianFlipSpecials : public TestEkosMeridianFlipBase
         /** @brief Test data for @see testSimpleRepeatedMF() */
         void testSimpleRepeatedMF_data();
 
+        /** @brief Test the situation where the mount does not change its pier side (failed flip) while
+         * alignment is active. Post-flip re-alignment starts immediately despite the failed flip and its
+         * own correction slew must not prematurely reset the pending 4-minute retry delay for the next
+         * flip attempt (regression test).
+         * */
+        void testCaptureAlignFailedMFRetry();
+
+        /** @brief Test data for @see testCaptureAlignFailedMFRetry() */
+        void testCaptureAlignFailedMFRetry_data();
+
         /** @brief Test if a re-alignment is aborted during a meridian flip and post flip actions are executed.
          */
         void testCaptureRealignMF();

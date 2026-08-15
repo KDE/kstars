@@ -15,6 +15,8 @@
 #include "ekos/capture/capture.h"
 #include "ekos/focus/focusmodule.h"
 
+#include <QScopeGuard>
+
 TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QObject *parent) : TestEkosMeridianFlipBase(parent)
 {
 }
@@ -344,6 +346,139 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
     indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0)});
 }
 
+void TestEkosMeridianFlipSpecials::testCaptureAlignFailedMFRetry()
+{
+    if (!astrometry_available)
+        QSKIP("No astrometry files available to run test");
+
+    // set up the capture sequence - leave enough lead time for the initial alignment
+    // cycle below to complete before the mount reaches the meridian
+    QVERIFY(prepareCaptureTestcase(40, false, false));
+
+    // run one alignment cycle so that post-flip re-alignment gets triggered automatically
+    // (CameraState::setAlignState() sets resumeAlignmentAfterFlip to true on every align
+    // state change, so a single completed alignment before the flip is enough)
+    QVERIFY(executeAlignment(5.0));
+
+    // widen align's post-slew settle window so it doesn't race ahead to a second solve
+    // before the HA reset injected below has had a chance to take effect. Restored via
+    // scope guard so it resets even if a QVERIFY below fails and returns early.
+    KTRY_GADGET(Ekos::Manager::Instance()->alignModule(), QSpinBox, alignSettlingTime);
+    const int originalSettlingTime = alignSettlingTime->value();
+    alignSettlingTime->setValue(5000);
+    const auto settlingTimeGuard = qScopeGuard([alignSettlingTime, originalSettlingTime]
+    {
+        alignSettlingTime->setValue(originalSettlingTime);
+    });
+
+    // force the simulated mount to not actually change pier side on the upcoming flip slew,
+    // so that the flip "fails" and the 4-minute retry logic in MeridianFlipState kicks in.
+    // Reset via scope guard for the same reason as above.
+    const QString mountDevice = m_CaptureHelper->m_MountDevice;
+    QProcess *indi_setprop = new QProcess(this);
+    indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(mountDevice).arg(0.5)});
+    const auto flipHaGuard = qScopeGuard([this, mountDevice]
+    {
+        QProcess *reset = new QProcess(this);
+        reset->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(mountDevice).arg(0)});
+        reset->waitForFinished(5000);
+    });
+
+    // start capturing
+    QVERIFY(startCapturing());
+
+    // check that the (failed) meridian flip runs and "completes" (pier side unchanged)
+    // (39s: matches the 40s lead time set in prepareCaptureTestcase() above, minus the
+    // time already spent on the initial alignment cycle)
+    QVERIFY(checkMFExecuted(39));
+    KTRY_GADGET(Ekos::Manager::Instance()->mountModule(), QLabel, pierSideLabel);
+    QTRY_VERIFY(pierSideLabel->text() == "Pier Side: West (pointing East)");
+    qCInfo(KSTARS_EKOS_TEST()) << "First (failed) meridian flip completed, pier side unchanged as expected.";
+
+    // post-flip re-alignment should start right away despite the failed flip
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ALIGNING, 15000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Post-flip re-alignment started after the failed flip.";
+
+    // Between reaching Tracking (above, from the failed flip) and align's own correction
+    // slew, re-sync the simulated mount just PAST the (freshly calculated) meridian again
+    // (negative secsToMF -> target.ra = LST - |delta| -> ha = +|delta|). On real mounts the
+    // hour angle keeps advancing naturally while align captures and solves; the telescope
+    // simulator does not reproduce that drift on its own, so it has to be emulated
+    // explicitly here to recreate the same situation as on real hardware.
+    // Note: fast=false on purpose - the fast=true path adds a fixed +0.002h (~7.2s) pre-
+    // meridian pad meant for initial rough positioning, which would swamp the small delta
+    // used here and push ha negative again.
+    findMFTestTarget(-5, false);
+    Ekos::Manager::Instance()->mountModule()->sync(target->ra().Hours(), target->dec().Degrees());
+    qCInfo(KSTARS_EKOS_TEST()) << "Re-synced just past the meridian before align's correction slew.";
+
+    // Continuously watch for the actual bug condition from here on: MeridianFlipState
+    // re-arming a flip (leaving MOUNT_FLIP_NONE) while Capture is still mid post-flip
+    // re-alignment (CAPTURE_ALIGNING). A single point-in-time check after the fact is
+    // unreliable - the erroneous re-arm and its consequent (fast, since flipDelayHrs was
+    // wiped to 0) flip execution can both finish before any single QVERIFY below gets a
+    // chance to observe the intermediate state - so this is recorded live via a direct
+    // signal connection instead of polled after the fact.
+    bool prematureFlipDetected = false;
+    const auto mfState = Ekos::Manager::Instance()->mountModule()->getMeridianFlipState();
+    const auto prematureFlipConnection = connect(mfState.get(), &Ekos::MeridianFlipState::newMountMFStatus, this,
+                                         [&](Ekos::MeridianFlipState::MeridianFlipMountState status)
+    {
+        if (m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ALIGNING &&
+                status != Ekos::MeridianFlipState::MOUNT_FLIP_NONE)
+            prematureFlipDetected = true;
+    });
+    const auto prematureFlipGuard = qScopeGuard([prematureFlipConnection]
+    {
+        QObject::disconnect(prematureFlipConnection);
+    });
+
+    // Force a real, sizeable correction slew: nudge the mount off the synced position via a
+    // manual motion command (TELESCOPE_MOTION_NS), so align's next solve finds a real position
+    // error and issues its own genuine coordinate slew to correct it - as opposed to relying
+    // on align's solve noise alone, which may leave too small an offset for a reliably
+    // observable slew (see the commented-out attempt in startScheduler() above: "slewing
+    // detection unsure since the position is close to the target").
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_SLEWING);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_TRACKING);
+    Ekos::Manager::Instance()->mountModule()->motionCommand(ISD::Mount::MOTION_START, ISD::Mount::MOTION_NORTH, -1);
+    QTest::qWait(2000);
+    Ekos::Manager::Instance()->mountModule()->motionCommand(ISD::Mount::MOTION_STOP, ISD::Mount::MOTION_NORTH, -1);
+    qCInfo(KSTARS_EKOS_TEST()) << "Nudged the mount off target to force a real correction slew.";
+
+    // Verify align's correction slew actually passed through MOUNT_SLEWING and MOUNT_TRACKING
+    // in that order - otherwise a PASS below would be meaningless (it could just mean the
+    // trigger never occurred, not that the bug is fixed).
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 60000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Confirmed mount passed through MOUNT_SLEWING and MOUNT_TRACKING.";
+
+    // Let alignment run through its solve-and-correct cycle(s), triggered by the nudge above,
+    // until post-flip re-alignment is done (capture leaves CAPTURE_ALIGNING). This covers the
+    // window in which MeridianFlipState::updateTelescopeCoord() may incorrectly reset the
+    // pending 4-minute retry delay (flipDelayHrs) as a side effect of align's own correction
+    // slew finishing, because it only checks meridianFlipMountState (which already dropped
+    // back to MOUNT_FLIP_NONE) instead of meridianFlipStage / checkMeridianFlipActive()
+    // (which is still MF_ALIGNING throughout this window).
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() != Ekos::CAPTURE_ALIGNING, 60000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Post-flip re-alignment (including align's correction slew) completed.";
+
+    // Stop watching now that re-alignment is done - the retry delay must not have been wiped
+    // out while it was still running: a meridian flip must not have been (re-)armed this
+    // early, it is only due after ~4 minutes.
+    QObject::disconnect(prematureFlipConnection);
+    QVERIFY2(!prematureFlipDetected,
+             "Meridian flip was (re-)armed while post-flip alignment was still running - "
+             "the pending retry delay was reset too early.");
+
+    // it should still complete correctly after the full ~4 minute delay
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_RUNNING);
+    QVERIFY(checkMFExecuted(4 * 60 + 30));
+
+    // FLIP_HA and alignSettlingTime are restored automatically by the scope guards above,
+    // regardless of whether this point is reached normally or a QVERIFY above failed.
+}
+
 void TestEkosMeridianFlipSpecials::testCaptureRealignMF()
 {
     if (!astrometry_available)
@@ -457,6 +592,11 @@ void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF_data()
 }
 
 void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF_data()
+{
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {false}, {false});
+}
+
+void TestEkosMeridianFlipSpecials::testCaptureAlignFailedMFRetry_data()
 {
     prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {false}, {false});
 }

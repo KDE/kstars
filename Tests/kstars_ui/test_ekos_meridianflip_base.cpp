@@ -48,6 +48,10 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
 
 void TestEkosMeridianFlipBase::initTestCase()
 {
+    // determine once whether real astrometry solving can be tested (index files installed);
+    // used by test cases to QSKIP gracefully instead of failing when solving is unavailable
+    astrometry_available = m_CaptureHelper->isAstrometryAvailable();
+
     // ensure EKOS is running
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
