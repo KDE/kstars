@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 02:19+0000\n"
-"PO-Revision-Date: 2026-08-12 09:53+0200\n"
+"POT-Creation-Date: 2026-08-16 02:08+0000\n"
+"PO-Revision-Date: 2026-08-15 16:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6830,8 +6830,8 @@ msgid "Polar Alignment"
 msgstr "Alineació polar"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
-#: ekos/align/align_goto.cpp:372 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
+#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Posicionament..."
@@ -6964,47 +6964,47 @@ msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 msgid "Astrometry alignment completed successfully"
 msgstr "L'alineació d'astrometria s'ha completat correctament"
 
-#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:653
+#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 "La diferència d'AP és ~%1°, la imatge s'inverteix. Es manté l'angle del "
 "rotor."
 
-#: ekos/align/align_goto.cpp:247
+#: ekos/align/align_goto.cpp:257
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "L'orientació s'ha completat. No s'ha arribat la precisió de l'objectiu, "
 "s'està tornant a executar el solucionador..."
 
-#: ekos/align/align_goto.cpp:249
+#: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 "L'orientació s'ha completat. S'estan solucionant els punts d'alineació..."
 
-#: ekos/align/align_goto.cpp:300 ekos/align/align_goto.cpp:478
+#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
 msgid "Syncing failed."
 msgstr "Ha fallat la sincronització."
 
-#: ekos/align/align_goto.cpp:302
+#: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
 msgstr "Ha fallat l'orientació."
 
-#: ekos/align/align_goto.cpp:333
+#: ekos/align/align_goto.cpp:343
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "S'ha detectat un error del rotor. S'interromp l'alineació."
 
-#: ekos/align/align_goto.cpp:354
+#: ekos/align/align_goto.cpp:364
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "El rotor ha arribat a l'angle de posició de la càmera."
 
-#: ekos/align/align_goto.cpp:389
+#: ekos/align/align_goto.cpp:399
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -7013,23 +7013,23 @@ msgstr ""
 "El rotor no ha pogut arribar a l'angle de posició sol·licitat (desviació de "
 "%1 minuts d'arc)."
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:438
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "S'ha detectat una orientació, se suspèn la solució..."
 
-#: ekos/align/align_goto.cpp:472
+#: ekos/align/align_goto.cpp:482
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
 
-#: ekos/align/align_goto.cpp:490
+#: ekos/align/align_goto.cpp:512
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Orientat a les coordenades de l'objectiu: AR (%1) Dec (%2)."
 
 # skip-rule: punctuation-period-no
-#: ekos/align/align_goto.cpp:495
+#: ekos/align/align_goto.cpp:517
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -7038,35 +7038,35 @@ msgstr ""
 "S'ha rebutjat l'orientació a les coordenades de l'objectiu: AR (%1) Dec (%2) "
 "(vegeu la notificació)."
 
-#: ekos/align/align_goto.cpp:552
+#: ekos/align/align_goto.cpp:574
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Càrrega d'una imatge"
 
-#: ekos/align/align_goto.cpp:583 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "No s'ha detectat cap controlador remot d'astrometria, es canvia a "
 "l'StellarSolver."
 
-#: ekos/align/align_goto.cpp:667
+#: ekos/align/align_goto.cpp:689
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "L'angle de posició de la càmera s'estableix a %1 graus..."
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:698
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "L'angle de posició de la càmera està dins d'un l'interval acceptable."
 
-#: ekos/align/align_goto.cpp:688
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 
-#: ekos/align/align_goto.cpp:726
+#: ekos/align/align_goto.cpp:748
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -8043,9 +8043,9 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
-"Obre el diàleg «Cerca un objecte» per tal de poder seleccionar un objecte "
-"per a aconseguir automàticament una AR i una Dec a les que voldríeu orientar "
-"el telescopi en fer la rutina del model de muntura."
+"Obre el diàleg «Cerca un objecte» per a seleccionar un objecte per a "
+"aconseguir automàticament una AR i una Dec a les que voldríeu orientar el "
+"telescopi en fer la rutina del model de muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:439
@@ -11227,7 +11227,7 @@ msgstr "Ha fallat en trobar les propietats del solucionador."
 #: ekos/align/remoteastrometryparser.cpp:85
 #, kde-format
 msgid "Not enough memory for file %1."
-msgstr "No hi ha memòria suficient per al fitxer %1."
+msgstr "No hi ha prou memòria per al fitxer %1."
 
 #: ekos/align/remoteastrometryparser.cpp:102
 #, kde-format
@@ -13892,11 +13892,11 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Selecciona si s'ha d'usar un reductor o Barlow en el "
 "tren.</p><p><span style=\" font-weight:600;\">Reductor:</span> Si el valor "
-"és inferior a 1,0x, aquest element està considerat com un reductor (la "
-"longitud focal es redueix per aquest factor).</p><p><span style=\" font-"
-"weight:600;\">Barlow</span>: Si el valor és superior a 1,0x, llavors està "
-"considerat com un element Barlow (la longitud focal s'augmenta per aquest "
-"factor).</p></body></html>"
+"és inferior a 1,0x, aquest element es considera com un reductor (la longitud "
+"focal es redueix per aquest factor).</p><p><span style=\" font-weight:600;"
+"\">Barlow</span>: Si el valor és superior a 1,0x, llavors es considera com "
+"un element Barlow (la longitud focal s'augmenta per aquest factor).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:232
@@ -14534,8 +14534,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"Una variable per a emmagatzemar el «fwhm» en píxels usada per a generar el "
-"filtre de convolució per a la detecció d'estrelles."
+"Una variable per a emmagatzemar el «fwhm» en píxels que es farà servir per a "
+"generar el filtre de convolució per a la detecció d'estrelles."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -15956,7 +15956,7 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
-"<html><head/><body><p>El format s'empra per a definir els noms dels fitxer "
+"<html><head/><body><p>El format s'empra per a definir els noms dels fitxers "
 "d'imatge amb l'ús d'etiquetes variables de substitució.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
@@ -16769,8 +16769,8 @@ msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
-"S'ha excedit el temps d'exposició. S'han detectat més de 3, es reiniciarà el "
-"controlador."
+"S'ha excedit el temps d'exposició. Se n'han detectat més de 3, es reiniciarà "
+"el controlador."
 
 #: ekos/capture/cameraprocess.cpp:2211
 #, kde-format
@@ -19220,7 +19220,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>La delta del focus per darrere és la diferència en la "
-"posició del focus entre el centre dels sensor i la mitjana dels centres de "
+"posició del focus entre el centre del sensor i la mitjana dels centres de "
 "les cantonades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -21730,11 +21730,11 @@ msgstr ""
 "tots els algorismes excepte el lineal d'1 pas.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hipèrbola</"
-"span>: Ajusta una hipèrbola als punt de dades. Actualment aquesta només és "
+"span>: Ajusta una hipèrbola als punts de dades. Actualment aquesta només és "
 "disponible per a l'algorisme lineal d'1 pas i és experimental.</li><li style="
 "\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
 "qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Paràbola</span>: Ajusta una paràbola als punt de dades. Actualment "
+"\">Paràbola</span>: Ajusta una paràbola als punts de dades. Actualment "
 "aquesta només és disponible per a l'algorisme lineal d'1 pas.</li></ul></"
 "body></html>"
 
@@ -22523,7 +22523,7 @@ msgstr ""
 "l'enfocament automàtic; si està fora de la zona, l'enfocament automàtic "
 "s'executa normalment.</p><p>Tingueu en compte que els desplaçaments del "
 "filtre i la configuració de l'enfocament adaptatiu sempre es compleixen.</"
-"p><p>Establi-ho a zero per desactivar aquesta característica.</p><p>NOTA: "
+"p><p>Establiu-ho a zero per desactivar aquesta característica.</p><p>NOTA: "
 "sempre es realitzaran les execucions iniciades manualment.</p><p>Aquesta és "
 "actualment una característica experimental habilitada només per al passi "
 "lineal i lineal 1.</p></body></html>"
@@ -22924,7 +22924,7 @@ msgstr ""
 "Gir de la càmera en el tren òptic (0° = logotip de la càmera a la part "
 "superior).\n"
 "Els valors positius giren la càmera en el sentit de les agulles del rellotge "
-"vist des des del darrere.\n"
+"vist des del darrere.\n"
 "El diagrama s'ajusta perquè les posicions dels caragols coincideixin amb el "
 "que es veu físicament."
 
@@ -24257,7 +24257,7 @@ msgid ""
 "starts."
 msgstr ""
 "Les ponderacions del sistema de guiatge d'IA s'han definit a %1. S'aplicaran "
-"la propera vegada que comenci el guiatge."
+"la pròxima vegada que comenci el guiatge."
 
 #: ekos/guide/guide.cpp:3942
 #, kde-format
@@ -27380,7 +27380,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Inversió del meridià inactiva (no s'ha sol·licitat la inversió)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:554
+#: ekos/manager/meridianflipstate.cpp:558
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Inversió del meridià inactiva (aparcat)"
@@ -30846,9 +30846,9 @@ msgid ""
 "Wait this many minutes for the weather to improve before giving up. Set to 0 "
 "to wait indefinitely (scheduler keeps monitoring until weather improves)."
 msgstr ""
-"Nombre de minuts d'espera per a que millori la meteorologia abans de "
-"renunciar. Establiu-ho a 0 per a esperar indefinidament (el programador "
-"continua controlant fins que la meteorologia millori)."
+"Nombre de minuts d'espera perquè millori la meteorologia abans de renunciar. "
+"Establiu-ho a 0 per a esperar indefinidament (el programador continua "
+"controlant fins que la meteorologia millori)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsweathersettings.ui:96
@@ -33138,7 +33138,7 @@ msgstr "No s'ha trobat cap dispositiu compatible"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
 #, kde-format
 msgid "Optical Train Manager not available"
-msgstr "El gestor del trem òptic no és disponible"
+msgstr "El gestor del tren òptic no és disponible"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
 #, kde-format
@@ -33650,7 +33650,7 @@ msgstr "Pausa"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:102
 #, kde-format
 msgid "Reset Progress"
-msgstr "Reinicia el progrès"
+msgstr "Reinicia el progrés"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:118
 #, kde-format
@@ -34950,8 +34950,7 @@ msgstr ""
 msgctxt "Tooltip for Stack Wait Time column"
 msgid "Wait time for sufficient subs to start stacking"
 msgstr ""
-"Temps d'espera fins a tenir subsolucions suficients per a començar "
-"l'apilament"
+"Temps d'espera fins a tenir prou subsolucions per a començar l'apilament"
 
 #: fitsviewer/fitsstackmonitor.h:314
 #, kde-format
@@ -36312,7 +36311,7 @@ msgid ""
 "Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>La Kappa restringeix l'actualització dels píxels en "
-"l'interval 1/kappa a kappa enfront el valor original. Així que 1 significa "
+"l'interval 1/kappa a kappa enfront del valor original. Així que 1 significa "
 "que no hi ha cap canvi, com més alta sigui la kappa més gran seran les "
 "possibles actualitzacions.</p><p>Els valors habituals estan en l'interval "
 "d'1,5 a 2,0. Reduïu-ho si les imatges apareixen sobreprocessades, p. ex. "
@@ -36695,7 +36694,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Quantitat de desconvolució de Wiener per aplicar en "
 "l'interval de 0 a 1. La característica combina aquesta quantitat de la "
-"imatge desconvolutada amb (1 - quantitat) de la imatge original.</"
+"imatge desconvolucionada amb (1 - quantitat) de la imatge original.</"
 "p><p>Establiu-ho a 0 per a desactivar la desconvolució.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
@@ -38822,7 +38821,7 @@ msgstr "No s'ha pogut obrir el fitxer %1 per a lectura"
 #: indi/indielement.cpp:633
 #, kde-format
 msgid "Not enough memory for file %1"
-msgstr "No hi ha memòria suficient per al fitxer %1"
+msgstr "No hi ha prou memòria per al fitxer %1"
 
 #: indi/indilistener.cpp:235
 #, kde-format
@@ -39467,10 +39466,9 @@ msgid "%1 Live Video"
 msgstr "%1 vídeo en directe"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "Commuta a pantalla completa"
+msgstr "Surt de pantalla completa"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
@@ -41814,7 +41812,7 @@ msgstr ""
 #: kstars.kcfg:754
 #, kde-format
 msgid "InfoBoxes Background fill mode"
-msgstr "Mode d'emplenat del fons dels rètols informatius"
+msgstr "Mode d'emplenament del fons dels rètols informatius"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (BoxBGMode), group (View)
@@ -41824,7 +41822,7 @@ msgid ""
 "The background fill mode for the on-screen information boxes: 0=\"no BG\"; 1="
 "\"semi-transparent BG\"; 2=\"opaque BG\""
 msgstr ""
-"El mode d'emplenat per als rètols informatius que apareixen en pantalla: "
+"El mode d'emplenament per als rètols informatius que apareixen en pantalla: "
 "0=«sense fons»; 1=«fons semitransparent»; 2=«fons opac»"
 
 #. i18n: ectx: label, entry (Projection), group (View)
@@ -42661,8 +42659,8 @@ msgstr "Oculta el gràfic d'altitud del planificador d'obtenció d'imatges."
 #, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
-"Camí del fitxer al catàleg més recent carregat pel planificador planificador "
-"d'obtenció d'imatges."
+"Camí del fitxer al catàleg més recent carregat pel planificador d'obtenció "
+"d'imatges."
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1102
@@ -46336,7 +46334,7 @@ msgid ""
 msgstr ""
 "El rotor es torna físicament oposat a la direcció que assumeix numèricament "
 "la posició angular del KStars. S'aprèn automàticament la primera vegada que "
-"ho confirma la comprovació de direcció incorrecta de a inversió automàtica, "
+"ho confirma la comprovació de direcció incorrecta de la inversió automàtica, "
 "o es pot establir manualment."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
@@ -89387,13 +89385,13 @@ msgstr ""
 #: options/opscolors.ui:80
 #, kde-format
 msgid "InfoBox BG mode:"
-msgstr "Mode d'emplenat dels rètols informatius:"
+msgstr "Mode d'emplenament dels rètols informatius:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:88
 #, kde-format
 msgid "No Fill"
-msgstr "Sense emplenat"
+msgstr "Sense emplenament"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:93
@@ -90514,7 +90512,8 @@ msgstr "Si està marcada, es dibuixaran els cometes en el mapa"
 #, kde-format
 msgid "This value might result in a big data file and reduced performance."
 msgstr ""
-"Aquest valor pot resultar en un fitxer de dades gran i reduir el rendiment."
+"Aquest valor pot donar com a resultat un fitxer de dades gran i reduir el "
+"rendiment."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: options/opssolarsystem.ui:419

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 02:19+0000\n"
-"PO-Revision-Date: 2026-08-12 10:14+0200\n"
+"POT-Creation-Date: 2026-08-16 02:08+0000\n"
+"PO-Revision-Date: 2026-08-15 12:41+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6795,8 +6795,8 @@ msgid "Polar Alignment"
 msgstr "Uitlijnen op de pool"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
-#: ekos/align/align_goto.cpp:372 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
+#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Bezig met instellen..."
@@ -6919,44 +6919,44 @@ msgstr "Opstelling is synchroon met oplossingscoördinaten."
 msgid "Astrometry alignment completed successfully"
 msgstr "Uitlijnen met Astrometry met succes voltooid"
 
-#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:653
+#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr "Ph verschil ~%1°, afbeelding is omgedraaid. Rotatiehoek wordt bewaard."
 
-#: ekos/align/align_goto.cpp:247
+#: ekos/align/align_goto.cpp:257
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Draaien is voltooid. Gewenste nauwkeurigheid is niet bereikt, oplossen wordt "
 "voortgezet..."
 
-#: ekos/align/align_goto.cpp:249
+#: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Draaien voltooid. Uitlijnpunt wordt opgelost. . ."
 
-#: ekos/align/align_goto.cpp:300 ekos/align/align_goto.cpp:478
+#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synchroniseren is mislukt."
 
-#: ekos/align/align_goto.cpp:302
+#: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
 msgstr "Draaien is mislukt."
 
-#: ekos/align/align_goto.cpp:333
+#: ekos/align/align_goto.cpp:343
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Rotatiefout gedetecteerd. Uitlijning afgebroken."
 
-#: ekos/align/align_goto.cpp:354
+#: ekos/align/align_goto.cpp:364
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Rotator heeft gewenste positiehoek van camera bereikt."
 
-#: ekos/align/align_goto.cpp:389
+#: ekos/align/align_goto.cpp:399
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6965,22 +6965,22 @@ msgstr ""
 "De rotator is niet op de gevraagde positiehoek gekomen (Afwijking %1 "
 "boogmin)."
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:438
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Draaien gedetecteerd, oplossen wordt onderbroken..."
 
-#: ekos/align/align_goto.cpp:472
+#: ekos/align/align_goto.cpp:482
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Synchroniseren naar RK (%1) Dec (%2)"
 
-#: ekos/align/align_goto.cpp:490
+#: ekos/align/align_goto.cpp:512
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Naar gewenste coördinaten draaien: RK (%1) DEC (%2)."
 
-#: ekos/align/align_goto.cpp:495
+#: ekos/align/align_goto.cpp:517
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6988,34 +6988,34 @@ msgid ""
 msgstr ""
 "Naar doelcoördinaten draaien: RK (%1) DEC (%2) is afgewezen. (Zie melding)"
 
-#: ekos/align/align_goto.cpp:552
+#: ekos/align/align_goto.cpp:574
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Afbeelding Inlezen"
 
-#: ekos/align/align_goto.cpp:583 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Geen externe astrometrry driver gevonden, StellarSolver wordt gebruikt."
 
-#: ekos/align/align_goto.cpp:667
+#: ekos/align/align_goto.cpp:689
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Positiehoek van camera wordt ingesteld op %1 graden ..."
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:698
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Positiehoek van camera is binnen een acceptabele reeks."
 
-#: ekos/align/align_goto.cpp:688
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Huidige Ph is %1; Doel-Ph is %2; verschil: %3"
 
-#: ekos/align/align_goto.cpp:726
+#: ekos/align/align_goto.cpp:748
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Tijdslimiet van rotatie bereikt na %1 seconden. Uitlijning afgebroken."
@@ -27065,7 +27065,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Meridiaanflip inactief (flip niet gevraagd)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:554
+#: ekos/manager/meridianflipstate.cpp:558
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Meridiaanflip inactief (geparkeerd)"
@@ -38987,10 +38987,9 @@ msgid "%1 Live Video"
 msgstr "%1 Live Video"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "Volledig scherm aan/uit"
+msgstr "Volledig scherm verlaten"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format

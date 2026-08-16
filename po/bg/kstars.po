@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 02:19+0000\n"
+"POT-Creation-Date: 2026-08-16 02:08+0000\n"
 "PO-Revision-Date: 2026-06-29 23:34+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6790,8 +6790,8 @@ msgid "Polar Alignment"
 msgstr "Полярно ориентиране"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
-#: ekos/align/align_goto.cpp:372 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
+#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Стабилизиране..."
@@ -6919,46 +6919,46 @@ msgstr "Монтирането се синхронизира с координа
 msgid "Astrometry alignment completed successfully"
 msgstr "Астрометричното подравняване завърши успешно"
 
-#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:653
+#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 "Разлика в полярното подравняване ~%1°, изображението е обърнато. Запазване "
 "ъгъла на ротатора."
 
-#: ekos/align/align_goto.cpp:247
+#: ekos/align/align_goto.cpp:257
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Завършване на придвижването. Точността на целта не е постигната, стартирайте "
 "решаването отново..."
 
-#: ekos/align/align_goto.cpp:249
+#: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Завършване на придвижването. Решаване на точката за подравняване. . ."
 
-#: ekos/align/align_goto.cpp:300 ekos/align/align_goto.cpp:478
+#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
 msgid "Syncing failed."
 msgstr "Синхронизирането е неуспешно."
 
-#: ekos/align/align_goto.cpp:302
+#: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
 msgstr "Неуспешно насочване."
 
-#: ekos/align/align_goto.cpp:333
+#: ekos/align/align_goto.cpp:343
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Открита е грешка в ротатора. Прекратяване на подравняването."
 
-#: ekos/align/align_goto.cpp:354
+#: ekos/align/align_goto.cpp:364
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Ротаторът достигна ъгъл на позиция на камерата."
 
-#: ekos/align/align_goto.cpp:389
+#: ekos/align/align_goto.cpp:399
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6967,22 +6967,22 @@ msgstr ""
 "Ротаторът не успя да достигне заявения ъгъл на позиция (отклонение %1 "
 "arcmin)."
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:438
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Открито е завъртане, спиране на решаването..."
 
-#: ekos/align/align_goto.cpp:472
+#: ekos/align/align_goto.cpp:482
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Синхронизиране с RA (%1) DEC (%2)"
 
-#: ekos/align/align_goto.cpp:490
+#: ekos/align/align_goto.cpp:512
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Завъртане към целеви координати: RA (%1) DEC (%2)."
 
-#: ekos/align/align_goto.cpp:495
+#: ekos/align/align_goto.cpp:517
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6991,35 +6991,35 @@ msgstr ""
 "Придвижване към целевите координати: RA (%1) DEC (%2) се отхвърля. (вижте "
 "известието)"
 
-#: ekos/align/align_goto.cpp:552
+#: ekos/align/align_goto.cpp:574
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Зареждане на изображение"
 
-#: ekos/align/align_goto.cpp:583 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Не е открит драйвер за отдалечена астрометрия, превключва се на "
 "StellarSolver."
 
-#: ekos/align/align_goto.cpp:667
+#: ekos/align/align_goto.cpp:689
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Задаване на позиционния ъгъл на камерата на %1 градуса..."
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:698
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Позиционният ъгъл на камерата е в приемливия диапазон."
 
-#: ekos/align/align_goto.cpp:688
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Текущата PA е %1; Целевата PA е %2; разлика: %3"
 
-#: ekos/align/align_goto.cpp:726
+#: ekos/align/align_goto.cpp:748
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -27172,7 +27172,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Меридианното обръщане е неактивно (не е поискано обръщане)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:554
+#: ekos/manager/meridianflipstate.cpp:558
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Меридианното обръщане е неактивно (системата е паркирана)"

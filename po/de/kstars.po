@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 02:19+0000\n"
+"POT-Creation-Date: 2026-08-16 02:08+0000\n"
 "PO-Revision-Date: 2025-12-03 10:56+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -6891,8 +6891,8 @@ msgid "Polar Alignment"
 msgstr "Polare Ausrichtung"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
-#: ekos/align/align_goto.cpp:372 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
+#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Settling..."
@@ -7015,69 +7015,69 @@ msgstr "Abgleich des Teleskops auf die Lösungskoordinaten"
 msgid "Astrometry alignment completed successfully"
 msgstr "Astrometry-Ausrichtung erfolgreich abgeschlossen"
 
-#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:653
+#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:247
+#: ekos/align/align_goto.cpp:257
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:249
+#: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:300 ekos/align/align_goto.cpp:478
+#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
 msgid "Syncing failed."
 msgstr "Abgleich fehlgeschlagen."
 
-#: ekos/align/align_goto.cpp:302
+#: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
 msgstr "Schwenken fehlgeschlagen."
 
-#: ekos/align/align_goto.cpp:333
+#: ekos/align/align_goto.cpp:343
 #, fuzzy, kde-format
 #| msgid "No star was selected. Aborting..."
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Es wurde kein Stern ausgewählt. Abbruch ..."
 
-#: ekos/align/align_goto.cpp:354
+#: ekos/align/align_goto.cpp:364
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Positionswinkel"
 
-#: ekos/align/align_goto.cpp:389
+#: ekos/align/align_goto.cpp:399
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:438
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Es wurden keine Sterne erkannt, die Aufnahme wird erneut gestartet ..."
 
-#: ekos/align/align_goto.cpp:472
+#: ekos/align/align_goto.cpp:482
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Abgleich erfolgreich."
 
-#: ekos/align/align_goto.cpp:490
+#: ekos/align/align_goto.cpp:512
 #, fuzzy, kde-format
 #| msgid "Slew to the flag coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Schwenken des Teleskops auf die Koordinaten der Ortsmarke"
 
-#: ekos/align/align_goto.cpp:495
+#: ekos/align/align_goto.cpp:517
 #, fuzzy, kde-format
 #| msgid "Slew to the flag coordinates"
 msgid ""
@@ -7085,35 +7085,35 @@ msgid ""
 "notification)"
 msgstr "Schwenken des Teleskops auf die Koordinaten der Ortsmarke"
 
-#: ekos/align/align_goto.cpp:552
+#: ekos/align/align_goto.cpp:574
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Bild laden"
 
-#: ekos/align/align_goto.cpp:583 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:667
+#: ekos/align/align_goto.cpp:689
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Temperatur wird auf %1 ° C eingestellt ..."
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:698
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:688
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align_goto.cpp:726
+#: ekos/align/align_goto.cpp:748
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
@@ -27420,7 +27420,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Meridian-Flip inaktiv (Umschwenken nicht angefordert)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:554
+#: ekos/manager/meridianflipstate.cpp:558
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Meridian-Flip inaktiv (geparkt)"

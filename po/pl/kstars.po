@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1743838 $
+# Version: $Revision: 1743924 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-15 02:19+0000\n"
+"POT-Creation-Date: 2026-08-16 02:08+0000\n"
 "PO-Revision-Date: 2026-03-21 07:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -6826,8 +6826,8 @@ msgid "Polar Alignment"
 msgstr "Wyrównanie biegunowe"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:239 ekos/align/align_goto.cpp:257
-#: ekos/align/align_goto.cpp:372 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
+#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Ustalanie..."
@@ -6954,45 +6954,45 @@ msgstr "Montaż jest zsychronizowany z współrzędnymi rozwiązania."
 msgid "Astrometry alignment completed successfully"
 msgstr "Pomyślnie ukończono wyrównanie Astrometry"
 
-#: ekos/align/align_goto.cpp:227 ekos/align/align_goto.cpp:653
+#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:247
+#: ekos/align/align_goto.cpp:257
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Ukończono obracanie. Nie osiągnięto docelowej dokładności, uruchamianie "
 "solvera na nowo..."
 
-#: ekos/align/align_goto.cpp:249
+#: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Ukończono obrót. Rozwiązywanie punktu wyrównania..."
 
-#: ekos/align/align_goto.cpp:300 ekos/align/align_goto.cpp:478
+#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
 msgid "Syncing failed."
 msgstr "Nie udało się zsynchronizować."
 
-#: ekos/align/align_goto.cpp:302
+#: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
 msgstr "Nie udało się obrócić."
 
-#: ekos/align/align_goto.cpp:333
+#: ekos/align/align_goto.cpp:343
 #, fuzzy, kde-format
 #| msgid "No star was selected. Aborting..."
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Nie wybrano gwiazdy. Przerywanie..."
 
-#: ekos/align/align_goto.cpp:354
+#: ekos/align/align_goto.cpp:364
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Obrotnica osiągnęła kąt położenia aparatu."
 
-#: ekos/align/align_goto.cpp:389
+#: ekos/align/align_goto.cpp:399
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -7001,22 +7001,22 @@ msgstr ""
 "Obrotnicy nie udało się dotrzeć do żądanego położenia kątowego (Odchylenie "
 "%1 minuty kątowe)"
 
-#: ekos/align/align_goto.cpp:428
+#: ekos/align/align_goto.cpp:438
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Wykryto obrót, zawieszono rozwiązywanie..."
 
-#: ekos/align/align_goto.cpp:472
+#: ekos/align/align_goto.cpp:482
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Zsynchronizowano do RA (%1) DEK (%2)"
 
-#: ekos/align/align_goto.cpp:490
+#: ekos/align/align_goto.cpp:512
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Obracanie do współrzędnych docelowych: RA (%1) DEK (%2)."
 
-#: ekos/align/align_goto.cpp:495
+#: ekos/align/align_goto.cpp:517
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -7025,37 +7025,37 @@ msgstr ""
 "Obracanie do współrzędnych docelowych: RA (%1) DEK (%2) zostało odrzucone. "
 "(zobacz powiadomienie)"
 
-#: ekos/align/align_goto.cpp:552
+#: ekos/align/align_goto.cpp:574
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Wczytaj obraz"
 
-#: ekos/align/align_goto.cpp:583 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Nie wykryto żadnego sterowni zdalnego astrometry, przełączono na "
 "StellarSolver."
 
-#: ekos/align/align_goto.cpp:667
+#: ekos/align/align_goto.cpp:689
 #, fuzzy, kde-format
 #| msgid "Setting camera position angle to %1 degrees ..."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Ustawianie kąta położenia aparatu na %1 stopni ..."
 
-#: ekos/align/align_goto.cpp:676
+#: ekos/align/align_goto.cpp:698
 #, fuzzy, kde-format
 #| msgid "Camera position angle is within acceptable range."
 msgid "Camera position angle is within acceptable range."
 msgstr "Kąt położenia aparatu znajduje się w dozwolonym zakresie."
 
-#: ekos/align/align_goto.cpp:688
+#: ekos/align/align_goto.cpp:710
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Obecny PA to %1; Docelowy PA to %2; różnica: %3"
 
-#: ekos/align/align_goto.cpp:726
+#: ekos/align/align_goto.cpp:748
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
@@ -27583,7 +27583,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Obrót o południk wyłączony (nie zażądano obrotu)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:554
+#: ekos/manager/meridianflipstate.cpp:558
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Obrót o południk wyłączony (zaparkowany)"
