@@ -2629,6 +2629,17 @@ void Manager::initFocus()
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusTemperatureDelta, this,
+            [this](double delta, double absTemperature, const QString &/*trainname*/)
+    {
+        QJsonObject cStatus =
+        {
+            {"absoluteTemperature", absTemperature},
+            {"deltaTemperature", delta}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusAdvisorMessage, this, [this](const QString & message)
     {
         QJsonObject cStatus =
@@ -3211,9 +3222,9 @@ void Manager::wizardProfile()
 bool Manager::getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const
 {
     // Get current profile
-    for (auto &pi : profiles)
-    {
-        if (profileCombo->currentText() == pi->name)
+for (auto &pi : profiles)
+{
+    if (profileCombo->currentText() == pi->name)
         {
             profile = pi;
             return true;
