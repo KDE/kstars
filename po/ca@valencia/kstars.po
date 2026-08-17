@@ -9,13 +9,13 @@
 # SPDX-FileCopyrightText: 2004 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2004 David Gil, <al016950@yahoo.es>
 # SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016 Orestes Mas Casals <orestes@tsc.upc.edu>
-# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-16 02:08+0000\n"
-"PO-Revision-Date: 2026-08-15 12:55+0200\n"
+"POT-Creation-Date: 2026-08-17 02:08+0000\n"
+"PO-Revision-Date: 2026-08-16 19:09+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8108,9 +8108,9 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
-"Obri el diàleg «Busca un objecte» per tal de poder-ne seleccionar un per a "
-"aconseguir automàticament una AR i una Dec cap a les que voldríeu orientar "
-"el telescopi en realitzar la rutina del model de la muntura."
+"Obri el diàleg «Busca un objecte» per a seleccionar un objecte del que "
+"s'aconseguirà automàticament una AR i una Dec cap a les que voldríeu "
+"orientar el telescopi en realitzar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:439
@@ -11284,7 +11284,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2758 ekos/manager.ui:778
+#: ekos/manager.cpp:2769 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11323,7 +11323,7 @@ msgstr "Ha fallat mentre es trobaven les propietats del solucionador."
 #: ekos/align/remoteastrometryparser.cpp:85
 #, kde-format
 msgid "Not enough memory for file %1."
-msgstr "No hi ha memòria suficient per al fitxer %1."
+msgstr "No hi ha prou memòria per al fitxer %1."
 
 #: ekos/align/remoteastrometryparser.cpp:102
 #, kde-format
@@ -11387,7 +11387,7 @@ msgstr "Enfocament"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2833
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2844
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13738,7 +13738,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2899
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2910
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -14003,12 +14003,12 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Trieu si s'utilitza algun reductor o Barlow en el tren."
-"</p><p><span style=\"font-weight:600;\">Reductor:</span> Si el valor és "
-"menor que 1,0x, este element es considerarà com un reductor (es disminuirà "
-"la distància focal degut a este factor).</p><p><span style=\"font-weight:600;"
+"<html><head/><body><p>Trieu si s'ha d'utilitzar algun reductor o Barlow en "
+"el tren.</p><p><span style=\"font-weight:600;\">Reductor:</span> Si el valor "
+"és menor que 1,0x, este element es considerarà com un reductor (es reduirà "
+"la distància focal per este factor).</p><p><span style=\"font-weight:600;"
 "\">Barlow:</span> Si el valor és més gran que 1,0x, llavors es considerarà "
-"un Barlow (s'incrementarà la distància focal degut a este factor).</p></"
+"un element Barlow (s'incrementarà la distància focal per este factor).</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
@@ -19443,7 +19443,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El delta de l'enfocament al darrera és la diferència "
 "en la posició de l'enfocament entre el centre del sensor i la mitjana dels "
-"cantons centrals.</p></body></html>"
+"centres dels cantons.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:281
@@ -24523,7 +24523,7 @@ msgid ""
 "starts."
 msgstr ""
 "Les ponderacions del sistema de guiatge per IA s'han establit a %1. "
-"S'aplicaran la propera vegada que comence el guiatge."
+"S'aplicaran la pròxima vegada que comence el guiatge."
 
 #: ekos/guide/guide.cpp:3942
 #, kde-format
@@ -27419,64 +27419,64 @@ msgstr "La caixa de llum «%1» està en línia."
 msgid "%1 is offline."
 msgstr "El «%1» està fora de línia."
 
-#: ekos/manager.cpp:2916
+#: ekos/manager.cpp:2927
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge «%1» està a punt."
 
-#: ekos/manager.cpp:3179
+#: ekos/manager.cpp:3190
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:3180
+#: ekos/manager.cpp:3191
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:3232
+#: ekos/manager.cpp:3243
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:3234
+#: ekos/manager.cpp:3245
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Ha fallat mentre s'actualitzava l'emplaçament del lloc a %1. No s'ha trobat "
 "la ciutat."
 
-#: ekos/manager.cpp:3507
+#: ekos/manager.cpp:3518
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3515
+#: ekos/manager.cpp:3526
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3543
+#: ekos/manager.cpp:3554
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3555
+#: ekos/manager.cpp:3566
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:4351
+#: ekos/manager.cpp:4362
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:4358
+#: ekos/manager.cpp:4369
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:4365
+#: ekos/manager.cpp:4376
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
@@ -33496,7 +33496,7 @@ msgstr "No s'ha trobat cap dispositiu compatible"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
 #, kde-format
 msgid "Optical Train Manager not available"
-msgstr "El gestor del trem òptic no està disponible"
+msgstr "El gestor del tren òptic no està disponible"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
 #, kde-format
@@ -35312,7 +35312,7 @@ msgstr ""
 msgctxt "Tooltip for Stack Wait Time column"
 msgid "Wait time for sufficient subs to start stacking"
 msgstr ""
-"Temps d'espera fins a obtindre prou subsolucions per a començar l'apilament"
+"Temps d'espera fins a tindre prou subsolucions per a començar l'apilament"
 
 #: fitsviewer/fitsstackmonitor.h:314
 #, kde-format
@@ -36680,7 +36680,7 @@ msgid ""
 "Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>La Kappa restringix l'actualització dels píxels en "
-"l'interval 1/kappa a kappa enfront el valor original. Així que 1 significa "
+"l'interval 1/kappa a kappa enfront del valor original. Així que 1 significa "
 "que no hi ha cap canvi, com més alta siga la kappa més gran seran les "
 "possibles actualitzacions.</p><p>Els valors habituals estan en l'interval "
 "d'1,5 fins a 2,0. Reduïu-ho si les imatges apareixen sobreprocessades, p. "
@@ -37066,7 +37066,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Quantitat de desconvolució de Wiener que s'aplicarà a "
 "l'interval de 0 fins a 1. La característica combina esta quantitat de la "
-"imatge desconvolutada amb (1 – quantitat) de la imatge original.</"
+"imatge desconvolucionada amb (1 – quantitat) de la imatge original.</"
 "p><p>Establiu-la a 0 per a desactivar-la.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
@@ -39889,7 +39889,7 @@ msgstr "%1 vídeo en directe"
 #: indi/streamwg.cpp:387
 #, kde-format
 msgid "Exit Full Screen"
-msgstr "Ix de pantalla completa."
+msgstr "Ix de pantalla completa"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
@@ -42250,7 +42250,7 @@ msgstr ""
 #: kstars.kcfg:754
 #, kde-format
 msgid "InfoBoxes Background fill mode"
-msgstr "Mode d'emplenat del fons dels rètols informatius"
+msgstr "Mode d'emplenament del fons dels rètols informatius"
 
 # skip-rule: kct-box,punctuation-period-no
 #. i18n: ectx: whatsthis, entry (BoxBGMode), group (View)
@@ -42260,7 +42260,7 @@ msgid ""
 "The background fill mode for the on-screen information boxes: 0=\"no BG\"; 1="
 "\"semi-transparent BG\"; 2=\"opaque BG\""
 msgstr ""
-"El mode d'emplenat per als rètols informatius que apareixen en pantalla: "
+"El mode d'emplenament per als rètols informatius que apareixen en pantalla: "
 "0=«sense fons», 1=«fons semitransparent» i 2=«fons opac»."
 
 #. i18n: ectx: label, entry (Projection), group (View)
@@ -43325,7 +43325,7 @@ msgstr ""
 #: kstars.kcfg:1170
 #, kde-format
 msgid "Mode for filling dome slit"
-msgstr "Mode d'emplenat de la finestra de la cúpula"
+msgstr "Mode d'emplenament de la finestra de la cúpula"
 
 #. i18n: ectx: whatsthis, entry (DomeSlitInverted), group (Colors)
 #: kstars.kcfg:1171
@@ -46846,7 +46846,7 @@ msgstr ""
 "El rotor gira físicament en la direcció oposada que assumixen les "
 "matemàtiques d'angle de posició de KStars. S'aprendrà automàticament la "
 "primera vegada que ho confirme la comprovació automàtica de la direcció "
-"incorrecta o bé es pot configurar manualment."
+"incorrecta o bé es pot establir manualment."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -89959,13 +89959,13 @@ msgstr ""
 #: options/opscolors.ui:80
 #, kde-format
 msgid "InfoBox BG mode:"
-msgstr "Mode d'emplenat dels rètols informatius:"
+msgstr "Mode d'emplenament dels rètols informatius:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:88
 #, kde-format
 msgid "No Fill"
-msgstr "Sense emplenat"
+msgstr "Sense emplenament"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:93
@@ -91114,7 +91114,8 @@ msgstr "Si es tria, es dibuixaran els cometes en el mapa."
 #, kde-format
 msgid "This value might result in a big data file and reduced performance."
 msgstr ""
-"Este valor pot resultar en un fitxer de dades gran i reduir el rendiment."
+"Este valor pot donar com a resultat un fitxer de dades gran i reduir el "
+"rendiment."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: options/opssolarsystem.ui:419
