@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-17 02:08+0000\n"
-"PO-Revision-Date: 2026-08-10 18:33+0400\n"
+"PO-Revision-Date: 2026-08-17 19:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -23503,6 +23503,11 @@ msgid ""
 "software binning if the camera supports it — otherwise the correction will "
 "not match.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>اطرح الإطار المظلم. أنشئ إطارات مظلمة أو خرائط عيوب "
+"باستخدام أداة «Dark Library» في وحدة الالتقاط.</p><p>يجب إنشاء الإطار المظلم "
+"بنفس وضع تجميع البكسلات المستخدم أثناء التوجيه — بما في ذلك التجميع عبر "
+"الأجهزة مقابل التجميع عبر البرامج إذا كانت الكاميرا تدعم ذلك — وإلا فلن "
+"تتطابق عملية التصحيح.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -38178,10 +38183,9 @@ msgid "%1 Live Video"
 msgstr "فيديو مباشر %1"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "بدّل ملء الشّاشة"
+msgstr "أنهِ ملء الشاشة"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format

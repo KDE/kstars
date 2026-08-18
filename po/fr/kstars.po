@@ -21,11 +21,11 @@
 # Steve <stax@ik.me>, 2022, 2023, 2024, 2025, 2026.
 msgid ""
 msgstr ""
-"Project-Id-Version: kstars_3.8.3\n"
+"Project-Id-Version: kstars_3.8.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-17 02:08+0000\n"
-"PO-Revision-Date: 2026-08-08 12:26+0200\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"PO-Revision-Date: 2026-07-03 13:40+0200\n"
+"Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.04.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -796,8 +796,8 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
-"Impossible de trouver « dcraw » et « cjpeg ». Veuillez installer les outils "
-"de conversion des formats « CR2 / NEF » vers « JPEG »."
+"Impossible de trouver dcraw et cjpeg. Veuillez installer les outils de "
+"conversion des formats CR2/NEF vers JPEG."
 
 #: auxiliary/ksutils.cpp:1803
 #, kde-format
@@ -4730,13 +4730,13 @@ msgstr "Orthoscopique (typique)"
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Ploessl (Typical)"
-msgstr "Ploessl (Typique)"
+msgstr "Ploessl (typique)"
 
 #: dialogs/fovdialog.cpp:242
 #, kde-format
 msgctxt "Eyepiece Design / Brand / Name; Optional"
 msgid "Erfle (Typical)"
-msgstr "Erfle (Typique)"
+msgstr "Erfle (typique)"
 
 #: dialogs/fovdialog.cpp:243
 #, kde-format
@@ -6191,8 +6191,8 @@ msgstr ""
 "de KStars de prendre des images réalistes. Cela est utile pour tester les "
 "séquences, la résolution astrométrique des clichés et l'apprentissage de "
 "l'utilisation de KStars. Cliquez juste sur le bouton pour l'installer ou "
-"décompresser le fichier zip et installer le dossier « gsc » dans le dossier "
-"de données."
+"décompresser le fichier zip et installer le dossier gsc dans le dossier de "
+"données."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -6495,7 +6495,7 @@ msgstr ""
 #: ekos/align/align.ui:425
 #, kde-format
 msgid "Pix:"
-msgstr "Pixel :"
+msgstr "Éch."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
 #: ekos/align/align.ui:439
@@ -7432,10 +7432,7 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "La cible se trouve à %1 degrés des coordonnées de la solution."
 
 #: ekos/align/align_solver.cpp:917
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. Automatically reversing rotator "
-#| "direction and retrying..."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically compensating rotator "
 "direction and retrying..."
@@ -8491,28 +8488,22 @@ msgstr "Conserver l'angle de position"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Lorsqu'il est activé, si l'erreur d'alignement polaire "
-"sur un axe <b>augmente</b> après la première correction PAC, le système "
-"inversera automatiquement la direction de correction pour cet axe lors de la "
-"prochaine tentative.</p></body></html>"
+"<html><head/><body><p>À activer si le rotateur tourne physiquement dans la "
+"direction opposée à celle attendue. Détecté et réglé automatiquement la "
+"première fois que le contrôle de mauvaise direction le confirme ; peut aussi "
+"être réglé manuellement.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "Reverse rotator direction"
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "Inverser la direction du rotateur"
+msgstr "Direction du rotateur inversée"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -11461,8 +11452,8 @@ msgstr "Entrée"
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afficher le fichier « .analyze » précédent.</p></"
-"body></html>"
+"<html><head/><body><p>Afficher le fichier .analyze précédent.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
@@ -14533,8 +14524,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
-"Variable pour enregistrer « fwhm » en pixels, utilisé pour générer le filtre "
-"de convolution pour la détection d'étoiles."
+"Variable pour stocker fwhm en pixels, utilisé pour générer le filtre de "
+"convolution pour la détection d'étoiles."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -14543,8 +14534,8 @@ msgid ""
 "This is the 'zero' magnitude used for setting the magnitude scale for the "
 "stars in the image during sextraction."
 msgstr ""
-"Il s'agit de la magnitude « zéro » utilisée pour définir l'échelle de "
-"magnitude des étoiles dans l'image pendant le traitement « sextraction ». »"
+"Il s'agit de la magnitude zéro utilisée pour définir l'échelle de magnitude "
+"des étoiles dans l'image pendant le traitement sextraction."
 
 #. i18n: ectx: property (text), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:379
@@ -14583,7 +14574,7 @@ msgstr "Cont. Min."
 msgid ""
 "This sets the Kron Factor for use with the kron radius for flux calculations."
 msgstr ""
-"Ceci définit le facteur Kron à utiliser avec le rayon de Kron pour les "
+"Ceci définit le facteur Kron à utiliser avec le rayon de kron pour les "
 "calculs de flux."
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
@@ -15297,8 +15288,8 @@ msgid ""
 "shall be accepted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Accepte des valeurs ADU qui sont dans la plage autour "
-"de la valeur ADU désirée. Par exemple, si la valeur ADU est définie à 10 000 "
-"et la tolérance à 100, alors les valeurs ADU de 9900 et de 10100 seront "
+"de la valeur ADU désirée. Par exemple, si la valeur ADU est définie à 10 000 "
+"et la tolérance à 100, alors les valeurs ADU de 9900 and 10100 seront "
 "acceptées.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -22246,14 +22237,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:691
 #, kde-format
 msgid "Check to denoise the image before further processing."
-msgstr ""
-"Cochez pour réduire le bruit dans l'image avant de poursuivre le traitement"
+msgstr "Cochez pour débruiter l'image avant de poursuivre le traitement"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
 #, kde-format
 msgid "Denoise"
-msgstr "Réduire le bruit"
+msgstr "Débruiter"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -23270,11 +23260,9 @@ msgid "Starting AI training via EkosLive cloud..."
 msgstr "Démarrage de l'entraînement IA via le cloud EkosLive…"
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "Enregistrer une session"
+msgstr "Démarrer une nouvelle session"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -23282,6 +23270,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"Revenez à la première page et exécutez à nouveau le protocole. Les poids "
+"existants restent actifs jusqu'à la fin d'un nouvel entraînement."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
@@ -23292,6 +23282,12 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"Le réglage automatique PID est activé, donc cette analyse mesurera la "
+"réponse de votre monture et déterminera et verrouillera automatiquement "
+"l'agressivité RA/DEC pour vous ; il n'est pas nécessaire de le régler au "
+"préalable. Le modèle d'IA est toujours entraîné et verrouillé sur les "
+"paramètres actuels d'exposition et d'impulsion de votre guide, utilisez donc "
+"les valeurs avec lesquelles vous guidez normalement pour celles-ci."
 
 #: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
@@ -23299,21 +23295,24 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"Le modèle d'IA est entraîné et verrouillé sur les paramètres actuels "
+"d'exposition, d'agressivité et de pouls de votre guide ; utilisez les "
+"valeurs avec lesquelles vous guidez habituellement."
 
 #: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
+"Type de montage détecté : %1. Modifiez la sélection ci-dessus si elle est "
+"incorrecte."
 
 #: ekos/guide/aiguidewizard.cpp:327
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
 msgstr ""
-"Échec de la sélection automatique d'une étoile. Veuillez en choisir une "
-"manuellement."
+"Impossible de détecter automatiquement le type de monture. Veuillez le "
+"sélectionner manuellement ci-dessus."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
@@ -23373,20 +23372,7 @@ msgstr "Entraînement direct"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Recommended "
-#| "Settings (set BEFORE running):</span></p><ul><li><span style=\" font-"
-#| "weight:600;\">Worm Gear:</span> exposure 2.0s (Default)</li><li><span "
-#| "style=\" font-weight:600;\">Harmonic Drive:</span> exposure 0.5 to 1.0s "
-#| "(depends on guide star SNR)</li><li><span style=\" font-weight:600;"
-#| "\">Direct Drive:</span> exposure 1.0s to 3.0s</li></ul><p><span style=\" "
-#| "color:#ff5500;\">The AI model is trained and locked to your current guide "
-#| "exposure, aggressiveness and pulse settings — use the values you normally "
-#| "guide with.</span></p><p>Define an <span style=\" font-weight:600;"
-#| "\">Artificial Horizon</span> (Settings → Artificial Horizon) before "
-#| "running — the protocol slews by Alt/Az and uses it to pick safe targets.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Recommended Settings "
 "(set BEFORE running):</span></p><ul><li><span style=\" font-weight:600;"
@@ -23399,18 +23385,15 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Réglages recommandés "
-"(à définir AVANT de lancer) :</span></p><ul><li><span style=\" font-"
-"weight:600;\">Entraînement à vis sans fin :</span> exposition 2,0 s (par "
-"défaut)</li><li><span style=\" font-weight:600;\">Entraînement harmonique :</"
+"(à définir AVANT de lancer) :</span></p><ul><li><span style=\" font-"
+"weight:600;\">Entraînement à vis sans fin :</span> exposition 2,0 s (par "
+"défaut)</li><li><span style=\" font-weight:600;\">Entraînement harmonique :</"
 "span> exposition 0,5 à 1,0 s (dépend du SNR de l'étoile de guidage)</"
-"li><li><span style=\" font-weight:600;\">Entraînement direct :</span> "
-"exposition 1,0 à 3,0 s</li></ul><p><span style=\" color:#ff5500;\">Le modèle "
-"d'IA est entraîné et verrouillé sur votre exposition de guidage, votre "
-"agressivité et vos réglages d'impulsion actuels — utilisez les valeurs avec "
-"lesquelles vous guidez habituellement.</span></p><p>Définissez un <span "
-"style=\" font-weight:600;\">horizon artificiel</span> (Configuration → "
-"Horizon artificiel) avant de lancer — le protocole pointe en Alt/Az et "
-"l'utilise pour choisir des cibles sûres.</p></body></html>"
+"li><li><span style=\" font-weight:600;\">Entraînement direct :</span> "
+"exposition 1,0 à 3,0 s</li></ul><p>Définissez un <span style=\" font-"
+"weight:600;\">horizon artificiel</span> (Configuration → Horizon artificiel) "
+"avant de lancer — le protocole pointe en Alt/Az et l'utilise pour choisir "
+"des cibles sûres.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
@@ -23446,13 +23429,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23461,19 +23438,15 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement à vis sans fin (~45 min) :</span><br/>1. Pointage vers une "
-"altitude haute : dérive libre, puis guidage standard.<br/>2. Pointage vers "
-"une altitude basse : dérive libre, puis guidage standard.<br/>3. Pointage "
-"vers une altitude haute : guidage standard.</p></body></html>"
+"Entraînement à vis sans fin (~65 min) :</span><br/>1. Pointage vers une "
+"altitude haute : guidage standard, dérive libre, puis réglage automatique "
+"PID (étape-réponse).<br/>2. Pointage vers une altitude basse : guidage "
+"standard, puis dérive libre.<br/>3. Pointage vers une altitude haute : "
+"guidage standard, puis dérive libre.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-#| "Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, "
-#| "pulse response test, then standard guiding.<br/>2. Slew to Lower "
-#| "Altitude: Free drift, then standard guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23481,20 +23454,14 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement harmonique (~35 min) :</span><br/>1. Pointage vers une altitude "
-"haute : dérive libre, test de réponse impulsionnelle, puis guidage standard."
-"<br/>2. Pointage vers une altitude basse : dérive libre, puis guidage "
-"standard.</p></body></html>"
+"Entraînement harmonique (~60 min) :</span><br/>1. Pointage vers une altitude "
+"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
+"réponse).<br/>2. Pointage vers une altitude basse : dérive libre, puis "
+"guidage standard.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear "
-#| "Protocol (~45 mins):</span><br/>1. Slew to High Altitude : Free drift, "
-#| "then standard guiding.<br/>2. Slew to Lower Altitude : Free drift, then "
-#| "standard guiding.<br/>3. Slew to High Altitude : Standard guiding.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23503,10 +23470,11 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement à vis sans fin (~45 min) :</span><br/>1. Pointage vers une "
-"altitude haute : dérive libre, puis guidage standard.<br/>2. Pointage vers "
-"une altitude basse : dérive libre, puis guidage standard.<br/>3. Pointage "
-"vers une altitude haute : guidage standard.</p></body></html>"
+"Entraînement direct (~30 min) :</span><br/>1. Pointage vers une altitude "
+"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
+"réponse).<br/>2. Pointage vers une altitude moyenne : guidage standard, puis "
+"dérive libre.<br/>3. Pointage vers une altitude basse : guidage standard, "
+"puis dérive libre.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
@@ -24331,6 +24299,12 @@ msgid ""
 "software binning if the camera supports it — otherwise the correction will "
 "not match.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Soustraire le cadre sombre. Créez des images sombres "
+"ou des cartes de défauts dans l'outil Bibliothèque sombre du module de "
+"capture.</p><p>L'obscurité doit être créée dans le même mode de regroupement "
+"que celui utilisé lors du guidage (y compris le regroupement matériel et "
+"logiciel si la caméra le prend en charge), sinon la correction ne "
+"correspondra pas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -25071,30 +25045,20 @@ msgstr ""
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
+"Guide IA : application des paramètres enregistrés du modèle entraîné (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
 msgid "The weights file could not be read."
-msgstr ""
+msgstr "Le fichier de poids n'a pas pu être lu."
 
 #: ekos/guide/internalguide/gmath.cpp:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or fingerprint mismatched. Guiding "
-#| "aborted."
+#, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
-msgstr ""
-"Échec du chargement des poids du Guide IA ou empreinte non correspondante. "
-"Guidage interrompu."
+msgstr "Échec du chargement des poids du Guide IA. Guidage interrompu."
 
 #: ekos/guide/internalguide/gmath.cpp:308
-#, fuzzy, kde-format
-#| msgid ""
-#| "AI Guider failed to load weights or Fingerprint mismatched!\n"
-#| "\n"
-#| "Re-run the Guide AI Assistant to generate new weights for your current "
-#| "settings, or switch the Guide Algorithm back to a standard mode. Guiding "
-#| "has been aborted."
+#, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
 "\n"
@@ -25103,11 +25067,13 @@ msgid ""
 "Re-run the Guide AI Assistant, load a different weights file, or switch the "
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
-"Échec du chargement des poids du Guide IA ou empreinte non correspondante !\n"
+"Échec du chargement des poids du Guide IA !\n"
 "\n"
-"Relancez l'Assistant de guidage IA pour générer de nouveaux poids pour vos "
-"réglages actuels, ou repassez l'algorithme de guidage sur un mode standard. "
-"Le guidage a été interrompu."
+"%1\n"
+"\n"
+"Relancez l'Assistant de guidage IA, chargez un autre fichier de poids, ou "
+"repassez l'algorithme de guidage sur un mode standard. Le guidage a été "
+"interrompu."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
@@ -25148,18 +25114,22 @@ msgstr "Guide IA : aucun poids"
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "Échec du rechargement du poids du Guide IA : %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
+"Le fichier de poids n'a pas pu être lu ou ne correspond pas à ce type de "
+"montage."
 
 #: ekos/guide/internalguide/gmath.cpp:396
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Les poids du Guide IA sont rechargés en direct à partir de %1 — le guidage "
+"continue sans interruption."
 
 #: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
@@ -25404,7 +25374,7 @@ msgstr ""
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
-msgstr ""
+msgstr "Réglage automatique PID (étalonnage du gain étape-réponse)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25416,6 +25386,12 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Envoie des impulsions connues au début du protocole et mesure la réponse "
+"échelonnée de la monture pour dériver un gain de guidage RA/DEC de base pour "
+"tout type de monture. Le gain mesuré est appliqué et verrouillé pour le "
+"reste de la session ; le gain actuel est conservé si les réponses ne passent "
+"pas les contrôles de cohérence. Ajoute environ 20 minutes au protocole ; "
+"activé par défaut."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
@@ -29851,7 +29827,7 @@ msgid ""
 "in micrometers.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Largeur d'un photosite unique de la "
-"caméra en micromètres.</p></body></html>"
+"caméra, en micromètres.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelWSizeSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelHSizeSpin)
@@ -33307,7 +33283,7 @@ msgstr "Périphérique : %1"
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:236
 #, kde-format
 msgid "Browse..."
-msgstr "Parcourir…"
+msgstr "Prcourir…"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:241
 #, kde-format
@@ -37107,9 +37083,9 @@ msgid ""
 "unless you have something else using this port in which case pick 8081, etc."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Port à utiliser pour la diffusion Internet. "
-"Habituellement, 8080 conviendra, sauf si vous avez quelque chose d'autre "
-"utilisant ce port, auquel cas choisissez 8081, etc.</p></body></html>"
+"<html><head/><body><p>Port à utiliser pour le webdiffusion. Habituellement, "
+"8080 conviendra, sauf si vous avez quelque chose d'autre utilisant ce port, "
+"auquel cas choisissez 8081, etc.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, logoLLabel)
 #: fitsviewer/livestackwebcast.ui:109
@@ -37173,7 +37149,7 @@ msgstr "Abonnés"
 #: fitsviewer/livestackwebcast.ui:222
 #, kde-format
 msgid "Logo (Right) for the webcast event."
-msgstr "Logo (à droite) pour l'évènement diffusé par Internet."
+msgstr "Logo (à droite) pour l'évènement webdiffusé."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, titleLabel)
 #: fitsviewer/livestackwebcast.ui:235
@@ -37201,7 +37177,7 @@ msgstr ""
 #: fitsviewer/livestackwebcast.ui:273
 #, kde-format
 msgid "Logo (Left) for the webcast event."
-msgstr "Logo (à gauche) pour l'évènement diffusé par Internet."
+msgstr "Logo (à gauche) pour l'évènement webdiffusé."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, titleEntry)
 #: fitsviewer/livestackwebcast.ui:280
@@ -42439,7 +42415,7 @@ msgstr ""
 msgid "Should the imaging Planner tool process supernova remnants."
 msgstr ""
 "Est-ce que l'outil de planification d'acquisition des images doit traiter "
-"les rémanents de supernova ?"
+"les rémanents de supernovae ?"
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxy), group (ImagingPlanner)
 #: kstars.kcfg:970
@@ -46417,6 +46393,10 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
+"Le rotateur tourne physiquement dans la direction opposée à la direction "
+"supposée par les calculs d'angle de position de KStars. Appris "
+"automatiquement la première fois que le contrôle automatique de mauvaise "
+"direction le confirme, ou peut être réglé manuellement."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -46602,7 +46582,7 @@ msgstr "Emplacement du fichier de résolution astrometry.net"
 #: kstars.kcfg:3008
 #, kde-format
 msgid "astrometry.net wcsinfo binary"
-msgstr "Exécutable wcsinfo provenant de « astrometry.net »"
+msgstr "Exécutable wcsinfo d'astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:3009
@@ -46849,6 +46829,8 @@ msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
+"Exécutez le réglage automatique PID (étalonnage du gain étape-réponse) dans "
+"le cadre du protocole de collecte de données de l'IA."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46861,6 +46843,13 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Envoie des impulsions connues au début du protocole et mesure la réponse "
+"échelonnée de la monture pour dériver un gain de guidage RA/DEC de base pour "
+"tout type de monture. Le gain mesuré est appliqué et verrouillé pour le "
+"reste de la session, de sorte que les données suivantes sont collectées avec "
+"ce gain ; le gain actuel reste inchangé si les réponses ne réussissent pas "
+"les contrôles de cohérence. Ajoute environ 20 minutes au protocole. Activé "
+"par défaut."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131
@@ -53012,7 +53001,7 @@ msgstr "Arnavutköy"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "Arnold's Cove"
-msgstr "Baie de Arnold"
+msgstr "Arnold's Cove"
 
 #: kstars_i18n.cpp:899
 #, kde-kuit-format
@@ -53822,7 +53811,7 @@ msgstr "Barrow"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Barry's Bay"
-msgstr "Baie de Barry"
+msgstr "Barry's Bay"
 
 #: kstars_i18n.cpp:1034
 #, kde-kuit-format
@@ -54398,7 +54387,7 @@ msgstr "Biddeford"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Big Bear Solar Obs."
-msgstr "Big Bear (Observatoire solaire de)"
+msgstr "Big Bear (Obs. solaire de)"
 
 #: kstars_i18n.cpp:1130
 #, kde-kuit-format
@@ -55964,7 +55953,7 @@ msgstr "Cerro Cala"
 #, kde-kuit-format
 msgctxt "City in Chile"
 msgid "Cerro Tololo Int'l Obs."
-msgstr "Cerro Tololo (Observatoire International de)"
+msgstr "Cerro Tololo (Obs. int. de)"
 
 #: kstars_i18n.cpp:1391
 #, kde-kuit-format
@@ -56468,7 +56457,7 @@ msgstr "Clark"
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "Clark's Harbour"
-msgstr "Port de Clark"
+msgstr "Clark's Harbour"
 
 #: kstars_i18n.cpp:1475
 #, kde-kuit-format
@@ -56996,7 +56985,7 @@ msgstr "Crestwood"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Creve Coeur"
-msgstr "Crève Cœur"
+msgstr "Creve Coeur"
 
 #: kstars_i18n.cpp:1563
 #, kde-kuit-format
@@ -58082,7 +58071,7 @@ msgstr "Dwingeloo (Observatoire de)"
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Dyer Observatory"
-msgstr "Dyer (Observatoire)"
+msgstr "Dyer (Obs.)"
 
 #: kstars_i18n.cpp:1744
 #, kde-kuit-format
@@ -61166,7 +61155,7 @@ msgstr "Hastings"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Hat Creek Radio Obs."
-msgstr "Hat Creek (Observatoire radio de)"
+msgstr "Hat Creek (Obs. radio de)"
 
 #: kstars_i18n.cpp:2258
 #, kde-kuit-format
@@ -65792,13 +65781,13 @@ msgstr "McCook"
 #, kde-kuit-format
 msgctxt "City in Virginia USA"
 msgid "McCormick Obs."
-msgstr "McCormick (Observatoire)"
+msgstr "McCormick (Obs.)"
 
 #: kstars_i18n.cpp:3029
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "McDonald Obs."
-msgstr "McDonald (Observatoire)"
+msgstr "McDonald (Obs.)"
 
 #: kstars_i18n.cpp:3030
 #, kde-kuit-format
@@ -67124,7 +67113,7 @@ msgstr "Mount Forest"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Graham Obs."
-msgstr "Mont Graham (Observatoire du)"
+msgstr "Mont Graham (Obs. du)"
 
 #: kstars_i18n.cpp:3251
 #, kde-kuit-format
@@ -67136,7 +67125,7 @@ msgstr "Mount John"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Lemmon Obs."
-msgstr "Mont Lemmon (Observatoire du)"
+msgstr "Mont Lemmon (Obs. du)"
 
 #: kstars_i18n.cpp:3253
 #, kde-kuit-format
@@ -67148,7 +67137,7 @@ msgstr "Mont Mario"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Palomar Obs."
-msgstr "Mont Palomar (Observatoire du)"
+msgstr "Mont Palomar (Obs. du)"
 
 #: kstars_i18n.cpp:3255
 #, kde-kuit-format
@@ -67172,7 +67161,7 @@ msgstr "Mount Vernon"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Wilson Obs."
-msgstr "Mont Wilson (Observatoire du)"
+msgstr "Mont Wilson (Obs. du)"
 
 #: kstars_i18n.cpp:3259
 #, kde-kuit-format
@@ -68102,7 +68091,7 @@ msgstr "North Las Vegas"
 #, kde-kuit-format
 msgctxt "City in Iowa USA"
 msgid "North Liberty Obs."
-msgstr "North Liberty (Observatoire)"
+msgstr "North Liberty (Obs.)"
 
 #: kstars_i18n.cpp:3414
 #, kde-kuit-format
@@ -68282,7 +68271,7 @@ msgstr "Oak Ridge"
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "Oak Ridge Obs."
-msgstr "Oak Ridge (Observatoire)"
+msgstr "Oak Ridge (Obs.)"
 
 #: kstars_i18n.cpp:3444
 #, kde-kuit-format
@@ -68330,7 +68319,7 @@ msgstr "Oberpfaffenhofen"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Obs. Astronomico de Madrid"
-msgstr "Madrid (Observatoire astronomique de)"
+msgstr "Madrid (Obs. astronomique de)"
 
 #: kstars_i18n.cpp:3452
 #, kde-kuit-format
@@ -68798,7 +68787,7 @@ msgstr "Owen Sound"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Owens Valley Radio Obs."
-msgstr "Owens Valley (Observatoire radio de)"
+msgstr "Owens Valley (Obs. radio de)"
 
 #: kstars_i18n.cpp:3530
 #, kde-kuit-format
@@ -69320,7 +69309,7 @@ msgstr "Peoria"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Perkins Obs."
-msgstr "Perkins (Observatoire)"
+msgstr "Perkins (Obs.)"
 
 #: kstars_i18n.cpp:3617
 #, kde-kuit-format
@@ -69350,7 +69339,7 @@ msgstr "Perth Amboy"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Peru"
-msgstr "Pérou"
+msgstr "Peru"
 
 #: kstars_i18n.cpp:3622
 #, kde-kuit-format
@@ -69476,7 +69465,7 @@ msgstr "Plaisance"
 #, kde-kuit-format
 msgctxt "City in Hautes-Pyrénées France"
 msgid "Pic du Midi (observatory)"
-msgstr "Pic du Midi (Observatoire du)"
+msgstr "Pic du Midi (Obs. du)"
 
 #: kstars_i18n.cpp:3643
 #, kde-kuit-format
@@ -72458,7 +72447,7 @@ msgstr "Skopje"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Sky's The Limit Obs."
-msgstr "Sky's The Limit Observatoire"
+msgstr "Sky's The Limit Obs."
 
 #: kstars_i18n.cpp:4140
 #, kde-kuit-format
@@ -72824,7 +72813,7 @@ msgstr "Squamish"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. Alban's"
-msgstr "Saint Alban"
+msgstr "Saint Alban's"
 
 #: kstars_i18n.cpp:4201
 #, kde-kuit-format
@@ -72884,13 +72873,13 @@ msgstr "St. George"
 #, kde-kuit-format
 msgctxt "City in Antigua and Barbuda"
 msgid "St. John's"
-msgstr "Saint John"
+msgstr "Saint John's"
 
 #: kstars_i18n.cpp:4211
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. John's"
-msgstr "Saint John"
+msgstr "Saint John's"
 
 #: kstars_i18n.cpp:4212
 #, kde-kuit-format
@@ -72950,7 +72939,7 @@ msgstr "St. Peter-Port"
 #, kde-kuit-format
 msgctxt "City in Nova Scotia Canada"
 msgid "St. Peter's"
-msgstr "St. Peter"
+msgstr "St. Peter's"
 
 #: kstars_i18n.cpp:4222
 #, kde-kuit-format
@@ -74438,7 +74427,7 @@ msgstr "Türkoğlu"
 #, kde-kuit-format
 msgctxt "City in Washington, DC USA"
 msgid "US Naval Observatory"
-msgstr "US Naval (Observatoire)"
+msgstr "US Naval (Obs.)"
 
 #: kstars_i18n.cpp:4470
 #, kde-kuit-format
@@ -75716,7 +75705,7 @@ msgstr "Wiesbaden"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Wilcox Solar Obs."
-msgstr "Wilcox (Observatoire solaire de)"
+msgstr "Wilcox (Obs. solaire de)"
 
 #: kstars_i18n.cpp:4683
 #, kde-kuit-format
@@ -76280,7 +76269,7 @@ msgstr "Yeosu"
 #, kde-kuit-format
 msgctxt "City in Wisconsin USA"
 msgid "Yerkes Obs."
-msgstr "Yerkes (Observatoire)"
+msgstr "Yerkes (Obs.)"
 
 #: kstars_i18n.cpp:4777
 #, kde-kuit-format
@@ -84961,7 +84950,7 @@ msgstr "Périphérique"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Diff. Eq."
-msgstr "Équation diff."
+msgstr "Éq diff."
 
 #: libindi_strings.cpp:108
 #, kde-kuit-format
@@ -85789,7 +85778,7 @@ msgstr "Teinte"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Humidity Perc."
-msgstr "Pourcentage d'humidité"
+msgstr "Pourc. d'humidité"
 
 #: libindi_strings.cpp:249
 #, kde-kuit-format
@@ -89627,8 +89616,8 @@ msgid ""
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Option remplacée par l'option <span style=\" font-"
-"weight:600;\">nombre maximum d'images de mise au point</span> dans les "
-"options de mise au point.</p></body></html>"
+"weight:600;\">nb max d'images de mise au point</span> dans les options de "
+"mise au point.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:78
@@ -95809,8 +95798,8 @@ msgstr "PN"
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cacher les rémanents de supernova si l'option est "
-"décochée.</p></body></html>"
+"<html><head/><body><p>Cacher les rémanents de supernovae si décoché.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1889

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-17 02:08+0000\n"
-"PO-Revision-Date: 2026-06-29 23:34+0200\n"
+"PO-Revision-Date: 2026-08-17 20:50+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7268,12 +7268,13 @@ msgstr ""
 "секунди..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "Задаване на позиционния ъгъл на камерата на %1 градуса..."
+msgstr ""
+"Задаване на позиционния ъгъл на камерата на %1 градуса (използване на "
+"кеширан PA от предишното решение)..."
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2017
 #, kde-format
@@ -7343,13 +7344,12 @@ msgid "Remote solver completed after %1 seconds."
 msgstr "Отдалеченото решаване завърши след %1 секунди."
 
 #: ekos/align/align_solver.cpp:789
-#, fuzzy, kde-format
-#| msgid ""
-#| "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+#, kde-format
 msgid ""
 "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
-"Решение RA (%1) DEC (%2) Ориентация (%3) Мащаб на пиксела (%4) Паритет (%5)"
+"Решаващ RA (%1) DEC (%2) Ориентация (%3) Пикселна скала (%4) Паритет (%5) PA "
+"(%6)"
 
 #: ekos/align/align_solver.cpp:831
 #, kde-format
@@ -7375,33 +7375,24 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Целта е в рамките на %1 градуса от координатите на решението."
 
 #: ekos/align/align_solver.cpp:917
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically compensating rotator "
 "direction and retrying..."
 msgstr ""
-"Ротаторът се движи в грешна посока. Грешката в позиционния ъгъл се увеличи "
-"от %1° на %2° след ротацията. Моля, обърнете посоката на ротатора и опитайте "
-"отново."
+"Ротаторът се движи в грешна посока. Автоматична компенсация на посоката на "
+"ротатора и повторен опит..."
 
 #: ekos/align/align_solver.cpp:940
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
 "Ротаторът се движи в грешна посока. Грешката в позиционния ъгъл се увеличи "
-"от %1° на %2° след ротацията. Моля, обърнете посоката на ротатора и опитайте "
-"отново."
+"от %1° на %2° след ротация. Автоматичното обръщане вече беше опитано. Моля, "
+"проверете конфигурацията на ротатора."
 
 #: ekos/align/align_solver.cpp:969
 #, kde-format
@@ -8434,28 +8425,21 @@ msgstr "Запазване на позиционния ъгъл"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When enabled, if the polar alignment error in an "
-#| "axis <b>increases</b> after the first PAC correction, the system will "
-#| "automatically reverse the correction direction for that axis on the next "
-#| "attempt.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable if the rotator physically turns opposite to the "
 "direction expected. Detected and set automatically the first time the wrong-"
 "direction check confirms it; can also be set manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Когато е включено, ако грешката в полярното "
-"подравняване по някоя от осите се <b>увеличи</b> след първата PAC корекция, "
-"системата автоматично ще обърне посоката на корекция за тази ос при "
-"следващия опит.</p></body></html>"
+"<html><head/><body><p>Активиране, ако ротаторът физически се върти в посока, "
+"обратна на очакваната. Открива се и задава автоматично при първата проверка "
+"за грешна посока; може да бъде зададено и ръчно.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
 #: ekos/align/opsalign.ui:376
-#, fuzzy, kde-format
-#| msgid "RA drifting reverse..."
+#, kde-format
 msgid "Rotator direction reversed"
-msgstr "Обратно RA изместване..."
+msgstr "Обърната посока на ротатора"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxAutoPAC)
 #: ekos/align/opsalign.ui:389
@@ -11809,7 +11793,7 @@ msgid ""
 "<html><head/><body><p>Plot the number of stars detected in the guide images."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fПоказване на броя на звездите, открити в гид "
+"<html><head/><body><p>Показване на броя на звездите, открити в гид "
 "изображенията.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, numStarsCB)
@@ -12174,7 +12158,7 @@ msgid ""
 "to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Средноквадратичната стойност (RMS) на комбинирания "
-"дрейф RA и DEC в дъгови секунди, осреднена на \fприблизително последните 40 "
+"дрейф RA и DEC в дъгови секунди, осреднена на приблизително последните 40 "
 "проби, но само по време на заснемането. Щракнете тук, за да видите "
 "стойностите на тази ос на лявата ос. Споделя оста с грешки РА/Декл, "
 "отклонение и RMS стойности. Щракнете два пъти, за да актуализирате оста.</"
@@ -12330,21 +12314,19 @@ msgid "Run"
 msgstr "Старт"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:248
-#, fuzzy, kde-format
-#| msgid "Build Filter Offsets"
+#, kde-format
 msgid "Run Build Filter Offsets utility"
-msgstr "Изграждане на отмествания на филтъра"
+msgstr "Стартиране на инструмента за изчисляване на отместванията на филтрите"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:249
 #, kde-format
 msgid "Interrupt processing when utility is running"
-msgstr ""
+msgstr "Прекъсване на обработката при изпълнение на инструмента"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:250
-#, fuzzy, kde-format
-#| msgid "New Offset"
+#, kde-format
 msgid "Save New Offsets"
-msgstr "Ново отместване"
+msgstr "Запазване на нови отмествания"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
@@ -12434,10 +12416,9 @@ msgstr ""
 "филтър."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:508
-#, fuzzy, kde-format
-#| msgid "Stop Build Filter Offsets"
+#, kde-format
 msgid "Starting Build Filter Offsets..."
-msgstr "Спиране на отместванията на филтъра за изграждане"
+msgstr "Стартиране на изчисляване на отместванията на филтрите..."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:522
 #: ekos/auxiliary/buildfilteroffsets.cpp:552
@@ -18105,19 +18086,18 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: ekos/capture/opsmiscsettings.ui:173 kstars.kcfg:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum number of seconds to wait before aborting the capture if "
-#| "operations like filter wheel changes or meridian flips take too long."
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long. Also bounds the "
 "time the scheduler spends establishing guiding (calibration and lock) before "
 "starting capture."
 msgstr ""
-"Максимален брой секунди за изчакване преди прекратяване на заснемането, ако "
-"операции като смяна на филтърното колело или обръщане на меридиан отнемат "
-"твърде дълго."
+"Максимален брой секунди изчакване преди прекъсване на заснемането, ако "
+"операции като смяна на филтъра или меридианен оборот отнемат твърде много "
+"време. Също така ограничава времето, което планировчикът отделя за "
+"установяване на водене (калибриране и заключване) преди началото на "
+"заснемането."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
@@ -18293,8 +18273,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.ui:289
 #, kde-format
 msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
-msgstr ""
-"<html><head/><body><p>\fЪгъл на отместване на камерата</p></body></html>"
+msgstr "<html><head/><body><p>Ъгъл на отместване на камерата</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
@@ -19097,27 +19076,21 @@ msgstr "Оптимизиране на центровете на плочките
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:125
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
 "Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Плъзнете плъзгача, за да регулирате мащаба на "
-"графиките на корекциите спрямо мащаба на графиките на дрейфа.</p></body></"
-"html>"
+"<html><head/><body><p>Проверка за инсталирана плоча за корекция на наклона. "
+"Показва панела за съвети при корекция на наклона с препоръчани настройки.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:128
-#, fuzzy, kde-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "North Platte"
+#, kde-format
 msgid "Tilt Plate"
-msgstr "Норт Плат"
+msgstr "Плоча за наклон"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:238
@@ -19158,10 +19131,9 @@ msgstr "Наклон отляво-надясно:"
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
 #: ekos/focus/tiltcorrectionwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Tilt Correction Advisory"
-msgstr "Време за изчакване за корекция:"
+msgstr "Съвет за корекция на наклона"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:336
@@ -22110,8 +22082,8 @@ msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fСигма стойността на размазването по Гаус. Използва "
-"се за замъгляване на изображението преди например разпознаване на ръбовепо "
+"<html><head/><body><p>Сигма стойността на размазването по Гаус. Използва се "
+"за замъгляване на изображението преди например разпознаване на ръбовепо "
 "Бахтинов.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
@@ -22640,53 +22612,47 @@ msgstr "Макс. общ брой на движенията:"
 #: ekos/focus/tiltcorrectionwidget.cpp:124
 #, kde-format
 msgid "Sensor (rear view)"
-msgstr ""
+msgstr "Сензор (заден изглед)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "Loading city data"
+#, kde-format
 msgid "No tilt data"
-msgstr "Зареждане на данни за градовете"
+msgstr "Липсват данни за наклона"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:140
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
-msgstr ""
+msgstr "↑ Горна част на камерата (страна с логото) ↑"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:141
 #, kde-format
 msgid "Camera top rotated %1°"
-msgstr ""
+msgstr "Горна част на камерата завъртяна с %1°"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:147
 #, kde-format
 msgid "View from behind camera"
-msgstr ""
+msgstr "Изглед отзад камерата"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:249
 #, kde-format
 msgid "%1%2 μm"
-msgstr ""
+msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:284
-#, fuzzy, kde-format
-#| msgid "Date:"
+#, kde-format
 msgid "Plate:"
-msgstr "Дата:"
+msgstr "Платформа:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "3-point"
-msgstr "Сандпойнт"
+msgstr "3-точково"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:287
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "4-point"
-msgstr "Сандпойнт"
+msgstr "4-точково"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:288
 #, kde-format
@@ -22696,6 +22662,10 @@ msgid ""
 "4-point: Plates with screws at the four corners (UL/UR/LL/LR) — typical for "
 "TouTek-style tilt rings."
 msgstr ""
+"Избор на тип плоча за наклон.\n"
+"3-точки: ETA, Octopi или всяка плоча с 3 винта (2 горе, 1 долу).\n"
+"4-точки: Плочи с винтове в четирите ъгъла (ГЛ/ГД/ДЛ/ДД) — типично за "
+"пръстени за наклон тип TouTek."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
@@ -22704,8 +22674,7 @@ msgid "Radius:"
 msgstr "Радиус:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr " мм"
@@ -22719,70 +22688,74 @@ msgid ""
 "  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 msgstr ""
+"Разстояние от центъра на плочата до точката за регулиране (радиус на "
+"болтовия кръг).\n"
+"Познати стойности:\n"
+"  Wanderer ETA M54: 64 mm\n"
+"  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
+"  TouTek M42 Tilter (Ø100mm): 46 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:309
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Thread:"
-msgstr "Праг:"
+msgstr "Нишка:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:311
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
-msgstr ""
+msgstr "M2.5 (0.45 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:312
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
-msgstr ""
+msgstr "M3 (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:313
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
-msgstr ""
+msgstr "M3 фина стъпка (0.35 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
-msgstr ""
+msgstr "M4 (0.70 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:315
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
-msgstr ""
+msgstr "M4 фини (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:316
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
-msgstr ""
+msgstr "M5 (0.80 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:317
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
-msgstr ""
+msgstr "M5 фини (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:318
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
-msgstr ""
+msgstr "M6 (1.00 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:319
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
-msgstr ""
+msgstr "Wanderer ETA (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Потребителски"
@@ -22793,24 +22766,28 @@ msgid ""
 "Common adjustment screw thread types.\n"
 "Select to auto-fill pitch, or choose Custom to enter manually."
 msgstr ""
+"Общи типове резба на регулиращите винтове.\n"
+"Избор за автоматично попълване на стъпката или „Персонализирано“ за ръчно "
+"въвеждане."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "Pixel Pitch:"
+#, kde-format
 msgid "Pitch:"
-msgstr "Разстояние между пикселите:"
+msgstr "Височина на тона:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:331
 #, kde-format
 msgctxt "millimeters per turn suffix"
 msgid " mm/turn"
-msgstr ""
+msgstr "мм/оборот"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:333
 #, kde-format
 msgid ""
 "Screw pitch (mm per full turn). Used to show turn count for manual plates."
 msgstr ""
+"Стъпка на винта (мм на пълен оборот). Използва се за показване на броя "
+"обороти при ръчни плочи."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:344
 #, kde-format
@@ -22819,6 +22796,11 @@ msgid ""
 "Positive values rotate the camera clockwise as seen from behind.\n"
 "Diagram is adjusted so screw positions match what you physically see."
 msgstr ""
+"Ротация на камерата в оптичната система (0° = логото на камерата е отгоре).\n"
+"Положителните стойности ротират камерата по часовниковата стрелка, гледано "
+"отзад.\n"
+"Диаграмата е настроена така, че позициите на винтовете да съвпадат с "
+"вижданото физически."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
@@ -22830,13 +22812,13 @@ msgstr "Режим:"
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Relative (± deltas)"
-msgstr ""
+msgstr "Относителни (± разлики)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:353
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Push-only (from zero)"
-msgstr ""
+msgstr "Само натискане (от нула)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:355
 #, kde-format
@@ -22851,32 +22833,43 @@ msgid ""
 "  Push-only plates physically can't go negative, so use this for first-time "
 "tuning."
 msgstr ""
+"Избор на начин на представяне на корекциите:\n"
+"Относителни: означени разлики (+ и -), които се прилагат върху текущата "
+"позиция.\n"
+"  Най-подходящи за итеративна настройка, когато се е в средния диапазон и "
+"винтовете могат да се движат и в двете посоки.\n"
+"Само избутване: всички стойности са изместени, за да бъдат положителни (най-"
+"малката = 0).\n"
+"  Най-подходящи при започване от напълно прибрано състояние (напр. ETA на 0, "
+"развъртани ръчни винтове).\n"
+"  Платовете за „само избутване“ физически не могат да бъдат в отрицателна "
+"позиция, затова използвайте този вариант за първоначална настройка."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:392
 #, kde-format
 msgid "Point 1: —"
-msgstr ""
+msgstr "Точка 1: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:393
 #, kde-format
 msgid "Point 2: —"
-msgstr ""
+msgstr "Точка 2: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:394
 #, kde-format
 msgid "Point 3: —"
-msgstr ""
+msgstr "Точка 3: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:395
 #, kde-format
 msgid "Point 4: —"
-msgstr ""
+msgstr "Точка 4: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:413
 #: ekos/focus/tiltcorrectionwidget.cpp:666
 #, kde-format
 msgid "Apply to ETA"
-msgstr ""
+msgstr "Прилагане към ETA"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:414
 #: ekos/focus/tiltcorrectionwidget.cpp:562
@@ -22887,84 +22880,86 @@ msgid ""
 "Reads current positions, adds the computed deltas, and moves all three "
 "points."
 msgstr ""
+"Изпращане на изчислените корекции към плочата за наклон Wanderer ETA M54 "
+"чрез INDI.\n"
+"Чете текущите позиции, добавя изчислените разлики и премества и трите точки."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:488
 #, kde-format
 msgid "Point 1: N/A"
-msgstr ""
+msgstr "Точка 1: Н/Д"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:489
 #, kde-format
 msgid "Point 2: N/A"
-msgstr ""
+msgstr "Точка 2: Н/Д"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:490
 #, kde-format
 msgid "Point 3: N/A"
-msgstr ""
+msgstr "Точка 3: Н/Д"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:491
 #, kde-format
 msgid "Point 4: N/A"
-msgstr ""
+msgstr "Точка 4: Н/Д"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:557
 #, kde-format
 msgid "Locked: Wanderer ETA M54 radius is 64 mm"
-msgstr ""
+msgstr "Заключено: Радиусът на Wanderer ETA M54 е 64 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:558
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
-msgstr ""
+msgstr "Заключено: Wanderer ETA M54 стъпка по наклон е 0.50 mm/оборот"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:559
 #, kde-format
 msgid "Locked: Wanderer ETA M54 detected"
-msgstr ""
+msgstr "Заключено: Откричен е Wanderer ETA M54"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:638
 #: ekos/focus/tiltcorrectionwidget.cpp:710
 #, kde-format
 msgid "%1: no change"
-msgstr ""
+msgstr "%1: без промяна"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:639
 #: ekos/focus/tiltcorrectionwidget.cpp:711
 #, kde-format
 msgid "%1: %2%3 mm (%4%5 turns)"
-msgstr ""
+msgstr "%1: %2%3 мм (%4%5 завъртания)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:647
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (upper-right)"
-msgstr ""
+msgstr "Точка 1 (горе-дясно)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:648
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (bottom)"
-msgstr ""
+msgstr "Точка 2 (долна)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:649
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (upper-left)"
-msgstr ""
+msgstr "Точка 3 (горе-вляво)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:653
 #: ekos/focus/tiltcorrectionwidget.cpp:730
 #, kde-format
 msgid "Push-only mode (from zero)"
-msgstr ""
+msgstr "Режим само за избутване (от нула)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:654
 #: ekos/focus/tiltcorrectionwidget.cpp:731
-#, fuzzy, kde-format
-#| msgid "Relative offset in steps"
+#, kde-format
 msgid "Relative mode (± deltas)"
-msgstr "Относително изместване в стъпки"
+msgstr "Относителен режим (± разлики)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:655
 #, kde-format
@@ -22973,30 +22968,33 @@ msgid ""
 "Max adjustment: %2 mm\n"
 "%3"
 msgstr ""
+"Общ наклон: %1 μm\n"
+"Макс. корекция: %2 mm\n"
+"%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:719
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (top-left)"
-msgstr ""
+msgstr "Винт 1 (горе-вляво)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:720
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (top-right)"
-msgstr ""
+msgstr "Винт 2 (горе вдясно)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:721
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (bottom-left)"
-msgstr ""
+msgstr "Винт 3 (долу вляво)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:722
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (bottom-right)"
-msgstr ""
+msgstr "Винт 4 (долу вдясно)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:732
 #, kde-format
@@ -23006,27 +23004,31 @@ msgid ""
 "Max adjustment: %4 mm\n"
 "%5"
 msgstr ""
+"Общ наклон: %1 μm\n"
+"ЛР: %2 μm | ГР: %3 μm\n"
+"Макс. корекция: %4 mm\n"
+"%5"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:817
 #, kde-format
 msgid "⚠ Wanderer ETA M54 not connected"
-msgstr ""
+msgstr "⚠ Wanderer ETA M54 не е свързан"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Where is your equipment connected?"
+#, kde-format
 msgid "Wanderer ETA not connected"
-msgstr "Къде е свързано вашето оборудване?"
+msgstr "Wanderer ETA не е свързан"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:827
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
 msgstr ""
+"⚠ Не може да се прочетат позициите ETA (POSITION_READBACK е недостъпно)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:837
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
-msgstr ""
+msgstr "⚠ Полета за четене на позицията на ETA не са намерени"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:871
 #, kde-format
@@ -23034,13 +23036,14 @@ msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
 "Cannot apply even partially. Zero the plate first."
 msgstr ""
+"⚠ Обхватът на корекцията (%1 мм) надвишава движението на плочата ETA (%2 "
+"мм).\n"
+"Не може да бъде приложена дори частично. Първо нулирайте плочата."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:884
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Correction"
+#, kde-format
 msgid "Partial Correction"
-msgstr "%1 - Неуспешна корекция"
+msgstr "Частична корекция"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:885
 #, kde-format
@@ -23051,33 +23054,40 @@ msgid ""
 "\n"
 "Run autofocus again afterward to apply the remainder."
 msgstr ""
+"Пълната корекция надвишава движението на пластината. Прилагане на най-"
+"подходяща частична корекция?\n"
+"\n"
+"P1: %1 мм, P2: %2 мм, P3: %3 мм\n"
+"\n"
+"Повторно стартиране на автоматичния фокус след това за прилагане на остатъка."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgid "⚠ ETA target properties not available"
-msgstr "Налични свойства: %1"
+msgstr "⚠ Недоступни свойства на целта за ETA"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:922
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
-msgstr ""
+msgstr "⏳ Прилагане на корекции за ETA (Точка 1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:966
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
-msgstr ""
+msgstr "⚠ Грешка при преместване на точка ETA %1. Спряно."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:979
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
-msgstr ""
+msgstr "⏳ Прилагане на корекции към ETA (Точка %1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:985
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
 msgstr ""
+"✓ Приложено към ETA: P1→%1 P2→%2 P3→%3 mm. Повторно стартиране на автофокуса "
+"за ново измерване."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:991
 #, kde-format
@@ -23085,28 +23095,28 @@ msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
 msgstr ""
+"Корекциите вече са приложени. Повторно стартиране на автоматичното "
+"фокусиране за нови измервания на наклона."
 
 #: ekos/guide/aiguideprotocol.cpp:447
 #, kde-format
 msgid "No data to train! Please run the protocol first."
-msgstr ""
+msgstr "Няма данни за обучение! Моля, първо стартирайте протокола."
 
 #: ekos/guide/aiguideprotocol.cpp:448
 #, kde-format
 msgid "No data to train"
-msgstr ""
+msgstr "Няма данни за обучение"
 
 #: ekos/guide/aiguideprotocol.cpp:453
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
-msgstr ""
+msgstr "Стартиране на AI обучение чрез облака на EkosLive..."
 
 #: ekos/guide/aiguidewizard.cpp:255
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Session"
+#, kde-format
 msgid "Start New Session"
-msgstr "Запазване на сесията"
+msgstr "Стартиране на нова сесия"
 
 #: ekos/guide/aiguidewizard.cpp:257
 #, kde-format
@@ -23114,6 +23124,8 @@ msgid ""
 "Return to the first page and run the protocol again. Existing weights stay "
 "active until new training completes."
 msgstr ""
+"Връщане към първата страница и повторно изпълнение на протокола. "
+"Съществуващите тегла остават активни до завършване на новото обучение."
 
 #: ekos/guide/aiguidewizard.cpp:283
 #, kde-format
@@ -23124,6 +23136,12 @@ msgid ""
 "your current guide exposure and pulse settings, so use the values you "
 "normally guide with for those."
 msgstr ""
+"Автоматичното настройване на PID е активирано, така че това изпълнение ще "
+"измери реакцията на монтировката и автоматично ще определи и фиксира "
+"агресивността на RA/DEC; предварителната настройка не е необходима. AI "
+"моделът все още е обучен и фиксиран към текущите настройки за експозиция и "
+"импулс на водителя, така че използвайте стандартните стойности за тези "
+"параметри."
 
 #: ekos/guide/aiguidewizard.cpp:291
 #, kde-format
@@ -23131,32 +23149,35 @@ msgid ""
 "The AI model is trained and locked to your current guide exposure, "
 "aggressiveness, and pulse settings; use the values you normally guide with."
 msgstr ""
+"AI моделът е обучен и фиксиран според текущите настройки за експозиция, "
+"агресивност и импулси на гидирането; използвайте стойностите, с които "
+"обикновено гидирате."
 
 #: ekos/guide/aiguidewizard.cpp:324
 #, kde-format
 msgid ""
 "Detected mount type: %1. Change the selection above if this is incorrect."
 msgstr ""
+"Открит тип монтировка: %1. Промяна на избора по-горе, ако това е неправилно."
 
 #: ekos/guide/aiguidewizard.cpp:327
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Could not auto-detect the mount type. Please select it manually above."
-msgstr "Неуспешно автоматично избиране на звезда. Моля, изберете звезда ръчно."
+msgstr ""
+"Неуспешно автоматично разпознаване на типа монтировка. Моля, изберете го "
+"ръчно от горе."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
 #, kde-format
 msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr ""
+msgstr "AI помощник за насочване на Ekos (експериментален)"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
 #: ekos/guide/aiguidewizard.ui:21
-#, fuzzy, kde-format
-#| msgid "Mount direction"
+#, kde-format
 msgid "Mount Identification"
-msgstr "Посока на монтировката"
+msgstr "Идентификация на монтировката"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
 #: ekos/guide/aiguidewizard.ui:24
@@ -23165,46 +23186,42 @@ msgid ""
 "Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
 "below."
 msgstr ""
+"Добре дошли в Помощника за AI насочване на Ekos. Моля, проверете типа на "
+"монтировката по-долу."
 
 #. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
 #: ekos/guide/aiguidewizard.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
 "is an experimental feature. </span></p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Интернет ресурси:</"
-"span></p></body></html>"
+"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">Това "
+"е експериментална функция. </span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/aiguidewizard.ui:42
-#, fuzzy, kde-format
-#| msgid "Mount Type:"
+#, kde-format
 msgid "Detected Mount Type:"
-msgstr "Вид на монтировката:"
+msgstr "Открит тип монтировка:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/aiguidewizard.ui:50
 #, kde-format
 msgid "Worm Gear"
-msgstr ""
+msgstr "Червячен механизъм"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/aiguidewizard.ui:55
 #, kde-format
 msgid "Harmonic Drive"
-msgstr ""
+msgstr "Хармоничен задвижващ механизъм"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/aiguidewizard.ui:60
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Direct Drive"
-msgstr "Посока"
+msgstr "Директно задвижване"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/aiguidewizard.ui:77
@@ -23220,13 +23237,22 @@ msgid ""
 "— the protocol slews by Alt/Az and uses it to pick safe targets.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Препоръчителни "
+"настройки (задават се ПРЕДИ стартиране):</span></p><ul><li><span style=\" "
+"font-weight:600;\">Червячен механизъм:</span> експозиция 2.0s (по "
+"подразбиране)</li><li><span style=\" font-weight:600;\">Хармоничен задвижващ "
+"механизъм:</span> експозиция 0.5 до 1.0s (зависи от SNR на водещата звезда)</"
+"li><li><span style=\" font-weight:600;\">Директно задвижване:</span> "
+"експозиция 1.0s до 3.0s</li></ul><p>Дефиниране на <span style=\" font-"
+"weight:600;\">Изкуствен хоризонт</span> (Настройки → Изкуствен хоризонт) "
+"преди стартиране — протоколът извършва придвижване чрез Alt/Az и го използва "
+"за избор на безопасни цели.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
-#, fuzzy, kde-format
-#| msgid "Print preview"
+#, kde-format
 msgid "Protocol Preview"
-msgstr "Предварителен преглед"
+msgstr "Предварителен преглед на протокола"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:108
@@ -23235,6 +23261,8 @@ msgid ""
 "The assistant will perform the following steps to characterize the tracking "
 "errors."
 msgstr ""
+"Помощникът ще изпълни следните стъпки за определяне на грешките при "
+"проследяването."
 
 #. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
 #: ekos/guide/aiguidewizard.ui:114
@@ -23246,14 +23274,15 @@ msgid ""
 "for the duration of the wizard and restored when it completes.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">AI помощникът за There "
+"Guide изисква стандартен алгоритъм за проследяване и на двете оси по време "
+"на събирането на данни. Текущите настройки ще бъдат временно променени на "
+"„Стандартни“ за периода на работа на помощника и ще бъдат възстановени след "
+"завършването му.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/aiguidewizard.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
-#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
 "(~65 mins):</span><br/>1. Slew to High Altitude : Standard guiding, free "
@@ -23261,34 +23290,33 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to High Altitude : Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Опцията е заменена с опцията <span style=\" font-"
-"weight:600;\">максимален кадър на фокуса</span> в опциите за фокус.</p></"
-"body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Протокол за "
+"беззубчато пренапрежение (~65 мин):</span><br/>1. Преместване до висока "
+"надрелефна височина : Стандартно водине, свободен дрейф, след което PID "
+"автоматична настройка (стъпков отговор).<br/>2. Преместване до по-ниска "
+"надрелефна височина : Стандартно водине, след което свободен дрейф.<br/>3. "
+"Преместване до висока надрелефна височина : Стандартно водине, след което "
+"свободен дрейф.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
-#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
 "Protocol (~60 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
 "free drift, then PID auto-tune (step response).<br/>2. Slew to Lower "
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Опцията е заменена с опцията <span style=\" font-"
-"weight:600;\">максимален кадър на фокуса</span> в опциите за фокус.</p></"
-"body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Протокол за "
+"хармоничен задвижващ механизъм (~60 мин):</span><br/>1. Преместване до "
+"висока надморска височина: Стандартно проследяване, свободно дрейфуване, "
+"след това автоматично настройване на PID (стъпкова реакция).<br/>2. "
+"Преместване до по-ниска надморска височина: Свободно дрейфуване, след това "
+"стандартно проследяване.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/aiguidewizard.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
-#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~30 mins):</span><br/>1. Slew to High Altitude: Standard guiding, "
@@ -23296,16 +23324,19 @@ msgid ""
 "Standard guiding, then free drift.<br/>3. Slew to Low Altitude: Standard "
 "guiding, then free drift.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Опцията е заменена с опцията <span style=\" font-"
-"weight:600;\">максимален кадър на фокуса</span> в опциите за фокус.</p></"
-"body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Протокол за директно "
+"задвижване (~30 мин):</span><br/>1. Преместване до висока надморска "
+"височина: Стандартно проследяване, свободно дрейфуване, след което "
+"автоматично настройване на PID (стъпкова реакция).<br/>2. Преместване до "
+"средна надморска височина: Стандартно проследяване, след което свободно "
+"дрейфуване.<br/>3. Преместване до ниска надморска височина: Стандартно "
+"проследяване, след което свободно дрейфуване.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:208
-#, fuzzy, kde-format
-#| msgid "Shutter opening is in progress"
+#, kde-format
 msgid "System Identification Progress"
-msgstr "В ход е отваряне на капака"
+msgstr "Прогрес на системната идентификация"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
 #: ekos/guide/aiguidewizard.ui:211
@@ -23314,36 +23345,18 @@ msgid ""
 "Collecting mount telemetry. Please do not interrupt the process unless "
 "necessary."
 msgstr ""
+"Събиране на телеметрия от монтировката. Моля, не прекъсвайте процеса, освен "
+"ако не е необходимо."
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: ekos/guide/aiguidewizard.ui:217
-#, fuzzy, kde-format
-#| msgid "Read-only token:"
+#, kde-format
 msgid "Ready to begin..."
-msgstr "Токен за режим „Само за четене“:"
+msgstr "Готовност за започване..."
 
 #. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
 #: ekos/guide/aiguidewizard.ui:252
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-#| "size:13pt; font-weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Selection mode of the "
-#| "3D Graphic:</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- None.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Item selects the "
-#| "nearest datapoint.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
-#| "slice through the graphic.</p></body></html>"
+#, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -23361,26 +23374,17 @@ msgstr ""
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
 "\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-"size:13pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Режим на избор на 3D "
-"графиката:</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Без</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Елементът избира най -"
-"близкия datapoint.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Срез произвежда 2D срез "
-"през графиката.</p></body></html>"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Очакване за стартиране...</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
 #: ekos/guide/aiguidewizard.ui:260
-#, fuzzy, kde-format
-#| msgid "Detection complete."
+#, kde-format
 msgid "Data Collection Complete"
-msgstr "Завършване на откриването."
+msgstr "Събиране на данни завършено"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
 #: ekos/guide/aiguidewizard.ui:263
@@ -23388,12 +23392,14 @@ msgstr "Завършване на откриването."
 msgid ""
 "System identification data has been saved. Please choose a training method."
 msgstr ""
+"Данните за идентификация на системата са запазени. Моля, изберете метод за "
+"обучение."
 
 #. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
 #: ekos/guide/aiguidewizard.ui:276
 #, kde-format
 msgid "Export for offline training"
-msgstr ""
+msgstr "Експорт за офлайн обучение"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
 #: ekos/guide/aiguidewizard.ui:279
@@ -23402,13 +23408,14 @@ msgid ""
 "Saves the system identification data to a JSON file so you can train the AI "
 "model on your local computer using the provided Python scripts."
 msgstr ""
+"Записване на данните за идентификация на системата в JSON файл за обучение "
+"на AI модела на локален компютър чрез предоставените Python скриптове."
 
 #. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
 #: ekos/guide/aiguidewizard.ui:295
-#, fuzzy, kde-format
-#| msgid "Ekos Live"
+#, kde-format
 msgid "Train in EkosLive"
-msgstr "Режим на фокусиране"
+msgstr "Калибриране в EkosLive"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
 #: ekos/guide/aiguidewizard.ui:298
@@ -23417,18 +23424,20 @@ msgid ""
 "Uploads anonymized data to EkosLive Cloud to instantly train your model "
 "using community baselines. (Target coordinates are stripped)."
 msgstr ""
+"Качване на анонимизирани данни в облака на EkosLive за незабавно обучение на "
+"модела чрез бази данни от общността. (Целевите координати се премахват)."
 
 #. i18n: ectx: property (text), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:314
 #, kde-format
 msgid "Offline Training Guide"
-msgstr ""
+msgstr "Ръководство за офлайн обучение"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, offlineDocsButton)
 #: ekos/guide/aiguidewizard.ui:317
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
-msgstr ""
+msgstr "Отваряне на документацията на KStars за офлайн обучение на модела."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -23793,10 +23802,9 @@ msgstr "Гид по РА GPG"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/guide.cpp:95 ekos/guide/opsguide.ui:116
 #: ekos/guide/opsguide.ui:152
-#, fuzzy, kde-format
-#| msgid "Guider"
+#, kde-format
 msgid "AI Guider"
-msgstr "Гидер (Guider)"
+msgstr "AI гид"
 
 #: ekos/guide/guide.cpp:457
 #, kde-format
@@ -23858,20 +23866,21 @@ msgid "Exposure timeout. Aborting Calibration."
 msgstr "Изчакване на експозицията. Прекъсване на калибрирането."
 
 #: ekos/guide/guide.cpp:1258
-#, fuzzy, kde-format
-#| msgid "Failed to select an auto star."
+#, kde-format
 msgid "Failed to reconnect camera after driver restart."
-msgstr "Неуспешно избиране на автоматична звезда."
+msgstr ""
+"Грешка при повторно свързване с камерата след рестартиране на драйвера."
 
 #: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
+"Активен AI свободен дрейф. Потиснат многоимпульс (RA: %1ms, DEC: %2ms)."
 
 #: ekos/guide/guide.cpp:1615
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
-msgstr ""
+msgstr "Активен AI Free Drift. Потиснат единичен импулс (%1ms)."
 
 #: ekos/guide/guide.cpp:1669
 #, kde-format
@@ -23982,10 +23991,9 @@ msgid "Dithering completed successfully."
 msgstr "Дитърингът завърши успешно."
 
 #: ekos/guide/guide.cpp:2235
-#, fuzzy, kde-format
-#| msgid "%1x%1 guide binning is not supported."
+#, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
-msgstr "%1x%1 биниране на гидиране не се поддържа."
+msgstr "Бининг на гида %1x%1 не се поддържа. Максималният е %2x%2."
 
 #: ekos/guide/guide.cpp:2259
 #, kde-format
@@ -24059,57 +24067,53 @@ msgstr ""
 "преди гидирането"
 
 #: ekos/guide/guide.cpp:3602
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "AI Guiding Assistant..."
-msgstr "Търсене на звезди..."
+msgstr "AI помощник за гидиране..."
 
 #: ekos/guide/guide.cpp:3610
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Load Weights..."
-msgstr "Зареждане..."
+msgstr "Зареждане на тегла..."
 
 #: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "EkosLive AI training failed: %1"
-msgstr "Неуспешно решаване: %1s"
+msgstr "Грешка при AI обучението на EkosLive: %1"
 
 #: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
-#, fuzzy, kde-format
-#| msgid "Unknown error"
+#, kde-format
 msgid "unknown error"
-msgstr "Непозната грешка"
+msgstr "непозната грешка"
 
 #: ekos/guide/guide.cpp:3736
-#, fuzzy, kde-format
-#| msgid "Failed to save queue to %1"
+#, kde-format
 msgid "Failed to save AI weights to %1"
-msgstr "Неуспешно записване на опашката в %1"
+msgstr "Грешка при записване на теглата на AI в %1"
 
 #: ekos/guide/guide.cpp:3746
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
+"Обучението на ИИ приключи. Теглата са запазени в %1 и зададени като активни "
+"тегла на ИИ."
 
 #: ekos/guide/guide.cpp:3750
-#, fuzzy, kde-format
-#| msgid "Alignment List saved to %1"
+#, kde-format
 msgid "AI training complete. Weights saved to %1."
-msgstr "Списъкът с подравнявания е запазен в %1"
+msgstr "Обучението на ИИ е завършено. Теглата са запазени в %1."
 
 #: ekos/guide/guide.cpp:3756
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
-msgstr ""
+msgstr "Зареждане на тегла на AI Guider"
 
 #: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid "AI Weights (*.json)"
-msgstr ""
+msgstr "Тегла на AI (*.json)"
 
 #: ekos/guide/guide.cpp:3761
 #, kde-format
@@ -24117,6 +24121,8 @@ msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
+"Теглата на AI Guider са настроени на %1. Те ще бъдат приложени при "
+"следващото стартиране на проследяването."
 
 #: ekos/guide/guide.cpp:3942
 #, kde-format
@@ -24139,6 +24145,12 @@ msgid ""
 "software binning if the camera supports it — otherwise the correction will "
 "not match.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Изваждане на тъмен кадър. Създаване на тъмни кадри или "
+"карти на дефекти чрез инструмента „Библиотека с тъмни кадри“ в модула за "
+"заснемане.</p><p>Тъмният кадър трябва да бъде създаден в същия режим на "
+"бининг, използван при гайдинга — включително хардуерен срещу софтуерен "
+"бининг, ако камерата го поддържа — в противен случай корекцията няма да "
+"съвпада.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -24228,6 +24240,9 @@ msgid ""
 "<html><head/><body><p><b>AI Guiding (Experimental)</b></p><p>Open the AI "
 "Guiding Assistant, or load trained weights.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><b>AI проследяване (Експериментално)</b></"
+"p><p>Отваряне на помощника за AI проследяване или зареждане на обучени тегла."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:333
@@ -24579,7 +24594,7 @@ msgstr "<html><head/><body><p>Увеличете мащаба за оста X.</
 #: ekos/guide/guide.ui:1440
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>\fНамалете мащаба за оста X.</p></body></html>"
+msgstr "<html><head/><body><p>Намалете мащаба за оста X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1466
@@ -24753,14 +24768,12 @@ msgstr "Подготовка"
 #: ekos/guide/guidestatewidget.cpp:186
 #, kde-format
 msgid "Warm up"
-msgstr ""
+msgstr "Загряване"
 
 #: ekos/guide/guidestatewidget.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Activate"
+#, kde-format
 msgid "Active"
-msgstr "Включване"
+msgstr "Активен"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
@@ -24874,17 +24887,18 @@ msgstr "DEC посоката е обърната (RA-DEC вече е станд�
 #: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
-msgstr ""
+msgstr "AI Guider: прилагане на записаните настройки на обучената модель (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
 msgid "The weights file could not be read."
-msgstr ""
+msgstr "Файлът с теглата не можа да бъде прочетен."
 
 #: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
+"Грешка при зареждане на теглата на AI Guider. Прекъсване на проследяването."
 
 #: ekos/guide/internalguide/gmath.cpp:308
 #, kde-format
@@ -24896,12 +24910,18 @@ msgid ""
 "Re-run the Guide AI Assistant, load a different weights file, or switch the "
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
+"Грешка при зареждането на теглата на AI Guider!\n"
+"\n"
+"%1\n"
+"\n"
+"Повторно стартиране на AI помощника за проследяване, зареждане на друг файл "
+"с тегла или превключване на алгоритъма за проследяване към стандартен режим. "
+"Проследяването е прекъснато."
 
 #: ekos/guide/internalguide/gmath.cpp:310
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "AI Guider Error"
-msgstr "Грешка при гидиране по ректасцензия"
+msgstr "Грешка при AI гидирането"
 
 #: ekos/guide/internalguide/gmath.cpp:321
 #, kde-format
@@ -24910,6 +24930,9 @@ msgid ""
 "AI button > 'Load Weights...', or run the Guide AI Assistant. Guiding "
 "aborted."
 msgstr ""
+"Избрано е AI проследяване, но не са заредени обучени тегла. Заредете ги чрез "
+"бутона AI > 'Зареждане на тегла...', или стартирайте AI помощника за "
+"проследяване. Проследяването е прекъснато."
 
 #: ekos/guide/internalguide/gmath.cpp:324
 #, kde-format
@@ -24920,27 +24943,36 @@ msgid ""
 "Assistant to generate weights for your current settings. Guiding has been "
 "aborted."
 msgstr ""
+"AI проследяване е избрано, но не са заредени обучени тегла.\n"
+"\n"
+"Зареждане на файл с тегла (бутон AI > Зареждане на тегла...) или стартиране "
+"на AI помощника за проследяване за генериране на тегла за текущите "
+"настройки. Проследяването е прекъснато."
 
 #: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid "AI Guider: No Weights"
-msgstr ""
+msgstr "AI гид: без тегла"
 
 #: ekos/guide/internalguide/gmath.cpp:371
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr ""
+msgstr "Грешка при презареждане на теглото на AI Guider: %1"
 
 #: ekos/guide/internalguide/gmath.cpp:372
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
+"Файлът с теглата не можа да бъде прочетен или не съответства на този тип "
+"монтировка."
 
 #: ekos/guide/internalguide/gmath.cpp:396
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
+"Теглата на AI Guider бяха презаредени в реално време от %1 — проследяването "
+"продължава непрекъснато."
 
 #: ekos/guide/internalguide/gmath.cpp:868
 #, kde-format
@@ -25083,10 +25115,9 @@ msgstr "DEC изместване \":"
 
 #. i18n: ectx: property (title), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:32
-#, fuzzy, kde-format
-#| msgid "Invalid Configuration"
+#, kde-format
 msgid "AI Guiding Configuration"
-msgstr "Невалидна конфигурация"
+msgstr "Конфигурация на AI проследяване"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:35
@@ -25096,6 +25127,8 @@ msgid ""
 "algorithm in the Guide options and load a matching trained weights file to "
 "activate it."
 msgstr ""
+"Настройки за експерименталния AI feed-forward гид. Избор на AI алгоритъм в "
+"опциите на Guide и зареждане на съответен файл с обучени тегла за активиране."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:44
@@ -25105,6 +25138,9 @@ msgid ""
 "your mount, use the AI Guiding button (below Clear Calibration) on the main "
 "Guide tab."
 msgstr ""
+"Конфигурация на AI гидиране. За обучение на AI модела или зареждане на "
+"обучени тегла за вашата монтировка, използвайте бутона AI Guiding (под Clear "
+"Calibration) в основния раздел Guide."
 
 #. i18n: ectx: item, widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:51
@@ -25115,6 +25151,10 @@ msgid ""
 "current guide settings (exposure, binning, gains) or it is rejected when "
 "guiding starts."
 msgstr ""
+"Тегла на обучен AI модел (JSON). Генерират се чрез AI Guiding Assistant или "
+"чрез обучение в EkosLive Cloud. Файлът трябва да съответства на типа на "
+"монтировката и текущите настройки за гайдинг (експозиция, бининг, усилване), "
+"в противен случай ще бъде отхвърлен при стартиране на гайдинга."
 
 #. i18n: ectx: item, widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:52
@@ -25124,12 +25164,15 @@ msgid ""
 "pulse: 0.0 = AI ignored (standard guiding only), 1.0 = full AI prediction. "
 "Lower values are more conservative."
 msgstr ""
+"Степен на смесване на предсказанието на AI във всеки импулс на "
+"проследяването: 0.0 = AI се игнорира (само стандартно проследяване), 1.0 = "
+"пълно AI предсказание. По-ниските стойности са по-консервативни."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIProportionalBackoff)
 #: ekos/guide/opsaiconfig.ui:56
 #, kde-format
 msgid "Scale Down Proportional Gain During AI Correction"
-msgstr ""
+msgstr "Пропорционално намаляване на усилването при AI корекция"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIProportionalBackoff)
 #: ekos/guide/opsaiconfig.ui:59
@@ -25139,12 +25182,16 @@ msgid ""
 "forward is highly confident to prevent constructive interference and "
 "oscillation."
 msgstr ""
+"Динамично намаляване на стандартния отговор на P-контролера при висока "
+"увереност на AI feed-forward за предотвратяване на конструктивна "
+"интерференция и осцилация."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIShadowMode)
 #: ekos/guide/opsaiconfig.ui:69
 #, kde-format
 msgid "Enable Shadow Mode (log AI predictions without applying them)"
 msgstr ""
+"Активиране на режим „Сянка“ (регистриране на AI прогнози без прилагането им)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIShadowMode)
 #: ekos/guide/opsaiconfig.ui:72
@@ -25155,12 +25202,18 @@ msgid ""
 "guide pulses. Use this to evaluate AI model quality before enabling full AI "
 "guiding."
 msgstr ""
+"Стартиране на AI модела в фонов режим успоредно с избрания стандартен "
+"алгоритъм за водине. Прогнозите се записват в AI debug CSV файла, но не се "
+"включват в импулсите за водине. Използвайте това за оценка на качеството на "
+"AI модела преди активиране на пълното AI водине."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
 msgstr ""
+"Автоматично настройване на PID (калибриране на усилването при стъпков "
+"отговор)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
 #: ekos/guide/opsaiconfig.ui:82
@@ -25172,13 +25225,18 @@ msgid ""
 "gain is kept if the responses do not pass the consistency checks. Adds "
 "roughly 20 minutes to the protocol; enabled by default."
 msgstr ""
+"Изпраща известни импулси в началото на протокола и измерва стъпковия отговор "
+"на монтировката за определяне на базова корекция (gain) на правото "
+"възнесение и склонение (RA/DEC) за всеки тип монтировка. Измерената корекция "
+"се прилага и фиксира за останалата част от сесията; текущата корекция се "
+"запазва, ако отговорите не преминат проверките за съгласуваност. Добавя "
+"приблизително 20 минути към протокола; активирано по подразбиране."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:89
-#, fuzzy, kde-format
-#| msgid "East Direction Guiding"
+#, kde-format
 msgid "Enable Predictive Dark Guiding"
-msgstr "Насочване в източна посока"
+msgstr "Активиране на предвиждащо тъмно водине (Predictive Dark Guiding)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:92
@@ -25189,13 +25247,17 @@ msgid ""
 "camera downloads) by extrapolating the physical periodic error forward in "
 "time."
 msgstr ""
+"Позволява на AI Guider да продължи изпращането на feed-forward импулси по "
+"време на прекъсвания в измерванията на водищата звезда (напр. при "
+"стабилизиране след dither, работа на автофокусира или изтегляне на "
+"изображения от камерата) чрез екстраполация на физическата периодична грешка "
+"във времето."
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
 #: ekos/guide/opsaiconfig.ui:101
-#, fuzzy, kde-format
-#| msgid "Dark guiding interval"
+#, kde-format
 msgid "Dark Guiding Interval (s):"
-msgstr "Интервал на гидиране на тъмно"
+msgstr "Интервал за тъмно водине (s):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
@@ -25206,6 +25268,10 @@ msgid ""
 "measurement (dither settling, autofocus runs, camera downloads). Only used "
 "when Predictive Dark Guiding is enabled."
 msgstr ""
+"Секунди между предвидените импулси за подаване, когато няма измерване на "
+"звездата за водене (утаяване на дитер, изпълнение на автофокус, изтегляне на "
+"изображения от камерата). Използва се само при активирано предвиждащо тъмно "
+"водене."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -28343,38 +28409,34 @@ msgid "Show token"
 msgstr "Показване на токена"
 
 #: ekos/opsekos.cpp:200
-#, fuzzy, kde-format
-#| msgid "Enable MCP server"
+#, kde-format
 msgid "(enable the MCP server to populate)"
-msgstr "Включване на MCP сървъра"
+msgstr "(активиране на MCP сървъра за попълване)"
 
 #: ekos/opsekos.cpp:244
-#, fuzzy, kde-format
-#| msgid "Read-only token:"
+#, kde-format
 msgid "read-only"
-msgstr "Токен за режим „Само за четене“:"
+msgstr "само за четене"
 
 #: ekos/opsekos.cpp:244
-#, fuzzy, kde-format
-#| msgid "Rotating"
+#, kde-format
 msgid "mutating"
-msgstr "Завъртане"
+msgstr "промяна"
 
 #: ekos/opsekos.cpp:245
-#, fuzzy, kde-format
-#| msgid "Iterative"
+#, kde-format
 msgid "destructive"
-msgstr "Итеративно"
+msgstr "разрушително"
 
 #: ekos/opsekos.cpp:246
 #, kde-format
 msgid "idempotent"
-msgstr ""
+msgstr "идемпотентност"
 
 #: ekos/opsekos.cpp:247
 #, kde-format
 msgid "open-world"
-msgstr ""
+msgstr "отворен свят"
 
 #: ekos/opsekos.cpp:322
 #, kde-format
@@ -28567,17 +28629,15 @@ msgstr "Токен за режим „Само за четене“:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:527
-#, fuzzy, kde-format
-#| msgid "Available Collections"
+#, kde-format
 msgid "Available tools"
-msgstr "Налични колекции"
+msgstr "Достъпни инструменти"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
 #: ekos/opsekos.ui:549
-#, fuzzy, kde-format
-#| msgid "Tools"
+#, kde-format
 msgid "Tool"
-msgstr "Инструменти"
+msgstr "Инструмент"
 
 #: ekos/profileeditor.cpp:51
 #, kde-format
@@ -28752,7 +28812,7 @@ msgstr "Уеб мениджър"
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
 msgstr ""
-"<html><body><p>\fСканиране на локалната мрежа за INDI уеб мениджъри.</p></"
+"<html><body><p>Сканиране на локалната мрежа за INDI уеб мениджъри.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
@@ -30598,27 +30658,27 @@ msgstr "Скриптът за изключване прекратява INDI"
 #: ekos/scheduler/opsscriptssettings.ui:57
 #, kde-format
 msgid "Warm up the camera sensor before shutting down."
-msgstr ""
+msgstr "Загряване на сензора на камерата преди изключване."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CameraWarmupEnabled)
 #: ekos/scheduler/opsscriptssettings.ui:60
 #, kde-format
 msgid "Warm camera before shutdown"
-msgstr ""
+msgstr "Загряване на камерата преди изключване"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CameraWarmupRamp)
 #: ekos/scheduler/opsscriptssettings.ui:67
 #, kde-format
 msgid "Temperature ramp rate for camera warmup in °C per minute."
 msgstr ""
+"Скорост на покачване на температурата за загряване на камерата в °C на "
+"минута."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CameraWarmupRamp)
 #: ekos/scheduler/opsscriptssettings.ui:70
-#, fuzzy, kde-format
-#| msgctxt "Maximum temperature variation over time when regulating."
-#| msgid "Ramp (°C/min):"
+#, kde-format
 msgid " °C/min"
-msgstr "Рампа (°C/min):"
+msgstr "°C/мин"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsweathersettings.ui:43
@@ -32381,14 +32441,13 @@ msgstr ""
 "маркирането е прекратено."
 
 #: ekos/scheduler/schedulerprocess.cpp:2841
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' guiding procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), "
 "marking aborted."
 msgstr ""
-"Предупреждение: процедурата за насочване на задание \"%1\" е неуспешна, "
-"маркирането е прекратено."
+"Предупреждение: етапът на водиране на задача '%1' надвиши времето за "
+"изчакване на операциите (%2 секунди), маркирано като прекъснато."
 
 #: ekos/scheduler/schedulerprocess.cpp:2862
 #: ekos/scheduler/schedulerprocess.cpp:3773
@@ -39260,10 +39319,9 @@ msgid "%1 Live Video"
 msgstr "%1 видео в реално време"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "Превключване на пълен екран"
+msgstr "Излизане от пълен екран"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
@@ -45827,44 +45885,45 @@ msgstr ""
 #: kstars.kcfg:2779
 #, kde-format
 msgid "Tilt Correction Advisory plate type (0=3-point, 1=4-point)."
-msgstr ""
+msgstr "Тип плоча за корекция на наклона (0=3-точки, 1=4-точки)."
 
 #. i18n: ectx: label, entry (tiltRadius), group (Focus)
 #: kstars.kcfg:2783
 #, kde-format
 msgid "Tilt plate bolt circle radius in mm."
-msgstr ""
+msgstr "Радиус на болтовия кръг на наклонената плоча в мм."
 
 #. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
 #: kstars.kcfg:2787
 #, kde-format
 msgid "Tilt Correction Advisory thread preset index."
 msgstr ""
+"Индекс на предварително зададения поток за консултативна корекция на наклона."
 
 #. i18n: ectx: label, entry (tiltScrewPitch), group (Focus)
 #: kstars.kcfg:2791
 #, kde-format
 msgid "Tilt plate screw pitch in mm per turn."
-msgstr ""
+msgstr "Стъпка на винта на наклоняемата плоча в мм на оборот."
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
-#, fuzzy, kde-format
-#| msgid "Terrain image altitude correction degrees:"
+#, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
-msgstr "Корекция на височината на изображението на терена в градуси:"
+msgstr "Ротация на камерата за диаграма за корекция на наклона в градуси."
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
 #, kde-format
 msgid "Tilt Correction Advisory mode (0=relative, 1=push-only)."
 msgstr ""
+"Режим на съвет за корекция на наклона (0=относителен, 1=само избутване)."
 
 #. i18n: ectx: label, entry (tiltPlatePresent), group (Focus)
 #: kstars.kcfg:2803
 #, kde-format
 msgid "Whether a tilt adjustment plate is present in the imaging train."
-msgstr ""
+msgstr "Наличие на плоча за корекция на наклона в оптичната система."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2809
@@ -46051,6 +46110,10 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
+"Ротаторът се върти физически в посока, обратна на тази, приета от "
+"изчисленията за позиционен ъгъл в KStars. Определя се автоматично при "
+"първото потвърждение от проверката за грешна посока (auto-reverse) или може "
+"да бъде зададено ръчно."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2912
@@ -46458,7 +46521,7 @@ msgstr ""
 #: kstars.kcfg:3112
 #, kde-format
 msgid "Path to the AI Guider Weights JSON file."
-msgstr ""
+msgstr "Път до JSON файла с тегла на AI Guider."
 
 #. i18n: ectx: label, entry (AIPredictionGain), group (Guide)
 #: kstars.kcfg:3116
@@ -46467,6 +46530,8 @@ msgid ""
 "AI feed-forward prediction gain (0.0–1.0). Blended with model confidence at "
 "runtime."
 msgstr ""
+"Коефициент на AI предвиждащо подаване (0.0–1.0). Смесва се с увереността на "
+"модела по време на изпълнение."
 
 #. i18n: ectx: label, entry (AIProportionalBackoff), group (Guide)
 #: kstars.kcfg:3122
@@ -46475,6 +46540,8 @@ msgid ""
 "Dynamically scale down standard proportional gain when AI is highly "
 "confident."
 msgstr ""
+"Динамично намаляване на стандартното пропорционално усилване при висока "
+"увереност на AI."
 
 #. i18n: ectx: label, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3126
@@ -46483,6 +46550,8 @@ msgid ""
 "Run PID Auto-Tune (step-response gain calibration) as part of the AI data "
 "collection protocol."
 msgstr ""
+"Изпълнение на PID автоматична настройка (калиброване на усилването при "
+"стъпков отговор) като част от протокола за събиране на AI данни."
 
 #. i18n: ectx: whatsthis, entry (AIPIDAutoTune), group (Guide)
 #: kstars.kcfg:3127
@@ -46495,6 +46564,13 @@ msgid ""
 "the responses do not pass the consistency checks. Adds roughly 20 minutes to "
 "the protocol. Enabled by default."
 msgstr ""
+"Изпраща известни импулси в началото на протокола и измерва стъпковия отговор "
+"на монтировката за извеждане на базово усилване на водителната система за RA/"
+"DEC за всеки тип монтировка. Измереното усилване се прилага и фиксира за "
+"останалата част от сесията, така че последващите данни да се събират при "
+"него; текущото усилване остава непроменено, ако отговорите не преминат "
+"проверките за съгласуваност. Добавя приблизително 20 минути към протокола. "
+"Активирано по подразбиране."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3131
@@ -46503,6 +46579,8 @@ msgid ""
 "Run AI model alongside standard guiding, logging predictions without "
 "applying them."
 msgstr ""
+"Изпълнение на AI модел паралелно със стандартното насочване, с записване на "
+"предсказанията без тяхното прилагане."
 
 #. i18n: ectx: whatsthis, entry (AIShadowMode), group (Guide)
 #: kstars.kcfg:3132
@@ -46513,6 +46591,11 @@ msgid ""
 "written to the AI debug CSV log but are never blended into guide pulses. Use "
 "this to evaluate AI model quality before enabling full AI guiding."
 msgstr ""
+"Когато е активирано и е конфигуриран валиден файл с тегла на AI, AI моделът "
+"работи незабележимо паралелно с избрания алгоритъм за насочване. Прогнозите "
+"се записват в CSV лога за отладване на AI, но никога не се смесват с "
+"импулсите за насочване. Използвайте това за оценка на качеството на AI "
+"модела преди активиране на пълното AI насочване."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:3136
@@ -46873,12 +46956,13 @@ msgstr ""
 #, kde-format
 msgid "Warm up the camera sensor before the shutdown sequence."
 msgstr ""
+"Загряване на сензора на камерата преди последователността за изключване."
 
 #. i18n: ectx: label, entry (CameraWarmupRamp), group (Scheduler)
 #: kstars.kcfg:3439
 #, kde-format
 msgid "Camera warmup ramp rate in °C per minute."
-msgstr ""
+msgstr "Скорост на загряване на камерата в °C на минута."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:3445
@@ -47958,7 +48042,7 @@ msgstr "Разрешаване само на MCP инструменти в ре�
 #: kstars.kcfg:4032
 #, kde-format
 msgid "MCP tools disabled by the user"
-msgstr ""
+msgstr "Инструменти на MCP, изключени от потребителя"
 
 #. i18n: ectx: whatsthis, entry (MCPDisabledTools), group (MCP)
 #: kstars.kcfg:4033
@@ -47967,6 +48051,9 @@ msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
 "call. Tools not listed here are enabled."
 msgstr ""
+"Имена на инструменти, изключени от отговорите на списъка с инструменти на "
+"MCP и отхвърлени при извикване. Инструментите, които не са изброени тук, са "
+"активирани."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -87328,10 +87415,9 @@ msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "Ekos Scheduler Improvements"
+#, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
-msgstr "Подобрения на планиращия модул на Ekos"
+msgstr "Подобрения в CI/CD конвейера и планировъка на Ekos"
 
 #: main.cpp:163
 #, kde-format
@@ -87349,10 +87435,9 @@ msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "FITS, Focus, Guide Improvements"
+#, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
-msgstr "Подобрения на модулите за FITS, фокусиране и  гидиране"
+msgstr "Модул за анализ. Подобрения в FITS, фокуса, насочването и планировчика"
 
 #: main.cpp:168
 #, kde-format
@@ -87360,10 +87445,9 @@ msgid "John Evans"
 msgstr "John Evans"
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Focus algorithms"
+#, kde-format
 msgid "Focus algorithms & Livestacking"
-msgstr "Алгоритми за фокусиране"
+msgstr "Алгоритми за фокусиране и Live-стакиране"
 
 #: main.cpp:170
 #, kde-format
@@ -87470,35 +87554,34 @@ msgstr "Rishab Arora"
 #: main.cpp:199
 #, kde-format
 msgid "Andreas Ruthner"
-msgstr ""
+msgstr "Andreas Ruthner"
 
 #: main.cpp:199
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
-msgstr ""
+msgstr "Многобройни корекции в Насочването, Стриминга и Планировчика."
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgctxt "City in Bornholm Denmark"
-#| msgid "Christiansoe"
+#, kde-format
 msgid "Christian Kemper"
-msgstr "Кристиансое"
+msgstr "Christian Kemper"
 
 #: main.cpp:200
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
+"Подобрения в помощника за модел на монтировката. Рефакторинг на базата данни "
+"с градове."
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Thomas Kabelmann"
+#, kde-format
 msgid "Thomas Nemer"
-msgstr "Thomas Kabelmann"
+msgstr "Thomas Nemer"
 
 #: main.cpp:201
 #, kde-format
 msgid "Ekos MCP server and AI skills."
-msgstr ""
+msgstr "Ekos MCP сървър и AI умения."
 
 #: main.cpp:203
 #, kde-format
@@ -100094,26 +100177,3 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
-
-#~ msgid ""
-#~ "Maximum number of seconds to wait before aborting the capture if "
-#~ "operations like filter wheel changes or meridian flips take too long"
-#~ msgstr ""
-#~ "Максимален брой секунди за изчакване преди прекратяване на операциите за "
-#~ "заснеманекато когато смяната на филтърното колело или обръщането на "
-#~ "меридиана отнема твърде много време"
-
-#~ msgid "Capture timed out."
-#~ msgstr "Времето за заснемане изтече."
-
-#~ msgid "Capturing still running, Retrying in %1 seconds..."
-#~ msgstr "Заснемането все още се изпълнява, повторен опит след %1 секунди..."
-
-#~ msgid "Andrew Stepanenko"
-#~ msgstr "Andrew Stepanenko"
-
-#~ msgid "Guiding code based on lin_guider"
-#~ msgstr "Код за гидиране, базиран на lin_guider"
-
-#~ msgid "Rotator Dialog improvements"
-#~ msgstr "Подобрения в диалоговия прозорец на ротатора"
