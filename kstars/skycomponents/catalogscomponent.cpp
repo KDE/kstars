@@ -345,7 +345,12 @@ SkyObject *CatalogsComponent::findByName(const QString &name, bool exact)
 
 void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region)
 {
-    if (!selected())
+    objectsInArea(list, region, false);
+}
+
+void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion &region, bool ignoreVisibility)
+{
+    if (!ignoreVisibility && !selected())
         return;
 
     for (SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd();

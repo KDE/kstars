@@ -45,10 +45,35 @@ class FITSSkyObject : public QObject
         void setY(int yPos);
         /** @} */
 
+    public:
+        /** @brief Set the on-screen major/minor axis lengths (in native, unscaled
+         * image pixels) and rotation (degrees, clockwise, for QPainter::rotate())
+         * of this object's annotation ellipse, as derived from the WCS solution.
+         * A major axis of 0 (the default) means the object has no known angular
+         * extent and should be drawn as a plain point marker.
+         */
+        void setEllipse(double majorAxisPixels, double minorAxisPixels, double rotationDegrees);
+
+        double majorAxisPixels() const
+        {
+            return m_MajorAxisPixels;
+        }
+        double minorAxisPixels() const
+        {
+            return m_MinorAxisPixels;
+        }
+        double rotationDegrees() const
+        {
+            return m_RotationDegrees;
+        }
+
     protected:
         SkyObject /*const*/ *skyObjectStored { nullptr };
         int xLoc { 0 };
         int yLoc { 0 };
+        double m_MajorAxisPixels { 0.0 };
+        double m_MinorAxisPixels { 0.0 };
+        double m_RotationDegrees { 0.0 };
 };
 
 #endif // FITSSKYOBJECT_H

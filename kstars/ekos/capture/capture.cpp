@@ -506,13 +506,13 @@ void Capture::checkCloseCameraTab(int tabIndex)
 const QSharedPointer<Camera> Capture::mainCamera() const
 {
     if (cameras().size() > 0)
-    return moduleState()->cameras()[0];
+        return moduleState()->cameras()[0];
     else
     {
         QSharedPointer<CaptureModuleState> cms;
         cms.reset(new CaptureModuleState());
-            return QSharedPointer<Camera>(new Camera(0));
-        }
+        return QSharedPointer<Camera>(new Camera(0));
+    }
 }
 
 int Capture::findCameraPosition(QString train, bool addIfNecessary)

@@ -305,8 +305,15 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         {
             if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
             {
-                QToolTip::showText(QtCompat::mouseGlobalPos(e).toPoint(),
-                                   QToolTip::text() + '\n' + listObject->skyObject()->name() + '\n' + listObject->skyObject()->longname(), this);
+                // Build a fresh tooltip rather than appending to QToolTip::text() --
+                // that returns whatever tooltip is currently on screen, so appending
+                // to it on every mouse-move tick over the same object made the text
+                // grow without bound.
+                SkyObject * hoveredObject = listObject->skyObject();
+                QString objTip = hoveredObject->name();
+                if (hoveredObject->hasLongName() && hoveredObject->longname() != hoveredObject->name())
+                    objTip += '\n' + hoveredObject->longname();
+                QToolTip::showText(QtCompat::mouseGlobalPos(e).toPoint(), objTip, this);
                 objFound = true;
                 break;
             }

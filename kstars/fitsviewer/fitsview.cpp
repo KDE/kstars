@@ -8,6 +8,8 @@
 #include "config-kstars.h"
 #include "fitsview.h"
 
+#include <algorithm>
+
 #include "fitsdata.h"
 #include "fitslabel.h"
 #include "hips/hipsfinder.h"
@@ -1802,11 +1804,73 @@ void FITSView::drawObjectNames(QPainter * painter, double scale)
         return;
     }
 
-    painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
-    for (const auto &listObject : m_ImageData->getSkyObjects())
+    painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor")), 2));
+
+    // Crowded fields (e.g. the Rosette Nebula's cluster of near-coincident NGC
+    // entries) can have several labels competing for the same screen space.
+    // Let the brightest/most prominent objects claim label space first, and
+    // skip drawing a label -- but still draw its marker -- if it would
+    // overlap one already placed by a higher-priority object.
+    QList<FITSSkyObject *> sortedObjects = m_ImageData->getSkyObjects();
+    std::sort(sortedObjects.begin(), sortedObjects.end(), [](FITSSkyObject * a, FITSSkyObject * b)
     {
-        painter->drawRect(listObject->x() * scale - 5, listObject->y() * scale - 5, 10, 10);
-        painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
+        return a->skyObject()->mag() < b->skyObject()->mag();
+    });
+
+    const QFontMetrics fontMetrics(painter->font());
+    QList<QRectF> placedLabels;
+
+    for (const auto &listObject : sortedObjects)
+    {
+        SkyObject * so = listObject->skyObject();
+        const double px = listObject->x() * scale;
+        const double py = listObject->y() * scale;
+
+        // Extended objects (galaxies, clusters, nebulae, etc.) with a known angular
+        // size/rotation (derived by FITSData through the WCS solution) are drawn as
+        // an ellipse, so they read like astrometry.net-style annotations rather than
+        // a generic marker. Point sources (stars) get a small circle.
+        const double majorRadius = qMax(5.0, listObject->majorAxisPixels() * scale);
+        const double minorRadius = listObject->majorAxisPixels() > 0
+                                   ? qMax(5.0, listObject->minorAxisPixels() * scale)
+                                   : majorRadius;
+        const double rotation = listObject->rotationDegrees();
+
+        if (rotation != 0.0)
+        {
+            painter->save();
+            painter->translate(px, py);
+            painter->rotate(rotation);
+            painter->drawEllipse(QPointF(0, 0), majorRadius, minorRadius);
+            painter->restore();
+        }
+        else
+            painter->drawEllipse(QPointF(px, py), majorRadius, minorRadius);
+
+        // Prefer the object's common name when it has one (e.g. "Crescent Nebula"
+        // over "NGC 6888") -- it's what most users will recognize. Stars pulled
+        // from KStars' deep, on-demand-loaded catalogs have no proper name --
+        // StarObject already synthesizes "HD ####" as their name() in that case,
+        // so no special-casing is needed for them.
+        const QString label = so->hasLongName() ? so->longname() : so->name();
+
+        // Keep the label close to the marker even for huge objects (e.g. M31 spans
+        // hundreds of pixels) rather than offsetting it by the full radius.
+        const double labelOffset = qMin(majorRadius, 20.0) + 4;
+        const QPointF labelPos(px + labelOffset, py + 4);
+        const QRectF labelRect = fontMetrics.boundingRect(label).translated(labelPos.toPoint());
+
+        const bool collides = std::any_of(placedLabels.cbegin(), placedLabels.cend(),
+                                          [&labelRect](const QRectF & other)
+        {
+            return labelRect.intersects(other);
+        });
+
+        if (!collides)
+        {
+            painter->drawText(labelPos, label);
+            placedLabels.append(labelRect);
+        }
     }
 }
 

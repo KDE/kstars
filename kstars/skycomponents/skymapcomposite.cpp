@@ -547,16 +547,15 @@ QHash<int, QVector<QPair<QString, const SkyObject *>>> &SkyMapComposite::getObje
 }
 
 QList<SkyObject *> SkyMapComposite::findObjectsInArea(const SkyPoint &p1,
-        const SkyPoint &p2)
+        const SkyPoint &p2, bool ignoreVisibility)
 {
     const SkyRegion &region = m_skyMesh->skyRegion(p1, p2);
     QList<SkyObject *> list;
     // call objectsInArea( QList<SkyObject*>&, const SkyRegion& ) for each of the
     // components of the SkyMapComposite
-    if (m_Stars->selected())
+    if (ignoreVisibility || m_Stars->selected())
         m_Stars->objectsInArea(list, region);
-    if (m_Catalogs->selected())
-        m_Catalogs->objectsInArea(list, region);
+    m_Catalogs->objectsInArea(list, region, ignoreVisibility);
     return list;
 }
 

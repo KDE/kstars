@@ -150,8 +150,13 @@ class SkyMapComposite : public QObject, public SkyComposite
              * @return the list of objects in the region defined by skypoints
              * @param p1 first sky point (top-left vertex of rectangular region)
              * @param p2 second sky point (bottom-right vertex of rectangular region)
+             * @param ignoreVisibility if true, stars and catalog objects are included
+             * even if their component is currently hidden in the Sky Map (e.g. via
+             * "Show Stars" / "Show Deep Sky Objects"). Useful for callers, such as the
+             * FITS Viewer's object annotation, that query the catalog independently of
+             * what is toggled on for the interactive sky map display.
              */
-        QList<SkyObject *> findObjectsInArea(const SkyPoint &p1, const SkyPoint &p2);
+        QList<SkyObject *> findObjectsInArea(const SkyPoint &p1, const SkyPoint &p2, bool ignoreVisibility = false);
 
         bool addNameLabel(SkyObject *o);
         bool removeNameLabel(SkyObject *o);
@@ -225,6 +230,11 @@ class SkyMapComposite : public QObject, public SkyComposite
         inline CatalogsComponent *catalogsComponent()
         {
             return m_Catalogs;
+        }
+
+        inline StarComponent *starComponent()
+        {
+            return m_Stars;
         }
 
         inline MilkyWay *milkyWay()

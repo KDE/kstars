@@ -92,6 +92,14 @@ class CatalogsComponent : public SkyComponent
 
         void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) override;
 
+        /**
+         * Same as objectsInArea(), but optionally bypasses the selected()
+         * (i.e. "Show Deep Sky Objects") check. Used by callers, such as the
+         * FITS Viewer's object annotation, that need catalog objects
+         * regardless of what is toggled on for the interactive Sky Map display.
+         */
+        void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region, bool ignoreVisibility);
+
         SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
         /**

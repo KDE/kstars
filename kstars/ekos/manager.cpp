@@ -3222,9 +3222,9 @@ void Manager::wizardProfile()
 bool Manager::getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const
 {
     // Get current profile
-for (auto &pi : profiles)
-{
-    if (profileCombo->currentText() == pi->name)
+    for (auto &pi : profiles)
+    {
+        if (profileCombo->currentText() == pi->name)
         {
             profile = pi;
             return true;

@@ -21,6 +21,9 @@
 #include "kspaths.h"
 #include "Options.h"
 #include "skymapcomposite.h"
+#include "skycomponents/starcomponent.h"
+#include "skyobjects/starobject.h"
+#include "skyobjects/catalogobject.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "auxiliary/ksnotification.h"
 #include "auxiliary/robuststatistics.h"
@@ -5572,14 +5575,53 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 
     m_SkyObjects.clear();
 
-    QList<SkyObject *> list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint);
+    // Query the catalog independently of what is toggled on for the interactive Sky Map
+    // display (e.g. "Show Stars" / "Show Deep Sky Objects"), since those settings have
+    // nothing to do with whether the FITS Viewer should be able to annotate this image.
+    QList<SkyObject *> list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint, true);
+    // Note: stars returned here already exclude unnamed catalog stars (see
+    // StarComponent::objectsInArea), so what remains are bright, named field stars
+    // worth annotating -- similar in spirit to astrometry.net's bright-star overlay.
     list.erase(std::remove_if(list.begin(), list.end(), [](SkyObject * oneObject)
     {
         int type = oneObject->type();
-        return (type == SkyObject::STAR || type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
+        return (type == SkyObject::PLANET || type == SkyObject::ASTEROID ||
                 type == SkyObject::COMET || type == SkyObject::SUPERNOVA || type == SkyObject::MOON ||
                 type == SkyObject::SATELLITE);
     }), list.end());
+
+    // The named-star list above is small and curated (magnitude ~8 and brighter), so
+    // it frequently has zero coverage in an arbitrary field. Also search KStars' much
+    // deeper, on-demand-loaded star catalogs (which carry Henry Draper cross-refs) for
+    // additional bright field stars, similar to astrometry.net's HD-catalog overlay.
+    if (auto * stars = KStarsData::Instance()->skyComposite()->starComponent())
+    {
+        SkyPoint centerPoint;
+        if (pixelToWCS(QPointF(w / 2.0, h / 2.0), centerPoint))
+        {
+            // pixelToWCS() only sets RA0/Dec0 (J2000); starsInAperture() filters
+            // by angular distance using the apparent RA/Dec, so those must be
+            // derived too or every star fails the distance check.
+            centerPoint.updateCoordsNow(num);
+
+            const double searchRadius = startPoint.angularDistanceTo(&endPoint).Degrees() / 2.0;
+            QList<StarObject *> deepStars;
+            stars->starsInAperture(deepStars, centerPoint, searchRadius, 10.0f);
+            for (auto * star : deepStars)
+            {
+                // Skip stars already covered by the named-star list above, and
+                // anonymous stars with no HD cross-reference (to avoid clutter).
+                // Note: hasName() is *not* the right test here -- StarObject
+                // synthesizes "HD ####" as the Name for any star that only has
+                // an HD cross-reference (see StarObject's constructor), so
+                // hasName() is true for exactly the stars this loop wants to
+                // add. hasLatinName() correctly excludes that synthesized name.
+                if (star->hasLatinName() || star->getHDIndex() <= 0)
+                    continue;
+                list.append(star);
+            }
+        }
+    }
 
     double world[2], phi, theta, imgcrd[2], pixcrd[2];
     int stat[2];
@@ -5594,7 +5636,43 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
             int x = pixcrd[0];
             int y = pixcrd[1];
             if (x > 0 && y > 0 && x < w && y < h)
-                m_SkyObjects.append(new FITSSkyObject(object, x, y));
+            {
+                auto * fitsObject = new FITSSkyObject(object, x, y);
+
+                // For extended objects (galaxies, clusters, nebulae, etc.) with a
+                // known angular size, derive the on-screen size/rotation of the
+                // annotation ellipse by projecting a point on the major axis
+                // through the same WCS transform used for the object's position.
+                // This avoids having to reason by hand about image orientation
+                // and parity conventions -- the WCS transform already encodes them.
+                if (auto * dso = dynamic_cast<CatalogObject *>(object); dso && dso->a() > 0)
+                {
+                    const double decRad = world[1] * M_PI / 180.0;
+                    const double cosDec = qMax(0.01, std::cos(decRad));
+                    const double paRad = dso->pa() * M_PI / 180.0;
+                    const double halfMajorDeg = dso->a() / 2.0 / 60.0;
+                    const double halfMinorDeg = (dso->b() > 0 ? dso->b() : dso->a()) / 2.0 / 60.0;
+
+                    double majorWorld[2], minorWorld[2], majorPix[2], minorPix[2];
+                    majorWorld[0] = world[0] + halfMajorDeg * std::sin(paRad) / cosDec;
+                    majorWorld[1] = world[1] + halfMajorDeg * std::cos(paRad);
+                    minorWorld[0] = world[0] + halfMinorDeg * std::sin(paRad + M_PI_2) / cosDec;
+                    minorWorld[1] = world[1] + halfMinorDeg * std::cos(paRad + M_PI_2);
+
+                    if (wcss2p(m_WCSHandle, 1, 2, &majorWorld[0], &phi, &theta, &imgcrd[0], &majorPix[0], &stat[0]) == 0 &&
+                            wcss2p(m_WCSHandle, 1, 2, &minorWorld[0], &phi, &theta, &imgcrd[0], &minorPix[0], &stat[0]) == 0)
+                    {
+                        const double dx = majorPix[0] - pixcrd[0];
+                        const double dy = majorPix[1] - pixcrd[1];
+                        const double majorRadiusPixels = std::hypot(dx, dy);
+                        const double minorRadiusPixels = std::hypot(minorPix[0] - pixcrd[0], minorPix[1] - pixcrd[1]);
+                        const double rotationDegrees = std::atan2(dy, dx) * 180.0 / M_PI;
+                        fitsObject->setEllipse(majorRadiusPixels, minorRadiusPixels, rotationDegrees);
+                    }
+                }
+
+                m_SkyObjects.append(fitsObject);
+            }
         }
     }
 

@@ -41,3 +41,10 @@ void FITSSkyObject::setY(int yPos)
 {
     yLoc = yPos;
 }
+
+void FITSSkyObject::setEllipse(double majorAxisPixels, double minorAxisPixels, double rotationDegrees)
+{
+    m_MajorAxisPixels = majorAxisPixels;
+    m_MinorAxisPixels = minorAxisPixels;
+    m_RotationDegrees = rotationDegrees;
+}
