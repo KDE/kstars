@@ -1795,15 +1795,26 @@ bool Guide::dither()
     ditherLabel->setText("Dither");
     ditherLabel->setFont(QFont(font().family(), 10));
 
-    // In streaming mode captureOneFrame() is a no-op — there is no discrete capture to
-    // start.  The capture()-then-wait-for-setCaptureComplete() path below therefore never
-    // delivers a frame to kick off the first InternalGuider::dither() call and would stall.
-    // Instead, call m_GuiderInstance->dither() directly so it can process the most recently
-    // received stream frame immediately and drive subsequent iterations through
-    // setCaptureComplete() as each new frame arrives.
-    if (guiderType == GUIDE_INTERNAL && !Options::ditherWithOnePulse() && !m_StreamingGuide)
+    // Internal guider, multi-pulse dither: drive the dither iterations through
+    // setCaptureComplete(), which calls InternalGuider::dither() once per delivered frame
+    // while in GUIDE_DITHERING (see the frame-routing note in processData()).
+    //
+    // Single-frame mode needs an explicit capture() to deliver that first frame. Streaming
+    // mode does NOT: frames arrive continuously, so setStatus(GUIDE_DITHERING) alone lets the
+    // next stream frame kick off the first iteration.
+    //
+    // Crucially, do NOT call InternalGuider::dither() synchronously here in streaming mode.
+    // This slot is invoked from the capture module's dither request, which can be dispatched
+    // inside the nested QEventLoop that StellarSolver::extract() spins while a stream frame is
+    // being processed (findStars runs inline on the GUI thread when the pool is busy). A
+    // synchronous dither() -> findLocalStarPosition() -> FITSData::findStars() would then wait
+    // on the star-detection QFuture of the very frame being processed one level down the same
+    // stack — a self-join deadlock that freezes the GUI (observed with normal dither; one-pulse
+    // dither is unaffected because it never runs findStars). Deferring keeps the dither's star
+    // detection at the top level of the next frame instead.
+    if (guiderType == GUIDE_INTERNAL && !Options::ditherWithOnePulse())
     {
-        if (m_State != GUIDE_GUIDING)
+        if (m_State != GUIDE_GUIDING && !m_StreamingGuide)
             capture();
 
         setStatus(GUIDE_DITHERING);
