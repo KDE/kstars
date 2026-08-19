@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-17 02:08+0000\n"
+"POT-Creation-Date: 2026-08-19 02:09+0000\n"
 "PO-Revision-Date: 2026-08-17 20:50+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -768,7 +768,7 @@ msgstr "Грешка при четене на астрометричен кон�
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Вътрешна грешка при запис на астрометричен конфигурационен файл."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3030
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1073,7 +1073,7 @@ msgstr "Разглеждане на слънчевата система с XPlan
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:187
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
-#: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:289
+#: skycomponents/skymapcomposite.cpp:598 skyglpainter.cpp:289
 #: skymapdrawabstract.cpp:444 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
@@ -1095,7 +1095,7 @@ msgstr "Слънце"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mercury)
 #: auxiliary/xplanetimageviewer.cpp:204
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:264
-#: skycomponents/skymapcomposite.cpp:601 skyglpainter.cpp:297
+#: skycomponents/skymapcomposite.cpp:600 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:446 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
@@ -1112,7 +1112,7 @@ msgstr "Меркурий"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Venus)
 #: auxiliary/xplanetimageviewer.cpp:204 options/opssolarsystem.ui:140
-#: skycomponents/skymapcomposite.cpp:603 skymapdrawabstract.cpp:448
+#: skycomponents/skymapcomposite.cpp:602 skymapdrawabstract.cpp:448
 #: skyobjects/ksplanet.cpp:127 skyobjects/ksplanet.cpp:161
 #: skyobjects/ksplanet.cpp:369 skyobjects/ksplanet.cpp:409
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
@@ -1149,7 +1149,7 @@ msgstr "Земя"
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
 #: printing/detailstable.cpp:163 printing/detailstable.cpp:174
 #: printing/detailstable.cpp:187 printing/pwizobjectselection.cpp:124
-#: skycomponents/skymapcomposite.cpp:605 skymapdrawabstract.cpp:450
+#: skycomponents/skymapcomposite.cpp:604 skymapdrawabstract.cpp:450
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
@@ -1174,7 +1174,7 @@ msgstr "Луна"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mars)
 #: auxiliary/xplanetimageviewer.cpp:208
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
-#: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:293
+#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:293
 #: skymapdrawabstract.cpp:452 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
@@ -1202,7 +1202,7 @@ msgstr "Деймос"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Jupiter)
 #: auxiliary/xplanetimageviewer.cpp:210
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:202
-#: skycomponents/skymapcomposite.cpp:609 skyglpainter.cpp:297
+#: skycomponents/skymapcomposite.cpp:608 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:454 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
@@ -1240,7 +1240,7 @@ msgstr "Европа"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1303,7 +1303,7 @@ msgstr "Феба"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
 #: auxiliary/xplanetimageviewer.cpp:216 options/opssolarsystem.ui:312
-#: skycomponents/skymapcomposite.cpp:613 skymapdrawabstract.cpp:458
+#: skycomponents/skymapcomposite.cpp:612 skymapdrawabstract.cpp:458
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
@@ -1344,7 +1344,7 @@ msgstr "Оберон"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
 #: auxiliary/xplanetimageviewer.cpp:220 options/opssolarsystem.ui:280
-#: skycomponents/skymapcomposite.cpp:615 skymapdrawabstract.cpp:460
+#: skycomponents/skymapcomposite.cpp:614 skymapdrawabstract.cpp:460
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
@@ -3804,7 +3804,7 @@ msgstr "Не можа да се актуализира потребителск�
 msgid "No connected mounts found."
 msgstr "Няма намерени свързани монтировки."
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:488
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
 #: kstarsactions.cpp:308 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
@@ -23898,114 +23898,114 @@ msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "Монтировката е паркирана. Отпаркирайте, за да започнете да направлявате."
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1887
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Открита е промяна на страната на статива. Изчистване на калибрирането."
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Монтировката се движи. Нулиране на калибрирането..."
 
-#: ekos/guide/guide.cpp:1907
+#: ekos/guide/guide.cpp:1918
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Монтировката се паркира. Прекъсване на гидирането..."
 
-#: ekos/guide/guide.cpp:1909
+#: ekos/guide/guide.cpp:1920
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Монтировката се завъртва. Прекъсване на гидирането..."
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:2006
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Калибрирането е изчистено."
 
-#: ekos/guide/guide.cpp:2035
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "External guider connected."
 msgstr "Свързан външен гид модул."
 
-#: ekos/guide/guide.cpp:2053
+#: ekos/guide/guide.cpp:2064
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Външният гид модул е изключен."
 
-#: ekos/guide/guide.cpp:2070
+#: ekos/guide/guide.cpp:2081
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калибрирането е завършено."
 
-#: ekos/guide/guide.cpp:2096
+#: ekos/guide/guide.cpp:2107
 #, kde-format
 msgid "Calibration started."
 msgstr "Калибрирането започна."
 
-#: ekos/guide/guide.cpp:2110
+#: ekos/guide/guide.cpp:2121
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Гидирането е подновено."
 
-#: ekos/guide/guide.cpp:2114
+#: ekos/guide/guide.cpp:2125
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Автонасочването работи."
 
-#: ekos/guide/guide.cpp:2136
+#: ekos/guide/guide.cpp:2147
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Автоматичното насочване е прекъснато."
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2155
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Гидирането е преустановено."
 
-#: ekos/guide/guide.cpp:2153
+#: ekos/guide/guide.cpp:2164
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Извършва се ръчно дитъринг."
 
-#: ekos/guide/guide.cpp:2157
+#: ekos/guide/guide.cpp:2168
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Извършва се дитъринг."
 
-#: ekos/guide/guide.cpp:2161
+#: ekos/guide/guide.cpp:2172
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Пост-дитериране се установява за %1 секунда..."
 msgstr[1] "Установяване след дитер за %1 секунди..."
 
-#: ekos/guide/guide.cpp:2166
+#: ekos/guide/guide.cpp:2177
 #, kde-format
 msgid "Dithering failed."
 msgstr "Неуспешно дитериране."
 
-#: ekos/guide/guide.cpp:2177
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Дитърингът завърши успешно."
 
-#: ekos/guide/guide.cpp:2235
+#: ekos/guide/guide.cpp:2246
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Бининг на гида %1x%1 не се поддържа. Максималният е %2x%2."
 
-#: ekos/guide/guide.cpp:2259
+#: ekos/guide/guide.cpp:2270
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Експозицията е неуспешна. Рестартиране на експозицията..."
 
-#: ekos/guide/guide.cpp:2398
+#: ekos/guide/guide.cpp:2409
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Не може да промени видът на гидирането, докато то е активно."
 
-#: ekos/guide/guide.cpp:2493
+#: ekos/guide/guide.cpp:2504
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24014,37 +24014,37 @@ msgstr ""
 "Предупреждение: Разрешено е нулиране на водещото калибриране. Препоръчва се "
 "тази опция да бъде изключена за PHD2."
 
-#: ekos/guide/guide.cpp:2947
+#: ekos/guide/guide.cpp:2958
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Неуспешно стартиране на калибрирането."
 
-#: ekos/guide/guide.cpp:3098
+#: ekos/guide/guide.cpp:3109
 #, kde-format
 msgid "Auto star selected."
 msgstr "Избрана е автоматична звезда."
 
-#: ekos/guide/guide.cpp:3102
+#: ekos/guide/guide.cpp:3113
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Неуспешно избиране на автоматична звезда."
 
-#: ekos/guide/guide.cpp:3111
+#: ekos/guide/guide.cpp:3122
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Избор на водеща звезда за калибриране."
 
-#: ekos/guide/guide.cpp:3373
+#: ekos/guide/guide.cpp:3384
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (пиксела)"
 
-#: ekos/guide/guide.cpp:3374
+#: ekos/guide/guide.cpp:3385
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (пиксела)"
 
-#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
+#: ekos/guide/guide.cpp:3528 ekos/guide/guide.cpp:3680
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24054,7 +24054,7 @@ msgstr ""
 "изображения.  Но все пак ще виждате изображението на водещата звезда, когато "
 "насочвате."
 
-#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
+#: ekos/guide/guide.cpp:3532 ekos/guide/guide.cpp:3684
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24066,32 +24066,32 @@ msgstr ""
 "за да активирате заснемането на изображения.  Можете да го активирате отново "
 "преди гидирането"
 
-#: ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3613
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "AI помощник за гидиране..."
 
-#: ekos/guide/guide.cpp:3610
+#: ekos/guide/guide.cpp:3621
 #, kde-format
 msgid "Load Weights..."
 msgstr "Зареждане на тегла..."
 
-#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
+#: ekos/guide/guide.cpp:3727 ekos/guide/guide.cpp:3732
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Грешка при AI обучението на EkosLive: %1"
 
-#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
+#: ekos/guide/guide.cpp:3728 ekos/guide/guide.cpp:3733
 #, kde-format
 msgid "unknown error"
 msgstr "непозната грешка"
 
-#: ekos/guide/guide.cpp:3736
+#: ekos/guide/guide.cpp:3747
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Грешка при записване на теглата на AI в %1"
 
-#: ekos/guide/guide.cpp:3746
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24099,23 +24099,23 @@ msgstr ""
 "Обучението на ИИ приключи. Теглата са запазени в %1 и зададени като активни "
 "тегла на ИИ."
 
-#: ekos/guide/guide.cpp:3750
+#: ekos/guide/guide.cpp:3761
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Обучението на ИИ е завършено. Теглата са запазени в %1."
 
-#: ekos/guide/guide.cpp:3756
+#: ekos/guide/guide.cpp:3767
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Зареждане на тегла на AI Guider"
 
-#: ekos/guide/guide.cpp:3757
+#: ekos/guide/guide.cpp:3768
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Тегла на AI (*.json)"
 
-#: ekos/guide/guide.cpp:3761
+#: ekos/guide/guide.cpp:3772
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24124,7 +24124,7 @@ msgstr ""
 "Теглата на AI Guider са настроени на %1. Те ще бъдат приложени при "
 "следващото стартиране на проследяването."
 
-#: ekos/guide/guide.cpp:3942
+#: ekos/guide/guide.cpp:3953
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Не може да се промени активният оптична система, докато PHD2 е свързан"
@@ -30300,7 +30300,7 @@ msgstr "Повтаряне &до прекратяване"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Създаване на задачи за планиране за изпълнение на мозаечния план"
 
-#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:943
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:945
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
@@ -34061,217 +34061,217 @@ msgstr "Описание на тип обект"
 msgid "Object Type Comments"
 msgstr "Коментари за тип обект"
 
-#: fitsviewer/fitsdata.cpp:1984
+#: fitsviewer/fitsdata.cpp:1987
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Грешка при четене на буфер: %1."
 
-#: fitsviewer/fitsdata.cpp:1993
+#: fitsviewer/fitsdata.cpp:1996
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Неуспешно разопаковане на компресирани fits"
 
-#: fitsviewer/fitsdata.cpp:2023
+#: fitsviewer/fitsdata.cpp:2026
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Грешка при отваряне на файла %1: %2"
 
-#: fitsviewer/fitsdata.cpp:2038
+#: fitsviewer/fitsdata.cpp:2041
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Грешка при четене на буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:2052
+#: fitsviewer/fitsdata.cpp:2055
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Не може да се намери HDU на изображението: %1"
 
-#: fitsviewer/fitsdata.cpp:2062
+#: fitsviewer/fitsdata.cpp:2065
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Грешка при отваряне на FITS файл (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2076
+#: fitsviewer/fitsdata.cpp:2079
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS изображенията не се поддържат в KStars."
 
-#: fitsviewer/fitsdata.cpp:2124 fitsviewer/fitsdata.cpp:2856
+#: fitsviewer/fitsdata.cpp:2127 fitsviewer/fitsdata.cpp:2859
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Битова дълбочина %1 не се поддържа."
 
-#: fitsviewer/fitsdata.cpp:2134
+#: fitsviewer/fitsdata.cpp:2137
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Изображението има невалидни размери %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2188
+#: fitsviewer/fitsdata.cpp:2191
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Грешка при четене на изображението: %1"
 
-#: fitsviewer/fitsdata.cpp:2595 fitsviewer/fitsdata.cpp:2816
+#: fitsviewer/fitsdata.cpp:2598 fitsviewer/fitsdata.cpp:2819
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Грешка при отваряне на XISF файл:"
 
-#: fitsviewer/fitsdata.cpp:2730
+#: fitsviewer/fitsdata.cpp:2733
 #, kde-format
 msgid "File contain no images"
 msgstr "Файлът не съдържа изображения"
 
-#: fitsviewer/fitsdata.cpp:2759
+#: fitsviewer/fitsdata.cpp:2762
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Примерен формат %1 не се поддържа."
 
-#: fitsviewer/fitsdata.cpp:2894
+#: fitsviewer/fitsdata.cpp:2897
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Грешка при запазване на XISF изображение"
 
-#: fitsviewer/fitsdata.cpp:2986 fitsviewer/fitsdata.cpp:3102
+#: fitsviewer/fitsdata.cpp:2989 fitsviewer/fitsdata.cpp:3105
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: Няма достатъчно памет за канала на image_buffer. Заявено: %1 байта "
 
-#: fitsviewer/fitsdata.cpp:3041
+#: fitsviewer/fitsdata.cpp:3044
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Не може да се отвори файл %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3054
+#: fitsviewer/fitsdata.cpp:3057
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Не може да се отвори буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:3065
+#: fitsviewer/fitsdata.cpp:3068
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Не може да се разопакова_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3072
+#: fitsviewer/fitsdata.cpp:3075
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Не може да се извърши dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3080
+#: fitsviewer/fitsdata.cpp:3083
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Не може да се зареди в паметта: %1"
 
-#: fitsviewer/fitsdata.cpp:3227
+#: fitsviewer/fitsdata.cpp:3230
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Запазването на компресирани файлове не се поддържа."
 
-#: fitsviewer/fitsdata.cpp:3291
+#: fitsviewer/fitsdata.cpp:3294
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Неуспешно създаване на файл: %1"
 
-#: fitsviewer/fitsdata.cpp:3313
+#: fitsviewer/fitsdata.cpp:3316
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Неуспешно създаване на изображение: %1"
 
-#: fitsviewer/fitsdata.cpp:3322 fitsviewer/fitsdata.cpp:3329
+#: fitsviewer/fitsdata.cpp:3325 fitsviewer/fitsdata.cpp:3332
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Неуспешно актуализиране на ключа: %1"
 
-#: fitsviewer/fitsdata.cpp:3457
+#: fitsviewer/fitsdata.cpp:3460
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Неуспешно актуализиране на датата: %1"
 
-#: fitsviewer/fitsdata.cpp:3466
+#: fitsviewer/fitsdata.cpp:3469
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Неуспешно актуализиране на хронологията: %1"
 
-#: fitsviewer/fitsdata.cpp:3488
+#: fitsviewer/fitsdata.cpp:3491
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Неуспешно записване на изображение: %1"
 
-#: fitsviewer/fitsdata.cpp:5263 fitsviewer/fitsdata.cpp:5274
-#: fitsviewer/fitsdata.cpp:5311 fitsviewer/fitsdata.cpp:5347
-#: fitsviewer/fitsdata.cpp:5481
+#: fitsviewer/fitsdata.cpp:5266 fitsviewer/fitsdata.cpp:5277
+#: fitsviewer/fitsdata.cpp:5314 fitsviewer/fitsdata.cpp:5350
+#: fitsviewer/fitsdata.cpp:5484
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Няма намерени световни координатни системи."
 
-#: fitsviewer/fitsdata.cpp:5656 fitsviewer/fitsdata.cpp:5762
+#: fitsviewer/fitsdata.cpp:5734 fitsviewer/fitsdata.cpp:5840
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Грешка при запитване към Simbad"
 
-#: fitsviewer/fitsdata.cpp:5671
+#: fitsviewer/fitsdata.cpp:5749
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Времето за изчакване на заявката за Simbad изтече"
 
-#: fitsviewer/fitsdata.cpp:6648 fitsviewer/fitsdata.cpp:6761
+#: fitsviewer/fitsdata.cpp:6726 fitsviewer/fitsdata.cpp:6839
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Поддържат се само 8 и 16-битови изображения на Bayer."
 
-#: fitsviewer/fitsdata.cpp:6656 fitsviewer/fitsdata.cpp:6767
+#: fitsviewer/fitsdata.cpp:6734 fitsviewer/fitsdata.cpp:6845
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Неизвестна Байерова матрица (bayer pattern) %1"
 
-#: fitsviewer/fitsdata.cpp:6680 fitsviewer/fitsdata.cpp:6706
+#: fitsviewer/fitsdata.cpp:6758 fitsviewer/fitsdata.cpp:6784
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Неподдържана Байерова матрица (bayer pattern) %1"
 
-#: fitsviewer/fitsdata.cpp:6714
+#: fitsviewer/fitsdata.cpp:6792
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Неподдържани отмествания по Байер %1 %2."
 
-#: fitsviewer/fitsdata.cpp:6725 fitsviewer/fitsdata.cpp:6778
+#: fitsviewer/fitsdata.cpp:6803 fitsviewer/fitsdata.cpp:6856
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Невалидни параметри за дебайеризация на dc1394."
 
-#: fitsviewer/fitsdata.cpp:6736 fitsviewer/fitsdata.cpp:6789
+#: fitsviewer/fitsdata.cpp:6814 fitsviewer/fitsdata.cpp:6867
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Невалидни параметри за дебайеризация на OpenCV."
 
-#: fitsviewer/fitsdata.cpp:6745 fitsviewer/fitsdata.cpp:6798
+#: fitsviewer/fitsdata.cpp:6823 fitsviewer/fitsdata.cpp:6876
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Невалидна машина за дебайеризация"
 
-#: fitsviewer/fitsdata.cpp:7052
+#: fitsviewer/fitsdata.cpp:7130
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit е извикан с невалидни параметри за дебайеризация"
 
-#: fitsviewer/fitsdata.cpp:7068 fitsviewer/fitsdata.cpp:7114
-#: fitsviewer/fitsdata.cpp:7172 fitsviewer/fitsdata.cpp:7218
+#: fitsviewer/fitsdata.cpp:7146 fitsviewer/fitsdata.cpp:7192
+#: fitsviewer/fitsdata.cpp:7250 fitsviewer/fitsdata.cpp:7296
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Не може да се разпредели памет за временен буфер на Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:7078 fitsviewer/fitsdata.cpp:7182
+#: fitsviewer/fitsdata.cpp:7156 fitsviewer/fitsdata.cpp:7260
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Не може да се разпредели памет за временен буфер на Bayer."
 
-#: fitsviewer/fitsdata.cpp:7097 fitsviewer/fitsdata.cpp:7201
+#: fitsviewer/fitsdata.cpp:7175 fitsviewer/fitsdata.cpp:7279
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Неуспешно прилагане на филтър на Bayer (%1)"
 
-#: fitsviewer/fitsdata.cpp:7157
+#: fitsviewer/fitsdata.cpp:7235
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr "debayer_16bit е извикан с невалидни параметри за дебайеризация"
@@ -34482,12 +34482,12 @@ msgstr "С"
 msgid "Apply"
 msgstr "Прилагане"
 
-#: fitsviewer/fitslabel.cpp:392 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:399 tools/whatsinteresting/wiview.cpp:336
 #, kde-format
 msgid "Continue Slew"
 msgstr "Продължаване на завъртването"
 
-#: fitsviewer/fitslabel.cpp:477 fitsviewer/fitslabel.cpp:504
+#: fitsviewer/fitslabel.cpp:484 fitsviewer/fitslabel.cpp:511
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr "KStars не намери никакви активни монтировки."
@@ -35389,98 +35389,98 @@ msgstr "(%1) Спряно"
 msgid "(%1)"
 msgstr "(%1)"
 
-#: fitsviewer/fitsview.cpp:688 fitsviewer/fitsview.cpp:699
+#: fitsviewer/fitsview.cpp:690 fitsviewer/fitsview.cpp:701
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Премащабирането на изображението е неуспешно."
 
-#: fitsviewer/fitsview.cpp:953
+#: fitsviewer/fitsview.cpp:955
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Не може да се увеличи допълнително поради активен режим на ограничени "
 "ресурси."
 
-#: fitsviewer/fitsview.cpp:2042
+#: fitsviewer/fitsview.cpp:2106
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "СНП"
 
-#: fitsviewer/fitsview.cpp:2059
+#: fitsviewer/fitsview.cpp:2123
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "ЮНП"
 
-#: fitsviewer/fitsview.cpp:2529
+#: fitsviewer/fitsview.cpp:2593
 #, kde-format
 msgid "Finding stars..."
 msgstr "Търсене на звезди..."
 
-#: fitsviewer/fitsview.cpp:2829
+#: fitsviewer/fitsview.cpp:2893
 #, kde-format
 msgid "Zoom In"
 msgstr "Увеличаване"
 
-#: fitsviewer/fitsview.cpp:2832
+#: fitsviewer/fitsview.cpp:2896
 #, kde-format
 msgid "Zoom Out"
 msgstr "Намаляване"
 
-#: fitsviewer/fitsview.cpp:2835
+#: fitsviewer/fitsview.cpp:2899
 #, kde-format
 msgid "Default Zoom"
 msgstr "Мащаб по подразбиране"
 
-#: fitsviewer/fitsview.cpp:2838
+#: fitsviewer/fitsview.cpp:2902
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Оптимално мащабиране"
 
-#: fitsviewer/fitsview.cpp:2841
+#: fitsviewer/fitsview.cpp:2905
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Активиране/деактивиране на разтягането"
 
-#: fitsviewer/fitsview.cpp:2849 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2913 fitsviewer/fitsviewer.cpp:243
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Показване на мерник"
 
-#: fitsviewer/fitsview.cpp:2853 fitsviewer/fitsviewer.cpp:256
+#: fitsviewer/fitsview.cpp:2917 fitsviewer/fitsviewer.cpp:256
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Показване на пикселна решетка"
 
-#: fitsviewer/fitsview.cpp:2858 fitsviewer/fitsview.cpp:2967
+#: fitsviewer/fitsview.cpp:2922 fitsviewer/fitsview.cpp:3031
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Откриване на звезди в изображението"
 
-#: fitsviewer/fitsview.cpp:2864
+#: fitsviewer/fitsview.cpp:2928
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Преглед на звезден профил..."
 
-#: fitsviewer/fitsview.cpp:2874 fitsviewer/fitsviewer.cpp:262
+#: fitsviewer/fitsview.cpp:2938 fitsviewer/fitsviewer.cpp:262
 #: fitsviewer/fitsviewer.cpp:1541
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Показване на екваториалната линия"
 
-#: fitsviewer/fitsview.cpp:2880 fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsview.cpp:2944 fitsviewer/fitsviewer.cpp:269
 #: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Показване на обекти в изображението"
 
-#: fitsviewer/fitsview.cpp:2886
+#: fitsviewer/fitsview.cpp:2950
 #, kde-format
 msgid "Center Telescope"
 msgstr "Центриране на телескопа"
 
-#: fitsviewer/fitsview.cpp:2892 fitsviewer/fitsviewer.cpp:276
+#: fitsviewer/fitsview.cpp:2956 fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Показване на наслагването на HiPS"
@@ -91259,13 +91259,13 @@ msgid "Error downloading asteroids data: %1"
 msgstr "Грешка при изтегляне на данни за астероиди: %1"
 
 #: skycomponents/catalogscomponent.cpp:152
-#: skycomponents/catalogscomponent.cpp:368
-#: skycomponents/catalogscomponent.cpp:410
+#: skycomponents/catalogscomponent.cpp:373
+#: skycomponents/catalogscomponent.cpp:415
 #, kde-format
 msgid "Could not load catalog objects in trixel: %1"
 msgstr "Неуспешно зареждане на каталожни обекти в trixel: %1"
 
-#: skycomponents/catalogscomponent.cpp:440
+#: skycomponents/catalogscomponent.cpp:445
 #, kde-format
 msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
@@ -91274,13 +91274,13 @@ msgstr ""
 "Да се импортират ли персонализираните и решени в интернет обекти от старата "
 "база данни на DSO в новата?"
 
-#: skycomponents/catalogscomponent.cpp:451
-#: skycomponents/catalogscomponent.cpp:458
+#: skycomponents/catalogscomponent.cpp:456
+#: skycomponents/catalogscomponent.cpp:463
 #, kde-format
 msgid "Could not import the objects."
 msgstr "Неуспешно импортиране на обектите."
 
-#: skycomponents/catalogscomponent.cpp:463
+#: skycomponents/catalogscomponent.cpp:468
 #, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."

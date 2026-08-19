@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-17 02:08+0000\n"
+"POT-Creation-Date: 2026-08-19 02:09+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -770,7 +770,7 @@ msgstr "천체 관측 설정 파일을 읽을 수 없습니다."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "내부 천체 관측 설정 파일 쓰기 오류입니다."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3030
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1082,7 +1082,7 @@ msgstr "XPlanet 태양계 시뮬레이터: %1"
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:187
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
-#: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:289
+#: skycomponents/skymapcomposite.cpp:598 skyglpainter.cpp:289
 #: skymapdrawabstract.cpp:444 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
@@ -1104,7 +1104,7 @@ msgstr "태양"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mercury)
 #: auxiliary/xplanetimageviewer.cpp:204
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:264
-#: skycomponents/skymapcomposite.cpp:601 skyglpainter.cpp:297
+#: skycomponents/skymapcomposite.cpp:600 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:446 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
@@ -1121,7 +1121,7 @@ msgstr "수성"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Venus)
 #: auxiliary/xplanetimageviewer.cpp:204 options/opssolarsystem.ui:140
-#: skycomponents/skymapcomposite.cpp:603 skymapdrawabstract.cpp:448
+#: skycomponents/skymapcomposite.cpp:602 skymapdrawabstract.cpp:448
 #: skyobjects/ksplanet.cpp:127 skyobjects/ksplanet.cpp:161
 #: skyobjects/ksplanet.cpp:369 skyobjects/ksplanet.cpp:409
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
@@ -1158,7 +1158,7 @@ msgstr "지구"
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
 #: printing/detailstable.cpp:163 printing/detailstable.cpp:174
 #: printing/detailstable.cpp:187 printing/pwizobjectselection.cpp:124
-#: skycomponents/skymapcomposite.cpp:605 skymapdrawabstract.cpp:450
+#: skycomponents/skymapcomposite.cpp:604 skymapdrawabstract.cpp:450
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
@@ -1183,7 +1183,7 @@ msgstr "달"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mars)
 #: auxiliary/xplanetimageviewer.cpp:208
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
-#: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:293
+#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:293
 #: skymapdrawabstract.cpp:452 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
@@ -1211,7 +1211,7 @@ msgstr "데이모스"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Jupiter)
 #: auxiliary/xplanetimageviewer.cpp:210
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:202
-#: skycomponents/skymapcomposite.cpp:609 skyglpainter.cpp:297
+#: skycomponents/skymapcomposite.cpp:608 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:454 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
@@ -1249,7 +1249,7 @@ msgstr "에우로파"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1312,7 +1312,7 @@ msgstr "포에베"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
 #: auxiliary/xplanetimageviewer.cpp:216 options/opssolarsystem.ui:312
-#: skycomponents/skymapcomposite.cpp:613 skymapdrawabstract.cpp:458
+#: skycomponents/skymapcomposite.cpp:612 skymapdrawabstract.cpp:458
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
@@ -1353,7 +1353,7 @@ msgstr "오베론"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
 #: auxiliary/xplanetimageviewer.cpp:220 options/opssolarsystem.ui:280
-#: skycomponents/skymapcomposite.cpp:615 skymapdrawabstract.cpp:460
+#: skycomponents/skymapcomposite.cpp:614 skymapdrawabstract.cpp:460
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
@@ -3901,7 +3901,7 @@ msgstr "파일을 삭제할 수 없음: %1"
 msgid "No connected mounts found."
 msgstr "천체 %1을(를) 찾을 수 없습니다."
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:488
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
 #: kstarsactions.cpp:308 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
@@ -23577,187 +23577,187 @@ msgstr ""
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1876
+#: ekos/guide/guide.cpp:1887
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1907
+#: ekos/guide/guide.cpp:1918
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1909
+#: ekos/guide/guide.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Mount is slewing. Aborting guide..."
 msgstr "날짜 && 위치"
 
-#: ekos/guide/guide.cpp:1995
+#: ekos/guide/guide.cpp:2006
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration is cleared."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:2035
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2053
+#: ekos/guide/guide.cpp:2064
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2070
+#: ekos/guide/guide.cpp:2081
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration completed."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:2096
+#: ekos/guide/guide.cpp:2107
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration started."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:2110
+#: ekos/guide/guide.cpp:2121
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guiding resumed."
 msgstr "별 읽어오는 중"
 
-#: ekos/guide/guide.cpp:2114
+#: ekos/guide/guide.cpp:2125
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding running."
 msgstr "별 읽어오는 중"
 
-#: ekos/guide/guide.cpp:2136
+#: ekos/guide/guide.cpp:2147
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding aborted."
 msgstr "별 읽어오는 중"
 
-#: ekos/guide/guide.cpp:2144
+#: ekos/guide/guide.cpp:2155
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guiding suspended."
 msgstr "별 읽어오는 중"
 
-#: ekos/guide/guide.cpp:2153
+#: ekos/guide/guide.cpp:2164
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2157
+#: ekos/guide/guide.cpp:2168
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2161
+#: ekos/guide/guide.cpp:2172
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 
-#: ekos/guide/guide.cpp:2166
+#: ekos/guide/guide.cpp:2177
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "기타"
 
-#: ekos/guide/guide.cpp:2177
+#: ekos/guide/guide.cpp:2188
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Dithering completed successfully."
 msgstr "입력 좌표 선택"
 
-#: ekos/guide/guide.cpp:2235
+#: ekos/guide/guide.cpp:2246
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "전파망원경"
 
-#: ekos/guide/guide.cpp:2259
+#: ekos/guide/guide.cpp:2270
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2398
+#: ekos/guide/guide.cpp:2409
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2493
+#: ekos/guide/guide.cpp:2504
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2947
+#: ekos/guide/guide.cpp:2958
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration failed to start."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:3098
+#: ekos/guide/guide.cpp:3109
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Auto star selected."
 msgstr "선택된 천체 없음."
 
-#: ekos/guide/guide.cpp:3102
+#: ekos/guide/guide.cpp:3113
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to select an auto star."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/guide/guide.cpp:3111
+#: ekos/guide/guide.cpp:3122
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Select a guide star to calibrate."
 msgstr "별 선택"
 
-#: ekos/guide/guide.cpp:3373
+#: ekos/guide/guide.cpp:3384
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "픽셀"
 
-#: ekos/guide/guide.cpp:3374
+#: ekos/guide/guide.cpp:3385
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "픽셀"
 
-#: ekos/guide/guide.cpp:3517 ekos/guide/guide.cpp:3669
+#: ekos/guide/guide.cpp:3528 ekos/guide/guide.cpp:3680
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3521 ekos/guide/guide.cpp:3673
+#: ekos/guide/guide.cpp:3532 ekos/guide/guide.cpp:3684
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23765,67 +23765,67 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "AI Guiding Assistant..."
 msgstr "별 읽어오는 중"
 
-#: ekos/guide/guide.cpp:3610
+#: ekos/guide/guide.cpp:3621
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Load Weights..."
 msgstr "불러오는 중..."
 
-#: ekos/guide/guide.cpp:3716 ekos/guide/guide.cpp:3721
+#: ekos/guide/guide.cpp:3727 ekos/guide/guide.cpp:3732
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "EkosLive AI training failed: %1"
 msgstr "해결사 관측시야"
 
-#: ekos/guide/guide.cpp:3717 ekos/guide/guide.cpp:3722
+#: ekos/guide/guide.cpp:3728 ekos/guide/guide.cpp:3733
 #, fuzzy, kde-format
 #| msgid "Unknown Type"
 msgid "unknown error"
 msgstr "미지의 형태"
 
-#: ekos/guide/guide.cpp:3736
+#: ekos/guide/guide.cpp:3747
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save AI weights to %1"
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/guide/guide.cpp:3746
+#: ekos/guide/guide.cpp:3757
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3750
+#: ekos/guide/guide.cpp:3761
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "AI training complete. Weights saved to %1."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/guide/guide.cpp:3756
+#: ekos/guide/guide.cpp:3767
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3757
+#: ekos/guide/guide.cpp:3768
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3761
+#: ekos/guide/guide.cpp:3772
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3942
+#: ekos/guide/guide.cpp:3953
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -29754,7 +29754,7 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:943
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:945
 #, fuzzy, kde-format
 #| msgid "1"
 msgctxt "%1 is the value, % is the percent sign"
@@ -33462,243 +33462,243 @@ msgstr "설명"
 msgid "Object Type Comments"
 msgstr "천체 형태"
 
-#: fitsviewer/fitsdata.cpp:1984
+#: fitsviewer/fitsdata.cpp:1987
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:1993
+#: fitsviewer/fitsdata.cpp:1996
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2023
+#: fitsviewer/fitsdata.cpp:2026
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:2038
+#: fitsviewer/fitsdata.cpp:2041
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:2052
+#: fitsviewer/fitsdata.cpp:2055
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "%1 파일을 열 수 없습니다."
 
-#: fitsviewer/fitsdata.cpp:2062
+#: fitsviewer/fitsdata.cpp:2065
 #, fuzzy, kde-format
 #| msgid "FITS file open error: %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS 파일 열기 오류: %1"
 
-#: fitsviewer/fitsdata.cpp:2076
+#: fitsviewer/fitsdata.cpp:2079
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2124 fitsviewer/fitsdata.cpp:2856
+#: fitsviewer/fitsdata.cpp:2127 fitsviewer/fitsdata.cpp:2859
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2134
+#: fitsviewer/fitsdata.cpp:2137
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2188
+#: fitsviewer/fitsdata.cpp:2191
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:2595 fitsviewer/fitsdata.cpp:2816
+#: fitsviewer/fitsdata.cpp:2598 fitsviewer/fitsdata.cpp:2819
 #, fuzzy, kde-format
 #| msgid "File write error."
 msgid "XISF file open error: "
 msgstr "파일 쓰기 오류입니다."
 
-#: fitsviewer/fitsdata.cpp:2730
+#: fitsviewer/fitsdata.cpp:2733
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "이미지를 불러올 수 없음"
 
-#: fitsviewer/fitsdata.cpp:2759
+#: fitsviewer/fitsdata.cpp:2762
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Sample format %1 is not supported."
 msgstr "완료됨"
 
-#: fitsviewer/fitsdata.cpp:2894
+#: fitsviewer/fitsdata.cpp:2897
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:2986 fitsviewer/fitsdata.cpp:3102
+#: fitsviewer/fitsdata.cpp:2989 fitsviewer/fitsdata.cpp:3105
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3041
+#: fitsviewer/fitsdata.cpp:3044
 #, fuzzy, kde-format
 #| msgid "Cannot open %1: %2"
 msgid "Cannot open file %1: %2"
 msgstr "%1을(를) 열 수 없음: %2"
 
-#: fitsviewer/fitsdata.cpp:3054
+#: fitsviewer/fitsdata.cpp:3057
 #, fuzzy, kde-format
 #| msgid "Cannot open %1: %2"
 msgid "Cannot open buffer: %1"
 msgstr "%1을(를) 열 수 없음: %2"
 
-#: fitsviewer/fitsdata.cpp:3065
+#: fitsviewer/fitsdata.cpp:3068
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3072
+#: fitsviewer/fitsdata.cpp:3075
 #, fuzzy, kde-format
 #| msgid "Cannot write %s %1: %2"
 msgid "Cannot dcraw_process: %1"
 msgstr "%s에 쓸 수 없음: %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3080
+#: fitsviewer/fitsdata.cpp:3083
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3227
+#: fitsviewer/fitsdata.cpp:3230
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Saving compressed files is not supported."
 msgstr "완료됨"
 
-#: fitsviewer/fitsdata.cpp:3291
+#: fitsviewer/fitsdata.cpp:3294
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "%1 파일을 열 수 없습니다."
 
-#: fitsviewer/fitsdata.cpp:3313
+#: fitsviewer/fitsdata.cpp:3316
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "%1의 이미지를 불러올 수 없음"
 
-#: fitsviewer/fitsdata.cpp:3322 fitsviewer/fitsdata.cpp:3329
+#: fitsviewer/fitsdata.cpp:3325 fitsviewer/fitsdata.cpp:3332
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to update key: %1"
 msgstr "이미지 읽어오기 실패"
 
-#: fitsviewer/fitsdata.cpp:3457
+#: fitsviewer/fitsdata.cpp:3460
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "%1의 이미지를 불러올 수 없음"
 
-#: fitsviewer/fitsdata.cpp:3466
+#: fitsviewer/fitsdata.cpp:3469
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to update history: %1"
 msgstr "이미지 읽어오기 실패"
 
-#: fitsviewer/fitsdata.cpp:3488
+#: fitsviewer/fitsdata.cpp:3491
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "%1의 이미지를 불러올 수 없음"
 
-#: fitsviewer/fitsdata.cpp:5263 fitsviewer/fitsdata.cpp:5274
-#: fitsviewer/fitsdata.cpp:5311 fitsviewer/fitsdata.cpp:5347
-#: fitsviewer/fitsdata.cpp:5481
+#: fitsviewer/fitsdata.cpp:5266 fitsviewer/fitsdata.cpp:5277
+#: fitsviewer/fitsdata.cpp:5314 fitsviewer/fitsdata.cpp:5350
+#: fitsviewer/fitsdata.cpp:5484
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "지평 좌표를 사용할까요?"
 
-#: fitsviewer/fitsdata.cpp:5656 fitsviewer/fitsdata.cpp:5762
+#: fitsviewer/fitsdata.cpp:5734 fitsviewer/fitsdata.cpp:5840
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error querying Simbad"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
-#: fitsviewer/fitsdata.cpp:5671
+#: fitsviewer/fitsdata.cpp:5749
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Simbad query timed out"
 msgstr "별 읽어오는 중"
 
-#: fitsviewer/fitsdata.cpp:6648 fitsviewer/fitsdata.cpp:6761
+#: fitsviewer/fitsdata.cpp:6726 fitsviewer/fitsdata.cpp:6839
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6656 fitsviewer/fitsdata.cpp:6767
+#: fitsviewer/fitsdata.cpp:6734 fitsviewer/fitsdata.cpp:6845
 #, fuzzy, kde-format
 #| msgid "Unknown planet "
 msgid "Unknown bayer pattern %1"
 msgstr "알려지지 않은 행성 "
 
-#: fitsviewer/fitsdata.cpp:6680 fitsviewer/fitsdata.cpp:6706
+#: fitsviewer/fitsdata.cpp:6758 fitsviewer/fitsdata.cpp:6784
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6714
+#: fitsviewer/fitsdata.cpp:6792
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6725 fitsviewer/fitsdata.cpp:6778
+#: fitsviewer/fitsdata.cpp:6803 fitsviewer/fitsdata.cpp:6856
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "입력 인자"
 
-#: fitsviewer/fitsdata.cpp:6736 fitsviewer/fitsdata.cpp:6789
+#: fitsviewer/fitsdata.cpp:6814 fitsviewer/fitsdata.cpp:6867
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "입력 인자"
 
-#: fitsviewer/fitsdata.cpp:6745 fitsviewer/fitsdata.cpp:6798
+#: fitsviewer/fitsdata.cpp:6823 fitsviewer/fitsdata.cpp:6876
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Invalid debayer engine"
 msgstr "부적합한 파일명"
 
-#: fitsviewer/fitsdata.cpp:7052
+#: fitsviewer/fitsdata.cpp:7130
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7068 fitsviewer/fitsdata.cpp:7114
-#: fitsviewer/fitsdata.cpp:7172 fitsviewer/fitsdata.cpp:7218
+#: fitsviewer/fitsdata.cpp:7146 fitsviewer/fitsdata.cpp:7192
+#: fitsviewer/fitsdata.cpp:7250 fitsviewer/fitsdata.cpp:7296
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7078 fitsviewer/fitsdata.cpp:7182
+#: fitsviewer/fitsdata.cpp:7156 fitsviewer/fitsdata.cpp:7260
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7097 fitsviewer/fitsdata.cpp:7201
+#: fitsviewer/fitsdata.cpp:7175 fitsviewer/fitsdata.cpp:7279
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7157
+#: fitsviewer/fitsdata.cpp:7235
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -33923,14 +33923,14 @@ msgstr "TOMB"
 msgid "Apply"
 msgstr "적용(&A)"
 
-#: fitsviewer/fitslabel.cpp:392 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:399 tools/whatsinteresting/wiview.cpp:336
 #, fuzzy, kde-format
 #| msgctxt "City in Manitoba Canada"
 #| msgid "Arborg"
 msgid "Continue Slew"
 msgstr "Arborg"
 
-#: fitsviewer/fitslabel.cpp:477 fitsviewer/fitslabel.cpp:504
+#: fitsviewer/fitslabel.cpp:484 fitsviewer/fitslabel.cpp:511
 #, fuzzy, kde-format
 #| msgid "KStars did not find any active telescopes."
 msgid "KStars did not find any active mounts."
@@ -34875,108 +34875,108 @@ msgstr "정지"
 msgid "(%1)"
 msgstr "적경 (%1):"
 
-#: fitsviewer/fitsview.cpp:688 fitsviewer/fitsview.cpp:699
+#: fitsviewer/fitsview.cpp:690 fitsviewer/fitsview.cpp:701
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Rescaling image failed."
 msgstr "이미지 %1 저장 중 실패."
 
-#: fitsviewer/fitsview.cpp:953
+#: fitsviewer/fitsview.cpp:955
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2042
+#: fitsviewer/fitsview.cpp:2106
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2059
+#: fitsviewer/fitsview.cpp:2123
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "표준시:"
 
-#: fitsviewer/fitsview.cpp:2529
+#: fitsviewer/fitsview.cpp:2593
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Finding stars..."
 msgstr "별 읽어오는 중"
 
-#: fitsviewer/fitsview.cpp:2829
+#: fitsviewer/fitsview.cpp:2893
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2832
+#: fitsviewer/fitsview.cpp:2896
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2835
+#: fitsviewer/fitsview.cpp:2899
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Default Zoom"
 msgstr "기본 배율(&S)"
 
-#: fitsviewer/fitsview.cpp:2838
+#: fitsviewer/fitsview.cpp:2902
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2841
+#: fitsviewer/fitsview.cpp:2905
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Toggle Stretch"
 msgstr "자동 크기"
 
-#: fitsviewer/fitsview.cpp:2849 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2913 fitsviewer/fitsviewer.cpp:243
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "십자가"
 
-#: fitsviewer/fitsview.cpp:2853 fitsviewer/fitsviewer.cpp:256
+#: fitsviewer/fitsview.cpp:2917 fitsviewer/fitsviewer.cpp:256
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
 msgstr "별자리선을 보일까요?"
 
-#: fitsviewer/fitsview.cpp:2858 fitsviewer/fitsview.cpp:2967
+#: fitsviewer/fitsview.cpp:2922 fitsviewer/fitsview.cpp:3031
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgid "Detect Stars in Image"
 msgstr "FITS 열기..."
 
-#: fitsviewer/fitsview.cpp:2864
+#: fitsviewer/fitsview.cpp:2928
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "View Star Profile..."
 msgstr "호 파일"
 
-#: fitsviewer/fitsview.cpp:2874 fitsviewer/fitsviewer.cpp:262
+#: fitsviewer/fitsview.cpp:2938 fitsviewer/fitsviewer.cpp:262
 #: fitsviewer/fitsviewer.cpp:1541
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "적도 좌표"
 
-#: fitsviewer/fitsview.cpp:2880 fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsview.cpp:2944 fitsviewer/fitsviewer.cpp:269
 #: fitsviewer/fitsviewer.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "천체 보이기"
 
-#: fitsviewer/fitsview.cpp:2886
+#: fitsviewer/fitsview.cpp:2950
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid "Center Telescope"
 msgstr "범위 중앙"
 
-#: fitsviewer/fitsview.cpp:2892 fitsviewer/fitsviewer.cpp:276
+#: fitsviewer/fitsview.cpp:2956 fitsviewer/fitsviewer.cpp:276
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show HiPS Overlay"
@@ -91493,28 +91493,28 @@ msgid "Error downloading asteroids data: %1"
 msgstr "오류: 이미지로 저장할 수 없음: %1 "
 
 #: skycomponents/catalogscomponent.cpp:152
-#: skycomponents/catalogscomponent.cpp:368
-#: skycomponents/catalogscomponent.cpp:410
+#: skycomponents/catalogscomponent.cpp:373
+#: skycomponents/catalogscomponent.cpp:415
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Could not load catalog objects in trixel: %1"
 msgstr "파일을 다운로드할 수 없습니다."
 
-#: skycomponents/catalogscomponent.cpp:440
+#: skycomponents/catalogscomponent.cpp:445
 #, kde-format
 msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
 
-#: skycomponents/catalogscomponent.cpp:451
-#: skycomponents/catalogscomponent.cpp:458
+#: skycomponents/catalogscomponent.cpp:456
+#: skycomponents/catalogscomponent.cpp:463
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not import the objects."
 msgstr "파일을 삭제할 수 없음: %1"
 
-#: skycomponents/catalogscomponent.cpp:463
+#: skycomponents/catalogscomponent.cpp:468
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Successfully added %1 object to the user catalog."
