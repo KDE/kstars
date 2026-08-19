@@ -968,6 +968,11 @@ bool Guide::startGuideStreaming()
     if (m_Camera->hasGain() && guideGain->isEnabled() && guideGain->value() > guideGainSpecialValue)
         m_Camera->setGain(guideGain->value());
 
+    // Apply the stream bit depth selected in the guide UI (saved per optical train).
+    // guideStreamMode: index 1 = 16-bit (full depth), index 2 = 8-bit.
+    const int streamDepth = (guideStreamMode->currentIndex() == 1) ? 1 : 0; // 1 = 16-bit, 0 = 8-bit
+    m_Camera->setStreamDepth(streamDepth);
+
     if (!m_Camera->setVideoStreamEnabled(true))
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "startGuideStreaming: failed to enable video stream";
@@ -1075,6 +1080,14 @@ bool Guide::abort()
         case GUIDE_CAPTURE:
         case GUIDE_GUIDING:
         case GUIDE_LOOPING:
+        // Also abort from the active guiding sub-states, otherwise the internal guider is
+        // left in that state. In particular, stopping while reacquiring left state at
+        // GUIDE_REACQUIRE, so the next guide() hit InternalGuider::guide()'s early return
+        // (state >= GUIDE_GUIDING -> processGuiding()) and never started a fresh capture —
+        // "no new frame" until a manual Capture/Loop reset the state.
+        case GUIDE_REACQUIRE:
+        case GUIDE_SUSPENDED:
+        case GUIDE_MANUAL_DITHERING:
             // Persist the periodic-error period length learned during this session before stopping.
             saveGPGPeriod();
             m_GuiderInstance->abort();
@@ -1103,6 +1116,9 @@ void Guide::setBusy(bool enable)
         guideDarkFrame->setEnabled(false);
         guideSubframe->setEnabled(false);
         guideAutoStar->setEnabled(false);
+        // Stream mode (depth) cannot be changed mid-session; the stream must be
+        // (re)started to apply a new depth. Lock it while busy.
+        guideStreamMode->setEnabled(false);
         stopB->setEnabled(true);
         // Optical Train
         opticalTrainCombo->setEnabled(false);
@@ -1148,6 +1164,7 @@ void Guide::setBusy(bool enable)
             clearCalibrationB->setEnabled(true);
         guideB->setEnabled(true);
         stopB->setEnabled(false);
+        guideStreamMode->setEnabled(true);
         m_ProgressIndicator->stopAnimation();
 
         // Optical Train
@@ -2133,10 +2150,17 @@ void Guide::setStatus(Ekos::GuideState newState)
                 // Start streaming guide mode if the user enabled it and the camera supports it.
                 // Only start on fresh GUIDE_GUIDING entry (not resume from suspend/dither).
                 // Guard against double-starting if streaming was already active from calibration.
-                if (guiderType == GUIDE_INTERNAL && m_Camera && !m_StreamingGuide)
+                if (guiderType == GUIDE_INTERNAL && m_Camera)
                 {
-                    auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
-                    if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera->hasVideoStream())
+                    // Fresh session: drop any lingering stream from a previous session so the
+                    // currently selected mode/depth is (re)applied cleanly and the driver's
+                    // buffered frame is flushed. Without this, a leftover stream (or a stale
+                    // m_StreamingGuide flag) makes the code skip both startGuideStreaming() and
+                    // the single-frame capture() below, so no fresh frame is fetched and star
+                    // detection runs on stale data after switching the Stream mode.
+                    if (m_StreamingGuide)
+                        stopGuideStreaming();
+                    if (guideStreamMode->currentIndex() > 0 && m_Camera->hasVideoStream())
                         startGuideStreaming();
                 }
             }
@@ -3689,13 +3713,13 @@ void Guide::loop()
     }
     else if (guiderType == GUIDE_INTERNAL)
     {
+        // Fresh loop: drop any lingering stream from a previous session so the selected
+        // mode/depth applies cleanly and the driver's buffered frame is flushed.
+        if (m_StreamingGuide)
+            stopGuideStreaming();
         // Start streaming if enabled and camera supports it; otherwise fall back to single-frame captures.
-        if (!m_StreamingGuide)
-        {
-            auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
-            if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera && m_Camera->hasVideoStream())
-                startGuideStreaming();
-        }
+        if (guideStreamMode->currentIndex() > 0 && m_Camera && m_Camera->hasVideoStream())
+            startGuideStreaming();
         // In streaming mode frames arrive automatically — no initial capture needed.
         // In single-capture mode an explicit capture is required to start the loop.
         if (!m_StreamingGuide)

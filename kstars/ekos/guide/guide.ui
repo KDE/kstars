@@ -234,13 +234,25 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QCheckBox" name="guideStreamingEnabled">
+             <widget class="QComboBox" name="guideStreamMode">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable streaming guide mode. When checked and the camera supports video streaming, the guide module captures frames via a continuous video stream instead of individual exposures. This significantly reduces per-frame overhead and enables higher guiding frequencies (e.g. 2–5 Hz) required by harmonic drives. Not compatible with dark-frame subtraction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Guide capture mode:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Stream OFF&lt;/b&gt;: capture individual guide exposures (default).&lt;/li&gt;&lt;li&gt;&lt;b&gt;Stream 16-bit&lt;/b&gt;: capture frames via a continuous 16-bit video stream (full sensor depth).&lt;/li&gt;&lt;li&gt;&lt;b&gt;Stream 8-bit&lt;/b&gt;: capture frames via a continuous 8-bit video stream (lower bandwidth).&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Streaming requires a camera that supports video streaming. It removes per-frame overhead and enables higher guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This setting is saved per optical train.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
-              <property name="text">
-               <string>Stream</string>
-              </property>
+              <item>
+               <property name="text">
+                <string>Stream OFF</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Stream 16-bit</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Stream 8-bit</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item row="3" column="0" rowspan="2">

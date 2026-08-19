@@ -1180,6 +1180,30 @@ bool Camera::setStreamRecording(const QString &value)
     return true;
 }
 
+bool Camera::setStreamDepth(int depth)
+{
+    INDI::PropertySwitch svp = getSwitch("STREAM_FULL_DEPTH");
+
+    if (!svp)
+        return false;
+
+    // depth 0 = 8-bit, 1 = 16-bit
+    auto target = (depth == 1) ? "FULL_DEPTH_16BIT" : "FULL_DEPTH_8BIT";
+
+    svp.reset();
+    for (size_t i = 0; i < svp.count(); i++)
+    {
+        if (svp[i].isNameMatch(target))
+        {
+            svp[i].setState(ISS_ON);
+            break;
+        }
+    }
+
+    sendNewProperty(svp);
+    return true;
+}
+
 bool Camera::setVideoStreamEnabled(bool enable)
 {
     if (HasVideoStream == false)

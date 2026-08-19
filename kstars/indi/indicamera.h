@@ -196,6 +196,8 @@ class Camera : public ConcreteDevice
         bool setStreamExposure(double duration);
         bool getStreamExposure(double *duration);
         bool setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
+        // Stream Depth (8-bit / 16-bit)
+        bool setStreamDepth(int depth);
 
         // Video Recording
         bool setSERNameDirectory(const QString &filename, const QString &directory);
