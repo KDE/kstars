@@ -94,7 +94,9 @@ class SequenceJob : public QObject
             // Bool
             SJ_DitherPerJobEnabled,
             // Bool
-            SJ_SkyFlat
+            SJ_SkyFlat,
+            // Int (0 = 8-bit, 1 = 16-bit) — stream depth for video sequences
+            SJ_StreamDepth
         } PropertyID;
 
         typedef enum

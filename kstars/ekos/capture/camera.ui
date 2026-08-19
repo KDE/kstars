@@ -315,6 +315,26 @@
               </item>
              </widget>
             </item>
+            <item>
+             <widget class="QComboBox" name="videoStreamDepthS">
+              <property name="toolTip">
+               <string>Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for full dynamic range)</string>
+              </property>
+              <property name="visible">
+               <bool>false</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>8-bit</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>16-bit</string>
+               </property>
+              </item>
+             </widget>
+            </item>
            </layout>
           </item>
           <item row="4" column="0">

@@ -355,6 +355,10 @@ QString SequenceJob::setCameraDeviceProperties()
 
         devices.data()->getActiveCamera()->setStreamRecording(getCoreProperty(SJ_Format).toString());
         devices.data()->getActiveCamera()->setStreamEncoding(getCoreProperty(SJ_Encoding).toString());
+
+        // Set stream depth (8-bit or 16-bit) before recording
+        int streamDepth = getCoreProperty(SJ_StreamDepth).toInt();
+        devices.data()->getActiveCamera()->setStreamDepth(streamDepth);
     }
     else
     {
@@ -699,6 +703,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
     m_CoreProperties[SJ_DitherPerJobEnabled] = true;
     m_CoreProperties[SJ_DitherPerJobFrequency] = 0;
     m_CoreProperties[SJ_Encoding] = "FITS";
+    m_CoreProperties[SJ_StreamDepth] = 0;
 
     // targetName overrides values from the XML document
     if (targetName != "")
@@ -721,6 +726,10 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
             setCoreProperty(SequenceJob::SJ_Encoding, QString(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "StreamDepth"))
+        {
+            setCoreProperty(SequenceJob::SJ_StreamDepth, cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Binning"))
         {
@@ -1025,6 +1034,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
               Qt::endl;
     outstream << "<Format>" << getCoreProperty(SequenceJob::SJ_Format).toString() << "</Format>" << Qt::endl;
     outstream << "<Encoding>" << getCoreProperty(SequenceJob::SJ_Encoding).toString() << "</Encoding>" << Qt::endl;
+    outstream << "<StreamDepth>" << getCoreProperty(SequenceJob::SJ_StreamDepth).toInt() << "</StreamDepth>" << Qt::endl;
     outstream << "<Binning>" << Qt::endl;
     outstream << "<X>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << Qt::endl;
     outstream << "<Y>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Binning).toPoint().y()) << "</Y>" << Qt::endl;

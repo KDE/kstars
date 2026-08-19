@@ -537,6 +537,7 @@ void Camera::updateJobFromUI(const QSharedPointer<SequenceJob> &job, FilenamePre
 {
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
+    job->setCoreProperty(SequenceJob::SJ_StreamDepth, videoStreamDepthS->currentIndex());
 
     if (captureISOS)
         job->setISO(captureISOS->currentIndex());
@@ -657,6 +658,7 @@ void Camera::syncGUIToJob(const QSharedPointer<SequenceJob> &job)
     captureTypeS->setCurrentIndex(job->getFrameType());
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
     captureEncodingS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Encoding).toString());
+    videoStreamDepthS->setCurrentIndex(job->getCoreProperty(SequenceJob::SJ_StreamDepth).toInt());
     captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
     captureBinHN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x());
     captureBinVN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y());

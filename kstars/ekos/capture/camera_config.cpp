@@ -955,6 +955,9 @@ void Camera::updateCaptureFormats()
     loopB->setEnabled(!isVideo);
     previewB->setEnabled(!isVideo);
 
+    // Show stream depth selector only for video sequences
+    videoStreamDepthS->setVisible(isVideo);
+
     // enforce the upload mode for videos
     if (isVideo)
         selectUploadMode(ISD::Camera::UPLOAD_REMOTE);
