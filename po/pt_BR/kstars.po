@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-19 07:03-0300\n"
+"PO-Revision-Date: 2026-08-19 15:48-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -15348,18 +15348,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profundidade de bits da transmissão para gravação de vídeo (8 bits para alta "
+"taxa de quadros, 16 bits para faixa dinâmica completa)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8-bit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16-bit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -24195,29 +24197,34 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Modo de captura de guiagem:</p><ul><li><b>Transmissão "
+"DESLIGADA</b>: captura exposições individuais de guiagem (padrão).</"
+"li><li><b>Transmissão de 16-bits</b>: captura quadros via fluxo de vídeo "
+"contínuo de 16 bits (profundidade total do sensor).</li><li><b>Transmissão "
+"de 8-bits</b>: captura quadros via fluxo de vídeo contínuo de 8 bits (menor "
+"largura de banda).</li></ul><p>A transmissão requer uma câmera que suporte "
+"transmissão de vídeo. Ele elimina a sobrecarga por quadro e permite "
+"frequências de guiagem mais altas (por exemplo, 2–5 Hz), das quais os "
+"redutores harmônicos se beneficiam. Essa configuração é salva por conjunto "
+"óptico.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Transmissão ligada"
+msgstr "Transmissão DESLIGADA"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Transmissão ligada"
+msgstr "Transmissão de 16-bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Transmissão"
+msgstr "Transmissão de 8-bits"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286

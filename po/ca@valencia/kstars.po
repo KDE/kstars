@@ -9,13 +9,13 @@
 # SPDX-FileCopyrightText: 2004 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2004 David Gil, <al016950@yahoo.es>
 # SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016 Orestes Mas Casals <orestes@tsc.upc.edu>
-# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2026 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-16 19:09+0200\n"
+"PO-Revision-Date: 2026-08-19 21:13+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -15582,6 +15582,7 @@ msgstr "Format de transferència de les imatges."
 msgid "Native"
 msgstr "Natiu"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:321
 #, kde-format
@@ -15589,18 +15590,21 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profunditat de bits de l'emissió per a la gravació de vídeo (8 bits per a "
+"una velocitat dels fotogrames ràpida, 16 bits per a un marge dinàmic "
+"complet)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16 bits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -24251,12 +24255,12 @@ msgstr "S'ha perdut la connexió amb la càmera de guiatge."
 #: ekos/guide/guide.cpp:995
 #, kde-format
 msgid "Guide streaming started."
-msgstr "Ha començat el flux de dades del guiatge."
+msgstr "Ha començat la transmissió del guiatge."
 
 #: ekos/guide/guide.cpp:1015
 #, kde-format
 msgid "Guide streaming stopped."
-msgstr "S'ha parat el flux de dades del guiatge."
+msgstr "S'ha parat la transmissió del guiatge."
 
 #: ekos/guide/guide.cpp:1188
 #, kde-format
@@ -24635,29 +24639,35 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p> Mode de captura del guiatge:</p><ul><li><b>Emissió "
+"apagada</b>: captura exposicions de guiatge individuals (predeterminat).</"
+"li><li><b>Emissió de 16 bits</b>: captura fotogrames mitjançant una emissió "
+"de vídeo continua de 16 bits (profunditat total del sensor).</"
+"li><li><b>Emissió de 8 bits</b>: captura fotogrames mitjançant una emissió "
+"de vídeo continua de 8 bits (amplada de banda menor).</li></ul><p>La "
+"transmissió continua requerix una càmera que admeta la transmissió de vídeo. "
+"Elimina el temps addicional per fotograma i permet utilitzar freqüències de "
+"guiatge més elevades (p. ex., de 2 fins a 5 Hz), de les quals es beneficien "
+"les muntures de Transmissió Harmonic. Este paràmetre es guarda per a cada "
+"tren òptic.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Inicia l'emissió"
+msgstr "Emissió apagada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Inicia l'emissió"
+msgstr "Emissió de 16 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Flux de dades"
+msgstr "Emissió de 8 bits"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
@@ -39241,7 +39251,7 @@ msgstr "La tapa per la pols està desaparcada"
 #: indi/indielement.cpp:351
 #, kde-format
 msgid "INDI DATA STREAM"
-msgstr "FLUX DE DADES INDI"
+msgstr "EMISSIÓ DE DADES INDI"
 
 #: indi/indielement.cpp:624
 #, kde-format
@@ -39699,7 +39709,7 @@ msgstr "Gravació:"
 #: indi/recordingoptions.ui:115
 #, kde-format
 msgid "Record stream until manually stopped"
-msgstr "Grava el flux fins que es pare manualment."
+msgstr "Grava l'emissió fins que es pare manualment."
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:118
@@ -39713,7 +39723,7 @@ msgstr "Fins que es para"
 #: indi/recordingoptions.ui:156 indi/recordingoptions.ui:166
 #, kde-format
 msgid "Record stream until this many frames are captured"
-msgstr "Grava el flux fins que es capturen este nombre de fotogrames."
+msgstr "Grava l'emissió fins que es capturen este nombre de fotogrames."
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
 #: indi/recordingoptions.ui:159
@@ -39727,7 +39737,7 @@ msgstr "Fotogrames:"
 #: indi/recordingoptions.ui:186 indi/recordingoptions.ui:196
 #, kde-format
 msgid "Record stream for specified duration in seconds"
-msgstr "Grava el flux per a la duració especificada, en segons."
+msgstr "Grava l'emissió per a la duració especificada, en segons."
 
 #. i18n: ectx: property (title), widget (QGroupBox, debayerOptions)
 #. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
@@ -39800,7 +39810,7 @@ msgstr "Fallada del controlador"
 #: indi/streamform.ui:20
 #, kde-format
 msgid "Video Stream"
-msgstr "Flux de vídeo"
+msgstr "Emissió de vídeo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:59
@@ -39890,7 +39900,7 @@ msgstr "Fotogrames:"
 #: indi/streamform.ui:371
 #, kde-format
 msgid "Apply FPS and restart stream"
-msgstr "Aplica els FPS i reinicia el flux."
+msgstr "Aplica els FPS i reinicia l'emissió."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/streamform.ui:394
@@ -41028,13 +41038,13 @@ msgstr "El solucionador de l'astrometria és intern o extern?"
 #: kstars.kcfg:270
 #, kde-format
 msgid "Video streaming window width"
-msgstr "Amplària de la finestra del flux de vídeo"
+msgstr "Amplària de la finestra de transmissió de vídeo"
 
 #. i18n: ectx: label, entry (streamWindowHeight), group (indi)
 #: kstars.kcfg:274
 #, kde-format
 msgid "Video streaming window height"
-msgstr "Alçària de la finestra del flux de vídeo"
+msgstr "Alçària de la finestra de transmissió de vídeo"
 
 #. i18n: ectx: label, entry (INDIMountLogging), group (indi)
 #: kstars.kcfg:278
@@ -87673,7 +87683,7 @@ msgstr "Inicia l'emissió"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Streaming"
-msgstr "Flux de dades"
+msgstr "Transmissió"
 
 #: libindi_strings.cpp:467
 #, kde-kuit-format
@@ -87973,7 +87983,7 @@ msgstr "Grava el vídeo"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Video Stream"
-msgstr "Flux de vídeo"
+msgstr "Emissió de vídeo"
 
 #: libindi_strings.cpp:517
 #, kde-kuit-format
@@ -88432,7 +88442,7 @@ msgstr "Andreas Ruthner"
 #: main.cpp:199
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
-msgstr "Nombroses esmenes en el guiatge, flux de dades i programador."
+msgstr "Nombroses esmenes en el guiatge, transmissió i programador."
 
 #: main.cpp:200
 #, kde-format
@@ -101410,19 +101420,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable streaming guide mode. When checked and the "
-#~ "camera supports video streaming, the guide module captures frames via a "
-#~ "continuous video stream instead of individual exposures. This "
-#~ "significantly reduces per-frame overhead and enables higher guiding "
-#~ "frequencies (e.g. 2–5 Hz) required by harmonic drives. Not compatible "
-#~ "with dark-frame subtraction.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Activa el flux de dades del guiatge. Quan es marca, "
-#~ "i la càmera admet la transmissió de vídeo, el mòdul «Guia» captura els "
-#~ "fotogrames a través d'un flux de vídeo continu en lloc d'exposicions "
-#~ "individuals. Açò reduïx significativament la sobrecàrrega per fotograma i "
-#~ "permet freqüències de guiatge més altes (p. ex., de 2 fins als 5 Hz) "
-#~ "requerides per transmissions Harmonic. No és compatible amb la resta de "
-#~ "fotogrames foscos.</p></body></html>"
