@@ -3909,17 +3909,21 @@ void Manager::connectModules()
 
 
     // Focus <---> Analyze connections
+    // Connect to the FocusModule's forwarded signals (not to mainFocuser() directly),
+    // so autofocus events from any optical train reach Analyze. Otherwise, scheduler-
+    // or capture-driven refocus that is dispatched to a non-main focuser is missing
+    // from the .analyze log entirely.
     if (focusProcess && analyzeProcess)
     {
-        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusComplete,
+        connect(focusModule(), &Ekos::FocusModule::autofocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
-        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::adaptiveFocusComplete,
+        connect(focusModule(), &Ekos::FocusModule::adaptiveFocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::adaptiveFocusComplete, Qt::UniqueConnection);
-        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusStarting,
+        connect(focusModule(), &Ekos::FocusModule::autofocusStarting,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
-        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusAborted,
+        connect(focusModule(), &Ekos::FocusModule::autofocusAborted,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
-        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusTemperatureDelta,
+        connect(focusModule(), &Ekos::FocusModule::newFocusTemperatureDelta,
                 analyzeProcess.get(), &Ekos::Analyze::newTemperature, Qt::UniqueConnection);
     }
 

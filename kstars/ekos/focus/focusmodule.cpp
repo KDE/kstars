@@ -575,6 +575,13 @@ void FocusModule::initFocuser(QSharedPointer<Focus> newFocuser)
     connect(newFocuser.get(), &Focus::inSequenceAF, this, &FocusModule::inSequenceAF);
     connect(newFocuser.get(), &Focus::newLog, this, &FocusModule::appendLogText);
     connect(newFocuser.get(), &Focus::newFocusLog, this, &FocusModule::appendFocusLogText);
+
+    // Forward Analyze-targeted signals from every child Focus so listeners get
+    // events from any optical train, not only the main (index 0) focuser.
+    connect(newFocuser.get(), &Focus::autofocusStarting,     this, &FocusModule::autofocusStarting);
+    connect(newFocuser.get(), &Focus::autofocusComplete,     this, &FocusModule::autofocusComplete);
+    connect(newFocuser.get(), &Focus::autofocusAborted,      this, &FocusModule::autofocusAborted);
+    connect(newFocuser.get(), &Focus::adaptiveFocusComplete, this, &FocusModule::adaptiveFocusComplete);
 }
 
 QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)

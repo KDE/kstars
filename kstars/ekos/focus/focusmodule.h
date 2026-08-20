@@ -267,6 +267,20 @@ class FocusModule : public QWidget, public Ui::FocusManager
         void newFocusTemperatureDelta(double delta, double absTemperature, const QString &trainname);
         void inSequenceAF(bool requested, const QString &trainname);
 
+        // Signals forwarded from each child Focus instance so that listeners
+        // (e.g. Analyze) receive autofocus events regardless of which focuser
+        // (which optical train) ran the autofocus. Without this forwarding,
+        // only the main focuser (index 0) reaches Analyze, so scheduler-driven
+        // refocus on a non-default train is silently lost from the .analyze log.
+        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo);
+        void autofocusComplete(double temperature, const QString &filter, const QString &points, const bool useWeights,
+                               const QString &curve = "", const QString &title = "");
+        void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
+                              const AutofocusFailReason failCode, const QString &failCodeInfo);
+        void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
+                                   double altitude, double altTicks, int prevPosError, int thisPosError,
+                                   int totalTicks, int position, bool focuserMoved);
+
 
     private:
         // ////////////////////////////////////////////////////////////////////
