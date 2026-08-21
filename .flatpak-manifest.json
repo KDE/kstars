@@ -382,13 +382,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.26.1.tar.gz",
-                    "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990",
+                    "url": "https://download-mirror.savannah.gnu.org/releases/gpsd/gpsd-3.27.5.tar.gz",
+                    "sha256": "409873f5048462ef1ac413a51ab35caa8b50b31be62b3347bee1cc2994e7c649",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6846,
                         "stable-only": true,
-                        "url-template": "https://download.savannah.gnu.org/releases/gpsd/gpsd-$version.tar.gz"
+                        "url-template": "https://download-mirror.savannah.gnu.org/releases/gpsd/gpsd-$version.tar.gz"
                     }
                 }
             ]
