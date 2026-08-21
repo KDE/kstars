@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-15 16:45+0200\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"PO-Revision-Date: 2026-08-20 23:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11035,7 +11035,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -15441,18 +15441,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profunditat de bits del flux de dades de l'enregistrament de vídeo (8 bits "
+"per una taxa de fotogrames ràpida, 16 bits per a interval dinàmic complet)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16 bits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -17101,12 +17103,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "DSLR"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La càmera %1 està ocupada. Interrompo per a tancar?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Atura la captura"
@@ -24368,29 +24370,34 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Mode de captura del guiatge:</p><ul><li><b>Flux de "
+"dades APAGAT</b>: captura exposicions individuals de guiatge (predeterminat)."
+"</li><li><b>Flux de dades de 16 bits</b>: captura fotogrames a través d'un "
+"flux de vídeo de 16 bits continu (profunditat completa del sensor).</"
+"li><li><b>Flux de dades de 8 bits</b>: captura fotogrames a través d'un flux "
+"de vídeo de 8 bits continu (amplada de banda més baixa).</li></ul><p>El flux "
+"de dades requereix una càmera que admeti la transmissió de vídeo. Elimina la "
+"sobrecàrrega per fotograma i permet freqüències de guiatge més altes (p. ex. "
+"2–5 Hz) de les quals es beneficien les unitats harmòniques. Aquesta "
+"configuració es desa per cada tren òptic.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Inicia l'emissió"
+msgstr "Flux de dades APAGAT"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Inicia l'emissió"
+msgstr "Flux de dades de 16 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Flux de dades"
+msgstr "Flux de dades de 8 bits"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -27194,17 +27201,17 @@ msgstr "Es torna a activar el registre de depuració del %1..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració del %1..."
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia definida a externa"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablerta a interna"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-16 00:29+0100\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"PO-Revision-Date: 2026-08-21 00:57+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11012,7 +11012,7 @@ msgstr "Empezar resolución de placa en la posición a la que está apuntando."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -15403,18 +15403,21 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profundidad de bits de la transmisión para la grabación de vídeo (8 bits "
+"para una alta velocidad de fotogramas, 16 bits para un rango dinámico "
+"completo)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16 bits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -17078,12 +17081,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "DSLR"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La cámara %1 está ocupada. ¿Interrumpir para cerrar?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Detener la captura"
@@ -23946,12 +23949,12 @@ msgstr "Se ha perdido la conexión con la cámara guía."
 #: ekos/guide/guide.cpp:995
 #, kde-format
 msgid "Guide streaming started."
-msgstr "Guiado de emisión iniciado."
+msgstr "Transmisión de guiado iniciada."
 
 #: ekos/guide/guide.cpp:1015
 #, kde-format
 msgid "Guide streaming stopped."
-msgstr "Guiado de emisión detenido."
+msgstr "Transmisión de guiado detenida."
 
 #: ekos/guide/guide.cpp:1188
 #, kde-format
@@ -24327,29 +24330,35 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Modo de captura de guiado:</p><ul><li><b>Transmisión "
+"desactivada</b>: capturar exposiciones de guiado individuales "
+"(predeterminado).</li><li><b>Transmisión de 16 bits</b>: capturar fotogramas "
+"mediante una transmisión de vídeo de 16 bits continua (profundidad completa "
+"del sensor).</li><li><b>Transmisión de 8 bits</b>: capturar fotogramas "
+"mediante una transmisión de vídeo de 8 bits continua (menor ancho de banda)."
+"</li></ul><p>La transmisión requiere una cámara que permita transmisión de "
+"vídeo. Se elimina la sobrecarga por fotograma y permite frecuencias de "
+"guiado más altas (por ejemplo, de 2 a 5 Hz), de las que se benefician los "
+"accionamientos armónicos. Esta configuración se guarda por tren óptico.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Comenzar a emitir"
+msgstr "Transmisión desactivada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Comenzar a emitir"
+msgstr "Transmisión de 16 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Emisión"
+msgstr "Transmisión de 8 bits"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -27142,17 +27151,17 @@ msgstr "Volviendo a activar registro de depuración para %1…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "Volviendo a desactivar registro de depuración para %1…"
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Fuente de vista previa establecida a externa"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Fuente de vista previa restablecida a interna"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "Recibido archivo externo de vista previa"
@@ -100453,19 +100462,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable streaming guide mode. When checked and the "
-#~ "camera supports video streaming, the guide module captures frames via a "
-#~ "continuous video stream instead of individual exposures. This "
-#~ "significantly reduces per-frame overhead and enables higher guiding "
-#~ "frequencies (e.g. 2–5 Hz) required by harmonic drives. Not compatible "
-#~ "with dark-frame subtraction.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Activar el modo de guiado de emisión. Cuando está "
-#~ "marcado y la cámara permite emisión de vídeo, el módulo de guiado captura "
-#~ "fotogramas mediante una emisión de vídeo continua en lugar de realizar "
-#~ "exposiciones individuales. Esto reduce significativamente la sobrecarga "
-#~ "por fotograma y permite frecuencias de guiado más altas (por ejemplo, de "
-#~ "2 a 5 Hz) requeridas por los accionamientos armónicos. No es compatible "
-#~ "con la sustracción de fotograma oscuro.</p></body></html>"

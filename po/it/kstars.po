@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-08 20:41+0200\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"PO-Revision-Date: 2026-08-20 09:36+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -11005,7 +11005,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -15401,18 +15401,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profondità in bit del flusso (stream) per la registrazione video (a 8 bit "
+"per la velocità fotogrammi veloce; a 16 bit per la gamma dinamica completa)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8 bit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16 bit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -17065,12 +17067,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "DSLR"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La fotocamera %1 è occupata. Interrompere per chiudere?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Ferma l'acquisizione"
@@ -24253,6 +24255,12 @@ msgid ""
 "software binning if the camera supports it — otherwise the correction will "
 "not match.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sottrai il dark frame. Crea dark frame o mappe dei "
+"difetti nello strumento Libreria dei dark nel modulo di acquisizione.</"
+"p><p>Il dark deve essere creato nella stessa modalità binning utilizzata "
+"durante la guida — incluso il binning hardware vs. quello software, se la "
+"fotocamera lo supporta — in caso contrario la correzione non coinciderà.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
@@ -24317,29 +24325,34 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Modalità di acquisizione della guida:</"
+"p><ul><li><b>Stream OFF</b>: acquisisce esposizioni di guida individuali "
+"(predefinita).</li><li><b>Stream a 16 bit</b>: acquisisce fotogrammi tramite "
+"un flusso video continuo a 16 bit (profondità intera del sensore).</"
+"li><li><b>Stream a 8 bit</b>: acquisisce fotogrammi tramite un flusso video "
+"continuo a 8 bit (larghezza di banda inferiore).</li></ul><p>Lo streaming "
+"richiede una fotocamera che supporti lo streaming video. Rimuove l'overhead "
+"per fotogramma e abilita frequenze di guida più elevate (es. 2–5 Hz) da cui "
+"traggono vantaggi gli harmonic drive. Questa impostazione viene salvata per "
+"gruppo ottico.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Stream acceso"
+msgstr "Stream OFF"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Stream acceso"
+msgstr "Stream a 16 bit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Flusso"
+msgstr "Stream a 8 bit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -27141,17 +27154,17 @@ msgstr "Ri-abilitazione della registrazione di debug per %1..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ri-disabilitazione della registrazione di debug per %1..."
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Sorgente anteprima impostata a esterna"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Sorgente anteprima azzerata a interna"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "File di anteprima esterna ricevuto"
@@ -39421,10 +39434,9 @@ msgid "%1 Live Video"
 msgstr "Video in diretta %1"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "Passa a schermo intero"
+msgstr "Esci dallo schermo intero"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
@@ -42565,8 +42577,7 @@ msgstr ""
 #, kde-format
 msgid "Hide the imaging planner's altitude graph."
 msgstr ""
-"Nascondi il grafico dell'altitudine del Pianificatore di riprese "
-"fotografiche."
+"Nascondi il grafico dell'altezza del Pianificatore di riprese fotografiche."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1098

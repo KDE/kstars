@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.8.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
 "PO-Revision-Date: 2026-07-03 13:40+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -11032,7 +11032,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -17101,12 +17101,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "Appareil photo numérique (APN)"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "L'appareil %1 est occupé. Interrompre pour fermer ?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Arrêt de l'acquisition"
@@ -27227,17 +27227,17 @@ msgstr "Réactivation du débogage de connexion pour %1…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "Désactivation de la journalisation de débogage pour %1…"
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Source de l'aperçu réglée sur externe"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Source de l'aperçu réinitialisée sur interne"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "Fichier externe d'aperçu reçu"

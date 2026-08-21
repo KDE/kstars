@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-15 11:51+0300\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"PO-Revision-Date: 2026-08-20 08:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10973,7 +10973,7 @@ msgstr "Почати розв'язання знімка з позиції, ку�
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -15356,18 +15356,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Бітова глибина потоку для запису відео (8-бітова для підвищення частоти "
+"кадрів, 16-бітова для отримання повного динамічного діапазону)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8-бітовий"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16-бітовий"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -17034,12 +17036,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "DSLR"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Камеру %1 зайнято. Перервати, щоб закрити?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Припинити захоплення"
@@ -24261,29 +24263,34 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Режим захоплення при наведенні:</p><ul><li><b>Потік "
+"вимкнено</b>: захоплення окремих експозицій наведення (типово).</"
+"li><li><b>16-бітовий потік</b>: захоплення кадрів безперервним 16-бітовим "
+"відеопотоком (повна глибина датчика).</li><li><b>8-бітовий потік</b>: "
+"захоплення кадрів безперервним 8-бітовим відеопотоком (нижча пропускна "
+"здатність).</li></ul><p>Для потокової передачі потрібна камера, на якій "
+"передбачено підтримку потокового відео. Це усуває накладні витрати на кадр і "
+"забезпечує вищі частоти керування (наприклад, 2–5 Гц), від яких отримують "
+"користь гармонійні накопичувачі. Значення цього параметра зберігається "
+"окремо для кожного оптичного тракту.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Потік увімкн."
+msgstr "Потік вимкнено"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Потік увімкн."
+msgstr "16-бітовий потік"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Потік"
+msgstr "8-бітовий потік"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -27081,17 +27088,17 @@ msgstr "Повторно вмикаємо діагностичний журна�
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно вимикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Встановлено зовнішнє джерело попереднього перегляду"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Відновлено внутрішнє джерело попереднього перегляду"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "Отримано зовнішній файл попереднього перегляду"

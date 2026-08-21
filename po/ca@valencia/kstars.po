@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-19 17:31+0000\n"
-"PO-Revision-Date: 2026-08-19 21:13+0200\n"
+"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"PO-Revision-Date: 2026-08-20 18:09+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -11131,7 +11131,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
-#: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
+#: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
@@ -17290,12 +17290,12 @@ msgstr ""
 msgid "DSLR"
 msgstr "Rèflex digital"
 
-#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:682
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La càmera %1 està ocupada. La voleu interrompre per a tancar?"
 
-#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:683
 #, kde-format
 msgid "Stop capturing"
 msgstr "Para la captura"
@@ -18489,7 +18489,7 @@ msgstr "Resum de vista prèvia de pantalla"
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
-msgstr "L'usuari ha iniciat una seqüència expressa d'enfocament automàtic…"
+msgstr "L'usuari ha iniciat una seqüència exprés d'enfocament automàtic…"
 
 #: ekos/capture/refocusstate.cpp:45
 #, kde-format
@@ -19413,6 +19413,8 @@ msgstr ""
 "<html><head/><body><p>Trieu-la per a mostrar la «Zona crítica de "
 "l'enfocament» en el gràfic.</p></body></html>"
 
+# Nota: Critical Focus Zone (CFZ)
+# Nota: zona crítica d'enfocament (ZCE)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
 #: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:918
@@ -25613,7 +25615,7 @@ msgid ""
 msgstr ""
 "Configureu el guiatge per IA. Per a entrenar el model d'IA o carregar les "
 "ponderacions entrenades per a la muntura, utilitzeu el botó «Guiatge per "
-"IA» (davall de «Neteja el calibratge») en la pestanya principal «Guia»."
+"IA» (davall de «Neteja el calibratge») en la pestanya «Guia»."
 
 #. i18n: ectx: item, widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:51
@@ -27508,17 +27510,17 @@ msgstr "Es torna a activar el registre de depuració de %1…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:4364
+#: ekos/manager.cpp:4368
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:4371
+#: ekos/manager.cpp:4375
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:4378
+#: ekos/manager.cpp:4382
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
@@ -36969,7 +36971,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1412
 #, kde-format
 msgid "  Winsor Cutoff: "
-msgstr "  Retall winsoritzat:"
+msgstr "  Retall de winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
@@ -94173,7 +94175,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Les posicions dels objectes en KStars inclouen els efectes de "
 "precessió,\n"
-"\t\t\tnutació, aberració, refracció atmosfèrica i retard per a la velocitat "
+"\t\t\tnutació, aberració, refracció atmosfèrica i retard per al recorregut "
 "de\n"
 "\t\t\tla llum (per als planetes).\n"
 "\t\t</p>\n"
