@@ -27,7 +27,7 @@ apt -y install --no-install-recommends \
 if [ "$QT_VERSION" -eq 6 ]; then
     apt -y install --no-install-recommends \
         qt6-base-dev \
-	qt6-datavis3d-dev \
+	qt6-graphs-dev \
         qt6-declarative-dev \
         qt6-multimedia-dev \
         qt6-positioning-dev \
@@ -58,8 +58,7 @@ else
         libqt5svg5-dev \
         qtdeclarative5-dev \
         libqt5websockets5-dev \
-        qt5keychain-dev \
-        libqt5datavisualization5-dev
+        qt5keychain-dev
 fi
 
 apt -y install --no-install-recommends \

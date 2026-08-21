@@ -15,7 +15,7 @@
 #include <config-kstars.h>
 #include "stretch.h"
 
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
 #include "starprofileviewer.h"
 #endif
 
@@ -175,15 +175,15 @@ class FITSView : public QScrollArea
         void drawPixelGrid(QPainter *painter, double scale);
         void drawMagnifyingGlass(QPainter *painter, double scale);
 
-        bool isImageStretched();
-        bool isCrosshairShown();
-        bool isClippingShown();
-        bool areObjectsShown();
-        bool isEQGridShown();
-        bool isSelectionRectShown();
-        bool isPixelGridShown();
-        bool isHiPSOverlayShown();
-        bool imageHasWCS();
+        Q_SCRIPTABLE bool isImageStretched();
+        Q_SCRIPTABLE bool isCrosshairShown();
+        Q_SCRIPTABLE bool isClippingShown();
+        Q_SCRIPTABLE bool areObjectsShown();
+        Q_SCRIPTABLE bool isEQGridShown();
+        Q_SCRIPTABLE bool isSelectionRectShown();
+        Q_SCRIPTABLE bool isPixelGridShown();
+        Q_SCRIPTABLE bool isHiPSOverlayShown();
+        Q_SCRIPTABLE bool imageHasWCS();
 
         // Setup the graphics.
         void updateFrame(bool now = false);
@@ -291,7 +291,7 @@ class FITSView : public QScrollArea
 
         // Sets whether to stretch the image or not.
         // Will also re-display the image if onOff != stretchImage.
-        void setStretch(bool onOff);
+        Q_SCRIPTABLE void setStretch(bool onOff);
 
         // Automatically generates stretch parameters and use them to re-display the image.
         void setAutoStretchParams();
@@ -338,33 +338,33 @@ class FITSView : public QScrollArea
     public Q_SLOTS:
         void wheelEvent(QWheelEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
-        void ZoomIn();
-        void ZoomOut();
-        void ZoomDefault();
-        void ZoomToFit();
+        Q_SCRIPTABLE void ZoomIn();
+        Q_SCRIPTABLE void ZoomOut();
+        Q_SCRIPTABLE void ZoomDefault();
+        Q_SCRIPTABLE void ZoomToFit();
         void updateMagnifyingGlass(int x, int y);
 
         // Grids
-        void toggleEQGrid();
-        void toggleObjects();
-        void togglePixelGrid();
-        void toggleCrosshair();
+        Q_SCRIPTABLE void toggleEQGrid();
+        Q_SCRIPTABLE void toggleObjects();
+        Q_SCRIPTABLE void togglePixelGrid();
+        Q_SCRIPTABLE void toggleCrosshair();
 
         // HiPS
-        void toggleHiPSOverlay();
+        Q_SCRIPTABLE void toggleHiPSOverlay();
 
         //Selection Rectngle
-        void toggleSelectionMode();
+        Q_SCRIPTABLE void toggleSelectionMode();
 
         // Stars
-        void toggleStars();
-        void toggleStarProfile();
-        void viewStarProfile();
+        Q_SCRIPTABLE void toggleStars();
+        Q_SCRIPTABLE void toggleStarProfile();
+        Q_SCRIPTABLE void viewStarProfile();
 
-        void centerTelescope();
+        Q_SCRIPTABLE void centerTelescope();
 
-        void toggleStretch();
-        void toggleClipping();
+        Q_SCRIPTABLE void toggleStretch();
+        Q_SCRIPTABLE void toggleClipping();
 
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
@@ -530,7 +530,7 @@ class FITSView : public QScrollArea
         QMutex updateMutex;
 
         //Star Profile Viewer
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
         QPointer<StarProfileViewer> starProfileWidget;
 #endif
 

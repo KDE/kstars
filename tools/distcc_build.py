@@ -52,9 +52,11 @@ def parse_args():
                    help="Max concurrent distcc jobs on the remote host (DISTCC_HOSTS '@host/N'). "
                         "Default: the remote host's own `nproc`.")
     p.add_argument("--jobs", "-j", type=int, default=None,
-                   help="Parallelism passed to ninja/make -j. Default: same as --slots -- this is "
-                        "the number that actually controls how many compiles run at once; distcc "
-                        "only decides *where* each one runs.")
+                   help="Parallelism passed to ninja/make -j. Default: --slots plus --local-jobs -- "
+                        "this is the number that actually controls how many compiles run at once; "
+                        "distcc only decides *where* each one runs. If this is left at just --slots "
+                        "while --local-jobs is also set, the local slots never get used: ninja only "
+                        "ever launches enough jobs to fill the remote pool.")
     p.add_argument("--local-jobs", type=int, default=0,
                    help="Also allow this many jobs to compile on the local machine concurrently "
                         "with the remote ones (adds a bare 'localhost/N' entry to DISTCC_HOSTS). "
@@ -149,7 +151,7 @@ def main():
         slots = n
         print(f"[distcc_build] {args.host} reports {slots} cores -- using that as the distcc slot count.")
 
-    jobs = args.jobs if args.jobs is not None else slots
+    jobs = args.jobs if args.jobs is not None else slots + args.local_jobs
 
     if not args.skip_preflight:
         preflight(args)

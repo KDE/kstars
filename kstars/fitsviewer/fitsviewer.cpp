@@ -344,7 +344,7 @@ FITSViewer::FITSViewer(QWidget *parent, Mode mode) : KXmlGuiWindow(parent), m_Mo
     action->setCheckable(true);
     connect(action, &QAction::triggered, this, &FITSViewer::toggleStars);
 
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
     action = actionCollection()->addAction("toggle_3D_graph");
     action->setIcon(QIcon::fromTheme("star_profile", QIcon(":/icons/star_profile.svg")));
     action->setText(i18n("View 3D Graph"));

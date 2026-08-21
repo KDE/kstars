@@ -6,8 +6,9 @@
 
 #pragma once
 
-#include <Q3DSurface>
-#include <QCustom3DLabel>
+#include <QtGraphsWidgets/Q3DSurfaceWidgetItem>
+#include <QtGraphs/QCustom3DLabel>
+#include <QtQuickWidgets/QQuickWidget>
 
 #include "curvefit.h"
 #include "ui_aberrationinspector.h"
@@ -60,10 +61,6 @@
 //    With the 3D graphic, it is possible to enter simulation mode, and adjust the Backfocus and tilt and see the effect on the Sensor and
 //    Petzval surface.
 //
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-using namespace QtDataVisualization;
-#endif
 
 namespace Ekos
 {
@@ -379,7 +376,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
         TiltCorrectionWidget *m_tiltCorrection { nullptr };
 
         // Graphic
-        Q3DSurface *m_graphic = nullptr;
+        Q3DSurfaceWidgetItem *m_graphic = nullptr;
         QSurface3DSeries *m_sensor = nullptr;
         QSurface3DSeries *m_petzval = nullptr;
         QSurfaceDataProxy *m_sensorProxy = nullptr;

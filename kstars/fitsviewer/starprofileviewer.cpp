@@ -1,18 +1,15 @@
 /*
     SPDX-FileCopyrightText: 2017 Robert Lancaster <rlancaste@gmail.com>
 
-    Based on the QT Surface Example https://doc.qt.io/qt-5.9/qtdatavisualization-surface-example.html
-    and the QT Bars Example https://doc-snapshots.qt.io/qt5-5.9/qtdatavisualization-bars-example.html
+    Originally based on the Qt Data Visualization Surface and Bars examples; migrated to Qt Graphs,
+    see https://doc.qt.io/qt-6/qtgraphs-3d-widgetgraphgallery-example.html
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
 #include "starprofileviewer.h"
 #include <KLocalizedString>
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-using namespace QtDataVisualization;
-#endif
+#include <QGuiApplication>
 
 StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 {
@@ -21,40 +18,34 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    m_graph = new Q3DBars();
+    QQuickWidget *container = new QQuickWidget();
+    m_graph = new Q3DBarsWidgetItem(this);
+    m_graph->setWidget(container);
+
     m_pixelValueAxis = m_graph->valueAxis();
     m_xPixelAxis = m_graph->columnAxis();
     m_yPixelAxis = m_graph->rowAxis();
 
     m_pixelValueAxis->setTitle(i18n("Pixel Values"));
-    m_pixelValueAxis->setLabelAutoRotation(30.0f);
+    m_pixelValueAxis->setLabelAutoAngle(30.0f);
     m_pixelValueAxis->setTitleVisible(true);
 
     m_xPixelAxis->setTitle(i18n("Horizontal"));
-    m_xPixelAxis->setLabelAutoRotation(30.0f);
+    m_xPixelAxis->setLabelAutoAngle(30.0f);
     m_xPixelAxis->setTitleVisible(true);
     m_yPixelAxis->setTitle(i18n("Vertical"));
-    m_yPixelAxis->setLabelAutoRotation(30.0f);
+    m_yPixelAxis->setLabelAutoAngle(30.0f);
     m_yPixelAxis->setTitleVisible(true);
 
     m_3DPixelSeries = new QBar3DSeries;
 
-    m_3DPixelSeries->setMesh(QAbstract3DSeries::MeshBevelBar);
+    m_3DPixelSeries->setMesh(QAbstract3DSeries::Mesh::BevelBar);
     m_graph->addSeries(m_3DPixelSeries);
 
-    m_graph->activeTheme()->setLabelBackgroundEnabled(false);
+    m_graph->activeTheme()->setLabelBackgroundVisible(false);
 
-    QWidget *container = QWidget::createWindowContainer(m_graph);
-
-    if (!m_graph->hasContext())
-    {
-        QMessageBox msgBox;
-        msgBox.setText(i18n("Couldn't initialize the OpenGL context."));
-        msgBox.exec();
-        return;
-    }
-
-    QSize screenSize = m_graph->screen()->size();
+    QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    QSize screenSize = primaryScreen ? primaryScreen->size() : QSize(1920, 1080);
     container->setMinimumSize(QSize(300, 500));
     container->setMaximumSize(screenSize);
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -329,13 +320,13 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     QObject::connect(barSpacing,  &QSlider::valueChanged,
                      this, &StarProfileViewer::updateBarSpacing);
 
-    m_graph->activeTheme()->setType(Q3DTheme::Theme(3)); //Stone Moss
+    m_graph->activeTheme()->setTheme(QGraphsTheme::Theme::OrangeSeries);
 
     setGreenToRedGradient();
 
-    m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
-    m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-    m_graph->scene()->activeCamera()->setZoomLevel(110);
+    m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
+    m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+    m_graph->setCameraZoomLevel(110);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -414,7 +405,6 @@ void StarProfileViewer::loadDataPrivate()
 {
     // Create data arrays
     dataSet = new QBarDataArray;
-    QBarDataRow *dataRow;
     dataSet->reserve(subFrame.height());
     QStringList rowLabels;
     QStringList columnLabels;
@@ -428,7 +418,7 @@ void StarProfileViewer::loadDataPrivate()
             rowLabels << QString::number(j);
         else
             rowLabels << "";
-        dataRow = new QBarDataRow(subFrame.width());
+        QBarDataRow dataRow(subFrame.width());
         int x = 0;
         for (int i = subFrame.x(); i < subFrame.x() + subFrame.width(); i++)
         {
@@ -437,7 +427,7 @@ void StarProfileViewer::loadDataPrivate()
             else
                 columnLabels << "";
             if( i > 0 && i < imageData->width() && j > 0 && j < imageData->height())
-                (*dataRow)[x].setValue(*(buffer + i + j * width));
+                dataRow[x].setValue(*(buffer + i + j * width));
             x++;
         }
         dataSet->insert(0, dataRow); //Note the row axis is displayed in the opposite direction of the y axis in the image.
@@ -445,8 +435,8 @@ void StarProfileViewer::loadDataPrivate()
 
     std::reverse(rowLabels.begin(), rowLabels.end());
 
-    m_3DPixelSeries->dataProxy()->setRowLabels(rowLabels);
-    m_3DPixelSeries->dataProxy()->setColumnLabels(columnLabels);
+    m_3DPixelSeries->setRowLabels(rowLabels);
+    m_3DPixelSeries->setColumnLabels(columnLabels);
 }
 
 void StarProfileViewer::toggleCutoffEnabled(bool enable)
@@ -556,37 +546,37 @@ void StarProfileViewer::zoomViewTo(int where)
             break;
 
         case 1: //Front
-            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
-            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            m_graph->setCameraPreset(QtGraphs3D::CameraPreset::Front);
+            m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->setCameraZoomLevel(110);
             zoomView->setCurrentIndex(0);
             break;
 
         case 2: //Front High
-            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFrontHigh);
-            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            m_graph->setCameraPreset(QtGraphs3D::CameraPreset::FrontHigh);
+            m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->setCameraZoomLevel(110);
             zoomView->setCurrentIndex(0);
             break;
 
         case 3: //Overhead
-            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetDirectlyAbove);
-            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            m_graph->setCameraPreset(QtGraphs3D::CameraPreset::DirectlyAbove);
+            m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->setCameraZoomLevel(110);
             zoomView->setCurrentIndex(0);
             break;
 
         case 4: //Isometric L
-            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeftHigh);
-            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            m_graph->setCameraPreset(QtGraphs3D::CameraPreset::IsometricLeftHigh);
+            m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->setCameraZoomLevel(110);
             zoomView->setCurrentIndex(0);
             break;
 
         case 5: //Isometric R
-            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRightHigh);
-            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            m_graph->setCameraPreset(QtGraphs3D::CameraPreset::IsometricRightHigh);
+            m_graph->setCameraTargetPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->setCameraZoomLevel(110);
             zoomView->setCurrentIndex(0);
             break;
 
@@ -609,11 +599,11 @@ void StarProfileViewer::zoomViewTo(int where)
                 if (target.x() > 0.0f)
                     endAngleX -= 180.0f;
                 float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
-                                 selectedBar.y())->value();
+                                 selectedBar.y()).value();
                 float endAngleY = 60.0f;
                 float zoom = 150 * 1 / qSqrt(barValue / convertFromSliderValue(whitePointSlider->value()));
-                m_graph->scene()->activeCamera()->setCameraPosition(endAngleX, endAngleY, zoom);
-                m_graph->scene()->activeCamera()->setTarget(target);
+                m_graph->setCameraPosition(endAngleX, endAngleY, zoom);
+                m_graph->setCameraTargetPosition(target);
 
 
             }
@@ -633,18 +623,18 @@ void StarProfileViewer::changeSelectionType(int type)
     switch (type)
     {
         case 0:
-            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem);
+            m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::Item);
             m_graph->scene()->setSlicingActive(false);
             sliceB->setEnabled(false);
             break;
 
         case 1:
-            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow);
+            m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndRow);
             sliceB->setEnabled(true);
             break;
 
         case 2:
-            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn);
+            m_graph->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndColumn);
             sliceB->setEnabled(true);
             break;
 
@@ -714,26 +704,24 @@ void StarProfileViewer::updateDisplayData()
         cutoffValue->setText(i18n("Cut Disabled"));
     if(dataSet != nullptr)
     {
-        QBarDataArray *displayDataSet = new QBarDataArray;
-        displayDataSet->reserve(dataSet->size());
+        QBarDataArray displayDataSet;
+        displayDataSet.reserve(dataSet->size());
 
         for (int row = 0; row < dataSet->size(); row++)
         {
-            QBarDataRow *dataRow = dataSet->at(row);
-            QBarDataRow *newDataRow;
-            newDataRow = new QBarDataRow(dataRow->size());
-            for (int column = 0; column < dataRow->size(); column++)
+            const QBarDataRow &dataRow = dataSet->at(row);
+            QBarDataRow newDataRow(dataRow.size());
+            for (int column = 0; column < dataRow.size(); column++)
             {
-                if(cutOffEnabled && dataRow->value(column).value() > convertFromSliderValue(cutoffSlider->value()))
-                    (*newDataRow)[column].setValue(0.0f);
+                if(cutOffEnabled && dataRow.at(column).value() > convertFromSliderValue(cutoffSlider->value()))
+                    newDataRow[column].setValue(0.0f);
                 else
-                    (*newDataRow)[column].setValue(dataRow->value(column).value());
+                    newDataRow[column].setValue(dataRow.at(column).value());
             }
-            displayDataSet->append(newDataRow);
+            displayDataSet.append(newDataRow);
 
         }
-        m_3DPixelSeries->dataProxy()->resetArray(
-            displayDataSet); //, m_3DPixelSeries->dataProxy()->rowLabels(), m_3DPixelSeries->dataProxy()->columnLabels()
+        m_3DPixelSeries->dataProxy()->resetArray(displayDataSet);
     }
 }
 
@@ -859,8 +847,8 @@ float StarProfileViewer::getImageDataValue(int x, int y)
 
 void StarProfileViewer::toggleSlice()
 {
-    if(m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndRow
-            || m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndColumn)
+    if(m_graph->selectionMode() == QtGraphs3D::SelectionFlag::ItemAndRow
+            || m_graph->selectionMode() == QtGraphs3D::SelectionFlag::ItemAndColumn)
     {
 
         if(m_graph->scene()->isSlicingActive())
@@ -978,7 +966,7 @@ void StarProfileViewer::setBlackToYellowGradient()
     sinHighGr.setColorAt(0.0, Qt::red);
     sinHighGr.setColorAt(1.0, Qt::red);
 
-    m_3DPixelSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_3DPixelSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     m_3DPixelSeries->setBaseGradient(gr);
     m_3DPixelSeries->setSingleHighlightGradient(sinHighGr);
     m_3DPixelSeries->setMultiHighlightGradient(highGr);
@@ -1001,7 +989,7 @@ void StarProfileViewer::setGreenToRedGradient()
     sinHighGr.setColorAt(1.0, Qt::red);
 
     m_3DPixelSeries->setBaseGradient(gr);
-    m_3DPixelSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    m_3DPixelSeries->setColorStyle(QGraphsTheme::ColorStyle::RangeGradient);
     m_3DPixelSeries->setSingleHighlightGradient(sinHighGr);
     m_3DPixelSeries->setMultiHighlightGradient(highGr);
 }

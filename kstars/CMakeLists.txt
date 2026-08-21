@@ -209,7 +209,7 @@ if (INDI_FOUND)
             ekos/ekoslive/ekoslivedialog.ui
         )
         # Aberration Inspector
-        if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
+        if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
             set(ekosui_SRCS ${ekosui_SRCS} ekos/focus/aberrationinspector.ui)
         endif()
 
@@ -447,7 +447,7 @@ if (INDI_FOUND)
             
         )
         # Aberration Inspector
-        if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
+        if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspector.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspectorplot.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/sensorgraphic.cpp)
@@ -489,7 +489,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsstackwebcast.cpp
         )
 
-    if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
+    if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
     endif()
 
@@ -1443,8 +1443,8 @@ IF (NOT ANDROID)
         target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
     endif()
 
-    if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
-        target_link_libraries(KStarsLib Qt::DataVisualization)
+    if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
+        target_link_libraries(KStarsLib Qt::GraphsWidgets)
     endif()
 
     if (KF5NotifyConfig_FOUND)

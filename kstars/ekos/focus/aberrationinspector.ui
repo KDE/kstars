@@ -386,42 +386,42 @@ p, li { white-space: pre-wrap; }
             </property>
             <item>
              <property name="text">
-              <string>Qt</string>
+              <string>Qt Green</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Primary Colors</string>
+              <string>Qt Green Neon</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Digia</string>
+              <string>Mix Series</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Stone Moss</string>
+              <string>Orange Series</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Army Blue</string>
+              <string>Yellow Series</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Retro</string>
+              <string>Blue Series</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Ebony</string>
+              <string>Purple Series</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Isabelle</string>
+              <string>Grey Series</string>
              </property>
             </item>
            </widget>

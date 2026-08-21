@@ -1,12 +1,13 @@
 # This YAML recipe builds KStars with INDI support, then runs all tests
-# It uses both KDE CI and custom image until tests are stabilised in the KDE CI image
-# Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
+# It uses KDE CI images (SUSE Tumbleweed and Kubuntu LTS); INDI/StellarSolver/PHD2
+# and other non-KDE dependencies are pulled from the mutlaqja PPA at job time.
 
 include:
   - local: ".gitlab-ci/common_rules.yml"
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/linux-qt6-lts.yml
       - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/flatpak-arm64.yml
@@ -68,6 +69,11 @@ json-validation:
 astyle-check:
   stage: validate
   image: ubuntu:24.04
+  # Explicit tag: without one, this job falls back to whatever untagged-runner pool exists,
+  # which was stuck with no runners online while Linux-tagged jobs (e.g. json-validation) ran
+  # fine - route it onto the same known-working pool instead.
+  tags:
+    - Linux
   rules:
     - !reference [.standard-build-recipes, rules]
   script:
@@ -151,99 +157,83 @@ flatpak-arm64:
     - !reference [.always-on-scheduled-pipeline, rules]
     - !reference [.publishing-recipes, rules]
 
-# Custom build recipes - until tests are operational in the KDE CI image
-
-.custom-build-recipes:
+# Kubuntu 26.04 LTS build - replaces the previous custom Docker image (built on
+# Ubuntu 25.10, an interim release, ahead of 26.04 LTS becoming available).
+# extra-cmake-modules/kconfig/etc come from the KDE CI package registry via
+# .kde-ci.yml; INDI/StellarSolver/PHD2/etc are distro packages from the
+# mutlaqja PPA, which now supports 26.04, so no custom image is needed.
+#
+# This VM runner grants no root/sudo, so the PPA packages are fetched
+# entirely in user-space: apt is pointed at a private state/cache dir (its
+# own -o Dir::State/Dir::Cache, no system paths touched) to resolve and
+# download-only the .debs, which are then unpacked with dpkg-deb -x (also
+# root-free) into a private prefix added to CMAKE_PREFIX_PATH.
+kubuntu_2604_qt610:
+  extends: .kubuntu_2604_qt610
+  allow_failure: true # TODO: remove once proven stable as sole path
+  timeout: 3 hours
+  needs:
+    - suse_tumbleweed_qt611
   rules:
     - !reference [.optional-on-forked-repository, rules]
     - !reference [.optional-on-draft-merge-requests, rules]
     - !reference [.always-on-merge-requests, rules]
     - !reference [.manual-skipped-recipe, rules]
-
-.custom_build:
-  interruptible: true
-  variables:
-    CCACHE_BASEDIR: "$CI_PROJECT_DIR"
-    QT_TEST_TIMEOUT_FUNCTION: "600"
-    QT_QPA_PLATFORM: "eglfs"
-    CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
-  cache:
-    key: "CCACHE-DB-$CI_PROJECT_ID"
-    paths: ["${CCACHE_DIR}"]
-    when: always
-  rules:
-    - !reference [.custom-build-recipes, rules]
   before_script:
-    - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
+    - !reference [.ci_linux_base, before_script]
     - |
-      # Ubuntu interim releases move off the primary mirrors after EOL.
-      if [ -r /etc/os-release ]; then
-        . /etc/os-release
-        if [ "${ID:-}" = "ubuntu" ] && [ "${VERSION_CODENAME:-}" = "oracular" ]; then
-          find /etc/apt -type f \( -name '*.list' -o -name '*.sources' \) -print0 | \
-            xargs -0 sed -i \
-              -e 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
-              -e 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' \
-              -e 's|http://ports.ubuntu.com/ubuntu-ports|http://old-releases.ubuntu.com/ubuntu|g'
-        fi
-      fi
-    - add-apt-repository --remove ppa:mutlaqja/ppa
-    - add-apt-repository ppa:mutlaqja/ppa
-    - apt update
-    - pkgs="libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev libcurl4-openssl-dev"
-    - existing=$(apt-cache pkgnames | grep -xFf <(printf '%s\n' $pkgs))
-    - if [ -n "$existing" ]; then apt -y --no-install-recommends install $existing; fi
-    - mkdir -p kstars-build
-  after_script:
-    - ccache -s
-
-ubuntu_qt6:
-  stage: build
-  extends: .custom_build
-  image:
-    name: sternejaeger/kstars-ci:qt6
-  allow_failure: true # TODO: remove once Qt6 build is proven stable as sole path
-  needs:
-    - suse_tumbleweed_qt611
+      set -e
+      APTDIR="$CI_PROJECT_DIR/.apt-user"
+      mkdir -p "$APTDIR/state/lists/partial" "$APTDIR/cache/archives/partial" "$APTDIR/sources.list.d"
+      touch "$APTDIR/state/status"
+      # Overriding Dir::Etc::sourceparts points apt at an empty dir by default, hiding the
+      # real base-Ubuntu repos (universe etc, in modern deb822 ubuntu.sources); copy them in
+      # alongside our PPA file so both are visible.
+      cp -a /etc/apt/sources.list.d/. "$APTDIR/sources.list.d/" 2>/dev/null || true
+      CODENAME=$(. /etc/os-release; echo "$VERSION_CODENAME")
+      echo "deb [trusted=yes] https://ppa.launchpadcontent.net/mutlaqja/ppa/ubuntu ${CODENAME} main" > "$APTDIR/sources.list.d/mutlaqja.list"
+      APT_OPTS="-o Dir::State=$APTDIR/state -o Dir::State::status=$APTDIR/state/status -o Dir::Cache=$APTDIR/cache -o Dir::Etc::sourceparts=$APTDIR/sources.list.d"
+      apt-get $APT_OPTS update
+      pkgs="libindi1 libindi-dev libindi-data indi-bin xplanet xplanet-images gsc phd2 libstellarsolver libstellarsolver-dev libcurl4-openssl-dev libeigen3-dev zlib1g-dev libcfitsio-dev libnova-dev wcslib-dev libraw-dev libgsl-dev libsecret-1-dev libopencv-dev qt6-base-dev qt6-graphs-dev qt6-declarative-dev qt6-multimedia-dev qt6-positioning-dev libqt6websockets6-dev libqt6svg6-dev libqt6sql6-sqlite phonon4qt6-backend-vlc qtkeychain-qt6-dev qml-module-qtquick-controls astrometry.net breeze-icon-theme xvfb dbus-x11"
+      existing=$(apt-cache $APT_OPTS pkgnames | grep -xFf <(printf '%s\n' $pkgs))
+      echo "## Resolved packages: $existing"
+      apt-get $APT_OPTS install --download-only -y --no-install-recommends --allow-unauthenticated $existing
+      mkdir -p "$CI_PROJECT_DIR/.apt-root"
+      for deb in "$APTDIR"/cache/archives/*.deb; do dpkg-deb -x "$deb" "$CI_PROJECT_DIR/.apt-root"; done
+      # Debian packages assume installation to the real /usr, so their exported CMake/pkg-config
+      # files hardcode absolute paths (e.g. StellarSolverConfig.cmake references
+      # /usr/include/libstellarsolver literally) that don't exist once relocated into our
+      # private prefix; rewrite those paths to point at where we actually put the files.
+      find "$CI_PROJECT_DIR/.apt-root" -name "*.cmake" -exec sed -i "s#\([\"'=; ]\)/usr/#\1$CI_PROJECT_DIR/.apt-root/usr/#g" {} +
+      find "$CI_PROJECT_DIR/.apt-root" -name "*.pc" -exec sed -i "s#=/usr/#=$CI_PROJECT_DIR/.apt-root/usr/#g" {} +
+    - export CMAKE_PREFIX_PATH="$CI_PROJECT_DIR/.apt-root/usr${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}"
+    - export LD_LIBRARY_PATH="$CI_PROJECT_DIR/.apt-root/usr/lib/x86_64-linux-gnu:$CI_PROJECT_DIR/.apt-root/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    - export PKG_CONFIG_PATH="$CI_PROJECT_DIR/.apt-root/usr/lib/x86_64-linux-gnu/pkgconfig:$CI_PROJECT_DIR/.apt-root/usr/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    # dbus-launch (from dbus-x11, fetched above) only lands in our private prefix, not the real
+    # /usr/bin - TestHandler.py shells out to it by bare name, so it needs to be on PATH too.
+    # Append (not prepend): one of our fetched packages apparently ships its own python3 that
+    # shadowed the system one with the `gitlab` module installed, breaking run-ci-build.py's own
+    # import - our bin dir should only be a fallback for tools genuinely missing elsewhere.
+    - export PATH="$PATH:$CI_PROJECT_DIR/.apt-root/usr/bin"
+    # Everything else resolves fine through the environment-based CMAKE_PREFIX_PATH search order
+    # above (run-ci-build.py appends it after /usr/, and Qt6/KF6 etc are already complete and
+    # working via the system install - forcing a blanket -DCMAKE_PREFIX_PATH override made CMake
+    # prefer our deliberately-partial Qt6 subset instead, breaking WebSockets detection). WCSLIB
+    # is the one case where plain find_library() picks a broken system copy first, so target it
+    # specifically via its own cache variables instead of touching search order globally.
+    - export WCSLIB_INCLUDE_DIR="$(dirname "$(find "$CI_PROJECT_DIR/.apt-root" -name 'wcs.h' -print -quit)")"
+    - export WCSLIB_LIBRARIES="$(find "$CI_PROJECT_DIR/.apt-root" -name 'libwcs.so' -print -quit)"
   script:
-    - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=ON ..
-    - ninja -j8 all install
-
-# Run the full validation in one step, stable tests that must not fail
-# The artifacts take far too much time to propagate from one step to the other
-# The cache is unreliable, and only works on the same runner if there is no shared cache - use it for ccache instead
-# Consolidate runner with build packages and build
-build-and-test-stable:
-  stage: test
-  extends: .custom_build
-  image:
-    name: sternejaeger/kstars-ci:qt6
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
-  needs:
-    - ubuntu_qt6
-  timeout: 3 hours
-  variables:
-    BUILD_TESTING: "ON"
-  script:
-    - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_WITH_QT6=ON ..
-    - ninja -j8 all install
-    - rm -rf Testing
-    - mkdir -p /var/run/dbus
-    - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
-    - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-    - apt install -y --no-install-recommends dbus-x11
-    - export $(dbus-launch)
-    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-    - xvfb-run ctest -T test -L stable -LE unstable --output-on-failure
-  after_script:
-    - pwd
-    - saxon-xslt -u $(find . -name Test.xml) https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl > ./junit_result.stable.xml
-    - ccache -s
-  artifacts:
-    reports:
-      junit: ./junit_result.stable.xml
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - >-
+      python3 -u ci-utilities/run-ci-build.py --project $CI_PROJECT_NAME
+      --branch $CI_COMMIT_REF_NAME --platform Linux/Qt6/Shared
+      --extra-cmake-args=-DBUILD_WITH_QT6=ON
+      --extra-cmake-args=-DQT_MAJOR_VERSION=6
+      --extra-cmake-args=-DWCSLIB_INCLUDE_DIR=$WCSLIB_INCLUDE_DIR
+      --extra-cmake-args=-DWCSLIB_LIBRARIES=$WCSLIB_LIBRARIES
+      --extra-cmake-args=-DECM_ENABLE_SANITIZERS=
+      --extra-cmake-args=-DBUILD_COVERAGE=OFF
 
 # Gate snapcraft on a successful linux build
 snap_snapcraft_lxd:

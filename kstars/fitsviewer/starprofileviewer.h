@@ -1,8 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2017 Robert Lancaster <rlancaste@gmail.com>
 
-    Based on the QT Surface Example https://doc.qt.io/qt-5.9/qtdatavisualization-surface-example.html
-    and the QT Bars Example https://doc-snapshots.qt.io/qt5-5.9/qtdatavisualization-bars-example.html
+    Originally based on the Qt Data Visualization Surface and Bars examples; migrated to Qt Graphs,
+    see https://doc.qt.io/qt-6/qtgraphs-3d-widgetgraphgallery-example.html
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -11,10 +11,11 @@
 
 #include "fitsdata.h"
 
-#include <QtDataVisualization/qbar3dseries.h>
-#include <QtDataVisualization/qbardataproxy.h>
-#include <QtDataVisualization/q3dbars.h>
-#include <QtDataVisualization/QCustom3DLabel>
+#include <QtGraphs/qbar3dseries.h>
+#include <QtGraphs/qbardataproxy.h>
+#include <QtGraphsWidgets/Q3DBarsWidgetItem>
+#include <QtGraphs/QCustom3DLabel>
+#include <QtQuickWidgets/QQuickWidget>
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -33,14 +34,11 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include <QtDataVisualization/QValue3DAxis>
-#include <QtDataVisualization/Q3DTheme>
-#include <QtDataVisualization/qabstract3dseries.h>
+#include <QtGraphs/QValue3DAxis>
+#include <QtGraphs/QGraphsTheme>
+#include <QtGraphs/qabstract3dseries.h>
+#include <QtGraphs/QCategory3DAxis>
 #include <qmath.h>
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-using namespace QtDataVisualization;
-#endif
 
 class StarProfileViewer : public QDialog
 {
@@ -75,7 +73,7 @@ class StarProfileViewer : public QDialog
     Q_SIGNALS:
         void sampleSizeUpdated(int size);
     private:
-        Q3DBars *m_graph { nullptr };
+        Q3DBarsWidgetItem *m_graph { nullptr };
         QValue3DAxis *m_pixelValueAxis { nullptr };
         QCategory3DAxis *m_xPixelAxis { nullptr };
         QCategory3DAxis *m_yPixelAxis { nullptr };

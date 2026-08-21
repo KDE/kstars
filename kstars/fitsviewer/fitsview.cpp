@@ -2437,6 +2437,7 @@ void FITSView::toggleObjects()
         else
             Q_EMIT catReset();
 #endif
+        m_QueueUpdate = true;
         updateFrame();
     }
 }
@@ -2457,7 +2458,7 @@ void FITSView::toggleStretch()
 
 void FITSView::toggleStarProfile()
 {
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
     showStarProfile = !showStarProfile;
     if(showStarProfile && trackingBoxEnabled)
         viewStarProfile();
@@ -2514,7 +2515,7 @@ void FITSView::move3DTrackingBox(int x, int y)
 
 void FITSView::viewStarProfile()
 {
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
     if(!trackingBoxEnabled)
     {
         setTrackingBoxEnabled(true);
@@ -2922,7 +2923,7 @@ void FITSView::createFloatingToolBar()
                                    i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
     toggleStarsAction->setCheckable(true);
 
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
     toggleProfileAction =
         floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
                                    i18n("View Star Profile..."), this, SLOT(toggleStarProfile()));

@@ -67,7 +67,7 @@ case "$TARGET" in
                 libKF6NotifyConfig6 \
                 libQt6WebSockets6 \
                 qtkeychain-qt6-devel \
-                libQt6DataVisualization6
+                libQt6Graphs6
         else
             zypper --non-interactive install \
                 libKF5Plotting5 \
@@ -81,8 +81,7 @@ case "$TARGET" in
                 libKF5Crash5 \
                 libKF5NotifyConfig5 \
                 libQt5WebSockets5-imports \
-                qtkeychain-qt5-devel \
-                libQt5DataVisualization5-devel
+                qtkeychain-qt5-devel
         fi
         ;;
     ubuntu)
@@ -95,14 +94,13 @@ case "$TARGET" in
                 libqt6websockets6-dev \
                 qt6-declarative-dev \
                 qtkeychain-qt6-dev \
-                qt6-datavis3d-dev
+                qt6-graphs-dev
         else
             apt-get -y install --no-install-recommends \
                 libqt5svg5-dev \
                 libqt5websockets5-dev \
                 qtdeclarative5-dev \
                 qt5keychain-dev \
-                libqt5datavisualization5-dev \
                 kinit-dev \
                 libkf5plotting-dev \
                 libkf5xmlgui-dev \

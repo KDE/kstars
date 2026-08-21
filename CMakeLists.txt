@@ -299,13 +299,15 @@ set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System li
 find_package(Xplanet)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE RUNTIME PURPOSE "Gives KStars support for xplanet.")
 
-# Qt5/6 Data Visualization
-if (NOT BUILD_WITH_QT6)
-   find_package(Qt5DataVisualization)
-   MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
+# Qt Graphs (successor to the deprecated Qt Data Visualization module; Qt6-only, no Qt5 port exists)
+if (BUILD_WITH_QT6)
+   find_package(Qt6Graphs)
+   find_package(Qt6GraphsWidgets)
+endif()
+if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
+    set(HAVE_QTGRAPHS 1)
 else()
-   find_package(Qt6DataVisualization)
-   MACRO_BOOL_TO_01(Qt6DataVisualization_FOUND HAVE_DATAVISUALIZATION)
+    set(HAVE_QTGRAPHS 0)
 endif()
 
 # LibXISF

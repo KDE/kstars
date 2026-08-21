@@ -46,5 +46,5 @@ Options:
   allow-failing-tests-on: ['@all']
   setup-dbus-session: True
   setup-x-environment: True
-  cmake-options: '--trace'
   use-ccache: True
+  force-inject-asan: True

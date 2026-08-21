@@ -114,7 +114,7 @@ Debian/Ubuntu
 The apt-add-respository command is needed for the apt-get's libstellarsolver-dev. Alternatively, you can skip the apt-add-repository, remove the libstellarsolver-dev from the apt-get, and build & install stellarsolver from https://github.com/rlancaste/stellarsolver.
 ```
 sudo apt-add-repository ppa:mutlaqja/ppa
-sudo apt-get -y install build-essential cmake ninja-build git libstellarsolver-dev libxisf-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme libqt5datavisualization5-dev libcurl4-gnutls-dev
+sudo apt-get -y install build-essential cmake ninja-build git libstellarsolver-dev libxisf-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme libcurl4-gnutls-dev
 ```
 
 Fedora
@@ -123,7 +123,7 @@ Note: the current version of stellarsolver included in fedora is QT6 based and d
 QT5 based version of stellarsolver after installing other dependencies.
 
 ```
-sudo dnf install -y cfitsio-devel eigen3-devel cmake ninja-build extra-cmake-modules.noarch libXISF-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel qt5-qtwebsockets-devel kf5-kcrash-devel kf5-knotifications-devel gsl-devel libnoval-devel libcurl-devel
+sudo dnf install -y cfitsio-devel eigen3-devel cmake ninja-build extra-cmake-modules.noarch libXISF-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel qt5-qtwebsockets-devel kf5-kcrash-devel kf5-knotifications-devel gsl-devel libnoval-devel libcurl-devel
 
 cd /tmp
 git clone --branch 2.6 https://github.com/rlancaste/stellarsolver.git
@@ -137,7 +137,7 @@ We recommend using Qt6 for building KStars as we phase out Qt5 support. For opti
 
 Arch Linux packages for Qt6:
 ```
-sudo pacman -S base-devel cmake ninja git eigen cfitsio zlib extra-cmake-modules kplotting qt6-svg kxmlgui kio knewstuff kdoctools knotifications qt6-declarative kcrash gettext libxisf libnova gsl libraw knotifyconfig wcslib qt6-websockets xplanet qtkeychain-qt6 libsecret breeze-icons qt6-quick3d curl stellarsolver
+sudo pacman -S base-devel cmake ninja git eigen cfitsio zlib extra-cmake-modules kplotting qt6-svg kxmlgui kio knewstuff kdoctools knotifications qt6-declarative kcrash gettext libxisf libnova gsl libraw knotifyconfig wcslib qt6-websockets xplanet qtkeychain-qt6 libsecret breeze-icons qt6-quick3d qt6-graphs curl stellarsolver
 ```
 
 3. Compiling

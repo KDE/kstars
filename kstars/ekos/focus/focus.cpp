@@ -53,7 +53,7 @@
 
 #include <cmath>
 
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
 #include "aberrationinspector.h"
 #include "aberrationinspectorutils.h"
 #endif
@@ -3779,7 +3779,7 @@ void Focus::plotLinearFinalUpdates()
 
 void Focus::startAberrationInspector()
 {
-#ifdef HAVE_DATAVISUALIZATION
+#ifdef HAVE_QTGRAPHS
     // Fill in the data structure to be passed to the Aberration Inspector
     AberrationInspector::abInsData data;
 

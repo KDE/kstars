@@ -53,6 +53,11 @@ AberrationInspector::AberrationInspector(const abInsData &data, const QVector<in
 
 AberrationInspector::~AberrationInspector()
 {
+    // m_graphic wraps a QQuickWidget that lives in the normal widget hierarchy; it must be
+    // destroyed before that widget is torn down, so delete it explicitly rather than relying
+    // on QObject parent/child destruction order.
+    delete m_graphic;
+    m_graphic = nullptr;
 }
 
 void AberrationInspector::setupGUI()
@@ -800,8 +805,9 @@ bool AberrationInspector::avTiles(int tiles[3], double &average)
 void AberrationInspector::initGraphic()
 {
     // Create a 3D Surface widget and add to the dialog
-    m_graphic = new Q3DSurface();
-    QWidget *container = QWidget::createWindowContainer(m_graphic);
+    QQuickWidget *container = new QQuickWidget();
+    m_graphic = new Q3DSurfaceWidgetItem(this);
+    m_graphic->setWidget(container);
 
     // abInsHSplitter is created in the .ui file but, by default, doesn't work - don't know why
     // Workaround is to create a new QSplitter object and use that.
@@ -819,17 +825,17 @@ void AberrationInspector::initGraphic()
     connect(abInsSelection, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
     {
         if (index == 0)
-            m_graphic->setSelectionMode(QAbstract3DGraph::SelectionNone);
+            m_graphic->setSelectionMode(QtGraphs3D::SelectionFlag::None);
         else if (index == 1)
-            m_graphic->setSelectionMode(QAbstract3DGraph::SelectionItem);
+            m_graphic->setSelectionMode(QtGraphs3D::SelectionFlag::Item);
         else if (index == 2)
-            m_graphic->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn | QAbstract3DGraph::SelectionSlice |
-                                        QAbstract3DGraph::SelectionMultiSeries);
+            m_graphic->setSelectionMode(QtGraphs3D::SelectionFlag::ItemAndColumn | QtGraphs3D::SelectionFlag::Slice |
+                                        QtGraphs3D::SelectionFlag::MultiSeries);
     });
 
     connect(abInsTheme, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
     {
-        m_graphic->activeTheme()->setType(Q3DTheme::Theme(index));
+        m_graphic->activeTheme()->setTheme(QGraphsTheme::Theme(index));
     });
 
     connect(abInsLabels, &QCheckBox::toggled, this, [&](bool setting)
@@ -880,11 +886,11 @@ void AberrationInspector::initGraphic()
     m_graphic->axisY()->setTitleVisible(true);
     m_graphic->axisZ()->setTitleVisible(true);
 
-    m_graphic->activeTheme()->setType(Q3DTheme::ThemePrimaryColors);
+    m_graphic->activeTheme()->setTheme(QGraphsTheme::Theme::QtGreenNeon);
 
     // Set projection and shadows
     m_graphic->setOrthoProjection(false);
-    m_graphic->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
+    m_graphic->setShadowQuality(QtGraphs3D::ShadowQuality::None);
     // Balance the z-axis with the x-y plane. Without this the z-axis is crushed to a very small scale
     m_graphic->setHorizontalAspectRatio(2.0);
 }
@@ -993,7 +999,7 @@ void AberrationInspector::updateGraphic(TileSelection tileSelection)
     }
 
     // Display / don't display the graphic
-    ok ? m_graphic->show() : m_graphic->hide();
+    m_graphic->widget()->setVisible(ok);
 }
 
 // Draw the sensor on the graphic
@@ -1029,12 +1035,12 @@ bool AberrationInspector::processSensor()
 
     // We've successfully solved the plane of the sensor so load the sensor vertices in the 3D Surface
     // getSensorVertex will perform the necessary rotations
-    QSurfaceDataArray *data = new QSurfaceDataArray;
-    QSurfaceDataRow *dataRow1 = new QSurfaceDataRow;
-    QSurfaceDataRow *dataRow2 = new QSurfaceDataRow;
-    *dataRow1 << getSensorVertex(TILE_TL) << getSensorVertex(TILE_TR);
-    *dataRow2 << getSensorVertex(TILE_BL) << getSensorVertex(TILE_BR);
-    *data << dataRow1 << dataRow2;
+    QSurfaceDataArray data;
+    QSurfaceDataRow dataRow1;
+    QSurfaceDataRow dataRow2;
+    dataRow1 << QSurfaceDataItem(getSensorVertex(TILE_TL)) << QSurfaceDataItem(getSensorVertex(TILE_TR));
+    dataRow2 << QSurfaceDataItem(getSensorVertex(TILE_BL)) << QSurfaceDataItem(getSensorVertex(TILE_BR));
+    data << dataRow1 << dataRow2;
     m_sensorProxy->resetArray(data);
     m_sensor->setDrawMode(QSurface3DSeries::DrawSurface);
     return true;
@@ -1127,7 +1133,7 @@ bool AberrationInspector::processPetzval(TileSelection tileSelection)
     }
 
     // Now we have the Petzval equation load a data array of 21 x 21 points
-    auto *dataArray = new QSurfaceDataArray;
+    QSurfaceDataArray dataArray;
     float x_step = m_data.sensorWidth * m_data.pixelSize * 2.0 / 21.0;
     float y_step = m_data.sensorHeight * m_data.pixelSize * 2.0 / 21.0;
 
@@ -1137,20 +1143,20 @@ bool AberrationInspector::processPetzval(TileSelection tileSelection)
     // Seems like the x values in the data row need to be increasing / decreasing for the dataProxy to work
     for (int j = -10; j < 11; j++)
     {
-        auto *newRow = new QSurfaceDataRow;
+        QSurfaceDataRow newRow;
         float y = y_step * j;
         for (int i = -10; i < 11; i++)
         {
             float x = x_step * i;
             float z = sign * (pow(x / a, 2.0) + pow(y / a, 2.0));
-            newRow->append(QSurfaceDataItem({x, y, z}));
+            newRow.append(QSurfaceDataItem(x, y, z));
             if (i == 10 && j == 10)
             {
                 m_maxZ = std::max(m_maxZ, z);
                 m_minZ = std::min(m_minZ, z);
             }
         }
-        dataArray->append(newRow);
+        dataArray.append(newRow);
     }
     m_petzvalProxy->resetArray(dataArray);
     return true;
