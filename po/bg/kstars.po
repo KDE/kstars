@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-21 02:08+0000\n"
+"POT-Creation-Date: 2026-08-22 02:08+0000\n"
 "PO-Revision-Date: 2026-08-17 20:50+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -589,7 +589,7 @@ msgstr "Отказ"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1595 ekos/manager.cpp:1610 ekos/manager.cpp:1626
+#: ekos/manager.cpp:1597 ekos/manager.cpp:1612 ekos/manager.cpp:1628
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -2071,7 +2071,7 @@ msgstr "Състояние:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1120 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1122 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -4311,13 +4311,13 @@ msgid "Export sky image"
 msgstr "Експортиране на изображение на небето"
 
 #: dialogs/exportimagedialog.cpp:92 fitsviewer/starprofileviewer.cpp:33
-#: fitsviewer/starprofileviewer.cpp:132 printing/pwizfovconfig.cpp:58
+#: fitsviewer/starprofileviewer.cpp:123 printing/pwizfovconfig.cpp:58
 #, kde-format
 msgid "Horizontal"
 msgstr "Хоризонтална"
 
 #: dialogs/exportimagedialog.cpp:93 fitsviewer/starprofileviewer.cpp:36
-#: fitsviewer/starprofileviewer.cpp:133 printing/pwizfovconfig.cpp:59
+#: fitsviewer/starprofileviewer.cpp:124 printing/pwizfovconfig.cpp:59
 #, kde-format
 msgid "Vertical"
 msgstr "Вертикално"
@@ -5323,7 +5323,7 @@ msgstr "Изчисляване на зрителното поле"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2516
+#: ekos/manager.cpp:2518
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6234,7 +6234,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1508 ekos/manager.cpp:2464 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1508 ekos/manager.cpp:2466 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3632
 #, kde-format
@@ -6288,7 +6288,7 @@ msgstr "Зареждане и завъртане..."
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
 #: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
-#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:270 ekos/manager.cpp:260
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:270 ekos/manager.cpp:261
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -10877,7 +10877,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
-#: ekos/manager.cpp:159 ekos/manager.cpp:266 ekos/manager.cpp:1128
+#: ekos/manager.cpp:160 ekos/manager.cpp:267 ekos/manager.cpp:1130
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10926,7 +10926,7 @@ msgid "Slew"
 msgstr "Завъртане"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:407
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:408
 #, kde-format
 msgid "Setup"
 msgstr "Настройка"
@@ -11112,7 +11112,7 @@ msgstr "стартиране на Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2568 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2570 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -11124,7 +11124,7 @@ msgstr "Подравняване"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2771 ekos/manager.ui:778
+#: ekos/manager.cpp:2773 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11215,7 +11215,7 @@ msgstr "Не може да се покаже временния файл на и
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2613 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2615 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -11227,7 +11227,7 @@ msgstr "Фокус"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2846
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2848
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13378,7 +13378,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Регистриране на действия в модула за планиране на Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:412
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:413
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13563,7 +13563,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2912
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2914
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -18909,21 +18909,21 @@ msgstr "Грешка при удостоверяване със сървъра E
 msgid "Error parsing server response: %1"
 msgstr "Грешка при анализа на отговора на сървъра: %1"
 
-#: ekos/focus/aberrationinspector.cpp:61
+#: ekos/focus/aberrationinspector.cpp:66
 #, kde-format
 msgid "Aberration Inspector - Run %1"
 msgstr "Инспектор за аберации - Изпълняване на %1"
 
-#: ekos/focus/aberrationinspector.cpp:102
 #: ekos/focus/aberrationinspector.cpp:107
+#: ekos/focus/aberrationinspector.cpp:112
 #, kde-format
 msgid "Tile"
 msgstr "Плочки"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
-#: ekos/focus/aberrationinspector.cpp:102
-#: ekos/focus/aberrationinspector.cpp:108 ekos/opsekos.ui:554
+#: ekos/focus/aberrationinspector.cpp:107
+#: ekos/focus/aberrationinspector.cpp:113 ekos/opsekos.ui:554
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
 #: tools/optionstreeview.ui:28
 #, kde-format, kde-kuit-format
@@ -18932,78 +18932,78 @@ msgstr "Описание"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:102 fitsviewer/platesolve.ui:521
+#: ekos/focus/aberrationinspector.cpp:107 fitsviewer/platesolve.ui:521
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
 msgstr "Решение"
 
-#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:107
 #, kde-format
 msgid "Delta (ticks)"
 msgstr "Делта (деления)"
 
-#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:107
 #, kde-format
 msgid "Delta (μm)"
 msgstr "Delta (μm)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: ekos/focus/aberrationinspector.cpp:102 fitsviewer/livestacking.ui:1086
+#: ekos/focus/aberrationinspector.cpp:107 fitsviewer/livestacking.ui:1086
 #, kde-format
 msgid "Num Stars"
 msgstr "Брой звезди"
 
-#: ekos/focus/aberrationinspector.cpp:102
-#: ekos/focus/aberrationinspector.cpp:113
+#: ekos/focus/aberrationinspector.cpp:107
+#: ekos/focus/aberrationinspector.cpp:118
 #, kde-format
 msgid "R²"
 msgstr "R²"
 
-#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:107
 #, kde-format
 msgid "Exclude"
 msgstr "Изключване"
 
-#: ekos/focus/aberrationinspector.cpp:109
+#: ekos/focus/aberrationinspector.cpp:114
 #, kde-format
 msgid "Focuser Solution"
 msgstr "Решение на фокусер"
 
-#: ekos/focus/aberrationinspector.cpp:110
+#: ekos/focus/aberrationinspector.cpp:115
 #, kde-format
 msgid "Delta from central tile in ticks"
 msgstr "Делта от централната плочка в отметки"
 
-#: ekos/focus/aberrationinspector.cpp:111
+#: ekos/focus/aberrationinspector.cpp:116
 #, kde-format
 msgid "Delta from central tile in micrometers"
 msgstr "Делта от централната плочка в микрометри"
 
-#: ekos/focus/aberrationinspector.cpp:112
+#: ekos/focus/aberrationinspector.cpp:117
 #, kde-format
 msgid "Min / max number of stars detected in the focus run"
 msgstr "Минимален/максимален брой звезди, открити в хода на фокусиране"
 
-#: ekos/focus/aberrationinspector.cpp:114
+#: ekos/focus/aberrationinspector.cpp:119
 #, kde-format
 msgid "Check to exclude row from calculations"
 msgstr "Проверка за изключване на ред от изчисленията"
 
-#: ekos/focus/aberrationinspector.cpp:588
-#: ekos/focus/aberrationinspector.cpp:605
-#: ekos/focus/aberrationinspector.cpp:606
-#: ekos/focus/aberrationinspector.cpp:607
+#: ekos/focus/aberrationinspector.cpp:593
+#: ekos/focus/aberrationinspector.cpp:610
+#: ekos/focus/aberrationinspector.cpp:611
+#: ekos/focus/aberrationinspector.cpp:612
 #, kde-format
 msgid "N/A"
 msgstr "Н/И"
 
-#: ekos/focus/aberrationinspector.cpp:593
+#: ekos/focus/aberrationinspector.cpp:598
 #, kde-format
 msgid "Move sensor nearer flattener"
 msgstr "Преместете сензора по-близо до плоското поле"
 
-#: ekos/focus/aberrationinspector.cpp:595
+#: ekos/focus/aberrationinspector.cpp:600
 #, kde-format
 msgid "Move sensor away from flattener"
 msgstr "Преместете сензора по/далече от плоското поле"
@@ -19204,7 +19204,7 @@ msgstr ""
 "през графиката.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
-#: ekos/focus/aberrationinspector.ui:362 fitsviewer/starprofileviewer.cpp:131
+#: ekos/focus/aberrationinspector.ui:362 fitsviewer/starprofileviewer.cpp:122
 #, kde-format
 msgid "Item"
 msgstr "Обект"
@@ -19233,51 +19233,59 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:389
-#, kde-format
-msgid "Qt"
-msgstr "Qt"
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Green"
+msgid "Qt Green"
+msgstr "Зелено"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:394
 #, kde-format
-msgid "Primary Colors"
-msgstr "Основни цветове"
+msgid "Qt Green Neon"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:399
 #, kde-format
-msgid "Digia"
-msgstr "Digia"
+msgid "Mix Series"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:404
-#, kde-format
-msgid "Stone Moss"
-msgstr "Stone Moss"
+#, fuzzy, kde-format
+#| msgctxt "City in Florida USA"
+#| msgid "Orange Park"
+msgid "Orange Series"
+msgstr "Ориндж Парк"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:409
-#, kde-format
-msgid "Army Blue"
-msgstr "армейско синьо"
+#, fuzzy, kde-format
+#| msgctxt "City in Northwest Territories Canada"
+#| msgid "Yellowknife"
+msgid "Yellow Series"
+msgstr "Йелоунайф"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:414
-#, kde-format
-msgid "Retro"
-msgstr "Ретро"
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Blue River"
+msgid "Blue Series"
+msgstr "Блу Ривър"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:419
 #, kde-format
-msgid "Ebony"
-msgstr "Ebony"
+msgid "Purple Series"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:424
 #, kde-format
-msgid "Isabelle"
-msgstr "Изабел"
+msgid "Grey Series"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:432
@@ -26666,90 +26674,90 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Използване на специален чип за водене на гидирането"
 
-#: ekos/manager.cpp:261
+#: ekos/manager.cpp:262
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - профил %1"
 
-#: ekos/manager.cpp:272
+#: ekos/manager.cpp:273
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Свързване... Кликнете, за да прекъснете."
 
-#: ekos/manager.cpp:295
+#: ekos/manager.cpp:296
 #, kde-format
 msgid "Logging"
 msgstr "Регистриране"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:447 ekos/opsekos.ui:174
+#: ekos/manager.cpp:448 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Анализиране"
 
-#: ekos/manager.cpp:462
+#: ekos/manager.cpp:463
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Разширението „%1“ не успя да стартира, прекъсва се"
 
-#: ekos/manager.cpp:476
+#: ekos/manager.cpp:477
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Разширението „%1“ не успя да спре, прекъсването е разрешено"
 
-#: ekos/manager.cpp:485
+#: ekos/manager.cpp:486
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Разширението „%1“ се прекъсва"
 
-#: ekos/manager.cpp:495
+#: ekos/manager.cpp:496
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Заявено е стартиране на разширението „%1“."
 
-#: ekos/manager.cpp:500
+#: ekos/manager.cpp:501
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Разширение '%1' е стартирано."
 
-#: ekos/manager.cpp:508
+#: ekos/manager.cpp:509
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Заявено е спиране на разширението „%1“."
 
-#: ekos/manager.cpp:513
+#: ekos/manager.cpp:514
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Разширение '%1' е прекъснато."
 
-#: ekos/manager.cpp:529
+#: ekos/manager.cpp:530
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Разширение „%1“: %2"
 
-#: ekos/manager.cpp:667 ekos/opsekos.cpp:103
+#: ekos/manager.cpp:669 ekos/opsekos.cpp:103
 #, kde-format
 msgid "Failed: port in use"
 msgstr "Неуспех: портът се използва"
 
-#: ekos/manager.cpp:995
+#: ekos/manager.cpp:997
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Импортиран е профил „%1“ от INDI Web Manager."
 
-#: ekos/manager.cpp:1149
+#: ekos/manager.cpp:1151
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1297 ekos/manager.cpp:1322
+#: ekos/manager.cpp:1299 ekos/manager.cpp:1324
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos изисква поне една камера, за да работи."
 
-#: ekos/manager.cpp:1385
+#: ekos/manager.cpp:1387
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -26758,17 +26766,17 @@ msgstr ""
 "Ekos е открила, че PTP камера е стартирана и може да попречи на камера Canon "
 "или Nikon да се свърже с Ekos. Искате ли да прекратите PTP камера сега?"
 
-#: ekos/manager.cpp:1386
+#: ekos/manager.cpp:1388
 #, kde-format
 msgid "PTP Camera"
 msgstr "Камера PTP"
 
-#: ekos/manager.cpp:1400
+#: ekos/manager.cpp:1402
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Стартиране на INDI услуги..."
 
-#: ekos/manager.cpp:1431
+#: ekos/manager.cpp:1433
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -26778,47 +26786,47 @@ msgstr ""
 "изключите съществуващата инстанция, преди да стартирате нова?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1433 indi/opsindi.ui:248
+#: ekos/manager.cpp:1435 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Сървър на INDI"
 
-#: ekos/manager.cpp:1448
+#: ekos/manager.cpp:1450
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Свързване към отдалечен INDI сървър на %1 на порт %2"
 
-#: ekos/manager.cpp:1469
+#: ekos/manager.cpp:1471
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Неуспешно стартиране на профил в отдалечен INDI уеб мениджър."
 
-#: ekos/manager.cpp:1473
+#: ekos/manager.cpp:1475
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Стартиране на профил на отдалечения INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1486
+#: ekos/manager.cpp:1488
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Установява се комуникация с отдалечен INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1505
+#: ekos/manager.cpp:1507
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Грешка: INDI Web Manager не е онлайн на %1:%2"
 
-#: ekos/manager.cpp:1546
+#: ekos/manager.cpp:1548
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI услугите стартираха на порт %1."
 
-#: ekos/manager.cpp:1549
+#: ekos/manager.cpp:1551
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Услугите INDI са стартирани на порт %1. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:1554
+#: ekos/manager.cpp:1556
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -26827,27 +26835,27 @@ msgstr ""
 "Стартиране на услугите на INDI. Връзката с отдалечения INDI сървър %1:%2 е "
 "успешна. Изчакваме устройства..."
 
-#: ekos/manager.cpp:1586
+#: ekos/manager.cpp:1588
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Неуспешно свързване с локален INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1588
+#: ekos/manager.cpp:1590
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Неуспешно свързване с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1601
+#: ekos/manager.cpp:1603
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Загубена връзка с локалния INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1603
+#: ekos/manager.cpp:1605
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Загубена връзка с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1670
+#: ekos/manager.cpp:1672
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -26855,7 +26863,7 @@ msgstr ""
 "Не успя да се свърже с %1. Моля, уверете се, че устройството е свързано и "
 "включено."
 
-#: ekos/manager.cpp:1672
+#: ekos/manager.cpp:1674
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -26866,7 +26874,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1711
+#: ekos/manager.cpp:1713
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -26877,13 +26885,13 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1715 ekos/manager.cpp:1723 ekos/manager.cpp:1756
-#: ekos/manager.cpp:1764
+#: ekos/manager.cpp:1717 ekos/manager.cpp:1725 ekos/manager.cpp:1758
+#: ekos/manager.cpp:1766
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Грешка при стартиране на Ekos"
 
-#: ekos/manager.cpp:1719
+#: ekos/manager.cpp:1721
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -26894,7 +26902,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1752
+#: ekos/manager.cpp:1754
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -26905,7 +26913,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1760
+#: ekos/manager.cpp:1762
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -26916,32 +26924,32 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1821
+#: ekos/manager.cpp:1823
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Свързване на INDI устройства..."
 
-#: ekos/manager.cpp:1840
+#: ekos/manager.cpp:1842
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Прекъсване на INDI устройствата..."
 
-#: ekos/manager.cpp:1880
+#: ekos/manager.cpp:1882
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Услугите на INDI са спрени."
 
-#: ekos/manager.cpp:1948
+#: ekos/manager.cpp:1950
 #, kde-format
 msgid "Remote devices established."
 msgstr "Установени са отдалечени устройства."
 
-#: ekos/manager.cpp:1951
+#: ekos/manager.cpp:1953
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Установени са отдалечени устройства. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:2015
+#: ekos/manager.cpp:2017
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -26950,118 +26958,118 @@ msgstr ""
 "%1 не успя да се свърже.\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:2022
+#: ekos/manager.cpp:2024
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 е разкачен."
 
-#: ekos/manager.cpp:2043 ekos/manager.cpp:2052 ekos/manager.cpp:2085
+#: ekos/manager.cpp:2045 ekos/manager.cpp:2054 ekos/manager.cpp:2087
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 е достъпен."
 
-#: ekos/manager.cpp:2060
+#: ekos/manager.cpp:2062
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 филтър е онлайн."
 
-#: ekos/manager.cpp:2069
+#: ekos/manager.cpp:2071
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 фокусер е достъпен."
 
-#: ekos/manager.cpp:2076
+#: ekos/manager.cpp:2078
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Ротатор %1 е онлайн."
 
-#: ekos/manager.cpp:2092
+#: ekos/manager.cpp:2094
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 Времето е онлайн."
 
-#: ekos/manager.cpp:2099
+#: ekos/manager.cpp:2101
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS е онлайн."
 
-#: ekos/manager.cpp:2106
+#: ekos/manager.cpp:2108
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "%1 PAC е онлайн."
 
-#: ekos/manager.cpp:2115
+#: ekos/manager.cpp:2117
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Защитната капачка е онлайн."
 
-#: ekos/manager.cpp:2122
+#: ekos/manager.cpp:2124
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Светлинен източник е онлайн."
 
-#: ekos/manager.cpp:2267
+#: ekos/manager.cpp:2269
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 е недостъпен."
 
-#: ekos/manager.cpp:2929
+#: ekos/manager.cpp:2931
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Портът на гид модула от %1 е готов."
 
-#: ekos/manager.cpp:3192
+#: ekos/manager.cpp:3194
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Сигурни ли сте, че искате да изтриете профила?"
 
-#: ekos/manager.cpp:3193
+#: ekos/manager.cpp:3195
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Потвърждение за изтриване"
 
-#: ekos/manager.cpp:3245
+#: ekos/manager.cpp:3247
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Местоположението е актуализирано на %1."
 
-#: ekos/manager.cpp:3247
+#: ekos/manager.cpp:3249
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Не успя да актуализира местоположението до %1. Градът не е намерен."
 
-#: ekos/manager.cpp:3520
+#: ekos/manager.cpp:3522
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Включване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3528
+#: ekos/manager.cpp:3530
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Изключване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3556
+#: ekos/manager.cpp:3558
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно активиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3568
+#: ekos/manager.cpp:3570
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно деактивиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:4368
+#: ekos/manager.cpp:4370
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Източникът на визуализация е зададен като външен"
 
-#: ekos/manager.cpp:4375
+#: ekos/manager.cpp:4377
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Възстановяване на източника на визуализация към вътрешен"
 
-#: ekos/manager.cpp:4382
+#: ekos/manager.cpp:4384
 #, kde-format
 msgid "Received external preview file"
 msgstr "Получен файл за външен преглед"
@@ -35445,74 +35453,74 @@ msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "ЮНП"
 
-#: fitsviewer/fitsview.cpp:2593
+#: fitsviewer/fitsview.cpp:2594
 #, kde-format
 msgid "Finding stars..."
 msgstr "Търсене на звезди..."
 
-#: fitsviewer/fitsview.cpp:2893
+#: fitsviewer/fitsview.cpp:2894
 #, kde-format
 msgid "Zoom In"
 msgstr "Увеличаване"
 
-#: fitsviewer/fitsview.cpp:2896
+#: fitsviewer/fitsview.cpp:2897
 #, kde-format
 msgid "Zoom Out"
 msgstr "Намаляване"
 
-#: fitsviewer/fitsview.cpp:2899
+#: fitsviewer/fitsview.cpp:2900
 #, kde-format
 msgid "Default Zoom"
 msgstr "Мащаб по подразбиране"
 
-#: fitsviewer/fitsview.cpp:2902
+#: fitsviewer/fitsview.cpp:2903
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Оптимално мащабиране"
 
-#: fitsviewer/fitsview.cpp:2905
+#: fitsviewer/fitsview.cpp:2906
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Активиране/деактивиране на разтягането"
 
-#: fitsviewer/fitsview.cpp:2913 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsview.cpp:2914 fitsviewer/fitsviewer.cpp:243
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Показване на мерник"
 
-#: fitsviewer/fitsview.cpp:2917 fitsviewer/fitsviewer.cpp:256
+#: fitsviewer/fitsview.cpp:2918 fitsviewer/fitsviewer.cpp:256
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Показване на пикселна решетка"
 
-#: fitsviewer/fitsview.cpp:2922 fitsviewer/fitsview.cpp:3031
+#: fitsviewer/fitsview.cpp:2923 fitsviewer/fitsview.cpp:3032
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Откриване на звезди в изображението"
 
-#: fitsviewer/fitsview.cpp:2928
+#: fitsviewer/fitsview.cpp:2929
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Преглед на звезден профил..."
 
-#: fitsviewer/fitsview.cpp:2938 fitsviewer/fitsviewer.cpp:262
+#: fitsviewer/fitsview.cpp:2939 fitsviewer/fitsviewer.cpp:262
 #: fitsviewer/fitsviewer.cpp:1541
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Показване на екваториалната линия"
 
-#: fitsviewer/fitsview.cpp:2944 fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsview.cpp:2945 fitsviewer/fitsviewer.cpp:269
 #: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Показване на обекти в изображението"
 
-#: fitsviewer/fitsview.cpp:2950
+#: fitsviewer/fitsview.cpp:2951
 #, kde-format
 msgid "Center Telescope"
 msgstr "Центриране на телескопа"
 
-#: fitsviewer/fitsview.cpp:2956 fitsviewer/fitsviewer.cpp:276
+#: fitsviewer/fitsview.cpp:2957 fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Показване на наслагването на HiPS"
@@ -37739,82 +37747,77 @@ msgstr "Показване на журнала"
 msgid "Pixel Values"
 msgstr "Стойности на пикселите"
 
-#: fitsviewer/starprofileviewer.cpp:52
-#, kde-format
-msgid "Couldn't initialize the OpenGL context."
-msgstr "Не може да се инициализира контекстът на OpenGL."
-
-#: fitsviewer/starprofileviewer.cpp:63
+#: fitsviewer/starprofileviewer.cpp:54
 #, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
 msgstr "Преглед на звезден профил"
 
-#: fitsviewer/starprofileviewer.cpp:80
+#: fitsviewer/starprofileviewer.cpp:71
 #, kde-format
 msgid "Maximum Value on the graph"
 msgstr "Максимална стойност на графиката"
 
-#: fitsviewer/starprofileviewer.cpp:82
+#: fitsviewer/starprofileviewer.cpp:73
 #, kde-format
 msgid "Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr "Максимална стойност за премахване на горещите пиксели и ярките звезди."
 
-#: fitsviewer/starprofileviewer.cpp:85
+#: fitsviewer/starprofileviewer.cpp:76
 #, kde-format
 msgid "Enable or Disable the Max Value Cutoff"
 msgstr "Активиране или деактивиране на прекъсването на максималната стойност"
 
-#: fitsviewer/starprofileviewer.cpp:86
+#: fitsviewer/starprofileviewer.cpp:77
 #, kde-format
 msgid "Toggle Cutoff"
 msgstr "Включване/изключване на изрязването"
 
-#: fitsviewer/starprofileviewer.cpp:90
+#: fitsviewer/starprofileviewer.cpp:81
 #, kde-format
 msgid "Sets the Minimum Value on the graph"
 msgstr "Задава минималната стойност на графиката"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/starprofileviewer.cpp:92 fitsviewer/statform.ui:86
+#: fitsviewer/starprofileviewer.cpp:83 fitsviewer/statform.ui:86
 #, kde-format
 msgid "Min"
 msgstr "Мин"
 
-#: fitsviewer/starprofileviewer.cpp:95
+#: fitsviewer/starprofileviewer.cpp:86
 #, kde-format
 msgid "Sets the Maximum Value on the graph"
 msgstr "Задава максималната стойност на графиката"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/starprofileviewer.cpp:97 fitsviewer/statform.ui:91
+#: fitsviewer/starprofileviewer.cpp:88 fitsviewer/statform.ui:91
 #, kde-format
 msgid "Max"
 msgstr "Макс"
 
-#: fitsviewer/starprofileviewer.cpp:100
+#: fitsviewer/starprofileviewer.cpp:91
 #, kde-format
 msgid "Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr ""
 "Задаване на максималната стойност на отрязване за премахване на горещи "
 "пиксели и ярки звезди."
 
-#: fitsviewer/starprofileviewer.cpp:102
+#: fitsviewer/starprofileviewer.cpp:93
 #, kde-format
 msgid "Cut"
 msgstr "Изрязване"
 
-#: fitsviewer/starprofileviewer.cpp:106
+#: fitsviewer/starprofileviewer.cpp:97
 #, kde-format
 msgid "Minimum Value on the graph"
 msgstr "Минимална стойност на графиката"
 
-#: fitsviewer/starprofileviewer.cpp:109
+#: fitsviewer/starprofileviewer.cpp:100
 #, kde-format
 msgid "AutoScale"
 msgstr "Автомащабиране"
 
-#: fitsviewer/starprofileviewer.cpp:111
+#: fitsviewer/starprofileviewer.cpp:102
 #, kde-format
 msgid ""
 "Automatically scales the sliders for the subFrame.\n"
@@ -37823,167 +37826,167 @@ msgstr ""
 "Автоматично мащабира плъзгачите за подкадрите.\n"
 "Премахнете отметката, за да ги оставите непроменени, когато движите картата."
 
-#: fitsviewer/starprofileviewer.cpp:119
+#: fitsviewer/starprofileviewer.cpp:110
 #, kde-format
 msgid "Hides and shows the scaling side panel"
 msgstr "Скриване и показване на страничния панел за мащабиране"
 
-#: fitsviewer/starprofileviewer.cpp:130
+#: fitsviewer/starprofileviewer.cpp:121
 #, kde-format
 msgid "Changes the type of selection"
 msgstr "Промяна на вида на избора"
 
-#: fitsviewer/starprofileviewer.cpp:141
+#: fitsviewer/starprofileviewer.cpp:132
 #, kde-format
 msgid "Toggles the slice view when horizontal or vertical items are selected"
 msgstr ""
 "Превключва изгледа на среза, когато са избрани хоризонтални или вертикални "
 "елементи"
 
-#: fitsviewer/starprofileviewer.cpp:152
+#: fitsviewer/starprofileviewer.cpp:143
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
 msgstr "Показва координатите x, y на звездните центрове в кадъра"
 
-#: fitsviewer/starprofileviewer.cpp:156
+#: fitsviewer/starprofileviewer.cpp:147
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
 msgstr "Показва HFR на звездите в кадъра"
 
-#: fitsviewer/starprofileviewer.cpp:170
+#: fitsviewer/starprofileviewer.cpp:161
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
 msgstr "Показва пиковите стойности на звездните центрове в кадъра"
 
-#: fitsviewer/starprofileviewer.cpp:174
+#: fitsviewer/starprofileviewer.cpp:165
 #, kde-format
 msgid "Changes the sample size shown in the graph"
 msgstr "Променя размера на извадката, показан в графиката"
 
-#: fitsviewer/starprofileviewer.cpp:185
+#: fitsviewer/starprofileviewer.cpp:176
 #, kde-format
 msgid "Zooms the view to preset locations."
 msgstr "Увеличава изгледа до предварително зададени местоположения."
 
-#: fitsviewer/starprofileviewer.cpp:186
+#: fitsviewer/starprofileviewer.cpp:177
 #, kde-format
 msgid "ZoomTo"
 msgstr "Мащабиране до"
 
-#: fitsviewer/starprofileviewer.cpp:187
+#: fitsviewer/starprofileviewer.cpp:178
 #, kde-format
 msgid "Front"
 msgstr "Отпред"
 
-#: fitsviewer/starprofileviewer.cpp:188
+#: fitsviewer/starprofileviewer.cpp:179
 #, kde-format
 msgid "Front High"
 msgstr "Отпред, най-високо"
 
-#: fitsviewer/starprofileviewer.cpp:189
+#: fitsviewer/starprofileviewer.cpp:180
 #, kde-format
 msgid "Overhead"
 msgstr "Отгоре"
 
-#: fitsviewer/starprofileviewer.cpp:190
+#: fitsviewer/starprofileviewer.cpp:181
 #, kde-format
 msgid "Iso. L"
 msgstr "Ізо. Л"
 
-#: fitsviewer/starprofileviewer.cpp:191
+#: fitsviewer/starprofileviewer.cpp:182
 #, kde-format
 msgid "Iso. R"
 msgstr "Iso. Д"
 
-#: fitsviewer/starprofileviewer.cpp:192
+#: fitsviewer/starprofileviewer.cpp:183
 #, kde-format
 msgid "Selected"
 msgstr "Избран"
 
-#: fitsviewer/starprofileviewer.cpp:200
+#: fitsviewer/starprofileviewer.cpp:191
 #, kde-format
 msgid "Hides and shows the Vertical and Horizontal Selection Sliders"
 msgstr ""
 "Скриване и показване на плъзгачите за вертикално и хоризонтално избиране"
 
-#: fitsviewer/starprofileviewer.cpp:223
+#: fitsviewer/starprofileviewer.cpp:214
 #, kde-format
 msgid "Selects the Vertical Value"
 msgstr "Избира вертикалната стойност"
 
-#: fitsviewer/starprofileviewer.cpp:225
+#: fitsviewer/starprofileviewer.cpp:216
 #, kde-format
 msgid "Selects the Horizontal Value"
 msgstr "Избира хоризонталната стойност"
 
-#: fitsviewer/starprofileviewer.cpp:227
+#: fitsviewer/starprofileviewer.cpp:218
 #, kde-format
 msgid "Vertical: "
 msgstr "Вертикално: "
 
-#: fitsviewer/starprofileviewer.cpp:229
+#: fitsviewer/starprofileviewer.cpp:220
 #, kde-format
 msgid "Horizontal: "
 msgstr "Хоризонтална: "
 
-#: fitsviewer/starprofileviewer.cpp:243
+#: fitsviewer/starprofileviewer.cpp:234
 #, kde-format
 msgid "Zooms automatically as the sliders change"
 msgstr "Автоматично мащабиране при промяна на плъзгачите"
 
-#: fitsviewer/starprofileviewer.cpp:255
+#: fitsviewer/starprofileviewer.cpp:246
 #, kde-format
 msgid "Changes the color scheme"
 msgstr "Променя цветовата схема"
 
-#: fitsviewer/starprofileviewer.cpp:509 fitsviewer/starprofileviewer.cpp:712
+#: fitsviewer/starprofileviewer.cpp:499 fitsviewer/starprofileviewer.cpp:702
 #, kde-format
 msgid "Cut: %1"
 msgstr "Изрязване: %1"
 
-#: fitsviewer/starprofileviewer.cpp:517 fitsviewer/starprofileviewer.cpp:524
-#: fitsviewer/starprofileviewer.cpp:886
+#: fitsviewer/starprofileviewer.cpp:507 fitsviewer/starprofileviewer.cpp:514
+#: fitsviewer/starprofileviewer.cpp:874
 #, kde-format
 msgid "Max: %1"
 msgstr "Макс.: %1"
 
-#: fitsviewer/starprofileviewer.cpp:518 fitsviewer/starprofileviewer.cpp:525
-#: fitsviewer/starprofileviewer.cpp:887
+#: fitsviewer/starprofileviewer.cpp:508 fitsviewer/starprofileviewer.cpp:515
+#: fitsviewer/starprofileviewer.cpp:875
 #, kde-format
 msgid "Min: %1"
 msgstr "Мин: %1"
 
-#: fitsviewer/starprofileviewer.cpp:674
+#: fitsviewer/starprofileviewer.cpp:664
 #, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
 msgstr "Избран пиксел: (%1, %2): %3"
 
-#: fitsviewer/starprofileviewer.cpp:714
+#: fitsviewer/starprofileviewer.cpp:704
 #, kde-format
 msgid "Cut Disabled"
 msgstr "Изрязването е изключено"
 
-#: fitsviewer/starprofileviewer.cpp:913
+#: fitsviewer/starprofileviewer.cpp:901
 #, kde-format
 msgid "Star %1: "
 msgstr "Звезда %1: "
 
-#: fitsviewer/starprofileviewer.cpp:916
+#: fitsviewer/starprofileviewer.cpp:904
 #, kde-format
 msgid "(%1, %2) "
 msgstr "(%1, %2) "
 
-#: fitsviewer/starprofileviewer.cpp:920
+#: fitsviewer/starprofileviewer.cpp:908
 #, kde-format
 msgid "HFR: %1  "
 msgstr "HFR: %1  "
 
-#: fitsviewer/starprofileviewer.cpp:924
+#: fitsviewer/starprofileviewer.cpp:912
 #, kde-format
 msgid "Peak: %1"
 msgstr "Връх: %1"
 
-#: fitsviewer/starprofileviewer.cpp:939
+#: fitsviewer/starprofileviewer.cpp:927
 #, kde-format
 msgid "Star %1"
 msgstr "Звезда %1"
@@ -100209,6 +100212,33 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
+
+#~ msgid "Qt"
+#~ msgstr "Qt"
+
+#~ msgid "Primary Colors"
+#~ msgstr "Основни цветове"
+
+#~ msgid "Digia"
+#~ msgstr "Digia"
+
+#~ msgid "Stone Moss"
+#~ msgstr "Stone Moss"
+
+#~ msgid "Army Blue"
+#~ msgstr "армейско синьо"
+
+#~ msgid "Retro"
+#~ msgstr "Ретро"
+
+#~ msgid "Ebony"
+#~ msgstr "Ebony"
+
+#~ msgid "Isabelle"
+#~ msgstr "Изабел"
+
+#~ msgid "Couldn't initialize the OpenGL context."
+#~ msgstr "Не може да се инициализира контекстът на OpenGL."
 
 #~ msgid ""
 #~ "<html><head/><body><p>Enable streaming guide mode. When checked and the "
