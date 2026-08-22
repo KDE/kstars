@@ -66,3 +66,63 @@ reads these fields back — review the numbers (especially the `confidence` flag
 resolved below the guide-frame sampling floor) and, if you agree with them,
 manually update the RA/DEC Proportional Gain (and Integral Gain, if used) in
 KStars' Guide options yourself.
+
+## 6. Diagnostics & Analysis Tools
+
+None of these are required to train a model — reach for them when something looks
+wrong, or before trusting a collection's output.
+
+### `validate_sysid.py` — sysid data quality gate
+
+Run this **before** `train.py` on any new collection. Checks pulse-response
+sign-consistency and cross-magnitude gain agreement, backlash-poisoned DEC
+calibration, free-drift PE-line strength, star-lost frames, and pier-side/altitude
+coverage. Prints a `READY`/`NOT READY` verdict with specific HIGH-severity issues
+to fix before trusting the data.
+
+```bash
+python3 validate_sysid.py path/to/sysid_data_*.json
+python3 validate_sysid.py --latest   # newest file in ai_training_logs/
+```
+
+### `analyze_oscillation.py` — oscillation/ringing diagnostic
+
+Reads an AI debug CSV from a real closed-loop session (Active, Shadow, or plain
+standard guiding with Shadow logging) and answers: is the AI+PID blend
+double-correcting (loop-gain/resonance), or is it a phase mismatch? Uses
+autocorrelation on the actual pulse series sent to the mount, not a sign-flip
+counter.
+
+```bash
+python3 analyze_oscillation.py --log path/to/ai_guider_*.csv
+python3 analyze_oscillation.py --logdir ~/.local/share/kstars/ai_debug_logs/ --latest 1
+```
+
+### `evaluate_shadow.py` — shadow-mode counterfactual RMS
+
+For Shadow-mode sessions (AI predicts, never applied): computes what RMS *would
+have been* if the AI's predictions had been used, directly from the debug CSV.
+
+```bash
+python3 evaluate_shadow.py --logdir ~/.local/share/kstars/ai_debug_logs/ --latest 3
+```
+
+### `tail_ai_log.py` — live plot during a bench session
+
+Tails the currently-growing `ai_debug_logs/ai_guider_*.csv` in real time and plots
+drift, confidence/state, the actual pulse sent to the mount (the direct
+oscillation-watch panel), and P-gain backoff. For watching a live session, not
+post-mortem analysis.
+
+### `pulse_response_fit.py` — shared library, not a standalone tool
+
+Generic step-response curve fitting used internally by all three `train_*.py`
+trainers and `pid_autotune.py`. Not meant to be run directly.
+
+## 7. Building KStars Itself
+
+This README covers training the AI model, not building the KStars binary that
+runs it. For that — including offloading a build to a faster remote machine via
+distcc (same-arch or cross-arch, e.g. building for this Pi from an x86_64 box) —
+see `tools/distcc_build.py` and `tools/setup_arm64_cross_toolchain.sh` at the repo
+root; both are self-documented in their own header comments.

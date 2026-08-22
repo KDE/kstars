@@ -21,7 +21,8 @@
 Eigen::Vector4d WormGearGuider::m_rls_theta { Eigen::Vector4d::Zero() };
 Eigen::Matrix4d WormGearGuider::m_rls_P { Eigen::Matrix4d::Identity() * 100.0 };
 int WormGearGuider::m_frameCount { 0 };
-double WormGearGuider::m_typicalRMS { 0.5 };
+double WormGearGuider::m_typicalRMS_ra { 0.5 };
+double WormGearGuider::m_typicalRMS_dec { 0.5 };
 double WormGearGuider::s_activePePeriod { -1.0 };
 double WormGearGuider::m_pe_phase { 0.0 };
 double WormGearGuider::m_pe_amplitude { 1.0 };
@@ -128,7 +129,8 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
 
 void WormGearGuider::resetSession(bool forceReset)
 {
-    m_confidence = 0.0;
+    m_confidenceRA = 0.0;
+    m_confidenceDEC = 0.0;
     m_isStable = false;
     m_lastDt = 2.0;
     m_lastAltRad = M_PI / 4.0;
@@ -155,11 +157,35 @@ void WormGearGuider::resetSession(bool forceReset)
     {
         m_frameCount = 0;
         m_pe_phase   = 0.0;
-        m_typicalRMS = 0.5;
+        m_typicalRMS_ra = 0.5;
+        m_typicalRMS_dec = 0.5;
         m_uncorrectedPosRA = 0.0;
         m_uncorrectedPosDEC = 0.0;
-        m_rls_theta = Eigen::Vector4d::Zero();
+
+        // Warm-start the RLS from the offline-trained physics fit instead of a cold zero.
+        // theta = [sin_coeff, cos_coeff, v, C], and phase = atan2(cos_coeff, sin_coeff)
+        // (see updatePhase()/stateString()) -- i.e. sin_coeff = A*cos(phase), cos_coeff =
+        // A*sin(phase). Seeding phase at exactly 0 therefore means sin_coeff=A, cos_coeff=0:
+        // the seed vector lands exactly on the sin_coeff axis, so THAT axis is the
+        // amplitude/radial direction and cos_coeff is the phase/tangential direction, with
+        // no rotation needed to tell them apart.
+        m_rls_theta = Eigen::Vector4d(m_pe_amplitude, 0.0, m_d_ra_extra, 0.0);
+
+        // Anisotropic, not uniform, confidence. Amplitude and the linear drift term are real
+        // mechanical properties of THIS mount, worth trusting moderately so a cold, weak
+        // per-frame PE signal doesn't force climbing back to them from scratch every
+        // session. Phase deserves none of that trust: it depends on the worm's absolute
+        // rotational position at session start, which is unrecoverable offline (no absolute
+        // encoder, arbitrary start time) -- seeding it at 0 is an arbitrary guess, not
+        // evidence. Giving cos_coeff (phase) the same moderate confidence as sin_coeff
+        // (amplitude) would make the filter resist correcting a guess that deserves zero
+        // trust -- worst case (true phase near pi, i.e. exactly wrong), that's actively
+        // worse than the old cold start, not just slower to help. So cos_coeff keeps the
+        // fully uninformative default (corrects as fast as a cold start would) while
+        // sin_coeff and v get the moderate prior. The constant-offset term C (index 3) also
+        // has no offline prior and stays uninformative.
         m_rls_P = Eigen::Matrix4d::Identity() * 100.0;
+        m_rls_P(0, 0) = m_rls_P(2, 2) = 4.0;
     }
 }
 
@@ -200,7 +226,15 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
     GuideOutput out;
     // Hold the AI out of an unstable loop.
     out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
-    out.confidence = m_confidence;
+    out.confidence_ra  = m_confidenceRA;
+    out.confidence_dec = m_confidenceDEC;
+
+    // Logged regardless of out.valid so the AI debug CSV can show the raw RLS state
+    // through warmup/fallback, not just while the model is actively driving pulses.
+    out.rls_sin_coeff  = m_rls_theta(0);
+    out.rls_cos_coeff  = m_rls_theta(1);
+    out.rls_drift_rate = m_rls_theta(2);
+    out.rls_offset     = m_rls_theta(3);
 
     m_lastPredDriftRA  = phys_ra + mlp_out[0];
     m_lastPredDriftDEC = phys_dec + mlp_out[1];
@@ -222,31 +256,55 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
 
 void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
                             double uncorrected_drift_ra_px_delta, double uncorrected_drift_dec_px_delta, double snr,
-                            double /*ra_pulse_px*/, double /*dec_pulse_px*/)
+                            double /*ra_pulse_px*/, double /*dec_pulse_px*/,
+                            bool ra_pulse_has_ai, bool /*dec_pulse_has_ai*/)
 {
-    m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
+    // Freeze RA's online phase/amplitude adaptation (and its confidence bookkeeping) while
+    // the just-applied RA pulse included this guider's own prediction. The pulse backout in
+    // gmath.cpp assumes one fixed linear ms/arcsec calibration factor regardless of who
+    // commanded the pulse; any residual from that approximation is correlated with the same
+    // sin/cos phase basis the RLS fits on (and that the AI prediction itself reads out of),
+    // so without this guard the RLS partially re-learns its own leftover prediction error --
+    // a closed-loop system-identification bias, not ordinary measurement noise.
+    //
+    // Verified 2026-08-19: PE amplitude/phase held stable (0.15-0.42", 2.7-3.0 rad) through
+    // ~30 minutes of Shadow-mode guiding (Standard pulses only -- this loop never closes in
+    // Shadow), then diverged to amplitude 1.38" and a ~pi phase flip within ~10 minutes of
+    // switching RA to AI Guider. 88.4% of RA frames in that Active window had the AI
+    // response term opposing the proportional term's sign, and mean net pulse dropped from
+    // 82.5ms to 35.7ms -- consistent with a corrupted phase estimate actively fighting the
+    // real-time correction rather than just being a weak/noisy one.
+    //
+    // DEC is left unguarded here: physicsDEC() is a fixed function of loaded weights with no
+    // online-adaptive state (no RLS term for DEC in this guider), so it has nothing to close
+    // this loop through. Tonight's Active-mode DEC confidence/RMS behaved well throughout,
+    // consistent with that.
+    if (!ra_pulse_has_ai)
+        m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
     m_uncorrectedPosDEC += uncorrected_drift_dec_px_delta;
 
     if (m_hasLastPred)
     {
         const double innov_ra  = uncorrected_drift_ra_px_delta - m_lastPredDriftRA;
         const double innov_dec = uncorrected_drift_dec_px_delta - m_lastPredDriftDEC;
-        updateConfidence(innov_ra, innov_dec, snr);
+        updateConfidence(innov_ra, innov_dec, snr, ra_pulse_has_ai);
     }
 
-    updatePhase(m_uncorrectedPosRA, m_lastSessionSec);
+    if (!ra_pulse_has_ai)
+        updatePhase(m_uncorrectedPosRA, m_lastSessionSec);
 }
 
 QString WormGearGuider::stateString() const
 {
-    return QString("WormGear A=%1 T=%2 φ=%3 conf=%4")
+    return QString("WormGear A=%1 T=%2 φ=%3 confRA=%4 confDEC=%5")
            .arg(m_pe_amplitude, 0, 'f', 2)
            .arg(m_pe_period, 0, 'f', 0)
            .arg(m_pe_phase, 0, 'f', 3)
-           .arg(m_confidence, 0, 'f', 2);
+           .arg(m_confidenceRA, 0, 'f', 2)
+           .arg(m_confidenceDEC, 0, 'f', 2);
 }
 
-double WormGearGuider::physicsRA(double t_sec, double /*altitude_deg*/) const
+double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
 {
     const double omega = 2.0 * M_PI / m_pe_period;
 
@@ -255,7 +313,21 @@ double WormGearGuider::physicsRA(double t_sec, double /*altitude_deg*/) const
     const double pe_rate = m_rls_theta(0) * omega * std::cos(omega * t_sec)
                            - m_rls_theta(1) * omega * std::sin(omega * t_sec);
 
-    return pe_rate + m_rls_theta(2);
+    // Refraction term, matching train_worm_gear.py's _physics_drift() exactly (same sign,
+    // same 1/cos^2(alt) form) -- this is what the offline-trained residual MLP's target
+    // was actually computed against (target = true_drift - phys_drift, phys_drift
+    // including this term), so omitting it here means the MLP's output is judged against
+    // a physics baseline that was never actually served at runtime: a systematic,
+    // altitude-dependent gap the MLP was never given the input range/capacity to fully
+    // absorb on its own. Clamped to the fit's altitude range for the same reason
+    // physicsDEC() below clamps -- k_ref/cos^2(alt) is a real refraction effect only
+    // within the range it was fit over; extrapolating it unclamped toward the horizon
+    // blows up.
+    const double alt_rad = std::clamp(altitude_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;
+    const double cos_alt = std::cos(alt_rad);
+    const double refraction_rate = (std::abs(cos_alt) < 1e-4) ? 0.0 : m_k_ref / (cos_alt * cos_alt);
+
+    return pe_rate + refraction_rate + m_rls_theta(2);
 }
 
 double WormGearGuider::physicsDEC(double altitude_deg, double parallactic_angle_deg) const
@@ -336,11 +408,19 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
     m_d_ra_extra = m_rls_theta(2);
 }
 
-void WormGearGuider::updateConfidence(double innovRA, double innovDec, double snr)
+void WormGearGuider::updateConfidence(double innovRA, double innovDec, double snr, bool skipRA)
 {
-    m_innovRA.push_back(innovRA);
-    if (m_innovRA.size() > INNOV_WINDOW)
-        m_innovRA.pop_front();
+    // skipRA: this frame's RA innovation is measured against a pulse-backout that itself
+    // included the AI's own RA prediction (see update() above) -- pushing it in would let
+    // the RA confidence estimate partially grade the model against its own leftover error.
+    // Hold RA's deque/baseline/confidence at their last known values instead; DEC is
+    // unaffected (see update()).
+    if (!skipRA)
+    {
+        m_innovRA.push_back(innovRA);
+        if (m_innovRA.size() > INNOV_WINDOW)
+            m_innovRA.pop_front();
+    }
 
     m_innovDec.push_back(innovDec);
     if (m_innovDec.size() > INNOV_WINDOW)
@@ -358,22 +438,14 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
 
     const double ra_rms  = axisRms(m_innovRA);
     const double dec_rms = axisRms(m_innovDec);
+    // m_isStable still gates on the JOINT innovation -- it answers "is the AI subsystem
+    // operational at all" (out.valid), a coarser question than per-axis trust. One axis's
+    // prediction quality is handled entirely by that axis's own confidence below; the
+    // combined RMS here only decides whether the AI runs at all this frame, for either axis.
     const double innov_rms = std::sqrt((ra_rms * ra_rms + dec_rms * dec_rms) / 2.0);
-
-    // Absolute innovation rate, independent of the adaptive baseline.
     const double innov_arcsec_per_sec = innov_rms * m_lastPixelScale / std::max(0.5, m_lastDt);
     m_isStable = innov_arcsec_per_sec < INSTABILITY_ARCSEC_PER_SEC &&
                  m_innovRA.size() >= INNOV_WINDOW / 2;
-
-    // Use EMA after warmup so m_typicalRMS adapts to changing conditions
-    // (seeing changes, altitude changes) instead of staying frozen from warmup.
-    // Adapt on calm frames only, so the baseline never learns instability as normal.
-    if (m_frameCount <= warmupFrames())
-        m_typicalRMS = std::max(0.05, innov_rms);
-    else if (innov_rms < m_typicalRMS * 1.5)
-        m_typicalRMS = 0.99 * m_typicalRMS + 0.01 * innov_rms;
-
-    const double error_ratio = innov_rms / (m_typicalRMS + 1e-6);
 
     double snr_factor = std::min(1.0, (snr - 10.0) / 20.0);
     snr_factor = std::max(0.0, snr_factor);
@@ -386,19 +458,42 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
         warmup_factor = 0.3 + 0.7 * std::min(1.0, static_cast<double>(m_frameCount - warmupFrames()) / 20.0);
     }
 
-    // Lorentzian confidence instead of exponential.
-    // exp(-r) gives ~0.37 at r=1, crushing the AI contribution.
-    // 1/(1+r²) gives ~0.50 at r=1, allowing meaningful feed-forward.
-    double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
+    // Per-axis: one axis's prediction quality says nothing about the other's (verified
+    // 2026-08-18 -- a session where RA's residual MLP tracked well while DEC's, trained on
+    // a fraction of the samples after backlash-poisoned sessions get zero-weighted, output
+    // something close to noise; a single shared confidence let DEC's noise ride on RA's
+    // trust and actively fight the correct proportional response). Same warmup/SNR terms
+    // (not axis-specific concepts) but independent adaptive RMS baseline, Lorentzian
+    // quality, and rise-limited confidence per axis.
+    auto axisConfidence = [&](double rms, double &typicalRMS, double &confidence) -> void
+    {
+        const double axis_arcsec_per_sec = rms * m_lastPixelScale / std::max(0.5, m_lastDt);
 
-    // Collapse on absolute innovation too; the ratio is blind to a poisoned baseline.
-    const double instability = innov_arcsec_per_sec / INSTABILITY_ARCSEC_PER_SEC;
-    if (instability > 1.0)
-        prediction_quality /= instability * instability;
+        if (m_frameCount <= warmupFrames())
+            typicalRMS = std::max(0.05, rms);
+        else if (rms < typicalRMS * 1.5)
+            typicalRMS = 0.99 * typicalRMS + 0.01 * rms;
 
-    // Falls freely, rebuilds slowly: a briefly quiet star must not restore full trust.
-    const double target = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
-    m_confidence = std::min(target, m_confidence + CONF_RISE_PER_FRAME);
+        const double error_ratio = rms / (typicalRMS + 1e-6);
+
+        // Lorentzian confidence instead of exponential.
+        // exp(-r) gives ~0.37 at r=1, crushing the AI contribution.
+        // 1/(1+r²) gives ~0.50 at r=1, allowing meaningful feed-forward.
+        double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
+
+        // Collapse on absolute innovation too; the ratio is blind to a poisoned baseline.
+        const double instability = axis_arcsec_per_sec / INSTABILITY_ARCSEC_PER_SEC;
+        if (instability > 1.0)
+            prediction_quality /= instability * instability;
+
+        // Falls freely, rebuilds slowly: a briefly quiet star must not restore full trust.
+        const double target = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+        confidence = std::min(target, confidence + CONF_RISE_PER_FRAME);
+    };
+
+    if (!skipRA)
+        axisConfidence(ra_rms, m_typicalRMS_ra, m_confidenceRA);
+    axisConfidence(dec_rms, m_typicalRMS_dec, m_confidenceDEC);
 }
 
 GuideOutput WormGearGuider::darkPredict(double dt_sec)
@@ -420,7 +515,8 @@ GuideOutput WormGearGuider::darkPredict(double dt_sec)
 
     GuideOutput out;
     out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
-    out.confidence = m_confidence; // Use last known confidence
+    out.confidence_ra  = m_confidenceRA;  // Use last known confidence
+    out.confidence_dec = m_confidenceDEC;
 
     // We do NOT update m_lastPredDriftRA because there's no actual frame
     // to compare it to in update(). We just return the prediction.
@@ -432,6 +528,11 @@ GuideOutput WormGearGuider::darkPredict(double dt_sec)
     out.physics_dec_arcsec = phys_dec * m_lastPixelScale;
     out.mlp_ra_arcsec      = mlp_out[0] * m_lastPixelScale;
     out.mlp_dec_arcsec     = mlp_out[1] * m_lastPixelScale;
+
+    out.rls_sin_coeff  = m_rls_theta(0);
+    out.rls_cos_coeff  = m_rls_theta(1);
+    out.rls_drift_rate = m_rls_theta(2);
+    out.rls_offset     = m_rls_theta(3);
 
     return out;
 }

@@ -35,6 +35,11 @@ static constexpr double RECENTER_DONE_ARCSEC = 3.0;
 static constexpr int RECENTER_TIMEOUT_S = 90;
 static constexpr int MAX_RECENTER_ATTEMPTS = 6;
 static constexpr int MIN_SEGMENT_FRAMES = 30;
+// How far past a phase's nominal duration the wall-clock backstop is allowed to run while
+// still waiting to hit m_TargetFrames. Needs to comfortably cover a slow (e.g. Debug)
+// build's real per-frame cadence without masking a genuinely stalled camera/lost star --
+// the existing abort-retry path (m_AbortRetries) already handles the latter independently.
+static constexpr int CAPTURE_BACKSTOP_MULTIPLIER = 3;
 
 AIGuideProtocol::AIGuideProtocol(Guide *guide) : QObject(guide), m_Guide(guide)
 {
@@ -156,6 +161,14 @@ void AIGuideProtocol::start(const QString &mountType)
 {
     m_State = STATE_IDLE;
     m_Phases.clear();
+    // m_TargetAz/m_TargetAlt persist on this object across separate wizard runs (it's
+    // owned by Guide, not recreated per "start new session"), and STATE_HORIZON_SCAN
+    // below treats a close match against them as "already there, skip the slew". Reset
+    // to NaN so that check can never falsely match a stale value from a previous run --
+    // NaN comparisons are always false, guaranteeing the first scan of a fresh session
+    // always takes the real slew path.
+    m_TargetAz = std::numeric_limits<double>::quiet_NaN();
+    m_TargetAlt = std::numeric_limits<double>::quiet_NaN();
 
     emit protocolLog("Starting AI Guiding Assistant Protocol...");
 
@@ -228,9 +241,32 @@ void AIGuideProtocol::start(const QString &mountType)
         // combo left the mount going the other way), so it's "cold", while the next
         // two are "warm" (ProtocolPhase::pulseWarm, already engaged, no direction
         // change since the last pulse). Comparing cold vs. warm dead-time tells real
-        // mechanical backlash apart from latency that would affect both equally --
-        // this needs no extra pulses or protocol time over the old one-pulse-per-combo
-        // design, just this reordering.
+        // mechanical backlash apart from latency that would affect both equally.
+        //
+        // DEC warm-pulse timing tightened 2026-08-21 (RA unchanged -- it was never the
+        // problem): verified live on a WORM_GEAR/EQMod GEM that even "warm" DEC pulses
+        // came back indistinguishable from noise in offline_trainer's fit
+        // (pulse_response_fit.py, sign_consistent=False on warm-only data). DEC on a GEM
+        // doesn't track -- it's stationary between corrections, no motor holding
+        // position -- so what "warm" protected against here (backlash, which clears once
+        // and stays cleared until reversal) isn't the dominant effect; static friction
+        // from a full stop is, and that recurs on ANY sufficiently long idle gap
+        // regardless of direction history. The old timing left ~24s idle (12 response
+        // frames at ~2s cadence) plus a 10s settle -- ~34s+ between one DEC pulse and the
+        // next "warm" one, easily enough for the axis to fully rest and re-stick, which
+        // is exactly what the data showed. Cutting warm DEC phases to 6 response frames
+        // (still above pulse_response_fit.py's session_curve() 5-frame minimum, with a
+        // little margin for a dropped/star-lost frame) and a 2s settle roughly halves that
+        // gap, keeping the axis closer to continuously engaged between same-direction
+        // pulses -- closer to how the proven standard Ekos calibration routine
+        // (CalibrationProcess::decBacklashState()/decOutState() in calibrationprocess.cpp)
+        // fires same-direction DEC pulses in tight succession rather than isolated,
+        // long-separated single tests. Cold (reversal) DEC phases are left at the
+        // original 12/10 -- that first pulse's slower, more thorough measurement is still
+        // useful as the dead-time/backlash reference to compare warm against, and it was
+        // never the phase showing the noise problem. NOT compiled/installed as of this
+        // edit -- needs a build + a real PID Auto-Tune run to confirm the tighter warm
+        // timing actually produces sign-consistent DEC fits before this is trusted.
         if (Options::aIPIDAutoTune())
         {
             m_Phases.append({65.0, -45.0, 0, false, true, "RA", "EAST",   500, 12, 10});
@@ -246,17 +282,17 @@ void AIGuideProtocol::start(const QString &mountType)
             m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
             m_Phases.append({65.0, -45.0, 0, false, true, "RA", "WEST",  1000, 12, 10, true});
             m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500,  6,  2, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH",  500,  6,  2, true});
             m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500,  6,  2, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH",  500,  6,  2, true});
             m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000,  6,  2, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "NORTH", 1000,  6,  2, true});
             m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
-            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000, 12, 10, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000,  6,  2, true});
+            m_Phases.append({65.0, -45.0, 0, false, true, "DEC", "SOUTH", 1000,  6,  2, true});
         }
 
         m_Phases.append({65.0, -45.0, 480, false, false, "", "", 0, 0, 0});
@@ -770,7 +806,11 @@ void AIGuideProtocol::processProtocol()
                 }
 
                 emit protocolLog("Settling complete. Starting phase data collection...");
-                m_CaptureTimer = phase.durationSeconds;
+                // Target a frame COUNT, derived from this phase's nominal duration/exposure
+                // design point, not a fixed clock -- see m_TargetFrames in the header for why.
+                const double exposureForTarget = (m_Guide && m_Guide->exposure() > 0.0) ? m_Guide->exposure() : 2.0;
+                m_TargetFrames = std::max(1, static_cast<int>(std::lround(phase.durationSeconds / exposureForTarget)));
+                m_CaptureTimer = phase.durationSeconds * CAPTURE_BACKSTOP_MULTIPLIER;
                 m_AbortRetries = 0;
                 m_FreeDriftOverflow = false;
                 m_SegmentSeconds = 0;
@@ -832,7 +872,11 @@ void AIGuideProtocol::processProtocol()
                 break;
             }
 
-            const bool phaseTimedOut = (m_CaptureTimer <= 0);
+            // "TimedOut" now means "done", not just "clock expired": it's true either when
+            // the frame-count target is reached (the common case) or when the wall-clock
+            // backstop fires first (cadence far slower than expected, or a stalled camera
+            // the abort-retry path hasn't already caught).
+            const bool phaseTimedOut = (m_CaptureTimer <= 0) || (m_PhaseData.size() >= m_TargetFrames);
             const bool freeDriftOverflowed = m_FreeDriftOverflow;
 
             // The star reached the safety limit but the phase still has time: bank this
@@ -873,9 +917,12 @@ void AIGuideProtocol::processProtocol()
 
                 ProtocolPhase phase = m_Phases.first();
                 // Segments cut short by star loss keep the full requested duration so the
-                // trainer's truncation guard can still discard them.
-                const int recordedDuration = (phase.freeDrift && !m_PhaseAborted)
-                                             ? m_SegmentSeconds : phase.durationSeconds;
+                // trainer's truncation guard can still discard them. Otherwise (completed
+                // normally, whether that took more or less real time than the nominal
+                // duration to hit m_TargetFrames) record the actual elapsed time: standard
+                // guiding never re-centers mid-phase, so m_SegmentSeconds is simply the
+                // phase's whole real duration, same as free drift already used.
+                const int recordedDuration = m_PhaseAborted ? phase.durationSeconds : m_SegmentSeconds;
                 // A drift tail too short to fit is not worth recording — the same rule the
                 // re-center path applies (a 12-frame tail once set k_ref_dec from noise).
                 if (phase.freeDrift && !m_PhaseAborted && m_PhaseData.size() < MIN_SEGMENT_FRAMES)
@@ -889,8 +936,11 @@ void AIGuideProtocol::processProtocol()
             }
             else
             {
+                // m_CaptureTimer is a wall-clock backstop now, not the expected duration
+                // (see m_TargetFrames), so show frame progress rather than its raw value.
                 emit protocolProgress(estimatedElapsedSeconds(), m_TotalEstimatedSeconds,
-                                      QString("Capturing Data... %1s remaining").arg(m_CaptureTimer));
+                                      QString("Capturing Data... %1/%2 frames")
+                                      .arg(m_PhaseData.size()).arg(m_TargetFrames));
                 m_CaptureTimer--;
                 m_SegmentSeconds++;
             }

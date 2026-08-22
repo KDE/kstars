@@ -29,7 +29,8 @@ HarmonicGuider::m_P { Eigen::Matrix<double, N_STATES, N_STATES>::Identity() * 10
 double HarmonicGuider::m_uncorrPosRA { 0.0 };
 double HarmonicGuider::m_uncorrPosDEC { 0.0 };
 int HarmonicGuider::m_frameCount { 0 };
-double HarmonicGuider::m_typicalRMS { 0.5 };
+double HarmonicGuider::m_typicalRMS_ra { 0.5 };
+double HarmonicGuider::m_typicalRMS_dec { 0.5 };
 std::array<double, HarmonicGuider::N_LINES_MAX> HarmonicGuider::s_activeLinePeriod { };
 
 HarmonicGuider::HarmonicGuider()
@@ -192,7 +193,8 @@ bool HarmonicGuider::loadWeights(const QString &weightsPath)
 
 void HarmonicGuider::resetSession(bool forceReset)
 {
-    m_confidence = 0.0;
+    m_confidenceRA = 0.0;
+    m_confidenceDEC = 0.0;
     m_lastDt = 2.0;
     m_lastAltRad = M_PI / 4.0;
     m_lastSessionSec = 0.0;
@@ -228,7 +230,8 @@ void HarmonicGuider::resetSession(bool forceReset)
     {
         // Full reset: first use, meridian flip, or mount/weights change.
         m_frameCount = 0;
-        m_typicalRMS = 0.5;
+        m_typicalRMS_ra = 0.5;
+        m_typicalRMS_dec = 0.5;
         m_x.setZero();
         m_P = Eigen::Matrix<double, N_STATES, N_STATES>::Identity() * 10.0;
     }
@@ -504,7 +507,8 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
 
     GuideOutput out;
     out.valid = (m_frameCount > warmupFrames());
-    out.confidence = m_confidence;
+    out.confidence_ra  = m_confidenceRA;
+    out.confidence_dec = m_confidenceDEC;
 
     if (!out.valid)
         return out;
@@ -532,7 +536,8 @@ GuideOutput HarmonicGuider::predict(const GuideFrameData &frame)
 
 void HarmonicGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
                             double uncorrected_drift_ra_px, double uncorrected_drift_dec_px, double snr,
-                            double ra_pulse_px, double dec_pulse_px)
+                            double ra_pulse_px, double dec_pulse_px,
+                            bool /*ra_pulse_has_ai*/, bool /*dec_pulse_has_ai*/)
 {
     // The absorbed κ·pulse enters the uncorrected trajectory now and releases later
     m_x(RA_SPRING)  += m_kappa_ra * ra_pulse_px;
@@ -563,11 +568,12 @@ QString HarmonicGuider::stateString() const
         pe += QString::number(m_linePeriod[l], 'f', 1);
     }
     if (pe.isEmpty()) pe = "0";
-    return QString("Harmonic κ_ra=%1 τ_ra=%2 PE=%3s conf=%4")
+    return QString("Harmonic κ_ra=%1 τ_ra=%2 PE=%3s confRA=%4 confDEC=%5")
            .arg(m_kappa_ra, 0, 'f', 2)
            .arg(m_tau_ra, 0, 'f', 1)
            .arg(pe)
-           .arg(m_confidence, 0, 'f', 2);
+           .arg(m_confidenceRA, 0, 'f', 2)
+           .arg(m_confidenceDEC, 0, 'f', 2);
 }
 
 // ── Confidence update — same pattern as WormGearGuider ───────────────────────
@@ -593,14 +599,6 @@ void HarmonicGuider::updateConfidence(double innovRA, double innovDec, double sn
 
     const double ra_rms  = axisRms(m_innovRA);
     const double dec_rms = axisRms(m_innovDec);
-    const double innov_rms = std::sqrt((ra_rms * ra_rms + dec_rms * dec_rms) / 2.0);
-
-    if (m_frameCount <= warmupFrames())
-        m_typicalRMS = std::max(0.05, innov_rms);
-    else
-        m_typicalRMS = 0.99 * m_typicalRMS + 0.01 * innov_rms;
-
-    const double error_ratio = innov_rms / (m_typicalRMS + 1e-6);
 
     double snr_factor = std::min(1.0, (snr - 10.0) / 20.0);
     snr_factor = std::max(0.0, snr_factor);
@@ -611,9 +609,23 @@ void HarmonicGuider::updateConfidence(double innovRA, double innovDec, double sn
         warmup_factor = 0.3 + 0.7 * std::min(1.0, static_cast<double>(m_frameCount - warmupFrames()) / 20.0);
     }
 
-    // Lorentzian confidence (same as WormGearGuider)
-    const double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
-    m_confidence = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+    // Per-axis, not joint: one axis's prediction quality says nothing about the other's
+    // (see WormGearGuider::updateConfidence() for the concrete failure this prevents).
+    auto axisConfidence = [&](double rms, double &typicalRMS, double &confidence) -> void
+    {
+        if (m_frameCount <= warmupFrames())
+            typicalRMS = std::max(0.05, rms);
+        else
+            typicalRMS = 0.99 * typicalRMS + 0.01 * rms;
+
+        const double error_ratio = rms / (typicalRMS + 1e-6);
+        // Lorentzian confidence (same as WormGearGuider)
+        const double prediction_quality = 1.0 / (1.0 + error_ratio * error_ratio);
+        confidence = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+    };
+
+    axisConfidence(ra_rms, m_typicalRMS_ra, m_confidenceRA);
+    axisConfidence(dec_rms, m_typicalRMS_dec, m_confidenceDEC);
 }
 
 // ── Dark guiding: propagate a copy statelessly, return the interval increment ─
@@ -644,7 +656,8 @@ GuideOutput HarmonicGuider::darkPredict(double dt_sec)
 
     GuideOutput out;
     out.valid = (m_frameCount > warmupFrames());
-    out.confidence = m_confidence;
+    out.confidence_ra  = m_confidenceRA;
+    out.confidence_dec = m_confidenceDEC;
 
     out.ra_correction_arcsec  = (pred_ra - post_ra) * m_lastPixelScale;
     out.dec_correction_arcsec = (pred_dec - post_dec) * m_lastPixelScale;

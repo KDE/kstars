@@ -92,7 +92,8 @@ GuideOutput DirectDriveGuider::predict(const GuideFrameData &frame)
 
     GuideOutput out;
     out.valid      = (m_frameCount > warmupFrames());
-    out.confidence = m_weightsLoaded ? 0.95 : 0.0;
+    out.confidence_ra  = m_weightsLoaded ? 0.95 : 0.0;
+    out.confidence_dec = m_weightsLoaded ? 0.95 : 0.0;
 
     if (!out.valid)
         return out;
@@ -121,7 +122,8 @@ GuideOutput DirectDriveGuider::darkPredict(double dt_sec)
 {
     GuideOutput out;
     out.valid      = (m_frameCount > warmupFrames());
-    out.confidence = m_weightsLoaded ? 0.95 : 0.0;
+    out.confidence_ra  = m_weightsLoaded ? 0.95 : 0.0;
+    out.confidence_dec = m_weightsLoaded ? 0.95 : 0.0;
 
     if (!out.valid)
         return out;

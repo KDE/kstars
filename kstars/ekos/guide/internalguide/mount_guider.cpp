@@ -89,15 +89,25 @@ QStringList applyFingerprintToOptions(const QJsonObject &fp)
     // just-applied gains sit unused (raAlgorithmIsAI()/decAlgorithmIsAI() in gmath.cpp
     // gate the AI feed-forward blend on this exact setting). The user can still switch
     // back manually afterward; this only runs at load time.
-    if (Options::rAGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM))
+    //
+    // EXCEPT when Shadow Mode is what was actually requested (verified 2026-08-18: this
+    // ran unconditionally and silently promoted two separate Shadow-mode test sessions
+    // into live Active guiding, since gmath.cpp's cgmath::init() checks
+    // raAlgorithmIsAI()/decAlgorithmIsAI() FIRST and only falls through to Shadow if
+    // neither axis is AI -- switching the algorithm here defeats Shadow Mode's entire
+    // purpose of observing a not-yet-trusted model without letting it touch real pulses).
+    if (!Options::aIShadowMode())
     {
-        changes << QString("ra_guide_algorithm: %1 -> AI Guider").arg(Options::rAGuidePulseAlgorithm());
-        Options::setRAGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM));
-    }
-    if (Options::dECGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1))
-    {
-        changes << QString("dec_guide_algorithm: %1 -> AI Guider").arg(Options::dECGuidePulseAlgorithm());
-        Options::setDECGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1));
+        if (Options::rAGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM))
+        {
+            changes << QString("ra_guide_algorithm: %1 -> AI Guider").arg(Options::rAGuidePulseAlgorithm());
+            Options::setRAGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM));
+        }
+        if (Options::dECGuidePulseAlgorithm() != static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1))
+        {
+            changes << QString("dec_guide_algorithm: %1 -> AI Guider").arg(Options::dECGuidePulseAlgorithm());
+            Options::setDECGuidePulseAlgorithm(static_cast<uint>(Ekos::OpsGuide::AI_ALGORITHM - 1));
+        }
     }
 
     // The Guide Options dialog ("guidesettings") binds its kcfg_ widgets to Options once,

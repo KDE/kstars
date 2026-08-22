@@ -57,10 +57,15 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
     # Unmeasured means unmodeled: the default kappa stays 0
     DEFAULTS = (0.0, 1.5)
 
-    def _finish(kappa, tau, fit_records, sign_consistent):
+    def _finish(kappa, tau, fit_records, sign_consistent, used_warm_only=False,
+               n_warm_fits=0, n_total_fits=0):
         if not return_fits:
             return kappa, tau
-        return kappa, tau, {"fits": fit_records, "sign_consistent": sign_consistent}
+        return kappa, tau, {
+            "fits": fit_records, "sign_consistent": sign_consistent,
+            "used_warm_only": used_warm_only, "n_warm_fits": n_warm_fits,
+            "n_total_fits": n_total_fits,
+        }
 
     pulse_sessions = [
         s for s in sysid["sessions"]
@@ -123,23 +128,49 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
         except (RuntimeError, ValueError):
             return None
 
-    kappas = []
-    taus = []
-    fit_signs = []
-    paired_signs = set()
+    # Cold vs warm: AIGuideProtocol fires 3 consecutive same-direction pulses per
+    # axis/direction/magnitude combo (worm_gear.cpp / harmonic.cpp / direct_drive.cpp
+    # phase tables) -- only the first is a true reversal ("cold", pulse_is_reversal=True),
+    # the next two are "warm" (already engaged, no direction change since the last pulse).
+    # On a continuously-tracking axis (RA on any mount) this distinction barely matters --
+    # the motor is always turning, so a cold and a warm pulse see essentially the same
+    # mechanics. On a non-tracking axis (DEC on a GEM: stationary between corrections, no
+    # motor holding position) it matters a great deal: verified 2026-08-21 on a live
+    # WORM_GEAR/EQMod rig that the FIRST DEC pulse of a whole session produced a clean,
+    # unambiguous step (+1.14px), while every subsequent pulse -- cold or warm alike --
+    # came back indistinguishable from noise (<0.55px net, random sign). Backlash
+    # (position-dependent, cleared once and stays cleared until reversal) and static
+    # friction from a full stop (time-dependent, recurs whenever the axis has been idle,
+    # including between "warm" pulses ~30s+ apart in this protocol) are different physical
+    # effects; this protocol's cold/warm labeling was designed for the former and doesn't
+    # fully protect against the latter, but warm data is still never worse than cold+warm
+    # mixed together, so it's preferred whenever there's enough of it to fit from.
+    kappas, taus, fit_signs, paired_signs = [], [], [], set()
+    kappas_warm, taus_warm, fit_signs_warm, paired_signs_warm = [], [], [], set()
     skipped_noise = 0
     fit_records = []
 
-    def accept_fit(kappa_fit, tau_fit, t_first):
+    def is_warm(s):
+        # Default True (pulse_is_reversal absent) matches AIGuideProtocol's own
+        # default for ProtocolPhase::pulseWarm=false i.e. "cold" -- but sessions
+        # collected before this field existed have no way to know, and treating
+        # them as warm (rather than silently cold, which would bias the warm-only
+        # path toward nothing) is the safer default for old data.
+        return not s.get("pulse_is_reversal", False)
+
+    def accept_fit(kappa_fit, tau_fit, t_first, warm):
         # tau at the upper bound: exponential degenerate with the drift term
         if tau_fit > 9.8:
             return
+        targets = [(kappas, taus)]
+        if warm:
+            targets.append((kappas_warm, taus_warm))
         # spring released before the first sample is indistinguishable from none
-        if tau_fit < t_first:
-            kappas.append(0.0)
-        else:
-            kappas.append(kappa_fit)
-            taus.append(tau_fit)
+        value = 0.0 if tau_fit < t_first else kappa_fit
+        for k_list, tau_list in targets:
+            k_list.append(value)
+            if value != 0.0:
+                tau_list.append(tau_fit)
 
     # Pair opposite-direction sessions: the difference doubles the response
     pos_dir, neg_dir = ("EAST", "WEST") if axis.upper() == "RA" else ("NORTH", "SOUTH")
@@ -189,15 +220,25 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                     print(f"  [{axis}] Pulse {pulse_mag}ms paired: |P|={abs(P_fit):.2f}px "
                           f"below noise ({residual_std:.2f}px) — skipped")
                 continue
-            paired_signs.add(1.0 if P_fit > 0 else -1.0)
-            accept_fit(kappa_fit, tau_fit, t_arr[0])
+            # Both legs of a pair should share warm/cold status by protocol design
+            # (cold-pos paired with cold-neg, warm-pos with warm-neg); require both
+            # to agree rather than assume it, in case a session got dropped upstream
+            # and zip() paired mismatched legs.
+            pair_warm = is_warm(sp) and is_warm(sn)
+            sign = 1.0 if P_fit > 0 else -1.0
+            paired_signs.add(sign)
+            if pair_warm:
+                paired_signs_warm.add(sign)
+            accept_fit(kappa_fit, tau_fit, t_arr[0], pair_warm)
             fit_records.append({
                 "pulse_magnitude_ms": float(pulse_mag), "P_fit_px": float(P_fit),
                 "tau_fit_s": float(tau_fit), "residual_std_px": float(residual_std),
                 "t_first_s": float(t_arr[0]), "t_arr": t_arr, "pos_arr": diff,
+                "is_warm": pair_warm,
             })
             if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms paired {pos_dir}-{neg_dir}: "
+                print(f"  [{axis}] Pulse {pulse_mag}ms paired {pos_dir}-{neg_dir} "
+                      f"({'warm' if pair_warm else 'cold'}): "
                       f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
 
         for s in leftovers:
@@ -217,15 +258,21 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                     print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
                           f"response |P|={abs(P_fit):.2f}px below noise ({residual_std:.2f}px) — skipped")
                 continue
-            accept_fit(kappa_fit, tau_fit, t_arr[0])
-            fit_signs.append((s.get("pulse_direction", "?"), np.sign(P_fit)))
+            s_warm = is_warm(s)
+            sign_entry = (s.get("pulse_direction", "?"), np.sign(P_fit))
+            accept_fit(kappa_fit, tau_fit, t_arr[0], s_warm)
+            fit_signs.append(sign_entry)
+            if s_warm:
+                fit_signs_warm.append(sign_entry)
             fit_records.append({
                 "pulse_magnitude_ms": float(pulse_mag), "P_fit_px": float(P_fit),
                 "tau_fit_s": float(tau_fit), "residual_std_px": float(residual_std),
                 "t_first_s": float(t_arr[0]), "t_arr": t_arr, "pos_arr": pos_arr,
+                "is_warm": s_warm,
             })
             if verbose:
-                print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')}: "
+                print(f"  [{axis}] Pulse {pulse_mag}ms {s.get('pulse_direction', '?')} "
+                      f"({'warm' if s_warm else 'cold'}): "
                       f"κ={kappa_fit:.3f}, τ={tau_fit:.2f}s (P={P_fit:.2f}px, noise={residual_std:.2f}px)")
 
     if not kappas:
@@ -235,32 +282,51 @@ def fit_pulse_response(sysid: dict, axis: str, guide_exp: float, verbose: bool,
                   f"Consider larger protocol pulses.")
         return _finish(*DEFAULTS, fit_records, None)
 
+    # Prefer warm-only data when there's enough of it: a cold (reversal) pulse's response
+    # is contaminated by whatever dead-time/backlash exists on that axis, which is real
+    # mechanics for a non-tracking axis (DEC on a GEM) but not representative of the
+    # steady-state gain a P-controller actually needs. Falls back to the combined (cold+warm)
+    # set when warm data alone isn't enough to fit from, same as this always did before.
+    use_warm = len(kappas_warm) >= 1
+    if use_warm:
+        kappas_use, taus_use = kappas_warm, taus_warm
+        paired_signs_use, fit_signs_use = paired_signs_warm, fit_signs_warm
+    else:
+        kappas_use, taus_use = kappas, taus
+        paired_signs_use, fit_signs_use = paired_signs, fit_signs
+    if verbose:
+        print(f"  [{axis}] Using {'warm-only' if use_warm else 'combined cold+warm'} data: "
+              f"{len(kappas_use)} of {len(kappas)} total fits "
+              f"({len(kappas_warm)} warm available)")
+
     # Real responses have consistent signs per direction; paired diffs share one sign
     by_dir = {}
-    for direction, sign in fit_signs:
+    for direction, sign in fit_signs_use:
         by_dir.setdefault(direction, set()).add(sign)
     dir_signs = [next(iter(s)) for s in by_dir.values() if len(s) == 1]
-    consistent = (len(paired_signs) <= 1 and
+    consistent = (len(paired_signs_use) <= 1 and
                   all(len(s) == 1 for s in by_dir.values()) and
                   (len(by_dir) < 2 or len(set(dir_signs)) == len(by_dir)))
     if not consistent:
         if verbose:
             print(f"  [{axis}] WARNING: response signs inconsistent across pulse directions "
-                  f"— fits are noise, not mechanics. Using defaults (κ=0.2, τ=1.5s).")
-        return _finish(*DEFAULTS, fit_records, False)
+                  f"({'warm-only' if use_warm else 'combined'} data) — fits are noise, not "
+                  f"mechanics. Using defaults (κ=0.2, τ=1.5s).")
+        return _finish(*DEFAULTS, fit_records, False, use_warm, len(kappas_warm), len(kappas))
 
-    kappa_result = float(np.median(kappas))
-    tau_result = float(np.median(taus)) if taus and kappa_result > 0.0 else DEFAULTS[1]
+    kappa_result = float(np.median(kappas_use))
+    tau_result = float(np.median(taus_use)) if taus_use and kappa_result > 0.0 else DEFAULTS[1]
 
     # A median within ~2% of the fit bounds means the model chased noise/drift, not physics.
     if kappa_result > KAPPA_MAX - 0.02 or tau_result > 9.8:
         if verbose:
             print(f"  [{axis}] WARNING: fit pinned at bounds (κ={kappa_result:.3f}, "
                   f"τ={tau_result:.2f}s) — unphysical. Using defaults (κ=0.2, τ=1.5s).")
-        return _finish(*DEFAULTS, fit_records, consistent)
+        return _finish(*DEFAULTS, fit_records, consistent, use_warm, len(kappas_warm), len(kappas))
 
     if verbose:
-        print(f"  [{axis}] Final: κ={kappa_result:.3f} (from {len(kappas)} fits), "
-              f"τ={tau_result:.2f}s")
+        print(f"  [{axis}] Final: κ={kappa_result:.3f} (from {len(kappas_use)} "
+              f"{'warm' if use_warm else 'cold+warm'} fits), τ={tau_result:.2f}s")
 
-    return _finish(kappa_result, tau_result, fit_records, consistent)
+    return _finish(kappa_result, tau_result, fit_records, consistent,
+                   use_warm, len(kappas_warm), len(kappas))

@@ -74,7 +74,16 @@ struct GuideOutput
     double mlp_ra_arcsec           { 0.0 };   ///< MLP layer RA residual prediction
     double mlp_dec_arcsec          { 0.0 };   ///< MLP layer DEC residual prediction
 
-    double confidence              { 0.0 };   ///< Model confidence in [0, 1]
+    // Raw online RLS state (WormGearGuider only; 0 for implementations with no such state).
+    // Exposed for the AI debug CSV so a live-vs-frozen phase-tracker divergence can be
+    // diagnosed directly from theta instead of only the derived amplitude/phase string.
+    double rls_sin_coeff           { 0.0 };   ///< theta(0): A*cos(phase), pixels
+    double rls_cos_coeff           { 0.0 };   ///< theta(1): A*sin(phase), pixels
+    double rls_drift_rate          { 0.0 };   ///< theta(2): linear drift term, px/s
+    double rls_offset              { 0.0 };   ///< theta(3): constant offset, pixels
+
+    double confidence_ra           { 0.0 };   ///< RA model confidence in [0, 1]
+    double confidence_dec          { 0.0 };   ///< DEC model confidence in [0, 1]
     QString debug_log;                        ///< Optional human-readable state string
 };
 
@@ -124,16 +133,34 @@ class MountSpecificGuider
          * @param snr Guide star SNR
          * @param ra_pulse_px Signed RA pulse applied over this interval (pixels)
          * @param dec_pulse_px Signed DEC pulse applied over this interval (pixels)
+         * @param ra_pulse_has_ai True if the RA pulse just applied (backed out of
+         *        uncorrected_drift_ra_px above by the caller) included a contribution from
+         *        this guider's own prediction, i.e. useAI was true and the AI branch fired
+         *        for RA this cycle. Implementations with online-adaptive state derived from
+         *        the same measurement (e.g. an RLS/Kalman phase tracker) should use this to
+         *        avoid learning from a signal their own prior output partly produced -- a
+         *        closed-loop system-ID bias. Always false during Shadow Mode, warmup, and
+         *        fallback, since the AI never touches the applied pulse in those states.
+         * @param dec_pulse_has_ai Same, for DEC.
          */
         virtual void update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px,
                             double uncorrected_drift_dec_px, double snr,
-                            double ra_pulse_px, double dec_pulse_px) = 0;
+                            double ra_pulse_px, double dec_pulse_px,
+                            bool ra_pulse_has_ai, bool dec_pulse_has_ai) = 0;
 
         /**
-         * @brief Current model confidence in [0, 1].
-         * The controller blends: correction = P_gain * measured + AI_gain * confidence * predicted
+         * @brief Current per-axis model confidence in [0, 1].
+         * The controller blends, independently per axis:
+         *   correction[axis] = P_gain * measured + AI_gain * confidence[axis] * predicted[axis]
+         * Separate per axis because one axis's prediction quality says nothing about the
+         * other's -- e.g. a mount with plenty of clean RA training data but chronically
+         * sparse/poisoned DEC data should not have DEC's confidence dragged up (or RA's
+         * dragged down) by the other axis's behavior. Implementations that have no basis
+         * for distinguishing the axes (e.g. a single fixed-quality model) may simply
+         * return the same value from both.
          */
-        virtual double confidence() const = 0;
+        virtual double confidenceRA() const = 0;
+        virtual double confidenceDEC() const = 0;
 
         /**
          * @brief Minimum number of frames before any feed-forward output is emitted.

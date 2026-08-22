@@ -33,10 +33,15 @@ class WormGearGuider : public MountSpecificGuider
         GuideOutput predict(const GuideFrameData &frame) override;
         GuideOutput darkPredict(double dt_sec) override;
         void        update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px, double uncorrected_drift_dec_px,
-                           double snr, double ra_pulse_px, double dec_pulse_px) override;
-        double      confidence() const override
+                           double snr, double ra_pulse_px, double dec_pulse_px,
+                           bool ra_pulse_has_ai, bool dec_pulse_has_ai) override;
+        double      confidenceRA() const override
         {
-            return m_confidence;
+            return m_confidenceRA;
+        }
+        double      confidenceDEC() const override
+        {
+            return m_confidenceDEC;
         }
         int         warmupFrames() const override
         {
@@ -52,7 +57,7 @@ class WormGearGuider : public MountSpecificGuider
         // ── Physics layer parameters (loaded from weights JSON) ──────────────
         static double m_pe_amplitude;  ///< Worm PE amplitude (pixels)
         double m_pe_period     { 480.0 };///< Worm PE period (seconds) — fixed after FFT fit
-        double m_k_ref         { 0.0 };  ///< Refraction coefficient (pixels·cos²/s)
+        double m_k_ref         { 0.0 };  ///< RA refraction coefficient, k_ref/cos²(alt) (px/s); see physicsRA()
         static double m_d_ra_extra;    ///< Continuous RA drift rate (pixels/second)
         double m_d_polar       { 0.0 };  ///< Polar drift rate (pixels/second)
         double m_k_ref_dec     { 0.0 };  ///< DEC Refraction coefficient
@@ -86,9 +91,11 @@ class WormGearGuider : public MountSpecificGuider
 
         // ── Runtime state ─────────────────────────────────────────────────────
         bool   m_weightsLoaded    { false };
-        double m_confidence       { 0.0 };
+        double m_confidenceRA     { 0.0 };
+        double m_confidenceDEC    { 0.0 };
         static int    m_frameCount;
-        static double m_typicalRMS;
+        static double m_typicalRMS_ra;
+        static double m_typicalRMS_dec;
         /// PE period the persisted static RLS state was built for; a change means the
         /// loaded weights describe a different mount, so the static state is discarded.
         static double s_activePePeriod;
@@ -119,5 +126,5 @@ class WormGearGuider : public MountSpecificGuider
         std::array<float, 2> runMLP(float altitude, float snr, float last_ra_pulse, float last_dec_pulse, float dt,
                                     double t_session_sec, float parallactic_angle_deg, float pier_side) const;
         void   updatePhase(double uncorrected_position_px, double t_session_sec);
-        void   updateConfidence(double innovRA, double innovDec, double snr);
+        void   updateConfidence(double innovRA, double innovDec, double snr, bool skipRA);
 };

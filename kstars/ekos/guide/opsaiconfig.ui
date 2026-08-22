@@ -62,9 +62,6 @@
       </item>
       <item>
        <widget class="QCheckBox" name="kcfg_AIShadowMode">
-        <property name="visible">
-         <bool>false</bool>
-        </property>
         <property name="text">
          <string>Enable Shadow Mode (log AI predictions without applying them)</string>
         </property>

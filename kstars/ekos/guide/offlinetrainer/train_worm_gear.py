@@ -51,7 +51,9 @@ def train_worm_gear(sysid: dict,
                     gpu: bool = False,
                     epochs: int = None,
                     verbose: bool = False,
-                    pid_lambda_factor: float = SIMC_LAMBDA_L_FACTOR) -> dict:
+                    pid_lambda_factor: float = SIMC_LAMBDA_L_FACTOR,
+                    dropout_p: float = None,
+                    weight_decay: float = None) -> dict:
     """
     Train the PINN + residual MLP for a worm-gear mount.
     Returns a weights dict compatible with WormGearGuider::loadWeights().
@@ -98,7 +100,8 @@ def train_worm_gear(sysid: dict,
         print(f"\n--- Phase 2: Residual MLP Training ---")
         
     mlp_weights = _train_residual_mlp(sysid, pe_period, pe_amplitude,
-                                      k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose)
+                                      k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose,
+                                      dropout_p, weight_decay)
 
     # We need a build_fingerprint function similar to train_direct_drive
     def _build_fingerprint(sys):
@@ -207,28 +210,87 @@ def _estimate_pe_from_fft(sysid: dict, guide_exp: float, verbose: bool):
     omega = 2 * np.pi * f_valid
     # scipy lombscargle takes angular frequencies
     Pxx_valid = scipy.signal.lombscargle(t_vals, ra_detrended, omega, precenter=True)
-    
+
     if len(f_valid) == 0:
         return 480.0, 1.0
-        
+
     peak_idx = np.argmax(Pxx_valid)
     best_f = f_valid[peak_idx]
     best_period = 1.0 / best_f
 
-    # A weak peak means no usable PE line; the argmax is noise or a harmonic.
-    far = np.abs(f_valid - best_f) > 0.2 * best_f
-    dominance = Pxx_valid[peak_idx] / max(Pxx_valid[far].max(), 1e-9)
-    if dominance < 2.0:
-        print(f"  [FFT] WARNING: no dominant PE line (peak/far-field ratio {dominance:.2f}) -- "
+    # A worm-gear PE waveform is rarely a pure sinusoid (eccentricity + gear-mesh
+    # harmonics), so its periodogram routinely has real, comparably-strong power at
+    # period/2, period/3, etc. A bare argmax has no way to prefer the true fundamental
+    # over a harmonic that happens to carry more power in one particular session --
+    # confirmed 2026-08-21 on a real EQ8 (known worm period 198s): argmax picked 96.1s
+    # (power 3.92), while a peak at 201.0s -- 86% of the winning power, i.e. nowhere
+    # near noise -- sat right next to it, itself accompanied by a weaker one at 48.6s
+    # (~201/4). That's a textbook harmonic series with a ~198-201s fundamental, not
+    # three independent phenomena.
+    #
+    # "Comparably strong" alone is NOT enough to trust walking to a longer period,
+    # though -- caught this against a second real dataset from the SAME mount (2026-08-18,
+    # a night whose 191.5s estimate was already close to the true period): an early
+    # version of this walk, using only the power-ratio test below, took that good 191.5s
+    # and walked it to a spurious 387.4s (~191.5*2, 85% as strong). The difference between
+    # that failure and tonight's correct 96.1s->201.0s walk is cycle count: 201.0s across a
+    # 602s span is 3.0 full cycles (a periodogram can actually resolve that), while 387.4s
+    # across a 628s span is only 1.6 -- barely more than one cycle, which no periodogram
+    # can distinguish from an arbitrary residual hump. Requiring >=2.5 resolved cycles
+    # before accepting a longer candidate is what makes this walk trustworthy on a mount
+    # whose true period is NOT already known (the general case for most rigs, not just
+    # this one) rather than a heuristic tuned to get tonight's specific answer right.
+    span = float(t_vals[-1] - t_vals[0])
+    local_max = [i for i in range(1, len(Pxx_valid) - 1)
+                 if Pxx_valid[i] > Pxx_valid[i - 1] and Pxx_valid[i] > Pxx_valid[i + 1]]
+    candidates = [(1.0 / f_valid[i], Pxx_valid[i]) for i in local_max]
+
+    cur_period, cur_power = best_period, Pxx_valid[peak_idx]
+    for _ in range(3):  # bounded walk: fundamental, its parent, its parent's parent
+        best_match = None
+        for n in (2, 3, 4):
+            target = cur_period * n
+            match = min(candidates, key=lambda c: abs(c[0] - target), default=None)
+            if (match is not None and abs(match[0] - target) / target < 0.07
+                    and match[1] >= 0.4 * cur_power
+                    and span / match[0] >= 2.5):
+                # Prefer the largest valid n found this pass -- it's the most direct
+                # step toward the fundamental available from the current candidate.
+                if best_match is None or n > best_match[2]:
+                    best_match = (match[0], match[1], n)
+        if best_match is None:
+            break
+        if verbose:
+            print(f"  [FFT] {cur_period:.1f}s (power {cur_power:.3f}) looks like the "
+                  f"1/{best_match[2]} harmonic of {best_match[0]:.1f}s (power {best_match[1]:.3f}, "
+                  f"{100 * best_match[1] / cur_power:.0f}% as strong, "
+                  f"{span / best_match[0]:.1f} cycles resolved) -- preferring the longer period")
+        cur_period, cur_power = best_match[0], best_match[1]
+    best_period = cur_period
+    best_f = 1.0 / best_period
+
+    # A weak peak means no usable PE line; the argmax is noise. Judged against the
+    # spectrum's overall noise floor (median power), not "everything outside a narrow
+    # band around the peak" -- that comparison breaks specifically when the harmonic
+    # walk above did its job, since a real fundamental's own harmonics are still
+    # outside that narrow band and can legitimately out-power it (confirmed on the same
+    # EQ8 data this walk was built from: 201.0s power 3.38 vs its own 96.1s 2nd harmonic
+    # at 3.92 -- both real signal, not noise, so comparing against the harmonic instead
+    # of the noise floor called a strong, correctly-identified fundamental "unreliable").
+    noise_floor = np.median(Pxx_valid) + 1e-10
+    dominance = cur_power / noise_floor
+    if dominance < 10.0:
+        print(f"  [FFT] WARNING: no dominant PE line (peak/noise-floor ratio {dominance:.2f}) -- "
               f"period {best_period:.1f}s is unreliable; free drift may not have truly drifted.")
-    
+
     if known_period is not None and known_period > 0:
         if verbose:
             print(f"  [FFT] Found known PE period override in sysid: {known_period:.1f} s")
         best_period = known_period
-    
-    # Power spectrum amplitude approximation for LS
-    best_amp = np.sqrt(4 * Pxx_valid[peak_idx] / len(t_vals))
+
+    # Power spectrum amplitude approximation for LS, from the final selected period's
+    # own power (not the original argmax's, which may be a different harmonic now).
+    best_amp = np.sqrt(4 * cur_power / len(t_vals))
     
     if verbose:
         print(f"  [FFT] Analyzed {len(t_vals)} free drift frames (duration: {t_vals[-1]:.1f}s)")
@@ -348,17 +410,29 @@ def _estimate_dec_drift(sysid: dict, guide_exp: float, k_ref_fallback: float, ve
 
 # --- PyTorch MLP ---
 
+# Regularization defaults. Both are training-time-only knobs: they change how the fixed
+# 15->32->16->2 architecture is fit, not its shape, so the exported w1/b1/w2/b2/w_out/b_out
+# arrays stay the same size and WormGearGuider::loadWeights() (which hardcodes those
+# dimensions) needs no changes. Prefer raising these over shrinking hidden-layer width when
+# samples-per-parameter is low -- shrinking the architecture *does* require updating the C++
+# loader's hardcoded matrix dimensions and shipping a new KStars build.
+DEFAULT_DROPOUT_P = 0.2
+DEFAULT_WEIGHT_DECAY = 1e-3
+
+
 class ResidualMLP(nn.Module):
-    def __init__(self):
+    def __init__(self, dropout_p: float = DEFAULT_DROPOUT_P):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(15, 32),
             nn.ReLU(),
+            nn.Dropout(dropout_p),
             nn.Linear(32, 16),
             nn.ReLU(),
+            nn.Dropout(dropout_p),
             nn.Linear(16, 2)
         )
-        
+
     def forward(self, x):
         return self.net(x)
 
@@ -541,13 +615,26 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
 
     return np.array(X_all, dtype=np.float32), np.array(Y_all, dtype=np.float32), np.array(W_all, dtype=np.float32)
 
-def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose) -> dict:
+def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose,
+                         dropout_p=None, weight_decay=None) -> dict:
     epochs = epochs or 300
-    
+    dropout_p = DEFAULT_DROPOUT_P if dropout_p is None else dropout_p
+    weight_decay = DEFAULT_WEIGHT_DECAY if weight_decay is None else weight_decay
+
     X_np, Y_np, W_np = _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose)
     if len(X_np) < 50:
         if verbose: print("[WARNING] Insufficient data for MLP training. Returning zero weights.")
         return _zero_weights()
+
+    n_params = 15 * 32 + 32 + 32 * 16 + 16 + 16 * 2 + 2  # 1074, must match the fixed architecture
+    samples_per_param = len(X_np) / n_params
+    if verbose:
+        print(f"  [MLP] {len(X_np)} samples / {n_params} params = {samples_per_param:.2f} samples/param "
+              f"(dropout={dropout_p}, weight_decay={weight_decay})")
+    if samples_per_param < 1.0:
+        print(f"  [WARNING] {samples_per_param:.2f} samples/param is below the ~1:1 rule of thumb -- "
+              "relying on dropout/weight_decay to control overfitting since architecture size is fixed "
+              "by the C++ inference engine. Collect more standard_guiding sessions if you can.")
 
     # Simple split (last 20% is validation)
     split_idx = int(0.8 * len(X_np))
@@ -555,11 +642,11 @@ def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_pol
     X_val, Y_val, W_val = torch.tensor(X_np[split_idx:]), torch.tensor(Y_np[split_idx:]), torch.tensor(W_np[split_idx:])
 
     device = torch.device("cuda" if gpu and torch.cuda.is_available() else "cpu")
-    model = ResidualMLP().to(device)
+    model = ResidualMLP(dropout_p=dropout_p).to(device)
     X_train, Y_train, W_train = X_train.to(device), Y_train.to(device), W_train.to(device)
     X_val, Y_val, W_val = X_val.to(device), Y_val.to(device), W_val.to(device)
 
-    optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+    optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=weight_decay)
     # MSE with per-sample [ra, dec] weights so contaminated DEC targets carry no gradient.
     criterion = lambda pred, target, w: ((pred - target) ** 2 * w).sum() / w.sum().clamp_min(1.0)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
@@ -600,13 +687,18 @@ def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_pol
     if verbose:
         print(f"  [MLP] Best Val Loss: {best_val_loss:.6f}")
         
-    # Extract weights to lists for JSON export
+    # Extract weights to lists for JSON export.
+    # Module indices: 0=Linear(15,32), 1=ReLU, 2=Dropout, 3=Linear(32,16), 4=ReLU, 5=Dropout,
+    # 6=Linear(16,2) -- shifted from 0/2/4 because of the two inserted Dropout layers. Dropout
+    # has no learnable parameters, so this only changes these lookup keys, not the exported
+    # array shapes/values: WormGearGuider::loadWeights() and its hardcoded 32x15/16x32/2x16
+    # dimensions are unaffected.
     w1 = best_state['net.0.weight'].cpu().numpy().flatten().tolist()
     b1 = best_state['net.0.bias'].cpu().numpy().flatten().tolist()
-    w2 = best_state['net.2.weight'].cpu().numpy().flatten().tolist()
-    b2 = best_state['net.2.bias'].cpu().numpy().flatten().tolist()
-    w_out = best_state['net.4.weight'].cpu().numpy().flatten().tolist()
-    b_out = best_state['net.4.bias'].cpu().numpy().flatten().tolist()
+    w2 = best_state['net.3.weight'].cpu().numpy().flatten().tolist()
+    b2 = best_state['net.3.bias'].cpu().numpy().flatten().tolist()
+    w_out = best_state['net.6.weight'].cpu().numpy().flatten().tolist()
+    b_out = best_state['net.6.bias'].cpu().numpy().flatten().tolist()
     
     return {
         "w1": w1, "b1": b1,

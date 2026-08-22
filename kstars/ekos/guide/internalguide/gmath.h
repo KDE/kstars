@@ -349,6 +349,15 @@ class cgmath : public QObject
         double m_accumulated_pulse_ra { 0.0 };
         double m_accumulated_pulse_dec { 0.0 };
 
+        // True if any pulse accumulated into m_accumulated_pulse_ra/dec since the last AI
+        // update() call was computed by the "AI" blend branch (dbg.algorithm == "AI"), i.e.
+        // it contains a contribution derived from the AI guider's own current prediction.
+        // Passed to MountSpecificGuider::update() so implementations with online-adaptive
+        // state (e.g. WormGearGuider's RLS phase tracker) can avoid closing a feedback loop
+        // through their own output -- see worm_gear_guider.cpp::update() for the full story.
+        bool m_accumPulseHasAI_ra { false };
+        bool m_accumPulseHasAI_dec { false };
+
         bool m_AILoggedActive { false };
         bool m_AILoggedFullConfidence { false };
         bool m_AILoggedWarmup { false };

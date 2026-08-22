@@ -239,6 +239,8 @@ void cgmath::start()
 
     m_accumulated_pulse_ra = 0.0;
     m_accumulated_pulse_dec = 0.0;
+    m_accumPulseHasAI_ra = false;
+    m_accumPulseHasAI_dec = false;
 
     memset(drift[GUIDE_RA], 0, sizeof(double) * CIRCULAR_BUFFER_SIZE);
     memset(drift[GUIDE_DEC], 0, sizeof(double) * CIRCULAR_BUFFER_SIZE);
@@ -409,7 +411,10 @@ void cgmath::abort()
 void cgmath::setAIState(AIGuideState s)
 {
     m_aiState = s;
-    const double conf = (m_AIGuider && m_AIGuider->isLoaded()) ? m_AIGuider->confidence() : 0.0;
+    // A single UI status value: the worse of the two axes, not an optimistic average --
+    // one bad axis should visibly drag the indicator down, not be hidden by a good one.
+    const double conf = (m_AIGuider && m_AIGuider->isLoaded())
+                        ? std::min(m_AIGuider->confidenceRA(), m_AIGuider->confidenceDEC()) : 0.0;
     emit newAIState(static_cast<int>(s), conf);
 }
 
@@ -638,17 +643,18 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         if (ai_out.valid)
         {
             double ai_pulse_arcsec = (k == GUIDE_RA) ? ai_out.ra_correction_arcsec : ai_out.dec_correction_arcsec;
+            const double axisConf = (k == GUIDE_RA) ? ai_out.confidence_ra : ai_out.confidence_dec;
             const double aiLimit = std::max(3.0 * recentDriftRms(k), 1.0);
             if (std::abs(ai_pulse_arcsec) > aiLimit)
                 ai_pulse_arcsec = std::copysign(aiLimit, ai_pulse_arcsec);
             const double aiGain = Options::aIPredictionGain();
             const double aiResponse = ai_pulse_arcsec * pulseConverter;
-            double total = aiGain * ai_out.confidence * aiResponse;
+            double total = aiGain * axisConf * aiResponse;
             dbg.algorithm = "AI-Dark";
             dbg.aiResponseMs = aiResponse;
 
             qCDebug(KSTARS_EKOS_GUIDE) << QString("[AI GUIDER] Dark Guiding [%1] | dt=%2s, conf=%3, AIResponse=%4ms -> Total=%5ms")
-                                       .arg(k == GUIDE_RA ? "RA" : "DEC").arg(dt_sec, 0, 'f', 1).arg(ai_out.confidence, 0, 'f', 2)
+                                       .arg(k == GUIDE_RA ? "RA" : "DEC").arg(dt_sec, 0, 'f', 1).arg(axisConf, 0, 'f', 2)
                                        .arg(aiResponse, 0, 'f', 1).arg(total, 0, 'f', 1);
 
             pulseLength = std::min(std::abs(total), maxPulseMilliseconds);
@@ -745,7 +751,10 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
                                        .arg(ai_pulse_arcsec, 0, 'f', 1).arg(aiLimit, 0, 'f', 1);
             ai_pulse_arcsec = std::copysign(aiLimit, ai_pulse_arcsec);
         }
-        const double conf = m_lastAIPrediction.confidence;
+        // Per-axis, not shared: one axis's prediction quality says nothing about the
+        // other's -- a chronically data-starved DEC (or RA) shouldn't ride on the other
+        // axis's trust and add noise on top of an otherwise well-tuned P-loop.
+        const double conf = (k == GUIDE_RA) ? m_lastAIPrediction.confidence_ra : m_lastAIPrediction.confidence_dec;
         const double aiGain = Options::aIPredictionGain();
 
         // Compute the average drift in the recent past for the integral control term.
@@ -869,6 +878,13 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         pulseLength = MAX_PULSE_MILLISECONDS;
     }
     m_lastBlend[k] = dbg;
+    if (!darkGuide && dbg.algorithm == "AI")
+    {
+        if (k == GUIDE_RA)
+            m_accumPulseHasAI_ra = true;
+        else
+            m_accumPulseHasAI_dec = true;
+    }
     updateOutParams(k, arcsecDrift, pulseLength, pulseDirection, !darkGuide);
 }
 
@@ -1161,6 +1177,10 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         // Reset the accumulators now that we have captured the sum of all pulses since the last real frame
         m_accumulated_pulse_ra = 0.0;
         m_accumulated_pulse_dec = 0.0;
+        const bool ra_pulse_has_ai = m_accumPulseHasAI_ra;
+        const bool dec_pulse_has_ai = m_accumPulseHasAI_dec;
+        m_accumPulseHasAI_ra = false;
+        m_accumPulseHasAI_dec = false;
 
         // Calculate Uncorrected Physical Drift for RLS Phase Estimation
         int prev_idx = (driftUpto[GUIDE_RA] - 1 + CIRCULAR_BUFFER_SIZE) % CIRCULAR_BUFFER_SIZE;
@@ -1190,7 +1210,8 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
 
         m_AIGuider->update(ra_px, dec_px, uncorrected_drift_ra_px, uncorrected_drift_dec_px, frameData.snr,
                            applied_pulse_arcsec_ra / frameData.pixel_scale,
-                           applied_pulse_arcsec_dec / frameData.pixel_scale);
+                           applied_pulse_arcsec_dec / frameData.pixel_scale,
+                           ra_pulse_has_ai, dec_pulse_has_ai);
         m_lastAIPrediction = m_AIGuider->predict(frameData);
 
         qCDebug(KSTARS_EKOS_GUIDE) <<
@@ -1201,8 +1222,10 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                                    .arg(frameData.azimuth_deg, 0, 'f', 1).arg(frameData.parallactic_angle_deg, 0, 'f', 1)
                                    .arg(frameData.ra_pulse_ms, 0, 'f', 1).arg(frameData.dec_pulse_ms, 0, 'f', 1)
                                    .arg(frameData.dt, 0, 'f', 3).arg(frameData.t_session_sec, 0, 'f', 1);
-        qCDebug(KSTARS_EKOS_GUIDE) << QString("[AI GUIDER] Feed-Forward | Output: valid=%1, conf=%2, PredRA=%3\", PredDEC=%4\"")
-                                   .arg(m_lastAIPrediction.valid).arg(m_lastAIPrediction.confidence, 0, 'f', 2)
+        qCDebug(KSTARS_EKOS_GUIDE) <<
+                                   QString("[AI GUIDER] Feed-Forward | Output: valid=%1, confRA=%2, confDEC=%3, PredRA=%4\", PredDEC=%5\"")
+                                   .arg(m_lastAIPrediction.valid).arg(m_lastAIPrediction.confidence_ra, 0, 'f', 2)
+                                   .arg(m_lastAIPrediction.confidence_dec, 0, 'f', 2)
                                    .arg(m_lastAIPrediction.ra_correction_arcsec, 0, 'f', 3).arg(m_lastAIPrediction.dec_correction_arcsec, 0, 'f', 3);
 
         if (!m_lastAIPrediction.valid)
@@ -1240,7 +1263,8 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                     emit newLog("[AI GUIDER] AI guider guiding.");
                 m_AILoggedActive = true;
             }
-            if (!m_AILoggedFullConfidence && m_lastAIPrediction.confidence >= 0.99)
+            if (!m_AILoggedFullConfidence && m_lastAIPrediction.confidence_ra >= 0.99
+                    && m_lastAIPrediction.confidence_dec >= 0.99)
             {
                 if (m_aiState != AIGuideState::SHADOW)
                     emit newLog("[AI GUIDER] Confidence reached 100%. Maximum predictive authority active!");
@@ -1285,10 +1309,11 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
             QTextStream out(m_AIDebugFile);
             if (!m_AIDebugHeaderWritten)
             {
-                out << "t_session,dt,altitude_deg,azimuth_deg,parallactic_angle_deg,ra_error_arcsec,uncorrected_ra_delta_px,dec_error_arcsec,uncorrected_dec_delta_px,conf,pred_ra_arcsec,physics_ra_arcsec,mlp_ra_arcsec,pred_dec_arcsec,physics_dec_arcsec,mlp_dec_arcsec,ai_state,pe_statestring,"
+                out << "t_session,dt,altitude_deg,azimuth_deg,parallactic_angle_deg,ra_error_arcsec,uncorrected_ra_delta_px,dec_error_arcsec,uncorrected_dec_delta_px,conf_ra,conf_dec,pred_ra_arcsec,physics_ra_arcsec,mlp_ra_arcsec,pred_dec_arcsec,physics_dec_arcsec,mlp_dec_arcsec,ai_state,pe_statestring,"
                        "ra_algorithm,ra_prop_response_ms,ra_integral_response_ms,ra_ai_response_ms,ra_active_prop_gain,ra_total_pulse_ms,ra_direction,ra_suppressed,"
                        "dec_algorithm,dec_prop_response_ms,dec_integral_response_ms,dec_ai_response_ms,dec_active_prop_gain,dec_total_pulse_ms,dec_direction,dec_suppressed,"
-                       "ra_drift_arcsec,dec_drift_arcsec\n";
+                       "ra_drift_arcsec,dec_drift_arcsec,"
+                       "rls_sin_coeff_px,rls_cos_coeff_px,rls_drift_rate_px_s,rls_offset_px\n";
                 m_AIDebugHeaderWritten = true;
             }
             // Empty field for NaN (fields not meaningful for the algorithm that actually ran)
@@ -1316,7 +1341,8 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                 << uncorrected_drift_ra_px << ","
                 << decDrift << ","
                 << uncorrected_drift_dec_px << ","
-                << m_lastAIPrediction.confidence << ","
+                << m_lastAIPrediction.confidence_ra << ","
+                << m_lastAIPrediction.confidence_dec << ","
                 << m_lastAIPrediction.ra_correction_arcsec << ","
                 << m_lastAIPrediction.physics_ra_arcsec << ","
                 << m_lastAIPrediction.mlp_ra_arcsec << ","
@@ -1342,7 +1368,11 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                 << directionStr(out_params.pulse_dir[GUIDE_DEC]) << ","
                 << (out_params.pulse_dir[GUIDE_DEC] == NO_DIR ? 1 : 0) << ","
                 << m_lastAIPrediction.drift_ra_arcsec << ","
-                << m_lastAIPrediction.drift_dec_arcsec << "\n";
+                << m_lastAIPrediction.drift_dec_arcsec << ","
+                << m_lastAIPrediction.rls_sin_coeff << ","
+                << m_lastAIPrediction.rls_cos_coeff << ","
+                << m_lastAIPrediction.rls_drift_rate << ","
+                << m_lastAIPrediction.rls_offset << "\n";
             out.flush();
         }
     }

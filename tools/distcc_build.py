@@ -26,6 +26,17 @@ Usage:
     tools/distcc_build.py --host workshop
     tools/distcc_build.py --host 192.168.1.50 --build-dir ../build kstars/kstars
     tools/distcc_build.py --host workshop --jobs 24 --slots 20 --dry-run
+
+Cross-architecture (e.g. building on an aarch64 Pi, offloading to a faster x86_64 box):
+    this script needs no changes for that -- distcc dispatches by whatever compiler NAME
+    the local build invokes, so as long as the remote answers to that same name with a
+    real cross-compiler, this works unmodified. Run tools/setup_arm64_cross_toolchain.sh
+    once first to install and wire up that cross-compiler (a one-time, separate concern
+    from this script, which just runs the build once that's done). --jobs should then be
+    sized from the LOCAL machine's core count, not --slots/the remote's -- several build
+    steps (Qt's moc/uic/rcc codegen, the final link) are always local regardless of
+    distcc, and oversubscribing a weak local machine during those is the main way this
+    goes wrong. See that script's header for the full recipe.
 """
 import argparse
 import os

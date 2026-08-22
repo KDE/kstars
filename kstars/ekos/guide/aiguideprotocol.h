@@ -184,7 +184,20 @@ class AIGuideProtocol : public QObject
         double m_TargetAz { 0 };
         double m_TargetAlt { 0 };
         int m_SettlingTimer { 0 };
+        // Wall-clock BACKSTOP for STATE_CAPTURING_DATA phases (a safety ceiling, not the
+        // primary stop condition -- see m_TargetFrames and phaseTimedOut in
+        // processProtocol()). Counts down at 1Hz regardless of actual frame arrival rate.
         int m_CaptureTimer { 0 };
+        // Frame-count goal for the current STATE_CAPTURING_DATA phase, computed once at
+        // phase start from that phase's nominal durationSeconds/exposure design point.
+        // The phase actually completes when m_PhaseData reaches this count (or the
+        // m_CaptureTimer backstop expires, whichever comes first) -- not on a fixed clock.
+        // A fixed-duration-only design silently starves the sample count whenever real
+        // per-frame cadence is slower than the exposure the duration was tuned for (e.g. a
+        // Debug build's processing overhead nearly doubled real frame dt vs. a Release
+        // build in one measured case, halving frames-per-phase and degrading the
+        // downstream PE-period fit). Targeting frame count directly is cadence-agnostic.
+        int m_TargetFrames { 0 };
         int m_AbortRetries { 0 };
         // Ticks to wait after calling m_Guide->guide() before trusting a still-IDLE/ABORTED
         // status as a real failure worth retrying -- see STATE_PULSE_RESPONSE_INIT.

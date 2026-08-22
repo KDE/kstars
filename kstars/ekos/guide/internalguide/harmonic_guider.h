@@ -36,12 +36,24 @@ class HarmonicGuider : public MountSpecificGuider
         void        resetSession(bool forceReset = false) override;
         GuideOutput predict(const GuideFrameData &frame) override;
         GuideOutput darkPredict(double dt_sec) override;
+        // NOTE: ra_pulse_has_ai/dec_pulse_has_ai are accepted but not yet acted on here.
+        // HarmonicGuider's Kalman filter has the same theoretical exposure as
+        // WormGearGuider's RLS tracker (see worm_gear_guider.cpp::update()) -- it also fits
+        // online state from a pulse-backout measurement that can include the guider's own
+        // prediction once Active. That has not been observed or verified on a harmonic-drive
+        // mount, so applying the same freeze here is deferred until there's real data to
+        // confirm it's needed (and safe) for this guider too.
         void        update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px,
                            double uncorrected_drift_dec_px, double snr,
-                           double ra_pulse_px, double dec_pulse_px) override;
-        double      confidence() const override
+                           double ra_pulse_px, double dec_pulse_px,
+                           bool ra_pulse_has_ai, bool dec_pulse_has_ai) override;
+        double      confidenceRA() const override
         {
-            return m_confidence;
+            return m_confidenceRA;
+        }
+        double      confidenceDEC() const override
+        {
+            return m_confidenceDEC;
         }
         int         warmupFrames() const override
         {
@@ -116,7 +128,8 @@ class HarmonicGuider : public MountSpecificGuider
         static double m_uncorrPosRA;   ///< Integrated uncorrected position (the measurement)
         static double m_uncorrPosDEC;
         static int    m_frameCount;
-        static double m_typicalRMS;
+        static double m_typicalRMS_ra;
+        static double m_typicalRMS_dec;
         /// Line periods the persisted static state was built for; a change means the
         /// loaded weights describe a different mount, so the static state is discarded.
         static std::array<double, N_LINES_MAX> s_activeLinePeriod;
@@ -131,7 +144,8 @@ class HarmonicGuider : public MountSpecificGuider
 
         // ── Runtime state ────────────────────────────────────────────────────
         bool   m_weightsLoaded    { false };
-        double m_confidence       { 0.0 };
+        double m_confidenceRA     { 0.0 };
+        double m_confidenceDEC    { 0.0 };
         double m_lastDt           { 2.0 };
         double m_lastAltRad       { M_PI / 4.0 };
         double m_lastSessionSec   { 0.0 };

@@ -32,6 +32,16 @@ def parse_args():
                    help="Use GPU if available (optional — all models train fine on CPU)")
     p.add_argument("--epochs",      type=int, default=None,
                    help="Override default epoch count for neural models")
+    p.add_argument("--dropout",     type=float, default=None,
+                   help="Dropout probability applied between the residual MLP's hidden layers "
+                        "during training only (WORM_GEAR). Purely a training-time regularizer -- "
+                        "the exported weights.json has the same fixed 15->32->16->2 shape either "
+                        "way, so this has zero effect on the C++ inference engine. Raise this (and/"
+                        "or --weight-decay) instead of shrinking the architecture when samples per "
+                        "parameter is low. Default: train_worm_gear.DEFAULT_DROPOUT_P")
+    p.add_argument("--weight-decay", type=float, default=None,
+                   help="L2 weight decay for the residual MLP's optimizer (WORM_GEAR). Same "
+                        "shape-preserving property as --dropout. Default: train_worm_gear.DEFAULT_WEIGHT_DECAY")
     p.add_argument("--pid-lambda-factor", type=float, default=None,
                    help="SIMC design parameter for the advisory PID auto-tune recommendation "
                         "(lambda = max(tau, factor * dead_time)), computed for any mount type "
@@ -88,7 +98,8 @@ def main():
     elif mount_type == "WORM_GEAR":
         from train_worm_gear import train_worm_gear
         weights = train_worm_gear(sysid, gpu=args.gpu, epochs=args.epochs, verbose=args.verbose,
-                                  pid_lambda_factor=pid_lambda_factor)
+                                  pid_lambda_factor=pid_lambda_factor,
+                                  dropout_p=args.dropout, weight_decay=args.weight_decay)
 
     elif mount_type == "HARMONIC_DRIVE":
         from train_harmonic import train_harmonic

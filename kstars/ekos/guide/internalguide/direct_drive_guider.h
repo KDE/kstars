@@ -29,9 +29,17 @@ class DirectDriveGuider : public MountSpecificGuider
         // DirectDriveGuider update() is a no-op: there are no learnable online parameters.
         void update(double /*ra_px*/, double /*dec_px*/,
                     double /*uncorr_ra*/, double /*uncorr_dec*/, double /*snr*/,
-                    double /*ra_pulse_px*/, double /*dec_pulse_px*/) override {}
+                    double /*ra_pulse_px*/, double /*dec_pulse_px*/,
+                    bool /*ra_pulse_has_ai*/, bool /*dec_pulse_has_ai*/) override {}
 
-        double confidence() const override
+        // No per-axis distinction: this model is 4 fixed analytical floats (no learned
+        // per-axis weights to independently trust), so both axes share the same fixed
+        // confidence once loaded.
+        double confidenceRA() const override
+        {
+            return m_weightsLoaded ? 0.95 : 0.0;
+        }
+        double confidenceDEC() const override
         {
             return m_weightsLoaded ? 0.95 : 0.0;
         }

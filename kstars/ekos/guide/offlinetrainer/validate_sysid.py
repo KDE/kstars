@@ -90,13 +90,27 @@ def _check_pulse_response(sysid, guide_exp, pixel_scale, lambda_l_factor, verbos
             continue
         kappa, tau, info = fit_pulse_response(sysid, axis, guide_exp, verbose, return_fits=True)
         fits = info["fits"]
-        print(f"  [{axis}] {len(axis_sessions)} sessions -> {len(fits)} usable step-response fit(s), "
-              f"sign_consistent={info['sign_consistent']}")
+        n_warm, n_total = info.get("n_warm_fits", 0), info.get("n_total_fits", len(fits))
+        print(f"  [{axis}] {len(axis_sessions)} sessions -> {len(fits)} usable step-response fit(s) "
+              f"({n_warm}/{n_total} warm, i.e. already-engaged/no direction change), "
+              f"sign_consistent={info['sign_consistent']} "
+              f"[using {'warm-only' if info.get('used_warm_only') else 'combined cold+warm'} data]")
         if fits:
             amps = [abs(f["P_fit_px"]) for f in fits]
             print(f"         amplitude range: {min(amps):.2f}-{max(amps):.2f} px "
                   f"(residual_std range: {min(f['residual_std_px'] for f in fits):.3f}"
                   f"-{max(f['residual_std_px'] for f in fits):.3f} px)")
+            if not info["sign_consistent"] and info.get("used_warm_only"):
+                print(f"         *** signs are inconsistent even restricted to warm "
+                      f"(already-engaged, no direction change) pulses -- backlash alone "
+                      f"wouldn't explain this, since warm pulses should have already "
+                      f"cleared it. Consistent with static friction recurring from a full "
+                      f"stop between corrections on a non-tracking axis (DEC on a GEM). "
+                      f"See pulse_response_fit.py's cold/warm comment.")
+            elif n_total > 0 and not info.get("used_warm_only") and n_warm < n_total:
+                print(f"         *** no usable warm (already-engaged) fits at all -- "
+                      f"falling back to cold+warm combined, which mixes in backlash-"
+                      f"contaminated data. See pulse_response_fit.py's cold/warm comment.")
 
     cal_note = ("(no calibrated ms/arcsec on record yet -- recommendation unavailable "
                 "until a standard_guiding session with ra/dec_ms_per_arcsec exists)")
