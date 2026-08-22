@@ -304,10 +304,16 @@ if (BUILD_WITH_QT6)
    find_package(Qt6Graphs)
    find_package(Qt6GraphsWidgets)
 endif()
+set_package_properties(Qt6Graphs PROPERTIES
+    DESCRIPTION "Qt Graphs 3D module (successor to the deprecated Qt Data Visualization)"
+    URL "https://doc.qt.io/qt-6/qtgraphs-index.html"
+    TYPE OPTIONAL
+    PURPOSE "Enables the Ekos Aberration Inspector and the FITS Viewer 3D star profile viewer.")
 if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)
     set(HAVE_QTGRAPHS 1)
 else()
     set(HAVE_QTGRAPHS 0)
+    message(STATUS "Qt6Graphs/Qt6GraphsWidgets not found - Aberration Inspector and 3D star profile viewer will be disabled.")
 endif()
 
 # LibXISF
