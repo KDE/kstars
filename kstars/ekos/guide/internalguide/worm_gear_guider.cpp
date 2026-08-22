@@ -259,13 +259,13 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
                             double /*ra_pulse_px*/, double /*dec_pulse_px*/,
                             bool ra_pulse_has_ai, bool /*dec_pulse_has_ai*/)
 {
-    // Freeze RA's online phase/amplitude adaptation (and its confidence bookkeeping) while
-    // the just-applied RA pulse included this guider's own prediction. The pulse backout in
-    // gmath.cpp assumes one fixed linear ms/arcsec calibration factor regardless of who
-    // commanded the pulse; any residual from that approximation is correlated with the same
-    // sin/cos phase basis the RLS fits on (and that the AI prediction itself reads out of),
-    // so without this guard the RLS partially re-learns its own leftover prediction error --
-    // a closed-loop system-identification bias, not ordinary measurement noise.
+    // Freeze RA's online phase/amplitude adaptation while the just-applied RA pulse included
+    // this guider's own prediction. The pulse backout in gmath.cpp assumes one fixed linear
+    // ms/arcsec calibration factor regardless of who commanded the pulse; any residual from
+    // that approximation is correlated with the same sin/cos phase basis the RLS fits on (and
+    // that the AI prediction itself reads out of), so without this guard the RLS partially
+    // re-learns its own leftover prediction error -- a closed-loop system-identification
+    // bias, not ordinary measurement noise.
     //
     // Verified 2026-08-19: PE amplitude/phase held stable (0.15-0.42", 2.7-3.0 rad) through
     // ~30 minutes of Shadow-mode guiding (Standard pulses only -- this loop never closes in
@@ -283,11 +283,25 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
         m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
     m_uncorrectedPosDEC += uncorrected_drift_dec_px_delta;
 
+    // Confidence is intentionally NOT frozen alongside the RLS state above (fixed
+    // 2026-08-22, caught before this reached wider testing): theta is a recursively
+    // accumulated state that can genuinely diverge from contaminated input, which is the
+    // real bug the freeze above exists to prevent. Confidence is not that kind of state --
+    // it is bounded [0,1] and rate-limited (CONF_RISE_PER_FRAME), recomputed fresh each
+    // frame from a windowed innovation deque, so it cannot run away the same way. Freezing
+    // it too bought no protection against divergence; it only meant that once Active
+    // engaged, RA lost its only defense against its OWN prediction quality degrading later
+    // in a session (temperature drift, wind, changing mount behavior) -- DEC's confidence
+    // keeps updating live and can fall to near-zero if DEC goes bad, but a frozen RA
+    // confidence would keep trusting a since-degraded RA prediction indefinitely. Computing
+    // it from the same (still slightly contaminated) signal the RLS freeze above protects
+    // against is an accepted, pre-existing tradeoff -- the same one DEC's confidence has
+    // always operated under -- not a new risk introduced by unfreezing this.
     if (m_hasLastPred)
     {
         const double innov_ra  = uncorrected_drift_ra_px_delta - m_lastPredDriftRA;
         const double innov_dec = uncorrected_drift_dec_px_delta - m_lastPredDriftDEC;
-        updateConfidence(innov_ra, innov_dec, snr, ra_pulse_has_ai);
+        updateConfidence(innov_ra, innov_dec, snr);
     }
 
     if (!ra_pulse_has_ai)
@@ -408,19 +422,14 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
     m_d_ra_extra = m_rls_theta(2);
 }
 
-void WormGearGuider::updateConfidence(double innovRA, double innovDec, double snr, bool skipRA)
+void WormGearGuider::updateConfidence(double innovRA, double innovDec, double snr)
 {
-    // skipRA: this frame's RA innovation is measured against a pulse-backout that itself
-    // included the AI's own RA prediction (see update() above) -- pushing it in would let
-    // the RA confidence estimate partially grade the model against its own leftover error.
-    // Hold RA's deque/baseline/confidence at their last known values instead; DEC is
-    // unaffected (see update()).
-    if (!skipRA)
-    {
-        m_innovRA.push_back(innovRA);
-        if (m_innovRA.size() > INNOV_WINDOW)
-            m_innovRA.pop_front();
-    }
+    // Both axes always update here, even while RA's RLS phase adaptation is frozen in
+    // update() above -- see the comment there for why confidence and the RLS state are
+    // deliberately NOT frozen together (2026-08-22).
+    m_innovRA.push_back(innovRA);
+    if (m_innovRA.size() > INNOV_WINDOW)
+        m_innovRA.pop_front();
 
     m_innovDec.push_back(innovDec);
     if (m_innovDec.size() > INNOV_WINDOW)
@@ -491,8 +500,7 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
         confidence = std::min(target, confidence + CONF_RISE_PER_FRAME);
     };
 
-    if (!skipRA)
-        axisConfidence(ra_rms, m_typicalRMS_ra, m_confidenceRA);
+    axisConfidence(ra_rms, m_typicalRMS_ra, m_confidenceRA);
     axisConfidence(dec_rms, m_typicalRMS_dec, m_confidenceDEC);
 }
 

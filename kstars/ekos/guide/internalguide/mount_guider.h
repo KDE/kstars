@@ -141,6 +141,14 @@ class MountSpecificGuider
          *        avoid learning from a signal their own prior output partly produced -- a
          *        closed-loop system-ID bias. Always false during Shadow Mode, warmup, and
          *        fallback, since the AI never touches the applied pulse in those states.
+         *
+         *        Freeze the adaptive STATE only, not confidenceRA()/confidenceDEC() --
+         *        confidence is bounded and rate-limited, not a recursively accumulated
+         *        estimate, so it cannot diverge the way an unguarded state update can.
+         *        Freezing it too just removes an axis's only defense against its own
+         *        prediction quality degrading later in a session, with nothing gained (a
+         *        real bug caught in WormGearGuider 2026-08-22 before this reached wider
+         *        testing -- see its update()/updateConfidence() for the full reasoning).
          * @param dec_pulse_has_ai Same, for DEC.
          */
         virtual void update(double ra_error_px, double dec_error_px, double uncorrected_drift_ra_px,

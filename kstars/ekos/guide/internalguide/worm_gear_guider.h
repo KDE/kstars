@@ -126,5 +126,5 @@ class WormGearGuider : public MountSpecificGuider
         std::array<float, 2> runMLP(float altitude, float snr, float last_ra_pulse, float last_dec_pulse, float dt,
                                     double t_session_sec, float parallactic_angle_deg, float pier_side) const;
         void   updatePhase(double uncorrected_position_px, double t_session_sec);
-        void   updateConfidence(double innovRA, double innovDec, double snr, bool skipRA);
+        void   updateConfidence(double innovRA, double innovDec, double snr);
 };
