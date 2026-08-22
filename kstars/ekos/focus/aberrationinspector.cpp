@@ -809,6 +809,13 @@ void AberrationInspector::initGraphic()
     m_graphic = new Q3DSurfaceWidgetItem(this);
     m_graphic->setWidget(container);
 
+    // QQuickWidget has a 0x0 default minimum size, unlike the old QWidget::createWindowContainer
+    // wrapper it replaced. Without a minimum the enclosing splitter collapses the 3D surface to
+    // almost nothing when the Tilt Correction Advisory panel is shown. Give it a sensible minimum
+    // and an expanding policy (mirroring the StarProfileViewer migration) so it stays visible.
+    container->setMinimumSize(QSize(280, 220));
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
     // abInsHSplitter is created in the .ui file but, by default, doesn't work - don't know why
     // Workaround is to create a new QSplitter object and use that.
     abInsHSplitter = new QSplitter(abInsVSplitter);
