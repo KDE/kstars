@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.8.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-22 02:08+0000\n"
+"POT-Creation-Date: 2026-08-23 02:05+0000\n"
 "PO-Revision-Date: 2026-07-03 13:40+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -23271,18 +23271,18 @@ msgstr ""
 "Corrections déjà appliquées. Relancez la mise au point automatique pour "
 "obtenir de nouvelles mesures d'inclinaison."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:483
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 "Aucune donnée pour l'entraînement ! Veuillez d'abord exécuter le protocole."
 
-#: ekos/guide/aiguideprotocol.cpp:448
+#: ekos/guide/aiguideprotocol.cpp:484
 #, kde-format
 msgid "No data to train"
 msgstr "Aucune donnée pour l'entraînement"
 
-#: ekos/guide/aiguideprotocol.cpp:453
+#: ekos/guide/aiguideprotocol.cpp:489
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Démarrage de l'entraînement IA via le cloud EkosLive…"
@@ -25080,24 +25080,24 @@ msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
 "Direction DEC inversée (AD-DEC est maintenant un système CCW standard)."
 
-#: ekos/guide/internalguide/gmath.cpp:279
-#: ekos/guide/internalguide/gmath.cpp:378
+#: ekos/guide/internalguide/gmath.cpp:281
+#: ekos/guide/internalguide/gmath.cpp:380
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Guide IA : application des paramètres enregistrés du modèle entraîné (%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:304
+#: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "Le fichier de poids n'a pas pu être lu."
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:308
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr "Échec du chargement des poids du Guide IA. Guidage interrompu."
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -25115,12 +25115,12 @@ msgstr ""
 "repassez l'algorithme de guidage sur un mode standard. Le guidage a été "
 "interrompu."
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Erreur du Guide IA"
 
-#: ekos/guide/internalguide/gmath.cpp:321
+#: ekos/guide/internalguide/gmath.cpp:323
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -25131,7 +25131,7 @@ msgstr ""
 "Chargez-les via le bouton IA > « Charger les poids… », ou exécutez "
 "l'Assistant de guidage IA. Guidage interrompu."
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:326
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -25146,24 +25146,24 @@ msgstr ""
 "l'Assistant de guidage IA pour générer des poids pour vos réglages actuels. "
 "Le guidage a été interrompu."
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:329
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Guide IA : aucun poids"
 
-#: ekos/guide/internalguide/gmath.cpp:371
+#: ekos/guide/internalguide/gmath.cpp:373
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Échec du rechargement du poids du Guide IA : %1"
 
-#: ekos/guide/internalguide/gmath.cpp:372
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "Le fichier de poids n'a pas pu être lu ou ne correspond pas à ce type de "
 "montage."
 
-#: ekos/guide/internalguide/gmath.cpp:396
+#: ekos/guide/internalguide/gmath.cpp:398
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -25171,7 +25171,7 @@ msgstr ""
 "Les poids du Guide IA sont rechargés en direct à partir de %1 — le guidage "
 "continue sans interruption."
 
-#: ekos/guide/internalguide/gmath.cpp:868
+#: ekos/guide/internalguide/gmath.cpp:877
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Longue impulsion limitée entre %1ms et %2ms"
@@ -25388,7 +25388,7 @@ msgstr ""
 "interférences constructives et les oscillations."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:69
+#: ekos/guide/opsaiconfig.ui:66
 #, kde-format
 msgid "Enable Shadow Mode (log AI predictions without applying them)"
 msgstr ""
@@ -25396,7 +25396,7 @@ msgstr ""
 "appliquer)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:72
+#: ekos/guide/opsaiconfig.ui:69
 #, kde-format
 msgid ""
 "Runs the AI model silently alongside the selected standard guiding "
@@ -25411,13 +25411,13 @@ msgstr ""
 "d'activer le guidage IA complet."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:79
+#: ekos/guide/opsaiconfig.ui:76
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
 msgstr "Réglage automatique PID (étalonnage du gain étape-réponse)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:82
+#: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid ""
 "Sends known pulses at the start of the protocol and measures the mount's "
@@ -25434,13 +25434,13 @@ msgstr ""
 "activé par défaut."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:89
+#: ekos/guide/opsaiconfig.ui:86
 #, kde-format
 msgid "Enable Predictive Dark Guiding"
 msgstr "Activer le guidage dark prédictif"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:92
+#: ekos/guide/opsaiconfig.ui:89
 #, kde-format
 msgid ""
 "Allows the AI Guider to continue emitting feed-forward pulses during gaps in "
@@ -25455,14 +25455,14 @@ msgstr ""
 "dans le temps."
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:101
+#: ekos/guide/opsaiconfig.ui:98
 #, kde-format
 msgid "Dark Guiding Interval (s):"
 msgstr "Intervalle de guidage dark (s) :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:104 ekos/guide/opsaiconfig.ui:111
+#: ekos/guide/opsaiconfig.ui:101 ekos/guide/opsaiconfig.ui:108
 #, kde-format
 msgid ""
 "Seconds between predicted feed-forward pulses when there is no guide-star "

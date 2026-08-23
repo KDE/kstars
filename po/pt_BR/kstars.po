@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-22 02:08+0000\n"
-"PO-Revision-Date: 2026-08-19 15:48-0300\n"
+"POT-Creation-Date: 2026-08-23 02:05+0000\n"
+"PO-Revision-Date: 2026-08-22 06:47-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -19213,59 +19213,51 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:389
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Green"
+#, kde-format
 msgid "Qt Green"
-msgstr "Verde"
+msgstr "Verde Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:394
 #, kde-format
 msgid "Qt Green Neon"
-msgstr ""
+msgstr "Verde Neon Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:399
 #, kde-format
 msgid "Mix Series"
-msgstr ""
+msgstr "Série Mix"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:404
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Orange Park"
+#, kde-format
 msgid "Orange Series"
-msgstr "Orange Park"
+msgstr "Série Laranja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:409
-#, fuzzy, kde-format
-#| msgctxt "City in Northwest Territories Canada"
-#| msgid "Yellowknife"
+#, kde-format
 msgid "Yellow Series"
-msgstr "Yellowknife"
+msgstr "Série Amarela"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:414
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Blue River"
+#, kde-format
 msgid "Blue Series"
-msgstr "Blue River"
+msgstr "Série Azul"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:419
 #, kde-format
 msgid "Purple Series"
-msgstr ""
+msgstr "Série Roxa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:424
 #, kde-format
 msgid "Grey Series"
-msgstr ""
+msgstr "Série Cinza"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:432
@@ -23092,18 +23084,18 @@ msgstr ""
 "Correções já aplicadas. Execute o foco automático novamente para obter novas "
 "medições de inclinação."
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:483
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 "Não há dados para treinamento! Por favor, execute o protocolo primeiro."
 
-#: ekos/guide/aiguideprotocol.cpp:448
+#: ekos/guide/aiguideprotocol.cpp:484
 #, kde-format
 msgid "No data to train"
 msgstr "Não há dados para treinamento"
 
-#: ekos/guide/aiguideprotocol.cpp:453
+#: ekos/guide/aiguideprotocol.cpp:489
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Iniciando o treinamento de IA via nuvem EkosLive..."
@@ -24888,25 +24880,25 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Direção DEC invertida (AR-DEC agora é sistema CCW padrão)."
 
-#: ekos/guide/internalguide/gmath.cpp:279
-#: ekos/guide/internalguide/gmath.cpp:378
+#: ekos/guide/internalguide/gmath.cpp:281
+#: ekos/guide/internalguide/gmath.cpp:380
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Guiamento por IA: aplicou as configurações gravadas do modelo treinado (%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:304
+#: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "Não foi possível ler o arquivo de pesos."
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:308
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 "O guiamento por IA falhou ao carregar os pesos. A guiagem foi cancelada."
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -24924,12 +24916,12 @@ msgstr ""
 "pesos diferente ou alterne o algoritmo de guia para um modo padrão. O "
 "guiamento foi cancelado."
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Erro da guiamento por IA"
 
-#: ekos/guide/internalguide/gmath.cpp:321
+#: ekos/guide/internalguide/gmath.cpp:323
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24940,7 +24932,7 @@ msgstr ""
 "Carregue-os através do botão de IA > 'Carregar pesos...' ou execute o "
 "Assistente de guiamento por IA. Guiagem cancelada."
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:326
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24956,24 +24948,24 @@ msgstr ""
 "Assistente de guiamento por IA para gerar pesos para suas configurações "
 "atuais. A guiagem foi cancelada."
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:329
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Guiamento por IA: Nenhum peso"
 
-#: ekos/guide/internalguide/gmath.cpp:371
+#: ekos/guide/internalguide/gmath.cpp:373
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Falha na recarga de pesos do guiamento por IA: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:372
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "o arquivo de pesos não pôde ser lido ou não corresponde a este tipo de "
 "montagem."
 
-#: ekos/guide/internalguide/gmath.cpp:396
+#: ekos/guide/internalguide/gmath.cpp:398
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -24981,7 +24973,7 @@ msgstr ""
 "Pesos do guiamento por IA recarregados ao vivo a partir de %1 — a guiagem "
 "continua ininterrupta."
 
-#: ekos/guide/internalguide/gmath.cpp:868
+#: ekos/guide/internalguide/gmath.cpp:877
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pulso longo limitado de %1ms a %2ms"
@@ -25194,13 +25186,13 @@ msgstr ""
 "construtiva e oscilação."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:69
+#: ekos/guide/opsaiconfig.ui:66
 #, kde-format
 msgid "Enable Shadow Mode (log AI predictions without applying them)"
 msgstr "Ativar o modo sombra (registrar previsões da IA ​​sem aplicá-las)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:72
+#: ekos/guide/opsaiconfig.ui:69
 #, kde-format
 msgid ""
 "Runs the AI model silently alongside the selected standard guiding "
@@ -25215,13 +25207,13 @@ msgstr ""
 "por IA."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:79
+#: ekos/guide/opsaiconfig.ui:76
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
 msgstr "Ajuste automático de PID (Calibração de Ganho por Resposta ao Degrau)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:82
+#: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid ""
 "Sends known pulses at the start of the protocol and measures the mount's "
@@ -25238,13 +25230,13 @@ msgstr ""
 "habilitado por padrão."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:89
+#: ekos/guide/opsaiconfig.ui:86
 #, kde-format
 msgid "Enable Predictive Dark Guiding"
 msgstr "Ativar guiagem preditiva no modo escuro"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:92
+#: ekos/guide/opsaiconfig.ui:89
 #, kde-format
 msgid ""
 "Allows the AI Guider to continue emitting feed-forward pulses during gaps in "
@@ -25258,14 +25250,14 @@ msgstr ""
 "da câmera), extrapolando o erro periódico físico ao longo do tempo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:101
+#: ekos/guide/opsaiconfig.ui:98
 #, kde-format
 msgid "Dark Guiding Interval (s):"
 msgstr "Intervalo de guia no escuro (s):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:104 ekos/guide/opsaiconfig.ui:111
+#: ekos/guide/opsaiconfig.ui:101 ekos/guide/opsaiconfig.ui:108
 #, kde-format
 msgid ""
 "Seconds between predicted feed-forward pulses when there is no guide-star "

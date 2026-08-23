@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-22 02:08+0000\n"
+"POT-Creation-Date: 2026-08-23 02:05+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18403,11 +18403,9 @@ msgstr "<html><head/><body><p>选择 3D 图像的颜色主题。</p></body></htm
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:389
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Green"
+#, kde-format
 msgid "Qt Green"
-msgstr "绿色"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:394
@@ -18435,10 +18433,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:414
-#, fuzzy, kde-format
-#| msgid "Run Service"
+#, kde-format
 msgid "Blue Series"
-msgstr "运行服务"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:419
@@ -22017,17 +22014,17 @@ msgid ""
 "measurements."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:447
+#: ekos/guide/aiguideprotocol.cpp:483
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:448
+#: ekos/guide/aiguideprotocol.cpp:484
 #, kde-format
 msgid "No data to train"
 msgstr ""
 
-#: ekos/guide/aiguideprotocol.cpp:453
+#: ekos/guide/aiguideprotocol.cpp:489
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr ""
@@ -23662,23 +23659,23 @@ msgstr[0] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "赤纬方向反向 (赤经-赤纬现在是一个标准的逆时针系统) 。"
 
-#: ekos/guide/internalguide/gmath.cpp:279
-#: ekos/guide/internalguide/gmath.cpp:378
+#: ekos/guide/internalguide/gmath.cpp:281
+#: ekos/guide/internalguide/gmath.cpp:380
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:304
+#: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
 msgid "The weights file could not be read."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:308
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -23689,12 +23686,12 @@ msgid ""
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider Error"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:321
+#: ekos/guide/internalguide/gmath.cpp:323
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -23702,7 +23699,7 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:326
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -23712,28 +23709,28 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:329
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:371
+#: ekos/guide/internalguide/gmath.cpp:373
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:372
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:396
+#: ekos/guide/internalguide/gmath.cpp:398
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:868
+#: ekos/guide/internalguide/gmath.cpp:877
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "限定长脉冲范围：%1ms 至 %2ms"
@@ -23923,13 +23920,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:69
+#: ekos/guide/opsaiconfig.ui:66
 #, kde-format
 msgid "Enable Shadow Mode (log AI predictions without applying them)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIShadowMode)
-#: ekos/guide/opsaiconfig.ui:72
+#: ekos/guide/opsaiconfig.ui:69
 #, kde-format
 msgid ""
 "Runs the AI model silently alongside the selected standard guiding "
@@ -23939,13 +23936,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:79
+#: ekos/guide/opsaiconfig.ui:76
 #, kde-format
 msgid "PID Auto-Tune (Step-Response Gain Calibration)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIPIDAutoTune)
-#: ekos/guide/opsaiconfig.ui:82
+#: ekos/guide/opsaiconfig.ui:79
 #, kde-format
 msgid ""
 "Sends known pulses at the start of the protocol and measures the mount's "
@@ -23956,13 +23953,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:89
+#: ekos/guide/opsaiconfig.ui:86
 #, kde-format
 msgid "Enable Predictive Dark Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
-#: ekos/guide/opsaiconfig.ui:92
+#: ekos/guide/opsaiconfig.ui:89
 #, kde-format
 msgid ""
 "Allows the AI Guider to continue emitting feed-forward pulses during gaps in "
@@ -23972,14 +23969,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:101
+#: ekos/guide/opsaiconfig.ui:98
 #, kde-format
 msgid "Dark Guiding Interval (s):"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
-#: ekos/guide/opsaiconfig.ui:104 ekos/guide/opsaiconfig.ui:111
+#: ekos/guide/opsaiconfig.ui:101 ekos/guide/opsaiconfig.ui:108
 #, kde-format
 msgid ""
 "Seconds between predicted feed-forward pulses when there is no guide-star "
@@ -96505,30 +96502,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Qt"
-#~ msgstr "Qt"
-
-#~ msgid "Primary Colors"
-#~ msgstr "主题颜色"
-
-#~ msgid "Digia"
-#~ msgstr "Digia"
-
-#~ msgid "Stone Moss"
-#~ msgstr "石苔"
-
-#~ msgid "Army Blue"
-#~ msgstr "军蓝色"
-
-#~ msgid "Retro"
-#~ msgstr "Retro"
-
-#~ msgid "Ebony"
-#~ msgstr "Ebony"
-
-#~ msgid "Isabelle"
-#~ msgstr "Isabelle"
-
-#~ msgid "Couldn't initialize the OpenGL context."
-#~ msgstr "未能初始化 OpenGL 上下文。"
