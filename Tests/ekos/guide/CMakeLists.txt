@@ -18,3 +18,8 @@ TARGET_LINK_LIBRARIES( testcalibrationprocess ${TEST_LIBRARIES})
 ADD_TEST( NAME CalibrationProcessTest COMMAND testcalibrationprocess )
 SET_TESTS_PROPERTIES( CalibrationProcessTest PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( testaiblend testaiblend.cpp )
+TARGET_LINK_LIBRARIES( testaiblend ${TEST_LIBRARIES})
+ADD_TEST( NAME AIBlendTest COMMAND testaiblend )
+SET_TESTS_PROPERTIES( AIBlendTest PROPERTIES LABELS "stable")
+

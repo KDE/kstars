@@ -337,6 +337,10 @@ class cgmath : public QObject
 
         std::unique_ptr < MountSpecificGuider > m_AIGuider;
         GuideOutput m_lastAIPrediction;
+        /// Mirrors m_lastAIPrediction but for the dark-guiding path (darkPredict(), no new
+        /// frame this cycle) -- set in processAxis()'s useAI&&darkGuide branch, read back by
+        /// performDarkGuiding() to log the AI debug CSV row for that pulse.
+        GuideOutput m_lastDarkAIPrediction;
         /// Actual blended-pulse breakdown for the last frame, one per axis; populated by
         /// processAxis() regardless of which pulse algorithm ran. See AxisBlendDebug.
         AxisBlendDebug m_lastBlend[CHANNEL_CNT];
@@ -371,6 +375,28 @@ class cgmath : public QObject
         // AI debug CSV logger (per-session file)
         QFile *m_AIDebugFile { nullptr };
         bool m_AIDebugHeaderWritten { false };
+        /// Absolute-epoch reference shared by every AI debug CSV row (frame-driven and
+        /// dark-guiding alike) so t_session_sec is on one consistent clock and rows from
+        /// both sources interleave correctly by time when sorted/plotted together. Set on
+        /// first use by whichever path (frame or dark) runs first.
+        qint64 m_AIDebugBaseEpochMs { 0 };
+        /// Writes one row to the AI debug CSV, opening/creating the file and header on first
+        /// use. Shared by the frame-driven path (performProcessing(), after calculatePulses()
+        /// has populated m_lastBlend[]/out_params) and the dark-guiding path
+        /// (performDarkGuiding(), after processAxis(..., darkGuide=true, ...) has done the
+        /// same) -- added 2026-08-25 because dark-guiding pulses were previously only visible
+        /// in the verbose qCDebug log, making it impossible to measure their effect (e.g.
+        /// whether they reinforce or fight the frame-driven corrections) without grepping
+        /// timestamps out of the full debug log by hand.
+        /// @param ra_error_arcsec/uncorrected_ra_px/dec_error_arcsec/uncorrected_dec_px pass
+        ///        NaN for a dark-guiding row: there is no new star measurement between frames,
+        ///        so these columns are left blank rather than reporting a stale value.
+        /// @param prediction The GuideOutput this row's ai_state/pulses were computed from --
+        ///        m_lastAIPrediction for a frame row, the local darkPredict() result for a
+        ///        dark row.
+        void writeAIDebugRow(double t_session_sec, double dt, double altitude_deg, double azimuth_deg,
+                             double parallactic_angle_deg, double ra_error_arcsec, double uncorrected_ra_px,
+                             double dec_error_arcsec, double uncorrected_dec_px, const GuideOutput &prediction);
 
         Calibration calibration;
         bool configureInParams(Ekos::GuideState state);

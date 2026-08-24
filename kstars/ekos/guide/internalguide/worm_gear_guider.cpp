@@ -18,13 +18,16 @@
 #include <algorithm>
 
 // ── Static member initialization ──────────────────────────────────────────────
-Eigen::Vector4d WormGearGuider::m_rls_theta { Eigen::Vector4d::Zero() };
-Eigen::Matrix4d WormGearGuider::m_rls_P { Eigen::Matrix4d::Identity() * 100.0 };
+Eigen::Matrix<double, WormGearGuider::N_STATES, 1> WormGearGuider::m_rls_theta
+{ Eigen::Matrix<double, WormGearGuider::N_STATES, 1>::Zero() };
+Eigen::Matrix<double, WormGearGuider::N_STATES, WormGearGuider::N_STATES> WormGearGuider::m_rls_P
+{ Eigen::Matrix<double, WormGearGuider::N_STATES, WormGearGuider::N_STATES>::Identity() * 100.0 };
 int WormGearGuider::m_frameCount { 0 };
 double WormGearGuider::m_typicalRMS_ra { 0.5 };
 double WormGearGuider::m_typicalRMS_dec { 0.5 };
 double WormGearGuider::s_activePePeriod { -1.0 };
 double WormGearGuider::m_pe_phase { 0.0 };
+std::array<double, WormGearGuider::N_HARMONICS> WormGearGuider::m_pe_harmonic_amplitude { {1.0, 0.0, 0.0, 0.0} };
 double WormGearGuider::m_pe_amplitude { 1.0 };
 double WormGearGuider::m_d_ra_extra { 0.0 };
 double WormGearGuider::m_uncorrectedPosRA { 0.0 };
@@ -77,6 +80,15 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
 
     QJsonObject phys = root["physics"].toObject();
     m_pe_amplitude = phys["pe_amplitude"].toDouble(1.0);
+    // pe_harmonic_amplitudes is the offline joint multi-harmonic fit (2026-08-24); older
+    // weights.json files that only ever fit the fundamental won't have it, so fall back to
+    // [pe_amplitude, 0, 0, 0] -- harmonics 2-4 then cold-start with no prior, same as
+    // before this extension existed, rather than failing to load.
+    const QJsonArray harmonicsArr = phys["pe_harmonic_amplitudes"].toArray();
+    for (int k = 0; k < N_HARMONICS; ++k)
+        m_pe_harmonic_amplitude[k] = (k < harmonicsArr.size()) ? harmonicsArr[k].toDouble(0.0) : 0.0;
+    if (harmonicsArr.isEmpty())
+        m_pe_harmonic_amplitude[0] = m_pe_amplitude;
     m_pe_period    = phys["pe_period"].toDouble(480.0);
     m_k_ref        = phys["k_ref"].toDouble(0.0);
     m_d_ra_extra   = phys["d_ra_extra"].toDouble(0.0);
@@ -162,30 +174,41 @@ void WormGearGuider::resetSession(bool forceReset)
         m_uncorrectedPosRA = 0.0;
         m_uncorrectedPosDEC = 0.0;
 
-        // Warm-start the RLS from the offline-trained physics fit instead of a cold zero.
-        // theta = [sin_coeff, cos_coeff, v, C], and phase = atan2(cos_coeff, sin_coeff)
-        // (see updatePhase()/stateString()) -- i.e. sin_coeff = A*cos(phase), cos_coeff =
-        // A*sin(phase). Seeding phase at exactly 0 therefore means sin_coeff=A, cos_coeff=0:
-        // the seed vector lands exactly on the sin_coeff axis, so THAT axis is the
-        // amplitude/radial direction and cos_coeff is the phase/tangential direction, with
-        // no rotation needed to tell them apart.
-        m_rls_theta = Eigen::Vector4d(m_pe_amplitude, 0.0, m_d_ra_extra, 0.0);
+        // Warm-start the RLS from the offline-trained physics fit instead of a cold zero,
+        // independently per harmonic (2026-08-24: verified real, comparable-power content
+        // through harmonic 4 on this mount -- see file header). For harmonic k, theta[2k-2]
+        // is sin_k, theta[2k-1] is cos_k, and phase_k = atan2(cos_k, sin_k) -- i.e. sin_k =
+        // A_k*cos(phase_k), cos_k = A_k*sin(phase_k). Seeding each harmonic's phase at
+        // exactly 0 therefore means sin_k=A_k, cos_k=0: the seed vector lands exactly on
+        // the sin_k axis, so THAT axis is the amplitude/radial direction for harmonic k and
+        // cos_k is its phase/tangential direction, with no rotation needed to tell them
+        // apart -- same convention as the original single-harmonic design, just repeated
+        // per harmonic.
+        m_rls_theta.setZero();
+        for (int k = 0; k < N_HARMONICS; ++k)
+            m_rls_theta(2 * k) = m_pe_harmonic_amplitude[k];
+        m_rls_theta(N_HARMONICS * 2) = m_d_ra_extra;
 
-        // Anisotropic, not uniform, confidence. Amplitude and the linear drift term are real
-        // mechanical properties of THIS mount, worth trusting moderately so a cold, weak
-        // per-frame PE signal doesn't force climbing back to them from scratch every
-        // session. Phase deserves none of that trust: it depends on the worm's absolute
-        // rotational position at session start, which is unrecoverable offline (no absolute
-        // encoder, arbitrary start time) -- seeding it at 0 is an arbitrary guess, not
-        // evidence. Giving cos_coeff (phase) the same moderate confidence as sin_coeff
-        // (amplitude) would make the filter resist correcting a guess that deserves zero
-        // trust -- worst case (true phase near pi, i.e. exactly wrong), that's actively
-        // worse than the old cold start, not just slower to help. So cos_coeff keeps the
-        // fully uninformative default (corrects as fast as a cold start would) while
-        // sin_coeff and v get the moderate prior. The constant-offset term C (index 3) also
-        // has no offline prior and stays uninformative.
-        m_rls_P = Eigen::Matrix4d::Identity() * 100.0;
-        m_rls_P(0, 0) = m_rls_P(2, 2) = 4.0;
+        // Anisotropic, not uniform, confidence -- same reasoning as the original
+        // single-harmonic design, applied to each harmonic independently. Each harmonic's
+        // amplitude (and the linear drift term) is a real mechanical property of THIS
+        // mount, worth trusting moderately so a cold, weak per-frame signal doesn't force
+        // climbing back to it from scratch every session. Each harmonic's OWN phase
+        // deserves none of that trust: like the fundamental's, it depends on the worm's
+        // absolute rotational position at session start, unrecoverable offline -- seeding
+        // it at 0 is an arbitrary guess, not evidence, and NOT assumed to be phase-locked
+        // to the fundamental (a general periodic mechanical waveform has no reason its
+        // harmonics share the fundamental's phase). Giving a harmonic's cos_k (phase) the
+        // same moderate confidence as its sin_k (amplitude) would make the filter resist
+        // correcting a guess that deserves zero trust -- worst case (true phase near π,
+        // i.e. exactly wrong), that's actively worse than a cold start, not just slower to
+        // help. So every cos_k keeps the fully uninformative default (corrects as fast as a
+        // cold start would) while every sin_k and the drift term v get the moderate prior.
+        // The constant-offset term C has no offline prior either and stays uninformative.
+        m_rls_P = Eigen::Matrix<double, N_STATES, N_STATES>::Identity() * 100.0;
+        for (int k = 0; k < N_HARMONICS; ++k)
+            m_rls_P(2 * k, 2 * k) = 4.0;
+        m_rls_P(N_HARMONICS * 2, N_HARMONICS * 2) = 4.0; // drift term v
     }
 }
 
@@ -224,8 +247,11 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
                                 m_lastPierSide);
 
     GuideOutput out;
-    // Hold the AI out of an unstable loop.
-    out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
+    // Hold the AI out of an unstable loop. The elapsed-time check (not just a frame
+    // count) is what actually protects the RA phase estimate from being trusted before
+    // enough real worm cycles have been observed -- see MIN_PE_CYCLES's comment.
+    const bool phaseTimeReady = (m_pe_period <= 0.0) || (frame.t_session_sec >= MIN_PE_CYCLES * m_pe_period);
+    out.valid      = (m_frameCount > warmupFrames()) && phaseTimeReady && m_isStable;
     out.confidence_ra  = m_confidenceRA;
     out.confidence_dec = m_confidenceDEC;
 
@@ -310,10 +336,20 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
 
 QString WormGearGuider::stateString() const
 {
-    return QString("WormGear A=%1 T=%2 φ=%3 confRA=%4 confDEC=%5")
+    // A/φ remain the fundamental's (theta indices 0,1), matching what runMLP()'s phase
+    // basis and every prior night's telemetry used -- Ah2..Ah4 are the additional
+    // harmonics' amplitudes, appended rather than replacing the existing fields so older
+    // log-parsing tools/scripts don't break on this string's format.
+    const double amp2 = std::hypot(m_rls_theta(2), m_rls_theta(3));
+    const double amp3 = std::hypot(m_rls_theta(4), m_rls_theta(5));
+    const double amp4 = std::hypot(m_rls_theta(6), m_rls_theta(7));
+    return QString("WormGear A=%1 T=%2 φ=%3 Ah2=%4 Ah3=%5 Ah4=%6 confRA=%7 confDEC=%8")
            .arg(m_pe_amplitude, 0, 'f', 2)
            .arg(m_pe_period, 0, 'f', 0)
            .arg(m_pe_phase, 0, 'f', 3)
+           .arg(amp2, 0, 'f', 2)
+           .arg(amp3, 0, 'f', 2)
+           .arg(amp4, 0, 'f', 2)
            .arg(m_confidenceRA, 0, 'f', 2)
            .arg(m_confidenceDEC, 0, 'f', 2);
 }
@@ -322,10 +358,20 @@ double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
 {
     const double omega = 2.0 * M_PI / m_pe_period;
 
-    // Derivative of position model y(t) = c1*sin(wt) + c2*cos(wt) + v*t + C
-    // y'(t) = c1*w*cos(wt) - c2*w*sin(wt) + v
-    const double pe_rate = m_rls_theta(0) * omega * std::cos(omega * t_sec)
-                           - m_rls_theta(1) * omega * std::sin(omega * t_sec);
+    // Derivative of position model y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)] + v*t + C
+    // y'(t) = sum_k [sin_k*(k*w)*cos(k*wt) - cos_k*(k*w)*sin(k*wt)] + v -- same per-harmonic
+    // derivative form as the original single-harmonic model, summed over each independently
+    // RLS-fit harmonic (see file header comment for why more than one harmonic is real here,
+    // not just the offline trainer's k_ref/refraction mismatch this comment used to describe
+    // alone).
+    double pe_rate = 0.0;
+    for (int k = 1; k <= N_HARMONICS; ++k)
+    {
+        const double k_omega = k * omega;
+        const double sin_k = m_rls_theta(2 * (k - 1));
+        const double cos_k = m_rls_theta(2 * (k - 1) + 1);
+        pe_rate += sin_k * k_omega * std::cos(k_omega * t_sec) - cos_k * k_omega * std::sin(k_omega * t_sec);
+    }
 
     // Refraction term, matching train_worm_gear.py's _physics_drift() exactly (same sign,
     // same 1/cos^2(alt) form) -- this is what the offline-trained residual MLP's target
@@ -341,7 +387,7 @@ double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
     const double cos_alt = std::cos(alt_rad);
     const double refraction_rate = (std::abs(cos_alt) < 1e-4) ? 0.0 : m_k_ref / (cos_alt * cos_alt);
 
-    return pe_rate + refraction_rate + m_rls_theta(2);
+    return pe_rate + refraction_rate + m_rls_theta(N_HARMONICS * 2);
 }
 
 double WormGearGuider::physicsDEC(double altitude_deg, double parallactic_angle_deg) const
@@ -396,17 +442,25 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
 
     const double omega = 2.0 * M_PI / m_pe_period;
 
-    Eigen::Vector4d x;
-    x << std::sin(omega * t_session_sec),
-    std::cos(omega * t_session_sec),
-    t_session_sec,
-    1.0;
+    // Position-domain regressor for y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)] + v*t + C
+    // -- same structure as the original single-harmonic fit, with one (sin,cos) pair per
+    // harmonic instead of just the fundamental's. Each harmonic's own pair is fit
+    // independently (not constrained to any fixed relationship to the fundamental's phase
+    // -- see file header comment for why that's the right assumption here).
+    Eigen::Matrix<double, N_STATES, 1> x;
+    for (int k = 1; k <= N_HARMONICS; ++k)
+    {
+        x(2 * (k - 1))     = std::sin(k * omega * t_session_sec);
+        x(2 * (k - 1) + 1) = std::cos(k * omega * t_session_sec);
+    }
+    x(N_HARMONICS * 2)     = t_session_sec;
+    x(N_HARMONICS * 2 + 1) = 1.0;
 
     // Standard RLS Update for Position
     double h_P_h = x.transpose() * m_rls_P * x;
     double denom = RLS_LAMBDA + h_P_h;
 
-    Eigen::Vector4d K = Eigen::Vector4d::Zero();
+    Eigen::Matrix<double, N_STATES, 1> K = Eigen::Matrix<double, N_STATES, 1>::Zero();
     if (denom > 1e-6)
         K = (m_rls_P * x) / denom;
 
@@ -416,10 +470,11 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
     m_rls_theta = m_rls_theta + K * error;
     m_rls_P = (m_rls_P - K * x.transpose() * m_rls_P) / RLS_LAMBDA;
 
-    // Extract physical parameters for state reporting and MLP compatibility
-    m_pe_amplitude = std::sqrt(m_rls_theta(0) * m_rls_theta(0) + m_rls_theta(1) * m_rls_theta(1));
+    // Extract physical parameters for state reporting and MLP compatibility -- fundamental
+    // (harmonic 1, indices 0/1) only, matching what these fields have always represented.
+    m_pe_amplitude = std::hypot(m_rls_theta(0), m_rls_theta(1));
     m_pe_phase = std::atan2(m_rls_theta(1), m_rls_theta(0));
-    m_d_ra_extra = m_rls_theta(2);
+    m_d_ra_extra = m_rls_theta(N_HARMONICS * 2);
 }
 
 void WormGearGuider::updateConfidence(double innovRA, double innovDec, double snr)
@@ -459,8 +514,13 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
     double snr_factor = std::min(1.0, (snr - 10.0) / 20.0);
     snr_factor = std::max(0.0, snr_factor);
 
+    // Same elapsed-time gate as predict()'s out.valid -- m_lastSessionSec lags the
+    // current frame by one cycle (update() runs before predict() each frame in
+    // gmath.cpp), negligible against a multi-cycle threshold.
+    const bool phaseTimeReady = (m_pe_period <= 0.0) || (m_lastSessionSec >= MIN_PE_CYCLES * m_pe_period);
+
     double warmup_factor = 0.0;
-    if (m_frameCount > warmupFrames())
+    if (m_frameCount > warmupFrames() && phaseTimeReady)
     {
         // Start at 30% confidence immediately (since we already watched 30 frames),
         // and smoothly ramp the remaining 70% over the next 20 frames.
@@ -474,6 +534,33 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
     // trust and actively fight the correct proportional response). Same warmup/SNR terms
     // (not axis-specific concepts) but independent adaptive RMS baseline, Lorentzian
     // quality, and rise-limited confidence per axis.
+    //
+    // Phase-convergence penalty (2026-08-24, generalized to all N_HARMONICS the same day):
+    // m_rls_P(2k-1,2k-1) is the RLS covariance for harmonic k's cos_k, its phase axis --
+    // seeded fully uninformative (100.0) since phase can't be known offline, and only
+    // shrinks once real data actually constrains it. physicsRA() now sums all N_HARMONICS
+    // independently-fit harmonics, so a still-unconverged phase on ANY of them (not just
+    // the fundamental) feeds a wrong term into the prediction -- take the worst (max) of
+    // the four rather than just the fundamental's. Innovation-based confidence above
+    // doesn't catch this on its own: a prediction built from a bad phase can still look
+    // self-consistent frame to frame, since the "error" it's judged against is derived from
+    // the model's own (equally wrong) prediction.
+    //
+    // IMPORTANT CAVEAT, verified 2026-08-24 by replaying the live RLS offline against real
+    // captured data: P(k,k) is NOT a reliable convergence signal on its own -- it collapsed
+    // to near-zero (falsely "confident") within ~150-190s while the actual theta estimate
+    // was still visibly swinging through t=290s+. This penalty is kept as a secondary,
+    // partial signal, but the REAL protection against trusting an unconverged phase is the
+    // elapsed-time gate above (MIN_PE_CYCLES) and, more fundamentally, the multi-harmonic
+    // model itself -- a single-sinusoid model couldn't converge at all against this mount's
+    // real harmonic content (see file header), which is the deeper reason this covariance
+    // signal alone was never going to be enough.
+    double phase_uncertainty = 0.0;
+    for (int k = 1; k <= N_HARMONICS; ++k)
+        phase_uncertainty = std::max(phase_uncertainty, m_rls_P(2 * (k - 1) + 1, 2 * (k - 1) + 1) / 100.0);
+    phase_uncertainty = std::clamp(phase_uncertainty, 0.0, 1.0);
+    const double phase_quality = 1.0 / (1.0 + phase_uncertainty * phase_uncertainty);
+
     auto axisConfidence = [&](double rms, double &typicalRMS, double &confidence) -> void
     {
         const double axis_arcsec_per_sec = rms * m_lastPixelScale / std::max(0.5, m_lastDt);
@@ -496,7 +583,7 @@ void WormGearGuider::updateConfidence(double innovRA, double innovDec, double sn
             prediction_quality /= instability * instability;
 
         // Falls freely, rebuilds slowly: a briefly quiet star must not restore full trust.
-        const double target = std::clamp(warmup_factor * snr_factor * prediction_quality, 0.0, 1.0);
+        const double target = std::clamp(warmup_factor * snr_factor * prediction_quality * phase_quality, 0.0, 1.0);
         confidence = std::min(target, confidence + CONF_RISE_PER_FRAME);
     };
 
@@ -522,7 +609,8 @@ GuideOutput WormGearGuider::darkPredict(double dt_sec)
                                 m_lastPierSide);
 
     GuideOutput out;
-    out.valid      = (m_frameCount > warmupFrames()) && m_isStable;
+    const bool phaseTimeReady = (m_pe_period <= 0.0) || (m_lastSessionSec >= MIN_PE_CYCLES * m_pe_period);
+    out.valid      = (m_frameCount > warmupFrames()) && phaseTimeReady && m_isStable;
     out.confidence_ra  = m_confidenceRA;  // Use last known confidence
     out.confidence_dec = m_confidenceDEC;
 

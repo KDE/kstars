@@ -13,7 +13,6 @@ import json
 import numpy as np
 import scipy.signal
 import scipy.stats
-import scipy.optimize
 from datetime import datetime
 import copy
 import sys
@@ -28,6 +27,14 @@ except ImportError:
     TORCH_AVAILABLE = False
 
 from pid_autotune import recommend_pid_gains, SIMC_LAMBDA_L_FACTOR
+
+# Must match WormGearGuider::N_HARMONICS in worm_gear_guider.h. Verified 2026-08-24 on real
+# free-drift data (joint multi-harmonic least-squares fit): harmonics 1, 2, and 4 all carry
+# comparable, highly significant power (SNR 9-13); residual keeps dropping through harmonic
+# 4 and flattens at 5 -- see WormGearGuider's file header for the full evidence and the
+# non-convergence this was root-caused to (a single-sinusoid model structurally cannot
+# represent this mount's real PE, independent of any online-algorithm tuning).
+N_HARMONICS = 4
 
 
 
@@ -78,8 +85,9 @@ def train_worm_gear(sysid: dict,
     if verbose:
         print(f"\n--- Phase 1: Physics Parameter Estimation ---")
     
-    # ── Step 1: Estimate PE period from FFT of free-drift RA error ─────────
-    pe_period, pe_amplitude = _estimate_pe_from_fft(sysid, guide_exp, verbose)
+    # ── Step 1: Estimate PE period + per-harmonic amplitudes from free-drift data ─────
+    pe_period, pe_harmonic_amplitudes = _estimate_pe_from_fft(sysid, guide_exp, verbose)
+    pe_amplitude = pe_harmonic_amplitudes[0]  # fundamental, kept for the single-value fields below
 
     # ── Step 2: Estimate refraction coefficient from altitude-variant drift ─
     k_ref, d_ra_extra = _estimate_refraction(sysid, guide_exp, verbose)
@@ -90,7 +98,9 @@ def train_worm_gear(sysid: dict,
     if verbose:
         print(f"\n[Physics Parameters]")
         print(f"  PE period:    {pe_period:.1f} s")
-        print(f"  PE amplitude: {pe_amplitude:.3f} px = {pe_amplitude * pixel_scale:.3f} arcsec")
+        print(f"  PE amplitudes (px): "
+              + ", ".join(f"h{k+1}={a:.3f}" for k, a in enumerate(pe_harmonic_amplitudes))
+              + f"  (fundamental = {pe_amplitude * pixel_scale:.3f} arcsec)")
         print(f"  k_ref:        {k_ref:.6e} px/s")
         print(f"  d_polar:      {d_polar:.6e} px/s")
         print(f"  k_ref_dec:    {k_ref_dec:.6e} px/s")
@@ -99,7 +109,7 @@ def train_worm_gear(sysid: dict,
     if verbose:
         print(f"\n--- Phase 2: Residual MLP Training ---")
         
-    mlp_weights = _train_residual_mlp(sysid, pe_period, pe_amplitude,
+    mlp_weights = _train_residual_mlp(sysid, pe_period, pe_harmonic_amplitudes,
                                       k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose,
                                       dropout_p, weight_decay)
 
@@ -138,7 +148,8 @@ def train_worm_gear(sysid: dict,
         "recommended_dec_integral_gain":     _recommended(pid_autotune["dec"], "integral_gain"),
         "pid_autotune": pid_autotune,
         "physics": {
-            "pe_amplitude": float(pe_amplitude),
+            "pe_amplitude": float(pe_amplitude),  # fundamental only, kept for older readers
+            "pe_harmonic_amplitudes": [float(a) for a in pe_harmonic_amplitudes],  # index 0 = fundamental
             "pe_period":    float(pe_period),
             "k_ref":        float(k_ref),
             "d_ra_extra":   float(d_ra_extra),
@@ -288,20 +299,49 @@ def _estimate_pe_from_fft(sysid: dict, guide_exp: float, verbose: bool):
             print(f"  [FFT] Found known PE period override in sysid: {known_period:.1f} s")
         best_period = known_period
 
-    # Power spectrum amplitude approximation for LS, from the final selected period's
-    # own power (not the original argmax's, which may be a different harmonic now).
-    best_amp = np.sqrt(4 * cur_power / len(t_vals))
-    
+    # Sanity bound the period BEFORE the harmonic fit locks its frequencies to it.
+    best_period = float(np.clip(best_period, 100.0, 1000.0))
+
+    # Joint multi-harmonic amplitude fit at the final chosen period -- global (mount-level)
+    # priors used only to warm-start the runtime RLS (WormGearGuider::resetSession()), NOT
+    # used as a per-session constraint later in this file (each training session's own
+    # harmonic phases are fit freely in _build_training_dataset(), since the worm's absolute
+    # position at any given session's start is unrecoverable and there's no reason to assume
+    # amplitude is perfectly stationary across nights either).
+    harmonic_amps = _fit_harmonic_amplitudes(t_vals, ra_detrended, best_period)
+    harmonic_amps = [float(np.clip(a, 0.0, 20.0)) for a in harmonic_amps]
+    best_amp = harmonic_amps[0]
+
     if verbose:
         print(f"  [FFT] Analyzed {len(t_vals)} free drift frames (duration: {t_vals[-1]:.1f}s)")
         print(f"  [FFT] Found peak at {best_f:.5f} Hz -> Period: {best_period:.1f} s")
-        print(f"  [FFT] Estimated amplitude: {best_amp:.3f} px")
-        
-    # Sanity bounds
-    best_period = np.clip(best_period, 100.0, 1000.0)
-    best_amp = np.clip(best_amp, 0.1, 20.0)
-    
-    return float(best_period), float(best_amp)
+        print(f"  [FFT] Estimated harmonic amplitudes (px): "
+              + ", ".join(f"h{k+1}={a:.3f}" for k, a in enumerate(harmonic_amps)))
+
+    return best_period, harmonic_amps
+
+
+def _fit_harmonic_amplitudes(t_vals, ra_detrended, period, n_harmonics=N_HARMONICS):
+    """
+    Joint (not independent-per-peak) linear least-squares fit of n_harmonics sin/cos pairs,
+    each an integer multiple of the fundamental frequency (2*pi/period), against the
+    detrended free-drift position series. Returns an n_harmonics-length list of amplitudes
+    (px), index 0 = fundamental. Each harmonic's phase is fit independently, not assumed
+    locked to the fundamental's -- a general mechanical PE waveform has no reason its
+    harmonics share phase with each other.
+    """
+    omega = 2 * np.pi / period
+    cols = [np.ones_like(t_vals), t_vals]
+    for k in range(1, n_harmonics + 1):
+        cols.append(np.sin(k * omega * t_vals))
+        cols.append(np.cos(k * omega * t_vals))
+    X = np.column_stack(cols)
+    coef, _, _, _ = np.linalg.lstsq(X, ra_detrended, rcond=None)
+    amps = []
+    for k in range(1, n_harmonics + 1):
+        ia, ib = 2 + 2 * (k - 1), 3 + 2 * (k - 1)
+        amps.append(float(np.hypot(coef[ia], coef[ib])))
+    return amps
 
 
 def _estimate_refraction(sysid: dict, guide_exp: float, verbose: bool):
@@ -436,17 +476,29 @@ class ResidualMLP(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-def _physics_drift(t, alt_deg, q_deg, A_pos, T, phi, k_ref, d_ra_extra, d_polar, k_ref_dec, dt):
-    """Compute physical drift over dt."""
+def _physics_drift(t, alt_deg, q_deg, harmonic_coeffs, T, k_ref, d_ra_extra, d_polar, k_ref_dec, dt):
+    """
+    Compute physical drift over dt. harmonic_coeffs is a list of (sin_k, cos_k) tuples,
+    index 0 = fundamental (2026-08-24: extended from a single sinusoid after finding real,
+    comparable-power content through the 4th harmonic on real free-drift data -- see
+    WormGearGuider's file header for the full evidence). Must match
+    WormGearGuider::physicsRA()'s derivative form exactly, harmonic-by-harmonic: for
+    y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)],
+    y'(t) = sum_k [sin_k*(k*w)*cos(k*wt) - cos_k*(k*w)*sin(k*wt)].
+    """
     alt_rad = np.radians(alt_deg)
     q_rad = np.radians(q_deg)
     cos_alt = max(abs(np.cos(alt_rad)), 1e-4)
-    # RA rate derivative of A_pos * sin(2pi*t/T + phi)
-    ra_rate = A_pos * (2 * np.pi / T) * np.cos(2 * np.pi * t / T + phi) + k_ref / (cos_alt**2) + d_ra_extra
+    omega = 2 * np.pi / T
+    pe_rate = 0.0
+    for k, (sin_k, cos_k) in enumerate(harmonic_coeffs, start=1):
+        k_omega = k * omega
+        pe_rate += sin_k * k_omega * np.cos(k_omega * t) - cos_k * k_omega * np.sin(k_omega * t)
+    ra_rate = pe_rate + k_ref / (cos_alt**2) + d_ra_extra
     dec_rate = d_polar + k_ref_dec * np.sin(q_rad) / (cos_alt**2)
     return ra_rate * dt, dec_rate * dt
 
-def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose):
+def _build_training_dataset(sysid, pe_period, pe_harmonic_amplitudes, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose):
     """Build X, Y tensors for the MLP from standard_guiding sessions."""
     guided_sessions = [s for s in sysid["sessions"] if s["type"] == "standard_guiding"]
     
@@ -475,12 +527,32 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
         dec_cal = s.get("dec_ms_per_arcsec", 1000.0)
 
         # DEC rate far below RA means the calibration ate backlash; drop its DEC targets.
-        dec_suspect = ("dec_ms_per_arcsec" in s and "ra_ms_per_arcsec" in s
+        cal_suspect = ("dec_ms_per_arcsec" in s and "ra_ms_per_arcsec" in s
                        and dec_cal > 2.0 * ra_cal)
-        if dec_suspect:
+        if cal_suspect:
             print(f"  [Session {s_idx}] WARNING: dec_ms_per_arcsec={dec_cal:.0f} vs ra={ra_cal:.0f} "
                   f"-- backlash-poisoned DEC calibration, dropping this session's DEC targets.")
-        
+
+        # A session can also have genuinely bad DEC tracking (mechanical snag, wind, a bad
+        # meridian-flip pier-side guess, etc.) with a perfectly normal calibration ratio, so
+        # the check above won't catch it. Caught 2026-08-24 by actually comparing datasets:
+        # a session with dec_std/ra_std = 2.66 (raw dec swinging +/-2px vs a well-behaved
+        # ~0.3px RA in the same session) slipped through and, since both MLP output heads
+        # share the same hidden trunk, its huge per-sample loss gradient was degrading the
+        # RA head too even though its [ra,dec] loss weight already zeroed its own DEC term
+        # relative to well-behaved sessions (ratio stayed under 1.5 across every other
+        # session checked). Threshold set well above that observed good-session range.
+        ra_raw = np.array([f["ra_raw_px"] for f in frames])
+        dec_raw = np.array([f["dec_raw_px"] for f in frames])
+        ra_raw_std = float(ra_raw.std())
+        dec_raw_std = float(dec_raw.std())
+        variance_suspect = ra_raw_std > 1e-6 and dec_raw_std > 2.0 * ra_raw_std
+        if variance_suspect and not cal_suspect:
+            print(f"  [Session {s_idx}] WARNING: dec_std={dec_raw_std:.3f}px vs ra_std={ra_raw_std:.3f}px "
+                  f"(ratio {dec_raw_std / ra_raw_std:.2f}) -- DEC tracking looks broken this session "
+                  f"despite normal calibration, dropping this session's DEC targets.")
+        dec_suspect = cal_suspect or variance_suspect
+
         max_ra_pulse_ms = s.get("max_pulse_ra_arcsec", 2.5) * ra_cal
         max_dec_pulse_ms = s.get("max_pulse_dec_arcsec", 2.5) * dec_cal
         
@@ -498,21 +570,58 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
             drift_ra_arr[i] = f2["ra_raw_px"] - f1["ra_raw_px"] + pulse_correction_px(
                 f1.get("ra_pulse_ms", 0.0), ra_cal, pixel_scale)
         
-        # Fit phi using drift-based method (matches what simulator and C++ RLS will do)
+        # Fit each harmonic's (sin_k, cos_k) freely per session via linear least-squares on
+        # the RATE residual, after subtracting the already-known, session-constant k_ref/
+        # d_ra_extra contribution -- matches what the C++ RLS does online, and replaces the
+        # old single-harmonic nonlinear phi search (2026-08-24: extended to N_HARMONICS,
+        # see file-level comment).
+        #
+        # Amplitude is deliberately locked to the GLOBAL per-mount prior (from the joint
+        # fit on clean free_drift data), NOT left free per session here -- caught by
+        # actually checking the numbers, not assumed: an unconstrained 8-parameter linear
+        # fit per session against standard_guiding data (noisier than free_drift -- it
+        # also carries pulse-backout noise) produced a ~50x swing in fitted h1 amplitude
+        # across 3 sessions the same night (0.013 to 0.664 px) with no physical basis, and
+        # the resulting training targets were noise-dominated enough that the MLP's
+        # validation loss came in ~16x worse than the pre-multi-harmonic baseline on the
+        # identical file and barely moved across 300 epochs -- a model that isn't learning
+        # a real pattern, not one that needs more data. Only phase is genuinely
+        # session-dependent (the worm's absolute position at session start is
+        # unrecoverable), so only phase is left free; amplitude, a real per-mount
+        # mechanical property, keeps the far more statistically robust global estimate. The
+        # unconstrained fit below is still linear and still used, but only to extract each
+        # harmonic's phase DIRECTION -- its magnitude is discarded and replaced with the
+        # trusted global one.
         alt_rad = np.radians(alt_deg)
         # cos_alt is a scalar constant per session (altitude doesn't change within a session).
-        # Computed once outside the optimizer closure for efficiency and zenith safety.
         cos_alt = max(abs(np.cos(alt_rad)), 1e-4)
-        def loss_fn(phi_val):
-            ra_rate = pe_amplitude * (2 * np.pi / pe_period) * np.cos(2 * np.pi * t_arr / pe_period + phi_val) + k_ref / (cos_alt**2) + d_ra_extra
-            pred_drift = ra_rate * dt_arr
-            return np.sum((pred_drift - drift_ra_arr)**2)
-            
-        res = scipy.optimize.minimize(loss_fn, x0=[0.0], bounds=[(-np.pi, np.pi)])
-        phi_session = res.x[0]
-        
+        known_offset_rate = k_ref / (cos_alt**2) + d_ra_extra
+        target = drift_ra_arr - known_offset_rate * dt_arr
+
+        omega = 2 * np.pi / pe_period
+        session_cols = []
+        for k in range(1, N_HARMONICS + 1):
+            k_omega = k * omega
+            session_cols.append(k_omega * np.cos(k_omega * t_arr) * dt_arr)
+            session_cols.append(-k_omega * np.sin(k_omega * t_arr) * dt_arr)
+        X_session = np.column_stack(session_cols)
+        harmonic_coef_free, _, _, _ = np.linalg.lstsq(X_session, target, rcond=None)
+
+        harmonic_coeffs_session = []
+        for k in range(N_HARMONICS):
+            sin_free, cos_free = harmonic_coef_free[2 * k], harmonic_coef_free[2 * k + 1]
+            phase_k = np.arctan2(cos_free, sin_free)  # direction only, magnitude discarded
+            amp_k = pe_harmonic_amplitudes[k]          # locked to the trusted global value
+            harmonic_coeffs_session.append((float(amp_k * np.cos(phase_k)), float(amp_k * np.sin(phase_k))))
+        # h1's phase specifically -- still the single value the MLP's phase-basis input
+        # features are built from (unchanged: runMLP() only ever reads harmonic 1's phase).
+        phi_session = np.arctan2(harmonic_coeffs_session[0][1], harmonic_coeffs_session[0][0])
+
         if verbose:
-            print(f"  [Session {s_idx}] Fitted PE phase: {phi_session:.3f} rad")
+            phases_str = ", ".join(
+                f"h{k+1}={np.arctan2(harmonic_coef_free[2*k+1], harmonic_coef_free[2*k]):.2f}rad"
+                for k in range(N_HARMONICS))
+            print(f"  [Session {s_idx}] Fitted PE phases (amplitude locked to global prior): {phases_str}")
             
         # Now construct the frame-by-frame data
         ra_err = np.array([f["ra_raw_px"] for f in frames])
@@ -555,7 +664,7 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
             
             # Physics prediction of the drift
             phys_ra_drift, phys_dec_drift = _physics_drift(
-                t_accum, alt_deg, q_deg, pe_amplitude, pe_period, phi_session, k_ref, d_ra_extra, d_polar, k_ref_dec, dt
+                t_accum, alt_deg, q_deg, harmonic_coeffs_session, pe_period, k_ref, d_ra_extra, d_polar, k_ref_dec, dt
             )
             
             # Hardcoded Pier Side based on UI phase sequence: first 2 are West, 3rd is East
@@ -615,13 +724,13 @@ def _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d
 
     return np.array(X_all, dtype=np.float32), np.array(Y_all, dtype=np.float32), np.array(W_all, dtype=np.float32)
 
-def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose,
+def _train_residual_mlp(sysid, pe_period, pe_harmonic_amplitudes, k_ref, d_ra_extra, d_polar, k_ref_dec, gpu, epochs, verbose,
                          dropout_p=None, weight_decay=None) -> dict:
     epochs = epochs or 300
     dropout_p = DEFAULT_DROPOUT_P if dropout_p is None else dropout_p
     weight_decay = DEFAULT_WEIGHT_DECAY if weight_decay is None else weight_decay
 
-    X_np, Y_np, W_np = _build_training_dataset(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose)
+    X_np, Y_np, W_np = _build_training_dataset(sysid, pe_period, pe_harmonic_amplitudes, k_ref, d_ra_extra, d_polar, k_ref_dec, verbose)
     if len(X_np) < 50:
         if verbose: print("[WARNING] Insufficient data for MLP training. Returning zero weights.")
         return _zero_weights()
@@ -686,7 +795,42 @@ def _train_residual_mlp(sysid, pe_period, pe_amplitude, k_ref, d_ra_extra, d_pol
             
     if verbose:
         print(f"  [MLP] Best Val Loss: {best_val_loss:.6f}")
-        
+
+    # Per-axis sanity check (added 2026-08-25, found by comparing a live deployed model's
+    # predictions against its own training data): a shared 15->32->16->2 trunk trained under
+    # ONE combined loss can converge to a head that's actively WORSE than predicting a
+    # constant for one axis while the other axis learns real structure -- val_loss alone
+    # doesn't catch this because it's dominated by whichever axis has larger target variance.
+    # Confirmed on real data: RA correlation(pred,target)=0.05, R^2=-0.015 (worse than the
+    # weighted mean) while DEC on the SAME model scored R^2=0.126 (genuinely learned) -- and
+    # that near-constant, wrongly-biased RA output was confirmed to be the direct cause of
+    # dark-guiding (which has no P-term to mask it) firing the wrong direction ~87% of the
+    # time. If a head doesn't beat its own constant-mean baseline on held-out validation data,
+    # zero that head's output-layer row+bias so it contributes nothing -- physics-only
+    # (mlp contribution == 0) is provably at least as good as a head with R^2<=0, and this is
+    # a general per-mount/per-dataset check, not specific to tonight's RA axis or this mount.
+    with torch.no_grad():
+        val_pred_np = model(X_val).cpu().numpy()
+    Y_val_np = Y_val.cpu().numpy()
+    W_val_np = W_val.cpu().numpy()
+    axis_names = ("RA", "DEC")
+    for axis in range(2):
+        w_axis = W_val_np[:, axis]
+        if w_axis.sum() < 1.0:
+            continue  # no valid validation samples for this axis; leave the trained head as-is
+        target = Y_val_np[:, axis]
+        pred = val_pred_np[:, axis]
+        weighted_mean = np.average(target, weights=w_axis)
+        mse_model = np.average((pred - target) ** 2, weights=w_axis)
+        mse_const = np.average((weighted_mean - target) ** 2, weights=w_axis)
+        r2 = 1.0 - mse_model / mse_const if mse_const > 0 else 0.0
+        if verbose:
+            print(f"  [MLP] {axis_names[axis]} head: R^2 vs constant-mean baseline = {r2:.4f}"
+                  f"{'  -- ZEROING (no better than a constant)' if r2 <= 0 else ''}")
+        if r2 <= 0:
+            best_state['net.6.weight'][axis, :] = 0.0
+            best_state['net.6.bias'][axis] = 0.0
+
     # Extract weights to lists for JSON export.
     # Module indices: 0=Linear(15,32), 1=ReLU, 2=Dropout, 3=Linear(32,16), 4=ReLU, 5=Dropout,
     # 6=Linear(16,2) -- shifted from 0/2/4 because of the two inserted Dropout layers. Dropout
