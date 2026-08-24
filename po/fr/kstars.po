@@ -797,7 +797,7 @@ msgid ""
 "CR2/NEF to JPEG."
 msgstr ""
 "Impossible de trouver dcraw et cjpeg. Veuillez installer les outils de "
-"conversion des formats CR2/NEF vers JPEG."
+"conversion des formats CR2/ NEF vers JPEG."
 
 #: auxiliary/ksutils.cpp:1803
 #, kde-format
@@ -15425,18 +15425,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Profondeur de bits du flux pour l'enregistrement vidéo (8 bits pour une "
+"cadence rapide, 16 bits pour une pleine gamme dynamique)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16 bits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -19328,59 +19330,51 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:389
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Green"
+#, kde-format
 msgid "Qt Green"
-msgstr "Vert"
+msgstr "Qt vert"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:394
 #, kde-format
 msgid "Qt Green Neon"
-msgstr ""
+msgstr "Qt vert néon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:399
 #, kde-format
 msgid "Mix Series"
-msgstr ""
+msgstr "Série mixte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:404
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Orange Park"
+#, kde-format
 msgid "Orange Series"
-msgstr "Orange Park"
+msgstr "Série orange"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:409
-#, fuzzy, kde-format
-#| msgctxt "City in Northwest Territories Canada"
-#| msgid "Yellowknife"
+#, kde-format
 msgid "Yellow Series"
-msgstr "Yellowknife"
+msgstr "Série jaune"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:414
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Blue River"
+#, kde-format
 msgid "Blue Series"
-msgstr "Blue River"
+msgstr "Série bleue"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:419
 #, kde-format
 msgid "Purple Series"
-msgstr ""
+msgstr "Série violette"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:424
 #, kde-format
 msgid "Grey Series"
-msgstr ""
+msgstr "Série grise"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:432
@@ -23413,11 +23407,11 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Réglages recommandés "
-"(à définir AVANT de lancer) :</span></p><ul><li><span style=\" font-"
-"weight:600;\">Entraînement à vis sans fin :</span> exposition 2,0 s (par "
-"défaut)</li><li><span style=\" font-weight:600;\">Entraînement harmonique :</"
+"(à définir AVANT de lancer) :</span></p><ul><li><span style=\" font-"
+"weight:600;\">Entraînement à vis sans fin :</span> exposition 2,0 s (par "
+"défaut)</li><li><span style=\" font-weight:600;\">Entraînement harmonique :</"
 "span> exposition 0,5 à 1,0 s (dépend du SNR de l'étoile de guidage)</"
-"li><li><span style=\" font-weight:600;\">Entraînement direct :</span> "
+"li><li><span style=\" font-weight:600;\">Entraînement direct :</span> "
 "exposition 1,0 à 3,0 s</li></ul><p>Définissez un <span style=\" font-"
 "weight:600;\">horizon artificiel</span> (Configuration → Horizon artificiel) "
 "avant de lancer — le protocole pointe en Alt/Az et l'utilise pour choisir "
@@ -23466,10 +23460,10 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement à vis sans fin (~65 min) :</span><br/>1. Pointage vers une "
-"altitude haute : guidage standard, dérive libre, puis réglage automatique "
-"PID (étape-réponse).<br/>2. Pointage vers une altitude basse : guidage "
-"standard, puis dérive libre.<br/>3. Pointage vers une altitude haute : "
+"Entraînement à vis sans fin (~65 min) :</span><br/>1. Pointage vers une "
+"altitude haute : guidage standard, dérive libre, puis réglage automatique "
+"PID (étape-réponse).<br/>2. Pointage vers une altitude basse : guidage "
+"standard, puis dérive libre.<br/>3. Pointage vers une altitude haute : "
 "guidage standard, puis dérive libre.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
@@ -23482,9 +23476,9 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement harmonique (~60 min) :</span><br/>1. Pointage vers une altitude "
-"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
-"réponse).<br/>2. Pointage vers une altitude basse : dérive libre, puis "
+"Entraînement harmonique (~60 min) :</span><br/>1. Pointage vers une altitude "
+"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
+"réponse).<br/>2. Pointage vers une altitude basse : dérive libre, puis "
 "guidage standard.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
@@ -23498,10 +23492,10 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Protocole "
-"Entraînement direct (~30 min) :</span><br/>1. Pointage vers une altitude "
-"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
-"réponse).<br/>2. Pointage vers une altitude moyenne : guidage standard, puis "
-"dérive libre.<br/>3. Pointage vers une altitude basse : guidage standard, "
+"Entraînement direct (~30 min) :</span><br/>1. Pointage vers une altitude "
+"haute : guidage standard, dérive libre, puis réglage automatique PID (étape-"
+"réponse).<br/>2. Pointage vers une altitude moyenne : guidage standard, puis "
+"dérive libre.<br/>3. Pointage vers une altitude basse : guidage standard, "
 "puis dérive libre.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
@@ -24398,29 +24392,34 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Mode d'acquisition du guidage :</p><ul><li><b>Flux "
+"désactivé</b> : acquiert des poses de guidage individuelles (par défaut).</"
+"li><li><b>Flux 16 bits</b> : acquiert des trames via un flux vidéo continu "
+"en 16 bits (pleine profondeur du capteur).</li><li><b>Flux 8 bits</b> : "
+"acquiert des trames via un flux vidéo continu en 8 bits (bande passante "
+"réduite).</li></ul><p>La transmission en flux nécessite une caméra prenant "
+"en charge le flux vidéo. Elle supprime la surcharge par trame et permet des "
+"fréquences de guidage plus élevées (par exemple 2–5 Hz) dont profitent les "
+"entraînements harmoniques. Ce réglage est enregistré par train optique.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Transmission connectée"
+msgstr "Flux désactivé"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Transmission connectée"
+msgstr "Flux 16 bits"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Stream"
+msgstr "Flux 8 bits"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -25085,7 +25084,7 @@ msgstr ""
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
-"Guide IA : application des paramètres enregistrés du modèle entraîné (%1)."
+"Guide IA : application des paramètres enregistrés du modèle entraîné (%1)."
 
 #: ekos/guide/internalguide/gmath.cpp:306
 #, kde-format
@@ -25107,7 +25106,7 @@ msgid ""
 "Re-run the Guide AI Assistant, load a different weights file, or switch the "
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
-"Échec du chargement des poids du Guide IA !\n"
+"Échec du chargement des poids du Guide IA !\n"
 "\n"
 "%1\n"
 "\n"
@@ -25154,7 +25153,7 @@ msgstr "Guide IA : aucun poids"
 #: ekos/guide/internalguide/gmath.cpp:373
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
-msgstr "Échec du rechargement du poids du Guide IA : %1"
+msgstr "Échec du rechargement du poids du Guide IA : %1"
 
 #: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
@@ -37439,7 +37438,7 @@ msgstr "Limites de découpage"
 #: fitsviewer/opsfits.ui:286
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr "Valeur de découpage pour des valeurs en 16 octets."
+msgstr "Valeur de découpage pour des valeurs en 16 bits."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:289
@@ -37457,7 +37456,7 @@ msgstr "Valeur de découpage en 64K"
 #: fitsviewer/opsfits.ui:312
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr "Valeur de découpage pour des valeurs en 8 octets."
+msgstr "Valeur de découpage pour des valeurs en 8 bits."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:315
@@ -39532,10 +39531,9 @@ msgid "%1 Live Video"
 msgstr "Vidéo en temps réel %1"
 
 #: indi/streamwg.cpp:387
-#, fuzzy, kde-format
-#| msgid "Toggle Full Screen"
+#, kde-format
 msgid "Exit Full Screen"
-msgstr "(Dés)activer le plein écran"
+msgstr "Quitter le plein écran"
 
 #: indi/streamwg.cpp:451 indi/streamwg.cpp:498
 #, kde-format
@@ -45311,7 +45309,7 @@ msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
 "Valeur minimale des pixels marqués comme découpés dans l'afficheur fits pour "
-"des images de 16 octets."
+"des images de 16 bits."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:2323
@@ -45320,7 +45318,7 @@ msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
 "Valeur minimale des pixels marqués comme découpés dans l'afficheur fits pour "
-"des images de 8 octets."
+"des images de 8 bits."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:2328
