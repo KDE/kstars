@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-23 02:05+0000\n"
+"POT-Creation-Date: 2026-08-25 02:18+0000\n"
 "PO-Revision-Date: 2026-08-22 12:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -25017,27 +25017,27 @@ msgstr ""
 "Dirección DEC invertida (AR-DEC está ahora en el estándar del sistema "
 "antihorario)."
 
-#: ekos/guide/internalguide/gmath.cpp:281
-#: ekos/guide/internalguide/gmath.cpp:380
+#: ekos/guide/internalguide/gmath.cpp:282
+#: ekos/guide/internalguide/gmath.cpp:381
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Sistema de guiado por IA: se ha aplicado la configuración registrada del "
 "modelo entrenado (%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:307
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "El archivo de pesos no se puede leer."
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:309
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 "El sistema de guiado por IA no ha podido cargar los pesos. El guiado se ha "
 "interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:311
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -25055,12 +25055,12 @@ msgstr ""
 "distinto o cambie el algoritmo de guiado al modo estándar. El guiado se ha "
 "interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:313
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Error del sistema de guiado por IA"
 
-#: ekos/guide/internalguide/gmath.cpp:323
+#: ekos/guide/internalguide/gmath.cpp:324
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -25071,7 +25071,7 @@ msgstr ""
 "entrenados. Cárguelos mediante el botón de IA > «Cargar pesos…» o ejecute el "
 "asistente de guiado por IA. El guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:326
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -25087,23 +25087,23 @@ msgstr ""
 "asistente de guiado por IA para generar pesos para los ajustes actuales. El "
 "guiado se ha interrumpido."
 
-#: ekos/guide/internalguide/gmath.cpp:329
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Sistema de guiado por IA: No hay pesos"
 
-#: ekos/guide/internalguide/gmath.cpp:373
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Ha vuelto a fallar la carga de pesos del guiado por IA: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:375
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "El archivo de pesos no se puede leer o no coincide con este tipo de montura."
 
-#: ekos/guide/internalguide/gmath.cpp:398
+#: ekos/guide/internalguide/gmath.cpp:399
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -25111,7 +25111,7 @@ msgstr ""
 "Se han vuelto a cargar en vivo los pesos del sistema de guiado por IA desde "
 "%1. El guiado continúa sin interrupciones."
 
-#: ekos/guide/internalguide/gmath.cpp:877
+#: ekos/guide/internalguide/gmath.cpp:881
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pulso largo limitado de %1 ms a %2 ms"

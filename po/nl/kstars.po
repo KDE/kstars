@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-23 02:05+0000\n"
+"POT-Creation-Date: 2026-08-25 02:18+0000\n"
 "PO-Revision-Date: 2026-08-22 18:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -24759,25 +24759,25 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Richting van DEC omgekeerd (RA-DEC is nu standaard CCW-systeem)."
 
-#: ekos/guide/internalguide/gmath.cpp:281
-#: ekos/guide/internalguide/gmath.cpp:380
+#: ekos/guide/internalguide/gmath.cpp:282
+#: ekos/guide/internalguide/gmath.cpp:381
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "AI-volger: de opgeslagen instellingen van het getrainde model (%1) zijn "
 "toegepast."
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:307
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "De gewichten konden niet worden gelezen."
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:309
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr "AI-volger kon de gewichten niet laden. Volgen (guiding) afgebroken."
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:311
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -24795,12 +24795,12 @@ msgstr ""
 "gewichten of schakel het volgalgoritme (Guide Algorithm) over naar een "
 "standaardmodus. Het volgen is afgebroken."
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:313
 #, kde-format
 msgid "AI Guider Error"
 msgstr "AI-volgfout"
 
-#: ekos/guide/internalguide/gmath.cpp:323
+#: ekos/guide/internalguide/gmath.cpp:324
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24811,7 +24811,7 @@ msgstr ""
 "Laad deze via de knop AI > 'Gewichten laden...' of voer de AI-volgassistent "
 "uit. Volgen afgebroken."
 
-#: ekos/guide/internalguide/gmath.cpp:326
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24826,24 +24826,24 @@ msgstr ""
 "volgassistent uit om gewichten te genereren voor uw huidige instellingen. "
 "Het volgen is afgebroken."
 
-#: ekos/guide/internalguide/gmath.cpp:329
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "AI-volgen: geen gewichten"
 
-#: ekos/guide/internalguide/gmath.cpp:373
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Opnieuw laden van gewichten voor de AI-volger is mislukt: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:375
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "het bestand met gewichten kon niet worden gelezen of komen niet overeen met "
 "dit type opstelling."
 
-#: ekos/guide/internalguide/gmath.cpp:398
+#: ekos/guide/internalguide/gmath.cpp:399
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -24851,7 +24851,7 @@ msgstr ""
 "Gewichten voor de AI-volger live opnieuw geladen uit %1 — volgen gaat zonder "
 "onderbreking door."
 
-#: ekos/guide/internalguide/gmath.cpp:877
+#: ekos/guide/internalguide/gmath.cpp:881
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Beperkte lange puls van %1ms tot %2ms"

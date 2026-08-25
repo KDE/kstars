@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-23 02:05+0000\n"
+"POT-Creation-Date: 2026-08-25 02:18+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -23670,23 +23670,23 @@ msgstr[2] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:281
-#: ekos/guide/internalguide/gmath.cpp:380
+#: ekos/guide/internalguide/gmath.cpp:282
+#: ekos/guide/internalguide/gmath.cpp:381
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:306
+#: ekos/guide/internalguide/gmath.cpp:307
 #, kde-format
 msgid "The weights file could not be read."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:308
+#: ekos/guide/internalguide/gmath.cpp:309
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:310
+#: ekos/guide/internalguide/gmath.cpp:311
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -23697,13 +23697,13 @@ msgid ""
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:312
+#: ekos/guide/internalguide/gmath.cpp:313
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "AI Guider Error"
 msgstr "Vodiči"
 
-#: ekos/guide/internalguide/gmath.cpp:323
+#: ekos/guide/internalguide/gmath.cpp:324
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -23711,7 +23711,7 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:326
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -23721,28 +23721,28 @@ msgid ""
 "aborted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:329
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:373
+#: ekos/guide/internalguide/gmath.cpp:374
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:375
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:398
+#: ekos/guide/internalguide/gmath.cpp:399
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
 msgstr ""
 
-#: ekos/guide/internalguide/gmath.cpp:877
+#: ekos/guide/internalguide/gmath.cpp:881
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
