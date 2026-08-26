@@ -301,6 +301,20 @@ void AIGuideProtocol::start(const QString &mountType)
         m_Phases.append({40.0, -45.0, 400, true, false, "", "", 0, 0, 0});
         m_Phases.append({65.0,  45.0, 480, false, false, "", "", 0, 0, 0});
         m_Phases.append({65.0,  45.0, 400, true, false, "", "", 0, 0, 0});
+        // East-low pair, mirroring the West-low pair above -- added 2026-08-26. Before this,
+        // azOffset=+45 (EAST) was only ever sampled at alt=65, while azOffset=-45 (WEST) got both
+        // alt=65 and alt=40. That meant pier side and altitude were almost perfectly confounded in
+        // every night's sysid data: checking 21 real free_drift sessions pooled across 7 nights,
+        // adding a pier_side term to the DEC refraction/polar-drift fit improved R^2 from 0.061 to
+        // 0.127, but that couldn't be trusted as a real pier-side (gravitational loading) effect
+        // versus the fit just absorbing altitude-model misspecification at EAST's one fixed sky
+        // position -- no amount of statistical testing on the existing data can tell those apart,
+        // since it's a sampling-design confound, not a sample-size problem. This pair exists purely
+        // to break that confound for future collections; it isn't consumed by any C++ or trainer
+        // code yet (see /home/stellarmate/ai_guider_v2_architecture.md and the AI Guider project
+        // memory for the DEC altitude/pier-side investigation this supports).
+        m_Phases.append({40.0,  45.0, 480, false, false, "", "", 0, 0, 0});
+        m_Phases.append({40.0,  45.0, 400, true, false, "", "", 0, 0, 0});
     }
     else if (mountStr == "Harmonic Drive")
     {

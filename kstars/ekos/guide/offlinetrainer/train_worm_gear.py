@@ -667,8 +667,16 @@ def _build_training_dataset(sysid, pe_period, pe_harmonic_amplitudes, k_ref, d_r
                 t_accum, alt_deg, q_deg, harmonic_coeffs_session, pe_period, k_ref, d_ra_extra, d_polar, k_ref_dec, dt
             )
             
-            # Hardcoded Pier Side based on UI phase sequence: first 2 are West, 3rd is East
-            pier_side_norm = -1.0 if s_idx < 2 else 1.0
+            # Read the recorded pier side directly rather than inferring it from session order.
+            # Used to be hardcoded ("first 2 phases are West, 3rd is East") matching the WORM_GEAR
+            # phase table's old fixed West/West/East sequence -- became a real landmine 2026-08-26
+            # when a 4th phase (East, low altitude) was added to the table to break a pier-side/
+            # altitude confound found in real pooled data (see aiguideprotocol.cpp's WORM_GEAR
+            # table and /home/stellarmate/ai_guider_v2_architecture.md), which the hardcoded rule
+            # would have silently mis-tagged unless it happened to land at the right index. The
+            # field is already recorded per-session (verified against real sysid JSON), so just
+            # read it.
+            pier_side_norm = 1.0 if s.get("pier_side") == "EAST" else -1.0
             
             # Input features: [alt_norm, sin_phase, cos_phase, sin2, cos2, sin3, cos3, sin4, cos4, snr_norm, last_ra_pulse_norm, last_dec_pulse_norm, dt_norm, q_norm, pier_side_norm]
             phase = 2 * np.pi * t_accum / pe_period + phi_session
