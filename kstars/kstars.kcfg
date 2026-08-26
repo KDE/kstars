@@ -3480,6 +3480,16 @@
       <entry name="SerializedCalibration" type="String">
          <label>Last Calibration serialized.</label>
       </entry>
+      <entry name="ResetGuideCalibrationOnRotation" type="Bool">
+         <label>Reset a stored guide calibration when the field rotates, detected from the plate-solved position angle (covers both electronic rotator moves and manual camera rotation).</label>
+         <default>false</default>
+      </entry>
+      <entry name="GuideCalibrationRotationThreshold" type="Double">
+         <label>Noise floor, in degrees, for detecting field rotation from the plate-solved position angle. Rotations at or above this reset the guide calibration; kept just above plate-solve jitter so any real rotation triggers a reset. Not exposed in the UI to avoid users setting a large tolerance that silently degrades guiding.</label>
+         <default>0.5</default>
+         <min>0.1</min>
+         <max>90.0</max>
+      </entry>
       <entry name="RealignAfterCalibrationFailure" type="Bool">
          <label>If guiding calibration fails, run alignment process again before proceeding to recalibration.</label>
          <default>false</default>

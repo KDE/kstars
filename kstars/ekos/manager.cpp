@@ -3705,6 +3705,16 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
     }
 
+    // Align <---> Guide connections
+    if (alignProcess && guideProcess)
+    {
+        // Reset a stored guide calibration when the field rotates (electronic rotator or manual
+        // rotation), detected from the plate-solved position angle. newSolverResults fires on every
+        // successful solve regardless of whether a rotator device is present.
+        connect(alignModule(), &Ekos::Align::newSolverResults, guideModule(), &Ekos::Guide::checkCalibrationRotation,
+                Qt::UniqueConnection);
+    }
+
     // Capture <---> Mount connections
     if (captureProcess && mountProcess)
     {

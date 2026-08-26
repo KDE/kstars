@@ -1885,6 +1885,7 @@ void Guide::setCaptureStatus(CaptureState newState)
 
 void Guide::setPierSide(ISD::Mount::PierSide newSide)
 {
+    m_LastPierSide = newSide;
     m_GuiderInstance->setPierSide(newSide);
 
     // If pier side changes in internal guider
@@ -1968,6 +1969,11 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
 void Guide::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha)
 {
     Q_UNUSED(ha);
+    // Track the live pier side from the mount coordinate stream (fires continuously while the mount
+    // is connected), not only from pierSideChanged (which fires just on a change). This makes the
+    // calibration's baseline pier side reliably known for checkCalibrationRotation()'s flip detection.
+    if (pierSide != ISD::Mount::PIER_UNKNOWN)
+        m_LastPierSide = pierSide;
     m_GuiderInstance->setMountCoords(position, pierSide);
     m_ManaulPulse->setMountCoords(position);
 }
@@ -2017,6 +2023,9 @@ void Guide::setAutoStarEnabled(bool enable)
 void Guide::clearCalibration()
 {
     calibrationComplete = false;
+    // Drop the rotation baseline; it will be re-established when the next calibration completes.
+    m_CalibrationPA = -1000.0;
+    m_CalibrationPierSide = ISD::Mount::PIER_UNKNOWN;
     if (m_GuiderInstance->clearCalibration())
     {
         clearCalibrationB->setEnabled(false);
@@ -2024,6 +2033,79 @@ void Guide::clearCalibration()
     }
 
 
+}
+
+void Guide::checkCalibrationRotation(double orientation, double ra, double dec, double pixscale)
+{
+    Q_UNUSED(ra)
+    Q_UNUSED(dec)
+    Q_UNUSED(pixscale)
+
+    // Track the latest plate-solved field orientation so a freshly completed
+    // calibration can adopt it as its baseline (see GUIDE_CALIBRATION_SUCCESS).
+    m_LastSolvedPA = orientation;
+
+    // Applies to any guider that reports calibration completion. clearCalibration() invalidates the
+    // internal guider's stored calibration or, for PHD2, sends clear_calibration so PHD2 recalibrates
+    // on the next guide start. calibrationComplete (checked below) is only ever set for guiders that
+    // emit GUIDE_CALIBRATION_SUCCESS, so other guider types are simply never triggered.
+
+    // Feature is opt-in and only relevant once a calibration exists.
+    if (!Options::resetGuideCalibrationOnRotation() || !calibrationComplete)
+        return;
+
+    // Never disturb an active session.
+    if (m_State == GUIDE_GUIDING || m_State == GUIDE_CALIBRATING || m_State == GUIDE_DITHERING)
+        return;
+
+    // Establish the baseline on the first solve after a calibration.
+    if (m_CalibrationPA < -900.0)
+    {
+        m_CalibrationPA = orientation;
+        m_CalibrationPierSide = m_LastPierSide;
+        return;
+    }
+
+    // A meridian flip is a pier-side change, NOT a field rotation. Detect it by the actual pier side
+    // (robust for both "preserve rotator angle" and "preserve position angle" policies, unlike a PA
+    // magnitude test). Calibration validity across a flip is owned by the pier-side / reuse-across-
+    // meridian path (setPierSide), so don't clear here. Re-baseline to the new side so a genuine
+    // rotation AFTER the flip (e.g. a small rotator correction) is still detected on that side.
+    if (m_LastPierSide != ISD::Mount::PIER_UNKNOWN &&
+            m_CalibrationPierSide != ISD::Mount::PIER_UNKNOWN &&
+            m_LastPierSide != m_CalibrationPierSide)
+    {
+        m_CalibrationPA = orientation;
+        m_CalibrationPierSide = m_LastPierSide;
+        return;
+    }
+
+    // Same pier side: any change in the plate-solved position angle beyond the noise floor is a real
+    // field rotation (electronic rotator or manual). Normalise the signed difference to (-180, 180].
+    double delta = orientation - m_CalibrationPA;
+    while (delta > 180.0)
+        delta -= 360.0;
+    while (delta <= -180.0)
+        delta += 360.0;
+    if (delta < 0)
+        delta = -delta;
+
+    // Fallback meridian-flip guard: a change near 180° is a field flip, which is owned by the
+    // pier-side / reuse-across-meridian path. The pier-side check above is the primary detector, but
+    // it can only fire when the pier side is known both at calibration and now. When it is not (mount
+    // does not report pier side, or it was unknown at calibration time), this guard still prevents a
+    // flip from being mistaken for a rotation. Genuine rotations that degrade guiding are well below
+    // this; a small rotation coincident with a flip is negligible and inseparable from PA alone.
+    if (delta > 160.0)
+        return;
+
+    if (delta >= Options::guideCalibrationRotationThreshold())
+    {
+        appendLogText(i18n("Field rotated %1° since guide calibration. Clearing calibration.",
+                           QString::number(delta, 'f', 1)));
+        // clearCalibration() resets the baseline; the next calibration re-baselines.
+        clearCalibration();
+    }
 }
 
 void Guide::reloadAIWeights()
@@ -2098,6 +2180,10 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Calibration completed."));
             manualPulseB->setEnabled(true);
             calibrationComplete = true;
+            // Remember the field orientation and pier side this calibration was measured at, so a
+            // later rotation (electronic or manual) can be detected and the calibration invalidated.
+            m_CalibrationPA = m_LastSolvedPA;
+            m_CalibrationPierSide = m_LastPierSide;
 
             if(guiderType !=
                     GUIDE_PHD2) //PHD2 will take care of this.  If this command is executed for PHD2, it might start guiding when it is first connected, if the calibration was completed already.

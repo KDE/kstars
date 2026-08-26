@@ -426,6 +426,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_ResetGuideCalibrationOnRotation">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reset the guide calibration whenever the field rotates, so a fresh calibration is measured on the next guide start instead of guiding on a stale one. Rotation is detected from the plate-solved position angle, so it covers both electronic rotator moves and manual camera rotation (for example when framing to a reference image from a previous session). Any confirmed rotation triggers a reset; meridian flips are handled separately and do not. Works with the internal guider and PHD2.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Reset guide calibration when the field rotates.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -451,6 +464,7 @@
   <tabstop>kcfg_ResetGuideCalibration</tabstop>
   <tabstop>kcfg_ReuseGuideCalibration</tabstop>
   <tabstop>kcfg_ReverseDecOnPierSideChange</tabstop>
+  <tabstop>kcfg_ResetGuideCalibrationOnRotation</tabstop>
   <tabstop>spinBox_ReticleX</tabstop>
   <tabstop>spinBox_ReticleY</tabstop>
  </tabstops>

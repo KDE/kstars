@@ -400,6 +400,22 @@ class Guide : public QWidget, public Ui::Guide
         // Update Pier Side
         void setPierSide(ISD::Mount::PierSide newSide);
 
+        /**
+         * @brief Receive plate-solved results from the Align module and, if the field has rotated
+         * beyond the noise floor since the current guide calibration, clear that calibration so a
+         * fresh one is measured on the next guide start. Works for both electronic rotator moves and
+         * manual camera rotation, since both change the solved position angle.
+         *
+         * Scope: WITHIN-SESSION only. The baseline PA is established from plate solves during the
+         * current session and is not persisted. Reusing a calibration stored in a previous session and
+         * rotating between sessions is therefore NOT detected here (it re-baselines to the current
+         * orientation on restore) - this matches the existing blind reuse behaviour and is a documented
+         * follow-up (persist the calibration PA to cover it). The check always fails safe: with no
+         * baseline/solve it does nothing.
+         * @param orientation solved position angle (degrees). Other parameters are unused here.
+         */
+        void checkCalibrationRotation(double orientation, double ra, double dec, double pixscale);
+
         // Star Position
         void setStarPosition(const QVector3D &newCenter, bool updateNow);
 
@@ -786,6 +802,16 @@ class Guide : public QWidget, public Ui::Guide
 
         // Calibration done already?
         bool calibrationComplete { false };
+
+        // Field position angle (degrees) reported by the last plate solve, and the value captured
+        // at the time the current calibration completed. Sentinel < -900 means "not yet known".
+        // Used by checkCalibrationRotation() to reset a stale calibration after the field rotates.
+        double m_LastSolvedPA { -1000.0 };
+        double m_CalibrationPA { -1000.0 };
+        // Pier side reported by the mount (most recent, and at calibration time). Used to tell a
+        // genuine rotation from a meridian flip in checkCalibrationRotation().
+        ISD::Mount::PierSide m_LastPierSide { ISD::Mount::PIER_UNKNOWN };
+        ISD::Mount::PierSide m_CalibrationPierSide { ISD::Mount::PIER_UNKNOWN };
 
         // Was the modified frame subFramed?
         bool subFramed { false };
