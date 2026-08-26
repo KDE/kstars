@@ -134,6 +134,30 @@ class Focus : public QWidget, public Ui::Focus
             return m_FocusView->lastFrame().hfr;
         }
 
+        // Read-only accessors for the active or last autofocus V-curve. Used by
+        // the MCP focus tools to expose the HFR sample series for in-session
+        // diagnosis. The vectors run in lock-step:
+        //   getFocusPositions()[i] = step position
+        //   getFocusHFRValues()[i] = measured HFR
+        //   getFocusWeights()[i]   = fit weight
+        //   getFocusOutliers()[i]  = true if excluded from the curve fit
+        const QVector<double> &getFocusPositions() const
+        {
+            return plot_position;
+        }
+        const QVector<double> &getFocusHFRValues() const
+        {
+            return plot_value;
+        }
+        const QVector<double> &getFocusWeights()   const
+        {
+            return plot_weight;
+        }
+        const QVector<bool>   &getFocusOutliers()  const
+        {
+            return plot_outlier;
+        }
+
         /** DBUS interface function.
              * Set CCD exposure value
              * @param value exposure value in seconds.

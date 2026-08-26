@@ -12,6 +12,7 @@ target_sources(KStarsLib PRIVATE
     tools/aligntools.cpp
     tools/schedulertools.cpp
     tools/capturetools.cpp
+    tools/focustools.cpp
 )
 
 target_include_directories(KStarsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

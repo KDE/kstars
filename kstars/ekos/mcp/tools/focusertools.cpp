@@ -66,7 +66,8 @@ void initFocuserTools(ToolRegistry *registry)
     {
         QStringLiteral("focuser_status"),
         QStringLiteral("Return focuser device state: name, current absolute position, max position, "
-                       "and capability flags (canAbsMove, canRelMove, hasBacklash)."),
+                       "and capability flags (canAbsMove, canRelMove, hasBacklash). The focuser_* family "
+                       "drives the focuser device directly; for the autofocus algorithm see the focus_* tools."),
         {
             {
                 QStringLiteral("name"), QStringLiteral("string"),
