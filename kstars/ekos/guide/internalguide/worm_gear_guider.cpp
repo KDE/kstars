@@ -32,6 +32,7 @@ double WormGearGuider::m_pe_amplitude { 1.0 };
 double WormGearGuider::m_d_ra_extra { 0.0 };
 double WormGearGuider::m_uncorrectedPosRA { 0.0 };
 double WormGearGuider::m_uncorrectedPosDEC { 0.0 };
+double WormGearGuider::m_rlsTimeOrigin { -1.0 };
 
 WormGearGuider::WormGearGuider()
 {
@@ -135,8 +136,43 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
             !loadVector(mlp["b_out"].toArray(), m_b_out, 2))
         return false;
 
+    // Optional v2 Shape Net (see header comment). Absent in every weights.json generated
+    // before this build -- m_hasShapeNet stays false and physicsRA() keeps using the
+    // unchanged harmonic-sum path, so loading an old-format file is not an error here.
+    QJsonObject shapeNet = root["shape_net"].toObject();
+    if (!shapeNet.isEmpty() &&
+            loadMatrix(shapeNet["w1"].toArray(), m_shapeW1, 16, 3) &&
+            loadVector(shapeNet["b1"].toArray(), m_shapeB1, 16) &&
+            loadMatrix(shapeNet["w2"].toArray(), m_shapeW2, 16, 16) &&
+            loadVector(shapeNet["b2"].toArray(), m_shapeB2, 16) &&
+            loadMatrix(shapeNet["w_out"].toArray(), m_shapeWOut, 1, 16) &&
+            loadVector(shapeNet["b_out"].toArray(), m_shapeBOut, 1))
+    {
+        m_shapeNetRefAmplitude = shapeNet["ref_amplitude_px"].toDouble(1.0);
+        m_hasShapeNet = true;
+        qCInfo(KSTARS_EKOS_GUIDE) << "[AI GUIDER] v2 Shape Net loaded -- physicsRA() will use it "
+                                  "instead of the harmonic-sum path. ref_amplitude_px="
+                                  << m_shapeNetRefAmplitude;
+    }
+    else
+    {
+        m_hasShapeNet = false;
+    }
+
     m_weightsLoaded = true;
     return true;
+}
+
+double WormGearGuider::evalShapeNet(double sinPhase, double cosPhase, double altNorm) const
+{
+    // 3 -> 16 -> 16 -> 1, ReLU, no dropout (inference-mode, matching train_shape_net.py's
+    // make_net() with dropout layers omitted -- PyTorch's own .eval() disables them
+    // identically). See header comment for the full validation this architecture earned.
+    Eigen::Vector3f x(static_cast<float>(sinPhase), static_cast<float>(cosPhase), static_cast<float>(altNorm));
+    const Eigen::VectorXf h1 = (m_shapeW1 * x + m_shapeB1).cwiseMax(0.0f);
+    const Eigen::VectorXf h2 = (m_shapeW2 * h1 + m_shapeB2).cwiseMax(0.0f);
+    const Eigen::VectorXf out = m_shapeWOut * h2 + m_shapeBOut;
+    return static_cast<double>(out(0));
 }
 
 void WormGearGuider::resetSession(bool forceReset)
@@ -209,6 +245,11 @@ void WormGearGuider::resetSession(bool forceReset)
         for (int k = 0; k < N_HARMONICS; ++k)
             m_rls_P(2 * k, 2 * k) = 4.0;
         m_rls_P(N_HARMONICS * 2, N_HARMONICS * 2) = 4.0; // drift term v
+
+        // Re-arm the drift regressor's time origin (see m_rlsTimeOrigin's declaration) so the
+        // next updatePhase() call re-anchors to whatever t_session_sec it's handed next, instead
+        // of carrying on from a stale origin that belongs to the state we just discarded.
+        m_rlsTimeOrigin = -1.0;
     }
 }
 
@@ -358,19 +399,47 @@ double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
 {
     const double omega = 2.0 * M_PI / m_pe_period;
 
-    // Derivative of position model y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)] + v*t + C
-    // y'(t) = sum_k [sin_k*(k*w)*cos(k*wt) - cos_k*(k*w)*sin(k*wt)] + v -- same per-harmonic
-    // derivative form as the original single-harmonic model, summed over each independently
-    // RLS-fit harmonic (see file header comment for why more than one harmonic is real here,
-    // not just the offline trainer's k_ref/refraction mismatch this comment used to describe
-    // alone).
     double pe_rate = 0.0;
-    for (int k = 1; k <= N_HARMONICS; ++k)
+    if (m_hasShapeNet)
     {
-        const double k_omega = k * omega;
-        const double sin_k = m_rls_theta(2 * (k - 1));
-        const double cos_k = m_rls_theta(2 * (k - 1) + 1);
-        pe_rate += sin_k * k_omega * std::cos(k_omega * t_sec) - cos_k * k_omega * std::sin(k_omega * t_sec);
+        // v2 path: the Shape Net was trained to predict detrended POSITION at a given phase
+        // (see train_shape_net.py's pooled, phase-aligned target), not rate directly -- so
+        // pe_rate here is a numerical (finite-difference) derivative of the net's own output,
+        // exactly as a physical rate is the time-derivative of position. FD_DT is small
+        // relative to m_pe_period (~200s) so the finite-difference error is negligible; it is
+        // NOT the guide loop's actual dt (which varies frame to frame and isn't known inside
+        // this const method).
+        constexpr double FD_DT = 0.5;
+        // Same phase convention as runMLP()'s phase basis (theta(1) as atan2's y, theta(0) as
+        // its x) -- reusing that exact, already-validated formula rather than re-deriving it.
+        const double phi_rls = std::atan2(m_rls_theta(1), m_rls_theta(0));
+        const double phase_now = omega * t_sec + phi_rls;
+        const double phase_next = omega * (t_sec + FD_DT) + phi_rls;
+
+        const double online_amp = std::hypot(m_rls_theta(0), m_rls_theta(1));
+        const double amp_scale = (m_shapeNetRefAmplitude > 1e-6) ? online_amp / m_shapeNetRefAmplitude : 1.0;
+
+        const double alt_norm = std::clamp(altitude_deg, m_fit_alt_min, m_fit_alt_max) / 90.0;
+        const double pos_now  = evalShapeNet(std::sin(phase_now), std::cos(phase_now), alt_norm) * amp_scale;
+        const double pos_next = evalShapeNet(std::sin(phase_next), std::cos(phase_next), alt_norm) * amp_scale;
+        pe_rate = (pos_next - pos_now) / FD_DT;
+    }
+    else
+    {
+        // v1 path (unchanged): derivative of position model
+        // y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)] + v*t + C
+        // y'(t) = sum_k [sin_k*(k*w)*cos(k*wt) - cos_k*(k*w)*sin(k*wt)] + v -- same
+        // per-harmonic derivative form as the original single-harmonic model, summed over
+        // each independently RLS-fit harmonic (see file header comment for why more than one
+        // harmonic is real here, not just the offline trainer's k_ref/refraction mismatch
+        // this comment used to describe alone).
+        for (int k = 1; k <= N_HARMONICS; ++k)
+        {
+            const double k_omega = k * omega;
+            const double sin_k = m_rls_theta(2 * (k - 1));
+            const double cos_k = m_rls_theta(2 * (k - 1) + 1);
+            pe_rate += sin_k * k_omega * std::cos(k_omega * t_sec) - cos_k * k_omega * std::sin(k_omega * t_sec);
+        }
     }
 
     // Refraction term, matching train_worm_gear.py's _physics_drift() exactly (same sign,
@@ -440,6 +509,12 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
 {
     if (m_pe_period <= 0) return;
 
+    // See m_rlsTimeOrigin's declaration: anchor on first use after a reset so the drift term's
+    // regressor stays a small, bounded elapsed-time-since-reset instead of the raw session clock.
+    if (m_rlsTimeOrigin < 0.0)
+        m_rlsTimeOrigin = t_session_sec;
+    const double t_rel_sec = t_session_sec - m_rlsTimeOrigin;
+
     const double omega = 2.0 * M_PI / m_pe_period;
 
     // Position-domain regressor for y(t) = sum_k [sin_k*sin(k*wt) + cos_k*cos(k*wt)] + v*t + C
@@ -453,7 +528,7 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
         x(2 * (k - 1))     = std::sin(k * omega * t_session_sec);
         x(2 * (k - 1) + 1) = std::cos(k * omega * t_session_sec);
     }
-    x(N_HARMONICS * 2)     = t_session_sec;
+    x(N_HARMONICS * 2)     = t_rel_sec;
     x(N_HARMONICS * 2 + 1) = 1.0;
 
     // Standard RLS Update for Position
@@ -474,6 +549,26 @@ void WormGearGuider::updatePhase(double uncorrected_position_px, double t_sessio
     // (harmonic 1, indices 0/1) only, matching what these fields have always represented.
     m_pe_amplitude = std::hypot(m_rls_theta(0), m_rls_theta(1));
     m_pe_phase = std::atan2(m_rls_theta(1), m_rls_theta(0));
+
+    // Divergence backstop: this runs unattended overnight, so a bad outlier innovation (a
+    // single frame's uncorrected_position_px jumping far from prediction, e.g. right after a
+    // reset when m_rls_P is still large/uninformative -- see m_rlsTimeOrigin's fix for the one
+    // confirmed way this happened on 2026-08-27) shouldn't be allowed to leave the fundamental
+    // amplitude parked at some multiple of the real worm PE for the rest of the night. A real
+    // worm PE amplitude has no mechanism to legitimately be more than a few times the
+    // offline-fit prior; treat blowing well past that as evidence of a corrupted fit, not a
+    // real reading, and recover the same way a meridian flip does -- a full resetSession(true),
+    // not a partial patch, since a divergence this large means every RLS-derived quantity
+    // (phase, other harmonics, drift) is suspect together, not just the fundamental.
+    const double sanePriorAmplitude = std::max(m_pe_harmonic_amplitude[0], 0.1);
+    if (m_pe_amplitude > 20.0 * sanePriorAmplitude)
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "[AI GUIDER] RLS fundamental amplitude diverged ("
+                                     << m_pe_amplitude << "px vs trained prior"
+                                     << sanePriorAmplitude << "px) -- forcing a hard reset.";
+        resetSession(true);
+        return;
+    }
     m_d_ra_extra = m_rls_theta(N_HARMONICS * 2);
 }
 

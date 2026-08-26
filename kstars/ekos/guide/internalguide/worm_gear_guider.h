@@ -97,6 +97,24 @@ class WormGearGuider : public MountSpecificGuider
         static Eigen::Matrix<double, N_STATES, 1> m_rls_theta;
         static Eigen::Matrix<double, N_STATES, N_STATES> m_rls_P; ///< RLS covariance
         static constexpr double RLS_LAMBDA = 0.999; ///< RLS forgetting factor
+        // Origin (in t_session_sec) the drift regressor (x(N_HARMONICS*2), below) is measured
+        // from -- NOT the raw, ever-growing session clock. t_session_sec keeps counting up for
+        // the whole night (it isn't part of what resetSession() clears), so using it directly
+        // as a linear regressor made the fit numerically worse the longer a session ran: after
+        // a couple of hours the drift term's regressor was O(1e4) while every harmonic
+        // regressor stayed O(1), so a tiny error in the fitted drift RATE produced a huge
+        // predicted-position error once multiplied back out by that same O(1e4) elapsed time --
+        // which then fed back into the next update as a huge "error", compounding. Confirmed
+        // 2026-08-27 in live Shadow-mode testing: after ~2h of continuous guiding the fundamental
+        // amplitude estimate ran away from a trained ~0.43px to >27px, persisting even through a
+        // resetSession(true) hard reset (meridian flip) because that reset cleared theta/P but
+        // not the underlying session clock, so the very next update still handed it a
+        // multi-thousand-second regressor with a freshly-uninformative (large) P. Sentinel -1.0
+        // means "not yet anchored"; updatePhase() lazily captures the current t_session_sec into
+        // this on the first call after any hard reset, then always regresses on
+        // (t_session_sec - m_rlsTimeOrigin) instead -- bounded, small, and resets together with
+        // theta/P by construction instead of needing resetSession()'s signature to carry time.
+        static double m_rlsTimeOrigin;
         static double m_uncorrectedPosRA;
         static double m_uncorrectedPosDEC;
 
@@ -117,6 +135,48 @@ class WormGearGuider : public MountSpecificGuider
         Eigen::VectorXf m_b2;
         Eigen::MatrixXf m_w_out;
         Eigen::VectorXf m_b_out;
+
+        // ── v2 offline Shape Net (optional, loaded from weights JSON) ────────────
+        // AI Guider v2 (/home/stellarmate/ai_guider_v2_architecture.md, Stage 1): a small
+        // net trained offline on multi-night POOLED, phase-aligned free-drift data --
+        // predicts detrended RA POSITION (not rate) at a given [sin(phase), cos(phase),
+        // alt_norm], replacing the online RLS harmonic sum in physicsRA() when present.
+        // Validated 2026-08-26 via leave-one-night-out CV + a night-level cluster bootstrap:
+        // beats a fixed 4-harmonic Fourier fit on the same held-out data by +0.0658 R^2 (95%
+        // CI [0.0323, 0.1095], excludes zero), winning in 7/7 individual held-out nights; the
+        // Fourier fit's own cross-night R^2 was negative (fails to generalize to a night it
+        // wasn't fit on at all). That validation was entirely offline (held-out historical
+        // data) -- this is its first appearance in the live runtime, unvalidated in actual
+        // closed-loop guiding. Architecture: 3 -> 16 -> 16 -> 1 (ReLU, no dropout at
+        // inference), the size that won a sweep from 41 to 673 params on the same data.
+        //
+        // Deliberately OPTIONAL and backward-compatible: m_hasShapeNet stays false (and
+        // physicsRA() falls back to the existing, unchanged harmonic-sum path) unless the
+        // loaded weights.json has a valid "shape_net" section -- the currently-deployed
+        // weights file has none, so building this in changes nothing about current behavior
+        // until a Shape-Net-trained weights file is explicitly generated and loaded.
+        //
+        // Deliberately reuses the EXISTING online RLS state (m_rls_theta, unchanged, still
+        // fit by updatePhase() exactly as before) for online calibration instead of adding
+        // new tracked state: the fundamental's already-derived phase/amplitude (theta(0),
+        // theta(1)) become the Shape Net's phase input and an amplitude scale factor -- the
+        // "reused RLS calibration" the architecture doc's section 6 called for, without
+        // touching the already-validated tracking math itself.
+        bool m_hasShapeNet { false };
+        Eigen::MatrixXf m_shapeW1;   ///< 16x3
+        Eigen::VectorXf m_shapeB1;   ///< 16
+        Eigen::MatrixXf m_shapeW2;   ///< 16x16
+        Eigen::VectorXf m_shapeB2;   ///< 16
+        Eigen::MatrixXf m_shapeWOut; ///< 1x16
+        Eigen::VectorXf m_shapeBOut; ///< 1
+        /// Fundamental amplitude (px) the Shape Net's training data itself carried, recorded
+        /// at export time -- physicsRA() scales the net's raw output by
+        /// (currently-tracked-online-amplitude / this), so the offline-trained shape adapts
+        /// to tonight's actual PE strength without retraining.
+        double m_shapeNetRefAmplitude { 1.0 };
+        /// Forward pass through the Shape Net (see above). sinPhase/cosPhase/altNorm must use
+        /// the exact same conventions as runMLP()'s phase basis / m_alt_scale normalization.
+        double evalShapeNet(double sinPhase, double cosPhase, double altNorm) const;
 
         // ── Runtime state ─────────────────────────────────────────────────────
         bool   m_weightsLoaded    { false };
