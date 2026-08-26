@@ -142,6 +142,18 @@ void AIGuideProtocol::enforceSettings()
 
 void AIGuideProtocol::restoreSettings()
 {
+    // Safety net for every exit path (stop(), STATE_ERROR, STATE_DONE): if the protocol ends
+    // while still mid-pulse_response block (user abort, error, guide star lost repeatedly),
+    // the normal leaving-the-block restore in STATE_PRECHECK never runs, which would otherwise
+    // leave guiding permanently on the short 0.25s pulse-response exposure -- silently wrong
+    // for every future guiding session, not just this protocol run. Idempotent: a no-op if the
+    // normal transition already restored it (flag already false).
+    if (m_ExposureSwitchedForPulseResponse && m_Guide)
+    {
+        m_Guide->setExposure(m_OrigGuideExposure);
+        m_ExposureSwitchedForPulseResponse = false;
+    }
+
     if (!m_SettingsEnforced)
         return;
     m_SettingsEnforced = false;
@@ -215,6 +227,8 @@ void AIGuideProtocol::start(const QString &mountType)
     m_SettingsChangedWarned = false;
     m_BestDriftNoiseFrames = 0;
     m_GainLocked = false;
+    m_ExposureSwitchedForPulseResponse = false;
+    m_OrigGuideExposure = -1.0;
     m_SysIdData["model_fingerprint"] = buildFingerprint();
 
     m_SysIdData["sessions"] = QJsonArray();
@@ -684,6 +698,23 @@ void AIGuideProtocol::processProtocol()
                 break;
             }
 
+            // Entering the pulse_response block: switch to a short exposure so RA's dead-time
+            // transient can actually be resolved -- see PULSE_RESPONSE_EXPOSURE_S's comment in
+            // the header for the full reasoning. Guarded so this only fires once, the first
+            // time STATE_PRECHECK sees a pulse_response phase at the front of the queue.
+            // abort() forces a stream restart even if nothing is guiding yet (a safe no-op on
+            // an already-idle guider) so the exposure is guaranteed to be in effect before
+            // STATE_PULSE_RESPONSE_INIT's own guide() call starts the first pulse test.
+            if (!m_ExposureSwitchedForPulseResponse && m_Phases.first().pulseResponse && m_Guide)
+            {
+                m_OrigGuideExposure = m_Guide->exposure();
+                m_Guide->setExposure(PULSE_RESPONSE_EXPOSURE_S);
+                m_Guide->abort();
+                m_ExposureSwitchedForPulseResponse = true;
+                emit protocolLog(QString("Switching to %1s exposure for PID Auto-Tune pulse-response phases...")
+                                 .arg(PULSE_RESPONSE_EXPOSURE_S, 0, 'f', 2));
+            }
+
             // First non-pulse-response phase reached: the PID Auto-Tune pulses (if any
             // were collected -- see the mount-type branches in start()) are all in by
             // now. Lock the base gain from them, once, before anything else runs --
@@ -691,6 +722,17 @@ void AIGuideProtocol::processProtocol()
             // the option was off or the data wasn't usable.
             if (!m_GainLocked && !m_Phases.first().pulseResponse)
                 applyPIDAutoTuneGainLock();
+
+            // Leaving the pulse_response block: restore the normal exposure before
+            // standard_guiding/free_drift phases begin, via the same stop+restart mechanism.
+            if (m_ExposureSwitchedForPulseResponse && !m_Phases.first().pulseResponse && m_Guide)
+            {
+                emit protocolLog(QString("Restoring %1s exposure for standard guiding/free-drift phases...")
+                                 .arg(m_OrigGuideExposure, 0, 'f', 2));
+                m_Guide->setExposure(m_OrigGuideExposure);
+                m_Guide->abort();
+                m_ExposureSwitchedForPulseResponse = false;
+            }
 
             // Pulse-response phases go through the same horizon-scan/slew/settle path as
             // every other phase (see STATE_HORIZON_SCAN, STATE_SETTLING below) -- they are

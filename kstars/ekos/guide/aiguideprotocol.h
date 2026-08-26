@@ -138,6 +138,26 @@ class AIGuideProtocol : public QObject
         bool computeAndApplyAxisGain(const QString &axis, double msPerArcsec);
         bool m_GainLocked { false };
 
+        // Short exposure used ONLY for pulse_response phases, to resolve RA's dead-time
+        // transient in the PID Auto-Tune fit (see pid_autotune.py's resolution_limited flag /
+        // _estimate_dead_time_s()) -- confirmed 2026-08-26 that RA settles within a single
+        // ~2s guide-cadence frame, so the normal exposure structurally can never sample the
+        // transient it needs to fit dead time; every run gets resolution_limited=true and
+        // confidence="low" regardless of data volume or retraining. Changing exposure on an
+        // already-running stream isn't supported by the camera pipeline (Camera::
+        // setStreamExposure() is only ever applied by Guide::startGuideStreaming() at
+        // (re)start, see guide.cpp), so this requires a full stop+restart of guiding.
+        // Measured on real hardware (ToupTek GPM462M, 3 trials): 3.34-3.46s per restart,
+        // mean 3.38s, no errors. Done exactly twice per collection run -- once entering the
+        // pulse_response block, once leaving it, both in STATE_PRECHECK below -- not once per
+        // phase (there are 24 pulse_response phases; 48 restarts would still only cost ~3 min,
+        // but there is no reason to pay it 24x over when paying it once covers the whole
+        // block, and fewer stream transitions means fewer chances for something to go wrong
+        // unattended overnight).
+        static constexpr double PULSE_RESPONSE_EXPOSURE_S = 0.25;
+        bool m_ExposureSwitchedForPulseResponse { false };
+        double m_OrigGuideExposure { -1.0 };
+
         Guide *m_Guide { nullptr };
         int m_TotalPhases { 0 };
 
