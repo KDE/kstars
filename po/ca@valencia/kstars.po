@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-25 02:18+0000\n"
-"PO-Revision-Date: 2026-08-22 18:53+0200\n"
+"PO-Revision-Date: 2026-08-25 20:55+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -23176,7 +23176,7 @@ msgid ""
 "Common adjustment screw thread types.\n"
 "Select to auto-fill pitch, or choose Custom to enter manually."
 msgstr ""
-"Tipus d'ajust habituals de la rosca del cargol.\n"
+"Tipus d'ajust habituals de la rosca dels cargols.\n"
 "Trieu-lo per a emplenar automàticament el pas de rosca, o trieu "
 "«Personalitzat» per a introduir-lo manualment."
 
@@ -23297,22 +23297,22 @@ msgstr ""
 #: ekos/focus/tiltcorrectionwidget.cpp:488
 #, kde-format
 msgid "Point 1: N/A"
-msgstr "Punt 1: N/D"
+msgstr "Punt 1: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:489
 #, kde-format
 msgid "Point 2: N/A"
-msgstr "Punt 2: N/D"
+msgstr "Punt 2: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:490
 #, kde-format
 msgid "Point 3: N/A"
-msgstr "Punt 3: N/D"
+msgstr "Punt 3: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:491
 #, kde-format
 msgid "Point 4: N/A"
-msgstr "Punt 4: N/D"
+msgstr "Punt 4: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:557
 #, kde-format
@@ -97983,7 +97983,7 @@ msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
-"No s'ha pogut obrir el fitxer %1 de llista d'observacions desitjades per "
+"No s'ha pogut obrir el fitxer %1 de llista d'observacions desitjades per a "
 "escriptura. No es guardaran els canvis en la llista d'observacions "
 "desitjades. Comproveu que podeu escriure en la ubicació i que no estiga "
 "plena."
