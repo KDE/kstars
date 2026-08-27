@@ -203,6 +203,16 @@ void INDIListener::processMessage(INDI::BaseDevice dp, int messageID)
     {
         if (oneDevice->getDeviceName() == dp.getDeviceName())
         {
+#if KSTARS_HAS_INDI_SAME_DEVICE
+            // A device with the same name may have been torn down and replaced by a
+            // fresh instance (e.g. profile disconnect/reconnect, driver restart) between
+            // the time this message was queued and now. In that case messageID refers to
+            // the old instance's message log, not this one's, so skip it instead of
+            // risking an out-of-range read on the new device's (shorter) log.
+            if (!oneDevice->getBaseDevice().isSameDevice(dp))
+                break;
+#endif
+
             oneDevice->processMessage(messageID);
             break;
         }

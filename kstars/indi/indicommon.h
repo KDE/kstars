@@ -18,6 +18,9 @@
 
 // PAC_INTERFACE was introduced in libindi 2.2.0.
 #define KSTARS_HAS_INDI_PAC_INTERFACE KSTARS_INDI_VERSION_AT_LEAST(2, 2, 0)
+
+// BaseDevice::isSameDevice() was introduced in libindi 2.2.5.
+#define KSTARS_HAS_INDI_SAME_DEVICE KSTARS_INDI_VERSION_AT_LEAST(2, 2, 5)
 /*!
 \page INDI "INDI Overview"
 \tableofcontents
