@@ -305,6 +305,8 @@ void SkyMapLite::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRe
 
 void SkyMapLite::setClickedPoint(SkyPoint *f)
 {
+    if (!f)
+        return;
     ClickedPoint = *f;
     m_ClickedPointLite->setPoint(f);
 }

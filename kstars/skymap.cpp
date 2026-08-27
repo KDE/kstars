@@ -1050,6 +1050,8 @@ void SkyMap::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefrac
 
 void SkyMap::setClickedPoint(const SkyPoint *f)
 {
+    if (!f)
+        return;
     ClickedPoint = *f;
 }
 
