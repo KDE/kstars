@@ -35,6 +35,15 @@ ServerManager::ServerManager(const QString &inHost, int inPort) : host(inHost), 
 
 ServerManager::~ServerManager()
 {
+    // Ensure no QtConcurrent-dispatched call (e.g. startDriver/stopDriver) is mid-flight
+    // on m_ManagedDrivers/m_PendingDrivers before they get torn down below. This closes
+    // the race where a background task is already running when this object is deleted;
+    // it does not protect against a task that hasn't started running yet.
+    {
+        QMutexLocker driverLocker(&m_DriverMutex);
+        QMutexLocker pendingLocker(&m_PendingMutex);
+    }
+
     serverSocket.close();
     indiFIFO.close();
 
