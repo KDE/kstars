@@ -14,6 +14,7 @@
 #include <basedevice.h>
 
 #include <QObject>
+#include <QPointer>
 #include <QVariant>
 #include <QJsonArray>
 
@@ -124,7 +125,7 @@ class GenericDevice : public GDInterface
         Q_PROPERTY(bool connected READ isConnected)
 
     public:
-        explicit GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent = nullptr);
+        explicit GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManager *cm, QObject *parent = nullptr);
         virtual ~GenericDevice() override;
 
         virtual void registerProperty(INDI::Property prop) override;
@@ -150,7 +151,7 @@ class GenericDevice : public GDInterface
         {
             return m_DriverInfo;
         }
-        virtual DeviceInfo *getDeviceInfo() const
+        virtual QSharedPointer<DeviceInfo> getDeviceInfo() const
         {
             return m_DeviceInfo;
         }
@@ -181,10 +182,7 @@ class GenericDevice : public GDInterface
         {
             return m_BaseDevice;
         }
-        ClientManager *getClientManager() const
-        {
-            return m_ClientManager;
-        }
+        ClientManager *getClientManager() const;
         virtual bool getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
                                    double *step);
         virtual IPState getState(const QString &propName);
@@ -296,9 +294,9 @@ class GenericDevice : public GDInterface
         bool m_Ready {false};
         QString m_Name;
         QSharedPointer<DriverInfo> m_DriverInfo;
-        DeviceInfo *m_DeviceInfo { nullptr };
+        QSharedPointer<DeviceInfo> m_DeviceInfo;
         INDI::BaseDevice m_BaseDevice;
-        ClientManager *m_ClientManager { nullptr };
+        QPointer<ClientManager> m_ClientManager;
         QTimer *watchDogTimer { nullptr };
         QTimer *m_ReadyTimer {nullptr};
         QTimer *m_TimeUpdateTimer {nullptr};

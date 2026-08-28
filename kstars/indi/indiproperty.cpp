@@ -301,7 +301,7 @@ void INDI_P::buildBLOBGUI()
 
 void INDI_P::setBLOBOption(int state)
 {
-    pg->getDevice()->getClientManager()->setBLOBEnabled(state == Qt::Checked, dataProp.getDeviceName(), dataProp.getName());
+    pg->getDevice()->setBLOBEnabled(state == Qt::Checked, dataProp.getDeviceName(), dataProp.getName());
 }
 
 void INDI_P::newSwitch(QAbstractButton *button)
@@ -402,7 +402,7 @@ void INDI_P::sendSwitch()
     updateStateLED();
 
     // Send it to server
-    pg->getDevice()->getClientManager()->sendNewProperty(svp);
+    pg->getDevice()->sendNewProperty(svp);
 }
 
 void INDI_P::sendText()
@@ -420,7 +420,7 @@ void INDI_P::sendText()
             for (auto &el : elementList)
                 el->updateTP();
 
-            pg->getDevice()->getClientManager()->sendNewProperty(tvp);
+            pg->getDevice()->sendNewProperty(tvp);
 
             break;
         }
@@ -436,7 +436,7 @@ void INDI_P::sendText()
             for (auto &el : elementList)
                 el->updateNP();
 
-            pg->getDevice()->getClientManager()->sendNewProperty(nvp);
+            pg->getDevice()->sendNewProperty(nvp);
             break;
         }
         default:
@@ -559,18 +559,24 @@ void INDI_P::sendBlob()
     if (!bvp)
         return;
 
+    // Fetch the ClientManager once and guard the whole sequence, rather than risk a
+    // partially-sent BLOB if it went null (device disconnected) mid-transfer.
+    auto clientManager = pg->getDevice()->getClientManager();
+    if (clientManager == nullptr)
+        return;
+
     bvp->setState(IPS_BUSY);
 
-    pg->getDevice()->getClientManager()->startBlob(bvp->getDeviceName(), bvp->getName(),
-            QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
+    clientManager->startBlob(bvp->getDeviceName(), bvp->getName(),
+                              QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
 
     for (int i = 0; i < elementList.count(); i++)
     {
         auto bp = bvp->at(i);
-        pg->getDevice()->getClientManager()->sendOneBlob(bp);
+        clientManager->sendOneBlob(bp);
     }
 
-    pg->getDevice()->getClientManager()->finishBlob();
+    clientManager->finishBlob();
 
     updateStateLED();
 }

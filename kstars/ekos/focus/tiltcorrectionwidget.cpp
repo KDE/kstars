@@ -942,7 +942,7 @@ void TiltCorrectionWidget::sendETAPoint(int pointIndex)
         return;
 
     elem->setValue(m_etaTargets[pointIndex]);
-    m_etaDevice->getClientManager()->sendNewProperty(prop);
+    m_etaDevice->sendNewProperty(prop);
 }
 
 void TiltCorrectionWidget::onETAPropertyUpdate(INDI::Property prop)

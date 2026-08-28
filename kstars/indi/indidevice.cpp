@@ -36,6 +36,7 @@
 #include "dialogs/timedialog.h"
 #include "geolocation.h"
 
+#include "clientmanager.h"
 #include "indiproperty.h"
 #include "indidevice.h"
 #include "indigroup.h"
@@ -70,6 +71,34 @@ INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice baseDevice, ClientManager *in_c
     deviceVBox->setStretchFactor(0, 2);
 
     layout->addWidget(deviceVBox);
+}
+
+ClientManager *INDI_D::getClientManager() const
+{
+    return m_ClientManager;
+}
+
+void INDI_D::sendNewProperty(INDI::Property prop)
+{
+    if (m_ClientManager.isNull())
+    {
+        qCWarning(KSTARS_INDI) << "Cannot send property" << prop.getName() << "for" << name() <<
+                                "client manager is no longer valid.";
+        return;
+    }
+
+    m_ClientManager->sendNewProperty(prop);
+}
+
+void INDI_D::setBLOBEnabled(bool enabled, const QString &device, const QString &property)
+{
+    if (m_ClientManager.isNull())
+    {
+        qCWarning(KSTARS_INDI) << "Cannot set BLOB mode for" << device << "client manager is no longer valid.";
+        return;
+    }
+
+    m_ClientManager->setBLOBEnabled(enabled, device, property);
 }
 
 bool INDI_D::buildProperty(INDI::Property prop)

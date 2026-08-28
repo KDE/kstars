@@ -6,6 +6,7 @@
 
 #include "driverinfo.h"
 
+#include "clientmanager.h"
 #include "deviceinfo.h"
 #include "servermanager.h"
 
@@ -59,10 +60,7 @@ QSharedPointer<DriverInfo> DriverInfo::clone(bool resetClone)
     return clone;
 }
 
-DriverInfo::~DriverInfo()
-{
-    qDeleteAll(devices);
-}
+DriverInfo::~DriverInfo() = default;
 
 void DriverInfo::reset()
 {
@@ -106,20 +104,39 @@ void DriverInfo::setClientState(bool inState)
     Q_EMIT deviceStateChanged();
 }
 
-void DriverInfo::addDevice(DeviceInfo *idv)
+void DriverInfo::setServerManager(ServerManager *newServerManager)
+{
+    serverManager = newServerManager;
+}
+
+ServerManager *DriverInfo::getServerManager() const
+{
+    return serverManager;
+}
+
+void DriverInfo::setClientManager(ClientManager *newClientManager)
+{
+    clientManager = newClientManager;
+}
+
+ClientManager *DriverInfo::getClientManager() const
+{
+    return clientManager;
+}
+
+void DriverInfo::addDevice(const QSharedPointer<DeviceInfo> &idv)
 {
     devices.append(idv);
 }
 
-void DriverInfo::removeDevice(DeviceInfo *idv)
+void DriverInfo::removeDevice(const QSharedPointer<DeviceInfo> &idv)
 {
     devices.removeOne(idv);
-    delete (idv);
 }
 
-DeviceInfo *DriverInfo::getDevice(const QString &deviceName) const
+QSharedPointer<DeviceInfo> DriverInfo::getDevice(const QString &deviceName) const
 {
-    for (auto idv : devices)
+    for (auto &idv : devices)
     {
         if (idv->getDeviceName() == deviceName)
             return idv;

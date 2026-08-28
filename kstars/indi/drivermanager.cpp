@@ -9,6 +9,7 @@
 #include "config-kstars.h"
 
 #include "clientmanager.h"
+#include "deviceinfo.h"
 #include "driverinfo.h"
 #include "guimanager.h"
 #include "indilistener.h"
@@ -78,6 +79,7 @@ DriverManager *DriverManager::Instance()
         _INDIDBus = new INDIDBus(KStars::Instance());
 
         qRegisterMetaType<QSharedPointer<DriverInfo>>("QSharedPointer<DriverInfo>");
+        qRegisterMetaType<QSharedPointer<DeviceInfo>>("QSharedPointer<DeviceInfo>");
     }
 
     return _DriverManager;
@@ -394,7 +396,13 @@ void DriverManager::processDriverStartup(const QSharedPointer<DriverInfo> &drive
 {
     Q_EMIT driverStarted(driver);
 
+    // The ServerManager can have been stopped and destroyed (e.g. a rapid profile
+    // stop) between when this driver's startDriver() dispatched driverStarted()
+    // and this queued slot actually running; there is nothing left to continue with.
     auto manager = driver->getServerManager();
+    if (manager == nullptr)
+        return;
+
     // Do we have more pending drivers?
     if (manager->pendingDrivers().count() > 0)
     {
@@ -425,6 +433,9 @@ void DriverManager::processDriverFailure(const QSharedPointer<DriverInfo> &drive
     QTimer::singleShot(5000, this, [driver]()
     {
         auto manager = driver->getServerManager();
+        if (manager == nullptr)
+            return;
+
         // Do we have more pending drivers?
         if (manager->pendingDrivers().count() > 0)
         {

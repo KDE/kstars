@@ -92,12 +92,24 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     solverRunning = true;
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->getDeviceName(), solverBLOB->getName(),
-            QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
+    // The remote astrometry driver's ClientManager can go null if it was disconnected
+    // concurrently with this solve request; fetch it once and skip the whole BLOB
+    // transfer rather than risk a partially-sent BLOB against a stale pointer.
+    auto clientManager = m_RemoteAstrometry->getDriverInfo()->getClientManager();
+    if (clientManager == nullptr)
+    {
+        align->appendLogText(i18n("Remote astrometry driver is no longer connected."));
+        fp.close();
+        Q_EMIT solverFailed();
+        return false;
+    }
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
+    clientManager->startBlob(solverBLOB->getDeviceName(), solverBLOB->getName(),
+                              QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
 
-    m_RemoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
+    clientManager->sendOneBlob(bp);
+
+    clientManager->finishBlob();
 
     align->appendLogText(i18n("Starting remote solver..."));
     return true;

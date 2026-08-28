@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QMutex>
+#include <QPointer>
 
 #include <indiapi.h>
 #include <basedevice.h>
@@ -38,10 +39,16 @@ class INDI_D : public QWidget
         INDI_D(QWidget *parent, INDI::BaseDevice baseDevice, ClientManager *in_cm);
 
 
-        ClientManager *getClientManager() const
-        {
-            return m_ClientManager;
-        }
+        ClientManager *getClientManager() const;
+
+        /** @brief Forward a property update to the driver via the ClientManager.
+         *  No-ops (with a warning) if the ClientManager is no longer valid, e.g.
+         *  the device was disconnected concurrently with this call. */
+        void sendNewProperty(INDI::Property prop);
+
+        /** @brief Enable/disable BLOB reception for a property via the ClientManager.
+         *  No-ops (with a warning) if the ClientManager is no longer valid. */
+        void setBLOBEnabled(bool enabled, const QString &device, const QString &property);
 
         INDI_G *getGroup(const QString &groupName) const;
 
@@ -85,7 +92,7 @@ class INDI_D : public QWidget
 
         // Managers
         INDI::BaseDevice m_BaseDevice;
-        ClientManager *m_ClientManager { nullptr };
+        QPointer<ClientManager> m_ClientManager;
 
         QList<INDI_G *> groupsList;
 };

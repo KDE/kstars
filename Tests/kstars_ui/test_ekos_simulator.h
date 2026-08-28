@@ -89,6 +89,13 @@ class TestEkosSimulator : public QObject
          *  when DriverInfo::clientManager held a stale pointer after cleanup.
          *  Calling Manager::stop() directly (as EkosLive does) a second time must not crash. */
         void testProfileStopClearsDriverManager();
+
+        /** Regression test for crash in ServerManager::~ServerManager() (SIGSEGV in
+         *  std::__atomic_base<T>::fetch_sub) when a QtConcurrent-dispatched
+         *  startDriver()/stopDriver() call was still in flight while the
+         *  ServerManager was destroyed. Reproduced by calling Manager::start()
+         *  then immediately Manager::stop(), before the drivers finish connecting. */
+        void testRapidProfileStartStop();
 };
 
 #endif // HAVE_INDI

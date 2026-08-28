@@ -256,7 +256,10 @@ void Camera::registerProperty(INDI::Property prop)
     else if (prop.isNameMatch("CCD_WEBSOCKET_SETTINGS"))
     {
         auto nvp = INDI::PropertyNumber(prop);
-        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(m_Parent->getClientManager()->getHost()).arg(nvp[0].getValue())));
+        auto clientManager = m_Parent->getClientManager();
+        if (clientManager == nullptr)
+            return;
+        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(clientManager->getHost()).arg(nvp[0].getValue())));
         m_Media->connectServer();
     }
     else if (prop.isNameMatch("CCD1"))
@@ -1681,12 +1684,20 @@ bool Camera::getOffsetMinMaxStep(double *min, double *max, double *step)
 
 bool Camera::isBLOBEnabled()
 {
-    return (m_Parent->getClientManager()->isBLOBEnabled(getDeviceName(), "CCD1"));
+    auto clientManager = m_Parent->getClientManager();
+    if (clientManager == nullptr)
+        return false;
+
+    return clientManager->isBLOBEnabled(getDeviceName(), "CCD1");
 }
 
 bool Camera::setBLOBEnabled(bool enable, const QString &prop)
 {
-    m_Parent->getClientManager()->setBLOBEnabled(enable, getDeviceName(), prop);
+    auto clientManager = m_Parent->getClientManager();
+    if (clientManager == nullptr)
+        return false;
+
+    clientManager->setBLOBEnabled(enable, getDeviceName(), prop);
 
     return true;
 }

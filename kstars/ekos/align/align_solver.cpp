@@ -274,7 +274,7 @@ bool Align::captureAndSolve(bool initialCall)
                 if (QString(activeCCD->text) != m_Camera->getDeviceName())
                 {
                     activeCCD->setText(m_Camera->getDeviceName().toLatin1().constData());
-                    m_RemoteParserDevice->getClientManager()->sendNewProperty(activeDevices);
+                    m_RemoteParserDevice->sendNewProperty(activeDevices);
                 }
             }
 

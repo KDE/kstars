@@ -356,6 +356,81 @@ void TestEkosSimulator::testProfileStopClearsDriverManager()
     KTRY_EKOS_START_SIMULATORS();
 }
 
+void TestEkosSimulator::testRapidProfileStartStop()
+{
+    // Regression test for the crash:
+    //   ServerManager::~ServerManager() -> ~QList<QSharedPointer<DriverInfo>>()
+    //   (SIGSEGV in std::__atomic_base<T>::fetch_sub)
+    //
+    // Exact scenario reproduced here:
+    //   1. Manager::start() creates a ServerManager and calls
+    //      serverManager->start(), which spawns the indiserver process.
+    //      Once that process signals started(), DriverManager::setServerStarted()
+    //      dispatches QtConcurrent::run(&ServerManager::startDriver, sm, driver)
+    //      for the first driver, via a raw ServerManager* with a discarded
+    //      QFuture (no lifetime tracking) — well before the drivers have
+    //      actually finished connecting (Ekos::Success).
+    //   2. Manager::stop() is called immediately afterwards, exactly as a
+    //      real user clicking Stop right after Start (or EkosLive issuing
+    //      STOP_PROFILE) would. This calls DriverManager::stopDevices() ->
+    //      sm->deleteLater(), which can run ServerManager's destructor while
+    //      the dispatched startDriver() call is still executing on the
+    //      background thread.
+    //   3. The destructor implicitly tears down m_ManagedDrivers /
+    //      m_PendingDrivers (QList<QSharedPointer<DriverInfo>>) without
+    //      holding m_DriverMutex/m_PendingMutex, racing the background
+    //      thread's own locked list access and corrupting the shared_ptr
+    //      refcount.
+    //
+    // Fix:
+    //   ServerManager's destructor now takes m_DriverMutex and m_PendingMutex
+    //   before tearing down the driver lists, so it cannot run while
+    //   startDriver()/stopDriver()/restartDriver() is still "checked in"
+    //   against them. This closes the race for a task that has already
+    //   started; it does not (and cannot, without QFuture tracking) protect
+    //   against a task that is dispatched but not yet running.
+    //
+    // This race is timing-dependent (it needs the indiserver process to have
+    // signalled started() and the background startDriver() task to be
+    // in-flight), so the Start/Stop cycle below is repeated with only a
+    // short, deliberately tight wait in between, to make it very likely to
+    // land inside the vulnerable window on an unfixed build; the fix makes
+    // every iteration safe regardless of timing.
+    //
+    // Pass criteria: no crash, and the Simulators profile ends up Idle.
+
+    Ekos::Manager * const ekos = Ekos::Manager::Instance();
+    QVERIFY(ekos != nullptr);
+
+    // init() already fully started the Simulators profile — stop it first so
+    // we begin the rapid-cycle loop from a clean, known Idle state.
+    KTRY_EKOS_STOP_SIMULATORS();
+
+    KTRY_EKOS_SELECT_PROFILE("Simulators");
+
+    for (int i = 0; i < 8; i++)
+    {
+        // Start dispatches the background driver-start task; give the
+        // indiserver process just enough time to spawn and for that task to
+        // be dispatched (but not to finish) before stopping again.
+        ekos->start();
+        QTest::qWait(50);
+
+        // Stop immediately, racing ServerManager's destructor against the
+        // still in-flight (or just-finished) background driver-start task.
+        ekos->stop(); // Must NOT crash
+
+        // Let the deferred ServerManager::deleteLater() actually run.
+        QTest::qWait(50);
+
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->indiStatus() == Ekos::Idle, 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->ekosStatus() == Ekos::Idle, 10000);
+    }
+
+    // ---- Re-start simulators cleanly so cleanup() -> KTRY_EKOS_STOP_SIMULATORS works ----
+    KTRY_EKOS_START_SIMULATORS();
+}
+
 QTEST_KSTARS_MAIN(TestEkosSimulator)
 
 #endif // HAVE_INDI

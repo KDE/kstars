@@ -70,10 +70,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         bool isBLOBEnabled(const QString &device, const QString &property);
         void setBLOBEnabled(bool enabled, const QString &device, const QString &property);
 
-        ServerManager *getServerManager()
-        {
-            return sManager;
-        }
+        ServerManager *getServerManager();
 
         const QSharedPointer<DriverInfo> &findDriverInfoByName(const QString &name);
         const QSharedPointer<DriverInfo> &findDriverInfoByLabel(const QString &label);
@@ -114,7 +111,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         void processRemoveBLOBManager(const QString &device, const QString &property);
         QList<QSharedPointer<DriverInfo>> m_ManagedDrivers;
         QList<BlobManager *> blobManagers;
-        ServerManager *sManager { nullptr };
+        QPointer<ServerManager> sManager;
 
     Q_SIGNALS:
         // Client successfully connected to the server.
@@ -128,7 +125,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         // must be connected to slots using Qt::BlockingQueuedConnection to ensure operation is fully completed before
         // resuming the INDI client thread. For Qt Based INDI client, Qt::DirectConnection should be used.
 
-        void newINDIDevice(DeviceInfo *dv);
+        void newINDIDevice(const QSharedPointer<DeviceInfo> &dv);
         void removeINDIDevice(const QString &name);
 
         void newINDIProperty(INDI::Property prop);

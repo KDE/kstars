@@ -9,6 +9,7 @@
 #include "indicommon.h"
 
 #include <QObject>
+#include <QPointer>
 #include <QVariantMap>
 #include <QJsonObject>
 
@@ -146,23 +147,11 @@ class DriverInfo : public QObject
             return driverSource;
         }
 
-        void setServerManager(ServerManager *newServerManager)
-        {
-            serverManager = newServerManager;
-        }
-        ServerManager *getServerManager() const
-        {
-            return serverManager;
-        }
+        void setServerManager(ServerManager *newServerManager);
+        ServerManager *getServerManager() const;
 
-        void setClientManager(ClientManager *newClientManager)
-        {
-            clientManager = newClientManager;
-        }
-        ClientManager *getClientManager() const
-        {
-            return clientManager;
-        }
+        void setClientManager(ClientManager *newClientManager);
+        ClientManager *getClientManager() const;
 
         void setUserPort(int inUserPort)
         {
@@ -236,10 +225,10 @@ class DriverInfo : public QObject
         //void setBaseDevice(INDI::BaseDevice *idv) { baseDevice = idv;}
         //INDI::BaseDevice* getBaseDevice() { return baseDevice; }
 
-        void addDevice(DeviceInfo *idv);
-        void removeDevice(DeviceInfo *idv);
-        DeviceInfo *getDevice(const QString &deviceName) const;
-        QList<DeviceInfo *> getDevices() const
+        void addDevice(const QSharedPointer<DeviceInfo> &idv);
+        void removeDevice(const QSharedPointer<DeviceInfo> &idv);
+        QSharedPointer<DeviceInfo> getDevice(const QString &deviceName) const;
+        QList<QSharedPointer<DeviceInfo>> getDevices() const
         {
             return devices;
         }
@@ -288,12 +277,12 @@ class DriverInfo : public QObject
         /// How did we read the driver information? From XML file? From 3rd party file? ..etc.
         DriverSource driverSource { PRIMARY_XML };
         /// Who is managing this device?
-        ServerManager *serverManager { nullptr };
+        QPointer<ServerManager> serverManager;
         /// Any GUI client handling this device?
-        ClientManager *clientManager { nullptr };
+        QPointer<ClientManager> clientManager;
         /// Any additional properties in key, value pairs
         QVariantMap auxInfo;
-        QList<DeviceInfo *> devices;
+        QList<QSharedPointer<DeviceInfo>> devices;
         QJsonObject m_StartupShutdownRule;
 
     Q_SIGNALS:

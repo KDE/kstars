@@ -158,7 +158,7 @@ bool SetAction::sendSetCommand()
             if (element)
             {
                 element->setValue(m_value.toDouble());
-                m_devicePtr->getClientManager()->sendNewProperty(prop);
+                m_devicePtr->sendNewProperty(prop);
                 success = true;
             }
             else
@@ -176,7 +176,7 @@ bool SetAction::sendSetCommand()
                 if (sp->getRule() != ISR_NOFMANY)
                     sp->reset();
                 element->setState(m_value.toBool() ? ISS_ON : ISS_OFF);
-                m_devicePtr->getClientManager()->sendNewProperty(prop);
+                m_devicePtr->sendNewProperty(prop);
                 success = true;
             }
             else
@@ -192,7 +192,7 @@ bool SetAction::sendSetCommand()
             if (element)
             {
                 element->setText(m_value.toString().toUtf8().constData());
-                m_devicePtr->getClientManager()->sendNewProperty(prop);
+                m_devicePtr->sendNewProperty(prop);
                 success = true;
             }
             else

@@ -218,10 +218,15 @@ bool INDIDBus::sendProperty(const QString &device, const QString &property)
 {
     for (auto &oneDevice : INDIListener::devices())
     {
-        ClientManager *cm = oneDevice->getDeviceInfo()->getDriverInfo()->getClientManager();
-
         if (oneDevice->getDeviceName() == device)
         {
+            ClientManager *cm = oneDevice->getClientManager();
+            if (cm == nullptr)
+            {
+                qCWarning(KSTARS) << "Device" << device << "is no longer connected.";
+                return false;
+            }
+
             auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {

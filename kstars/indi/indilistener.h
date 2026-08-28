@@ -69,7 +69,7 @@ class INDIListener : public QObject
         }
 
     public Q_SLOTS:
-        void processDevice(DeviceInfo *dv);
+        void processDevice(const QSharedPointer<DeviceInfo> &dv);
         void removeDevice(const QString &deviceName);
 
         void registerProperty(INDI::Property prop);

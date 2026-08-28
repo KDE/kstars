@@ -95,15 +95,21 @@ void INDIListener::removeClient(ClientManager *cm)
         cm->removeManagedDriver(oneDriverInfo);
 }
 
-void INDIListener::processDevice(DeviceInfo *dv)
+void INDIListener::processDevice(const QSharedPointer<DeviceInfo> &dv)
 {
+    // newINDIDevice is a cross-thread queued connection: the ClientManager that emitted it
+    // may already have been destroyed (e.g. a rapid profile stop) by the time this slot runs.
+    // Qt safely returns nullptr from sender() in that case rather than a dangling pointer, so
+    // treat it the same as DriverManager::setClientStarted/setClientFailed/setClientTerminated
+    // already do: there is nothing meaningful left to do with a device from a defunct client.
     ClientManager *cm = qobject_cast<ClientManager *>(sender());
-    Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
+    if (cm == nullptr)
+        return;
 
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
     QSharedPointer<ISD::GenericDevice> gd;
-    gd.reset(new ISD::GenericDevice(*dv, cm, this));
+    gd.reset(new ISD::GenericDevice(dv, cm, this));
 
     auto isConnected = gd->isConnected();
     // If already connected, we need to process all the properties as well

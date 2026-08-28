@@ -52,17 +52,18 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
 }
 
 uint8_t GenericDevice::m_ID = 1;
-GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent) : GDInterface(parent)
+GenericDevice::GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManager *cm, QObject *parent) : GDInterface(parent)
 {
     // Register DBus
     new GenericDeviceAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/KStars/INDI/GenericDevice/%1").arg(getID()), this);
 
-    m_DeviceInfo    = &idv;
-    m_DriverInfo    = idv.getDriverInfo();
-    m_BaseDevice    = idv.getBaseDevice();
+    m_DeviceInfo    = idv;
+    m_DriverInfo    = idv->getDriverInfo();
+    m_BaseDevice    = idv->getBaseDevice();
     m_ClientManager = cm;
 
+    Q_ASSERT_X(idv, __FUNCTION__, "DeviceInfo is invalid.");
     Q_ASSERT_X(m_BaseDevice, __FUNCTION__, "Base device is invalid.");
     Q_ASSERT_X(m_ClientManager, __FUNCTION__, "Client manager is invalid.");
 
@@ -110,6 +111,11 @@ GenericDevice::~GenericDevice()
 {
     for (auto &metadata : streamFileMetadata)
         metadata.file->close();
+}
+
+ClientManager *GenericDevice::getClientManager() const
+{
+    return m_ClientManager;
 }
 
 void GenericDevice::handleTimeout()
@@ -273,7 +279,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
         if (m_Connected && INDI::PropertyNumber(prop)[0].getValue() > 0)
         {
             // Send immediately a heart beat
-            m_ClientManager->sendNewProperty(prop);
+            sendNewProperty(prop);
         }
     }
 
@@ -333,7 +339,7 @@ void GenericDevice::processSwitch(INDI::Property prop)
                 if (nvp && nvp[0].getValue() > 0)
                 {
                     // Send immediately
-                    m_ClientManager->sendNewProperty(nvp);
+                    sendNewProperty(nvp);
                 }
             }
 
@@ -721,7 +727,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
         sp->setState(ISS_ON);
     }
 
-    m_ClientManager->sendNewProperty(svp);
+    sendNewProperty(svp);
 
     return true;
 }
@@ -768,7 +774,7 @@ void GenericDevice::updateTime(const QString &iso8601, const QString &utcOffset)
     if (timeEle && offsetEle)
     {
         qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Time UTC:" << isoTS << "Offset:" << offset;
-        m_ClientManager->sendNewProperty(timeUTC);
+        sendNewProperty(timeUTC);
     }
 }
 
@@ -824,16 +830,28 @@ void GenericDevice::updateLocation(double longitude, double latitude, double ele
     qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Location Longitude:" << longitude_degrees << "Latitude:" <<
                         latitude_degrees << "Elevation:" << elevation_meters;
 
-    m_ClientManager->sendNewProperty(nvp);
+    sendNewProperty(nvp);
 }
 
 void GenericDevice::Connect()
 {
+    if (m_ClientManager.isNull())
+    {
+        qCWarning(KSTARS_INDI) << "Cannot connect" << getDeviceName() << "client manager is no longer valid.";
+        return;
+    }
+
     m_ClientManager->connectDevice(m_Name.toLatin1().constData());
 }
 
 void GenericDevice::Disconnect()
 {
+    if (m_ClientManager.isNull())
+    {
+        qCWarning(KSTARS_INDI) << "Cannot disconnect" << getDeviceName() << "client manager is no longer valid.";
+        return;
+    }
+
     m_ClientManager->disconnectDevice(m_Name.toLatin1().constData());
 }
 
@@ -868,7 +886,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
             sp->setState(indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON);
 
             //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
-            m_ClientManager->sendNewProperty(svp);
+            sendNewProperty(svp);
 
             return true;
         }
@@ -893,7 +911,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
             np->setValue(value);
 
             //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
-            m_ClientManager->sendNewProperty(nvp);
+            sendNewProperty(nvp);
         }
         break;
         // TODO: Add set property for other types of properties
@@ -963,7 +981,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                         }
                     }
 
-                    m_ClientManager->sendNewProperty(svp);
+                    sendNewProperty(svp);
                     return true;
                 }
 
@@ -985,7 +1003,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                         }
                     }
 
-                    m_ClientManager->sendNewProperty(nvp);
+                    sendNewProperty(nvp);
                     return true;
                 }
 
@@ -1000,7 +1018,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                             tp->setText(oneElementObject["text"].toString().toLatin1().constData());
                     }
 
-                    m_ClientManager->sendNewProperty(tvp);
+                    sendNewProperty(tvp);
                     return true;
                 }
 
@@ -1082,7 +1100,7 @@ void GenericDevice::resetWatchdog()
 
     if (nvp)
         // Send heartbeat to driver
-        m_ClientManager->sendNewProperty(nvp);
+        sendNewProperty(nvp);
 }
 
 bool GenericDevice::findConcreteDevice(uint32_t interface, QSharedPointer<ConcreteDevice> &device)
@@ -1703,6 +1721,16 @@ bool GenericDevice::generateDevices()
 
 void GenericDevice::sendNewProperty(INDI::Property prop)
 {
+    // m_ClientManager can go null if the underlying ClientManager was torn down
+    // (e.g. a rapid profile stop) while this GenericDevice is still referenced
+    // elsewhere (Ekos module objects hold their own QSharedPointer to it).
+    if (m_ClientManager.isNull())
+    {
+        qCWarning(KSTARS_INDI) << "Cannot send property" << prop.getName() << "for" << getDeviceName() <<
+                                "client manager is no longer valid.";
+        return;
+    }
+
     m_ClientManager->sendNewProperty(prop);
 }
 

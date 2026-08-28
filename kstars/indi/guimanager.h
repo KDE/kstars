@@ -77,6 +77,6 @@ class GUIManager : public QWidget
     public Q_SLOTS:
         void changeAlwaysOnTop(Qt::ApplicationState state);
         void clearLog();
-        void buildDevice(DeviceInfo *di);
+        void buildDevice(const QSharedPointer<DeviceInfo> &di);
         void removeDevice(const QString &name);
 };

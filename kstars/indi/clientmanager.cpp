@@ -23,6 +23,11 @@ ClientManager::ClientManager()
     connect(this, &ClientManager::removeBLOBManager, this, &ClientManager::processRemoveBLOBManager, Qt::UniqueConnection);
 }
 
+ServerManager *ClientManager::getServerManager()
+{
+    return sManager;
+}
+
 bool ClientManager::isDriverManaged(const QSharedPointer<DriverInfo> &driver)
 {
     return std::any_of(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [driver](const auto & oneDriver)
@@ -52,7 +57,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
         if (oneDriverInfo->getUniqueLabel() == QString(dp.getDeviceName()))
         {
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
-            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            QSharedPointer<DeviceInfo> devInfo = QSharedPointer<DeviceInfo>::create(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
                                     "(exact match by label)";
@@ -67,7 +72,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
         if (oneDriverInfo->getName() == QString(dp.getDeviceName()))
         {
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
-            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            QSharedPointer<DeviceInfo> devInfo = QSharedPointer<DeviceInfo>::create(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
                                     "(exact match by name)";
@@ -82,7 +87,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
         if (QString(dp.getDeviceName()).startsWith(oneDriverInfo->getName()))
         {
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
-            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            QSharedPointer<DeviceInfo> devInfo = QSharedPointer<DeviceInfo>::create(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
                                     "(startsWith match)";
@@ -102,7 +107,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             ((oneDriverInfo->getDriverSource() == HOST_SOURCE || oneDriverInfo->getDriverSource() == GENERATED_SOURCE)))
         {
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
-            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            QSharedPointer<DeviceInfo> devInfo = QSharedPointer<DeviceInfo>::create(oneDriverInfo, dp);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
                                     "(heuristic match)";
             oneDriverInfo->addDevice(devInfo);
