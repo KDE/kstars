@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 20:56+0300\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 19:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1243,7 +1243,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -23716,10 +23716,9 @@ msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
-msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
+msgstr "Kalibrasyondan bu yana alan %1° döndü. Kalibrasyon temizleniyor."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25316,13 +25315,20 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Alan her döndüğünde kılavuz kalibrasyonunu sıfırlayın; "
+"böylece eski bir kalibrasyon yerine bir sonraki kılavuz başlangıcında yeni "
+"bir kalibrasyon ölçülür. Döndürme, plakayla çözülmüş konum açısından "
+"algılanır, böylece hem elektronik döndürücü hareketlerini hem de elle kamera "
+"dönüşünü kapsar (örneğin, önceki bir oturumdan bir başvuru görseli "
+"karelerken). Onaylanan herhangi bir dönüş, sıfırlamayı tetikler; Meridyen "
+"dönüşleri ayrı ayrı ele alınır ve ele alınmaz. İçsel kılavuz ve PHD2 ile "
+"çalışır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Olanaklıysa kılavuz kalibrasyonunu depola ve yeniden kullan"
+msgstr "Alan döndüğünde kılavuz kalibrasyonunu sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38317,7 +38323,7 @@ msgstr "%1 dosyası okumak için açılamıyor"
 msgid "Not enough memory for file %1"
 msgstr "%1 dosyası için yeterli bellek yok"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "INDI Sunucusu İletisi"
@@ -46545,6 +46551,9 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Plaka çözümlü konum açısından algılanan alan döndüğünde kayıtlı kılavuz "
+"kalibrasyonunu sıfırlayın (hem elektronik döndürücü hareketlerini hem de "
+"elle kamera dönüşünü kapsar)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -46556,6 +46565,12 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Plaka çözümlü konum açısından alan dönüşünü tespit etmek için derece "
+"türünden gürültü tabanı. Bu düzeyde veya üzerindeki dönüşler kılavuz "
+"kalibrasyonunu sıfırlar; plaka çözme titreşiminin hemen üzerinde tutulur, "
+"böylece herhangi bir gerçek dönüş sıfırlamayı tetikler. Kullanıcıların "
+"yönlendirmeyi sessizce bozan büyük bir tolerans ayarlamasını önlemek için "
+"kullanıcı arayüzünde gösterilmemiştir."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -82356,7 +82371,7 @@ msgstr "HiPS Ayarları…"
 msgid " Welcome to KStars "
 msgstr " K Yıldızlar’a hoş geldiniz "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91069,12 +91084,12 @@ msgstr "Supernova güncellemeleri indiriliyor…"
 msgid "Error downloading supernova data: %1"
 msgstr "Süpernova verisi indirilirken hata: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "İstenen Konum Ufkun Altında"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

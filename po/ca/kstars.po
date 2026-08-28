@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 10:18+0200\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 22:48+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -1253,7 +1253,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -24082,12 +24082,10 @@ msgstr "S'ha netejat el calibratge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
-"calibratge."
+"El camp ha girat %1° des del calibratge del guiatge. Es neteja el calibratge."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25706,13 +25704,20 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Reinicia el calibratge del guiatge sempre que el camp "
+"giri, de manera que es mesura un calibratge fresc en l'inici següent del "
+"guiatge en lloc de guiar en un punt mort. El gir es detecta des de l'angle "
+"de posició de la placa resolta, de manera que cobreix tant els moviments del "
+"rotor electrònic com el gir manual de la càmera (per exemple quan s'enquadra "
+"a una imatge de referència d'una sessió anterior). Qualsevol gir confirmat "
+"desencadena un reinici; els salts del meridià es gestionen per separat i no "
+"ho fan. Funciona amb el guiatge intern i el PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Emmagatzema i reutilitza el calibratge del guiatge si és possible."
+msgstr "Reinicia el calibratge del guiatge quan el camp gira."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38888,7 +38893,7 @@ msgstr "No s'ha pogut obrir el fitxer %1 per a lectura"
 msgid "Not enough memory for file %1"
 msgstr "No hi ha prou memòria per al fitxer %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Missatge del servidor INDI"
@@ -47315,6 +47320,9 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Reinicia un calibratge del guiatge emmagatzemat quan el camp gira, detectat "
+"a partir de l'angle de posició resolt a la placa (cobreix tant els moviments "
+"del rotor electrònic com el gir manual de la càmera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -47326,6 +47334,12 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Sòl del soroll, en graus, per detectar el gir de camp des de l'angle de "
+"posició resolt per placa. Girs a o per sobre d'aquest reinicien el "
+"calibratge del guiatge; manteniu-lo just per sobre de la resolució de la "
+"placa, de manera que qualsevol gir real desencadena un reinici. No s'exposa "
+"a la interfície d'usuari per evitar que els usuaris estableixin una "
+"tolerància gran que degradi silenciosament el guiatge."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -83229,7 +83243,7 @@ msgstr "Configuració del HiPS..."
 msgid " Welcome to KStars "
 msgstr " Us donem la benvinguda al KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -92042,12 +92056,12 @@ msgstr "S'estan baixant les actualitzacions de les supernoves..."
 msgid "Error downloading supernova data: %1"
 msgstr "Error en baixar les dades de les supernoves: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "La posició sol·licitada està per sota de l'horitzó"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

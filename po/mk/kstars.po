@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -1305,7 +1305,7 @@ msgstr "Европа"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -36760,7 +36760,7 @@ msgstr "Не можам да ја отворам датотеката"
 msgid "Not enough memory for file %1"
 msgstr "KStars::slotFind() - Нема доволно меморија за дијалог"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, fuzzy, kde-format
 msgid "INDI Server Message"
 msgstr "St. Peter Port"
@@ -86206,7 +86206,7 @@ msgstr "Тековни бои"
 msgid " Welcome to KStars "
 msgstr "Добредојдовте во KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -95262,12 +95262,12 @@ msgstr "Вчитувам KStars..."
 msgid "Error downloading supernova data: %1"
 msgstr "Не можам да ја отворам датотеката"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Бараната позиција е под хоризонтот"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

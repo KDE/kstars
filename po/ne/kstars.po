@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1335,7 +1335,7 @@ msgstr "युरोपा"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -38605,7 +38605,7 @@ msgstr "पढ्नका लागि फाइल %1 खोल्न सक�
 msgid "Not enough memory for file %1"
 msgstr "%1 लोड गर्न पर्याप्त स्मृति छैन"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server Message"
@@ -90628,7 +90628,7 @@ msgstr "हालको रङ सेटिङ"
 msgid " Welcome to KStars "
 msgstr " केडीई तारामा स्वागत छ "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -100180,12 +100180,12 @@ msgstr "अतिरिक्त डेटा डाउनलोड गर्न
 msgid "Error downloading supernova data: %1"
 msgstr "त्रुटि: छवि बचत गर्न असक्षम भयो: %1 "
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "क्षितिज तल अनुरोध गरिएको स्थिति"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

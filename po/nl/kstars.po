@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 18:31+0200\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 10:34+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1246,7 +1246,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -23792,11 +23792,10 @@ msgid "Calibration is cleared."
 msgstr "Kalibreren gewist."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"Pier-kant (kijkrichting) wijziging gedetecteerd. Calibratie wordt gewist."
+"Veld gedraaid %1° sinds kalibratie van volgen. Kalibratie wordt gewist."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25393,13 +25392,22 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Reset de kalibratie van de volger telkens wanneer het "
+"beeldveld draait, zodat er bij de volgende start van het volgen een nieuwe "
+"kalibratie wordt uitgevoerd in plaats van gebruik te maken van een "
+"verouderde kalibratie. Draaiing wordt gedetecteerd op basis van de via "
+"plaatoplossing bepaalde positiehoek; dit omvat zowel bewegingen van een "
+"elektronische rotator als handmatige rotatie van de camera (bijvoorbeeld bij "
+"het uitlijnen op een referentie-opname uit een eerdere sessie). Elke "
+"vastgestelde draaiing leidt tot een reset; meridiaan-flips worden apart "
+"afgehandeld en veroorzaken geen reset. Werkt met de interne volger en PHD2.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Volgkalibratie waar mogelijk opslaan en hergebruiken."
+msgstr "Volgkalibratie resetten wanneer het veld draait."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38415,7 +38423,7 @@ msgstr "Kan bestand %1 niet openen om te lezen"
 msgid "Not enough memory for file %1"
 msgstr "Niet genoeg werkgeheugen voor bestand %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Bericht van INDI Server"
@@ -46636,6 +46644,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Reset een opgeslagen volgkalibratie wanneer het beeldveld roteert, zoals "
+"gedetecteerd op basis van de via plaatoplossing bepaalde positiehoek (dit "
+"geldt zowel voor bewegingen van een elektronische rotator als voor "
+"handmatige camerarotatie)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -46647,6 +46659,14 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"De ruisdrempel (in graden) voor het detecteren van velddraaiing ten opzichte "
+"van de via plaatoplossing' bepaalde positiehoek. Bij rotaties die deze "
+"waarde bereiken of overschrijden, wordt de volgkalibratie opnieuw "
+"uitgevoerd; de drempelwaarde is net boven de 'jitter' van de plaatoplossing "
+"ingesteld, zodat elke werkelijke rotatie een herkalibratie activeert. Deze "
+"instelling is niet zichtbaar in de gebruikersinterface om te voorkomen dat "
+"gebruikers een te ruime tolerantie instellen, wat de volgprestaties "
+"ongemerkt zou verslechteren."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -82456,7 +82476,7 @@ msgstr "Instellingen HiPS..."
 msgid " Welcome to KStars "
 msgstr " Welkom bij KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91207,12 +91227,12 @@ msgstr "Downloaden updates supernova's..."
 msgid "Error downloading supernova data: %1"
 msgstr "Fout bij ophalen gegevens van supernovae: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Gevraagde positie is onder de horizon"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

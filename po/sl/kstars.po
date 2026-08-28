@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 07:21+0200\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 06:41+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1274,7 +1274,7 @@ msgstr "Evropa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -23710,10 +23710,10 @@ msgid "Calibration is cleared."
 msgstr "Umerjanje je počiščeno."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
-msgstr "Zaznana je sprememba strani stojala. Čiščenje umerjanja."
+msgstr ""
+"Polje se je zavrtelo za %1°od kalibracije vodila. Brisanje kalibracije."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25317,13 +25317,20 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Ponastavi kalibracijo vodila vsakič, ko se polje "
+"zavrti, tako da se ob naslednjem zagonu vodila izmeri nova kalibracija "
+"namesto vodenja po zastareli kalibraciji. Vrtenje se zazna iz kota položaja, "
+"rešenega s ploščo, zato zajema tako premike elektronskega rotatorja kot "
+"ročno vrtenje kamere (na primer pri kadriranju na referenčno sliko iz "
+"prejšnje seje). Vsako potrjeno vrtenje sproži ponastavitev; preobrati čez "
+"meridian se obravnavajo ločeno in ne prožijo. Deluje z notranjim vodilom in "
+"PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Shrani in ponovno uporabi kalibracijo vodila, kadar je to mogoče."
+msgstr "Ponastavi kalibracijo vodila, ko se polje zavrti."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38331,7 +38338,7 @@ msgstr "Datoteke %1 ni mogoče odpreti za branje"
 msgid "Not enough memory for file %1"
 msgstr "Ni dovolj pomnilnika za datoteko %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Sporočilo strežnika INDI"
@@ -46420,6 +46427,9 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Ponastavi shranjeno kalibracijo vodila, ko se polje vrti, zaznano iz kota "
+"položaja, rešenega s ploščo (zajema premike elektronskega rotatorja in ročno "
+"vrtenje kamere)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -46431,6 +46441,12 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Prag šuma v stopinjah za zaznavanje vrtenja polja iz kota položaja, "
+"izračunanega na podlagi plošče. Vrtenja na tej ravni ali nad njo ponastavijo "
+"kalibracijo vodila; ohranjajo se tik nad tresljajem, izračunanim na podlagi "
+"plošče, tako da vsako dejansko vrtenje sproži ponastavitev. Ni prikazano v "
+"uporabniškem vmesniku, da se prepreči, da bi uporabniki nastavili veliko "
+"toleranco, ki bi tiho poslabšala vodenje."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -82233,7 +82249,7 @@ msgstr "Nastavitve HiPS…"
 msgid " Welcome to KStars "
 msgstr " Dobrodošli v KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -90937,12 +90953,12 @@ msgstr "Prejemanje posodobitev supernov…"
 msgid "Error downloading supernova data: %1"
 msgstr "Napaka pri prenosu podatkov o supernovi: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Zahtevan položaj je pod obzorjem"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

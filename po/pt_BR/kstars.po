@@ -19,10 +19,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 06:47-0300\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 10:01-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
+"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1255,7 +1255,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -23908,10 +23908,10 @@ msgid "Calibration is cleared."
 msgstr "A calibração foi apagada."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
-msgstr "Alteração no lado do píer detectada. Limpando a calibração."
+msgstr ""
+"O campo rotacionou %1° desde a calibração de guia. Limpando a calibração."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25513,13 +25513,22 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Redefina a calibração de guiagem sempre que o campo "
+"rotacionar, garantindo que uma nova calibração seja realizada no próximo "
+"início da guiagem, em vez de utilizar uma calibração desatualizada. A "
+"rotação é detectada com base no ângulo de posição obtido pela resolução "
+"astrométrica, abrangendo tanto movimentos de rotadores eletrônicos quanto a "
+"rotação manual da câmera (por exemplo, ao enquadrar com base em uma imagem "
+"de referência de uma sessão anterior). Qualquer rotação confirmada aciona a "
+"redefinição; inversões de meridiano são tratadas separadamente e não "
+"provocam essa ação. Compatível com o sistema de guiagem interno e com o PHD2."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Armazenar e reutilizar a guia de calibração quando possível."
+msgstr "Redefine a calibração da guiagem quando o campo rotacionar."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38600,7 +38609,7 @@ msgstr "Não foi possível abrir o arquivo %1 para leitura"
 msgid "Not enough memory for file %1"
 msgstr "Não há memória suficiente para o arquivo %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Mensagem do servidor INDI"
@@ -46881,6 +46890,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Redefine a calibração de guiagem armazenada quando o campo rotacionar, "
+"detectado a partir do ângulo de posição obtido via resolução astrométrica "
+"(abrange tanto movimentos de rotador eletrônico quanto a rotação manual da "
+"câmera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -46892,6 +46905,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Nível de ruído, em graus, para detecção da rotação do campo a partir do "
+"ângulo de posição obtido pela resolução da placa. Rotações iguais ou "
+"superiores a esse valor reiniciam a calibração do guia; mantido ligeiramente "
+"acima da oscilação da resolução da placa para que qualquer rotação real "
+"acione uma reinicialização. Não é exibido na interface do usuário para "
+"evitar que os usuários definam uma tolerância alta que degrada "
+"silenciosamente o guiamento."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -82718,7 +82738,7 @@ msgstr "Configurações do HiPS..."
 msgid " Welcome to KStars "
 msgstr " Bem-vindo ao KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91471,12 +91491,12 @@ msgstr "Baixando atualizações das supernovas..."
 msgid "Error downloading supernova data: %1"
 msgstr "Erro ao baixar os dados das supernovas: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Posição solicitada abaixo do horizonte"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

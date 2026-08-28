@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 16:30+0300\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 08:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1240,7 +1240,7 @@ msgstr "Європа"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -23968,10 +23968,11 @@ msgid "Calibration is cleared."
 msgstr "Дані калібрування вилучено."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
-msgstr "Виявлено зміну боку стійки. Вилучаємо дані калібрування."
+msgstr ""
+"Поле зону обернено %1° з моменту калібрування наведення. Вилучаємо дані "
+"калібрування."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -25592,14 +25593,21 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Відновлювати початкові параметри калібрування "
+"наведення щоразу, коли поле зору буде обернуто, щоб виміряти нове "
+"калібрування під час наступного запуску наведення, а не за старим. Обертання "
+"визначається за позиційним кутом, визначеним за пластиною, тому воно охоплює "
+"як рухи електронного засобу обертання, так і обертання камери вручну "
+"(наприклад, під час кадрування на опорне зображення з попереднього сеансу). "
+"Будь-яке підтверджене обертання запускає скидання; перевороти по меридіанах "
+"обробляються окремо. Працює з внутрішнім засобом обертання та PHD2.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr ""
-"Зберігати і повторно використовувати калібрування наведення, якщо можна."
+msgstr "Скидати дані калібрування наведення, якщо поле зору обернуто."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -38737,7 +38745,7 @@ msgstr "Не вдається відкрити файл «%1» для читан
 msgid "Not enough memory for file %1"
 msgstr "Недостатньо пам'яті для файла %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Повідомлення сервера INDI"
@@ -47003,6 +47011,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Скинути збережене калібрування наведення, якщо поле зору обернуто, де "
+"визначення обертання відбувається за позиційним кутом, визначеним за "
+"допомогою пластини (охоплює як рухи електронного засобу обертання, так і "
+"обертання камери вручну)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -47014,6 +47026,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Мінімум шуму, у градусах, для виявлення обертання поля за позиційним кутом, "
+"виміряним за допомогою розрахункової пластини. Обертання на рівні або вище "
+"цього значення скидають калібрування наведення; утримується трохи вище "
+"коливання, виміряного за допомогою розрахункової пластини, тому будь-яке "
+"реальне обертання викликає скидання. Не буде показано в інтерфейсі "
+"користувача, щоб уникнути встановлення користувачами великого допуску, який "
+"непомітно погіршує роботу наведення."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -82854,7 +82873,7 @@ msgstr "Параметри HiPS…"
 msgid " Welcome to KStars "
 msgstr " Ласкаво просимо до KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91617,12 +91636,12 @@ msgstr "Отримуємо оновлення даних щодо наднови
 msgid "Error downloading supernova data: %1"
 msgstr "Помилка під час спроби отримати дані наднових: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Задана позиція знаходиться під горизонтом"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"

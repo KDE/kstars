@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-22 12:06+0100\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-28 01:26+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -507,7 +507,7 @@ msgstr "Espere mientras se descarga la imagen DSS…"
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr "%1 (%2 %)"
+msgstr "%1 (%2 %)"
 
 #: auxiliary/ksmessagebox.cpp:134
 #, kde-format
@@ -1241,7 +1241,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -18112,7 +18112,7 @@ msgstr ""
 "<html><head/><body><p>Duración mínima de una inversión de meridiano en "
 "segundos. Aumente este valor si Ekos informa de que ha fallado una inversión "
 "de meridiano porque no ha cambiado el lado de la columna. Una buena "
-"estimación para este valor es al menos el 50 % de la duración típica de una "
+"estimación para este valor es al menos el 50 % de la duración típica de una "
 "inversión de meridiano.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
@@ -20363,7 +20363,7 @@ msgstr "Algoritmo de enfoque automático lineal interrumpido: %1"
 #: ekos/focus/focus.cpp:4038
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
-msgstr "FITS recibido. HFR %1 @ %2. Delta (%3 %)"
+msgstr "FITS recibido. HFR %1 @ %2. Delta (%3 %)"
 
 #: ekos/focus/focus.cpp:4040
 #, kde-format
@@ -20422,7 +20422,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:4445
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
-msgstr "FITS recibido. HFR %1. Delta (%2 %) HFR mín. (%3)"
+msgstr "FITS recibido. HFR %1. Delta (%2 %) HFR mín. (%3)"
 
 #: ekos/focus/focus.cpp:4449
 #, kde-format
@@ -22047,7 +22047,7 @@ msgstr ""
 "con el enfocador posicionado cerca de un buen foco. Defina el tamaño del "
 "paso inicial y el recorrido máximo para el intervalo de muestreo deseado y "
 "extiéndalo alrededor de la posición inicial de enfoque. La tolerancia debe "
-"ser alrededor del 5 %.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"ser alrededor del 5 %.</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Lineal de 1 paso</span>: Empieza como "
 "<span style=\" font-weight:600;\">Lineal</span> pero, tras completar el "
@@ -22637,7 +22637,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Diámetro del círculo exterior que se debe excluir del "
 "enfoque. El diámetro se indica como porcentaje de la diagonal de la imagen. "
-"Use 100 % para incluir los bordes exteriores del sensor.</p></body></html>"
+"Use 100 % para incluir los bordes exteriores del sensor.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/opsfocussettings.ui:530
@@ -30468,7 +30468,7 @@ msgstr "Crear trabajos del planificador para ejecutar el programa del mosaico"
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
-msgstr "%1 %"
+msgstr "%1 %"
 
 #: ekos/scheduler/framingassistantui.cpp:601
 #, kde-format
@@ -37616,7 +37616,7 @@ msgstr "Calcular la HFR automáticamente"
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
 msgstr ""
-"Al calcular la HFR, ejecutarla rápidamente teniendo en cuenta solo el 25 % "
+"Al calcular la HFR, ejecutarla rápidamente teniendo en cuenta solo el 25 % "
 "de la imagen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
@@ -38835,7 +38835,7 @@ msgstr "No se puede abrir archivo %1 para lectura"
 msgid "Not enough memory for file %1"
 msgstr "No hay memoria suficiente para el archivo %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Mensaje del servidor INDI"
@@ -44185,7 +44185,7 @@ msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
 msgstr ""
 "Calcular las HFR de las imágenes normales de forma rápida teniendo en cuenta "
-"solo el 25 % de su zona central."
+"solo el 25 % de su zona central."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
 #: kstars.kcfg:1746
@@ -45452,8 +45452,8 @@ msgid ""
 "may also have an inherent filter."
 msgstr ""
 "Durante el enfoque de campo completo, las estrellas que estén dentro de este "
-"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el 0 "
-"%). Los algoritmos de detección también pueden tener un filtro inherente."
+"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el "
+"0 %). Los algoritmos de detección también pueden tener un filtro inherente."
 
 #. i18n: ectx: label, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2469
@@ -45470,8 +45470,8 @@ msgid ""
 "algorithms may also have an inherent filter."
 msgstr ""
 "Durante el enfoque de campo completo, las estrellas que estén fuera de este "
-"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el 100 "
-"%). Los algoritmos de detección también pueden tener un filtro inherente."
+"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el "
+"100 %). Los algoritmos de detección también pueden tener un filtro inherente."
 
 #. i18n: ectx: label, entry (FocusMosaicTileWidth), group (Focus)
 #: kstars.kcfg:2474
@@ -83055,7 +83055,7 @@ msgstr "Preferencias de HiPS…"
 msgid " Welcome to KStars "
 msgstr " Bienvenido a KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91832,12 +91832,12 @@ msgstr "Descargando actualizaciones de supernovas…"
 msgid "Error downloading supernova data: %1"
 msgstr "Ha ocurrido un error al descargar datos de supernovas: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Posición solicitada por debajo del horizonte"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"
@@ -96317,7 +96317,7 @@ msgstr "Fase:"
 #: tools/modcalcdaylength.ui:736
 #, no-c-format, kde-format
 msgid "Waxing gibbous (75%)"
-msgstr "Gibosa creciente (75 %)"
+msgstr "Gibosa creciente (75 %)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: tools/modcalcdaylength.ui:784
@@ -99058,7 +99058,7 @@ msgstr "triángulo equilátero"
 #: tools/starhopper.cpp:340
 #, kde-format
 msgid " within %1% of FOV of the marked star"
-msgstr " dentro del %1 % del campo de visión de la estrella marcada"
+msgstr " dentro del %1 % del campo de visión de la estrella marcada"
 
 #: tools/starhopperdialog.cpp:64
 #, kde-format
@@ -99517,7 +99517,7 @@ msgstr "Muestra la fracción iluminada de La Luna para la fecha seleccionada."
 #: tools/wutdialog.ui:333
 #, no-c-format, kde-format
 msgid "Moon illum: 42%"
-msgstr "Ilum. de la Luna: 42 %"
+msgstr "Ilum. de la Luna: 42 %"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel15)
 #: tools/wutdialog.ui:356

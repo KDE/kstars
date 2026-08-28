@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-27 02:08+0000\n"
-"PO-Revision-Date: 2026-08-26 21:51+0200\n"
+"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"PO-Revision-Date: 2026-08-27 10:12+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1261,7 +1261,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1429
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -13326,7 +13326,7 @@ msgid ""
 "movement"
 msgstr ""
 "El nombre de marques per °C d'augment en la temperatura. «+ve» per a un "
-"moviment cap enfora de l'enfocador"
+"moviment cap a fora de l'enfocador"
 
 #: ekos/auxiliary/filtermanager.cpp:153
 #, kde-format
@@ -13340,7 +13340,7 @@ msgid ""
 "movement"
 msgstr ""
 "El nombre de marques per grau d'augment en l'altitud. «+ve» per a un "
-"moviment cap enfora de l'enfocador"
+"moviment cap a fora de l'enfocador"
 
 #: ekos/auxiliary/filtermanager.cpp:157
 #, kde-format
@@ -14958,7 +14958,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:658
 #, kde-format
 msgid "2.0"
-msgstr "2.0"
+msgstr "2,0"
 
 #. i18n: ectx: property (title), widget (QGroupBox, starFilterOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:668
@@ -19768,7 +19768,7 @@ msgstr "L'enfocament adaptatiu no ha pogut moure l'enfocador"
 #: ekos/focus/adaptivefocus.cpp:352
 #, kde-format
 msgid "Moving %1 offset outward"
-msgstr "S'està movent cap enfora el desplaçament %1"
+msgstr "S'està movent cap a fora el desplaçament %1"
 
 #: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
@@ -19905,7 +19905,7 @@ msgid ""
 "\">2</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Establix el valor de la tolerància=t entre 0 i 1. Açò "
-"escalarà el càlcul clàssic de la ZCE de 4.88 λ f<span style=\"vertical-align:"
+"escalarà el càlcul clàssic de la ZCE de 4,88 λ f<span style=\"vertical-align:"
 "super;\">2</span>.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZFinal)
@@ -19977,7 +19977,7 @@ msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>ZCE = 4.88 t λ f<span style=\"vertical-align:super;"
+"<html><head/><body><p>ZCE = 4,88 t λ f<span style=\"vertical-align:super;"
 "\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
@@ -20403,12 +20403,12 @@ msgstr "S'ha produït un error: S'ha perdut la connexió amb l'enfocador."
 #: ekos/focus/focus.cpp:2148
 #, kde-format
 msgid "outward"
-msgstr "cap enfora"
+msgstr "cap a fora"
 
 #: ekos/focus/focus.cpp:2148
 #, kde-format
 msgid "inward"
-msgstr "cap endins"
+msgstr "cap a dins"
 
 #: ekos/focus/focus.cpp:2165
 #, kde-format
@@ -20892,7 +20892,7 @@ msgid ""
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enfoca cap enfora. Utilitzeu les tecles «Majús» i "
+"<html><head/><body><p>Enfoca cap a fora. Utilitzeu les tecles «Majús» i "
 "«Ctrl» per a la velocitat del moviment. Els factors es configuren en les "
 "opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
 "sentit horari.</p></body></html>"
@@ -20905,7 +20905,7 @@ msgid ""
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enfoca cap endins. Utilitzeu les tecles «Majús» i "
+"<html><head/><body><p>Enfoca cap a dins. Utilitzeu les tecles «Majús» i "
 "«Ctrl» per a la velocitat del moviment. Els factors es configuren en les "
 "opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
 "sentit antihorari.</p></body></html>"
@@ -21568,14 +21568,14 @@ msgid ""
 "position at the start of focusing.</p></body></html>"
 msgstr ""
 "<html><body><p>Este nombre, multiplicat per la mida del pas inicial és el "
-"nombre de passos cap enfora que l'algorisme d'enfocament lineal s'allunyarà "
+"nombre de passos cap a fora que l'algorisme d'enfocament lineal s'allunyarà "
 "de la posició inicial en iniciar l'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:81
 #, kde-format
 msgid "Out Step Multiple:"
-msgstr "Múltiples passos cap enfora:"
+msgstr "Múltiples passos cap a fora:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:97
@@ -21605,23 +21605,23 @@ msgstr ""
 "quan s'utilitze <span style=\"font-weight:600;\">lineal d'1 pas</span>. Per "
 "a <span style=\"font-weight:600;\">Lineal</span> només hi ha disponible "
 "<span style=\"font-weight:600;\">Clàssic</span>.</p><p>Clàssic <span style="
-"\"font-weight:600;\">Clàssic</span>: L'enfocador ix «Múltiples passos cap "
-"enfora:» passos, pren un fotograma i després avança a través de l'enfocament "
-"a una mida de pas constant prenent i analitzant els fotogrames a cada pas. "
-"El punt exacte en el qual es para el pas depén de les dades, de manera que "
-"este camí tolera el començar més lluny de l'enfocament, però a costa de "
-"passos addicionals.</p><p><span style=\"font-weight:600;\">Passos fixos</"
-"span>: L'enfocador avança la meitat del «Nombre de passos», pren un "
-"fotograma i després avança exactament el «Nombre de passos». Este camí ha de "
-"començar prop de l'enfocament per a ser efectiu, però és previsible en el "
-"nombre de passos que es prenen.</p><p><span style=\"font-weight:600;"
-"\">Barreja ZCE</span>: Similar a <span style=\"font-weight:600;\">Passos "
-"fixos</span> excepte que este camí fa mig pas a prop del punt d'enfocament "
-"per a intentar donar més pes als punts que es troben més a prop de "
-"l'enfocament durant l'ajust de la corba. Igual que amb <span style=\"font-"
-"weight:600;\">Passos fixos</span>, este camí s'ha d'iniciar a prop de "
-"l'enfocament per a ser efectiu, però és previsible en el nombre de passos "
-"fets.</p><p><br/></p></body></html>"
+"\"font-weight:600;\">Clàssic</span>: L'enfocador ix «Múltiples passos cap a "
+"fora:» passos, pren un fotograma i després avança a través de l'enfocament a "
+"una mida de pas constant prenent i analitzant els fotogrames a cada pas. El "
+"punt exacte en el qual es para el pas depén de les dades, de manera que este "
+"camí tolera el començar més lluny de l'enfocament, però a costa de passos "
+"addicionals.</p><p><span style=\"font-weight:600;\">Passos fixos</span>: "
+"L'enfocador avança la meitat del «Nombre de passos», pren un fotograma i "
+"després avança exactament el «Nombre de passos». Este camí ha de començar "
+"prop de l'enfocament per a ser efectiu, però és previsible en el nombre de "
+"passos que es prenen.</p><p><span style=\"font-weight:600;\">Barreja ZCE</"
+"span>: Similar a <span style=\"font-weight:600;\">Passos fixos</span> "
+"excepte que este camí fa mig pas a prop del punt d'enfocament per a intentar "
+"donar més pes als punts que es troben més a prop de l'enfocament durant "
+"l'ajust de la corba. Igual que amb <span style=\"font-weight:600;\">Passos "
+"fixos</span>, este camí s'ha d'iniciar a prop de l'enfocament per a ser "
+"efectiu, però és previsible en el nombre de passos fets.</p><p><br/></p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:106
@@ -21653,7 +21653,7 @@ msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Mida del pas inicial</"
 "span> en les marques per a causar un canvi notable en el valor d'HFR. Per a "
 "un enfocador basat en temporitzador, este és el temps inicial en "
-"mil·lisegons per a moure l'enfocador cap endins o cap enfora.</p></body></"
+"mil·lisegons per a moure l'enfocador cap a dins o cap a fora.</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
@@ -21675,8 +21675,8 @@ msgid ""
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El retard entre completar el moviment cap enfora d'una "
-"exploració excessiva i l'inici del moviment cap endins. 0 està bé per a la "
+"<html><head/><body><p>El retard entre completar el moviment cap a fora d'una "
+"exploració excessiva i l'inici del moviment cap a dins. 0 està bé per a la "
 "majoria dels enfocadors.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
@@ -21703,7 +21703,7 @@ msgid ""
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Proporciona el rebot excessiu en marques per als "
-"moviments de l'enfocador cap enfora durant una execució d'enfocament "
+"moviments de l'enfocador cap a fora durant una execució d'enfocament "
 "automàtic. Açò és a més de qualsevol reacció proporcionada pel controlador "
 "del dispositiu i establida al camp «Compensació de rebot del controlador:». "
 "Establiu-la a 0 per a desactivar.</p><p>Si s'establix, l'«EA excessiu:» "
@@ -22337,7 +22337,7 @@ msgstr ""
 "conjunt de dades.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Lineal</span>: de manera habitual les mostres "
-"s'enfocaran cap endins, utilitzant 2 passos. L'algorisme pot ser lent, però "
+"s'enfocaran cap a dins, utilitzant 2 passos. L'algorisme pot ser lent, però "
 "és més resilient als rebots. Comenceu amb l'enfocador col·locat prop de "
 "l'enfocament bo. Establiu la «Mida del pas inicial:» i el «Recorregut màx.:» "
 "per a l'interval de mostreig desitjat i l'interval al voltant de la posició "
@@ -23120,49 +23120,49 @@ msgstr "M2.5 (0.45 mm)"
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
-msgstr "M3 (0.50 mm)"
+msgstr "M3 (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:313
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
-msgstr "M3 fi (0.35 mm)"
+msgstr "M3 fi (0,35 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
-msgstr "M4 (0.70 mm)"
+msgstr "M4 (0,70 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:315
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
-msgstr "M4 fi (0.50 mm)"
+msgstr "M4 fi (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:316
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
-msgstr "M5 (0.80 mm)"
+msgstr "M5 (0,80 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:317
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
-msgstr "M5 fi (0.50 mm)"
+msgstr "M5 fi (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:318
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
-msgstr "M6 (1.00 mm)"
+msgstr "M6 (1,00 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:319
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
-msgstr "Wanderer ETA (0.50 mm)"
+msgstr "Wanderer ETA (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
 #, kde-format
@@ -23322,7 +23322,7 @@ msgstr "Bloquejat: el radi de la Wanderer ETA M54 és de 64 mm"
 #: ekos/focus/tiltcorrectionwidget.cpp:558
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
-msgstr "Bloquejat: El pas de rosca de la Wanderer ETA M54 és de 0.50 mm/volta"
+msgstr "Bloquejat: El pas de rosca de la Wanderer ETA M54 és de 0,50 mm/volta"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:559
 #, kde-format
@@ -24351,12 +24351,10 @@ msgstr "S'ha netejat el calibratge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
-"calibratge."
+"El camp ha girat %1° des del calibratge del guiatge. Es neteja el calibratge."
 
 #: ekos/guide/guide.cpp:2145
 #, kde-format
@@ -26004,14 +26002,21 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Restablix el calibratge del guiatge cada vegada que "
+"gire el camp, de manera que es mesure un calibratge nou durant l'inici "
+"següent del guiatge en lloc d'emprar un guiatge obsolet. El gir es detecta "
+"des de l'angle de posició obtingut per la resolució de plaques, de manera "
+"que es cobrisquen tant els moviments del rotador electrònic, com el gir "
+"manual de la càmera (per exemple, quan s'enquadra una imatge de referència "
+"d'una sessió anterior). Qualsevol gir confirmat activarà un restabliment -"
+"els canvis de meridià es gestionen per separat i no faran-. Funciona amb el "
+"sistema de guiatge intern i PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr ""
-"Emmagatzema i torna a utilitzar el calibratge del guiatge, si és possible."
+msgstr "Restablix el calibratge del guiatge quan es gira el camp."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -39290,7 +39295,7 @@ msgstr "No s'ha pogut obrir el fitxer %1 per a lectura"
 msgid "Not enough memory for file %1"
 msgstr "No hi ha memòria suficient per al fitxer %1"
 
-#: indi/indilistener.cpp:235
+#: indi/indilistener.cpp:245
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Missatge del servidor INDI"
@@ -46418,7 +46423,7 @@ msgstr ""
 #, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
 msgstr ""
-"El nombre de passos que s'ha de moure cap enfora per a executar un "
+"El nombre de passos que s'ha de moure cap a fora per a executar un "
 "enfocament automàtic «Clàssic»."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
@@ -46427,7 +46432,7 @@ msgstr ""
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
-"El nombre total de passos que s'ha de moure cap enfora per a una execució "
+"El nombre total de passos que s'ha de moure cap a fora per a una execució "
 "d'enfocament automàtic de «Passos fixos» o de «Barreja ZCE»."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
@@ -46467,7 +46472,7 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
-"El retard entre el moviment cap enfora i el moviment cap endins d'una "
+"El retard entre el moviment cap a fora i el moviment cap a dins d'una "
 "exploració excessiva de l'EA. Establiu-la a 0 s per a la majoria "
 "d'enfocadors."
 
@@ -47842,6 +47847,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Restablix un calibratge del guiatge emmagatzemat quan es gira el camp, es "
+"detecta des de l'angle de posició obtingut per la resolució de plaques "
+"(cobrix tant els moviments del rotador electrònic, com el gir manual de la "
+"càmera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -47853,6 +47862,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Llindar de soroll, en graus, per a detectar el gir del camp des de l'angle "
+"de posició obtingut per la resolució de plaques. Els girs iguals o superiors "
+"que este valor restabliran el calibratge del guiatge. Es mantindrà just per "
+"damunt de la inestabilitat de la resolució de plaques, de manera que "
+"qualsevol gir real provocarà un restabliment. No s'exposa en la interfície "
+"d'usuari per a evitar que els usuaris establisquen una tolerància gran que "
+"degrade el guiatge de manera silenciosa."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -83791,7 +83807,7 @@ msgstr "Configura HiPS…"
 msgid " Welcome to KStars "
 msgstr " Us donem la benvinguda a KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -86040,13 +86056,13 @@ msgstr "Control de l'enfocament"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus In"
-msgstr "Enfoca cap endins"
+msgstr "Enfoca cap a dins"
 
 #: libindi_strings.cpp:186
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus Out"
-msgstr "Enfoca cap enfora"
+msgstr "Enfoca cap a fora"
 
 #: libindi_strings.cpp:187
 #, kde-kuit-format
@@ -86064,13 +86080,13 @@ msgstr "Temporitzador de l'enfocament"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus in"
-msgstr "Enfoca cap endins"
+msgstr "Enfoca cap a dins"
 
 #: libindi_strings.cpp:190
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus out"
-msgstr "Enfoca cap enfora"
+msgstr "Enfoca cap a fora"
 
 #: libindi_strings.cpp:191
 #, kde-kuit-format
@@ -92659,12 +92675,12 @@ msgid "Error downloading supernova data: %1"
 msgstr ""
 "S'ha produït un error mentre es baixaven les dades de les supernoves: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:355
+#: skymap.cpp:437 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "La posició sol·licitada queda per davall de l'horitzó"
 
-#: skymap.cpp:438 skymaplite.cpp:356
+#: skymap.cpp:438 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"
