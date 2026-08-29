@@ -33,6 +33,10 @@ double WormGearGuider::m_d_ra_extra { 0.0 };
 double WormGearGuider::m_uncorrectedPosRA { 0.0 };
 double WormGearGuider::m_uncorrectedPosDEC { 0.0 };
 double WormGearGuider::m_rlsTimeOrigin { -1.0 };
+double WormGearGuider::m_kfResidualRate { 0.0 };
+double WormGearGuider::m_kfP { 0.04 }; ///< bootstrap default; resetSession() reseeds from the loaded m_kfR
+double WormGearGuider::m_kfResidualRateDec { 0.0 };
+double WormGearGuider::m_kfPDec { 0.04 }; ///< bootstrap default; resetSession() reseeds from the loaded m_kfRDec
 
 WormGearGuider::WormGearGuider()
 {
@@ -103,6 +107,21 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
     m_snr_scale      = norm["snr_scale"].toDouble(100.0);
     m_pulse_scale_ms = norm["pulse_scale_ms"].toDouble(1000.0);
     m_dt_scale       = norm["dt_scale"].toDouble(2.0);
+
+    // v3 residual filter constants -- see m_kfQPerSec's declaration for why these are per-mount
+    // loaded values, not hardcoded: everything here so far was derived from one EQ8-class
+    // mount's own noise floor and PE character, and nothing guarantees that transfers to a
+    // different mount, class, or even a different unit of the same class. Absent values fall
+    // back to that one mount's numbers, same defaults the members already carry -- an older
+    // weights.json (or one for a mount that hasn't had this analysis run yet) still loads and
+    // behaves exactly as it did before this section existed.
+    QJsonObject residFilter = root["residual_filter"].toObject();
+    m_kfQPerSec           = residFilter["kf_q_per_sec"].toDouble(m_kfQPerSec);
+    m_kfR                 = residFilter["kf_r"].toDouble(m_kfR);
+    m_kfRActiveMultiplier = residFilter["kf_r_active_multiplier"].toDouble(m_kfRActiveMultiplier);
+    m_kfQPerSecDec           = residFilter["kf_q_per_sec_dec"].toDouble(m_kfQPerSecDec);
+    m_kfRDec                 = residFilter["kf_r_dec"].toDouble(m_kfRDec);
+    m_kfRDecActiveMultiplier = residFilter["kf_r_dec_active_multiplier"].toDouble(m_kfRDecActiveMultiplier);
 
     QJsonObject mlp = root["mlp"].toObject();
     if (mlp["w1"].toArray().size() != 15 * 32)
@@ -220,10 +239,22 @@ void WormGearGuider::resetSession(bool forceReset)
         // cos_k is its phase/tangential direction, with no rotation needed to tell them
         // apart -- same convention as the original single-harmonic design, just repeated
         // per harmonic.
+        // Diagnostic escape hatch (2026-08-27): AI_GUIDER_COLD_START=1 skips the warm-start
+        // below entirely, seeding theta at zero with a fully uninformative P instead. Exists
+        // to answer a live-testing question the warm-started filter can't: is the ~0.3-0.4px
+        // amplitude it reports each night actual freshly-detected live signal, or mostly the
+        // offline prior riding along because tonight's real signal is too weak to move it much?
+        // A cold start has nothing to ride along on -- whatever amplitude it converges to (or
+        // doesn't) on live data alone is a direct answer. Not meant to ship enabled; remove once
+        // that question is settled.
+        const bool coldStart = qEnvironmentVariableIsSet("AI_GUIDER_COLD_START");
         m_rls_theta.setZero();
-        for (int k = 0; k < N_HARMONICS; ++k)
-            m_rls_theta(2 * k) = m_pe_harmonic_amplitude[k];
-        m_rls_theta(N_HARMONICS * 2) = m_d_ra_extra;
+        if (!coldStart)
+        {
+            for (int k = 0; k < N_HARMONICS; ++k)
+                m_rls_theta(2 * k) = m_pe_harmonic_amplitude[k];
+            m_rls_theta(N_HARMONICS * 2) = m_d_ra_extra;
+        }
 
         // Anisotropic, not uniform, confidence -- same reasoning as the original
         // single-harmonic design, applied to each harmonic independently. Each harmonic's
@@ -242,15 +273,68 @@ void WormGearGuider::resetSession(bool forceReset)
         // cold start would) while every sin_k and the drift term v get the moderate prior.
         // The constant-offset term C has no offline prior either and stays uninformative.
         m_rls_P = Eigen::Matrix<double, N_STATES, N_STATES>::Identity() * 100.0;
-        for (int k = 0; k < N_HARMONICS; ++k)
-            m_rls_P(2 * k, 2 * k) = 4.0;
-        m_rls_P(N_HARMONICS * 2, N_HARMONICS * 2) = 4.0; // drift term v
+        if (!coldStart)
+        {
+            for (int k = 0; k < N_HARMONICS; ++k)
+                m_rls_P(2 * k, 2 * k) = 4.0;
+            m_rls_P(N_HARMONICS * 2, N_HARMONICS * 2) = 4.0; // drift term v
+        }
 
         // Re-arm the drift regressor's time origin (see m_rlsTimeOrigin's declaration) so the
         // next updatePhase() call re-anchors to whatever t_session_sec it's handed next, instead
         // of carrying on from a stale origin that belongs to the state we just discarded.
         m_rlsTimeOrigin = -1.0;
+
+        // Reset the v3 residual filter alongside everything else -- a fresh session (or a
+        // forced reset, e.g. meridian flip) means whatever residual pattern the filter had
+        // converged to no longer applies. P resets to this weights file's own loaded m_kfR
+        // (uninformative) so the filter starts fully open to the next real observation, same
+        // spirit as RLS's own reset above.
+        m_kfResidualRate = 0.0;
+        m_kfP = m_kfR;
+
+        // DEC's tracker rides along on the same trigger (forceReset covers meridian flips, which
+        // change DEC's mechanical relationship to gravity/pier side too, not just RA's phase) --
+        // harmless to also reset it on the rarer m_pe_period<=0 case, just means it re-learns
+        // fast rather than needing a separate gating condition for no real benefit.
+        m_kfResidualRateDec = 0.0;
+        m_kfPDec = m_kfRDec;
     }
+}
+
+void WormGearGuider::updateResidualKF(double measuredRate_px_s, double shapeNetRate_px_s, double dt,
+                                      bool activeContaminated)
+{
+    if (dt <= 0.0) return;
+
+    // Predict: pure random walk (F=1), covariance grows with elapsed time.
+    m_kfP += m_kfQPerSec * dt;
+
+    // Update: innovation is how much of the measured rate the Shape Net's own prediction plus
+    // the filter's current residual estimate still fails to explain. See m_kfRActiveMultiplier's
+    // comment for why this frame's measurement noise is inflated (not the update skipped
+    // entirely) when the just-applied pulse included this guider's own AI prediction.
+    const double innovation = (measuredRate_px_s - shapeNetRate_px_s) - m_kfResidualRate;
+    const double R = activeContaminated ? (m_kfR * m_kfRActiveMultiplier) : m_kfR;
+    const double S = m_kfP + R;
+    const double K = m_kfP / S;
+    m_kfResidualRate += K * innovation;
+    m_kfP = (1.0 - K) * m_kfP;
+}
+
+void WormGearGuider::updateResidualKFDec(double measuredRate_px_s, double physicsDecRate_px_s, double dt,
+                                         bool activeContaminated)
+{
+    if (dt <= 0.0) return;
+
+    m_kfPDec += m_kfQPerSecDec * dt;
+
+    const double innovation = (measuredRate_px_s - physicsDecRate_px_s) - m_kfResidualRateDec;
+    const double R = activeContaminated ? (m_kfRDec * m_kfRDecActiveMultiplier) : m_kfRDec;
+    const double S = m_kfPDec + R;
+    const double K = m_kfPDec / S;
+    m_kfResidualRateDec += K * innovation;
+    m_kfPDec = (1.0 - K) * m_kfPDec;
 }
 
 GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
@@ -324,7 +408,7 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
 void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
                             double uncorrected_drift_ra_px_delta, double uncorrected_drift_dec_px_delta, double snr,
                             double /*ra_pulse_px*/, double /*dec_pulse_px*/,
-                            bool ra_pulse_has_ai, bool /*dec_pulse_has_ai*/)
+                            bool ra_pulse_has_ai, bool dec_pulse_has_ai)
 {
     // Freeze RA's online phase/amplitude adaptation while the just-applied RA pulse included
     // this guider's own prediction. The pulse backout in gmath.cpp assumes one fixed linear
@@ -342,10 +426,11 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
     // 82.5ms to 35.7ms -- consistent with a corrupted phase estimate actively fighting the
     // real-time correction rather than just being a weak/noisy one.
     //
-    // DEC is left unguarded here: physicsDEC() is a fixed function of loaded weights with no
-    // online-adaptive state (no RLS term for DEC in this guider), so it has nothing to close
-    // this loop through. Tonight's Active-mode DEC confidence/RMS behaved well throughout,
-    // consistent with that.
+    // DEC now has online-adaptive state too (m_kfResidualRateDec, added 2026-08-28 -- see its
+    // declaration), but this accumulator isn't what feeds it (that filter reads the raw
+    // uncorrected_drift_dec_px_delta directly, below), so it's left unguarded here same as
+    // before; the new filter's own closed-loop-bias defense lives in updateResidualKFDec()'s
+    // activeContaminated handling instead of a freeze at this accumulation step.
     if (!ra_pulse_has_ai)
         m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
     m_uncorrectedPosDEC += uncorrected_drift_dec_px_delta;
@@ -373,6 +458,32 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
 
     if (!ra_pulse_has_ai)
         updatePhase(m_uncorrectedPosRA, m_lastSessionSec);
+
+    // v3 residual filter: only meaningful on the Shape Net path (see its declaration).
+    // measuredRate is this frame's actual drift rate; shapeNetRate is what the existing physics
+    // model (Shape Net + refraction + RLS drift term) already predicts for it -- the filter
+    // tracks whatever's still left over between the two. Deliberately NOT gated behind
+    // ra_pulse_has_ai the way updatePhase() above is -- see m_kfRActiveMultiplier's comment for
+    // why this filter instead keeps updating through Active mode with inflated measurement
+    // noise on contaminated frames, rather than freezing entirely.
+    if (m_hasShapeNet && m_lastDt > 0.0)
+    {
+        const double measuredRate = uncorrected_drift_ra_px_delta / m_lastDt;
+        const double altitude_deg = m_lastAltRad * 180.0 / M_PI;
+        const double shapeNetRate = physicsRABase(m_lastSessionSec, altitude_deg);
+        updateResidualKF(measuredRate, shapeNetRate, m_lastDt, ra_pulse_has_ai);
+    }
+
+    // DEC online drift tracker: see m_kfResidualRateDec's declaration. Always runs (no
+    // hasShapeNet-style gate -- there's no offline DEC shape to depend on), same
+    // inflate-don't-freeze defense as the RA filter against AI-driven-frame closed-loop bias.
+    if (m_lastDt > 0.0)
+    {
+        const double measuredRateDec = uncorrected_drift_dec_px_delta / m_lastDt;
+        const double altitude_deg = m_lastAltRad * 180.0 / M_PI;
+        const double physicsDecRate = physicsDECBase(altitude_deg, m_lastParallacticAngleDeg);
+        updateResidualKFDec(measuredRateDec, physicsDecRate, m_lastDt, dec_pulse_has_ai);
+    }
 }
 
 QString WormGearGuider::stateString() const
@@ -396,6 +507,14 @@ QString WormGearGuider::stateString() const
 }
 
 double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
+{
+    const double basePrediction = physicsRABase(t_sec, altitude_deg);
+    // v3 residual filter only layers onto the Shape Net path -- see its declaration for why;
+    // the v1 harmonic-sum fallback is left exactly as validated, no residual influence.
+    return m_hasShapeNet ? (basePrediction + m_kfResidualRate) : basePrediction;
+}
+
+double WormGearGuider::physicsRABase(double t_sec, double altitude_deg) const
 {
     const double omega = 2.0 * M_PI / m_pe_period;
 
@@ -460,6 +579,14 @@ double WormGearGuider::physicsRA(double t_sec, double altitude_deg) const
 }
 
 double WormGearGuider::physicsDEC(double altitude_deg, double parallactic_angle_deg) const
+{
+    // See m_kfResidualRateDec's declaration: the online drift tracker always runs (it has no
+    // "hasShapeNet"-style gate -- there's no offline DEC model to depend on), so it's added
+    // unconditionally here, unlike physicsRA()'s Shape-Net-only residual.
+    return physicsDECBase(altitude_deg, parallactic_angle_deg) + m_kfResidualRateDec;
+}
+
+double WormGearGuider::physicsDECBase(double altitude_deg, double parallactic_angle_deg) const
 {
     // Refraction fit is only valid inside the fitted altitude range.
     const double alt_rad = std::clamp(altitude_deg, m_fit_alt_min, m_fit_alt_max) * M_PI / 180.0;

@@ -178,6 +178,123 @@ class WormGearGuider : public MountSpecificGuider
         /// the exact same conventions as runMLP()'s phase basis / m_alt_scale normalization.
         double evalShapeNet(double sinPhase, double cosPhase, double altNorm) const;
 
+        // ── v3 online residual filter (2026-08-27) ────────────────────────────────
+        // Replaces RLS's ROLE as the online-reactive component for the Shape Net path (the
+        // existing RLS phase/amplitude tracking above is UNCHANGED and still runs -- this is
+        // an additional layer, not a replacement of that). Motivation: live A/B testing this
+        // same night showed KStars' existing, purely-online GPG algorithm outperforming every
+        // Shape-Net+RLS variant tried, including at the hardest (lowest-altitude) conditions
+        // tested. Root cause isn't numerical (the RLS divergence bug earlier that night is
+        // fixed) -- it's structural: RLS forces the online signal into a rigid fixed-harmonic
+        // basis with no way to say "there's no real periodic structure right now, back off".
+        // GPG has no such commitment; it just adaptively smooths recent history, so it
+        // degrades gracefully when the true signal is weak or absent (which four independent
+        // tests that night found to be the common case here).
+        //
+        // This filter gives the Shape Net path the same graceful-degradation property WITHOUT
+        // copying GPG's mechanism: a minimal (one-state) Kalman/recursive-least-variance filter
+        // that tracks a RESIDUAL RATE -- how much correction is needed beyond what the Shape
+        // Net's own predicted rate (physicsRA()'s existing finite-difference derivative)
+        // already accounts for. Working in rate space (not accumulated position) deliberately
+        // sidesteps the earlier RLS bug's whole failure class: there is no growing regressor,
+        // no unbounded quantity anywhere in this filter's state or math, so no bounds backstop
+        // is needed here the way RLS needed one. Its Kalman gain is exactly what supplies the
+        // graceful-degradation behavior: when the residual observation looks like noise around
+        // zero (no real leftover structure), the filter's own steady-state covariance keeps its
+        // correction small; when there's a real, persistent residual drift, the gain lets it
+        // track that. The Shape Net supplies the (offline-learned, "our own model") prior/bias
+        // this filter corrects around -- it is not a GPG reimplementation, it is a from-scratch
+        // recursive Bayesian estimator whose reference function happens to be our trained net.
+        //
+        // Deliberately fed the SAME m_uncorrectedPosRA-derived per-frame delta already computed
+        // in update() (not a new measurement channel), and gated by the exact same
+        // ra_pulse_has_ai freeze guard as updatePhase() above, for the same closed-loop
+        // system-identification reason documented there.
+        static double m_kfResidualRate;  ///< px/s, current best residual-rate estimate
+        static double m_kfP;             ///< scalar Kalman covariance, (px/s)^2
+        /// Process noise, (px/s)^2 added per second of elapsed time. NOT a universal constant --
+        /// loaded per-mount from weights.json's "residual_filter" section (see loadWeights()),
+        /// because the right value depends on this specific mount's own noise floor and PE
+        /// character, which varies across mount classes/hardware (confirmed 2026-08-28: this
+        /// whole investigation was on one EQ8-class worm-gear mount; nothing here has been
+        /// checked against a harmonic-drive or direct-drive mount, or even a different worm-gear
+        /// unit). The values below are only the fallback default for weights files that predate
+        /// this section, derived from targeting roughly a 100-frame (~200s at 2s cadence)
+        /// effective smoothing window given this one mount's ~0.4px/frame position noise:
+        /// N_eff ~ sqrt(R / (Q * dt)) => Q ~ R / (N_eff^2 * dt). A proper per-mount value should
+        /// come from the same offline analysis (causal-EMA/autocorrelation sweep) run on that
+        /// mount's own pooled sysid data, the same way pe_period/pe_harmonic_amplitude etc. are
+        /// already mount-specific rather than hardcoded.
+        double m_kfQPerSec { 2e-6 };
+        /// Per-frame measurement noise, (px/s)^2 -- see m_kfQPerSec's comment; same
+        /// mount-specific caveat and same loadWeights() section.
+        double m_kfR { 0.04 };
+        /// Multiplier applied to m_kfR on frames where the just-applied RA pulse included this
+        /// guider's own prediction (ra_pulse_has_ai true). Live-tested 2026-08-28 on the one EQ8
+        /// mount this was built against: gating this filter behind the SAME hard freeze
+        /// updatePhase()/RLS uses (see update()'s comment on ra_pulse_has_ai for the real
+        /// closed-loop-bias risk that freeze protects against) made physics_ra vs actual RA
+        /// error go from a highly significant, GROWING correlation in Shadow mode (r=0.25,
+        /// t=5.7, n=496, strengthening 0.18->0.34 across the session) to a non-significant one
+        /// within minutes of switching Active (r=-0.05), with RMS visibly worsening over time
+        /// (1.21"->1.57" across four chronological quarters) -- the filter's whole value came
+        /// from continuous adaptation, and freezing it the moment it starts being used discards
+        /// exactly that. Full removal of the freeze isn't safe either (that bias risk is real,
+        /// verified by a real divergence incident). This is the middle path: keep updating, but
+        /// trust each Active-mode observation less, so a single biased sample can't hijack the
+        /// filter (Kalman gain shrinks accordingly) while genuine slow drift still gets tracked
+        /// instead of going stale. The specific factor of 20 is this mount's own value, not a
+        /// principle -- how much a pulse-backout bias actually contaminates an observation is
+        /// itself mount/calibration-dependent and hasn't been measured directly anywhere.
+        double m_kfRActiveMultiplier { 20.0 };
+        void updateResidualKF(double measuredRate_px_s, double shapeNetRate_px_s, double dt,
+                              bool activeContaminated);
+
+        // ── DEC online drift tracker (2026-08-28) ─────────────────────────────────
+        // physicsDEC() below was, until now, a fixed offline formula (refraction + a constant
+        // m_d_polar term) with NO online-adaptive state at all -- unlike RA, nothing here ever
+        // calibrated itself to tonight's actual conditions. Direct offline analysis of that
+        // night's own AI debug CSVs found this was leaving real, sizeable signal on the table:
+        // DEC's raw (uncorrected) drift has a fundamentally different character from RA's --
+        // RA's autocorrelation collapses to noise after ~1 frame, but DEC's stays substantially
+        // positive (0.15-0.28) out to 30+ seconds, without oscillating -- the signature of a
+        // slow, smoothly-varying trend (consistent with polar alignment error), not a period to
+        // fit and not noise. A trivial CAUSAL exponential moving average (only past frames, no
+        // model, no offline training) explained 6-21% of DEC's total raw-drift variance across
+        // three separate files spanning the night -- several times RA's entire offline-
+        // validated ceiling (R^2~0.03) -- and did so consistently, unlike the DEC reversal-event
+        // data (checked the same night, found no cross-night consistency at fixed conditions).
+        // This filter is that online tracker, made real: same 1-state recursive design as the RA
+        // residual filter above (rate-space, no unbounded quantity, no divergence backstop
+        // needed), but standing alone -- there is no offline "shape" here to be a residual
+        // against, physicsDECBase()'s existing refraction+polar term IS the base this tracks a
+        // residual on top of, the same relationship the RA filter has to the Shape Net.
+        //
+        // Q/R were NOT hand-picked the way the RA filter's first cut was (see that filter's own
+        // comment) -- they're derived from the same offline analysis: the best-performing causal
+        // EMA smoothing constant found across three files from ONE EQ8 mount's data clustered
+        // around alpha=0.08-0.15 (~0.1 central). An EMA is mathematically the steady-state
+        // behavior of exactly this Kalman structure, so the defaults below were solved to
+        // reproduce a steady-state gain of ~0.1 at a ~2s frame cadence -- derived from data, not
+        // guessed, but still ONE mount's data. Same mount-specific caveat as m_kfQPerSec above:
+        // these are fallback defaults loaded from weights.json's "residual_filter" section (see
+        // loadWeights()), not a value that should be assumed to hold for a harmonic-drive or
+        // direct-drive mount, or even a different worm-gear unit -- a proper per-mount value
+        // needs the same causal-EMA sweep run on that mount's own pooled sysid data.
+        static double m_kfResidualRateDec;
+        static double m_kfPDec;
+        double m_kfQPerSecDec { 2.2e-4 };
+        double m_kfRDec { 0.04 };
+        // Same closed-loop-bias defense as m_kfRActiveMultiplier, applied to DEC -- arguably
+        // more important here, not less: DEC's target signal is itself persistent/autocorrelated
+        // (that's the whole point of this filter), which makes a systematic pulse-backout bias
+        // easier for a recursive filter to mistake for real signal and reinforce, not harder.
+        // Same mount-specific caveat: this factor of 20 is carried over from the RA filter's
+        // value on this one mount, not independently derived or validated for DEC at all.
+        double m_kfRDecActiveMultiplier { 20.0 };
+        void updateResidualKFDec(double measuredRate_px_s, double physicsDecRate_px_s, double dt,
+                                 bool activeContaminated);
+
         // ── Runtime state ─────────────────────────────────────────────────────
         bool   m_weightsLoaded    { false };
         double m_confidenceRA     { 0.0 };
@@ -222,7 +339,14 @@ class WormGearGuider : public MountSpecificGuider
 
         // ── Helpers ───────────────────────────────────────────────────────────
         double physicsRA(double t_sec, double altitude_deg) const;
+        /// physicsRA() minus the v3 residual term -- exposed separately so update() can compute
+        /// the same base prediction the residual filter should be measured against, without
+        /// double-counting the residual it's in the middle of updating.
+        double physicsRABase(double t_sec, double altitude_deg) const;
         double physicsDEC(double altitude_deg, double parallactic_angle_deg) const;
+        /// physicsDEC() minus the online drift-tracker residual -- same reason physicsRABase()
+        /// exists, see its comment.
+        double physicsDECBase(double altitude_deg, double parallactic_angle_deg) const;
         std::array<float, 2> runMLP(float altitude, float snr, float last_ra_pulse, float last_dec_pulse, float dt,
                                     double t_session_sec, float parallactic_angle_deg, float pier_side) const;
         void   updatePhase(double uncorrected_position_px, double t_session_sec);
