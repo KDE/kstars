@@ -188,7 +188,7 @@ class FITSTab : public QWidget
          * Updates the GUI (directory field, Start/Stop button, stats) to reflect the
          * running state and then starts the stacking pipeline with the given parameters.
          */
-        void startProgrammatically(const QString &dir, const LiveStackData &params);
+        void startProgrammatically(const QString &dir, const StackData &params);
 
         /**
          * @brief Stop live stacking programmatically, updating the GUI button state.
@@ -301,7 +301,7 @@ class FITSTab : public QWidget
 
         // Live Stacking
         void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                           const int healpix, const LiveStackFrameWeighting &weighting);
+                           const int healpix, const StackFrameWeighting &weighting);
         void stackInProgress();
         void alignMasterChosen(const QString &alignMaster);
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
@@ -310,8 +310,8 @@ class FITSTab : public QWidget
         void resetStack(const bool cancelled);
         void saveSettings();
         void initSettings();
-        LiveStackData getAllSettings();
-        LiveStackPPData getPPSettings();
+        StackData getAllSettings();
+        StackPPData getPPSettings();
         void stackMethodChanged(int index);
         void redoPostProcessing();
         void calcSNRChanged();

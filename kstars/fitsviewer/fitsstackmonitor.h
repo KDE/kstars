@@ -115,14 +115,14 @@ struct ColumnInfo
 namespace StackMonUtils
 {
 // Helper function to display channels associated with a sub
-inline QString displayChannels(const QVector<LiveStackChannel> &channels, const int morc)
+inline QString displayChannels(const QVector<StackChannel> &channels, const int morc)
 {
     QString str;
     for (int i = 0; i < channels.size(); i++)
     {
         switch (channels[i])
         {
-            case LiveStackChannel::SINGLE:
+            case StackChannel::SINGLE:
                 if (morc == -1)
                     str.append(SINGLE);
                 else if (morc == 3)
@@ -130,16 +130,16 @@ inline QString displayChannels(const QVector<LiveStackChannel> &channels, const 
                 else
                     str.append(MONO);
                 break;
-            case LiveStackChannel::RED:
+            case StackChannel::RED:
                 str.append(RED);
                 break;
-            case LiveStackChannel::GREEN:
+            case StackChannel::GREEN:
                 str.append(GREEN);
                 break;
-            case LiveStackChannel::BLUE:
+            case StackChannel::BLUE:
                 str.append(BLUE);
                 break;
-            case LiveStackChannel::LUM:
+            case StackChannel::LUM:
                 str.append(LUM);
                 break;
             default:
@@ -391,7 +391,7 @@ struct SubStats
     int id = 0;
     QString pathname;
     QString filename;
-    QVector<LiveStackChannel> channels;
+    QVector<StackChannel> channels;
     QDateTime startTime;
     SubStatus status = SubStatus::InProgress;
 

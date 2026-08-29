@@ -683,7 +683,7 @@ class FITSData : public QObject
          * @return Live Stack pointer
          */
 #if !defined (KSTARS_LITE)
-        const QMap<LiveStackChannel, QSharedPointer<FITSStack>> &stacks() const
+        const QMap<StackChannel, QSharedPointer<FITSStack>> &stacks() const
         {
             return m_Stacks;
         }
@@ -717,7 +717,7 @@ class FITSData : public QObject
          * @param params are stacking parameters
          * @return success (or not)
          */
-        bool loadStack(const QStringList &inDirectory, const LiveStackData &params);
+        bool loadStack(const QStringList &inDirectory, const StackData &params);
 
         /**
          * @brief User request to cancel stacking operation
@@ -791,6 +791,21 @@ class FITSData : public QObject
          * @return SNR
          */
         static double calcStackSNR(const cv::Mat &image);
+
+        /**
+         * @brief Fast, StellarSolver-free check for obvious star trailing (tracking
+         * failure, etc.) in a single sub. Thresholds the image to isolate bright point
+         * sources, fits an ellipse to each, and reports the median elongation
+         * (1 - minorAxis/majorAxis; 0 = round, approaching 1 = a full streak). This is
+         * deliberately a cheap OpenCV-only heuristic — not a substitute for real source
+         * extraction — so it can gate every sub regardless of alignMethod/weighting
+         * without adding meaningful per-sub cost.
+         * @param image calibrated or raw single/multi-channel float sub
+         * @param medianElongation receives the median elongation across detected sources
+         * @param numSources receives how many candidate sources the estimate is based on
+         * @return true if a reliable estimate was produced (false if too few sources found)
+         */
+        static bool detectStarTrailing(const cv::Mat &image, double &medianElongation, int &numSources);
 #endif
 
         /**
@@ -824,9 +839,9 @@ class FITSData : public QObject
 
         /**
          * @brief getLiveStackData returns the current live stack parameters, including outputDirectory
-         * @return const reference to LiveStackData
+         * @return const reference to StackData
          */
-        const LiveStackData &getLiveStackData() const
+        const StackData &getLiveStackData() const
         {
             return m_LiveStackData;
         }
@@ -852,7 +867,102 @@ class FITSData : public QObject
          * @brief redo Post Processing on the existing stack (user requsted)
          * @param ppParams are the current user requested post processing params
          */
-        void redoPostProcessStack(const LiveStackPPData &ppParams);
+        void redoPostProcessStack(const StackPPData &ppParams);
+
+        /**
+         * @brief Crop the current combined stacked image to roi, in place, adjusting the
+         * WCS reference pixel (if the stack was plate-solved) so sky coordinates at any
+         * given pixel are unchanged by the crop. Must be called after a stack has
+         * produced a combined result (i.e. !isStackedImageEmpty()).
+         * @param roi region to keep, in 0-indexed pixel coordinates
+         * @param error receives a human-readable failure reason on failure
+         * @return success
+         */
+        bool cropStack(const QRect &roi, QString &error);
+
+        /**
+         * @brief Bake a one-shot MTF autostretch into the current combined stacked
+         * image (see AutoStretch) — permanently, unlike the display-side stretch in
+         * FITSView, which is transient. Must be called after a stack has produced a
+         * combined result. NOT part of StackPPData/redoPostProcessStack: those run
+         * per-channel, before the LRGB combine (see redoPostProcessStack()'s
+         * implementation) — stretch needs to run once, on the whole combined image,
+         * same reasoning as cropStack().
+         * @param targetBackground see AutoStretch::apply()
+         * @param shadowsClipping see AutoStretch::apply()
+         * @param error receives a human-readable failure reason on failure
+         * @return success
+         */
+        bool applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked = true);
+
+        /**
+         * @brief Bake a control-point tone curve into the current combined stacked
+         * image, identically on every channel (see CurveOperation::apply()). Same
+         * placement reasoning as applyAutoStretch()/cropStack() — not part of
+         * StackPPData.
+         */
+        bool applyCurve(const QVector<QPointF> &controlPoints, QString &error);
+
+        /**
+         * @brief Bake independent per-channel tone curves (per-channel color
+         * grading) into the current combined stacked image (see
+         * CurveOperation::applyPerChannel()).
+         */
+        bool applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoints, QString &error);
+
+        /**
+         * @brief Bake an HSV saturation scale into the current combined stacked image
+         * (see SaturationOperation::apply()). Same placement reasoning as
+         * applyAutoStretch()/cropStack() — not part of StackPPData, since saturation
+         * needs a combined R/G/B image, which doesn't exist per-channel/pre-combine.
+         */
+        bool applySaturation(double amt, QString &error);
+
+        /**
+         * @brief Bake a contrast adjustment into the current combined stacked image
+         * (see ContrastOperation::apply()).
+         */
+        bool applyContrast(double amt, QString &error);
+
+        /**
+         * @brief Write the current combined stacked image (already FITS-encoded in
+         * memory via convertMatToFITS()) straight to disk. A plain byte write, not the
+         * full saveFile()/header-rewriting machinery used for interactively-edited
+         * images — the buffer is already valid FITS bytes.
+         * @param path output file path
+         * @param error receives a human-readable failure reason on failure
+         * @return success
+         */
+        bool saveStackedImage(const QString &path, QString &error);
+
+#if !defined (KSTARS_LITE)
+        /**
+         * @brief Read-only access to the current combined stacked image — e.g. for
+         * ChannelBlendOperation to read one already-stacked, independent mono session
+         * (Ha, OIII, ...) as an input to a weighted multi-channel blend. Guarded (unlike
+         * most other methods in this section) because cv::Mat is only ever a complete
+         * type here when fitsstack.h has been included, which itself is
+         * !KSTARS_LITE-only.
+         */
+        const cv::Mat &stackedImageMat() const
+        {
+            return m_StackedImageMat;
+        }
+
+        /**
+         * @brief Adopt an externally-computed image (e.g. ChannelBlendOperation's
+         * weighted-blend result) as this instance's stacked image, as if it had come
+         * from a normal stacking session — so crop/applyAutoStretch/applyCurve/
+         * applySaturation/applyContrast/saveStackedImage all work on it afterward
+         * exactly like a real stack's result. No WCS is carried over (the blend result
+         * has no single well-defined WCS of its own unless the caller has separately
+         * ensured all inputs share one — not assumed here).
+         * @param image a CV_32F, 1 or 3 channel image
+         * @param error receives a human-readable failure reason on failure
+         * @return success
+         */
+        bool setStackedImage(const cv::Mat &image, QString &error);
+#endif
 
         /**
          * @brief Get the Live Stack Object, e.g. M51
@@ -899,7 +1009,7 @@ class FITSData : public QObject
          * @brief Signal FITSView then FITSTab to plate solve the current image sub
          */
         void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                           const int healpix, const LiveStackFrameWeighting &weighting);
+                           const int healpix, const StackFrameWeighting &weighting);
 
         /**
          * @brief Signal FITSView->FITSTab->FITSViewer that a stacking process is in operation
@@ -916,6 +1026,19 @@ class FITSData : public QObject
          * @param whether the stacking operation has been cancelled
          */
         void stackReady(const bool cancelled = false);
+
+        /**
+         * @brief Signal that the stack finished processing but produced no usable
+         * result — e.g. every sub ended up with a non-OK status (failed calibration/
+         * alignment/plate-solve) and none reached the final combine, or the combine
+         * itself came back empty. Distinct from stackReady(): a caller that only
+         * listens for stackReady() (or its cancelled variant) would otherwise see
+         * nothing at all in this case, not even an error — a genuinely silent
+         * failure previously reachable via a stack where every sub failed to align
+         * (e.g. re-solving an already-stacked image with alignMethod PLATE_SOLVE).
+         * @param reason human-readable failure reason
+         */
+        void stackFailed(const QString &reason);
 
         /**
          * @brief update FITSTab on progress
@@ -1256,7 +1379,7 @@ class FITSData : public QObject
          * @param stack
          * @return channel
          */
-        LiveStackChannel channelForStack(const QSharedPointer<FITSStack> &stack) const;
+        StackChannel channelForStack(const QSharedPointer<FITSStack> &stack) const;
 
         /**
          * @brief Perform a Linear fit on the passed in channels (ref=g)
@@ -1419,46 +1542,51 @@ class FITSData : public QObject
         // Live Stacking
 #if !defined (KSTARS_LITE)
         // Each base channel has its own FITSStack
-        QMap < LiveStackChannel, QSharedPointer < FITSStack>> m_Stacks;
+        QMap < StackChannel, QSharedPointer < FITSStack>> m_Stacks;
         QSharedPointer < FITSStack > m_CurrentStack;
 #endif
         QVector < LiveStackFile > m_StackSubs;
         int m_StackSubPos { -1 };
         bool m_StackMultiC { false };
-        QMap < LiveStackChannel, QString > m_StackChannelMap;
-        QMap < LiveStackChannel, QString > m_DarkChannelMap;
-        QMap < LiveStackChannel, QString > m_FlatChannelMap;
+        QMap < StackChannel, QString > m_StackChannelMap;
+        QMap < StackChannel, QString > m_DarkChannelMap;
+        QMap < StackChannel, QString > m_FlatChannelMap;
 
-        // StackChannelDir associates a LiveStackChannel with its input directory, and optionally links channels that share the
+        // StackChannelDir associates a StackChannel with its input directory, and optionally links channels that share the
         // same source directory, e.g. if Red and Green both have the same dir, baseChannel for Green will be Red.
         struct StackChannelDir
         {
-            LiveStackChannel channel;
+            StackChannel channel;
             QString dir;
-            LiveStackChannel baseChannel;
+            StackChannel baseChannel;
 
-            StackChannelDir(LiveStackChannel c, const QString & d, LiveStackChannel base)
+            StackChannelDir(StackChannel c, const QString & d, StackChannel base)
                 : channel(c), dir(d), baseChannel(base) {}
         };
         QVector < StackChannelDir > m_StackChannelDirs;
         // Helper functions for StackChannelDir
-        void insertChannel(const LiveStackChannel &c, const QString dir);
-        QVector < LiveStackChannel > getBaseChannels();
-        LiveStackChannel getBaseChannelForChannel(LiveStackChannel channel);
+        void insertChannel(const StackChannel &c, const QString dir);
+        QVector < StackChannel > getBaseChannels();
+        StackChannel getBaseChannelForChannel(StackChannel channel);
         QVector < QString > getUniqueStackDirs();
-        void getChannelInfoforSub(const QString &sub, LiveStackChannel &base, QVector < LiveStackChannel > &channels);
+        void getChannelInfoforSub(const QString &sub, StackChannel &base, QVector < StackChannel > &channels);
 
         QSharedPointer < QByteArray > m_StackedBuffer { nullptr };
+        // The combined image cv::Mat backing m_StackedBuffer — kept around (rather than
+        // decoded back out of the FITS-encoded m_StackedBuffer on demand) so pipeline
+        // steps that operate on the combined result, e.g. cropStack(), don't need to
+        // round-trip through FITS encoding to get a Mat to work on.
+        cv::Mat m_StackedImageMat;
         double m_StackSNR { 0.0 };
 
-        LiveStackData m_LiveStackData;
+        StackData m_LiveStackData;
         QSharedPointer < FITSDirWatcher > m_StackDirWatcher;
         QQueue < LiveStackFile > m_StackQ;
         bool m_AlignMasterChosen { false };
         bool m_AlignMasterProcessed { false };
         LiveStackMetadata m_LiveStackMetadata;
-        QMap < LiveStackChannel, bool > m_DarksLoadedMap;
-        QMap < LiveStackChannel, bool > m_FlatsLoadedMap;
+        QMap < StackChannel, bool > m_DarksLoadedMap;
+        QMap < StackChannel, bool > m_FlatsLoadedMap;
         uint8_t *m_StackImageBuffer { nullptr };
         uint32_t m_StackImageBufferSize { 0 };
         typedef struct
@@ -1480,7 +1608,7 @@ class FITSData : public QObject
         QList < Record > m_StackHeaderRecords;
         QFutureWatcher < bool > m_StackWatcher;
         QFutureWatcher < bool > m_StackFITSWatcher;
-        QFuture < void > m_StackPrepareFuture;
+        QFuture < bool > m_StackPrepareFuture;
         typedef enum
         {
             stackFITSNone,

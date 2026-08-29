@@ -313,108 +313,156 @@ static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
 const QStringList STACK_FITS_FILTER { "*.fits", "*.fits.fz", "*.fit", "*.fts" };
 const QStringList STACK_XISF_FILTER { "*.xisf" };
 
-enum class LiveStackAlignMethod { PLATE_SOLVE, NONE };
-static const QMap<LiveStackAlignMethod, QString> LiveStackAlignMethodNames
+enum class StackAlignMethod { PLATE_SOLVE, NONE };
+static const QMap<StackAlignMethod, QString> StackAlignMethodNames
 {
-    { LiveStackAlignMethod::PLATE_SOLVE, "Plate Solve" },
-    { LiveStackAlignMethod::NONE, "None" }
+    { StackAlignMethod::PLATE_SOLVE, "Plate Solve" },
+    { StackAlignMethod::NONE, "None" }
 };
 
-enum class LiveStackDownscale { NONE, X2, X3, X4 };
-static const QMap<LiveStackDownscale, QString> LiveStackDownscaleNames
+enum class StackDownscale { NONE, X2, X3, X4 };
+static const QMap<StackDownscale, QString> StackDownscaleNames
 {
-    { LiveStackDownscale::NONE, "None" },
-    { LiveStackDownscale::X2, "2×" },
-    { LiveStackDownscale::X3, "3×" },
-    { LiveStackDownscale::X4, "4×" }
+    { StackDownscale::NONE, "None" },
+    { StackDownscale::X2, "2×" },
+    { StackDownscale::X3, "3×" },
+    { StackDownscale::X4, "4×" }
 };
 
-enum class LiveStackFrameWeighting { EQUAL, HFR, NUM_STARS };
-static const QMap<LiveStackFrameWeighting, QString> LiveStackFrameWeightingNames
+enum class StackFrameWeighting { EQUAL, HFR, NUM_STARS };
+static const QMap<StackFrameWeighting, QString> StackFrameWeightingNames
 {
-    { LiveStackFrameWeighting::EQUAL, "Equal" },
-    { LiveStackFrameWeighting::HFR, "HFR" },
-    { LiveStackFrameWeighting::NUM_STARS, "Num Stars" }
+    { StackFrameWeighting::EQUAL, "Equal" },
+    { StackFrameWeighting::HFR, "HFR" },
+    { StackFrameWeighting::NUM_STARS, "Num Stars" }
 };
 
-enum class LiveStackNormalization { NONE, LINEAR };
-static const QMap<LiveStackNormalization, QString> LiveStackNormalizationNames
+enum class StackNormalization { NONE, LINEAR };
+static const QMap<StackNormalization, QString> StackNormalizationNames
 {
-    { LiveStackNormalization::NONE, "None" },
-    { LiveStackNormalization::LINEAR, "Linear" }
+    { StackNormalization::NONE, "None" },
+    { StackNormalization::LINEAR, "Linear" }
 };
 
-enum class LiveStackStackingMethod { MEAN, SIGMA, WINDSOR, IMAGEMM };
-static const QMap<LiveStackStackingMethod, QString> LiveStackStackingMethodNames
+enum class StackingMethod { MEAN, SIGMA, WINDSOR, IMAGEMM };
+static const QMap<StackingMethod, QString> StackingMethodNames
 {
-    { LiveStackStackingMethod::MEAN, "Mean" },
-    { LiveStackStackingMethod::SIGMA, "Sigma Clipping" },
-    { LiveStackStackingMethod::WINDSOR, "Windsorization" },
-    { LiveStackStackingMethod::IMAGEMM, "ImageMM" }
+    { StackingMethod::MEAN, "Mean" },
+    { StackingMethod::SIGMA, "Sigma Clipping" },
+    { StackingMethod::WINDSOR, "Windsorization" },
+    { StackingMethod::IMAGEMM, "ImageMM" }
 };
 
-enum class LiveStackChannel { SINGLE, RED, GREEN, BLUE, LUM, NONE };
-static const QMap<LiveStackChannel, QString> LiveStackChannelNames
+enum class StackChannel { SINGLE, RED, GREEN, BLUE, LUM, NONE };
+static const QMap<StackChannel, QString> StackChannelNames
 {
-    { LiveStackChannel::SINGLE, "Single" },
-    { LiveStackChannel::RED, "Red" },
-    { LiveStackChannel::GREEN, "Green" },
-    { LiveStackChannel::BLUE, "Blue" },
-    { LiveStackChannel::LUM, "Lum" },
-    { LiveStackChannel::NONE, "None" }
+    { StackChannel::SINGLE, "Single" },
+    { StackChannel::RED, "Red" },
+    { StackChannel::GREEN, "Green" },
+    { StackChannel::BLUE, "Blue" },
+    { StackChannel::LUM, "Lum" },
+    { StackChannel::NONE, "None" }
 };
 
 // Helper to convert a vector of channel enums to a comma-separated QString
-inline QString vectorChannelToString(const QVector<LiveStackChannel> &vec)
+inline QString vectorChannelToString(const QVector<StackChannel> &vec)
 {
     QStringList list;
     for (auto ch : vec)
-        list << LiveStackChannelNames.value(ch);
+        list << StackChannelNames.value(ch);
     return list.join(", ");
 }
 struct LiveStackFile
 {
     QString file;
     int ID = -1;
-    LiveStackChannel baseChannel = LiveStackChannel::NONE;
-    QVector<LiveStackChannel> channels;
+    StackChannel baseChannel = StackChannel::NONE;
+    QVector<StackChannel> channels;
 };
 
-struct LiveStackPPData
+// The multiscale (Gaussian-pyramid detail layer) denoiser in
+// FITSStack::postProcessImage() can suppress a detail-layer coefficient below the
+// noise threshold in one of two ways:
+//  - HARD: binary keep/kill (coefficient passes through completely unchanged above
+//    the threshold, is zeroed completely below it). Simple, but prone to a blotchy,
+//    hard-edged look once the threshold is actually in the right range for real data.
+//  - SOFT: Donoho-style shrinkage (sign(x)*max(|x|-threshold, 0)) — every coefficient
+//    above threshold is pulled toward zero by the threshold amount rather than passed
+//    through untouched, giving a smoother result at the cost of slightly softening
+//    real fine structure along with noise.
+enum class DenoiseMethod { HARD, SOFT };
+static const QMap<DenoiseMethod, QString> DenoiseMethodNames
 {
-    bool postProcess;
-    double gradientAmt;
-    double deconvAmt;
-    double PSFSigma;
-    double denoiseAmt;
-    double sharpenAmt;
-    int sharpenKernal;
-    double sharpenSigma;
+    { DenoiseMethod::HARD, "Hard Threshold" },
+    { DenoiseMethod::SOFT, "Soft Threshold" }
 };
 
-struct LiveStackData
+struct StackPPData
 {
-    bool calcSNR;
+    // Default member initializers matter here: this struct has no constructor, so any
+    // default-constructed instance (e.g. `StackData params;` before individually setting
+    // only the fields a caller cares about) previously left every field as uninitialized
+    // memory rather than "off" — a caller that requested sharpening/deconvolution without
+    // separately setting sharpenKernal/sharpenSigma/PSFSigma would silently feed garbage
+    // into FITSStack::postProcessImage(). Values below match livestacking.ui's own
+    // spin-box defaults (PSFSigma=1.0, SharpenKernal=3, SharpenSigma=3.0).
+    bool postProcess { false };
+    double gradientAmt { 0.0 };
+    double deconvAmt { 0.0 };
+    double PSFSigma { 1.0 };
+    double denoiseAmt { 0.0 };
+    DenoiseMethod denoiseMethod { DenoiseMethod::HARD };
+    // Separate, opt-in noise reduction pass targeting only inter-channel color noise
+    // (uncorrelated per-channel shot/read noise on an OSC sensor), leaving luminance
+    // detail untouched — unlike denoiseAmt above, which denoises each channel
+    // independently and can't tell real color from single-channel noise. [0,1],
+    // 0 (default) = off. See FITSStack::chromaDenoise().
+    double chromaDenoiseAmt { 0.0 };
+    double sharpenAmt { 0.0 };
+    int sharpenKernal { 3 };
+    double sharpenSigma { 3.0 };
+};
+
+struct StackData
+{
+    // Default member initializers matter here — same reasoning as StackPPData above.
+    // Values match livestacking.ui's own defaults; enums default to their first
+    // enumerator via {}, matching the existing `.value(key, 0)` fallback convention
+    // already used when parsing these fields from a JSON payload.
+    bool calcSNR { true };
     QVector<QString> masterDark;
     QVector<QString> masterFlat;
-    bool hotPixels;
-    bool coldPixels;
+    bool hotPixels { false };
+    bool coldPixels { false };
     QString alignMaster;
-    LiveStackAlignMethod alignMethod;
-    int numInMem;
-    LiveStackDownscale downscale;
-    LiveStackFrameWeighting weighting;
-    LiveStackNormalization normalization;
-    LiveStackStackingMethod stackingMethod;
-    double lowSigma;
-    double highSigma;
-    double windsorCutoff;
-    int iterations;
-    double kappa;
-    double alpha;
-    double sigma;
-    int PSFUpdate;
-    LiveStackPPData postProcessing;
+    StackAlignMethod alignMethod {};
+    int numInMem { 5 };
+    StackDownscale downscale {};
+    StackFrameWeighting weighting {};
+    StackNormalization normalization {};
+    StackingMethod stackingMethod {};
+    double lowSigma { 3.0 };
+    double highSigma { 3.0 };
+    double windsorCutoff { 3.0 };
+    int iterations { 3 };
+    double kappa { 1.5 };
+    double alpha { 0.9 };
+    double sigma { 0.9 };
+    int PSFUpdate { 0 };
+    StackPPData postProcessing;
+
+    // Hard-reject subs with obvious star trailing (tracking failure, etc.) before they
+    // ever reach calibration/alignment/combine — independent of alignMethod/weighting,
+    // since HFR-based weighting alone only down-weights a bad sub, it doesn't exclude
+    // it. See FITSData::detectStarTrailing(). maxStarElongation is 1 - minorAxis/majorAxis
+    // of the median detected star; 0 = perfectly round, approaching 1 = a full streak.
+    // 0.15 (not the more intuitive-sounding 0.5-0.6) is calibrated against real trailed
+    // data: well-tracked subs measured 0.005-0.045 median elongation, a genuinely
+    // trailed one measured 0.17 — real-world tracking-error trailing is a short,
+    // comet-like smear, not a dramatic full-length streak, so the useful threshold
+    // sits much lower than intuition suggests.
+    bool rejectTrailedSubs { true };
+    double maxStarElongation { 0.08 };
 
     // EkosLive integration: output directory for saved stacked images
     QString outputDirectory;      // If empty, don't save to disk (display only)

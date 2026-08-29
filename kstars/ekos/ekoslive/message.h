@@ -17,7 +17,11 @@
 #include "ekos/capture/sequencejob.h"
 #include "catalogsdb.h"
 #include "nodemanager.h"
+#include "fitsviewer/pipeline/stackcontroller.h"
+#include "fitsviewer/pipeline/channelblendoperation.h"
 #include <QQueue>
+#include <QPointF>
+#include <QVector>
 
 namespace EkosLive
 {
@@ -242,6 +246,22 @@ class Message : public QObject
         // LiveStacker commands
         void processLiveStackerCommands(const QString &command, const QJsonObject &payload);
 
+        // Batch post-processing pipeline commands — drives one or more
+        // StackController sessions directly, no FITSViewer/FITSTab involved. Multiple
+        // sessions exist concurrently to support independent per-filter stacking (e.g.
+        // Ha + OIII for a narrowband blend) — see postprocess_start's "channels" and
+        // postprocess_blend_channels.
+        void processPostProcessCommands(const QString &command, const QJsonObject &payload);
+        // Parses control points from a payload array of {"x":.., "y":..} objects.
+        QVector<QPointF> parseCurvePoints(const QJsonArray &points) const;
+        // Resolves payload["sessionId"] (defaulting to the single-session key used when
+        // it's omitted) to an existing session, or null if none exists under that id.
+        QSharedPointer<StackController> resolvePostProcessSession(const QJsonObject &payload) const;
+        // Reads a weighted-input list for one output channel of postprocess_blend_channels
+        // — an array of {"filter"/"sessionId": <id>, "weight": <number>} objects — and
+        // resolves each named session's currently-stacked image. Returns an empty vector
+        // (with `error` set) if any named session doesn't exist or has no stacked image.
+        QVector<ChannelBlendOperation::WeightedInput> parseBlendInputs(const QJsonArray &inputs, QString &error) const;
 
         // Filter Offset Builder commands
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
@@ -314,6 +334,15 @@ class Message : public QObject
         // in active-sequence mode and restart the stacker for the new job.
         QString m_LiveStackerCurrentTarget;
         QString m_LiveStackerCurrentFilter;
+
+        // Batch post-processing pipeline — separate from the
+        // LiveStacker session above; no FITSViewer/FITSTab involved. Keyed by
+        // "sessionId" (defaults to m_DefaultPostProcessSession when the caller omits
+        // it, preserving single-session behavior for simple LRGB-in-one-call use) so
+        // multiple filters (e.g. Ha + OIII) can be stacked independently and kept alive
+        // concurrently for postprocess_blend_channels.
+        QMap<QString, QSharedPointer<StackController>> m_PostProcessSessions;
+        const QString m_DefaultPostProcessSession { QStringLiteral("default") };
 
         typedef enum
         {

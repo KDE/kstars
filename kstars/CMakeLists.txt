@@ -487,6 +487,15 @@ if (CFITSIO_FOUND)
         fitsviewer/qrcodegen.cpp
         fitsviewer/fitsstack.cpp
         fitsviewer/fitsstackwebcast.cpp
+        fitsviewer/pipeline/stackcontroller.cpp
+        fitsviewer/pipeline/masterbuilder.cpp
+        fitsviewer/pipeline/directoryinspector.cpp
+        fitsviewer/pipeline/cropoperation.cpp
+        fitsviewer/pipeline/autostretch.cpp
+        fitsviewer/pipeline/curveoperation.cpp
+        fitsviewer/pipeline/saturationoperation.cpp
+        fitsviewer/pipeline/contrastoperation.cpp
+        fitsviewer/pipeline/channelblendoperation.cpp
         )
 
     if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)

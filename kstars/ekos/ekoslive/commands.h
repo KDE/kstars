@@ -266,6 +266,26 @@ enum COMMANDS
     LIVESTACKER_SET_ALL_SETTINGS,
     NEW_LIVESTACKER_STATE,
 
+    // Batch post-processing pipeline — a separate command
+    // surface from LiveStacker's above: these drive a StackController instance
+    // directly, with no FITSViewer/FITSTab window involved, for processing an
+    // already-captured folder of subs rather than a live capture session.
+    POSTPROCESS_START,
+    POSTPROCESS_STOP,
+    POSTPROCESS_CLOSE,
+    POSTPROCESS_BUILD_MASTER,
+    POSTPROCESS_INSPECT_DIRECTORY,
+    POSTPROCESS_CROP,
+    POSTPROCESS_APPLY_AUTOSTRETCH,
+    POSTPROCESS_APPLY_CURVE,
+    POSTPROCESS_APPLY_CURVE_PER_CHANNEL,
+    POSTPROCESS_APPLY_SATURATION,
+    POSTPROCESS_APPLY_CONTRAST,
+    POSTPROCESS_BLEND_CHANNELS,
+    POSTPROCESS_REDO_POSTPROCESS,
+    POSTPROCESS_SAVE,
+    NEW_POSTPROCESS_STATE,
+
     // Artificial Horizon
     ARTIFICIAL_HORIZON_IMPORT,
     ARTIFICIAL_HORIZON_TOGGLE,
@@ -517,6 +537,22 @@ static QMap<COMMANDS, QString> const commands =
     {LIVESTACKER_GET_ALL_SETTINGS, "livestacker_get_all_settings"},
     {LIVESTACKER_SET_ALL_SETTINGS, "livestacker_set_all_settings"},
     {NEW_LIVESTACKER_STATE, "new_livestacker_state"},
+
+    {POSTPROCESS_START, "postprocess_start"},
+    {POSTPROCESS_STOP, "postprocess_stop"},
+    {POSTPROCESS_CLOSE, "postprocess_close"},
+    {POSTPROCESS_BUILD_MASTER, "postprocess_build_master"},
+    {POSTPROCESS_INSPECT_DIRECTORY, "postprocess_inspect_directory"},
+    {POSTPROCESS_CROP, "postprocess_crop"},
+    {POSTPROCESS_APPLY_AUTOSTRETCH, "postprocess_apply_autostretch"},
+    {POSTPROCESS_APPLY_CURVE, "postprocess_apply_curve"},
+    {POSTPROCESS_APPLY_CURVE_PER_CHANNEL, "postprocess_apply_curve_per_channel"},
+    {POSTPROCESS_APPLY_SATURATION, "postprocess_apply_saturation"},
+    {POSTPROCESS_APPLY_CONTRAST, "postprocess_apply_contrast"},
+    {POSTPROCESS_BLEND_CHANNELS, "postprocess_blend_channels"},
+    {POSTPROCESS_REDO_POSTPROCESS, "postprocess_redo_postprocess"},
+    {POSTPROCESS_SAVE, "postprocess_save"},
+    {NEW_POSTPROCESS_STATE, "new_postprocess_state"},
 
     {ARTIFICIAL_HORIZON_IMPORT, "artificial_horizon_import"},
     {ARTIFICIAL_HORIZON_TOGGLE, "artificial_horizon_toggle"},

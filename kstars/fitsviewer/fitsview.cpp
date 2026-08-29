@@ -435,7 +435,7 @@ void FITSView::initStack()
     fitsWatcher.setFuture(m_ImageData->loadFromFile(noImage));
 }
 
-void FITSView::loadStack(const QStringList &inDir, const LiveStackData &params)
+void FITSView::loadStack(const QStringList &inDir, const StackData &params)
 {
 #if !defined (KSTARS_LITE)
     m_StackDir = (inDir.size() > 0) ?  inDir[0] : "";
@@ -465,7 +465,7 @@ void FITSView::loadStack(const QStringList &inDir, const LiveStackData &params)
         m_ImageData->setBayerParams(&param);
 
     connect(m_ImageData.data(), &FITSData::plateSolveSub, this, [this](const double ra, const double dec,
-            const double pixScale, const int index, const int healpix, const LiveStackFrameWeighting weighting)
+            const double pixScale, const int index, const int healpix, const StackFrameWeighting weighting)
     {
         Q_EMIT plateSolveSub(ra, dec, pixScale, index, healpix, weighting);
     });
@@ -481,6 +481,7 @@ void FITSView::loadStack(const QStringList &inDir, const LiveStackData &params)
     });
 
     connect(m_ImageData.data(), &FITSData::stackReady, this, &FITSView::stackReady);
+    connect(m_ImageData.data(), &FITSData::stackFailed, this, &FITSView::stackFailed);
 
     connect(m_ImageData.data(), &FITSData::stackUpdateStats, this, [this](const bool ok, const int sub,
             const int total, const double meanSNR, const double minSNR, const double maxSNR)
@@ -522,7 +523,7 @@ void FITSView::cancelStack()
 }
 
 // Called when post processing controls in Fitstab changed by the user.
-void FITSView::redoPostProcessStack(const LiveStackPPData &ppParams)
+void FITSView::redoPostProcessStack(const StackPPData &ppParams)
 {
 #if !defined(KSTARS_LITE)
     if (m_ImageData)
@@ -544,6 +545,20 @@ void FITSView::stackReady(const bool cancelled)
         }
     }
     Q_EMIT resetStack(cancelled);
+}
+
+void FITSView::stackFailed(const QString &reason)
+{
+    // Mirrors stackReady(false)'s "nothing usable" branch — FITSData::stackFailed()
+    // fires instead of stackReady() when a batch completed but produced no usable
+    // result (e.g. every sub failed calibration/alignment/plate-solving). Without
+    // this, resetStack() would never fire for that case, leaving the GUI's Start
+    // button/progress state stuck indefinitely with no indication anything went
+    // wrong — the exact same "stuck in Progressing" symptom a directory-matching
+    // bug elsewhere was found to also cause.
+    qCWarning(KSTARS_FITS) << "Live stack failed:" << reason;
+    fitsWatcher.setFuture(m_ImageData->loadFromFile(":/images/noimage.png"));
+    Q_EMIT resetStack(false);
 }
 
 void FITSView::clearData()

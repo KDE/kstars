@@ -39,6 +39,8 @@
 #include "catalogobject.h"
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
+#include "fitsviewer/pipeline/masterbuilder.h"
+#include "fitsviewer/pipeline/directoryinspector.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/align/mountmodel.h"
 #include "skymap.h"
@@ -270,6 +272,14 @@ void Message::onTextReceived(const QString &message)
         processFileCommands(command, payload);
     else if (command.startsWith("artificial_horizon_"))
         processArtificialHorizonCommands(command, payload);
+    else if (command.startsWith("postprocess_"))
+    {
+        // Post-processing operates on files already on disk and has no
+        // dependency on an active Ekos/INDI session, so it must not be
+        // gated behind m_Manager->getEkosStartingStatus() below.
+        processPostProcessCommands(command, payload);
+        return;
+    }
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -3325,14 +3335,14 @@ void Message::processLiveStackerCommands(const QString &command, const QJsonObje
             }
         }
 
-        // Build LiveStackData from settings
-        LiveStackData params;
+        // Build StackData from settings
+        StackData params;
         params.calcSNR = m_LiveStackerSettings.value("calcSNR", true).toBool();
-        params.alignMethod = static_cast<LiveStackAlignMethod>(m_LiveStackerSettings.value("alignMethod", 0).toInt());
-        params.stackingMethod = static_cast<LiveStackStackingMethod>(m_LiveStackerSettings.value("stackingMethod", 0).toInt());
-        params.downscale = static_cast<LiveStackDownscale>(m_LiveStackerSettings.value("downscale", 0).toInt());
+        params.alignMethod = static_cast<StackAlignMethod>(m_LiveStackerSettings.value("alignMethod", 0).toInt());
+        params.stackingMethod = static_cast<StackingMethod>(m_LiveStackerSettings.value("stackingMethod", 0).toInt());
+        params.downscale = static_cast<StackDownscale>(m_LiveStackerSettings.value("downscale", 0).toInt());
         params.numInMem = m_LiveStackerSettings.value("numInMem", 10).toInt();
-        params.weighting = static_cast<LiveStackFrameWeighting>(m_LiveStackerSettings.value("weighting", 0).toInt());
+        params.weighting = static_cast<StackFrameWeighting>(m_LiveStackerSettings.value("weighting", 0).toInt());
         params.lowSigma = m_LiveStackerSettings.value("lowSigma", 2.0).toDouble();
         params.highSigma = m_LiveStackerSettings.value("highSigma", 3.0).toDouble();
 
@@ -3464,6 +3474,568 @@ void Message::processLiveStackerCommands(const QString &command, const QJsonObje
             m_LiveStackerViewer = nullptr;
         }
         sendResponse(commands[NEW_LIVESTACKER_STATE], QJsonObject{{"state", "closed"}});
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/// Batch post-processing pipeline. Deliberately a separate
+/// command surface and a separate StackController from LiveStacker above — this drives
+/// an already-captured folder of subs through calibration/stacking/crop/PCC(pending)/
+/// tone-mapping/finishing with no FITSViewer/FITSTab window involved, as opposed to
+/// LiveStacker's live, attended, GUI-backed capture session.
+///////////////////////////////////////////////////////////////////////////////////////////
+QVector<QPointF> Message::parseCurvePoints(const QJsonArray &points) const
+{
+    QVector<QPointF> result;
+    for (const auto &value : points)
+    {
+        const QJsonObject point = value.toObject();
+        result << QPointF(point["x"].toDouble(), point["y"].toDouble());
+    }
+    return result;
+}
+
+QSharedPointer<StackController> Message::resolvePostProcessSession(const QJsonObject &payload) const
+{
+    return m_PostProcessSessions.value(payload["sessionId"].toString(m_DefaultPostProcessSession));
+}
+
+QVector<ChannelBlendOperation::WeightedInput> Message::parseBlendInputs(const QJsonArray &inputs, QString &error) const
+{
+    QVector<ChannelBlendOperation::WeightedInput> result;
+    for (const auto &value : inputs)
+    {
+        const QJsonObject obj = value.toObject();
+        QString sessionId = obj["sessionId"].toString();
+        if (sessionId.isEmpty())
+            sessionId = obj["filter"].toString();
+        const double weight = obj["weight"].toDouble(1.0);
+
+        if (sessionId.isEmpty())
+        {
+            error = QStringLiteral("Each blend input needs a \"filter\" or \"sessionId\"");
+            return {};
+        }
+
+        auto session = m_PostProcessSessions.value(sessionId);
+        if (!session || !session->imageData())
+        {
+            error = QString("No post-processing session named '%1'").arg(sessionId);
+            return {};
+        }
+        const cv::Mat &image = session->imageData()->stackedImageMat();
+        if (image.empty())
+        {
+            error = QString("Session '%1' has no stacked image yet").arg(sessionId);
+            return {};
+        }
+        result.push_back({ image, weight });
+    }
+    return result;
+}
+
+void Message::processPostProcessCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[POSTPROCESS_START] && payload.contains("channels"))
+    {
+        // Filter-tagged mode: each entry stacks independently as its own mono session
+        // (StackChannel::SINGLE, n==1) — sidesteps initStackChannels()'s positional R/G/B/L
+        // assignment (and its outright rejection of exactly 2 directories) entirely, so
+        // e.g. a 2-filter Ha+OIII narrowband set can be stacked and later blended with
+        // postprocess_blend_channels. Each session is kept alive under m_PostProcessSessions
+        // keyed by "filter", concurrently with any other session — nothing here replaces
+        // an existing session the way the single-session mode below does.
+        const QJsonArray channels = payload["channels"].toArray();
+        if (channels.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "\"channels\" must have at least one entry"}});
+            return;
+        }
+
+        QJsonArray startedSessions;
+        for (const auto &value : channels)
+        {
+            const QJsonObject channel = value.toObject();
+            const QString filter = channel["filter"].toString();
+            const QString directory = channel["directory"].toString();
+            if (filter.isEmpty() || directory.isEmpty())
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                QJsonObject{{"state", "error"}, {"message", "Each channels[] entry needs \"filter\" and \"directory\""}});
+                return;
+            }
+
+            // Shared stacking/post-processing params apply to every channel in this
+            // call — only filter/directory/masterDark/masterFlat vary per channel.
+            StackData params;
+            params.calcSNR = payload["calcSNR"].toBool(true);
+            params.alignMethod = static_cast<StackAlignMethod>(payload["alignMethod"].toInt(0));
+            params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
+            params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
+            params.numInMem = payload["numInMem"].toInt(10);
+            params.weighting = static_cast<StackFrameWeighting>(payload["weighting"].toInt(0));
+            params.lowSigma = payload["lowSigma"].toDouble(2.0);
+            params.highSigma = payload["highSigma"].toDouble(3.0);
+            // Hard reject on obvious star trailing (tracking failure, etc.) - on by
+            // default since HFR/NUM_STARS weighting alone only down-weights a bad sub,
+            // it never excludes it. See FITSData::detectStarTrailing().
+            params.rejectTrailedSubs = payload["rejectTrailedSubs"].toBool(true);
+            params.maxStarElongation = payload["maxStarElongation"].toDouble(0.08);
+            // Per-sub cosmetic correction (FITSStack::correctSub()) — replaces a pixel
+            // that's a k-sigma outlier vs. its local 3x3 median with that median, before
+            // the sub ever reaches alignment/stacking. Off by default: a genuinely
+            // stuck/hot sensor pixel is consistently bright in every sub, so SIGMA/
+            // WINDSOR stacking's frame-to-frame outlier rejection can't catch it —
+            // this is the only thing in the pipeline that can.
+            params.hotPixels = payload["hotPixels"].toBool(false);
+            params.coldPixels = payload["coldPixels"].toBool(false);
+            params.postProcessing.postProcess = payload["postProcess"].toBool(false);
+            params.postProcessing.gradientAmt = payload["gradientAmt"].toDouble(0.0);
+            params.postProcessing.denoiseAmt = payload["denoiseAmt"].toDouble(0.0);
+            params.postProcessing.denoiseMethod = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
+            params.postProcessing.chromaDenoiseAmt = payload["chromaDenoiseAmt"].toDouble(0.0);
+            params.postProcessing.deconvAmt = payload["deconvAmt"].toDouble(0.0);
+            params.postProcessing.PSFSigma = payload["PSFSigma"].toDouble(1.0);
+            params.postProcessing.sharpenAmt = payload["sharpenAmt"].toDouble(0.0);
+            params.postProcessing.sharpenKernal = payload["sharpenKernal"].toInt(3);
+            params.postProcessing.sharpenSigma = payload["sharpenSigma"].toDouble(3.0);
+
+            const QString masterDark = channel["masterDark"].toString();
+            const QString masterFlat = channel["masterFlat"].toString();
+            if (!masterDark.isEmpty())
+                params.masterDark = QVector<QString> {masterDark};
+            if (!masterFlat.isEmpty())
+                params.masterFlat = QVector<QString> {masterFlat};
+
+            auto session = QSharedPointer<StackController>::create(this);
+            connect(session.data(), &StackController::stackReady, this, [this, filter](bool cancelled)
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", filter}});
+            });
+            connect(session.data(), &StackController::stackFailed, this, [this, filter](const QString & reason)
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                QJsonObject{{"state", "error"}, {"sessionId", filter}, {"message", reason}});
+            });
+            connect(session.data(), &StackController::stackUpdateStats, this,
+                    [this, filter](bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR)
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+                {
+                    {"state", "progress"}, {"sessionId", filter}, {"ok", ok}, {"sub", sub}, {"total", total},
+                    {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
+                });
+            });
+
+            session->start(QStringList { directory }, params);
+            m_PostProcessSessions[filter] = session;
+            startedSessions << filter;
+        }
+
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "started"}, {"sessions", startedSessions}});
+    }
+    else if (command == commands[POSTPROCESS_START])
+    {
+        // Single-session mode: one mono directory, or positional RGB/RGBL directories
+        // (see initStackChannels() — dirs[0]=RED, dirs[1]=GREEN, dirs[2]=BLUE, dirs[3]=LUM
+        // for n>=3, dirs[0]=SINGLE for n==1). Stored under "sessionId" (defaults to the
+        // single-session key), replacing any existing session under that same id.
+        QStringList directories;
+        if (payload.contains("directories"))
+        {
+            for (const auto &value : payload["directories"].toArray())
+                directories << value.toString();
+        }
+        else
+        {
+            const QString directory = payload["directory"].toString();
+            if (!directory.isEmpty())
+                directories << directory;
+        }
+
+        if (directories.isEmpty() || (directories.size() != 1 && directories.size() < 3))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "Specify either \"directory\" (mono) or \"directories\" "
+                        "with 3 (RGB) or 4 (RGB+L) entries in that order"}});
+            return;
+        }
+
+        StackData params;
+        params.calcSNR = payload["calcSNR"].toBool(true);
+        params.alignMethod = static_cast<StackAlignMethod>(payload["alignMethod"].toInt(0));
+        params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
+        params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
+        params.numInMem = payload["numInMem"].toInt(10);
+        params.weighting = static_cast<StackFrameWeighting>(payload["weighting"].toInt(0));
+        params.lowSigma = payload["lowSigma"].toDouble(2.0);
+        params.highSigma = payload["highSigma"].toDouble(3.0);
+        // Hard reject on obvious star trailing (tracking failure, etc.) - on by
+        // default since HFR/NUM_STARS weighting alone only down-weights a bad sub,
+        // it never excludes it. See FITSData::detectStarTrailing().
+        params.rejectTrailedSubs = payload["rejectTrailedSubs"].toBool(true);
+        params.maxStarElongation = payload["maxStarElongation"].toDouble(0.08);
+
+        // Per-sub cosmetic correction (FITSStack::correctSub()) — replaces a pixel
+        // that's a k-sigma outlier vs. its local 3x3 median with that median, before
+        // the sub ever reaches alignment/stacking. Off by default: a genuinely
+        // stuck/hot sensor pixel is consistently bright in every sub, so SIGMA/WINDSOR
+        // stacking's frame-to-frame outlier rejection can't catch it — this is the
+        // only thing in the pipeline that can.
+        params.hotPixels = payload["hotPixels"].toBool(false);
+        params.coldPixels = payload["coldPixels"].toBool(false);
+
+        // Per-channel, pre-combine post-processing (gradient/background removal,
+        // denoise, deconvolution, sharpen) — these run inline during stacking itself
+        // (FITSStack::postProcessImage()), unlike the post-combine ops below
+        // (crop/autostretch/curve/saturation/contrast), which is why they're set here
+        // on StackData rather than exposed as their own postprocess_* commands.
+        params.postProcessing.postProcess = payload["postProcess"].toBool(false);
+        params.postProcessing.gradientAmt = payload["gradientAmt"].toDouble(0.0);
+        params.postProcessing.denoiseAmt = payload["denoiseAmt"].toDouble(0.0);
+        params.postProcessing.denoiseMethod = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
+        params.postProcessing.chromaDenoiseAmt = payload["chromaDenoiseAmt"].toDouble(0.0);
+        params.postProcessing.deconvAmt = payload["deconvAmt"].toDouble(0.0);
+        params.postProcessing.PSFSigma = payload["PSFSigma"].toDouble(1.0);
+        params.postProcessing.sharpenAmt = payload["sharpenAmt"].toDouble(0.0);
+        params.postProcessing.sharpenKernal = payload["sharpenKernal"].toInt(3);
+        params.postProcessing.sharpenSigma = payload["sharpenSigma"].toDouble(3.0);
+
+        // Per-channel master dark/flat paths, aligned positionally with "directories"
+        // (see initStackChannels()). "masterDarkPaths"/"masterFlatPaths" (arrays) are for
+        // when each channel needs its own — typically true for flats (different filter
+        // transmission per channel) and sometimes for darks (different exposure per
+        // channel). The singular "masterDarkPath"/"masterFlatPath" fields remain as a
+        // convenience that broadcasts one path to every channel — the common case for
+        // darks, which usually don't depend on filter, just exposure/gain/temp.
+        auto resolveMasterPaths = [&](const QString & arrayKey, const QString & singularKey) -> QVector<QString>
+        {
+            if (payload.contains(arrayKey))
+            {
+                QVector<QString> paths;
+                for (const auto &value : payload[arrayKey].toArray())
+                    paths << value.toString();
+                return paths;
+            }
+            const QString single = payload[singularKey].toString();
+            if (single.isEmpty())
+                return {};
+            QVector<QString> paths;
+            for (int i = 0; i < directories.size(); i++)
+                paths << single;
+            return paths;
+        };
+        params.masterDark = resolveMasterPaths("masterDarkPaths", "masterDarkPath");
+        params.masterFlat = resolveMasterPaths("masterFlatPaths", "masterFlatPath");
+
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        auto session = QSharedPointer<StackController>::create(this);
+        connect(session.data(), &StackController::stackReady, this, [this, sessionId](bool cancelled)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}});
+        });
+        connect(session.data(), &StackController::stackFailed, this, [this, sessionId](const QString & reason)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", reason}});
+        });
+        connect(session.data(), &StackController::stackUpdateStats, this,
+                [this, sessionId](bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+            {
+                {"state", "progress"}, {"sessionId", sessionId}, {"ok", ok}, {"sub", sub}, {"total", total},
+                {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
+            });
+        });
+
+        session->start(directories, params);
+        m_PostProcessSessions[sessionId] = session;
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "started"}, {"sessionId", sessionId}});
+    }
+    else if (command == commands[POSTPROCESS_STOP])
+    {
+        auto session = resolvePostProcessSession(payload);
+        if (session)
+            session->cancel();
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "stopped"}});
+    }
+    else if (command == commands[POSTPROCESS_CLOSE])
+    {
+        // Removes only the named session (default: the single-session key) — with
+        // multiple concurrent sessions (filter-tagged mode), each must be closed
+        // individually by its own sessionId.
+        m_PostProcessSessions.remove(payload["sessionId"].toString(m_DefaultPostProcessSession));
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "closed"}});
+    }
+    else if (command == commands[POSTPROCESS_BUILD_MASTER])
+    {
+        // Standalone — doesn't need an active post-processing session at all,
+        // per §1: building a master is an input to a future start(), not a step that
+        // runs against an existing stacked result.
+        const QString directory = payload["directory"].toString();
+        const QString typeStr = payload["type"].toString();
+        const QString outputPath = payload["outputPath"].toString();
+        if (directory.isEmpty() || outputPath.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "directory and outputPath are required"}});
+            return;
+        }
+
+        MasterBuilder::Type type = MasterBuilder::Type::DARK;
+        if (typeStr == "bias")
+            type = MasterBuilder::Type::BIAS;
+        else if (typeStr == "flat")
+            type = MasterBuilder::Type::FLAT;
+        else if (typeStr != "dark")
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", QString("Unknown master type '%1' — expected bias/dark/flat").arg(typeStr)}});
+            return;
+        }
+
+        const double lowSigma = payload["lowSigma"].toDouble(3.0);
+        const double highSigma = payload["highSigma"].toDouble(3.0);
+        // Subtracted from each raw sub before combining — real use case is building a
+        // proper master flat: flats are usually taken at a much shorter exposure than
+        // lights, where the sensor's bias/offset pattern still matters even though dark
+        // current doesn't, so pass a pre-built master bias here when type is "flat".
+        const QString subtractPath = payload["biasPath"].toString();
+        // Only combine files whose EXPTIME header is within exptimeTolerance seconds of
+        // matchExptime — for a shared calibration folder that mixes multiple exposure
+        // lengths (e.g. light-darks and flat-darks together) with no other way to tell
+        // them apart. Omitted/negative (the default) disables filtering, matching the
+        // original behavior of combining every FITS-loadable file in the directory.
+        const double matchExptime = payload["matchExptime"].toDouble(-1.0);
+        const double exptimeTolerance = payload["exptimeTolerance"].toDouble(0.5);
+
+        QString error;
+        if (!MasterBuilder::buildAndSave(directory, type, outputPath, error, lowSigma, highSigma, subtractPath,
+                                          matchExptime, exptimeTolerance))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "master_built"}, {"outputPath", outputPath}});
+    }
+    else if (command == commands[POSTPROCESS_INSPECT_DIRECTORY])
+    {
+        // Standalone, same as POSTPROCESS_BUILD_MASTER — reports what's actually in a
+        // folder (EXPTIME/FILTER/binning/IMAGETYP per file, header-only) so a caller can
+        // discover the right matchExptime for build_master, or the right exposure/filter
+        // for postprocess_start, without external tooling. Useful for any folder
+        // (bias/dark/flat/light), not darks specifically.
+        const QString directory = payload["directory"].toString();
+        if (directory.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "directory is required"}});
+            return;
+        }
+
+        QVector<DirectoryInspector::FileInfo> files;
+        QVector<DirectoryInspector::Group> groups;
+        QString error;
+        if (!DirectoryInspector::inspect(directory, files, groups, error))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+
+        QJsonArray filesArray;
+        for (const auto &file : files)
+        {
+            QJsonObject entry
+            {
+                {"filename", file.filename}, {"exptime", file.exptime},
+                {"filter", file.filter}, {"binning", file.binning}, {"imagetyp", file.imagetyp}
+            };
+            if (!file.error.isEmpty())
+                entry["error"] = file.error;
+            filesArray << entry;
+        }
+
+        QJsonArray groupsArray;
+        for (const auto &group : groups)
+        {
+            groupsArray << QJsonObject
+            {
+                {"exptime", group.exptime}, {"filter", group.filter},
+                {"binning", group.binning}, {"imagetyp", group.imagetyp}, {"count", group.count}
+            };
+        }
+
+        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+        {
+            {"state", "inspected"}, {"directory", directory}, {"fileCount", files.size()},
+            {"files", filesArray}, {"groups", groupsArray}
+        });
+    }
+    else if (command == commands[POSTPROCESS_BLEND_CHANNELS])
+    {
+        // The actual narrowband "pixel math": arbitrary weighted sums of any named,
+        // already-stacked mono session into each output R/G/B channel — not just a
+        // fixed one-filter-per-slot assignment. See ChannelBlendOperation.
+        QString error;
+        const auto red = parseBlendInputs(payload["red"].toArray(), error);
+        if (!error.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+        const auto green = parseBlendInputs(payload["green"].toArray(), error);
+        if (!error.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+        const auto blue = parseBlendInputs(payload["blue"].toArray(), error);
+        if (!error.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+
+        cv::Mat blended;
+        if (!ChannelBlendOperation::blendRGB(red, green, blue, blended, error))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+
+        // The blend result becomes its own session — same crop/apply_*/save lifecycle
+        // as any real stack from here on.
+        const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
+        auto outputSession = QSharedPointer<StackController>::create(this);
+        if (!outputSession->adopt(blended, error))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            return;
+        }
+        // Without these, a later postprocess_redo_postprocess against this session
+        // would complete (or fail) with no way to tell the caller — nothing forwarded
+        // its stackReady/stackFailed to a response at all, unlike a postprocess_start
+        // session's connections (see the POSTPROCESS_START handlers above).
+        connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
+        });
+        connect(outputSession.data(), &StackController::stackFailed, this,
+                [this, outputSessionId](const QString & reason)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
+        });
+        m_PostProcessSessions[outputSessionId] = outputSession;
+        sendResponse(commands[NEW_POSTPROCESS_STATE],
+        QJsonObject{{"state", "blended"}, {"outputSessionId", outputSessionId}});
+    }
+    else if (command == commands[POSTPROCESS_REDO_POSTPROCESS])
+    {
+        // Unlike crop/apply_*/save below, this is asynchronous — it recomputes
+        // gradient/denoise/deconv/sharpen from the already-combined stack
+        // (FITSStack::redoPostProcessStack(), on a background thread) without
+        // re-running calibration/plate-solve/alignment/combine, so callers can
+        // iterate on post-processing parameters fast. Completion is reported via
+        // the same stackReady-driven "ready" event postprocess_start's session
+        // already emits (session->redoPostProcess() ultimately re-triggers it).
+        auto session = resolvePostProcessSession(payload);
+        if (!session)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_start first"}});
+            return;
+        }
+        StackPPData ppParams;
+        ppParams.postProcess = payload["postProcess"].toBool(true);
+        ppParams.gradientAmt = payload["gradientAmt"].toDouble(0.0);
+        ppParams.denoiseAmt = payload["denoiseAmt"].toDouble(0.0);
+        ppParams.denoiseMethod = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
+        ppParams.chromaDenoiseAmt = payload["chromaDenoiseAmt"].toDouble(0.0);
+        ppParams.deconvAmt = payload["deconvAmt"].toDouble(0.0);
+        ppParams.PSFSigma = payload["PSFSigma"].toDouble(1.0);
+        ppParams.sharpenAmt = payload["sharpenAmt"].toDouble(0.0);
+        ppParams.sharpenKernal = payload["sharpenKernal"].toInt(3);
+        ppParams.sharpenSigma = payload["sharpenSigma"].toDouble(3.0);
+        session->redoPostProcess(ppParams);
+        sendResponse(commands[NEW_POSTPROCESS_STATE],
+        QJsonObject{{"state", "redoing"}, {"sessionId", payload["sessionId"].toString(m_DefaultPostProcessSession)}});
+    }
+    else if (command == commands[POSTPROCESS_CROP]
+             || command == commands[POSTPROCESS_APPLY_AUTOSTRETCH]
+             || command == commands[POSTPROCESS_APPLY_CURVE]
+             || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
+             || command == commands[POSTPROCESS_APPLY_SATURATION]
+             || command == commands[POSTPROCESS_APPLY_CONTRAST]
+             || command == commands[POSTPROCESS_SAVE])
+    {
+        auto session = resolvePostProcessSession(payload);
+        if (!session)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_start first"}});
+            return;
+        }
+
+        QString error;
+        bool ok = false;
+        QJsonObject response;
+
+        if (command == commands[POSTPROCESS_CROP])
+        {
+            const QRect roi(payload["x"].toInt(), payload["y"].toInt(), payload["width"].toInt(), payload["height"].toInt());
+            ok = session->crop(roi, error);
+            response = {{"state", ok ? "cropped" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH])
+        {
+            ok = session->applyAutoStretch(payload["targetBackground"].toDouble(0.25),
+                    payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
+            response = {{"state", ok ? "stretched" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_CURVE])
+        {
+            const QVector<QPointF> points = parseCurvePoints(payload["points"].toArray());
+            ok = session->applyCurve(points, error);
+            response = {{"state", ok ? "curve_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL])
+        {
+            const QVector<QVector<QPointF>> channelPoints
+            {
+                parseCurvePoints(payload["red"].toArray()),
+                parseCurvePoints(payload["green"].toArray()),
+                parseCurvePoints(payload["blue"].toArray())
+            };
+            ok = session->applyCurvePerChannel(channelPoints, error);
+            response = {{"state", ok ? "curve_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_SATURATION])
+        {
+            ok = session->applySaturation(payload["amt"].toDouble(1.0), error);
+            response = {{"state", ok ? "saturation_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_CONTRAST])
+        {
+            ok = session->applyContrast(payload["amt"].toDouble(1.0), error);
+            response = {{"state", ok ? "contrast_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_SAVE])
+        {
+            const QString outputPath = payload["outputPath"].toString();
+            ok = session->save(outputPath, error);
+            response = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
+        }
+
+        if (!ok)
+            response["message"] = error;
+        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
     }
 }
 
@@ -3718,13 +4290,13 @@ void Message::onLiveStackerJobChanged(const QSharedPointer<Ekos::SequenceJob> &j
     m_LiveStackerSettings["stackingDirectory"] = newDirectory;
 
     // Rebuild params from the stored settings (same as in LIVESTACKER_START)
-    LiveStackData params;
+    StackData params;
     params.calcSNR           = m_LiveStackerSettings.value("calcSNR", true).toBool();
-    params.alignMethod       = static_cast<LiveStackAlignMethod>(m_LiveStackerSettings.value("alignMethod", 0).toInt());
-    params.stackingMethod    = static_cast<LiveStackStackingMethod>(m_LiveStackerSettings.value("stackingMethod", 0).toInt());
-    params.downscale         = static_cast<LiveStackDownscale>(m_LiveStackerSettings.value("downscale", 0).toInt());
+    params.alignMethod       = static_cast<StackAlignMethod>(m_LiveStackerSettings.value("alignMethod", 0).toInt());
+    params.stackingMethod    = static_cast<StackingMethod>(m_LiveStackerSettings.value("stackingMethod", 0).toInt());
+    params.downscale         = static_cast<StackDownscale>(m_LiveStackerSettings.value("downscale", 0).toInt());
     params.numInMem          = m_LiveStackerSettings.value("numInMem", 10).toInt();
-    params.weighting         = static_cast<LiveStackFrameWeighting>(m_LiveStackerSettings.value("weighting", 0).toInt());
+    params.weighting         = static_cast<StackFrameWeighting>(m_LiveStackerSettings.value("weighting", 0).toInt());
     params.lowSigma          = m_LiveStackerSettings.value("lowSigma", 2.0).toDouble();
     params.highSigma         = m_LiveStackerSettings.value("highSigma", 3.0).toDouble();
     params.postProcessing.postProcess = m_LiveStackerSettings.value("postProcess", false).toBool();

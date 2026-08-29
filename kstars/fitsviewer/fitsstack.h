@@ -107,7 +107,7 @@ class FITSStack : public QObject
         Q_OBJECT
 
     public:
-        explicit FITSStack(FITSData *parent, LiveStackChannel channel, LiveStackData params);
+        explicit FITSStack(FITSData *parent, StackChannel channel, StackData params);
         virtual ~FITSStack() override;
 
         /**
@@ -178,7 +178,7 @@ class FITSStack : public QObject
          * @brief Redo post-processing on the stack
          * @param Post processing parameters
          */
-        void redoPostProcessStack(const LiveStackPPData &ppParams);
+        void redoPostProcessStack(const StackPPData &ppParams);
 
         /**
          * @brief Get the WCS data structure for stacked image
@@ -223,7 +223,7 @@ class FITSStack : public QObject
          * @brief Get stack data structure
          * @return stack data structure
          */
-        const LiveStackData &getStackData() const
+        const StackData &getStackData() const
         {
             return m_StackData;
         }
@@ -236,6 +236,18 @@ class FITSStack : public QObject
         {
             return m_StackedImageFinal.clone();
         }
+
+        /**
+         * @brief Post process the passed in stack. Public (rather than alongside the
+         * other stacking internals below) so a caller with no per-channel FITSStack
+         * session at all — e.g. FITSData::redoPostProcessStack() on an "adopted" image
+         * from postprocess_blend_channels, which has no m_Stacks entries to redo — can
+         * still run gradient/denoise/deconv/sharpen via a throwaway FITSStack instance,
+         * using only this call and this instance's m_StackData.postProcessing.
+         * @param Image to process
+         * @return Processed image
+         */
+        cv::Mat postProcessImage(const cv::Mat &image);
 
         /**
          * @brief Gets the downscaling factor for the use downscale option
@@ -280,6 +292,7 @@ class FITSStack : public QObject
             CALIBRATION_FAILED,
             CORRECTION_FAILED,
             ALIGNMENT_FAILED,
+            TRAILING_REJECTED,
             OK
         } StackSubStatus;
 
@@ -428,7 +441,7 @@ class FITSStack : public QObject
          * @param lsd         User specified parameters.
          * @return The stacked image.
          */
-        cv::Mat stackSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd);
+        cv::Mat stackSubsImageMM(const QVector<float> &weights, const StackData &lsd);
 
         /**
          * @brief Incrementally update the ImageMM stack using new subframes.
@@ -436,7 +449,7 @@ class FITSStack : public QObject
          * @param lsd         User specified parameters.
          * @return The updated latent floating-point image (`cv::Mat`, type `CV_32F`).
          */
-        cv::Mat stacknSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd);
+        cv::Mat stacknSubsImageMM(const QVector<float> &weights, const StackData &lsd);
 
         /**
          * @brief Build a complete list of subframes and corresponding weights for ImageMM stacking.
@@ -459,7 +472,7 @@ class FITSStack : public QObject
          * @return Final latent image (same size/channels as inputs).
          */
         cv::Mat imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, double &sigma,
-                            const QVector<float> &weights, const LiveStackData &lsd, bool incremental);
+                            const QVector<float> &weights, const StackData &lsd, bool incremental);
 
         /**
          * @brief Initialize latent image if empty, using weighted mean of subs.
@@ -552,13 +565,6 @@ class FITSStack : public QObject
         void setWCSStackImage(const QSharedPointer<wcsprm> &wcs);
 
         /**
-         * @brief Post process the passed in stack
-         * @param Image to process
-         * @return Processed image
-         */
-        cv::Mat postProcessImage(const cv::Mat &image);
-
-        /**
          * @brief Return the weights for each sub for the stacking process
          * @return weights
          */
@@ -603,6 +609,32 @@ class FITSStack : public QObject
          * @return the gradient corrected image
         */
         cv::Mat gradientCorrection(const cv::Mat& input, const double strength);
+
+        /**
+         * @brief Robust (MAD-based) noise-sigma estimate for a zero-mean detail/residual
+         * layer, calibrated to a Gaussian-equivalent standard deviation (1.4826x median
+         * of |d|). Shared by the per-channel denoise and chromaDenoise() below.
+         * @param d a zero-mean CV_32F single-channel layer (e.g. a detail/residual layer)
+         * @return the estimated sigma
+         */
+        static float robustSigma(const cv::Mat &d);
+
+        /**
+         * @brief Suppress inter-channel color noise while leaving luminance detail
+         * untouched. Decomposes the image into luma (Y = 0.299R+0.587G+0.114B) and two
+         * scale-agnostic color-difference planes (Cr = R-Y, Cb = B-Y, no arbitrary
+         * midpoint offset — unlike cv::COLOR_BGR2YCrCb, this stays exact for the
+         * pipeline's native ADU-scale linear data, not just [0,1]-normalized input),
+         * Gaussian-blurs only Cr/Cb, then reconstructs R/G/B from the blurred chroma and
+         * untouched Y. This is what actually targets OSC per-channel shot/read noise
+         * (uncorrelated between R/G/B, since they're physically separate photosites) —
+         * the per-channel denoise above treats each channel independently and can't
+         * distinguish real color from single-channel noise.
+         * @param image a CV_32F, 3-channel (BGR) image
+         * @param amt strength in [0,1]; maps to a 1-8px chroma blur radius
+         * @return the chroma-denoised image
+         */
+        cv::Mat chromaDenoise(const cv::Mat &image, double amt);
 
         /**
          * @brief Return a PSF for stars (upto 20) in the passed in image
@@ -686,10 +718,10 @@ class FITSStack : public QObject
         bool m_InitialStackDone { false };
 
         // Channel associated with this stack
-        LiveStackChannel m_Channel;
+        StackChannel m_Channel;
 
         // Stack data user options
-        LiveStackData m_StackData;
+        StackData m_StackData;
 
         // Calibration
         cv::Mat m_MasterDark;

@@ -13,6 +13,11 @@
 #include "fitsgradientdetector.h"
 #include "fitscentroiddetector.h"
 #include "fitssepdetector.h"
+#include "pipeline/cropoperation.h"
+#include "pipeline/autostretch.h"
+#include "pipeline/curveoperation.h"
+#include "pipeline/saturationoperation.h"
+#include "pipeline/contrastoperation.h"
 
 #include "fpack.h"
 
@@ -393,7 +398,7 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 }
 
 #if !defined (KSTARS_LITE)
-bool FITSData::loadStack(const QStringList &inDir, const LiveStackData &params)
+bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 {
     m_LiveStackData = params;
     m_StackSavedFrameCount = 0;  // Reset frame counter for new stacking session
@@ -402,9 +407,9 @@ bool FITSData::loadStack(const QStringList &inDir, const LiveStackData &params)
 
     // Setup stack objects - 1 per base channel
     m_Stacks.clear();
-    QVector<LiveStackChannel> baseChannels = getBaseChannels();
+    QVector<StackChannel> baseChannels = getBaseChannels();
 
-    for (LiveStackChannel base : baseChannels)
+    for (StackChannel base : baseChannels)
     {
         QSharedPointer<FITSStack> stack = QSharedPointer<FITSStack>::create(this, base, params);
 
@@ -459,17 +464,17 @@ bool FITSData::loadStack(const QStringList &inDir, const LiveStackData &params)
     {
         // We have some existing subs in the directory to process
         int subsToProcess = m_LiveStackData.numInMem;
-        LiveStackChannel prevChannel;
-        QVector<LiveStackChannel> channels;
+        StackChannel prevChannel;
+        QVector<StackChannel> channels;
         getChannelInfoforSub(subs[0].file, prevChannel, channels);
         for (int i = 0; i < subs.size(); i++)
         {
             // Process the first subsToProcess and put the rest on a Q for processing later unless the subs are for ,
             // different channels in which case don't stack them together
-            LiveStackChannel thisChannel;
+            StackChannel thisChannel;
             getChannelInfoforSub(subs[i].file, thisChannel, channels);
 
-            if (thisChannel == LiveStackChannel::NONE)
+            if (thisChannel == StackChannel::NONE)
                 qCDebug(KSTARS_FITS) << QString("%1 ignoring %2").arg(__FUNCTION__).arg(subs[i].file);
             else
             {
@@ -527,39 +532,39 @@ bool FITSData::initStackChannels(const QStringList &dirs, const QVector<QString>
     if (n == 1)
     {
         // Mono stack
-        insertChannel(LiveStackChannel::SINGLE, dirs[0]);
-        m_DarkChannelMap.insert(LiveStackChannel::SINGLE, darks.value(0, ""));
-        m_FlatChannelMap.insert(LiveStackChannel::SINGLE, flats.value(0, ""));
-        m_DarksLoadedMap.insert(LiveStackChannel::SINGLE, false);
-        m_FlatsLoadedMap.insert(LiveStackChannel::SINGLE, false);
+        insertChannel(StackChannel::SINGLE, dirs[0]);
+        m_DarkChannelMap.insert(StackChannel::SINGLE, darks.value(0, ""));
+        m_FlatChannelMap.insert(StackChannel::SINGLE, flats.value(0, ""));
+        m_DarksLoadedMap.insert(StackChannel::SINGLE, false);
+        m_FlatsLoadedMap.insert(StackChannel::SINGLE, false);
         return true;
     }
     else if (n >= 3)
     {
         // Colour stack
-        insertChannel(LiveStackChannel::RED, dirs[0]);
-        insertChannel(LiveStackChannel::GREEN, dirs[1]);
-        insertChannel(LiveStackChannel::BLUE, dirs[2]);
-        m_DarkChannelMap.insert(LiveStackChannel::RED, darks.value(0, ""));
-        m_DarkChannelMap.insert(LiveStackChannel::GREEN, darks.value(1, ""));
-        m_DarkChannelMap.insert(LiveStackChannel::BLUE, darks.value(2, ""));
-        m_FlatChannelMap.insert(LiveStackChannel::RED, flats.value(0, ""));
-        m_FlatChannelMap.insert(LiveStackChannel::GREEN, flats.value(1, ""));
-        m_FlatChannelMap.insert(LiveStackChannel::BLUE, flats.value(2, ""));
-        m_DarksLoadedMap.insert(LiveStackChannel::RED, false);
-        m_DarksLoadedMap.insert(LiveStackChannel::GREEN, false);
-        m_DarksLoadedMap.insert(LiveStackChannel::BLUE, false);
-        m_FlatsLoadedMap.insert(LiveStackChannel::RED, false);
-        m_FlatsLoadedMap.insert(LiveStackChannel::GREEN, false);
-        m_FlatsLoadedMap.insert(LiveStackChannel::BLUE, false);
+        insertChannel(StackChannel::RED, dirs[0]);
+        insertChannel(StackChannel::GREEN, dirs[1]);
+        insertChannel(StackChannel::BLUE, dirs[2]);
+        m_DarkChannelMap.insert(StackChannel::RED, darks.value(0, ""));
+        m_DarkChannelMap.insert(StackChannel::GREEN, darks.value(1, ""));
+        m_DarkChannelMap.insert(StackChannel::BLUE, darks.value(2, ""));
+        m_FlatChannelMap.insert(StackChannel::RED, flats.value(0, ""));
+        m_FlatChannelMap.insert(StackChannel::GREEN, flats.value(1, ""));
+        m_FlatChannelMap.insert(StackChannel::BLUE, flats.value(2, ""));
+        m_DarksLoadedMap.insert(StackChannel::RED, false);
+        m_DarksLoadedMap.insert(StackChannel::GREEN, false);
+        m_DarksLoadedMap.insert(StackChannel::BLUE, false);
+        m_FlatsLoadedMap.insert(StackChannel::RED, false);
+        m_FlatsLoadedMap.insert(StackChannel::GREEN, false);
+        m_FlatsLoadedMap.insert(StackChannel::BLUE, false);
 
         if (n == 4)
         {
-            insertChannel(LiveStackChannel::LUM, dirs[3]);
-            m_DarkChannelMap.insert(LiveStackChannel::LUM, darks.value(3, ""));
-            m_FlatChannelMap.insert(LiveStackChannel::LUM, flats.value(3, ""));
-            m_DarksLoadedMap.insert(LiveStackChannel::LUM, false);
-            m_FlatsLoadedMap.insert(LiveStackChannel::LUM, false);
+            insertChannel(StackChannel::LUM, dirs[3]);
+            m_DarkChannelMap.insert(StackChannel::LUM, darks.value(3, ""));
+            m_FlatChannelMap.insert(StackChannel::LUM, flats.value(3, ""));
+            m_DarksLoadedMap.insert(StackChannel::LUM, false);
+            m_FlatsLoadedMap.insert(StackChannel::LUM, false);
         }
         return true;
     }
@@ -570,24 +575,32 @@ bool FITSData::initStackChannels(const QStringList &dirs, const QVector<QString>
     }
 }
 
-void FITSData::insertChannel(const LiveStackChannel &c, const QString dir)
+void FITSData::insertChannel(const StackChannel &c, const QString dir)
 {
-    LiveStackChannel base = c;
+    // Normalize to the same form QFileInfo::absolutePath() returns (absolute, no
+    // trailing slash) — getChannelInfoforSub() compares a sub's containing directory
+    // against this stored string with a plain ==, so any mismatch (e.g. a trailing
+    // slash from a GUI-entered/browsed path, which QFileInfo::absolutePath() never
+    // includes) makes every sub in that directory silently classify as
+    // StackChannel::NONE and get dropped, with zero subs ever reaching the stack.
+    const QString normalizedDir = QDir(dir).absolutePath();
+
+    StackChannel base = c;
     for (int i = 0; i < m_StackChannelDirs.size(); i++)
     {
         // Check to see if the directory is a dup of another channel
-        if (dir == m_StackChannelDirs[i].dir)
+        if (normalizedDir == m_StackChannelDirs[i].dir)
         {
             base = m_StackChannelDirs[i].channel;
             break;
         }
     }
-    m_StackChannelDirs.push_back( { c, dir, base} );
+    m_StackChannelDirs.push_back( { c, normalizedDir, base} );
 }
 
-QVector<LiveStackChannel> FITSData::getBaseChannels()
+QVector<StackChannel> FITSData::getBaseChannels()
 {
-    QVector<LiveStackChannel> channels;
+    QVector<StackChannel> channels;
     for (const auto &c : m_StackChannelDirs)
     {
         if (c.channel == c.baseChannel)
@@ -596,14 +609,14 @@ QVector<LiveStackChannel> FITSData::getBaseChannels()
     return channels;
 }
 
-LiveStackChannel FITSData::getBaseChannelForChannel(LiveStackChannel channel)
+StackChannel FITSData::getBaseChannelForChannel(StackChannel channel)
 {
     for (const auto &c : m_StackChannelDirs)
     {
         if (c.channel == channel)
             return c.baseChannel;
     }
-    return LiveStackChannel::NONE;
+    return StackChannel::NONE;
 }
 
 QVector<QString> FITSData::getUniqueStackDirs()
@@ -617,9 +630,9 @@ QVector<QString> FITSData::getUniqueStackDirs()
     return dirs;
 }
 
-void FITSData::getChannelInfoforSub(const QString &sub, LiveStackChannel &base, QVector<LiveStackChannel> &channels)
+void FITSData::getChannelInfoforSub(const QString &sub, StackChannel &base, QVector<StackChannel> &channels)
 {
-    base = LiveStackChannel::NONE;
+    base = StackChannel::NONE;
     channels.clear();
 
     // Get the directory the sub is in
@@ -637,18 +650,18 @@ void FITSData::getChannelInfoforSub(const QString &sub, LiveStackChannel &base, 
                 channels.push_back(d.channel);
         }
     }
-    if (base == LiveStackChannel::NONE)
+    if (base == StackChannel::NONE)
         qCDebug(KSTARS_FITS) << QString("No known base channel for sub %1 in %2").arg(sub).arg(__FUNCTION__);
 }
 
-LiveStackChannel FITSData::channelForStack(const QSharedPointer<FITSStack> &stack) const
+StackChannel FITSData::channelForStack(const QSharedPointer<FITSStack> &stack) const
 {
     for (auto it = m_Stacks.constBegin(); it != m_Stacks.constEnd(); ++it)
     {
         if (it.value() == stack)
             return it.key();
     }
-    return LiveStackChannel::NONE;
+    return StackChannel::NONE;
 }
 
 
@@ -714,14 +727,14 @@ void FITSData::newStackSubs(QDateTime timestamp, const QVector<LiveStackFile> &n
         LiveStackFile lsf = newFiles[i];
         getChannelInfoforSub(lsf.file, lsf.baseChannel, lsf.channels);
 
-        if (lsf.baseChannel == LiveStackChannel::NONE)
+        if (lsf.baseChannel == StackChannel::NONE)
         {
             qCDebug(KSTARS_FITS) << QString("Live Stacker: ignoring %1 - unknown channel").arg(lsf.file);
             continue;
         }
 
         qCDebug(KSTARS_FITS) << QString("Live Stacker: Newfile %1 ID=%2 Base Channel=%3 Dependent Channels: %4")
-                             .arg(lsf.file).arg(lsf.ID).arg(LiveStackChannelNames.value(lsf.baseChannel))
+                             .arg(lsf.file).arg(lsf.ID).arg(StackChannelNames.value(lsf.baseChannel))
                              .arg(vectorChannelToString(lsf.channels));
         m_StackQ.enqueue(lsf);
         lsfs.push_back(lsf);
@@ -738,6 +751,8 @@ void FITSData::newStackSubs(QDateTime timestamp, const QVector<LiveStackFile> &n
 // Add 1 or more new subs to an existing stack
 void FITSData::incrementalStack()
 {
+    qWarning() << "DIAGTRAIL incrementalStack entered, m_StackQ.size()=" << m_StackQ.size()
+               << "m_StackSubs.size()=" << m_StackSubs.size() << "m_StackSubPos=" << m_StackSubPos;
     // Check whether a user cancel request has been received
     if (m_CancelRequest)
     {
@@ -747,30 +762,37 @@ void FITSData::incrementalStack()
     }
 
     if (m_StackQ.isEmpty())
+    {
+        qWarning() << "DIAGTRAIL incrementalStack: queue empty, nothing to do";
         // Nothing to do
         return;
+    }
 
     // If processing of other subs is still in progress we must wait for it to complete
     bool hasUnprocessedSubs = !m_StackSubs.empty() && m_StackSubPos < m_StackSubs.size();
     if (m_CurrentStack->getStackInProgress() || hasUnprocessedSubs)
+    {
+        qWarning() << "DIAGTRAIL incrementalStack: bailing, stackInProgress=" << m_CurrentStack->getStackInProgress()
+                   << "hasUnprocessedSubs=" << hasUnprocessedSubs;
         return;
+    }
 
     int subsToProcess = m_LiveStackData.numInMem;
     m_StackSubs.clear();
     m_StackSubPos = -1;
-    LiveStackChannel currentChannel = channelForStack(m_CurrentStack);
-    QVector<LiveStackChannel> channels;
+    StackChannel currentChannel = channelForStack(m_CurrentStack);
+    QVector<StackChannel> channels;
     for (int i = 0; i < subsToProcess; i++)
     {
         // Process upto subsToProcess subs
-        LiveStackChannel nextChannel = m_StackQ.constFirst().baseChannel;
+        StackChannel nextChannel = m_StackQ.constFirst().baseChannel;
         if(i == 0 && nextChannel != currentChannel)
         {
             m_CurrentStack = m_Stacks.value(nextChannel);
             if (!m_CurrentStack)
             {
                 qCDebug(KSTARS_FITS) << QString("incrementalStack: no stack for channel %1 - discarding sub")
-                                     .arg(LiveStackChannelNames.value(nextChannel));
+                                     .arg(StackChannelNames.value(nextChannel));
                 m_StackQ.dequeue(); // discard the offending sub
                 m_StackSubs.clear();
                 return;
@@ -793,6 +815,7 @@ void FITSData::incrementalStack()
         return;
     }
 
+    qWarning() << "DIAGTRAIL incrementalStack about to call nextStackAction, batch size=" << m_StackSubs.size();
     m_CurrentStack->setStackInProgress(true);
     Q_EMIT stackInProgress();
     nextStackAction();
@@ -817,23 +840,23 @@ bool FITSData::prepareStackBuffer()
         // What kind of stack is this?
         bool hasSingle = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
         {
-            return scd.channel == LiveStackChannel::SINGLE;
+            return scd.channel == StackChannel::SINGLE;
         });
         bool hasRGB = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
         {
-            return scd.channel == LiveStackChannel::RED;
+            return scd.channel == StackChannel::RED;
         }) &&
         std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
         {
-            return scd.channel == LiveStackChannel::GREEN;
+            return scd.channel == StackChannel::GREEN;
         }) &&
         std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
         {
-            return scd.channel == LiveStackChannel::BLUE;
+            return scd.channel == StackChannel::BLUE;
         });
         bool hasLum = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
         {
-            return scd.channel == LiveStackChannel::LUM;
+            return scd.channel == StackChannel::LUM;
         });
 
         cv::Mat finalImage;
@@ -841,7 +864,7 @@ bool FITSData::prepareStackBuffer()
         if (hasSingle)
         {
             // Single channel
-            auto singleStack = m_Stacks.value(LiveStackChannel::SINGLE);
+            auto singleStack = m_Stacks.value(StackChannel::SINGLE);
             if (singleStack.isNull())
                 return false;
 
@@ -849,9 +872,9 @@ bool FITSData::prepareStackBuffer()
         }
         else if (hasRGB)
         {
-            LiveStackChannel red = getBaseChannelForChannel(LiveStackChannel::RED);
-            LiveStackChannel green = getBaseChannelForChannel(LiveStackChannel::GREEN);
-            LiveStackChannel blue = getBaseChannelForChannel(LiveStackChannel::BLUE);
+            StackChannel red = getBaseChannelForChannel(StackChannel::RED);
+            StackChannel green = getBaseChannelForChannel(StackChannel::GREEN);
+            StackChannel blue = getBaseChannelForChannel(StackChannel::BLUE);
 
             // RGB - if we have all stacks
             cv::Mat r = m_Stacks.value(red)->getStackImage();
@@ -888,7 +911,7 @@ bool FITSData::prepareStackBuffer()
             // If we have a lum then process it next
             if (hasLum)
             {
-                LiveStackChannel lum = getBaseChannelForChannel(LiveStackChannel::LUM);
+                StackChannel lum = getBaseChannelForChannel(StackChannel::LUM);
                 cv::Mat l = m_Stacks.value(lum)->getStackImage();
                 if (l.empty())
                     hasLum = false;
@@ -915,6 +938,7 @@ bool FITSData::prepareStackBuffer()
         }
 
         m_StackSNR = m_LiveStackData.calcSNR ? calcStackSNR(finalImage) : 0.0;
+        m_StackedImageMat = finalImage;
 
         if (!convertMatToFITS(finalImage))
         {
@@ -1080,7 +1104,7 @@ bool FITSData::convertMatToFITS(const cv::Mat &inImage)
 
         // Write FITS keywords
         QString target  = m_LiveStackMetadata.targetName;
-        QString method  = LiveStackStackingMethodNames.value(m_LiveStackData.stackingMethod);
+        QString method  = StackingMethodNames.value(m_LiveStackData.stackingMethod);
         int numStacked  = m_LiveStackMetadata.subCount;
         double expTime  = m_LiveStackMetadata.exposureTime;
         double exposure = m_LiveStackMetadata.totalIntegration;
@@ -1092,6 +1116,28 @@ bool FITSData::convertMatToFITS(const cv::Mat &inImage)
         fits_write_key(fptr, TINT,    "STACKCNT", &numStacked, (char *)"Number of stacked frames", &status);
         fits_write_key(fptr, TDOUBLE, "EXPTIME",  &expTime, (char *)"Individual sub-exposure (s)", &status);
         fits_write_key(fptr, TDOUBLE, "EXPOSURE", &exposure, (char *)"Total integration time (s)", &status);
+
+        // Without this, the saved buffer has no WCS at all — stackSetupWCS() (called
+        // per-sub during a plate-solved live-stack session) already builds m_WCSHandle
+        // for in-memory/display use, but nothing previously carried it into the actual
+        // saved file, so a fresh load of that file (e.g. a batch post-processing job
+        // reading it back later) would find no WCS to work with — crop's WCS adjustment
+        // and any future photometric-calibration catalog cross-match both need this.
+        if (m_WCSHandle != nullptr)
+        {
+            fits_write_key(fptr, TDOUBLE, "EQUINOX", &m_WCSHandle->equinox, (char *)"Equinox", &status);
+            fits_write_key(fptr, TSTRING, "RADECSYS", (void *)m_WCSHandle->radesys, (char *)"Coordinate system", &status);
+            fits_write_key(fptr, TSTRING, "CTYPE1", (void *)m_WCSHandle->ctype[0], (char *)"WCS type of the X axis", &status);
+            fits_write_key(fptr, TSTRING, "CTYPE2", (void *)m_WCSHandle->ctype[1], (char *)"WCS type of the Y axis", &status);
+            fits_write_key(fptr, TDOUBLE, "CRVAL1", &m_WCSHandle->crval[0], (char *)"WCS reference X coordinate", &status);
+            fits_write_key(fptr, TDOUBLE, "CRVAL2", &m_WCSHandle->crval[1], (char *)"WCS reference Y coordinate", &status);
+            fits_write_key(fptr, TDOUBLE, "CRPIX1", &m_WCSHandle->crpix[0], (char *)"WCS reference X pixel", &status);
+            fits_write_key(fptr, TDOUBLE, "CRPIX2", &m_WCSHandle->crpix[1], (char *)"WCS reference Y pixel", &status);
+            fits_write_key(fptr, TDOUBLE, "CDELT1", &m_WCSHandle->cdelt[0], (char *)"WCS X pixel size", &status);
+            fits_write_key(fptr, TDOUBLE, "CDELT2", &m_WCSHandle->cdelt[1], (char *)"WCS Y pixel size", &status);
+            fits_write_key(fptr, TDOUBLE, "CROTA1", &m_WCSHandle->crota[0], (char *)"WCS rotation", &status);
+            fits_write_key(fptr, TDOUBLE, "CROTA2", &m_WCSHandle->crota[1], (char *)"WCS rotation", &status);
+        }
 
         if (channels == 3)
         {
@@ -1202,14 +1248,133 @@ double FITSData::calcStackSNR(const cv::Mat &inImage)
     }
 }
 
+bool FITSData::detectStarTrailing(const cv::Mat &image, double &medianElongation, int &numSources)
+{
+    medianElongation = -1.0;
+    numSources = 0;
+    if (image.empty())
+        return false;
+
+    try
+    {
+        // Collapse to a single bright-source plane. Average across channels rather
+        // than per-pixel max — max mixes each channel's own demosaic-interpolation
+        // shape at every pixel, which can distort a source's true outline; a plain
+        // average tracks the real (debayered) star/trail shape more faithfully.
+        cv::Mat gray;
+        if (image.channels() > 1)
+        {
+            std::vector<cv::Mat> channels;
+            cv::split(image, channels);
+            gray = channels[0].clone();
+            for (size_t i = 1; i < channels.size(); i++)
+                gray += channels[i];
+            gray /= static_cast<double>(channels.size());
+        }
+        else
+            gray = image;
+
+        // Threshold well above the noise floor to isolate stars/trails from sky
+        // background and faint nebulosity. mean+5*stddev is coarse but fast (a single
+        // pass) - this is a quality gate, not photometry.
+        cv::Scalar meanVal, stddevVal;
+        cv::meanStdDev(gray, meanVal, stddevVal);
+        const double threshold = meanVal[0] + 5.0 * stddevVal[0];
+        if (stddevVal[0] <= 0.0)
+            return false;
+
+        cv::Mat mask;
+        cv::threshold(gray, mask, threshold, 255, cv::THRESH_BINARY);
+        mask.convertTo(mask, CV_8U);
+
+        // Bridge small gaps within a single trail so it forms one contour instead of
+        // fragmenting into several, which would otherwise underestimate its elongation.
+        cv::dilate(mask, mask, cv::Mat(), cv::Point(-1, -1), 1);
+
+        std::vector<std::vector<cv::Point>> contours;
+        cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
+
+        std::vector<double> elongations;
+        for (const auto &contour : contours)
+        {
+            // fitEllipse needs >= 5 points; skip single/few-pixel hot-pixel-sized
+            // blobs and implausibly large ones (saturated cores, bright nebula knots)
+            // that aren't individual point sources.
+            if (contour.size() < 5 || contour.size() > 500)
+                continue;
+            const cv::RotatedRect ellipse = cv::fitEllipse(contour);
+            const double major = std::max(ellipse.size.width, ellipse.size.height);
+            const double minor = std::min(ellipse.size.width, ellipse.size.height);
+            if (major <= 0.0)
+                continue;
+            elongations.push_back(1.0 - (minor / major));
+        }
+
+        numSources = static_cast<int>(elongations.size());
+        // Require a handful of sources before trusting the median - a sparse field
+        // (e.g. near the galactic pole, or a small ROI) shouldn't produce a false
+        // reject/accept off one or two ellipse fits.
+        if (numSources < 5)
+            return false;
+
+        std::nth_element(elongations.begin(), elongations.begin() + elongations.size() / 2, elongations.end());
+        medianElongation = elongations[elongations.size() / 2];
+        return true;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return false;
+    }
+}
+
 // User signalled to redo post processing options with the passed in parameters
-void FITSData::redoPostProcessStack(const LiveStackPPData &ppParams)
+void FITSData::redoPostProcessStack(const StackPPData &ppParams)
 {
     // Update the new parameters
     m_LiveStackData.postProcessing = ppParams;
 
     if (m_Stacks.isEmpty())
+    {
+        // No per-channel FITSStack sessions to redo — true for any "adopted" image
+        // (postprocess_blend_channels' output, or anything else built via
+        // setStackedImage() rather than a real directory stack). This used to just
+        // return here with zero indication anything was skipped: every
+        // postprocess_redo_postprocess call against a blended session silently did
+        // nothing at all, regardless of the parameters passed, while still
+        // acknowledging the command normally — confirmed via a real HOO composite
+        // where changing gradientAmt from 0.0 to 0.9 produced byte-identical output.
+        // Run postProcessImage() directly against the current image instead.
+        if (m_StackedImageMat.empty())
+        {
+            Q_EMIT stackFailed("No stacked image to post-process — start or blend a session first");
+            return;
+        }
+
+        auto future = QtConcurrent::run([this, ppParams]() -> bool
+        {
+            StackData params;
+            params.postProcessing = ppParams;
+            FITSStack throwaway(this, StackChannel::SINGLE, params);
+            cv::Mat result = throwaway.postProcessImage(m_StackedImageMat);
+            if (result.empty())
+                return false;
+            m_StackedImageMat = result;
+            return convertMatToFITS(m_StackedImageMat);
+        });
+
+        auto *watcher = new QFutureWatcher<bool>(this);
+        connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]()
+        {
+            watcher->deleteLater();
+            if (watcher->future().result())
+                Q_EMIT stackReady();
+            else
+                Q_EMIT stackFailed("Post-processing failed to produce a usable image");
+        });
+        watcher->setFuture(future);
         return;
+    }
 
     // Collect futures for each stack reprocess
     QVector<QFuture<void>> futures;
@@ -1242,6 +1407,171 @@ void FITSData::redoPostProcessStack(const LiveStackPPData &ppParams)
     watcher->setFuture(combined);
 }
 
+bool FITSData::cropStack(const QRect &roi, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to crop — stack it first");
+        return false;
+    }
+
+    if (!CropOperation::apply(m_StackedImageMat, roi, m_WCSHandle, error))
+        return false;
+
+    m_StackStatistics.stats.width = m_StackedImageMat.cols;
+    m_StackStatistics.stats.height = m_StackedImageMat.rows;
+
+    if (m_WCSHandle != nullptr)
+    {
+        // Keep the header records consistent with the adjusted WCS, same as
+        // stackSetupWCS() does after building it in the first place.
+        updateRecordValue("CRPIX1", m_WCSHandle->crpix[0], "CRPIX1");
+        updateRecordValue("CRPIX2", m_WCSHandle->crpix[1], "CRPIX2");
+    }
+
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the cropped image");
+        return false;
+    }
+
+    return true;
+}
+
+bool FITSData::applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to stretch — stack it first");
+        return false;
+    }
+    if (!AutoStretch::apply(m_StackedImageMat, error, targetBackground, shadowsClipping, linked))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the stretched image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applyCurve(const QVector<QPointF> &controlPoints, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to apply a curve to — stack it first");
+        return false;
+    }
+    if (!CurveOperation::apply(m_StackedImageMat, controlPoints, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the curved image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoints, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to apply curves to — stack it first");
+        return false;
+    }
+    if (!CurveOperation::applyPerChannel(m_StackedImageMat, channelPoints, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the curved image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::saveStackedImage(const QString &path, QString &error)
+{
+    if (isStackedImageEmpty())
+    {
+        error = QStringLiteral("No stacked image to save — stack it first");
+        return false;
+    }
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        error = QString("Failed to open %1 for writing: %2").arg(path).arg(file.errorString());
+        return false;
+    }
+
+    if (file.write(*m_StackedBuffer) != m_StackedBuffer->size())
+    {
+        error = QString("Failed to write %1: %2").arg(path).arg(file.errorString());
+        return false;
+    }
+
+    return true;
+}
+
+bool FITSData::setStackedImage(const cv::Mat &image, QString &error)
+{
+    if (image.empty())
+    {
+        error = QStringLiteral("Cannot adopt an empty image");
+        return false;
+    }
+    if (image.depth() != CV_32F || (image.channels() != 1 && image.channels() != 3))
+    {
+        error = QStringLiteral("setStackedImage expects a CV_32F image with 1 or 3 channels");
+        return false;
+    }
+
+    m_StackedImageMat = image;
+    m_StackStatistics.stats.width = image.cols;
+    m_StackStatistics.stats.height = image.rows;
+
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to encode the adopted image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applySaturation(double amt, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to adjust saturation on — stack it first");
+        return false;
+    }
+    if (!SaturationOperation::apply(m_StackedImageMat, amt, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the saturation-adjusted image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applyContrast(double amt, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to adjust contrast on — stack it first");
+        return false;
+    }
+    if (!ContrastOperation::apply(m_StackedImageMat, amt, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the contrast-adjusted image");
+        return false;
+    }
+    return true;
+}
+
 bool FITSData::processNextSub(LiveStackFile &sub)
 {
     // Signal the Wait Load stage complete (i.e. we're now going to load the sub) to Stack Monitor
@@ -1262,7 +1592,7 @@ bool FITSData::processNextSub(LiveStackFile &sub)
             qCDebug(KSTARS_FITS) << QString("Unable to load sub %1").arg(sub.file);
         else
         {
-            bool plateSolving = (m_LiveStackData.alignMethod == LiveStackAlignMethod::PLATE_SOLVE);
+            bool plateSolving = (m_LiveStackData.alignMethod == StackAlignMethod::PLATE_SOLVE);
             if (plateSolving && m_StackSubIndex <= 0)
             {
                 // 1st time solving, or solving had a problem so use WCS from sub header.
@@ -1316,13 +1646,16 @@ bool FITSData::processNextSub(LiveStackFile &sub)
 
 void FITSData::processAlignMaster(const QString &alignMaster)
 {
+    qWarning() << "DIAGTRAIL processAlignMaster called for" << alignMaster;
     m_StackFITSAsync = stackFITSAlignMaster;
     qCDebug(KSTARS_FITS) << "Loading align master" << alignMaster;
 
     // Lambda to load the align master in the background
     QFuture<bool> future = QtConcurrent::run([this, alignMaster]() -> bool
     {
+        qWarning() << "DIAGTRAIL processAlignMaster lambda started";
         bool load = stackLoadImage(alignMaster);
+        qWarning() << "DIAGTRAIL processAlignMaster stackLoadImage returned" << load;
         if (!load)
             qCDebug(KSTARS_FITS) << QString("Unable to load align master");
         return load;
@@ -1333,6 +1666,7 @@ void FITSData::processAlignMaster(const QString &alignMaster)
 
 void FITSData::processMasters()
 {
+    qWarning() << "DIAGTRAIL processMasters called";
     auto currentChannel = channelForStack(m_CurrentStack);
 
     // Dark
@@ -1432,7 +1766,7 @@ void FITSData::stackFITSLoaded()
         return;
     }
 
-    bool plateSolving = (m_LiveStackData.alignMethod == LiveStackAlignMethod::PLATE_SOLVE);
+    bool plateSolving = (m_LiveStackData.alignMethod == StackAlignMethod::PLATE_SOLVE);
     auto currentChannel = channelForStack(m_CurrentStack);
     switch (action)
     {
@@ -1447,6 +1781,7 @@ void FITSData::stackFITSLoaded()
             break;
 
         case stackFITSAlignMaster:
+            qWarning() << "DIAGTRAIL stackFITSLoaded case stackFITSAlignMaster, result=" << m_StackFITSWatcher.result();
             if (m_StackFITSWatcher.result())
             {
                 // Get the OBJECT & EXPOSURE keywords for later use
@@ -1457,7 +1792,9 @@ void FITSData::stackFITSLoaded()
                 double exposure;
                 if (getRecordValue("EXPTIME", value, true))
                     exposure = value.toDouble();
+                qWarning() << "DIAGTRAIL about to call initLiveStackMetadata, target=" << target << "exposure=" << exposure;
                 initLiveStackMetadata(target, exposure);
+                qWarning() << "DIAGTRAIL initLiveStackMetadata returned";
 
                 if (plateSolving)
                 {
@@ -1708,6 +2045,8 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
 // Current stack action is complete so do next action... either process next sub or stack
 void FITSData::nextStackAction()
 {
+    qWarning() << "DIAGTRAIL nextStackAction entered, m_StackSubPos=" << m_StackSubPos
+               << "size=" << m_StackSubs.size() << "m_AlignMasterProcessed=" << m_AlignMasterProcessed;
     auto currentChannel = channelForStack(m_CurrentStack);
     bool done = false;
     while (!done)
@@ -1763,13 +2102,16 @@ void FITSData::nextStackAction()
             else
             {
                 qCDebug(KSTARS_FITS) << "Starting initial stack...";
+                qWarning() << "DIAGTRAIL about to dispatch QtConcurrent::run for FITSStack::stack";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                 future = QtConcurrent::run(&FITSStack::stack, m_CurrentStack.get());
 #else
                 future = QtConcurrent::run(m_CurrentStack.get(), &FITSStack::stack);
 #endif
+                qWarning() << "DIAGTRAIL QtConcurrent::run call returned, future valid?" << future.isStarted();
             }
             m_StackWatcher.setFuture(future);
+            qWarning() << "DIAGTRAIL m_StackWatcher.setFuture called";
         }
     }
 }
@@ -1779,6 +2121,7 @@ void FITSData::nextStackAction()
 // 2. Incremental stack
 void FITSData::stackProcessDone()
 {
+    qWarning() << "DIAGTRAIL stackProcessDone called";
     if (m_CurrentStack)
         m_CurrentStack->setStackInProgress(false);
 
@@ -1805,6 +2148,17 @@ void FITSData::stackProcessDone()
 
     updateLiveStackMetadata();
     prepareStackBufferAsync();
+
+    // If more subs were already queued when this batch was kicked off (a batch
+    // post-processing folder with more files than numInMem, or several new
+    // live-capture subs landing between watcher polls), the only thing that
+    // would otherwise drain m_StackQ is a *live* filesystem-watch event noticing
+    // a genuinely new file arrive — which never fires for files that already
+    // existed before watching began. Continue explicitly instead of silently
+    // stalling forever with subs still queued (incrementalStack() is a no-op
+    // when the queue is already empty, which is the normal live-capture case,
+    // so this doesn't change existing behavior there).
+    incrementalStack();
 }
 
 // Setup the call to prepareStackBuffer and run in background
@@ -1826,12 +2180,21 @@ void FITSData::prepareStackBufferAsync()
 #endif
 
     // Watch for completion
-    auto *watcher = new QFutureWatcher<void>(this);
-    connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher]()
+    auto *watcher = new QFutureWatcher<bool>(this);
+    connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]()
     {
         watcher->deleteLater();
-        qCDebug(KSTARS_FITS) << "Stack buffer ready. Emitting stackReady().";
-        Q_EMIT stackReady();
+        if (watcher->future().result())
+        {
+            qCDebug(KSTARS_FITS) << "Stack buffer ready. Emitting stackReady().";
+            Q_EMIT stackReady();
+        }
+        else
+        {
+            qCDebug(KSTARS_FITS) << "prepareStackBuffer() produced no usable result — emitting stackFailed().";
+            Q_EMIT stackFailed("Stacking produced no usable result — every sub may have failed "
+                                "calibration/alignment/plate-solving, or the combine came back empty");
+        }
     });
     watcher->setFuture(m_StackPrepareFuture);
 }
@@ -2224,7 +2587,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
         loadWCS();
 #if !defined (KSTARS_LITE)
     else if (m_Mode == FITS_LIVESTACKING &&
-             m_LiveStackData.alignMethod == LiveStackAlignMethod::PLATE_SOLVE)
+             m_LiveStackData.alignMethod == StackAlignMethod::PLATE_SOLVE)
         stackSetupWCS();
 #endif // !KSTARS_LITE
 
@@ -2667,7 +3030,12 @@ bool FITSData::stackLoadWCS()
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (m_StackWCSHandle->crpix[0] == 0)
+    // A missing CRPIX defaults to 0; a missing CDELT (no CDELT/CD-matrix keywords at all, e.g. a
+    // raw, never-plate-solved sub) defaults to 1 degree/pixel per the WCS standard — both are
+    // wcslib filling in absent keywords rather than a genuine solution, so both must be rejected
+    // here or a bogus 3600"/pixel scale gets fed to the plate solver, guaranteeing every solve fails.
+    if (m_StackWCSHandle->crpix[0] == 0 ||
+            (m_StackWCSHandle->cdelt[0] == 1.0 && m_StackWCSHandle->cdelt[1] == 1.0))
     {
         wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
         m_StackWCSHandle = nullptr;
@@ -2692,19 +3060,27 @@ bool FITSData::stackLoadWCS()
 // Indi should set these up normally but if stacking subs from elsewhere these may be omitted
 void FITSData::stackCreateWCSParams()
 {
-    const QSet<QString> wcsKeys = { "CTYPE1", "CTYPE2", "CRVAL1", "CRVAL2", "CRPIX1", "CRPIX2", "CDELT1", "CDELT2" };
+    // The pixel scale/rotation half of a WCS may be expressed either as CDELT1/CDELT2 (+ an
+    // optional PC matrix) or as a CD matrix (CD1_1/CD1_2/CD2_1/CD2_2) - both are valid FITS WCS
+    // conventions and wcslib's cdfix() (called from stackLoadWCS()) normalizes either into the
+    // same internal form, so a CD matrix must count as satisfying this requirement too. Treating
+    // it as missing just because CDELT1/CDELT2 aren't present would synthesize a placeholder WCS
+    // on top of what's already a perfectly good, previously-solved one.
+    const QSet<QString> requiredKeys = { "CTYPE1", "CTYPE2", "CRVAL1", "CRVAL2", "CRPIX1", "CRPIX2" };
+    const QSet<QString> cdMatrixKeys = { "CD1_1", "CD1_2", "CD2_1", "CD2_2" };
 
-    int keys = 0;
+    QSet<QString> found;
     for (auto &fitsKeyword : m_StackHeaderRecords)
     {
-        if (wcsKeys.contains(fitsKeyword.key))
-        {
-            if (++keys >= wcsKeys.size())
-                break;
-        }
+        if (requiredKeys.contains(fitsKeyword.key) || cdMatrixKeys.contains(fitsKeyword.key)
+                || fitsKeyword.key == "CDELT1" || fitsKeyword.key == "CDELT2")
+            found.insert(fitsKeyword.key);
     }
 
-    if (keys < wcsKeys.size())
+    const bool hasCore = found.contains(requiredKeys);
+    const bool hasScale = (found.contains("CDELT1") && found.contains("CDELT2")) || found.contains(cdMatrixKeys);
+
+    if (!hasCore || !hasScale)
         setupWCSParams(true);
 }
 #endif // !KSTARS_LITE
@@ -2867,7 +3243,7 @@ bool FITSData::saveXISFImage(const QString &newFilename)
 
         if (scaleRequired)
         {
-            // The convention that PixInsight follows is that float data is normalised 0 - 1.0
+            // The convention for XISF float data is that it's normalised 0 - 1.0
             // Normalization on the XISF copy, not the stack buffer
             float* xisfPixels = reinterpret_cast<float*>(image.imageData());
 

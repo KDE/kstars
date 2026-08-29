@@ -1143,9 +1143,9 @@ void FITSTab::saveSettings()
     qCDebug(KSTARS_FITS) << "Live Stacker settings saved";
 }
 
-LiveStackData FITSTab::getAllSettings()
+StackData FITSTab::getAllSettings()
 {
-    LiveStackData data;
+    StackData data;
     data.calcSNR = m_LiveStackingUI.CalcSNR->isChecked();
     if (!m_StackMultiC)
     {
@@ -1167,12 +1167,12 @@ LiveStackData FITSTab::getAllSettings()
     data.hotPixels = m_LiveStackingUI.HotPixels->isChecked();
     data.coldPixels = m_LiveStackingUI.ColdPixels->isChecked();
     data.alignMaster = m_LiveStackingUI.AlignMaster->text();
-    data.alignMethod = static_cast<LiveStackAlignMethod>(m_LiveStackingUI.AlignMethod->currentIndex());
+    data.alignMethod = static_cast<StackAlignMethod>(m_LiveStackingUI.AlignMethod->currentIndex());
     data.numInMem = m_LiveStackingUI.NumInMem->value();
-    data.downscale = static_cast<LiveStackDownscale>(m_LiveStackingUI.LSDownscale->currentIndex());
-    data.weighting = static_cast<LiveStackFrameWeighting>(m_LiveStackingUI.Weighting->currentIndex());
-    data.normalization = static_cast<LiveStackNormalization>(m_LiveStackingUI.Normalization->currentIndex());
-    data.stackingMethod = static_cast<LiveStackStackingMethod>(m_LiveStackingUI.StackingMethod->currentIndex());
+    data.downscale = static_cast<StackDownscale>(m_LiveStackingUI.LSDownscale->currentIndex());
+    data.weighting = static_cast<StackFrameWeighting>(m_LiveStackingUI.Weighting->currentIndex());
+    data.normalization = static_cast<StackNormalization>(m_LiveStackingUI.Normalization->currentIndex());
+    data.stackingMethod = static_cast<StackingMethod>(m_LiveStackingUI.StackingMethod->currentIndex());
     data.lowSigma = m_LiveStackingUI.LowSigma->value();
     data.highSigma = m_LiveStackingUI.HighSigma->value();
     data.windsorCutoff = m_LiveStackingUI.WinsorCutoff->value();
@@ -1185,9 +1185,9 @@ LiveStackData FITSTab::getAllSettings()
     return data;
 }
 
-LiveStackPPData FITSTab::getPPSettings()
+StackPPData FITSTab::getPPSettings()
 {
-    LiveStackPPData data;
+    StackPPData data;
     data.postProcess = m_LiveStackingUI.PostProcGroupBox->isChecked();
     data.gradientAmt = m_LiveStackingUI.GradientAmt->value() / 100.0;
     data.deconvAmt = m_LiveStackingUI.DeconvAmt->value();
@@ -1201,9 +1201,9 @@ LiveStackPPData FITSTab::getPPSettings()
 
 void FITSTab::stackMethodChanged(int index)
 {
-    switch (static_cast<LiveStackStackingMethod>(index))
+    switch (static_cast<StackingMethod>(index))
     {
-        case LiveStackStackingMethod::MEAN:
+        case StackingMethod::MEAN:
             m_LiveStackingUI.LowSigma->hide();
             m_LiveStackingUI.LowSigmaLabel->hide();
             m_LiveStackingUI.HighSigma->hide();
@@ -1221,7 +1221,7 @@ void FITSTab::stackMethodChanged(int index)
             m_LiveStackingUI.PSFUpdate->hide();
             m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LiveStackStackingMethod::SIGMA:
+        case StackingMethod::SIGMA:
             m_LiveStackingUI.LowSigma->show();
             m_LiveStackingUI.LowSigmaLabel->show();
             m_LiveStackingUI.HighSigma->show();
@@ -1239,7 +1239,7 @@ void FITSTab::stackMethodChanged(int index)
             m_LiveStackingUI.PSFUpdate->hide();
             m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LiveStackStackingMethod::WINDSOR:
+        case StackingMethod::WINDSOR:
             m_LiveStackingUI.LowSigma->show();
             m_LiveStackingUI.LowSigmaLabel->show();
             m_LiveStackingUI.HighSigma->show();
@@ -1257,7 +1257,7 @@ void FITSTab::stackMethodChanged(int index)
             m_LiveStackingUI.PSFUpdate->hide();
             m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LiveStackStackingMethod::IMAGEMM:
+        case StackingMethod::IMAGEMM:
             m_LiveStackingUI.LowSigma->hide();
             m_LiveStackingUI.LowSigmaLabel->hide();
             m_LiveStackingUI.HighSigma->hide();
@@ -1740,7 +1740,7 @@ void FITSTab::liveStack()
         m_LiveStackingUI.SubsSNR->setText("0 / 0 / 0");
         m_LiveStackingUI.ImageSNR->setText("0");
         viewer->restack(getUID());
-        LiveStackData lsd = getAllSettings();
+        StackData lsd = getAllSettings();
         m_View->loadStack(m_liveStackDir, lsd);
 
         LiveStackWebcast *LSWebcast = viewer->getLiveStackWebcast();
@@ -1752,17 +1752,17 @@ void FITSTab::liveStack()
                 << " | Dir(s): " << m_liveStackDir.join(", ")
                 << " | Calc SNR: " << (lsd.calcSNR ? "On" : "Off")
                 << " | AlignMaster: " << (lsd.alignMaster.isEmpty() ? "None" : lsd.alignMaster)
-                << " | AlignMethod: " << LiveStackAlignMethodNames.value(lsd.alignMethod)
+                << " | AlignMethod: " << StackAlignMethodNames.value(lsd.alignMethod)
                 << " | MasterDark(s): " << (lsd.masterDark.isEmpty() ? "None" :
                                             QStringList::fromVector(lsd.masterDark).join(", "))
                 << " | MasterFlat(s): " << (lsd.masterFlat.isEmpty() ? "None" :
                                             QStringList::fromVector(lsd.masterFlat).join(", "))
                 << " | Hot Pixels: " << (lsd.hotPixels ? "On" : "Off")
                 << " | Cold Pixels: " << (lsd.coldPixels ? "On" : "Off")
-                << " | Downscale: " << LiveStackDownscaleNames.value(lsd.downscale)
-                << " | Weighting: " << LiveStackFrameWeightingNames.value(lsd.weighting)
-                << " | Normalization: " << LiveStackNormalizationNames.value(lsd.normalization)
-                << " | StackMethod: " << LiveStackStackingMethodNames.value(lsd.stackingMethod)
+                << " | Downscale: " << StackDownscaleNames.value(lsd.downscale)
+                << " | Weighting: " << StackFrameWeightingNames.value(lsd.weighting)
+                << " | Normalization: " << StackNormalizationNames.value(lsd.normalization)
+                << " | StackMethod: " << StackingMethodNames.value(lsd.stackingMethod)
                 << " | Sigma(low/high): " << lsd.lowSigma << "/" << lsd.highSigma
                 << " | WindsorCutoff: " << lsd.windsorCutoff
                 << " | Iterations: " << lsd.iterations
@@ -1800,7 +1800,7 @@ void FITSTab::liveStack()
 // before completely giving up on the sub
 #if !defined (KSTARS_LITE)
 void FITSTab::plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                            const int healpix, const LiveStackFrameWeighting &weighting)
+                            const int healpix, const StackFrameWeighting &weighting)
 {
     connect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, this, [this, ra, dec, pixScale, index, healpix]
             (double medianHFR, int numStars)
@@ -1858,9 +1858,9 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
 
     SSolver::ProcessType solveType;
 
-    if (weighting == LiveStackFrameWeighting::HFR)
+    if (weighting == StackFrameWeighting::HFR)
         solveType = SSolver::EXTRACT_WITH_HFR;
-    else if (weighting == LiveStackFrameWeighting::NUM_STARS)
+    else if (weighting == StackFrameWeighting::NUM_STARS)
         solveType = SSolver::EXTRACT;
     else
         solveType = SSolver::SOLVE;
@@ -1940,7 +1940,7 @@ void FITSTab::resetStack(const bool cancelled)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void FITSTab::startProgrammatically(const QString &dir, const LiveStackData &params)
+void FITSTab::startProgrammatically(const QString &dir, const StackData &params)
 {
     // Update the stacking directory field in the GUI so it is visible to the user
     m_LiveStackingUI.Stack->setText(dir);

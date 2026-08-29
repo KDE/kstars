@@ -76,7 +76,7 @@ class FITSView : public QScrollArea
          * @param inDir List of directories of FITS files
          * @param params are the stacking parameters
          */
-        void loadStack(const QStringList &inDir, const LiveStackData &params);
+        void loadStack(const QStringList &inDir, const StackData &params);
 
         /**
          * @brief User request to cancel stacking operation
@@ -87,7 +87,7 @@ class FITSView : public QScrollArea
          * @brief Redo post processing on an existing stack, e.g. noise, sharpen
          * @param Post Processing Parameters
          */
-        void redoPostProcessStack(const LiveStackPPData &ppParams);
+        void redoPostProcessStack(const StackPPData &ppParams);
 
         /**
          * @brief Return a pointer to Stack Monitor
@@ -431,6 +431,7 @@ class FITSView : public QScrollArea
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
         void stackReady(const bool cancelled = false);
+        void stackFailed(const QString &reason);
 
         QPointer<QLabel> noImageLabel;
         QPixmap noImage;
@@ -564,7 +565,7 @@ class FITSView : public QScrollArea
         void catHighlightChanged(const int highlight);
         void headerChanged();
         void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                           const int healpix, const LiveStackFrameWeighting &weighting);
+                           const int healpix, const StackFrameWeighting &weighting);
         void stackInProgress();
         void alignMasterChosen(const QString &alignMaster);
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,

@@ -57,6 +57,16 @@ class TestFitsData : public QObject
         void testParallelSolvers();
         void testParallelSolversMultiScales();
         void testParallelSolversMultiDepths();
+
+        void testStackController();
+        void testMasterBuilder();
+        void testCropOperation();
+        void testAutoStretch();
+        void testCurveOperation();
+        void testSaturationOperation();
+        void testContrastOperation();
+        void testChannelBlendOperation();
+        void testDetectStarTrailing();
     private:
         void runParallelSolvers(int multiAlgoOverride);
         void startGuideDetect(const QString &filename);
