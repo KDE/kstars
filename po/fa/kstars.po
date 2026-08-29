@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-28 02:11+0000\n"
+"POT-Creation-Date: 2026-08-29 02:10+0000\n"
 "PO-Revision-Date: 2024-08-14 00:39+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
@@ -1901,7 +1901,7 @@ msgid ""
 "expired."
 msgstr ""
 
-#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:94
+#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:103
 #, fuzzy, kde-format
 #| msgid "Enter import data filename"
 msgid "Error making FIFO file %1: %2."
@@ -4174,7 +4174,7 @@ msgstr "پرونده را نتوانست بارگیری کند."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "مطمئن هستید که می‌خواهید %1 پیوند را حذف کنید؟"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1553
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1564
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -7622,7 +7622,7 @@ msgstr "ناتوانی در ذخیره تصویر: %1 "
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2986
 #: ekos/scheduler/schedulerprocess.cpp:3455
 #: ekos/scheduler/schedulerprocess.cpp:4596
-#: ekos/scheduler/schedulerprocess.cpp:4616 indi/drivermanager.cpp:1578
+#: ekos/scheduler/schedulerprocess.cpp:4616 indi/drivermanager.cpp:1589
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
@@ -7983,7 +7983,7 @@ msgstr "فارمینگتون"
 
 #: ekos/align/astapastrometryparser.cpp:102
 #: ekos/align/astapastrometryparser.cpp:154
-#: ekos/align/remoteastrometryparser.cpp:248
+#: ekos/align/remoteastrometryparser.cpp:260
 #, kde-format
 msgid "Solver failed. Try again."
 msgstr ""
@@ -11425,12 +11425,17 @@ msgstr "خرابی در بارگذاری تصویر"
 msgid "Not enough memory for file %1."
 msgstr "برای بارگذاری %1، حافظه کافی وجود ندارد"
 
-#: ekos/align/remoteastrometryparser.cpp:102
+#: ekos/align/remoteastrometryparser.cpp:101
+#, kde-format
+msgid "Remote astrometry driver is no longer connected."
+msgstr ""
+
+#: ekos/align/remoteastrometryparser.cpp:114
 #, fuzzy, kde-format
 msgid "Starting remote solver..."
 msgstr "فارمینگتون"
 
-#: ekos/align/remoteastrometryparser.cpp:112
+#: ekos/align/remoteastrometryparser.cpp:124
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to find solver settings."
@@ -15116,7 +15121,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1370 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:875
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -26469,7 +26474,7 @@ msgid "%1 is disconnected."
 msgstr "قطع ارتباط"
 
 #: ekos/manager.cpp:2047 ekos/manager.cpp:2056 ekos/manager.cpp:2089
-#: indi/indistd.cpp:732
+#: indi/indistd.cpp:738
 #, kde-format
 msgid "%1 is online."
 msgstr "%1، برخط است."
@@ -37520,13 +37525,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "بارگذاری نشانیهای وب اطلاعات"
 
-#: indi/clientmanager.cpp:370
+#: indi/clientmanager.cpp:375
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: indi/clientmanager.cpp:375
+#: indi/clientmanager.cpp:380
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 failed."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -37811,89 +37816,89 @@ msgid ""
 "effect.</p></body></html>"
 msgstr "بارگذاری اشیاء آسمان"
 
-#: indi/drivermanager.cpp:106
+#: indi/drivermanager.cpp:108
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgctxt "@title:window"
 msgid "Device Manager"
 msgstr "مدیر دستگاه"
 
-#: indi/drivermanager.cpp:296
+#: indi/drivermanager.cpp:298
 #, kde-format
 msgid "Driver %1 is already running, do you want to restart it?"
 msgstr ""
 
-#: indi/drivermanager.cpp:357 indi/indidriver.cpp:309
+#: indi/drivermanager.cpp:359 indi/indidriver.cpp:309
 #, kde-format, kde-kuit-format
 msgid "Cannot start INDI server: port error."
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: indi/drivermanager.cpp:365
+#: indi/drivermanager.cpp:367
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to create local INDI server"
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: indi/drivermanager.cpp:644 indi/indidriver.cpp:291
+#: indi/drivermanager.cpp:655 indi/indidriver.cpp:291
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Invalid file: %1"
 msgid "Invalid port entry: %1"
 msgstr "پرونده نامعتبر: %1"
 
-#: indi/drivermanager.cpp:841
+#: indi/drivermanager.cpp:852
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected to INDI server"
 msgstr "اتصال"
 
-#: indi/drivermanager.cpp:1050 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1061 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
 
-#: indi/drivermanager.cpp:1081 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1092 indi/indidriver.cpp:528
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Could not open file: %1"
 msgid "Failed to open INDI Driver file: %1"
 msgstr "پرونده را نتوانست باز کند: %1"
 
-#: indi/drivermanager.cpp:1447
+#: indi/drivermanager.cpp:1458
 #, fuzzy, kde-format
 #| msgid "Add Host"
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "افزودن میزبان"
 
-#: indi/drivermanager.cpp:1458 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1469 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "خطا: شماره درگاه، نامعتبر است."
 
-#: indi/drivermanager.cpp:1471 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1482 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "در حال حاضر، میزبان: %1 درگاه: %2 موجود است."
 
-#: indi/drivermanager.cpp:1499
+#: indi/drivermanager.cpp:1510
 #, fuzzy, kde-format
 #| msgid "Modify Host"
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "تغییر میزبان"
 
-#: indi/drivermanager.cpp:1545 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1556 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "لازم است که قبل از حذف کارخواه، آن را قطع کنید."
 
-#: indi/drivermanager.cpp:1551 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1562 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "مطمئن هستید که می‌خواهید %1 کارخواه را حذف کنید؟"
 
-#: indi/drivermanager.cpp:1576 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1587 indi/indidriver.cpp:920
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid ""
 #| "unable to write to file 'indihosts.xml'\n"
@@ -38001,29 +38006,29 @@ msgstr ""
 "در حال حاضر، هیچ دستگاه INDI اجرا نمی‌شود. برای اجرای دستگاهها، لطفاً، "
 "دستگاهها را از مدیر دستگاه در گزینگان دستگاهها برگزینید."
 
-#: indi/indicamera.cpp:493
+#: indi/indicamera.cpp:496
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr ""
 
-#: indi/indicamera.cpp:500
+#: indi/indicamera.cpp:503
 #, kde-format
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:889
+#: indi/indicamera.cpp:892
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image file is received"
 msgstr "گیراندازی تصویر"
 
-#: indi/indidevice.cpp:337
+#: indi/indidevice.cpp:366
 #, kde-format
 msgctxt "INDI message shown in status bar"
 msgid "%1"
 msgstr ""
 
-#: indi/indidevice.cpp:340
+#: indi/indidevice.cpp:369
 #, kde-format
 msgctxt "Message shown in INDI control panel"
 msgid "%1"
@@ -38148,7 +38153,7 @@ msgstr "پرونده %1 را نمی‌توان برای خواندن باز کر
 msgid "Not enough memory for file %1"
 msgstr "برای بارگذاری %1، حافظه کافی وجود ندارد"
 
-#: indi/indilistener.cpp:245
+#: indi/indilistener.cpp:251
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server Message"
@@ -38314,19 +38319,19 @@ msgstr ""
 msgid "Upload"
 msgstr "بارگذاری"
 
-#: indi/indistd.cpp:409
+#: indi/indistd.cpp:415
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "تنظیم محل..."
 
-#: indi/indistd.cpp:411
+#: indi/indistd.cpp:417
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "تنظیم محل..."
 
-#: indi/indistd.cpp:671
+#: indi/indistd.cpp:677
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "پرونده داده ذخیره‌شده در %1"
@@ -38633,57 +38638,57 @@ msgstr "آغاز ارائه دوربین/CCD. مدت، برحسب ثانیه م�
 msgid "Debayer Options:"
 msgstr "گزینه‌های نام صورت فلکی"
 
-#: indi/servermanager.cpp:103
+#: indi/servermanager.cpp:112
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to create INDI FIFO file %1"
 msgstr "ناتوانی در ذخیره تصویر: %1 "
 
-#: indi/servermanager.cpp:131
+#: indi/servermanager.cpp:140
 #, fuzzy, kde-format
 #| msgid "Server Port"
 msgid "INDI server failed to start: %1"
 msgstr "درگاه کارساز"
 
-#: indi/servermanager.cpp:216
+#: indi/servermanager.cpp:225
 #, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:240
+#: indi/servermanager.cpp:249
 #, kde-format
 msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
 "provides the '%1' binary is installed."
 msgstr ""
 
-#: indi/servermanager.cpp:287
+#: indi/servermanager.cpp:296
 #, kde-format
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:324
+#: indi/servermanager.cpp:333
 #, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:391
+#: indi/servermanager.cpp:400
 #, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:542
+#: indi/servermanager.cpp:551
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "خرابی در اتصال میزبان INDI در %1 در درگاه %2."
 
-#: indi/servermanager.cpp:595
+#: indi/servermanager.cpp:604
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:596
+#: indi/servermanager.cpp:605
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver crash"
