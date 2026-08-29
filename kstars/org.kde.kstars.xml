@@ -293,5 +293,9 @@
     <method name="colorScheme">
       <arg type="s" direction="out"/>
     </method>
+    <method name="setGlobalSettings">
+      <arg name="settings" type="a{sv}" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
+    </method>
   </interface>
 </node>

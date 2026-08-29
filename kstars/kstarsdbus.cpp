@@ -8,6 +8,7 @@
 
 #include "kstars.h"
 
+#include "auxiliary/ksutils.h"
 #include "colorscheme.h"
 #include "eyepiecefield.h"
 #include "imageexporter.h"
@@ -1205,4 +1206,9 @@ bool KStars::setToggleableActionState(const QString &actionName, const bool stat
     if (action->isChecked() != state)
         action->activate(QAction::Trigger);
     return true;
+}
+
+void KStars::setGlobalSettings(const QVariantMap &settings)
+{
+    KSUtils::setGlobalSettings(settings);
 }

@@ -606,6 +606,21 @@ class KStars : public KXmlGuiWindow
          */
         Q_SCRIPTABLE bool setToggleableActionState(const QString &actionName, const bool state);
 
+        /** DBUS interface function. Set one or more global (KConfigXT-backed) settings live, by
+         * property name, without requiring the GUI or an application restart -- e.g.
+         * {"RAGuidePulseAlgorithm": 4, "AIShadowMode": false}. Thin wrapper around the existing,
+         * already-used KSUtils::setGlobalSettings() (property names take either the raw
+         * lower-camel-case Options property name, e.g. "rAGuidePulseAlgorithm", or the kcfg_-
+         * prefixed .ui/.kcfg form, e.g. "kcfg_RAGuidePulseAlgorithm" -- both are accepted, see
+         * KSUtils::setGlobalSettings()). Persists to disk (Options::self()->save()) same as any
+         * other settings change, in addition to updating the live in-memory value immediately.
+         * @param settings map of property name -> new value.
+         * @note Deliberately generic (any KConfigXT setting, not just guide-related ones) --
+         * this reaches the same settings surface the GUI's various options dialogs do, so treat
+         * it with the same care: it is not scoped to "safe" settings only.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void setGlobalSettings(const QVariantMap &settings);
+
         /** @}*/
 
     Q_SIGNALS:
