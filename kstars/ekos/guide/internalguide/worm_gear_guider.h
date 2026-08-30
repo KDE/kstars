@@ -34,6 +34,7 @@
 #include <array>
 #include <cmath>
 #include <deque>
+#include <vector>
 #include <Eigen/Core>
 #include <QJsonObject>
 
@@ -292,8 +293,85 @@ class WormGearGuider : public MountSpecificGuider
         // Same mount-specific caveat: this factor of 20 is carried over from the RA filter's
         // value on this one mount, not independently derived or validated for DEC at all.
         double m_kfRDecActiveMultiplier { 20.0 };
+
+        // ── DEC altitude-dependent trust multiplier (2026-08-29) ──────────────────
+        // Live single-night testing (2026-08-28/29) suggested this filter's benefit varied with
+        // altitude, but only 3-4 points from one night -- not enough to trust as more than a
+        // hypothesis (see project memory / pool_ai_debug_dec.py's module docstring for the full
+        // chain). Followed up offline across 29 independent nights (pool_ai_debug_dec.py,
+        // leave-one-night-out validated): the filter's causal-EMA-explained variance of the
+        // physics residual genuinely does rise with altitude in this pooled data (R^2 ~ -0.01 at
+        // ~30 deg up to ~0.30 near zenith) -- confirmed NOT a seeing/SNR artifact (a physics-free
+        // noise-floor proxy does not shrink with altitude the way that would require) and NOT a
+        // time-since-session-start artifact in disguise (the pattern holds in both directions when
+        // nights are split into "rising" vs "setting" targets, which is the confound's actual
+        // discriminating test). What's left is a real, altitude-linked effect of UNKNOWN mechanical
+        // origin -- this multiplier is built to exploit the empirical finding while it's still
+        // mechanistically unexplained, not because the mechanism is understood.
+        //
+        // Piecewise-linear lookup over altitude (deg) -> multiplier applied to the R used in
+        // updateResidualKFDec() (on top of m_kfRDecActiveMultiplier, not instead of it): >1 means
+        // distrust this filter more (larger R, smaller Kalman gain, slower adaptation) at
+        // altitudes where the pooled data found little real signal to track; <1 means trust it
+        // more where the pooled data found substantial real signal. Values derived offline
+        // (overall pooled R^2 as the multiplier's reference point, so multiplier=1 at roughly the
+        // altitude where this filter's UN-conditioned baseline tuning already sits) -- see
+        // pool_ai_debug_dec.py's `--output` JSON for the exact derivation.
+        //
+        // MOUNT-SPECIFIC BY CONSTRUCTION, same caveat as every other constant in this file: this
+        // table is empty by default (decAltTrustMultiplier() returns 1.0 unconditionally, i.e. no
+        // altitude adjustment at all) unless loadWeights() finds a "dec_alt_trust_table" in the
+        // loaded weights.json's "residual_filter" section -- a different mount must not silently
+        // inherit this one's altitude shape just because it also happens to be WORM_GEAR.
+        // Altitudes outside the table's own range are CLAMPED to the nearest endpoint's multiplier,
+        // not extrapolated -- the underlying data was never measured outside ~26-71 deg, and
+        // extrapolating a fitted trend past the range it was fit over is exactly the kind of
+        // per-mount overfitting this whole file's other comments warn against.
+        std::vector<double> m_decAltTrustAltitudes;
+        std::vector<double> m_decAltTrustMultipliers;
+        double decAltTrustMultiplier(double altitude_deg) const;
+
+        // ── DEC adaptive-R (2026-08-30, NOT YET LIVE-VALIDATED) ────────────────────
+        // The altitude table above is a real, mount-validated statistical finding (see its own
+        // comment) but it's still a PASSIVE number -- derived by asking "how well would a fixed
+        // smoother have explained this HISTORICAL data" -- applied to an ACTIVE closed-loop filter.
+        // The moment this filter's own gain changes, it changes what correction gets applied, which
+        // changes the residual it sees next -- a feedback loop no offline analysis can see, since it
+        // only ever observed data collected under the OLD, non-altitude-aware filter. Plausible
+        // explanation for why the live A/B test of the altitude table didn't clearly confirm its own
+        // offline-predicted direction (see project memory, 2026-08-29/30 night).
+        //
+        // This is a from-scratch alternative, not a replacement for the table above (both can coexist
+        // -- see m_kfRDecAdaptiveEnabled): innovation-based adaptive R estimation (covariance
+        // matching, Mehra 1970). The theoretical identity E[innovation^2] = P + R means a slow-moving
+        // average of the ACTUAL observed squared innovations is itself an estimator of P+R, so
+        // R = (that average) - P can be read directly off the filter's own real-time behavior --
+        // no offline table, no assumption about WHICH variable (altitude, hour angle, pier side, or
+        // something never hypothesized) is the true cause, because it never needs to know. It reacts
+        // to whatever is actually happening, whatever mount it's running on.
+        //
+        // Deliberately OFF by default (m_kfRDecAdaptiveEnabled=false unless loadWeights() finds it
+        // explicitly enabled) -- this is a sketch, not something proven better than the table above.
+        // It needs its own live A/B validation before ever being trusted as the default, learning
+        // directly from this project's own experience tonight that 2-3 live pairs is not enough
+        // power: see project memory for the pre-registered pair-count this needs before being judged.
+        static double m_kfSInnovVarDec; ///< EWMA of observed innovation^2, i.e. an online estimate of P+R
+        bool m_kfRDecAdaptiveEnabled { false };
+        /// EWMA time constant (seconds), NOT a per-frame alpha -- converted via
+        /// beta = 1-exp(-dt/tau) each update so it behaves consistently across the variable dt this
+        /// mount's frames actually show (1.7-8s observed the same night this was built). Must be
+        /// much slower than the residual state's own effective reactivity (set by Q/R above), or the
+        /// noise-level estimate and the signal estimate can chase each other -- 300s (5 min) is an
+        /// untested starting guess, not a derived value.
+        double m_kfRDecAdaptiveTauSec { 300.0 };
+        /// R is clamped to [min,max] x m_kfRDec -- expressed as multiples of the mount's own nominal
+        /// R, not an absolute px^2/s^2 number, so the bounds scale automatically per-mount the same
+        /// way m_kfRDec itself already does, instead of needing their own separate per-mount fit.
+        double m_kfRDecAdaptiveMinMultiplier { 0.2 };
+        double m_kfRDecAdaptiveMaxMultiplier { 5.0 };
+
         void updateResidualKFDec(double measuredRate_px_s, double physicsDecRate_px_s, double dt,
-                                 bool activeContaminated);
+                                 bool activeContaminated, double altitude_deg);
 
         // ── Runtime state ─────────────────────────────────────────────────────
         bool   m_weightsLoaded    { false };

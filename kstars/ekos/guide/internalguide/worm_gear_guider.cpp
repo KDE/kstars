@@ -16,6 +16,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <limits>
 
 // ── Static member initialization ──────────────────────────────────────────────
 Eigen::Matrix<double, WormGearGuider::N_STATES, 1> WormGearGuider::m_rls_theta
@@ -37,6 +38,7 @@ double WormGearGuider::m_kfResidualRate { 0.0 };
 double WormGearGuider::m_kfP { 0.04 }; ///< bootstrap default; resetSession() reseeds from the loaded m_kfR
 double WormGearGuider::m_kfResidualRateDec { 0.0 };
 double WormGearGuider::m_kfPDec { 0.04 }; ///< bootstrap default; resetSession() reseeds from the loaded m_kfRDec
+double WormGearGuider::m_kfSInnovVarDec { 0.08 }; ///< bootstrap default; resetSession() reseeds to m_kfPDec+m_kfRDec
 
 WormGearGuider::WormGearGuider()
 {
@@ -122,6 +124,55 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
     m_kfQPerSecDec           = residFilter["kf_q_per_sec_dec"].toDouble(m_kfQPerSecDec);
     m_kfRDec                 = residFilter["kf_r_dec"].toDouble(m_kfRDec);
     m_kfRDecActiveMultiplier = residFilter["kf_r_dec_active_multiplier"].toDouble(m_kfRDecActiveMultiplier);
+
+    // DEC altitude trust table -- see decAltTrustMultiplier()'s declaration for the full
+    // derivation/caveats. Absent (older weights.json, or a mount this hasn't been derived for
+    // yet) leaves both vectors empty, which decAltTrustMultiplier() treats as "no altitude
+    // adjustment" (always returns 1.0) -- same backward-compatible pattern as every other
+    // residual_filter field above. Each entry is [altitude_deg, multiplier]; rejects the whole
+    // table (falls back to empty/no-op) rather than loading a partial one if it isn't strictly
+    // ascending in altitude -- decAltTrustMultiplier()'s interpolation assumes that.
+    m_decAltTrustAltitudes.clear();
+    m_decAltTrustMultipliers.clear();
+    const QJsonArray altTrustTable = residFilter["dec_alt_trust_table"].toArray();
+    bool altTrustTableValid = !altTrustTable.isEmpty();
+    double prevAlt = -std::numeric_limits<double>::infinity();
+    for (const QJsonValue &entry : altTrustTable)
+    {
+        const QJsonArray pair = entry.toArray();
+        if (pair.size() != 2)
+        {
+            altTrustTableValid = false;
+            break;
+        }
+        const double alt = pair[0].toDouble();
+        const double mult = pair[1].toDouble();
+        if (alt <= prevAlt || mult <= 0.0)
+        {
+            altTrustTableValid = false;
+            break;
+        }
+        prevAlt = alt;
+        m_decAltTrustAltitudes.push_back(alt);
+        m_decAltTrustMultipliers.push_back(mult);
+    }
+    if (!altTrustTableValid || m_decAltTrustAltitudes.size() < 2)
+    {
+        if (!altTrustTable.isEmpty())
+            qCWarning(KSTARS_EKOS_GUIDE) << "[AI GUIDER] Ignoring malformed residual_filter.dec_alt_trust_table "
+                                          << "(must be >=2 strictly-ascending [altitude, multiplier] pairs)";
+        m_decAltTrustAltitudes.clear();
+        m_decAltTrustMultipliers.clear();
+    }
+
+    // DEC adaptive-R -- see m_kfRDecAdaptiveEnabled's declaration. Off by default (absent or
+    // explicit false) for every existing weights.json, including this mount's own -- this is a
+    // sketch that hasn't been live-validated yet, so it must never turn on just because a weights
+    // file happens to predate this field's existence.
+    m_kfRDecAdaptiveEnabled       = residFilter["kf_r_dec_adaptive_enabled"].toBool(m_kfRDecAdaptiveEnabled);
+    m_kfRDecAdaptiveTauSec        = residFilter["kf_r_dec_adaptive_tau_sec"].toDouble(m_kfRDecAdaptiveTauSec);
+    m_kfRDecAdaptiveMinMultiplier = residFilter["kf_r_dec_adaptive_min_multiplier"].toDouble(m_kfRDecAdaptiveMinMultiplier);
+    m_kfRDecAdaptiveMaxMultiplier = residFilter["kf_r_dec_adaptive_max_multiplier"].toDouble(m_kfRDecAdaptiveMaxMultiplier);
 
     QJsonObject mlp = root["mlp"].toObject();
     if (mlp["w1"].toArray().size() != 15 * 32)
@@ -299,6 +350,13 @@ void WormGearGuider::resetSession(bool forceReset)
         // fast rather than needing a separate gating condition for no real benefit.
         m_kfResidualRateDec = 0.0;
         m_kfPDec = m_kfRDec;
+        // Adaptive-R seed (see its declaration): E[innovation^2] = P + R, so seed the EWMA at
+        // that identity using the flat nominal R rather than an altitude-adjusted guess -- this
+        // session's own altitude isn't necessarily known yet at reset time, and the seed only
+        // matters for the first ~m_kfRDecAdaptiveTauSec seconds before real innovations dominate
+        // it anyway, so a simple, always-available seed is preferable to a more precise one that
+        // would need threading altitude through resetSession()'s signature for little real benefit.
+        m_kfSInnovVarDec = m_kfPDec + m_kfRDec;
     }
 }
 
@@ -323,18 +381,68 @@ void WormGearGuider::updateResidualKF(double measuredRate_px_s, double shapeNetR
 }
 
 void WormGearGuider::updateResidualKFDec(double measuredRate_px_s, double physicsDecRate_px_s, double dt,
-                                         bool activeContaminated)
+                                         bool activeContaminated, double altitude_deg)
 {
     if (dt <= 0.0) return;
 
     m_kfPDec += m_kfQPerSecDec * dt;
 
     const double innovation = (measuredRate_px_s - physicsDecRate_px_s) - m_kfResidualRateDec;
-    const double R = activeContaminated ? (m_kfRDec * m_kfRDecActiveMultiplier) : m_kfRDec;
+
+    double R;
+    if (m_kfRDecAdaptiveEnabled)
+    {
+        // Covariance matching (see this member's declaration): E[innovation^2] = P + R, so a slow
+        // EWMA of the ACTUAL observed innovation^2 estimates P+R directly from live behavior.
+        // Skip feeding contaminated (AI-active) frames into the noise-LEVEL estimate -- their
+        // "surprise" reflects closed-loop bias, not the ambient noise floor, the same reasoning
+        // m_kfRDecActiveMultiplier already relies on -- but still inflate R for THIS frame's own
+        // update below, same defense as the non-adaptive path.
+        if (!activeContaminated)
+        {
+            const double beta = 1.0 - std::exp(-dt / m_kfRDecAdaptiveTauSec);
+            m_kfSInnovVarDec = (1.0 - beta) * m_kfSInnovVarDec + beta * innovation * innovation;
+        }
+        const double minR = m_kfRDec * m_kfRDecAdaptiveMinMultiplier;
+        const double maxR = m_kfRDec * m_kfRDecAdaptiveMaxMultiplier;
+        R = std::clamp(m_kfSInnovVarDec - m_kfPDec, minR, maxR);
+    }
+    else
+    {
+        R = m_kfRDec * decAltTrustMultiplier(altitude_deg);
+    }
+    if (activeContaminated)
+        R *= m_kfRDecActiveMultiplier;
+
     const double S = m_kfPDec + R;
     const double K = m_kfPDec / S;
     m_kfResidualRateDec += K * innovation;
     m_kfPDec = (1.0 - K) * m_kfPDec;
+}
+
+double WormGearGuider::decAltTrustMultiplier(double altitude_deg) const
+{
+    // No table loaded (older weights.json, or a mount this hasn't been derived for) -- no
+    // adjustment. See this function's declaration in the header for the full derivation.
+    if (m_decAltTrustAltitudes.size() < 2)
+        return 1.0;
+
+    if (altitude_deg <= m_decAltTrustAltitudes.front())
+        return m_decAltTrustMultipliers.front();
+    if (altitude_deg >= m_decAltTrustAltitudes.back())
+        return m_decAltTrustMultipliers.back();
+
+    for (size_t i = 1; i < m_decAltTrustAltitudes.size(); ++i)
+    {
+        if (altitude_deg <= m_decAltTrustAltitudes[i])
+        {
+            const double a0 = m_decAltTrustAltitudes[i - 1], a1 = m_decAltTrustAltitudes[i];
+            const double m0 = m_decAltTrustMultipliers[i - 1], m1 = m_decAltTrustMultipliers[i];
+            const double frac = (altitude_deg - a0) / (a1 - a0);
+            return m0 + frac * (m1 - m0);
+        }
+    }
+    return m_decAltTrustMultipliers.back(); // unreachable given the bounds checks above
 }
 
 GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
@@ -482,7 +590,7 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
         const double measuredRateDec = uncorrected_drift_dec_px_delta / m_lastDt;
         const double altitude_deg = m_lastAltRad * 180.0 / M_PI;
         const double physicsDecRate = physicsDECBase(altitude_deg, m_lastParallacticAngleDeg);
-        updateResidualKFDec(measuredRateDec, physicsDecRate, m_lastDt, dec_pulse_has_ai);
+        updateResidualKFDec(measuredRateDec, physicsDecRate, m_lastDt, dec_pulse_has_ai, altitude_deg);
     }
 }
 
