@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-30 02:11+0000\n"
-"PO-Revision-Date: 2026-08-29 13:06+0200\n"
+"PO-Revision-Date: 2026-08-30 11:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23021,7 +23021,7 @@ msgstr "Punt 4: —"
 #: ekos/focus/tiltcorrectionwidget.cpp:666
 #, kde-format
 msgid "Apply to ETA"
-msgstr "Aplica a ETA"
+msgstr "Aplica a l'ETA"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:414
 #: ekos/focus/tiltcorrectionwidget.cpp:562

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-30 02:11+0000\n"
-"PO-Revision-Date: 2026-08-22 19:32+0200\n"
+"PO-Revision-Date: 2026-08-30 18:42+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11204,7 +11204,7 @@ msgstr "Memoria insufficiente per il file %1."
 #: ekos/align/remoteastrometryparser.cpp:101
 #, kde-format
 msgid "Remote astrometry driver is no longer connected."
-msgstr ""
+msgstr "Il driver astrometrico remoto non è più connesso."
 
 #: ekos/align/remoteastrometryparser.cpp:114
 #, kde-format
@@ -12214,7 +12214,7 @@ msgid ""
 "options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traccia la distanza in secondi d'arco tra l'immagine "
-"acquisita con la risoluzione delle lastre e la posizione del bersaglio. Deve "
+"acquisita con la risoluzione astrometrica e la posizione del bersaglio. Deve "
 "essere abilitata nelle opzioni del pianificatore.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
@@ -12233,7 +12233,7 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traccia la distanza in secondi d'arco tra l'immagine "
-"acquisita con la risoluzione delle lastre e la posizione del bersaglio. Deve "
+"acquisita con la risoluzione astrometrica e la posizione del bersaglio. Deve "
 "essere abilitata nelle opzioni del pianificatore. Fai clic qui per "
 "visualizzare questo asse sui valori dell'asse sinistro, doppio clic per "
 "aggiornare l'asse.</p></body></html>"
@@ -24039,11 +24039,10 @@ msgid "Calibration is cleared."
 msgstr "La calibrazione è stata cancellata."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"Rilevata modifica dello stato di puntamento. Cancellazione della "
+"Campo ruotato di %1° dalla calibrazione della guida. Azzeramento della "
 "calibrazione."
 
 #: ekos/guide/guide.cpp:2145
@@ -25663,13 +25662,22 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Ripristina la calibrazione della guida ogniqualvolta "
+"il campo ruota, in modo che sia misurata una nuova calibrazione all'avvio "
+"della guida successiva anziché eseguire la guida su una vecchia. La "
+"rotazione viene rilevata sull'angolo di posizione della risoluzione "
+"astrometrica, in modo che comprenda sia i movimenti del rotatore "
+"elettronico, sia la rotazione manuale della fotocamera (per esempio durante "
+"il framing su un'immagine di riferimento da una sessione precedente). "
+"Qualsiasi rotazione confermata attiva un ripristino; le inversioni del "
+"meridiano sono gestiti separatamente e non vengono attivati. Funziona con "
+"l'autoguida interna e PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Memorizza e riutilizza la calibrazione della guida quando possibile"
+msgstr "Ripristina la calibrazione della guida quando il campo ruota."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -47193,6 +47201,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Ripristina una calibrazione di guida salvata quando il campo ruota, "
+"individuata dall'angolo di posizione della risoluzione astrometrica "
+"(comprende sia i movimenti del rotatore elettronico, sia la rotazione "
+"manuale della fotocamera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -47204,6 +47216,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Valore inferiore del rumore, in gradi, per il rilevamento della rotazione "
+"del campo dall'angolo di posizione della risoluzione astrometrica. Le "
+"rotazioni uguali o sopra questo valore ripristinano la calibrazione della "
+"guida; mantenuto appena sopra il jitter della risoluzione astrometrica, in "
+"modo che qualsiasi rotazione reale attivi un ripristino. Non mostrato "
+"nell'interfaccia per evitare che gli utenti impostino una tolleranza grande "
+"che deteriori la guida in modo silente."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
