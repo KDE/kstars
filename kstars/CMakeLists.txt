@@ -490,12 +490,17 @@ if (CFITSIO_FOUND)
         fitsviewer/pipeline/stackcontroller.cpp
         fitsviewer/pipeline/masterbuilder.cpp
         fitsviewer/pipeline/directoryinspector.cpp
+        fitsviewer/pipeline/denoiseoperation.cpp
+        fitsviewer/pipeline/previewrenderer.cpp
+        fitsviewer/pipeline/bgeoperation.cpp
         fitsviewer/pipeline/cropoperation.cpp
         fitsviewer/pipeline/autostretch.cpp
         fitsviewer/pipeline/curveoperation.cpp
         fitsviewer/pipeline/saturationoperation.cpp
         fitsviewer/pipeline/contrastoperation.cpp
         fitsviewer/pipeline/channelblendoperation.cpp
+        fitsviewer/pipeline/photometriccalibration.cpp
+        fitsviewer/pipeline/photometriccatalog.cpp
         )
 
     if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)

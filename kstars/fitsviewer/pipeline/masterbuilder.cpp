@@ -277,12 +277,15 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
 
 bool MasterBuilder::buildAndSave(const QString &dir, Type type, const QString &outputPath, QString &error,
                                  double lowSigma, double highSigma, const QString &subtractPath,
-                                 double matchExptime, double exptimeTolerance)
+                                 double matchExptime, double exptimeTolerance, cv::Mat *outMaster)
 {
     cv::Mat master;
     int usedCount = 0;
     if (!build(dir, type, master, error, lowSigma, highSigma, subtractPath, matchExptime, exptimeTolerance, &usedCount))
         return false;
+
+    if (outMaster)
+        *outMaster = master;
 
     const int width = master.cols;
     const int height = master.rows;

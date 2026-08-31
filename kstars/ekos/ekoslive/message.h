@@ -249,7 +249,7 @@ class Message : public QObject
         // Batch post-processing pipeline commands — drives one or more
         // StackController sessions directly, no FITSViewer/FITSTab involved. Multiple
         // sessions exist concurrently to support independent per-filter stacking (e.g.
-        // Ha + OIII for a narrowband blend) — see postprocess_start's "channels" and
+        // Ha + OIII for a narrowband blend) — see postprocess_stack's "channels" and
         // postprocess_blend_channels.
         void processPostProcessCommands(const QString &command, const QJsonObject &payload);
         // Parses control points from a payload array of {"x":.., "y":..} objects.

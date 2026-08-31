@@ -6,6 +6,7 @@
 
 #include "stackcontroller.h"
 #include "fitsviewer/fitsdata.h"
+#include "previewrenderer.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include "Options.h"
@@ -118,6 +119,26 @@ bool StackController::applyContrast(double amt, QString &error)
     return m_ImageData->applyContrast(amt, error);
 }
 
+bool StackController::applyDenoise(double amt, DenoiseMethod method, double chromaAmt, QString &error)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return false;
+    }
+    return m_ImageData->applyDenoise(amt, method, chromaAmt, error);
+}
+
+bool StackController::applyBGE(double strength, QString &error)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return false;
+    }
+    return m_ImageData->applyBGE(strength, error);
+}
+
 bool StackController::save(const QString &path, QString &error)
 {
     if (!m_ImageData)
@@ -128,11 +149,34 @@ bool StackController::save(const QString &path, QString &error)
     return m_ImageData->saveStackedImage(path, error);
 }
 
-bool StackController::adopt(const cv::Mat &image, QString &error)
+QString StackController::getPreviewJpeg(QString &error, int maxDimension)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return QString();
+    }
+    return PreviewRenderer::renderBase64Jpeg(m_ImageData->stackedImageMat(), error, maxDimension);
+}
+
+bool StackController::adopt(const cv::Mat &image, QString &error, const struct wcsprm *sourceWcs)
 {
     if (!m_ImageData)
         m_ImageData.reset(new FITSData(m_Mode), &QObject::deleteLater);
-    return m_ImageData->setStackedImage(image, error);
+    return m_ImageData->setStackedImage(image, error, sourceWcs);
+}
+
+bool StackController::applyPhotometricCalibration(double strength, double maxCatalogMagnitude,
+        double matchRadiusArcsec, QString &error, int &starsDetected, int &starsMatched,
+        const QString &photometricCatalogPath)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return false;
+    }
+    return m_ImageData->applyPhotometricCalibration(strength, maxCatalogMagnitude, matchRadiusArcsec, error,
+            starsDetected, starsMatched, photometricCatalogPath);
 }
 
 void StackController::handlePlateSolveSub(const double ra, const double dec, const double pixScale, const int index,

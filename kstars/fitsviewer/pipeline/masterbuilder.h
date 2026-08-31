@@ -79,10 +79,13 @@ class MasterBuilder
          * so it can be fed straight into StackData::masterDark/masterFlat unchanged —
          * no changes needed to the existing (file-path-based) calibration-loading code
          * in FITSData::processMasters().
+         * @param outMaster when non-null, receives a copy of the built master — lets a
+         * caller (e.g. for a preview) reuse the in-memory result instead of re-reading
+         * the just-written file back off disk.
          */
         static bool buildAndSave(const QString &dir, Type type, const QString &outputPath, QString &error,
                                   double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
-                                  double matchExptime = -1.0, double exptimeTolerance = 0.5);
+                                  double matchExptime = -1.0, double exptimeTolerance = 0.5, cv::Mat *outMaster = nullptr);
 
     private:
         // Loads one FITS file into a CV_32F Mat (1 or 3 channels), via FITSData's public

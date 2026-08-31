@@ -611,32 +611,6 @@ class FITSStack : public QObject
         cv::Mat gradientCorrection(const cv::Mat& input, const double strength);
 
         /**
-         * @brief Robust (MAD-based) noise-sigma estimate for a zero-mean detail/residual
-         * layer, calibrated to a Gaussian-equivalent standard deviation (1.4826x median
-         * of |d|). Shared by the per-channel denoise and chromaDenoise() below.
-         * @param d a zero-mean CV_32F single-channel layer (e.g. a detail/residual layer)
-         * @return the estimated sigma
-         */
-        static float robustSigma(const cv::Mat &d);
-
-        /**
-         * @brief Suppress inter-channel color noise while leaving luminance detail
-         * untouched. Decomposes the image into luma (Y = 0.299R+0.587G+0.114B) and two
-         * scale-agnostic color-difference planes (Cr = R-Y, Cb = B-Y, no arbitrary
-         * midpoint offset — unlike cv::COLOR_BGR2YCrCb, this stays exact for the
-         * pipeline's native ADU-scale linear data, not just [0,1]-normalized input),
-         * Gaussian-blurs only Cr/Cb, then reconstructs R/G/B from the blurred chroma and
-         * untouched Y. This is what actually targets OSC per-channel shot/read noise
-         * (uncorrelated between R/G/B, since they're physically separate photosites) —
-         * the per-channel denoise above treats each channel independently and can't
-         * distinguish real color from single-channel noise.
-         * @param image a CV_32F, 3-channel (BGR) image
-         * @param amt strength in [0,1]; maps to a 1-8px chroma blur radius
-         * @return the chroma-denoised image
-         */
-        cv::Mat chromaDenoise(const cv::Mat &image, double amt);
-
-        /**
          * @brief Return a PSF for stars (upto 20) in the passed in image
          * @param image
          * @param patchSize is the patch region around a star - multiple stars are ignored. Must be odd

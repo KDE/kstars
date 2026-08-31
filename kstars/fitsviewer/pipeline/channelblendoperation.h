@@ -10,6 +10,8 @@
 #include <QVector>
 #include <opencv2/core/core.hpp>
 
+struct wcsprm;
+
 /**
  * @class ChannelBlendOperation
  * @brief Weighted linear combination of N independently-stacked mono images into an
@@ -33,6 +35,14 @@ class ChannelBlendOperation
         {
             cv::Mat image;   // CV_32F, single channel — one already-stacked mono session
             double weight;
+            // WCS this session was plate-solved to, if any (nullptr if it wasn't, e.g.
+            // alignMethod NONE). Two independently-stacked sessions have no guarantee of
+            // sharing the same pixel grid even at identical dimensions — each is only
+            // self-consistently aligned to its own align master. When at least one input
+            // across the whole blend carries a WCS, blendRGB() uses it to register every
+            // other WCS-carrying input onto that same grid before summing; inputs with no
+            // WCS are blended as-is (assumed already on a shared grid, the old behavior).
+            const struct wcsprm *wcs = nullptr;
         };
 
         /**
@@ -52,9 +62,29 @@ class ChannelBlendOperation
          * @param red / green / blue weighted inputs for each output channel (see
          * blendChannel()) — every input across all three must be the same size
          * @param outImage receives the merged CV_32FC3 result
+         * @param outRefWcs receives the WCS every input was registered onto (the first
+         * non-null WCS found scanning red, then green, then blue), or nullptr if none
+         * of the inputs carried one. The caller does not own this pointer — it aliases
+         * whichever input's `wcs` field was chosen, so it's only valid as long as that
+         * input's WCS is; a caller that wants to keep it (e.g. to adopt the blended
+         * result as a new session) must deep-copy it itself.
          * @param error receives a human-readable failure reason on failure
          * @return success
          */
         static bool blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
-                             const QVector<WeightedInput> &blue, cv::Mat &outImage, QString &error);
+                             const QVector<WeightedInput> &blue, cv::Mat &outImage,
+                             const struct wcsprm *&outRefWcs, QString &error);
+
+    private:
+        // Warps `image` (in place) from its own WCS (`imageWcs`) onto `refWcs`'s pixel
+        // grid, via the same grid-point-correspondence + RANSAC rigid-affine approach
+        // FITSStack::calcWarpMatrix() uses to align a sub to its align master — the two
+        // sessions being registered here are just as independently-solved as any two
+        // subs, so the same technique applies. A no-op if imageWcs/refWcs are null or
+        // identical (already on the reference grid). Returns false only on a genuine
+        // registration failure (e.g. the two WCS solutions don't overlap); a caller
+        // should treat that as "leave this input unregistered" rather than aborting the
+        // whole blend, since a real cross-filter mismatch is still better shown than lost.
+        static bool registerToReference(cv::Mat &image, const struct wcsprm *imageWcs, const struct wcsprm *refWcs,
+                                        QString &error);
 };

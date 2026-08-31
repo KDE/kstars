@@ -18,6 +18,10 @@
 #include "pipeline/curveoperation.h"
 #include "pipeline/saturationoperation.h"
 #include "pipeline/contrastoperation.h"
+#include "pipeline/denoiseoperation.h"
+#include "pipeline/bgeoperation.h"
+#include "pipeline/photometriccalibration.h"
+#include "pipeline/photometriccatalog.h"
 
 #include "fpack.h"
 
@@ -459,6 +463,8 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
             Q_EMIT alignMasterChosen(subs[0].file);
         }
     }
+    qCDebug(KSTARS_FITS) << QString("Align master: %1").arg(m_AlignMasterChosen ? m_LiveStackData.alignMaster :
+                                    QStringLiteral("none chosen yet"));
 
     if (subs.size() > 0)
     {
@@ -751,8 +757,6 @@ void FITSData::newStackSubs(QDateTime timestamp, const QVector<LiveStackFile> &n
 // Add 1 or more new subs to an existing stack
 void FITSData::incrementalStack()
 {
-    qWarning() << "DIAGTRAIL incrementalStack entered, m_StackQ.size()=" << m_StackQ.size()
-               << "m_StackSubs.size()=" << m_StackSubs.size() << "m_StackSubPos=" << m_StackSubPos;
     // Check whether a user cancel request has been received
     if (m_CancelRequest)
     {
@@ -762,20 +766,12 @@ void FITSData::incrementalStack()
     }
 
     if (m_StackQ.isEmpty())
-    {
-        qWarning() << "DIAGTRAIL incrementalStack: queue empty, nothing to do";
-        // Nothing to do
-        return;
-    }
+        return; // nothing to do
 
     // If processing of other subs is still in progress we must wait for it to complete
     bool hasUnprocessedSubs = !m_StackSubs.empty() && m_StackSubPos < m_StackSubs.size();
     if (m_CurrentStack->getStackInProgress() || hasUnprocessedSubs)
-    {
-        qWarning() << "DIAGTRAIL incrementalStack: bailing, stackInProgress=" << m_CurrentStack->getStackInProgress()
-                   << "hasUnprocessedSubs=" << hasUnprocessedSubs;
         return;
-    }
 
     int subsToProcess = m_LiveStackData.numInMem;
     m_StackSubs.clear();
@@ -815,7 +811,7 @@ void FITSData::incrementalStack()
         return;
     }
 
-    qWarning() << "DIAGTRAIL incrementalStack about to call nextStackAction, batch size=" << m_StackSubs.size();
+    qCDebug(KSTARS_FITS) << QString("Processing a batch of %1 sub(s)").arg(m_StackSubs.size());
     m_CurrentStack->setStackInProgress(true);
     Q_EMIT stackInProgress();
     nextStackAction();
@@ -939,6 +935,14 @@ bool FITSData::prepareStackBuffer()
 
         m_StackSNR = m_LiveStackData.calcSNR ? calcStackSNR(finalImage) : 0.0;
         m_StackedImageMat = finalImage;
+
+        // Populate m_WCSHandle from the stack's own solved WCS (if plate-solved) so
+        // convertMatToFITS() below writes real WCS keywords into the saved buffer, and
+        // so a caller with two independently-stacked sessions (e.g. postprocess_blend_
+        // channels combining separate per-filter stacks) can register one against the
+        // other via getWCSHandle() instead of assuming they already share a pixel grid.
+        if (hasSingle)
+            stackSetupWCS();
 
         if (!convertMatToFITS(finalImage))
         {
@@ -1513,7 +1517,7 @@ bool FITSData::saveStackedImage(const QString &path, QString &error)
     return true;
 }
 
-bool FITSData::setStackedImage(const cv::Mat &image, QString &error)
+bool FITSData::setStackedImage(const cv::Mat &image, QString &error, const struct wcsprm *sourceWcs)
 {
     if (image.empty())
     {
@@ -1530,11 +1534,61 @@ bool FITSData::setStackedImage(const cv::Mat &image, QString &error)
     m_StackStatistics.stats.width = image.cols;
     m_StackStatistics.stats.height = image.rows;
 
+    if (m_WCSHandle != nullptr)
+    {
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_nwcs = 0;
+        m_WCSHandle = nullptr;
+    }
+
+    // Deep-copy the caller's WCS (e.g. ChannelBlendOperation::blendRGB()'s outRefWcs)
+    // the same way stackSetupWCS() does for a real stack, so a blend result gets a WCS
+    // of its own rather than aliasing a pointer some other session's FITSData owns and
+    // may free independently.
+    if (sourceWcs != nullptr)
+    {
+        m_WCSHandle = new struct wcsprm;
+        m_WCSHandle->flag = -1; // Allocate space
+        int status = 0;
+        if ((status = wcssub(1, sourceWcs, 0x0, 0x0, m_WCSHandle)) != 0)
+        {
+            qCDebug(KSTARS_FITS) << QString("setStackedImage wcssub error %1 %2").arg(status).arg(wcs_errmsg[status]);
+            delete m_WCSHandle;
+            m_WCSHandle = nullptr;
+        }
+        else if ((status = wcsset(m_WCSHandle)) != 0)
+        {
+            qCDebug(KSTARS_FITS) << QString("setStackedImage wcsset error %1 %2").arg(status).arg(wcs_errmsg[status]);
+            wcsvfree(&m_nwcs, &m_WCSHandle);
+            m_nwcs = 0;
+            m_WCSHandle = nullptr;
+        }
+    }
+
     if (!convertMatToFITS(m_StackedImageMat))
     {
         error = QStringLiteral("Failed to encode the adopted image");
         return false;
     }
+
+    if (m_WCSHandle != nullptr)
+    {
+        // Keep the header records consistent with the adopted WCS, same as
+        // stackSetupWCS() does after building it in the first place.
+        updateRecordValue("EQUINOX", m_WCSHandle->equinox, "EQUINOX");
+        updateRecordValue("CRVAL1", m_WCSHandle->crval[0], "CRVAL1");
+        updateRecordValue("CRVAL2", m_WCSHandle->crval[1], "CRVAL2");
+        updateRecordValue("RADECSYS", QString(m_WCSHandle->radesys), "RADECSYS");
+        updateRecordValue("CTYPE1", QString(m_WCSHandle->ctype[0]), "CTYPE1");
+        updateRecordValue("CTYPE2", QString(m_WCSHandle->ctype[1]), "CTYPE2");
+        updateRecordValue("CRPIX1", m_WCSHandle->crpix[0], "CRPIX1");
+        updateRecordValue("CRPIX2", m_WCSHandle->crpix[1], "CRPIX2");
+        updateRecordValue("CDELT1", m_WCSHandle->cdelt[0], "CDELT1");
+        updateRecordValue("CDELT2", m_WCSHandle->cdelt[1], "CDELT2");
+        updateRecordValue("CROTA1", m_WCSHandle->crota[0], "CROTA1");
+        updateRecordValue("CROTA2", m_WCSHandle->crota[1], "CROTA2");
+    }
+
     return true;
 }
 
@@ -1569,6 +1623,215 @@ bool FITSData::applyContrast(double amt, QString &error)
         error = QStringLiteral("Failed to re-encode the contrast-adjusted image");
         return false;
     }
+    return true;
+}
+
+bool FITSData::applyDenoise(double amt, DenoiseMethod method, double chromaAmt, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to denoise — stack it first");
+        return false;
+    }
+    if (!DenoiseOperation::apply(m_StackedImageMat, amt, method, chromaAmt, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the denoised image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applyBGE(double strength, QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to process — stack it first");
+        return false;
+    }
+    if (!BGEOperation::apply(m_StackedImageMat, strength, error))
+        return false;
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the background-extracted image");
+        return false;
+    }
+    return true;
+}
+
+bool FITSData::applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
+        QString &error, int &starsDetected, int &starsMatched, const QString &photometricCatalogPath)
+{
+    starsDetected = 0;
+    starsMatched = 0;
+
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to color-calibrate — stack it first");
+        return false;
+    }
+    if (m_StackedImageMat.channels() != 3)
+    {
+        error = QStringLiteral("Photometric color calibration requires an RGB image");
+        return false;
+    }
+    if (m_WCSHandle == nullptr)
+    {
+        error = QStringLiteral("No WCS available — this image must come from a plate-solved stack, or a blend "
+                               "whose inputs were plate-solved");
+        return false;
+    }
+
+    auto *starComponent = KStarsData::Instance()->skyComposite()->starComponent();
+    if (!starComponent)
+    {
+        error = QStringLiteral("Star catalog is not available");
+        return false;
+    }
+
+    if (!photometricCatalogPath.isEmpty())
+    {
+        QString catalogError;
+        if (!PhotometricCatalog::load(photometricCatalogPath, catalogError))
+        {
+            error = catalogError;
+            return false;
+        }
+    }
+
+    QString detectError;
+    const auto detected = PhotometricCalibrationOperation::detectStars(m_StackedImageMat, detectError);
+    starsDetected = static_cast<int>(detected.size());
+    if (detected.empty())
+    {
+        if (!detectError.isEmpty())
+        {
+            error = detectError;
+            return false;
+        }
+        return true; // no star-like blobs found — nothing to do
+    }
+
+    // Same DATE-OBS-or-now epoch as the field-star annotation code above (see
+    // objectsInImage()) — starsInAperture() filters by apparent (not J2000) RA/Dec, so
+    // an epoch is needed either way.
+    KSNumbers *num = nullptr;
+    QVariant date;
+    if (getRecordValue("DATE-OBS", date))
+    {
+        QString tsString(date.toString());
+        tsString = tsString.remove('\'').trimmed();
+        tsString += "Z";
+        QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
+        if (ts.isValid())
+            num = new KSNumbers(KStarsDateTime(ts).djd());
+    }
+    if (num == nullptr)
+        num = new KSNumbers(KStarsData::Instance()->ut().djd());
+
+    const double matchRadiusDeg = matchRadiusArcsec / 3600.0;
+    std::vector<PhotometricCalibrationOperation::StarMatch> matches;
+    int catalogMatchCount = 0;
+
+    for (const auto &star : detected)
+    {
+        SkyPoint skyPoint;
+        if (!pixelToWCS(QPointF(star.pixel.x, star.pixel.y), skyPoint))
+            continue;
+        // pixelToWCS() only sets RA0/Dec0 (J2000); starsInAperture() filters by
+        // angular distance using the apparent RA/Dec, so that must be derived too.
+        skyPoint.updateCoordsNow(num);
+
+        QList<StarObject *> candidates;
+        starComponent->starsInAperture(candidates, skyPoint, matchRadiusDeg, static_cast<float>(maxCatalogMagnitude));
+
+        StarObject *best = nullptr;
+        double bestSeparationDeg = matchRadiusDeg;
+        for (auto *candidate : candidates)
+        {
+            const double separation = skyPoint.angularDistanceTo(candidate).Degrees();
+            if (separation <= bestSeparationDeg)
+            {
+                bestSeparationDeg = separation;
+                best = candidate;
+            }
+        }
+
+        // sentinel for "undefined" — see StarObject::getBVIndex()
+        const float bv = best ? best->getBVIndex() : 99.9f;
+
+        float targetR, targetG, targetB;
+        if (bv < 90.0f)
+        {
+            PhotometricCalibrationOperation::colorFromBVIndex(bv, targetR, targetG, targetB);
+            catalogMatchCount++;
+        }
+        else
+        {
+            // KStars' own catalog either found nothing here, or found a match with no
+            // usable photometry (a real, observed gap on installs carrying only the
+            // stock unnamedstars.dat/deepstars.dat files) — fall back to the
+            // supplementary (RA, Dec, V, B-V) catalog, keyed on the same J2000
+            // RA0/Dec0 pixelToWCS() already computed.
+            bool gotColor = false;
+            if (PhotometricCatalog::isLoaded())
+            {
+                float supplementalV, supplementalBv;
+                if (PhotometricCatalog::findNearest(skyPoint.ra0().Degrees(), skyPoint.dec0().Degrees(),
+                                                     matchRadiusDeg, supplementalV, supplementalBv))
+                {
+                    PhotometricCalibrationOperation::colorFromBVIndex(supplementalBv, targetR, targetG, targetB);
+                    gotColor = true;
+                    catalogMatchCount++;
+                }
+            }
+            if (!gotColor)
+            {
+                // No real photometry available at all for this detected star (no
+                // catalog covers it, or none of the ones consulted have a color for
+                // it). A real field packs far more visible stars than any catalog
+                // lookup can realistically resolve one-by-one, so most detected stars
+                // land here — leaving them untouched would mean they keep whatever
+                // chroma bias the channel-combine/denoise/saturation pipeline gave
+                // them (confirmed on real data: a systematic ~2% green deficit versus
+                // R/B, reading as a magenta/reddish cast across nearly every star).
+                // Pulling them toward neutral gray instead is strictly better than
+                // that known bias, even without knowing this particular star's real
+                // color.
+                targetR = targetG = targetB = 1.0f / 3.0f;
+            }
+        }
+
+        PhotometricCalibrationOperation::StarMatch match;
+        match.pixel = star.pixel;
+        match.radiusPx = star.radiusPx;
+        match.targetR = targetR;
+        match.targetG = targetG;
+        match.targetB = targetB;
+        matches.push_back(match);
+    }
+
+    delete num;
+    starsMatched = static_cast<int>(matches.size());
+
+    qCInfo(KSTARS_FITS) << QString("Photometric calibration: %1 star(s) detected, %2 corrected "
+                                    "(%3 via real catalog color, %4 via neutral fallback)")
+                         .arg(detected.size()).arg(matches.size()).arg(catalogMatchCount)
+                         .arg(matches.size() - catalogMatchCount);
+
+    if (matches.empty())
+        return true; // nothing matched — not an error, just nothing to correct
+
+    if (!PhotometricCalibrationOperation::apply(m_StackedImageMat, matches, strength, error))
+        return false;
+
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the color-calibrated image");
+        return false;
+    }
+
     return true;
 }
 
@@ -1646,16 +1909,13 @@ bool FITSData::processNextSub(LiveStackFile &sub)
 
 void FITSData::processAlignMaster(const QString &alignMaster)
 {
-    qWarning() << "DIAGTRAIL processAlignMaster called for" << alignMaster;
     m_StackFITSAsync = stackFITSAlignMaster;
     qCDebug(KSTARS_FITS) << "Loading align master" << alignMaster;
 
     // Lambda to load the align master in the background
     QFuture<bool> future = QtConcurrent::run([this, alignMaster]() -> bool
     {
-        qWarning() << "DIAGTRAIL processAlignMaster lambda started";
         bool load = stackLoadImage(alignMaster);
-        qWarning() << "DIAGTRAIL processAlignMaster stackLoadImage returned" << load;
         if (!load)
             qCDebug(KSTARS_FITS) << QString("Unable to load align master");
         return load;
@@ -1666,7 +1926,6 @@ void FITSData::processAlignMaster(const QString &alignMaster)
 
 void FITSData::processMasters()
 {
-    qWarning() << "DIAGTRAIL processMasters called";
     auto currentChannel = channelForStack(m_CurrentStack);
 
     // Dark
@@ -1781,7 +2040,6 @@ void FITSData::stackFITSLoaded()
             break;
 
         case stackFITSAlignMaster:
-            qWarning() << "DIAGTRAIL stackFITSLoaded case stackFITSAlignMaster, result=" << m_StackFITSWatcher.result();
             if (m_StackFITSWatcher.result())
             {
                 // Get the OBJECT & EXPOSURE keywords for later use
@@ -1792,9 +2050,7 @@ void FITSData::stackFITSLoaded()
                 double exposure;
                 if (getRecordValue("EXPTIME", value, true))
                     exposure = value.toDouble();
-                qWarning() << "DIAGTRAIL about to call initLiveStackMetadata, target=" << target << "exposure=" << exposure;
                 initLiveStackMetadata(target, exposure);
-                qWarning() << "DIAGTRAIL initLiveStackMetadata returned";
 
                 if (plateSolving)
                 {
@@ -1937,6 +2193,8 @@ void FITSData::updateLiveStackMetadata()
 // Update plate solving status
 void FITSData::solverDone(const bool timedOut, const bool success, const double hfr, const int numStars)
 {
+    qCDebug(KSTARS_FITS) << QString("Solve done: timedOut=%1 success=%2 hfr=%3 numStars=%4 subPos=%5")
+                         .arg(timedOut).arg(success).arg(hfr).arg(numStars).arg(m_StackSubPos);
     bool ok = success && !timedOut;
 
     // This plate solving result could be on a sub to be stacked, or the align master, or the sub could
@@ -2045,8 +2303,6 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
 // Current stack action is complete so do next action... either process next sub or stack
 void FITSData::nextStackAction()
 {
-    qWarning() << "DIAGTRAIL nextStackAction entered, m_StackSubPos=" << m_StackSubPos
-               << "size=" << m_StackSubs.size() << "m_AlignMasterProcessed=" << m_AlignMasterProcessed;
     auto currentChannel = channelForStack(m_CurrentStack);
     bool done = false;
     while (!done)
@@ -2102,16 +2358,13 @@ void FITSData::nextStackAction()
             else
             {
                 qCDebug(KSTARS_FITS) << "Starting initial stack...";
-                qWarning() << "DIAGTRAIL about to dispatch QtConcurrent::run for FITSStack::stack";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                 future = QtConcurrent::run(&FITSStack::stack, m_CurrentStack.get());
 #else
                 future = QtConcurrent::run(m_CurrentStack.get(), &FITSStack::stack);
 #endif
-                qWarning() << "DIAGTRAIL QtConcurrent::run call returned, future valid?" << future.isStarted();
             }
             m_StackWatcher.setFuture(future);
-            qWarning() << "DIAGTRAIL m_StackWatcher.setFuture called";
         }
     }
 }
@@ -2121,7 +2374,6 @@ void FITSData::nextStackAction()
 // 2. Incremental stack
 void FITSData::stackProcessDone()
 {
-    qWarning() << "DIAGTRAIL stackProcessDone called";
     if (m_CurrentStack)
         m_CurrentStack->setStackInProgress(false);
 

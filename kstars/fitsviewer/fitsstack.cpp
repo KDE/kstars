@@ -13,6 +13,7 @@
 #include "ekos/auxiliary/solverutils.h"
 #include "kstars.h"
 #include "../auxiliary/robuststatistics.h"
+#include "pipeline/denoiseoperation.h"
 
 #include <wcshdr.h>
 #include <fitsio.h>
@@ -143,9 +144,13 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
         }
         else
         {
-            // Mono so we can just load up the image
+            // Mono so we can just load up the image. clone() is required: this Mat
+            // would otherwise just be a header wrapping the caller's imageBuffer, which
+            // is a single reused/short-lived buffer (FITSData::m_StackImageBuffer) that
+            // gets overwritten by the next sub's load — every previously-added sub would
+            // silently end up aliasing whatever was loaded last by the time stack() runs.
             size_t rowLen = width * bytesPerPixel * channels;
-            image = cv::Mat(height, width, cvType, imageBuffer, rowLen);
+            image = cv::Mat(height, width, cvType, imageBuffer, rowLen).clone();
         }
         if (image.empty())
         {
@@ -171,16 +176,13 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
             // preserving the multi-pixel-scale shape a genuine trail has.
             cv::Mat trailCheckImage;
             cv::resize(newImage, trailCheckImage, cv::Size(), 0.5, 0.5, cv::INTER_AREA);
-            qWarning() << "DIAGTRAIL about to call detectStarTrailing, image size" << newImage.cols << newImage.rows
-                       << "channels" << newImage.channels() << "downsampled to" << trailCheckImage.cols
-                       << trailCheckImage.rows;
             QElapsedTimer trailTimer;
             trailTimer.start();
             double medianElongation = -1.0;
             int numSources = 0;
             const bool trailOk = FITSData::detectStarTrailing(trailCheckImage, medianElongation, numSources);
-            qWarning() << "DIAGTRAIL detectStarTrailing returned" << trailOk << "elongation=" << medianElongation
-                       << "numSources=" << numSources << "elapsedMs=" << trailTimer.elapsed();
+            qCDebug(KSTARS_FITS) << QString("Star trailing check: ok=%1 elongation=%2 sources=%3 (%4 ms)")
+                                 .arg(trailOk).arg(medianElongation).arg(numSources).arg(trailTimer.elapsed());
             if (trailOk &&
                     medianElongation > m_StackData.maxStarElongation)
             {
@@ -256,9 +258,13 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
         }
         else
         {
-            // Mono so we can just load up the image
+            // Mono so we can just load up the image. clone() is required: this Mat
+            // would otherwise just be a header wrapping the caller's imageBuffer, which
+            // is a single reused/short-lived buffer (FITSData::m_StackImageBuffer) that
+            // gets overwritten by the next sub's load — every previously-added sub would
+            // silently end up aliasing whatever was loaded last by the time stack() runs.
             size_t rowLen = width * bytesPerPixel * channels;
-            image = cv::Mat(height, width, cvType, imageBuffer, rowLen);
+            image = cv::Mat(height, width, cvType, imageBuffer, rowLen).clone();
         }
         if (image.empty())
         {
@@ -492,17 +498,14 @@ void FITSStack::addSubStatus(const bool ok)
 // Perform the initial stack
 bool FITSStack::stack()
 {
-    qWarning() << "DIAGSTACKFN stack() ENTRY (before try block)";
     try
     {
         QElapsedTimer timer;
         timer.start();
         int numSubs = m_StackImageData.size();
-        qWarning() << "DIAGSTACKFN stack() entered, numSubs=" << numSubs;
 
         for(int i = 0; i < numSubs; i++)
         {
-            qWarning() << "DIAGSTACKFN loop i=" << i << "status=" << m_StackImageData[i].status;
             // Ignore any bad subs
             if (m_StackImageData[i].status != OK)
                 continue;
@@ -762,25 +765,33 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
             return false;
         }
 
-        // Reject an implausibly large pure translation — a wrong-target sub, or a
-        // meridian flip that wasn't re-centered. Neither check above catches this:
-        // a translation shifts all 25 correspondence points by the same amount, so
-        // they stay perfectly mutually consistent (100% RANSAC inliers), and the
-        // determinant check below only looks at the rotation/scale block, not the
-        // translation column — a rotation (including a full 180° meridian-flip
-        // rotation) is already handled correctly by both checks regardless of
-        // angle, since a pure rotation's determinant stays ~1.0 either way; it's
-        // specifically translation magnitude that neither check constrains.
-        // Past half the frame's smaller dimension, the two subs share too little
-        // real overlap to be worth combining.
-        const double tx = affine.at<double>(0, 2);
-        const double ty = affine.at<double>(1, 2);
-        const double translationMagnitude = std::sqrt(tx * tx + ty * ty);
-        const double maxTranslation = std::min(m_Width, m_Height) * 0.5;
-        if (translationMagnitude > maxTranslation)
+        // Reject an implausibly large true frame-center displacement — a wrong-target
+        // sub, or two subs that genuinely don't overlap. Neither check above catches
+        // this: a translation shifts all 25 correspondence points by the same amount,
+        // so they stay perfectly mutually consistent (100% RANSAC inliers), and the
+        // determinant check below only looks at the rotation/scale block.
+        //
+        // This must be measured as where the frame CENTER actually ends up, not the
+        // raw affine translation coefficients (tx, ty): those are defined relative to
+        // the pixel-coordinate origin at the corner, not the center, so a rotation by
+        // any angle about the center — including a full 180° meridian-flip rotation,
+        // which is a perfectly valid, correctable case — produces a large raw (tx, ty)
+        // (up to ~2x the center coordinate) even though the two frames are essentially
+        // perfectly aligned. Measuring the center's own displacement instead correctly
+        // reads as near-zero for a rotation about the center, and only flags a real
+        // mismatch (confirmed on real data: a genuine meridian-flip sub had raw
+        // (tx, ty) magnitude ~7537px against a 6252x4176 frame — comfortably over the
+        // old half-frame threshold — but its actual center displacement was ~32px).
+        const double cx = m_Width / 2.0;
+        const double cy = m_Height / 2.0;
+        const double cxWarped = affine.at<double>(0, 0) * cx + affine.at<double>(0, 1) * cy + affine.at<double>(0, 2);
+        const double cyWarped = affine.at<double>(1, 0) * cx + affine.at<double>(1, 1) * cy + affine.at<double>(1, 2);
+        const double centerDisplacement = std::sqrt((cxWarped - cx) * (cxWarped - cx) + (cyWarped - cy) * (cyWarped - cy));
+        const double maxCenterDisplacement = std::min(m_Width, m_Height) * 0.5;
+        if (centerDisplacement > maxCenterDisplacement)
         {
-            qCDebug(KSTARS_FITS) << QString("Sub-frame translation too large (%1 px, limit %2 px), sub rejected")
-                                  .arg(translationMagnitude).arg(maxTranslation);
+            qCDebug(KSTARS_FITS) << QString("Sub-frame center displacement too large (%1 px, limit %2 px), sub rejected")
+                                  .arg(centerDisplacement).arg(maxCenterDisplacement);
             return false;
         }
 
@@ -2468,84 +2479,16 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             cv::addWeighted(deconvolvedImage, 1.0 + sharpenAmount, blurredImage, -sharpenAmount, 0, sharpenedImage);
         }
 
-        // Denoise
-        float denoiseAmount = m_StackData.postProcessing.denoiseAmt;
-        if (denoiseAmount <= 0.0)
-            finalImage = sharpenedImage;
-        else
-        {
-            std::vector<cv::Mat> channels;
-            cv::split(sharpenedImage, channels);
-
-            // Map the user-facing [0,1] strength to a significance multiplier in units
-            // of the layer's own sigma, rather than an absolute value — this is what
-            // makes denoiseAmt mean the same thing regardless of the input's pixel-value
-            // scale (raw ADU counts, a normalized [0,1] image, an 8-bit preview, ...).
-            const float kSigma = 0.5f + denoiseAmount * 4.5f; // ~0.5 sigma (mild) .. 5 sigma (aggressive)
-            const bool soft = (m_StackData.postProcessing.denoiseMethod == DenoiseMethod::SOFT);
-
-            for (auto &ch : channels)
-            {
-                CV_Assert(ch.type() == CV_32F);
-
-                cv::Mat low1, low2, low3;
-                cv::GaussianBlur(ch, low1, cv::Size(3, 3), 0.8);
-                cv::GaussianBlur(low1, low2, cv::Size(5, 5), 1.6);
-                cv::GaussianBlur(low2, low3, cv::Size(9, 9), 3.2);
-
-                cv::Mat d1 = ch - low1;
-                cv::Mat d2 = low1 - low2;
-                cv::Mat d3 = low2 - low3;
-
-                const float t1 = kSigma * robustSigma(d1);
-                const float t2 = kSigma * robustSigma(d2);
-
-                cv::Mat d1_shrink, d2_shrink;
-                if (soft)
-                {
-                    // Donoho-style shrinkage: sign(x)*max(|x|-t, 0), computed without an
-                    // explicit sign extraction via the identity
-                    // soft(x,t) = max(x-t, 0) - max(-x-t, 0). Every coefficient above
-                    // threshold is pulled toward zero by t rather than passed through
-                    // unchanged, which avoids hard thresholding's blotchy, hard-edged look.
-                    cv::Mat pos1, neg1, pos2, neg2;
-                    cv::max(d1 - t1, 0.0f, pos1);
-                    cv::max(-d1 - t1, 0.0f, neg1);
-                    d1_shrink = pos1 - neg1;
-
-                    cv::max(d2 - t2, 0.0f, pos2);
-                    cv::max(-d2 - t2, 0.0f, neg2);
-                    d2_shrink = pos2 - neg2;
-                }
-                else
-                {
-                    // Hard threshold: binary keep-above/zero-below.
-                    cv::Mat mask1, mask2;
-                    cv::compare(cv::abs(d1), t1, mask1, cv::CmpTypes::CMP_GT);
-                    cv::compare(cv::abs(d2), t2, mask2, cv::CmpTypes::CMP_GT);
-
-                    // cv::Mat::copyTo(mask) only writes pixels where the mask is non-zero
-                    // — it does NOT zero the rest of a freshly allocated destination, it
-                    // leaves them as uninitialized memory. Below-threshold coefficients
-                    // must become exactly zero, so d1_shrink/d2_shrink must be explicitly
-                    // zeroed first, or most of the image ends up mixed with garbage
-                    // instead of being denoised.
-                    d1_shrink = cv::Mat::zeros(d1.size(), d1.type());
-                    d2_shrink = cv::Mat::zeros(d2.size(), d2.type());
-                    d1.copyTo(d1_shrink, mask1);
-                    d2.copyTo(d2_shrink, mask2);
-                }
-
-                ch = low3 + d3 + d2_shrink + d1_shrink;
-            }
-            cv::merge(channels, finalImage);
-        }
-
-        // Chroma-only noise reduction — separate opt-in from the per-channel denoise
-        // above, off by default (see StackPPData::chromaDenoiseAmt).
-        const double chromaAmt = m_StackData.postProcessing.chromaDenoiseAmt;
-        if (chromaAmt > 0.0 && finalImage.channels() == 3)
-            finalImage = chromaDenoise(finalImage, chromaAmt);
+        // Denoise (luminance + chroma) — DenoiseOperation is the single source of
+        // truth for this now; it's also exposed independently as its own post-combine
+        // postprocess_apply_denoise command, so a caller isn't forced to re-run
+        // gradient/deconv/sharpen just to retune denoise strength.
+        finalImage = sharpenedImage;
+        QString denoiseError;
+        if (!DenoiseOperation::apply(finalImage, m_StackData.postProcessing.denoiseAmt,
+                                     m_StackData.postProcessing.denoiseMethod,
+                                     m_StackData.postProcessing.chromaDenoiseAmt, denoiseError))
+            qCDebug(KSTARS_FITS) << QString("DenoiseOperation::apply failed in %1: %2").arg(__FUNCTION__).arg(denoiseError);
 
         // Convert the image back to float before returning
         cv::Mat returnImage;
@@ -2558,53 +2501,6 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
         return cv::Mat();
     }
-}
-
-float FITSStack::robustSigma(const cv::Mat &d)
-{
-    // Row-strided VIEW (no copy, no averaging) to bound the sort below to a few
-    // hundred thousand samples on a full-resolution image, while every sampled value
-    // stays a genuine, unmodified pixel — averaging (e.g. a naive resize) would bias
-    // the estimate low, since averaging independent noise samples reduces their
-    // apparent amplitude.
-    const int stride = std::max(1, d.rows / 750);
-    const cv::Mat view(d.rows / stride, d.cols, d.type(), d.data, d.step[0] * stride);
-    const cv::Mat absView = cv::abs(view);
-    cv::Mat flat = absView.reshape(1, 1);
-    cv::Mat sorted;
-    cv::sort(flat, sorted, cv::SORT_ASCENDING);
-    return 1.4826f * sorted.at<float>(0, sorted.cols / 2);
-}
-
-cv::Mat FITSStack::chromaDenoise(const cv::Mat &image, double amt)
-{
-    std::vector<cv::Mat> bgr;
-    cv::split(image, bgr);
-    const cv::Mat &B = bgr[0], &G = bgr[1], &R = bgr[2];
-
-    // Luma/color-difference decomposition, deliberately not cv::COLOR_BGR2YCrCb:
-    // OpenCV's YCrCb conversion bakes in a fixed midpoint offset (0.5 for float
-    // input) that only round-trips correctly for [0,1]-normalized data, but this
-    // runs on the pipeline's native linear image, which can be at raw ADU scale
-    // (tens of thousands). Cr = R-Y / Cb = B-Y needs no offset at all, so it stays
-    // exact at any scale.
-    cv::Mat Y = 0.114f * B + 0.587f * G + 0.299f * R;
-    cv::Mat Cr = R - Y;
-    cv::Mat Cb = B - Y;
-
-    // [0,1] strength -> a 1-8px Gaussian blur radius on the chroma planes only.
-    const double sigma = 1.0 + std::clamp(amt, 0.0, 1.0) * 7.0;
-    cv::GaussianBlur(Cr, Cr, cv::Size(0, 0), sigma);
-    cv::GaussianBlur(Cb, Cb, cv::Size(0, 0), sigma);
-
-    cv::Mat newR = Cr + Y;
-    cv::Mat newB = Cb + Y;
-    cv::Mat newG = (Y - 0.299f * newR - 0.114f * newB) / 0.587f;
-
-    cv::Mat result;
-    std::vector<cv::Mat> outChannels { newB, newG, newR };
-    cv::merge(outChannels, result);
-    return result;
 }
 
 // Performs Automatic Gradient Removal using a dual-pass

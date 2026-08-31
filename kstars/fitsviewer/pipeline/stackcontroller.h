@@ -22,6 +22,7 @@ struct Solution;
 }
 class FITSData;
 class SolverUtils;
+struct wcsprm;
 
 /**
  * @class StackController
@@ -112,9 +113,30 @@ class StackController : public QObject
         bool applyContrast(double amt, QString &error);
 
         /**
+         * @brief Bake noise reduction into the current combined result — an
+         * independent, composable post-combine step (see DenoiseOperation::apply()).
+         */
+        bool applyDenoise(double amt, DenoiseMethod method, double chromaAmt, QString &error);
+
+        /**
+         * @brief Bake background/gradient extraction into the current combined
+         * result — an independent, composable post-combine step (see
+         * BGEOperation::apply()).
+         */
+        bool applyBGE(double strength, QString &error);
+
+        /**
          * @brief Write the current combined stacked image straight to disk.
          */
         bool save(const QString &path, QString &error);
+
+        /**
+         * @brief Render the session's current working image to a base64-encoded JPEG
+         * preview (see PreviewRenderer — headless, no FITSView/GUI dependency, cheap
+         * enough to call after every step). Useful after any command that mutates the
+         * working image (crop, denoise, BGE, ...), not just once per session.
+         */
+        QString getPreviewJpeg(QString &error, int maxDimension = 1024);
 
         /**
          * @brief Adopt an externally-computed image (e.g. ChannelBlendOperation's
@@ -122,8 +144,31 @@ class StackController : public QObject
          * the underlying FITSData if this controller has never been start()ed — so a
          * blend result gets the same crop/apply/save session lifecycle as a real
          * stack, without needing a folder to stack in the first place.
+         * @param sourceWcs optional WCS the image is registered to (see
+         * FITSData::setStackedImage()) — forwarded as-is so a blend result can carry a
+         * real WCS, enabling crop()/applyPhotometricCalibration() on it afterward.
          */
-        bool adopt(const cv::Mat &image, QString &error);
+        bool adopt(const cv::Mat &image, QString &error, const struct wcsprm *sourceWcs = nullptr);
+
+        /**
+         * @brief Bake a catalog-based star color calibration into the current combined
+         * result — an independent, composable, opt-in post-combine step (see
+         * PhotometricCalibrationOperation and FITSData::applyPhotometricCalibration()).
+         * Requires the session to carry a WCS (a plate-solved stack, or a blend whose
+         * adopt() was given one).
+         * @param strength [0,1]; how much of the computed per-star correction to apply
+         * @param maxCatalogMagnitude faintest catalog star to consider a candidate match
+         * @param matchRadiusArcsec how close a catalog star must be (on sky) to a
+         * detected star's position to count as a match
+         * @param starsDetected receives how many star-like blobs were found in the image
+         * @param starsMatched receives how many of those were matched to a catalog star
+         * and corrected
+         * @param photometricCatalogPath optional supplementary (RA, Dec, V, B-V)
+         * catalog path — see FITSData::applyPhotometricCalibration().
+         */
+        bool applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
+                                          QString &error, int &starsDetected, int &starsMatched,
+                                          const QString &photometricCatalogPath = QString());
 
         /**
          * @brief Access the underlying FITSData for the current session,

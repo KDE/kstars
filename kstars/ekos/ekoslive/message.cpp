@@ -41,6 +41,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/pipeline/masterbuilder.h"
 #include "fitsviewer/pipeline/directoryinspector.h"
+#include "fitsviewer/pipeline/previewrenderer.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/align/mountmodel.h"
 #include "skymap.h"
@@ -3529,14 +3530,14 @@ QVector<ChannelBlendOperation::WeightedInput> Message::parseBlendInputs(const QJ
             error = QString("Session '%1' has no stacked image yet").arg(sessionId);
             return {};
         }
-        result.push_back({ image, weight });
+        result.push_back({ image, weight, session->imageData()->getStackWCS() });
     }
     return result;
 }
 
 void Message::processPostProcessCommands(const QString &command, const QJsonObject &payload)
 {
-    if (command == commands[POSTPROCESS_START] && payload.contains("channels"))
+    if (command == commands[POSTPROCESS_STACK] && payload.contains("channels"))
     {
         // Filter-tagged mode: each entry stacks independently as its own mono session
         // (StackChannel::SINGLE, n==1) — sidesteps initStackChannels()'s positional R/G/B/L
@@ -3571,6 +3572,17 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             StackData params;
             params.calcSNR = payload["calcSNR"].toBool(true);
             params.alignMethod = static_cast<StackAlignMethod>(payload["alignMethod"].toInt(0));
+            // Explicitly pick which frame every sub aligns against, instead of always
+            // auto-selecting the first sub found. Real use case: aligning a new batch
+            // against a previously-generated master/reference stack rather than
+            // whichever sub happens to be discovered first. Note: with alignMethod
+            // PLATE_SOLVE, using an already-stacked/processed image (rather than a raw
+            // camera sub) as the align master has a known, unresolved failure mode
+            // (star extraction on the derived image can come back empty, leaving the
+            // batch stuck with no align master at all) — use alignMethod NONE for that
+            // case instead, after confirming the two images already share a consistent
+            // pixel grid.
+            params.alignMaster = payload["alignMaster"].toString();
             params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
             params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
             params.numInMem = payload["numInMem"].toInt(10);
@@ -3636,7 +3648,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "started"}, {"sessions", startedSessions}});
     }
-    else if (command == commands[POSTPROCESS_START])
+    else if (command == commands[POSTPROCESS_STACK])
     {
         // Single-session mode: one mono directory, or positional RGB/RGBL directories
         // (see initStackChannels() — dirs[0]=RED, dirs[1]=GREEN, dirs[2]=BLUE, dirs[3]=LUM
@@ -3666,6 +3678,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         StackData params;
         params.calcSNR = payload["calcSNR"].toBool(true);
         params.alignMethod = static_cast<StackAlignMethod>(payload["alignMethod"].toInt(0));
+        // See the Mode A alignMaster comment above for the known PLATE_SOLVE-against-
+        // an-already-stacked-image caveat.
+        params.alignMaster = payload["alignMaster"].toString();
         params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
         params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
         params.numInMem = payload["numInMem"].toInt(10);
@@ -3814,21 +3829,34 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         const double exptimeTolerance = payload["exptimeTolerance"].toDouble(0.5);
 
         QString error;
+        cv::Mat builtMaster;
         if (!MasterBuilder::buildAndSave(directory, type, outputPath, error, lowSigma, highSigma, subtractPath,
-                                          matchExptime, exptimeTolerance))
+                                          matchExptime, exptimeTolerance, &builtMaster))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
             return;
         }
 
-        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "master_built"}, {"outputPath", outputPath}});
+        QJsonObject response { {"state", "master_built"}, {"outputPath", outputPath} };
+        // Reuses the in-memory result directly (no re-reading the just-written file
+        // off disk) — see PreviewRenderer; headless, no FITSView/GUI dependency.
+        // Opt-out via "preview": false, same convention as the crop/apply_*/denoise
+        // commands above.
+        if (payload["preview"].toBool(true))
+        {
+            QString previewError;
+            const QString preview = PreviewRenderer::renderBase64Jpeg(builtMaster, previewError);
+            if (!preview.isEmpty())
+                response["preview"] = preview;
+        }
+        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
     }
     else if (command == commands[POSTPROCESS_INSPECT_DIRECTORY])
     {
         // Standalone, same as POSTPROCESS_BUILD_MASTER — reports what's actually in a
         // folder (EXPTIME/FILTER/binning/IMAGETYP per file, header-only) so a caller can
         // discover the right matchExptime for build_master, or the right exposure/filter
-        // for postprocess_start, without external tooling. Useful for any folder
+        // for postprocess_stack, without external tooling. Useful for any folder
         // (bias/dark/flat/light), not darks specifically.
         const QString directory = payload["directory"].toString();
         if (directory.isEmpty())
@@ -3902,25 +3930,28 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         }
 
         cv::Mat blended;
-        if (!ChannelBlendOperation::blendRGB(red, green, blue, blended, error))
+        const struct wcsprm *refWcs = nullptr;
+        if (!ChannelBlendOperation::blendRGB(red, green, blue, blended, refWcs, error))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
             return;
         }
 
         // The blend result becomes its own session — same crop/apply_*/save lifecycle
-        // as any real stack from here on.
+        // as any real stack from here on. Passing refWcs (deep-copied inside adopt())
+        // lets it also carry a WCS, same as a real plate-solved stack, so crop() keeps
+        // tracking it and postprocess_apply_color_calibration can use it.
         const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
         auto outputSession = QSharedPointer<StackController>::create(this);
-        if (!outputSession->adopt(blended, error))
+        if (!outputSession->adopt(blended, error, refWcs))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
             return;
         }
         // Without these, a later postprocess_redo_postprocess against this session
         // would complete (or fail) with no way to tell the caller — nothing forwarded
-        // its stackReady/stackFailed to a response at all, unlike a postprocess_start
-        // session's connections (see the POSTPROCESS_START handlers above).
+        // its stackReady/stackFailed to a response at all, unlike a postprocess_stack
+        // session's connections (see the POSTPROCESS_STACK handlers above).
         connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
@@ -3943,13 +3974,13 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // (FITSStack::redoPostProcessStack(), on a background thread) without
         // re-running calibration/plate-solve/alignment/combine, so callers can
         // iterate on post-processing parameters fast. Completion is reported via
-        // the same stackReady-driven "ready" event postprocess_start's session
+        // the same stackReady-driven "ready" event postprocess_stack's session
         // already emits (session->redoPostProcess() ultimately re-triggers it).
         auto session = resolvePostProcessSession(payload);
         if (!session)
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_start first"}});
+            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_stack first"}});
             return;
         }
         StackPPData ppParams;
@@ -3973,13 +4004,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
              || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
              || command == commands[POSTPROCESS_APPLY_SATURATION]
              || command == commands[POSTPROCESS_APPLY_CONTRAST]
+             || command == commands[POSTPROCESS_APPLY_DENOISE]
+             || command == commands[POSTPROCESS_APPLY_BGE]
+             || command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION]
              || command == commands[POSTPROCESS_SAVE])
     {
         auto session = resolvePostProcessSession(payload);
         if (!session)
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_start first"}});
+            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_stack first"}});
             return;
         }
 
@@ -4026,11 +4060,60 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             ok = session->applyContrast(payload["amt"].toDouble(1.0), error);
             response = {{"state", ok ? "contrast_applied" : "error"}};
         }
+        else if (command == commands[POSTPROCESS_APPLY_DENOISE])
+        {
+            // Independent, composable post-combine step — unlike postprocess_start/
+            // redo_postprocess's bundled denoise (which always re-runs gradient/
+            // deconv/sharpen too), this only touches denoise, operating on whatever
+            // the current working image already is (post-crop, post-BGE, ...).
+            const auto method = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
+            ok = session->applyDenoise(payload["denoiseAmt"].toDouble(0.0), method,
+                                       payload["chromaDenoiseAmt"].toDouble(0.0), error);
+            response = {{"state", ok ? "denoise_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_BGE])
+        {
+            // Independent, composable post-combine step — a rebuild of the sampling/
+            // fitting core behind gradientAmt (see BGEOperation's class comment for
+            // what changed and why), operating on whatever the current working image
+            // already is.
+            ok = session->applyBGE(payload["strength"].toDouble(0.0), error);
+            response = {{"state", ok ? "bge_applied" : "error"}};
+        }
+        else if (command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION])
+        {
+            // Independent, opt-in, composable post-combine step — a caller that never
+            // sends this command gets exactly today's behavior. Requires the session
+            // to carry a WCS (a plate-solved stack, or a blend of plate-solved stacks
+            // — see StackController::adopt()/FITSData::setStackedImage()).
+            int starsDetected = 0, starsMatched = 0;
+            ok = session->applyPhotometricCalibration(payload["strength"].toDouble(1.0),
+                    payload["maxCatalogMagnitude"].toDouble(12.0),
+                    payload["matchRadiusArcsec"].toDouble(5.0),
+                    error, starsDetected, starsMatched,
+                    payload["photometricCatalogPath"].toString());
+            response = {{"state", ok ? "color_calibration_applied" : "error"},
+                {"starsDetected", starsDetected}, {"starsMatched", starsMatched}};
+        }
         else if (command == commands[POSTPROCESS_SAVE])
         {
             const QString outputPath = payload["outputPath"].toString();
             ok = session->save(outputPath, error);
             response = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
+        }
+
+        // A base64 JPEG preview of the working image after this step — headless, no
+        // FITSView/GUI dependency (PreviewRenderer), downscaled first so it stays cheap
+        // regardless of the source resolution. Skipped for save() (the working image
+        // didn't change) and on failure (nothing new to show). Opt-out via
+        // "preview": false for a caller that doesn't need visual feedback on every call
+        // (e.g. scripted batch adjustments) and wants the fastest possible response.
+        if (ok && command != commands[POSTPROCESS_SAVE] && payload["preview"].toBool(true))
+        {
+            QString previewError;
+            const QString preview = session->getPreviewJpeg(previewError);
+            if (!preview.isEmpty())
+                response["preview"] = preview;
         }
 
         if (!ok)

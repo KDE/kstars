@@ -8,8 +8,10 @@ of subs, entirely offscreen, driven over the EkosLive websocket protocol
 the interactive LiveStacker feature (`FITSStack`/`FITSData` in
 `kstars/fitsviewer/`), but adds the pieces LiveStacker's live-capture-first
 design didn't need: master-frame building from a folder of raw calibration
-subs, folder inspection, narrowband multi-session blending, and headless
-plate-solving with no GUI dialog involved.
+subs, folder inspection, narrowband multi-session blending, headless
+plate-solving with no GUI dialog involved, and a set of independent,
+composable post-combine editing steps (crop, background extraction,
+denoise, tone/color adjustments) each with its own preview.
 
 If you're integrating against this pipeline (an EkosLive client, a test
 harness, or another part of KStars), this file is the reference. If you're
@@ -25,16 +27,21 @@ behavior below was read from the code, not assumed.
 | `directoryinspector.h/.cpp` | `DirectoryInspector` — header-only (no pixel decoding) survey of a folder: `EXPTIME`/`FILTER`/binning/`IMAGETYP` per file, plus a grouped summary. Exists so a caller can discover what's actually in a folder (and what to pass as `matchExptime`) without external tooling. |
 | `autostretch.h/.cpp` | `AutoStretch` — an XISF-spec MTF (midtones transfer function) stretch, baked permanently into the image (unlike the display-only `Stretch` class elsewhere in `fitsviewer/`). Supports `linked` (one shared curve across all channels) vs unlinked (independent per-channel curves). |
 | `cropoperation.h/.cpp` | `CropOperation` — crops the working image in place, adjusting the WCS reference pixel if one exists. |
+| `denoiseoperation.h/.cpp` | `DenoiseOperation` — noise reduction as an independent, composable step: a luminance pass (per-channel multi-level decomposition with an adaptive, robust-noise-calibrated threshold, HARD or SOFT) and an optional chroma pass (isolates and smooths only inter-channel color noise on a 3-channel image, leaving luminance detail untouched). |
+| `bgeoperation.h/.cpp` | `BGEOperation` — background/gradient extraction as an independent, composable step. Builds a dense, per-pixel background model on a downsampled copy of the working image: an iterative, asymmetric robust (sigma-clipped) rejection loop separates real background from stars/nebulosity/outliers, excluded regions are filled by harmonic inpainting (repeated smoothing constrained to known-background pixels) rather than a sparse point-fit, and any pixel sitting meaningfully above the current model is protected from the fit and grown outward each iteration so extended nebulosity isn't absorbed into the background. A single `strength` parameter controls how much of the fitted model gets removed. |
+| `previewrenderer.h/.cpp` | `PreviewRenderer` — headless base64 JPEG preview generation: downscale first (bounded cost regardless of source resolution), auto-detect whether the data still needs a stretch, encode. No `FITSView`/GUI dependency. |
 | `curveoperation.h/.cpp` | `CurveOperation` — a control-point tone curve, applied identically to every channel (`apply()`) or independently per channel (`applyPerChannel()`, per-channel color grading). |
 | `saturationoperation.h/.cpp` | `SaturationOperation` — HSV-style saturation scale. |
 | `contrastoperation.h/.cpp` | `ContrastOperation` — contrast scale pivoted on the image's own mean. |
 | `channelblendoperation.h/.cpp` | `ChannelBlendOperation` — the narrowband "pixel math": arbitrary weighted sums of any named, already-stacked mono session into each output R/G/B channel. This is what makes HOO/SHO/bicolor composites possible without forcing data through the engine's fixed positional RGB/RGBL slot assignment. |
+| `photometriccalibration.h/.cpp` | `PhotometricCalibrationOperation` — detects star-like blobs and nudges each one's local color toward a caller-supplied target, blending overlapping corrections rather than compounding them. Deliberately has no WCS/catalog awareness of its own (a plain `cv::Mat` in, `cv::Mat` out contract, like every other operation here) — `FITSData::applyPhotometricCalibration()` is what supplies real targets, by cross-matching each detected star's sky position against KStars' own star catalog (and optionally a supplementary one, see `photometriccatalog.h/.cpp`) and converting its B-V color index to an expected color via `colorFromBVIndex()`. |
+| `photometriccatalog.h/.cpp` | `PhotometricCatalog` — optional, supplementary `(RA, Dec, V, B-V)` lookup consulted only when KStars' own bundled star catalog has no usable photometry for a given match (a real, common gap on installs carrying just the stock `unnamedstars.dat`/`deepstars.dat` files). Loads a flat sorted binary file; see "Photometric color calibration" below for the format and how the shipped catalog was built. |
 
 The actual stacking/calibration engine (`FITSStack`, `FITSData`) lives one
 level up, in `kstars/fitsviewer/`. This directory's classes are consumed by
-`FITSStack::postProcessImage()` (gradient/denoise/deconvolution/sharpen —
-these still live in `fitsstack.cpp` itself, run per-channel pre-combine) and
-by `kstars/ekos/ekoslive/message.cpp`'s `processPostProcessCommands()` (the
+`FITSStack::postProcessImage()` (per-channel, pre-combine gradient/denoise/
+deconvolution/sharpen — these still live in `fitsstack.cpp` itself) and by
+`kstars/ekos/ekoslive/message.cpp`'s `processPostProcessCommands()` (the
 actual command dispatcher).
 
 ## Session model
@@ -47,13 +54,13 @@ concurrently (e.g. one per narrowband filter), each independently stackable,
 post-processable, and saveable.
 
 A session comes into being one of two ways:
-- **`postprocess_start`** — a real directory stack (calibrate → align →
+- **`postprocess_stack`** — a real directory stack (calibrate → align →
   combine).
 - **`postprocess_blend_channels`** — an "adopted" image, computed from other
   sessions' already-stacked results rather than from raw subs. Behaves like
   a real stack from that point on (crop/stretch/curve/saturation/
-  contrast/save all work identically), but has no `FITSStack` per-channel
-  workers behind it and no WCS.
+  contrast/denoise/BGE/save all work identically), but has no `FITSStack`
+  per-channel workers behind it and no WCS.
 
 General response shape: every command replies via `new_postprocess_state`.
 Errors are always `{"state": "error", "message": "<text>"}`. Field types
@@ -61,9 +68,27 @@ follow Qt's `QJsonValue::toX(default)` behavior — a field of the wrong JSON
 type, or absent, silently becomes the stated default; there's no schema
 validation or "missing required field" error except where noted below.
 
+## Preview images
+
+Every command that changes the working image — `postprocess_crop`,
+`postprocess_apply_autostretch`, `postprocess_apply_curve`,
+`postprocess_apply_curve_per_channel`, `postprocess_apply_saturation`,
+`postprocess_apply_contrast`, `postprocess_apply_denoise`,
+`postprocess_apply_bge`, `postprocess_apply_color_calibration`, and
+`postprocess_build_master` — includes a
+`"preview"` field in its response on success: a base64-encoded JPEG,
+downscaled (1024px on the long side by default) so generating it stays cheap
+regardless of the source resolution, auto-stretched if the underlying data
+still needs one (e.g. right after a fresh stack, before any explicit
+`postprocess_apply_autostretch` call) and left alone if it's already
+display-ready. Pass `"preview": false` in the payload to skip it — useful
+for a scripted batch of adjustments that only cares about the final result.
+`postprocess_save` never includes a preview (the working image didn't
+change).
+
 ## Command reference
 
-### `postprocess_start`
+### `postprocess_stack`
 
 Two modes, chosen by whether the payload has a `channels` field.
 
@@ -103,6 +128,7 @@ per channel, each tagged `"sessionId": "<filter>"`.
 | `directories` | array of string | — | Multi-channel: exactly 3 (RGB) or 4 (RGB+L) entries, in that **exact positional order** (`[0]`=RED, `[1]`=GREEN, `[2]`=BLUE, `[3]`=LUM — matches `FITSData::initStackChannels()`'s own convention). A 2-entry array is rejected with a clean error — use Mode A for a 2-filter set. |
 | `calcSNR` | bool | `true` | |
 | `alignMethod` | int | `0` | `0`=PLATE_SOLVE, `1`=NONE |
+| `alignMaster` | string | *(none)* | Explicitly picks which frame every sub aligns against, instead of auto-selecting the first sub found — pass the path to a previously-generated master (or any other reference frame) to align a new batch against it rather than whatever sub happens to be discovered first. With `alignMethod` PLATE_SOLVE, pointing this at an already-stacked/processed image (rather than a raw camera sub) has a known failure mode: star extraction on the derived image can come back empty, leaving the batch with no align master at all. Use `alignMethod` NONE for that case instead, after confirming the two images already share a consistent pixel grid. |
 | `stackingMethod` | int | `0` | `0`=MEAN, `1`=SIGMA, `2`=WINDSOR, `3`=IMAGEMM. **`MEAN` performs no outlier rejection at all** — every pixel from every sub is averaged in at full weight, so a satellite trail or cosmic-ray hit in even one frame survives into the final stack. `SIGMA` (per-pixel median ± `lowSigma`/`highSigma`·σ) or `WINDSOR` (clamp instead of exclude — more robust at low sub counts) actually reject outliers. **Not defaulted to `SIGMA`/`WINDSOR`** — left as an explicit choice — but any real batch of more than a couple of subs should set one. |
 | `downscale` | int | `0` | `0`=NONE, `1`=X2, `2`=X3, `3`=X4 |
 | `numInMem` | int | `10` | Internal batch/chunk size the engine works through at a time. Has no effect on how many total frames get stacked — every file in the directory gets processed regardless of this value. |
@@ -110,7 +136,7 @@ per channel, each tagged `"sessionId": "<filter>"`.
 | `lowSigma` | double | `2.0` | |
 | `highSigma` | double | `3.0` | |
 | `rejectTrailedSubs` | bool | `true` | Hard-reject a sub with obvious star trailing (tracking failure) **before** calibration/alignment/combine — independent of `alignMethod`/`weighting`. Fast OpenCV ellipse-fit heuristic (`FITSData::detectStarTrailing()`), not real source extraction. |
-| `maxStarElongation` | double | `0.08` | Rejection threshold for `rejectTrailedSubs` (0 = perfectly round, →1 = a full streak). Calibrated against real data — a well-tracked sub typically measures 0.002–0.05, real tracking-error trailing measures ~0.1+. Can vary by dataset/optics. |
+| `maxStarElongation` | double | `0.08` | Rejection threshold for `rejectTrailedSubs` (0 = perfectly round, →1 = a full streak). A well-tracked sub typically measures 0.002–0.05, real tracking-error trailing measures ~0.1+. Can vary by dataset/optics. |
 | `hotPixels` | bool | `false` | Per-sub cosmetic correction: replaces a pixel that's a k-sigma outlier vs. its local 3×3 median with that median, **before** the sub reaches alignment/stacking. The only thing in the pipeline that can catch a genuinely stuck/hot sensor pixel — such a pixel is consistently bright in *every* sub (a physical defect, not a per-frame anomaly), so frame-to-frame outlier rejection (`SIGMA`/`WINDSOR`) can't touch it. |
 | `coldPixels` | bool | `false` | Same mechanism, mirrored for pixels below the local median. Additionally isolation-masked to reduce the chance of eating real fine structure. |
 | `masterDarkPath` | string | *(none)* | Single dark, broadcast to every channel in `directories`. Ignored if `masterDarkPaths` is present. |
@@ -118,10 +144,10 @@ per channel, each tagged `"sessionId": "<filter>"`.
 | `masterFlatPath` | string | *(none)* | Single flat, broadcast to every channel. Ignored if `masterFlatPaths` is present. |
 | `masterFlatPaths` | array of string | *(none)* | Per-channel flats, positionally aligned with `directories` — the normal case, since flats are filter-specific. |
 | `postProcess` | bool | `false` | Gate for the 8 fields below (`gradientAmt` through `sharpenSigma`). Does **not** gate `hotPixels`/`coldPixels` above. |
-| `gradientAmt` | double | `0.0` | Background/gradient removal strength, `[0,1]` — dual-pass TPS-fit background model with star-protected sampling. Runs **per-channel, pre-combine**. See "Gradient correction limitations" below. |
-| `denoiseAmt` | double | `0.0` | Denoise strength, `[0,1]` — 3-level Gaussian-pyramid decomposition per channel, adaptive MAD-based threshold (`0.5–5σ` significance multiplier, not a fixed constant). Roughly the *idea* behind wavelet/multiscale denoising, not a literal wavelet transform. |
+| `gradientAmt` | double | `0.0` | Background/gradient removal strength, `[0,1]`, run **per-channel, pre-combine**, as part of stacking itself. For post-combine background extraction on the final composed image, use `postprocess_apply_bge` instead — see "Background/gradient removal" below for when to use which. |
+| `denoiseAmt` | double | `0.0` | Denoise strength, `[0,1]`, run **per-channel, pre-combine**. For post-combine denoise on the final composed image, use `postprocess_apply_denoise` instead. |
 | `denoiseMethod` | int | `0` | `0`=HARD (binary keep/kill at threshold), `1`=SOFT (Donoho-style shrinkage — pulls coefficients toward zero *by* the threshold rather than passing them through unchanged; smoother, softens fine structure slightly more). |
-| `chromaDenoiseAmt` | double | `0.0` | Separate, opt-in noise reduction targeting only **inter-channel color noise** (independent of `denoiseAmt`, which processes each channel independently and can't distinguish real color from single-channel noise). Decomposes into luma/color-difference planes, blurs only the color-difference planes, reconstructs from blurred chroma + untouched luma. `[0,1]` maps to a 1–8px chroma blur radius. |
+| `chromaDenoiseAmt` | double | `0.0` | Separate, opt-in noise reduction targeting only **inter-channel color noise** (independent of `denoiseAmt`, which processes each channel independently and can't distinguish real color from single-channel noise). `[0,1]` maps to a 1–8px chroma blur radius. |
 | `deconvAmt` | double | `0.0` | Deconvolution strength |
 | `PSFSigma` | double | `1.0` | PSF sigma used for deconvolution |
 | `sharpenAmt` | double | `0.0` | Unsharp-mask amount |
@@ -164,10 +190,11 @@ subs into one master frame (`MasterBuilder::buildAndSave()`).
 | `matchExptime` | double | `-1.0` | When ≥0, only combine files whose `EXPTIME` header is within `exptimeTolerance` seconds of this value; everything else is skipped (header-checked only, never pixel-decoded). Negative disables filtering — every FITS-loadable file in the directory is combined. See "Shared calibration folders" below for why this matters. Also fixes the `NCOMBINE` header to reflect the actual post-filter count. |
 | `exptimeTolerance` | double | `0.5` | Seconds of slack around `matchExptime` — real exposures rarely land exactly on a nominal value (auto-exposed flats, shutter-timing variance). |
 
-Response: `{"state": "master_built", "outputPath": "<path>"}`, or
-`{"state": "error", "message": "<reason>"}` (empty folder, dimension
+Response: `{"state": "master_built", "outputPath": "<path>", "preview": "<base64 JPEG>"}`,
+or `{"state": "error", "message": "<reason>"}` (empty folder, dimension
 mismatch between subs, `matchExptime` filtering leaving zero usable files,
-etc.).
+etc.). The preview is rendered directly from the just-built in-memory
+result — see "Preview images" above.
 
 ### `postprocess_inspect_directory`
 
@@ -245,34 +272,36 @@ weighting above is the standard fix.
 
 Recomputes gradient/denoise/deconvolution/sharpen from the
 **already-combined** stack, without re-running calibration/plate-solve/
-alignment/combine — the fast path for iterating on post-processing strength
-once a session has already reached `"ready"`. Works against *any* session,
-including one created by `postprocess_blend_channels`.
+alignment/combine — the fast path for iterating on the pre-combine
+post-processing bundle's strength once a session has already reached
+`"ready"`. Works against *any* session, including one created by
+`postprocess_blend_channels`.
 
 | Field | Type | Default |
 |---|---|---|
 | `sessionId` | string | *(internal default key)* |
-| `postProcess` | bool | `true` (defaults **on** here, unlike `postprocess_start` — the point of calling this is to apply post-processing) |
-| `gradientAmt` / `denoiseAmt` / `denoiseMethod` / `chromaDenoiseAmt` / `deconvAmt` / `PSFSigma` / `sharpenAmt` / `sharpenKernal` / `sharpenSigma` | — | same fields/defaults as `postprocess_start` |
+| `postProcess` | bool | `true` (defaults **on** here, unlike `postprocess_stack` — the point of calling this is to apply post-processing) |
+| `gradientAmt` / `denoiseAmt` / `denoiseMethod` / `chromaDenoiseAmt` / `deconvAmt` / `PSFSigma` / `sharpenAmt` / `sharpenKernal` / `sharpenSigma` | — | same fields/defaults as `postprocess_stack` |
 
-**This overwrites whatever crop/autostretch/curve/saturation/contrast was
-already applied** — it recomputes from the pre-post-processing combined
-buffer and copies straight over the working image. Re-apply
-`postprocess_crop`/`apply_*` after this if you want them back; that's the
-correct order anyway (post-processing runs before tone/color adjustments,
-not after).
+**This overwrites whatever crop/autostretch/curve/saturation/contrast/
+denoise/BGE was already applied** — it recomputes from the
+pre-post-processing combined buffer and copies straight over the working
+image. Re-apply `postprocess_crop`/`apply_*` after this if you want them
+back; that's the correct order anyway (this bundle runs before crop/tone/
+color/post-combine denoise/BGE, not after).
 
 Response: immediately `{"state": "redoing", "sessionId": "<id>"}` —
 **asynchronous**, unlike `crop`/`apply_*`/`save`. Completion arrives later
 via the same `{"state": "ready"}` / `{"state": "error", "message": "..."}`
-event `postprocess_start` uses for this session.
+event `postprocess_stack` uses for this session.
 
 ### `postprocess_crop`
 
 `{"x", "y", "width", "height"}` (all int, default `0`). Crops the working
 image in place; adjusts the WCS reference pixel automatically if one
 exists. Omitting `width`/`height` produces a degenerate 0×0 crop, rejected
-as an out-of-bounds error. Response: `{"state": "cropped"}` or an error.
+as an out-of-bounds error. Response: `{"state": "cropped"}` (plus a preview)
+or an error.
 
 ### `postprocess_apply_autostretch`
 
@@ -282,34 +311,88 @@ as an out-of-bounds error. Response: `{"state": "cropped"}` or an error.
 | `shadowsClipping` | double | `2.8` | MADN (robust sigma) units below/above the median to clip at. |
 | `linked` | bool | `true` | See "Linked vs. unlinked autostretch" below — **this choice matters a lot** and depends entirely on what kind of data you're stretching. |
 
-Response: `{"state": "stretched"}` or an error.
+Response: `{"state": "stretched"}` (plus a preview) or an error.
 
 ### `postprocess_apply_curve`
 
 `{"points": [{"x","y"}, ...]}` — at least 2 points, strictly increasing
 `x`, each in `[0,1]×[0,1]`. One shared curve applied identically to every
-channel. Response: `{"state": "curve_applied"}` or an error (non-monotonic
-points, fewer than 2).
+channel. Response: `{"state": "curve_applied"}` (plus a preview) or an
+error (non-monotonic points, fewer than 2).
 
 ### `postprocess_apply_curve_per_channel`
 
 `{"red": [...], "green": [...], "blue": [...]}` — same point rules as
 above, independent curves per channel (color grading).
 Fails against a mono/single-channel stack. Response:
-`{"state": "curve_applied"}` or an error.
+`{"state": "curve_applied"}` (plus a preview) or an error.
 
 ### `postprocess_apply_saturation`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=grayscale,
 `>1.0`=more saturated). No-op (still succeeds) on a mono image. Fails if
 the current image isn't normalized to `[0,1]` yet (stretch/curve first).
-Response: `{"state": "saturation_applied"}` or an error.
+Response: `{"state": "saturation_applied"}` (plus a preview) or an error.
 
 ### `postprocess_apply_contrast`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=flat at the pivot,
 `>1.0`=more contrast). Pivots on the image's own mean; output clamped to
-`[0,1]`. Response: `{"state": "contrast_applied"}` or an error.
+`[0,1]`. Response: `{"state": "contrast_applied"}` (plus a preview) or an
+error.
+
+### `postprocess_apply_denoise`
+
+Post-combine noise reduction — an independent, composable step operating on
+whatever the current working image already is (post-crop, post-BGE, or
+straight off the stack), unlike `postprocess_stack`/
+`postprocess_redo_postprocess`'s bundled pre-combine `denoiseAmt`, which
+always re-runs gradient/deconvolution/sharpen alongside it.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `denoiseAmt` | double | `0.0` | Luminance denoise strength, `[0,1]`. `0` skips this pass entirely. |
+| `denoiseMethod` | int | `0` | `0`=HARD, `1`=SOFT — same meaning as the pre-combine field above. |
+| `chromaDenoiseAmt` | double | `0.0` | Chroma-only denoise strength, `[0,1]`. `0` skips this pass. Ignored (no-op) on a mono image. |
+
+Response: `{"state": "denoise_applied"}` (plus a preview) or an error.
+
+### `postprocess_apply_bge`
+
+Post-combine background/gradient extraction — an independent, composable
+step operating on the current working image, distinct from
+`postprocess_stack`/`postprocess_redo_postprocess`'s bundled pre-combine
+`gradientAmt`. See "Background/gradient removal" below for the algorithm
+and when to prefer this over the pre-combine field.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `strength` | double | `0.0` | How much of the fitted background model to remove, `[0,1]`. `0` is a no-op — this must be set explicitly. |
+
+Response: `{"state": "bge_applied"}` (plus a preview) or an error.
+
+### `postprocess_apply_color_calibration`
+
+Post-combine, opt-in star color correction against real catalog photometry —
+independent of every other step, and skipped entirely by a caller who never
+sends it. Requires the session to carry a WCS (a plate-solved stack, or a
+`postprocess_blend_channels` result whose inputs were plate-solved — see
+"Photometric color calibration" below for why a blend needs this spelled
+out). Run it **last**, after `postprocess_apply_saturation` — see "Where
+this fits in the pipeline order" below.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `strength` | double | `1.0` | How much of the computed per-star correction to apply, `[0,1]`. `0` is a no-op. |
+| `maxCatalogMagnitude` | double | `12.0` | Faintest catalog star considered a candidate match. |
+| `matchRadiusArcsec` | double | `5.0` | How close (on sky) a catalog star must be to a detected star's position to count as a match. |
+| `photometricCatalogPath` | string | *(none)* | Optional supplementary `(RA, Dec, V, B-V)` binary catalog, consulted only when KStars' own bundled catalog has no usable color for a match. See "Photometric color calibration" below. |
+
+Response: `{"state": "color_calibration_applied", "starsDetected": N, "starsMatched": M}`
+(plus a preview) or `{"state": "error", "message": "..."}` (most commonly
+"no WCS available"). `starsMatched` counts every corrected star, whether it
+got a real catalog color or fell back to neutral — see below for why both
+count.
 
 ### `postprocess_save`
 
@@ -317,7 +400,8 @@ Response: `{"state": "saturation_applied"}` or an error.
 already-FITS-encoded in-memory buffer, no re-encoding. Response:
 `{"state": "saved", "outputPath": "<path>"}`, or
 `{"state": "error", "message": "<reason>", "outputPath": "<path>"}` — note
-`outputPath` is present either way.
+`outputPath` is present either way. No preview (the working image didn't
+change).
 
 ## Key concepts and guidance
 
@@ -358,19 +442,20 @@ right thing, to catch a per-sub-consistent defect.
 
 ### `denoiseAmt` vs. `chromaDenoiseAmt`
 
-`denoiseAmt` processes each channel **independently** — it can suppress
-real per-channel noise, but has no way to tell "these channels disagree
-because of genuine color" from "these channels disagree because of
-uncorrelated per-channel shot/read noise" (an OSC sensor's R/G/B are
-physically separate photosites with independent noise). `chromaDenoiseAmt`
-targets exactly that: it separates luma from color-difference, smooths
-only the color-difference planes, and leaves luminance detail untouched.
-Confirmed on real OSC data: a stack still showed clear fine-grained
-red/green/blue speckle in the background at a tight zoom even after fixing
-the autostretch clipping bug below and applying `denoiseAmt`/SOFT — that
-fix only stopped the noise from being independently clipped to full
-saturation per channel, it didn't touch the underlying uncorrelated noise
-itself. Use both together for real OSC data with visible color grain.
+`denoiseAmt` (pre-combine or post-combine) processes each channel
+**independently** — it can suppress real per-channel noise, but has no way
+to tell "these channels disagree because of genuine color" from "these
+channels disagree because of uncorrelated per-channel shot/read noise" (an
+OSC sensor's R/G/B are physically separate photosites with independent
+noise). `chromaDenoiseAmt` targets exactly that: it separates luma from
+color-difference, smooths only the color-difference planes, and leaves
+luminance detail untouched. Confirmed on real OSC data: a stack still
+showed clear fine-grained red/green/blue speckle in the background at a
+tight zoom even after fixing the autostretch clipping bug below and
+applying `denoiseAmt`/SOFT — that fix only stopped the noise from being
+independently clipped to full saturation per channel, it didn't touch the
+underlying uncorrelated noise itself. Use both together for real OSC data
+with visible color grain.
 
 ### Linked vs. unlinked autostretch — **pick based on what the channels represent**
 
@@ -405,8 +490,8 @@ looks, and the right choice is the *opposite* for OSC vs. narrowband data:
 If a composite still looks tinted after switching, check the individual
 channels' raw background levels directly (percentile sampling per channel)
 before assuming it's a stretch-parameter problem — see "Shared calibration
-folders" and "Gradient correction limitations" below for two real causes of
-a *content* difference that no amount of stretch tuning fixes.
+folders" and "Background/gradient removal" below for two real causes of a
+*content* difference that no amount of stretch tuning fixes.
 
 ### Narrowband/multi-channel palette choice
 
@@ -445,41 +530,57 @@ accepting the closest available exposure (defensible for very short,
 sub-second exposures where dark current is negligible) or building the
 master flat without dark/bias correction at all.
 
-### Gradient correction limitations
+### Background/gradient removal
 
-`gradientAmt` (`FITSStack::gradientCorrection()`) runs **per-channel,
-pre-combine**, and is a real two-pass TPS-fit background model with
-star-protected sampling — not a stub. But on a real, difficult dataset
-(dense star field, non-trivial background gradient, e.g. from an
-imperfectly flat-corrected channel) it can under-correct at a modest
-strength and produce a visible seam artifact at a strong one, rather than
-scaling smoothly in between. If a composite shows a smooth but clearly
-wrong background gradient (a color wash across the frame that doesn't
-match what the target should look like) even after correct `linked`/
-palette choices:
+There are two places to remove a background gradient, and they solve the
+problem at different stages:
+
+- **`gradientAmt`** (on `postprocess_stack`/`postprocess_redo_postprocess`)
+  runs **per-channel, pre-combine**, as part of stacking itself — useful
+  when one specific input channel has its own gradient (e.g. from
+  imperfect flat-fielding) that should be corrected before it's blended
+  with other channels. On a real, difficult dataset (dense star field,
+  non-trivial background gradient) it can under-correct at a modest
+  strength and produce a visible seam artifact at a strong one, rather than
+  scaling smoothly in between.
+- **`postprocess_apply_bge`** runs **post-combine**, on the final composed
+  image, and is the recommended step for background/gradient removal in
+  the normal crop → BGE → denoise → stretch workflow. It builds a dense,
+  per-pixel background model on a downsampled copy of the image: an
+  iterative, asymmetric robust (sigma-clipped) rejection loop separates
+  real background from stars/nebulosity, pixels sitting meaningfully above
+  the current model are protected from the fit and grown outward each
+  iteration (so extended nebulosity isn't absorbed into the background
+  rather than left alone), and excluded regions are filled by harmonic
+  inpainting — repeated smoothing constrained to known-background pixels —
+  which keeps the model locally bounded everywhere it fits. A single
+  `strength` parameter, `[0,1]`, controls how much of the fitted model gets
+  removed; `0` is a no-op. Runs well on both nebula-heavy fields (structure
+  protection keeps the model from eating into real signal) and nebula-free
+  star fields (nothing to protect, so the fit tracks the gradient closely).
+
+If a composite still shows a smooth but clearly wrong background gradient
+(a color wash across the frame that doesn't match what the target should
+look like) even after correct `linked`/palette choices and a
+`postprocess_apply_bge` pass:
 
 1. **Measure each channel's actual background independently** — sample a
    grid of low-percentile (star-robust) tiles across each channel and
    compare. A channel whose flat lacked proper dark/bias correction can
    show a real, substantial gradient (confirmed: ~23% background variation
-   across one channel, vs. ~4% in a properly-calibrated sibling channel)
-   that a shared or per-channel `gradientAmt` pass may not fully remove.
-2. If `gradientAmt` alone doesn't resolve it, consider fitting a smooth 2D
-   model (even a low-order polynomial) to that channel's measured
-   background grid directly and subtracting it out before blending — a
-   manual workaround, not a built-in command, but a reliable one when the
-   built-in per-channel correction is insufficient for a specific dataset.
-
-There is currently no **post-combine** background-extraction step exposed
-or built — only the pre-combine, per-channel `gradientAmt`.
+   across one channel, vs. ~4% in a properly-calibrated sibling channel).
+2. Run `postprocess_apply_bge` on that channel's own session (before
+   blending) rather than only on the final composite — a per-channel
+   gradient that large is better isolated and corrected before it's mixed
+   into R/G/B.
 
 ### Split-exposure light sequences (mixing exposure lengths within one filter)
 
 A real session can capture the same filter at more than one exposure
 length (e.g. switching from 600s to 900s sub-exposures partway through).
-`postprocess_start` applies one `masterDarkPath` uniformly to an entire
+`postprocess_stack` applies one `masterDarkPath` uniformly to an entire
 directory — there's no per-sub exposure matching within a single
-`postprocess_start` call. The correct approach, confirmed on real data:
+`postprocess_stack` call. The correct approach, confirmed on real data:
 
 1. Use `postprocess_inspect_directory` on the lights folder first — don't
    assume uniform exposure from a filename or the first file. (A real
@@ -488,11 +589,12 @@ directory — there's no per-sub exposure matching within a single
    exposure *and* binning.)
 2. Split the lights into separate per-exposure folders (excluding any
    contaminant frames found in step 1).
-3. Run `postprocess_start` once per exposure group, each with its own
-   correctly `matchExptime`-filtered dark, `postProcess: false` (defer
-   post-processing to the final merge).
+3. Run `postprocess_stack` once per exposure group, each with its own
+   correctly `matchExptime`-filtered dark, `postProcess: false` (defer the
+   pre-combine bundle; crop/BGE/denoise/stretch happen after the merge
+   below instead).
 4. Save each result (`postprocess_save`), then feed both saved stacks back
-   in as a two-file "directory" to one more `postprocess_start` call with
+   in as a two-file "directory" to one more `postprocess_stack` call with
    `alignMethod: 1` (NONE — both inputs are already independently
    plate-solved to the real sky and should already share a consistent
    pixel grid; verify this visually — no doubled/ghosted stars — before
@@ -502,8 +604,141 @@ directory — there's no per-sub exposure matching within a single
    calibrated.
 
 Note: attempting the same merge with `alignMethod: 0` (PLATE_SOLVE) against
-already-stacked, already-processed images was found to silently fail — see
-"Known gaps" below.
+already-stacked, already-processed images can silently produce nothing —
+star extraction on a derived/stacked image can come back empty, leaving the
+batch stuck with no align master. Use `alignMethod: 1`/NONE for this
+specific "merge two already-aligned stacks" case instead.
+
+### Photometric color calibration
+
+`postprocess_apply_color_calibration` nudges each detected star's own local
+color toward a target derived from its real catalog B-V color index, without
+touching anything else in the frame — nebula/background color is left
+completely alone. The problem it addresses is real and measurable:
+channel-combine/denoise/saturation together leave a systematic chroma bias
+in a composite (confirmed on a real SHO stack: a ~2% green deficit relative
+to R/B across virtually every star, reading as a magenta/reddish cast) —
+this step is what corrects it, star by star, against actual photometry
+rather than by re-tuning tone/saturation parameters that can't distinguish
+"this star is the wrong color" from "the whole image needs less saturation."
+
+**Why a blended session needs a WCS spelled out.** `ChannelBlendOperation::blendRGB()`
+already registers every WCS-carrying input onto a common reference grid
+internally (for cross-channel alignment), but it used to discard which WCS
+it picked once registration was done. It now returns that reference WCS,
+which `message.cpp`'s `postprocess_blend_channels` handler passes into
+`StackController::adopt()`/`FITSData::setStackedImage()` to be deep-copied
+into the new session — the same `cropStack()`-tracked WCS mechanism a real
+plate-solved single-filter stack already had. Skip this and
+`postprocess_apply_color_calibration` fails immediately with "no WCS
+available."
+
+**The fundamental limit for narrowband composites.** A star's true visual
+color cannot be reconstructed from SHO/HOO/bicolor channel ratios at all —
+Hα/OIII/SII are each an extremely narrow (~3-7nm) slice of a star's
+continuum, nothing like a real ~100nm-wide broadband R/G/B filter, so a
+star's Hα brightness relative to its OIII brightness has no simple
+relationship to how it actually looks. This is why the operation **ignores
+the star's measured channel values when deciding the target color** — the
+target comes only from the catalog B-V index; the measured value is used
+solely to compute a correction *gain* (target ÷ measured), the same
+mechanism whether the composite is narrowband or real broadband OSC/RGB
+data. Confirmed on real broadband OSC data (an actual camera capture, not a
+false-color palette) that this recovers genuine color extremely well —
+median deviation from true catalog color across ~1,150 matched stars was
+0.0006, versus the same field's unmatched/uncorrected population.
+
+**Real bugs found running this against actual data** (each one produced a
+visibly wrong result before it was understood — kept here because the
+failure modes are easy to reintroduce if this code is touched again):
+
+- **Overlapping correction radii compound if applied sequentially.** A
+  pixel touched by two nearby stars' correction radii — routine in any
+  moderately dense field — got `gain1 × gain2` applied to it, not a blend
+  of the two, if each star's correction were multiplied into the image in
+  place one after another. `PhotometricCalibrationOperation::apply()`
+  accumulates every star's `(weight, weight×(gain-1))` into per-pixel
+  buffers first and applies the combined result once at the end instead,
+  capping the divisor at `max(totalWeight, 1.0)` so overlapping stars blend
+  proportionally rather than pile up unbounded.
+- **Channel order must match `ChannelBlendOperation`/`SaturationOperation`'s
+  convention (R,G,B), not `DenoiseOperation`'s internal B,G,R labeling.**
+  `DenoiseOperation::chromaDenoise()`'s `split()` result labels index 0 "B"
+  — harmless there, since that transform is used losslessly regardless of
+  which physical channel it calls what, but copying that same labeling here
+  silently swapped red and blue targets. Caught by cross-referencing actual
+  matched-star pixels in a saved FITS file against their real catalog
+  colors: measured colors were landing almost exactly at each other's
+  *swapped* target (e.g. measured R matching target B), which is the
+  distinctive signature of a channel swap, not a tuning problem.
+- **A saturated/clipped star's core can't have its color recovered — but
+  still needs a neutral pull, not a skip.** A clipped core reads as flat,
+  artificially-neutral white regardless of its true color (clipping has
+  already destroyed the channel information), and building a gain from that
+  flat measurement while spreading it across a correction radius that also
+  scales up with the star's (falsely bloated, because it's clipped)
+  apparent size produced a real, visible artifact: a wide, fake orange glow
+  around exactly the brightest, most eye-catching stars in the frame. The
+  fix isn't to skip these stars — they're usually the largest, most visible
+  ones — it's to still pull them toward neutral (same "unknown color reads
+  better as neutral than as whatever upstream bias exists" reasoning as the
+  no-catalog-match case below), just without trusting a gain computed from
+  clipped data.
+- **A percentile-threshold star detector needs a low enough threshold to
+  matter, and a fallback for what it can't match.** The original 99.9th
+  percentile threshold only caught a few hundred of the brightest blobs in
+  a real, dense field — a small fraction of the thousands of visible stars
+  — so correcting only *those* left the visual impression essentially
+  unchanged even with the mechanism working correctly. Lowered to 99.5th
+  (roughly triples the detected count on real data), and — since no local
+  or supplementary catalog can realistically resolve every detected star —
+  any detected star with no usable photometry at all now still gets pulled
+  toward neutral gray rather than left untouched, which is strictly better
+  than the known systematic bias described above even without knowing that
+  particular star's real color.
+- **The color model needs real CIE data, not a hand-rolled spectral
+  approximation.** `colorFromBVIndex()` converts B-V to temperature via
+  Ballesteros' formula, then — critically — integrates that blackbody's
+  spectrum against the **real CIE 1931 2° standard observer color-matching
+  functions** (sourced from the `colour-science` project's published
+  dataset, not recalled from memory, at 5nm resolution from 380-780nm) and
+  the standard CIE XYZ→linear-sRGB matrix, rather than sampling Planck's
+  law at a few representative wavelengths per channel. An earlier version
+  that modeled R/G/B as independent, non-overlapping bands produced
+  visibly oversaturated, cartoonish colors (a modestly cool star rendered
+  as a strong orange-red) — real color perception has heavy overlap
+  between channels that a proper CIE integration captures and a
+  non-overlapping band model can't.
+
+**The supplementary catalog** (`PhotometricCatalog`, `photometriccatalog.h/.cpp`)
+exists because KStars' own bundled star catalog (`unnamedstars.dat`/
+`deepstars.dat`) frequently has positions but no usable photometry for
+non-named stars — confirmed on a real install, where the large majority of
+catalog matches came back with `StarObject::getBVIndex()`'s "undefined"
+sentinel. It's a flat, sorted-by-declination binary of 16-byte records
+(`{float raDeg, float decDeg, float v, float bv}`), built from the real
+**Tycho-2 catalog** (public domain, via CDS: `https://cdsarc.cds.unistra.fr/ftp/I/259/`,
+the 20 `tyc2.dat.NN.gz` chunks — not the supplement files), keeping only
+entries with both BT and VT present and V ≤ 12.5, with BT/VT converted to
+Johnson V/B-V via the standard ESA transformation (Perryman et al. 1997,
+valid for -0.25 < BT-VT < 2.0): `V = VT - 0.090×(BT-VT)`, `B-V = 0.850×(BT-VT)`.
+The full-sky build is ~2.33 million stars, ~35.5MB, installed at
+`~/.local/share/kstars/photometriccatalog.bin` (the same directory KStars'
+own `deepstars.dat` lives in) — pass that path as `photometricCatalogPath`
+to use it; there's no automatic default path lookup in code, so a caller
+that wants the supplementary catalog must specify it explicitly every time.
+`findNearest()` does a declination-bound binary search before the final
+angular-distance scan, so a lookup against the full 2.33M-entry file stays
+fast even without a spatial index.
+
+**Where this fits in the pipeline order.** Run it **after**
+`postprocess_apply_saturation`, not before — saturation is a global,
+uniform boost that would re-exaggerate whatever small residual chroma bias
+survives an earlier correction, and the correction math itself only cares
+about the *current* pixel ratios at the moment it runs, so there's no
+benefit to running it earlier in the sequence. Confirmed on real data
+across many iterations: running it before saturation left a visible
+residual cast that running it after eliminated.
 
 ## Worked example 1 — single-color (OSC) full pipeline
 
@@ -512,7 +747,7 @@ all in their own folders, one filter (no filter wheel), single exposure
 length throughout.
 
 ```jsonc
-// 1. Build calibration masters (each is its own independent call, no session needed)
+// 1. Calibrate: build the masters (each is its own independent call, no session needed)
 {"type": "postprocess_build_master", "payload": {
   "directory": "/data/bias", "type": "bias", "outputPath": "/masters/bias.fits"
 }}
@@ -524,27 +759,47 @@ length throughout.
   "biasPath": "/masters/dark.fits"  // or a matching-exposure dark/bias — see MasterBuilder's biasPath note
 }}
 
-// 2. Stack the lights: plate-solve alignment, SIGMA rejection, hot/cold pixel
-//    correction, denoise + chroma-denoise, no gradient/sharpen/deconv yet
-{"type": "postprocess_start", "payload": {
+// 2. Stack: plate-solve alignment, SIGMA rejection, hot/cold pixel correction.
+//    postProcess left off — denoise and background extraction happen as their
+//    own composable steps below, after crop.
+{"type": "postprocess_stack", "payload": {
   "directory": "/data/lights",
   "masterDarkPath": "/masters/dark.fits",
   "masterFlatPath": "/masters/flat.fits",
   "alignMethod": 0, "stackingMethod": 1,
-  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true,
-  "postProcess": true,
-  "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
+  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true
 }}
 // ... wait for {"state": "ready"} (or "error" — check it, don't assume success) ...
 
-// 3. Linked autostretch — OSC data, so linked:true is correct here
+// 3. Crop away any edge artifacts from partial-coverage stacking regions
+{"type": "postprocess_crop", "payload": {"x": 40, "y": 40, "width": 6144, "height": 4088}}
+
+// 4. Background extraction on the final composed image
+{"type": "postprocess_apply_bge", "payload": {"strength": 0.8}}
+
+// 5. Denoise — luminance and chroma (OSC data commonly shows per-channel
+//    color speckle, see "denoiseAmt vs. chromaDenoiseAmt" above)
+{"type": "postprocess_apply_denoise", "payload": {
+  "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
+}}
+
+// 6. Stretch — OSC data, so linked:true is correct here
 {"type": "postprocess_apply_autostretch", "payload": {
   "targetBackground": 0.25, "shadowsClipping": 2.8, "linked": true
 }}
 
-// 4. Optional: saturation/contrast, then save
+// 7. Color/tone finishing
 {"type": "postprocess_apply_saturation", "payload": {"amt": 1.2}}
 {"type": "postprocess_apply_contrast", "payload": {"amt": 1.1}}
+
+// 8. Optional: catalog-based star color correction — run last, after
+//    saturation/contrast (see "Photometric color calibration" above).
+//    Requires the stack to have been plate-solved (alignMethod: 0 in step 2).
+{"type": "postprocess_apply_color_calibration", "payload": {
+  "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0,
+  "photometricCatalogPath": "/home/USER/.local/share/kstars/photometriccatalog.bin"
+}}
+
 {"type": "postprocess_save", "payload": {"outputPath": "/output/final.fits"}}
 ```
 
@@ -572,8 +827,8 @@ different sub-exposure lengths.
 // Read the "groups" in each response. Don't proceed until you know exactly
 // which exposure groups exist and which ones you actually need.
 
-// 2. Build masters, one matchExptime-filtered call per group actually needed
-//    (example numbers — use what step 1 actually found)
+// 2. Calibrate: build masters, one matchExptime-filtered call per group
+//    actually needed (example numbers — use what step 1 actually found)
 {"type": "postprocess_build_master", "payload": {
   "directory": "/data/Darks", "type": "dark", "outputPath": "/masters/dark_600.fits",
   "matchExptime": 600.0
@@ -596,40 +851,40 @@ different sub-exposure lengths.
   // for a short, sub-second flat exposure where dark current is negligible
 }}
 
-// 3. If one filter's lights split across exposure lengths (found in step 1),
-//    pre-sort into per-exposure folders yourself, excluding any contaminant
-//    frames, then stack each separately (postProcess deferred to the end):
-{"type": "postprocess_start", "payload": {
+// 3. Stack: one filter's lights split across exposure lengths (found in step
+//    1) — pre-sort into per-exposure folders yourself, excluding any
+//    contaminant frames, then stack each separately (postProcess deferred):
+{"type": "postprocess_stack", "payload": {
   "sessionId": "ha_600", "directory": "/data/Lights_Ha_600",
   "masterDarkPath": "/masters/dark_600.fits", "masterFlatPath": "/masters/flat_Ha.fits",
   "alignMethod": 0, "stackingMethod": 1,
-  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true, "postProcess": false
+  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true
 }}
-{"type": "postprocess_start", "payload": {
+{"type": "postprocess_stack", "payload": {
   "sessionId": "ha_900", "directory": "/data/Lights_Ha_900",
   "masterDarkPath": "/masters/dark_900.fits", "masterFlatPath": "/masters/flat_Ha.fits",
   "alignMethod": 0, "stackingMethod": 1,
-  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true, "postProcess": false
+  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true
 }}
 // ...wait for both "ready", then postprocess_save each to its own FITS file,
 // copy both saved files into one folder, and merge:
-{"type": "postprocess_start", "payload": {
+{"type": "postprocess_stack", "payload": {
   "sessionId": "ha_final", "directory": "/data/ha_merge_folder",
-  "alignMethod": 1, "stackingMethod": 0, "rejectTrailedSubs": false, "postProcess": false
+  "alignMethod": 1, "stackingMethod": 0, "rejectTrailedSubs": false
 }}
 // (verify no star doubling before trusting this — see "Split-exposure
 // light sequences" above)
 
 // 4. OIII, single exposure, straightforward
-{"type": "postprocess_start", "payload": {
+{"type": "postprocess_stack", "payload": {
   "sessionId": "oiii_final", "directory": "/data/Lights/OIII",
   "masterDarkPath": "/masters/dark_900.fits", "masterFlatPath": "/masters/flat_OIII.fits",
   "alignMethod": 0, "stackingMethod": 1,
-  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true, "postProcess": false
+  "rejectTrailedSubs": true, "hotPixels": true, "coldPixels": true
 }}
 
-// 5. Blend — mixed-green HOO palette (see "Narrowband/multi-channel palette
-//    choice" above for why plain green:OIII usually looks wrong)
+// 5. Combine/color — mixed-green HOO palette (see "Narrowband/multi-channel
+//    palette choice" above for why plain green:OIII usually looks wrong)
 {"type": "postprocess_blend_channels", "payload": {
   "red":   [{"sessionId": "ha_final", "weight": 1.0}],
   "green": [{"sessionId": "oiii_final", "weight": 0.7}, {"sessionId": "ha_final", "weight": 0.3}],
@@ -639,63 +894,37 @@ different sub-exposure lengths.
 
 // 6. Crop away any edge artifacts from partial-coverage stacking regions
 //    (check each channel's own edges for a coverage falloff before assuming
-//    none exists), then post-process and stretch UNLINKED (see "Linked vs.
-//    unlinked autostretch" above — this is narrowband, not OSC)
+//    none exists)
 {"type": "postprocess_crop", "payload": {"sessionId": "hoo_final", "x": 500, "y": 130, "width": 5600, "height": 3900}}
-{"type": "postprocess_redo_postprocess", "payload": {
-  "sessionId": "hoo_final", "postProcess": true,
-  "gradientAmt": 0.3, "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
+
+// 7. Background extraction on the composed image
+{"type": "postprocess_apply_bge", "payload": {"sessionId": "hoo_final", "strength": 0.8}}
+
+// 8. Denoise
+{"type": "postprocess_apply_denoise", "payload": {
+  "sessionId": "hoo_final", "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
 }}
+
+// 9. Stretch UNLINKED (see "Linked vs. unlinked autostretch" above — this is
+//    narrowband, not OSC)
 {"type": "postprocess_apply_autostretch", "payload": {
   "sessionId": "hoo_final", "targetBackground": 0.15, "shadowsClipping": 2.8, "linked": false
 }}
+{"type": "postprocess_apply_saturation", "payload": {"sessionId": "hoo_final", "amt": 1.2}}
+
+// 10. Optional: catalog-based star color correction — run last (see
+//     "Photometric color calibration" above). Note this corrects star color
+//     against real catalog photometry; it cannot and does not make the
+//     nebula "true color" — Hα/OIII/SII are a false-color palette by design.
+{"type": "postprocess_apply_color_calibration", "payload": {
+  "sessionId": "hoo_final", "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0,
+  "photometricCatalogPath": "/home/USER/.local/share/kstars/photometriccatalog.bin"
+}}
+
 {"type": "postprocess_save", "payload": {"sessionId": "hoo_final", "outputPath": "/output/hoo_final.fits"}}
 ```
 
 If the background still shows a wrong color gradient after this, see
-"Gradient correction limitations" above — measure each channel's actual
-background directly rather than continuing to guess `gradientAmt` values.
-
-## Known gaps (as of this writing)
-
-- ~~No rejection for a large alignment translation~~ — **fixed.**
-  `calcWarpMatrix()` checked the RANSAC inlier ratio and the linear part's
-  determinant/distortion, but neither catches a large *pure translation*
-  (e.g. a wrong-target sub, or a meridian flip without re-centering) — a
-  translation shifts every correspondence point by the same amount, so it
-  stays perfectly consistent under RANSAC, and the determinant check only
-  looks at the rotation/scale block, not the translation column. Note a
-  meridian-flip *rotation* (even a full 180°) was never affected by this gap
-  — `estimateAffinePartial2D` fits an arbitrary rotation angle, and a pure
-  rotation's determinant stays ~1.0 regardless of angle, so that case was
-  already handled correctly by the existing checks. Fixed by rejecting a
-  translation magnitude past half the frame's smaller dimension (the two
-  subs would share too little real overlap to be worth combining beyond
-  that point).
-- **Re-solving an already-stacked/processed image with `alignMethod: 0`
-  (PLATE_SOLVE) can silently produce nothing.** Confirmed on real data: a
-  2-image merge (two partial stacks of the same target) with
-  `alignMethod: 0` left both subs stuck at a non-`OK` status and got
-  dropped from the combine entirely, still reporting completion (now
-  reported as an error rather than false success, since the `stackFailed`
-  fix, but the underlying merge still doesn't work this way — use
-  `alignMethod: 1`/NONE for this specific "merge two already-aligned
-  stacks" case instead, after visually confirming they share a consistent
-  pixel grid).
-- **`FITSData::detectStarTrailing()` can degenerate to `elongation == 0`
-  exactly** on some datasets (confirmed: every sub in one real 51-frame
-  dataset measured exactly `0.0` despite 700+ detected sources per frame),
-  most likely from `cv::fitEllipse()` degenerating on small/undersampled
-  star contours at that dataset's particular plate scale. When this
-  happens, `rejectTrailedSubs` is silently inert for that dataset — it
-  won't false-positive-reject good subs, but it also won't catch a
-  genuinely trailed one. Worth a sanity check (do a few subs measure
-  *exactly* zero with high source counts?) before trusting the rejection
-  ran meaningfully.
-- **No post-combine gradient/background-extraction step.** `gradientAmt`
-  runs pre-combine, per-channel, only.
-- **No photometric color calibration.**
-- No progress/percentage reporting for `crop`/`apply_*`/`save` — these are
-  synchronous from the dispatcher's point of view, unlike `postprocess_start`'s
-  `progress`/`ready` events or `postprocess_redo_postprocess`'s async
-  completion.
+"Background/gradient removal" above — measure each channel's actual
+background directly rather than continuing to guess `strength`/`gradientAmt`
+values.

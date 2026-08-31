@@ -925,6 +925,48 @@ class FITSData : public QObject
         bool applyContrast(double amt, QString &error);
 
         /**
+         * @brief Bake noise reduction into the current combined stacked image (see
+         * DenoiseOperation::apply()) — an independent, composable post-combine step,
+         * unlike postprocess_start/redo_postprocess's bundled gradient/deconv/sharpen/
+         * denoise, which always recomputes everything together from the pre-post-
+         * process buffer.
+         */
+        bool applyDenoise(double amt, DenoiseMethod method, double chromaAmt, QString &error);
+
+        /**
+         * @brief Bake background/gradient extraction into the current combined
+         * stacked image (see BGEOperation::apply()) — an independent, composable
+         * post-combine step, same rationale as applyDenoise() above.
+         */
+        bool applyBGE(double strength, QString &error);
+
+        /**
+         * @brief Bake a catalog-based star color calibration into the current combined
+         * stacked image (see PhotometricCalibrationOperation) — an independent,
+         * composable, opt-in post-combine step, same rationale as applyDenoise()
+         * above. Detects star-like blobs, cross-matches each against KStars' own star
+         * catalog via this image's WCS, and nudges each match's local color toward its
+         * catalog B-V-implied real color — nebula/background pixels are untouched.
+         * Requires a WCS (a plate-solved stack, or a blend whose setStackedImage() was
+         * given one).
+         * @param strength [0,1]; how much of the computed per-star correction to apply
+         * @param maxCatalogMagnitude faintest catalog star considered a candidate match
+         * @param matchRadiusArcsec how close (on sky) a catalog star must be to a
+         * detected star's position to count as a match
+         * @param starsDetected receives how many star-like blobs were found
+         * @param starsMatched receives how many of those were matched and corrected
+         * @param photometricCatalogPath optional path to a supplementary (RA, Dec, V,
+         * B-V) binary catalog (see PhotometricCatalog) consulted as a color fallback
+         * whenever KStars' own bundled star catalog has no usable B-V for an otherwise
+         * position-matched (or unmatched) star. Empty (the default) disables it —
+         * matching relies solely on KStars' own catalog, same as before this parameter
+         * existed.
+         */
+        bool applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
+                                          QString &error, int &starsDetected, int &starsMatched,
+                                          const QString &photometricCatalogPath = QString());
+
+        /**
          * @brief Write the current combined stacked image (already FITS-encoded in
          * memory via convertMatToFITS()) straight to disk. A plain byte write, not the
          * full saveFile()/header-rewriting machinery used for interactively-edited
@@ -950,18 +992,37 @@ class FITSData : public QObject
         }
 
         /**
+         * @brief Read-only access to the WCS this stacked image was plate-solved to (if
+         * any) — e.g. for ChannelBlendOperation to register one independently-stacked
+         * mono session against another before combining, since two sessions stacked
+         * separately have no guarantee of sharing the same pixel grid even though
+         * they're the same nominal size (each is only self-consistently aligned to its
+         * own align master). Null if this session wasn't plate-solved (alignMethod
+         * NONE), or hasn't finished stacking yet.
+         */
+        const struct wcsprm *getStackWCS() const
+        {
+            return m_WCSHandle;
+        }
+
+        /**
          * @brief Adopt an externally-computed image (e.g. ChannelBlendOperation's
          * weighted-blend result) as this instance's stacked image, as if it had come
          * from a normal stacking session — so crop/applyAutoStretch/applyCurve/
          * applySaturation/applyContrast/saveStackedImage all work on it afterward
-         * exactly like a real stack's result. No WCS is carried over (the blend result
-         * has no single well-defined WCS of its own unless the caller has separately
-         * ensured all inputs share one — not assumed here).
+         * exactly like a real stack's result.
          * @param image a CV_32F, 1 or 3 channel image
          * @param error receives a human-readable failure reason on failure
+         * @param sourceWcs optional WCS the image is registered to (e.g.
+         * ChannelBlendOperation::blendRGB()'s outRefWcs, when every blended channel was
+         * registered onto a common grid) — deep-copied into this instance's own WCS
+         * handle, same as a real stack's stackSetupWCS(), so cropStack()/
+         * applyPhotometricCalibration() and friends work on a blend result exactly like
+         * a plate-solved single-filter stack. Left null (no WCS) if omitted, matching
+         * prior behavior.
          * @return success
          */
-        bool setStackedImage(const cv::Mat &image, QString &error);
+        bool setStackedImage(const cv::Mat &image, QString &error, const struct wcsprm *sourceWcs = nullptr);
 #endif
 
         /**

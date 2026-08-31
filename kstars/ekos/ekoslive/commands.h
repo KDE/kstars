@@ -270,7 +270,7 @@ enum COMMANDS
     // surface from LiveStacker's above: these drive a StackController instance
     // directly, with no FITSViewer/FITSTab window involved, for processing an
     // already-captured folder of subs rather than a live capture session.
-    POSTPROCESS_START,
+    POSTPROCESS_STACK,
     POSTPROCESS_STOP,
     POSTPROCESS_CLOSE,
     POSTPROCESS_BUILD_MASTER,
@@ -281,6 +281,9 @@ enum COMMANDS
     POSTPROCESS_APPLY_CURVE_PER_CHANNEL,
     POSTPROCESS_APPLY_SATURATION,
     POSTPROCESS_APPLY_CONTRAST,
+    POSTPROCESS_APPLY_DENOISE,
+    POSTPROCESS_APPLY_BGE,
+    POSTPROCESS_APPLY_COLOR_CALIBRATION,
     POSTPROCESS_BLEND_CHANNELS,
     POSTPROCESS_REDO_POSTPROCESS,
     POSTPROCESS_SAVE,
@@ -538,7 +541,7 @@ static QMap<COMMANDS, QString> const commands =
     {LIVESTACKER_SET_ALL_SETTINGS, "livestacker_set_all_settings"},
     {NEW_LIVESTACKER_STATE, "new_livestacker_state"},
 
-    {POSTPROCESS_START, "postprocess_start"},
+    {POSTPROCESS_STACK, "postprocess_stack"},
     {POSTPROCESS_STOP, "postprocess_stop"},
     {POSTPROCESS_CLOSE, "postprocess_close"},
     {POSTPROCESS_BUILD_MASTER, "postprocess_build_master"},
@@ -549,6 +552,9 @@ static QMap<COMMANDS, QString> const commands =
     {POSTPROCESS_APPLY_CURVE_PER_CHANNEL, "postprocess_apply_curve_per_channel"},
     {POSTPROCESS_APPLY_SATURATION, "postprocess_apply_saturation"},
     {POSTPROCESS_APPLY_CONTRAST, "postprocess_apply_contrast"},
+    {POSTPROCESS_APPLY_DENOISE, "postprocess_apply_denoise"},
+    {POSTPROCESS_APPLY_BGE, "postprocess_apply_bge"},
+    {POSTPROCESS_APPLY_COLOR_CALIBRATION, "postprocess_apply_color_calibration"},
     {POSTPROCESS_BLEND_CHANNELS, "postprocess_blend_channels"},
     {POSTPROCESS_REDO_POSTPROCESS, "postprocess_redo_postprocess"},
     {POSTPROCESS_SAVE, "postprocess_save"},
