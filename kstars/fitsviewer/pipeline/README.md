@@ -29,7 +29,7 @@ behavior below was read from the code, not assumed.
 | `cropoperation.h/.cpp` | `CropOperation` — crops the working image in place, adjusting the WCS reference pixel if one exists. |
 | `denoiseoperation.h/.cpp` | `DenoiseOperation` — noise reduction as an independent, composable step: a luminance pass (per-channel multi-level decomposition with an adaptive, robust-noise-calibrated threshold, HARD or SOFT) and an optional chroma pass (isolates and smooths only inter-channel color noise on a 3-channel image, leaving luminance detail untouched). |
 | `bgeoperation.h/.cpp` | `BGEOperation` — background/gradient extraction as an independent, composable step. Builds a dense, per-pixel background model on a downsampled copy of the working image: an iterative, asymmetric robust (sigma-clipped) rejection loop separates real background from stars/nebulosity/outliers, excluded regions are filled by harmonic inpainting (repeated smoothing constrained to known-background pixels) rather than a sparse point-fit, and any pixel sitting meaningfully above the current model is protected from the fit and grown outward each iteration so extended nebulosity isn't absorbed into the background. A single `strength` parameter controls how much of the fitted model gets removed. |
-| `previewrenderer.h/.cpp` | `PreviewRenderer` — headless base64 JPEG preview generation: downscale first (bounded cost regardless of source resolution), auto-detect whether the data still needs a stretch, encode. No `FITSView`/GUI dependency. |
+| `previewrenderer.h/.cpp` | `PreviewRenderer` — headless JPEG preview generation: downscale first (bounded cost regardless of source resolution), auto-detect whether the data still needs a stretch, encode. `renderJpeg()` returns raw bytes (fed to `Media::uploadPreview()` — see "Preview images" below); `renderBase64Jpeg()` is a thin base64-encoding wrapper for a caller that wants a self-contained string instead. No `FITSView`/GUI dependency. |
 | `curveoperation.h/.cpp` | `CurveOperation` — a control-point tone curve, applied identically to every channel (`apply()`) or independently per channel (`applyPerChannel()`, per-channel color grading). |
 | `saturationoperation.h/.cpp` | `SaturationOperation` — HSV-style saturation scale. |
 | `contrastoperation.h/.cpp` | `ContrastOperation` — contrast scale pivoted on the image's own mean. |
@@ -75,16 +75,47 @@ Every command that changes the working image — `postprocess_crop`,
 `postprocess_apply_curve_per_channel`, `postprocess_apply_saturation`,
 `postprocess_apply_contrast`, `postprocess_apply_denoise`,
 `postprocess_apply_bge`, `postprocess_apply_color_calibration`, and
-`postprocess_build_master` — includes a
-`"preview"` field in its response on success: a base64-encoded JPEG,
-downscaled (1024px on the long side by default) so generating it stays cheap
-regardless of the source resolution, auto-stretched if the underlying data
-still needs one (e.g. right after a fresh stack, before any explicit
-`postprocess_apply_autostretch` call) and left alone if it's already
-display-ready. Pass `"preview": false` in the payload to skip it — useful
-for a scripted batch of adjustments that only cares about the final result.
-`postprocess_save` never includes a preview (the working image didn't
-change).
+`postprocess_build_master` — renders a JPEG preview on success (downscaled,
+1024px on the long side by default, so generating it stays cheap regardless
+of source resolution; auto-stretched if the underlying data still needs one
+— e.g. right after a fresh stack, before any explicit
+`postprocess_apply_autostretch` call — and left alone if it's already
+display-ready). Pass `"preview": false` in the payload to skip generating it
+entirely — useful for a scripted batch of adjustments that only cares about
+the final result. `postprocess_save` never generates a preview (the working
+image didn't change).
+
+**The preview is not embedded in the JSON response.** It's sent over the
+same binary `wsMedia` channel — and the same `+X` single-letter module-tag
+convention — that Align/Focus/Guide/DarkLibrary previews already use
+(`+A`/`+F`/`+G`/`+D`; postprocess previews use `+P`). Server-side, any
+`uuid` starting with `+` is cached and served back as a timestamped URL via
+a `NEW_IMAGE_METADATA` message on the regular (non-binary) socket — see
+`Media::uploadPreview()` (`kstars/ekos/ekoslive/media.cpp`) on the KStars
+side and `wssMediaServerManager.js`'s generic `uuid.startsWith("+")`
+handling on the `ekoslive-offline` side, unchanged for this new tag. This
+was deliberately *not* embedded inline as base64 (an earlier version of
+this pipeline did that): every state update would otherwise carry a full
+image payload over the JSON socket, exactly what the existing `+A`/`+F`/
+`+G`/`+D` mechanism exists to avoid. A client must be listening for
+`NEW_IMAGE_METADATA` (the same way it already does for those) to receive
+the fetchable URL — a `new_postprocess_state` response carries no
+image-related field at all.
+
+`Message` doesn't hold a `Media` pointer to send this — it emits
+`Message::postProcessPreviewReady(jpeg, uuid, metadata)`, which
+`EkosLiveClient` connects to `Media::uploadPreview()`, the same pattern
+already used for `liveStackingActiveChanged` -> `Media::setLiveStackingActive`.
+
+The `metadata` object carries image stats alongside the required
+`uuid`/`ext` fields, the same ones `Media::upload()` sends for a live
+capture minus the capture-specific fields (exposure/gain/focal length/...)
+that don't apply to a stacked/blended composite: `resolution` (`"WxH"`),
+`size` (bytes), `channels`, `bpp`, `mean`, `median`, `stddev`, `min`, `max`,
+`hasWCS` — built by `buildPreviewMetadata()` in `message.cpp` from the
+session's `FITSData`. `postprocess_build_master` has no `FITSData` wrapper
+for its freshly-built master, so it only attaches `resolution` and
+`channels`, read straight off the `cv::Mat`.
 
 ## Command reference
 
@@ -190,11 +221,12 @@ subs into one master frame (`MasterBuilder::buildAndSave()`).
 | `matchExptime` | double | `-1.0` | When ≥0, only combine files whose `EXPTIME` header is within `exptimeTolerance` seconds of this value; everything else is skipped (header-checked only, never pixel-decoded). Negative disables filtering — every FITS-loadable file in the directory is combined. See "Shared calibration folders" below for why this matters. Also fixes the `NCOMBINE` header to reflect the actual post-filter count. |
 | `exptimeTolerance` | double | `0.5` | Seconds of slack around `matchExptime` — real exposures rarely land exactly on a nominal value (auto-exposed flats, shutter-timing variance). |
 
-Response: `{"state": "master_built", "outputPath": "<path>", "preview": "<base64 JPEG>"}`,
-or `{"state": "error", "message": "<reason>"}` (empty folder, dimension
+Response: `{"state": "master_built", "outputPath": "<path>"}`, or
+`{"state": "error", "message": "<reason>"}` (empty folder, dimension
 mismatch between subs, `matchExptime` filtering leaving zero usable files,
 etc.). The preview is rendered directly from the just-built in-memory
-result — see "Preview images" above.
+result and sent over the `+P` media channel, not embedded in this response
+— see "Preview images" above.
 
 ### `postprocess_inspect_directory`
 
@@ -300,7 +332,7 @@ event `postprocess_stack` uses for this session.
 `{"x", "y", "width", "height"}` (all int, default `0`). Crops the working
 image in place; adjusts the WCS reference pixel automatically if one
 exists. Omitting `width`/`height` produces a degenerate 0×0 crop, rejected
-as an out-of-bounds error. Response: `{"state": "cropped"}` (plus a preview)
+as an out-of-bounds error. Response: `{"state": "cropped"}` (also sends a `+P` preview — see "Preview images" above)
 or an error.
 
 ### `postprocess_apply_autostretch`
@@ -311,13 +343,13 @@ or an error.
 | `shadowsClipping` | double | `2.8` | MADN (robust sigma) units below/above the median to clip at. |
 | `linked` | bool | `true` | See "Linked vs. unlinked autostretch" below — **this choice matters a lot** and depends entirely on what kind of data you're stretching. |
 
-Response: `{"state": "stretched"}` (plus a preview) or an error.
+Response: `{"state": "stretched"}` (also sends a `+P` preview — see "Preview images" above) or an error.
 
 ### `postprocess_apply_curve`
 
 `{"points": [{"x","y"}, ...]}` — at least 2 points, strictly increasing
 `x`, each in `[0,1]×[0,1]`. One shared curve applied identically to every
-channel. Response: `{"state": "curve_applied"}` (plus a preview) or an
+channel. Response: `{"state": "curve_applied"}` (also sends a `+P` preview — see "Preview images" above) or an
 error (non-monotonic points, fewer than 2).
 
 ### `postprocess_apply_curve_per_channel`
@@ -325,20 +357,20 @@ error (non-monotonic points, fewer than 2).
 `{"red": [...], "green": [...], "blue": [...]}` — same point rules as
 above, independent curves per channel (color grading).
 Fails against a mono/single-channel stack. Response:
-`{"state": "curve_applied"}` (plus a preview) or an error.
+`{"state": "curve_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
 
 ### `postprocess_apply_saturation`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=grayscale,
 `>1.0`=more saturated). No-op (still succeeds) on a mono image. Fails if
 the current image isn't normalized to `[0,1]` yet (stretch/curve first).
-Response: `{"state": "saturation_applied"}` (plus a preview) or an error.
+Response: `{"state": "saturation_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
 
 ### `postprocess_apply_contrast`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=flat at the pivot,
 `>1.0`=more contrast). Pivots on the image's own mean; output clamped to
-`[0,1]`. Response: `{"state": "contrast_applied"}` (plus a preview) or an
+`[0,1]`. Response: `{"state": "contrast_applied"}` (also sends a `+P` preview — see "Preview images" above) or an
 error.
 
 ### `postprocess_apply_denoise`
@@ -355,7 +387,7 @@ always re-runs gradient/deconvolution/sharpen alongside it.
 | `denoiseMethod` | int | `0` | `0`=HARD, `1`=SOFT — same meaning as the pre-combine field above. |
 | `chromaDenoiseAmt` | double | `0.0` | Chroma-only denoise strength, `[0,1]`. `0` skips this pass. Ignored (no-op) on a mono image. |
 
-Response: `{"state": "denoise_applied"}` (plus a preview) or an error.
+Response: `{"state": "denoise_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
 
 ### `postprocess_apply_bge`
 
@@ -369,7 +401,7 @@ and when to prefer this over the pre-combine field.
 |---|---|---|---|
 | `strength` | double | `0.0` | How much of the fitted background model to remove, `[0,1]`. `0` is a no-op — this must be set explicitly. |
 
-Response: `{"state": "bge_applied"}` (plus a preview) or an error.
+Response: `{"state": "bge_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
 
 ### `postprocess_apply_color_calibration`
 
@@ -389,7 +421,7 @@ this fits in the pipeline order" below.
 | `photometricCatalogPath` | string | *(none)* | Optional supplementary `(RA, Dec, V, B-V)` binary catalog, consulted only when KStars' own bundled catalog has no usable color for a match. See "Photometric color calibration" below. |
 
 Response: `{"state": "color_calibration_applied", "starsDetected": N, "starsMatched": M}`
-(plus a preview) or `{"state": "error", "message": "..."}` (most commonly
+(also sends a `+P` preview — see "Preview images" above) or `{"state": "error", "message": "..."}` (most commonly
 "no WCS available"). `starsMatched` counts every corrected star, whether it
 got a real catalog color or fell back to neutral — see below for why both
 count.

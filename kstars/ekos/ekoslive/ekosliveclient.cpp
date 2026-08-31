@@ -182,6 +182,15 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     // the App only receives the stacked results (delivered via PictureMonitor).
     connect(m_Message, &Message::liveStackingActiveChanged, m_Media, &Media::setLiveStackingActive);
 
+    // postprocess_* commands send their previews over the wsMedia binary channel
+    // (tagged "+P"), with image stats (resolution/channels/mean/...) attached as
+    // metadata — see buildPreviewMetadata() in message.cpp.
+    connect(m_Message, &Message::postProcessPreviewReady, m_Media,
+            [this](const QByteArray & jpeg, const QString & uuid, const QJsonObject & metadata)
+    {
+        m_Media->uploadPreview(jpeg, uuid, metadata);
+    });
+
     m_Cloud = new Cloud(m_Manager, m_NodeManagers);
     connect(m_Cloud, &Cloud::connected, this, &Client::onConnected);
     connect(m_Cloud, &Cloud::disconnected, this, &Client::onDisconnected); // Assuming Cloud also needs disconnect handling

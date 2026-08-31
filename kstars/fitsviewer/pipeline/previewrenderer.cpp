@@ -14,12 +14,12 @@
 
 #include <algorithm>
 
-QString PreviewRenderer::renderBase64Jpeg(const cv::Mat &image, QString &error, int maxDimension, int jpegQuality)
+QByteArray PreviewRenderer::renderJpeg(const cv::Mat &image, QString &error, int maxDimension, int jpegQuality)
 {
     if (image.empty())
     {
         error = QStringLiteral("No image to preview");
-        return QString();
+        return QByteArray();
     }
 
     try
@@ -66,15 +66,22 @@ QString PreviewRenderer::renderBase64Jpeg(const cv::Mat &image, QString &error, 
         if (!cv::imencode(".jpg", display8u, buffer, params))
         {
             error = QStringLiteral("Failed to JPEG-encode preview");
-            return QString();
+            return QByteArray();
         }
 
-        const QByteArray bytes(reinterpret_cast<const char *>(buffer.data()), (int)buffer.size());
-        return QString::fromLatin1(bytes.toBase64());
+        return QByteArray(reinterpret_cast<const char *>(buffer.data()), (int)buffer.size());
     }
     catch (const cv::Exception &ex)
     {
-        error = QString("OpenCV exception in PreviewRenderer::renderBase64Jpeg: %1").arg(ex.what());
-        return QString();
+        error = QString("OpenCV exception in PreviewRenderer::renderJpeg: %1").arg(ex.what());
+        return QByteArray();
     }
+}
+
+QString PreviewRenderer::renderBase64Jpeg(const cv::Mat &image, QString &error, int maxDimension, int jpegQuality)
+{
+    const QByteArray bytes = renderJpeg(image, error, maxDimension, jpegQuality);
+    if (bytes.isEmpty())
+        return QString();
+    return QString::fromLatin1(bytes.toBase64());
 }

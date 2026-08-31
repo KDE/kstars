@@ -8,6 +8,7 @@
 
 #include "fitsviewer/fitscommon.h"
 
+#include <QByteArray>
 #include <QObject>
 #include <QPointF>
 #include <QRect>
@@ -131,12 +132,14 @@ class StackController : public QObject
         bool save(const QString &path, QString &error);
 
         /**
-         * @brief Render the session's current working image to a base64-encoded JPEG
-         * preview (see PreviewRenderer — headless, no FITSView/GUI dependency, cheap
-         * enough to call after every step). Useful after any command that mutates the
-         * working image (crop, denoise, BGE, ...), not just once per session.
+         * @brief Render the session's current working image to raw JPEG bytes (see
+         * PreviewRenderer — headless, no FITSView/GUI dependency, cheap enough to call
+         * after every step). Useful after any command that mutates the working image
+         * (crop, denoise, BGE, ...), not just once per session. The caller sends this
+         * over the wsMedia binary channel (see Media::uploadPreview()) rather than
+         * embedding it inline in a JSON response.
          */
-        QString getPreviewJpeg(QString &error, int maxDimension = 1024);
+        QByteArray getPreviewJpegBytes(QString &error, int maxDimension = 1024);
 
         /**
          * @brief Adopt an externally-computed image (e.g. ChannelBlendOperation's

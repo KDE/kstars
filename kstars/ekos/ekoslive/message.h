@@ -76,6 +76,8 @@ class Message : public QObject
         void resetPolarView();
         // Emitted when the native KStars livestacker starts (true) or stops (false)
         void liveStackingActiveChanged(bool active);
+        // Emitted whenever a postprocess_* command has a fresh preview to send
+        void postProcessPreviewReady(const QByteArray &jpeg, const QString &uuid, const QJsonObject &metadata);
 
     public Q_SLOTS:
         // Connection

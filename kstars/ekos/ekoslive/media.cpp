@@ -569,6 +569,31 @@ void Media::upload(const QSharedPointer<FITSData> &data, const QImage &image, co
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Media::uploadPreview(const QByteArray &jpegBytes, const QString &uuid, const QJsonObject &extraMetadata)
+{
+    if (jpegBytes.isEmpty())
+        return;
+
+    QJsonObject metadata = extraMetadata;
+    metadata["uuid"] = uuid;
+    metadata["ext"] = QStringLiteral("jpg");
+
+    QByteArray packet;
+    QBuffer buffer(&packet);
+    buffer.open(QIODevice::WriteOnly);
+
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    buffer.write(meta);
+    buffer.write(jpegBytes);
+    buffer.close();
+
+    Q_EMIT newImage(packet, uuid);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 {
     if (isConnected() == false)
@@ -792,9 +817,9 @@ void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 bool Media::anyBlobsEnabled() const
 {
     // Default to true (send blobs) if no entry exists for a NodeManager
-    for (auto &nodeManager : m_NodeManagers)
-    {
-        if (m_BlobState.value(nodeManager.get(), true))
+for (auto &nodeManager : m_NodeManagers)
+{
+    if (m_BlobState.value(nodeManager.get(), true))
             return true;
     }
     return false;

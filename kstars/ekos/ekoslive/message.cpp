@@ -53,6 +53,33 @@
 #include <QUuid>
 #include <thread>
 
+namespace
+{
+// Image stats for a postprocess_* preview's metadata header — the same fields
+// Media::upload() already sends for a live capture (resolution/size/channels/bpp/
+// mean/median/stddev/min/max/hasWCS), minus the capture-specific ones (exposure,
+// gain, focal length, ...) that don't apply to a stacked/blended composite.
+QJsonObject buildPreviewMetadata(const QSharedPointer<FITSData> &data)
+{
+    if (!data)
+        return {};
+
+    return QJsonObject
+    {
+        {"resolution", QString("%1x%2").arg(data->width()).arg(data->height())},
+        {"size", static_cast<qint64>(data->size())},
+        {"channels", data->channels()},
+        {"bpp", static_cast<int>(data->bpp())},
+        {"mean", data->getAverageMean()},
+        {"median", data->getAverageMedian()},
+        {"stddev", data->getAverageStdDev()},
+        {"min", data->getMin()},
+        {"max", data->getMax()},
+        {"hasWCS", data->hasWCS()}
+    };
+}
+}
+
 namespace EkosLive
 {
 Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager >> &nodeManagers):
@@ -3839,15 +3866,27 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         QJsonObject response { {"state", "master_built"}, {"outputPath", outputPath} };
         // Reuses the in-memory result directly (no re-reading the just-written file
-        // off disk) — see PreviewRenderer; headless, no FITSView/GUI dependency.
-        // Opt-out via "preview": false, same convention as the crop/apply_*/denoise
-        // commands above.
+        // off disk) — see PreviewRenderer; headless, no FITSView/GUI dependency. Sent
+        // over the wsMedia binary channel (tagged "+P", same "+X module image"
+        // convention as Align/Focus/Guide/DarkLibrary previews) rather than inline in
+        // this JSON response — the app receives the fetchable URL asynchronously via
+        // the existing NEW_IMAGE_METADATA message. Opt-out via "preview": false, same
+        // convention as the crop/apply_*/denoise commands above.
         if (payload["preview"].toBool(true))
         {
             QString previewError;
-            const QString preview = PreviewRenderer::renderBase64Jpeg(builtMaster, previewError);
-            if (!preview.isEmpty())
-                response["preview"] = preview;
+            const QByteArray jpeg = PreviewRenderer::renderJpeg(builtMaster, previewError);
+            if (!jpeg.isEmpty())
+            {
+                // No FITSData wrapper for a freshly-built master — read stats straight
+                // off the cv::Mat instead of going through buildPreviewMetadata().
+                const QJsonObject metadata
+                {
+                    {"resolution", QString("%1x%2").arg(builtMaster.cols).arg(builtMaster.rows)},
+                    {"channels", builtMaster.channels()}
+                };
+                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), metadata);
+            }
         }
         sendResponse(commands[NEW_POSTPROCESS_STATE], response);
     }
@@ -4102,18 +4141,23 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             response = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
         }
 
-        // A base64 JPEG preview of the working image after this step — headless, no
+        // A JPEG preview of the working image after this step — headless, no
         // FITSView/GUI dependency (PreviewRenderer), downscaled first so it stays cheap
-        // regardless of the source resolution. Skipped for save() (the working image
-        // didn't change) and on failure (nothing new to show). Opt-out via
-        // "preview": false for a caller that doesn't need visual feedback on every call
-        // (e.g. scripted batch adjustments) and wants the fastest possible response.
+        // regardless of the source resolution. Sent over the wsMedia binary channel
+        // (tagged "+P", same "+X module image" convention as Align/Focus/Guide/
+        // DarkLibrary previews) rather than inline in this JSON response — every state
+        // update would otherwise carry a full image payload over the JSON socket. The
+        // app receives the fetchable URL asynchronously via the existing
+        // NEW_IMAGE_METADATA message. Skipped for save() (the working image didn't
+        // change) and on failure (nothing new to show). Opt-out via "preview": false
+        // for a caller that doesn't need visual feedback on every call (e.g. scripted
+        // batch adjustments) and wants the fastest possible response.
         if (ok && command != commands[POSTPROCESS_SAVE] && payload["preview"].toBool(true))
         {
             QString previewError;
-            const QString preview = session->getPreviewJpeg(previewError);
-            if (!preview.isEmpty())
-                response["preview"] = preview;
+            const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+            if (!jpeg.isEmpty())
+                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
         }
 
         if (!ok)

@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <QByteArray>
 #include <QString>
 #include <opencv2/core/core.hpp>
 
@@ -27,7 +28,7 @@ class PreviewRenderer
 {
     public:
         /**
-         * @brief Render `image` to a base64-encoded JPEG preview.
+         * @brief Render `image` to raw JPEG bytes.
          * @param image a CV_32F image (1 or 3 channels), any value range — linear
          * ADU-scale data, an already-stretched [0,1] image, or anything in between.
          * Not modified.
@@ -36,6 +37,15 @@ class PreviewRenderer
          * downscaled to this *before* any other processing, bounding the cost of
          * every later step regardless of the source resolution
          * @param jpegQuality 0-100, passed straight to the JPEG encoder
+         * @return raw JPEG bytes, or an empty array on failure
+         */
+        static QByteArray renderJpeg(const cv::Mat &image, QString &error, int maxDimension = 1024,
+                                     int jpegQuality = 85);
+
+        /**
+         * @brief Same as renderJpeg(), base64-encoded — for a caller that still wants
+         * an inline, self-contained string rather than raw bytes to hand off to a
+         * binary channel.
          * @return base64-encoded JPEG bytes, or an empty string on failure
          */
         static QString renderBase64Jpeg(const cv::Mat &image, QString &error, int maxDimension = 1024,

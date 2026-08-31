@@ -42,6 +42,16 @@ class Media : public QObject
         // Convenience functions
         void sendDarkLibraryData(const QSharedPointer<FITSData> &data);
 
+        /**
+         * @brief Send an already-encoded JPEG over the same wsMedia binary channel
+         * @param jpegBytes already-encoded JPEG bytes, not re-scaled or re-encoded
+         * @param uuid the module tag, e.g. "+P" for post-process previews
+         * @param extraMetadata optional additional fields merged into the packet's
+         * metadata header (beyond the required "uuid"/"ext")
+         */
+        void uploadPreview(const QByteArray &jpegBytes, const QString &uuid,
+                           const QJsonObject &extraMetadata = QJsonObject());
+
     Q_SIGNALS:
         void connected();
         void disconnected();

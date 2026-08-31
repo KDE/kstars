@@ -149,14 +149,14 @@ bool StackController::save(const QString &path, QString &error)
     return m_ImageData->saveStackedImage(path, error);
 }
 
-QString StackController::getPreviewJpeg(QString &error, int maxDimension)
+QByteArray StackController::getPreviewJpegBytes(QString &error, int maxDimension)
 {
     if (!m_ImageData)
     {
         error = QStringLiteral("No active session — call start() first");
-        return QString();
+        return QByteArray();
     }
-    return PreviewRenderer::renderBase64Jpeg(m_ImageData->stackedImageMat(), error, maxDimension);
+    return PreviewRenderer::renderJpeg(m_ImageData->stackedImageMat(), error, maxDimension);
 }
 
 bool StackController::adopt(const cv::Mat &image, QString &error, const struct wcsprm *sourceWcs)
