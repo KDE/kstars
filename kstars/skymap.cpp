@@ -231,6 +231,7 @@ SkyMap::SkyMap()
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setStyleSheet("QGraphicsView { border-style: none; }");
+    setAcceptDrops(true);
 
     setMouseTracking(true); //Generate MouseMove events!
     midMouseButtonDown = false;

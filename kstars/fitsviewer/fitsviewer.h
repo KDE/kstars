@@ -72,6 +72,9 @@ class FITSViewer : public KXmlGuiWindow
         int loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                      const QString &previewText = QString());
 
+        // Loads a batch of images as successive tabs of this viewer (e.g. from a multi-file drop).
+        void openFiles(const QList<QUrl> &urls);
+
         bool loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid,
                       FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                       const QString &previewText = QString());
@@ -116,6 +119,8 @@ class FITSViewer : public KXmlGuiWindow
         void changeAlwaysOnTop(Qt::ApplicationState state);
         void openFile();
         void blink();
+        // Same as blink(), but skips the directory-picker dialog (e.g. from a directory drop).
+        void blinkDirectory(const QString &topDirPath);
         void nextBlink();
         void previousBlink();
         void stack();
@@ -190,6 +195,8 @@ class FITSViewer : public KXmlGuiWindow
         void loadFiles();
         QList<QUrl> m_urls;
         void changeBlink(bool increment);
+        // Shared by blink() and blinkDirectory(); assumes m_BlinkBusy is already set.
+        void loadBlinkDirectory(const QString &topDirPath);
         static bool m_BlinkBusy;
 
         // Live Stacking

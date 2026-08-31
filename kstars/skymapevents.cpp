@@ -26,9 +26,106 @@
 #endif
 #include "widgets/infoboxwidget.h"
 
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QFileInfo>
 #include <QGestureEvent>
+#include <QMimeData>
 #include <QStatusBar>
 #include <QToolTip>
+
+namespace
+{
+// Mirrors the filter used by FITSViewer::openFile() so a drop is accepted
+// exactly when the same file could be opened via File -> Open Image.
+bool isDroppableImageUrl(const QUrl &url)
+{
+    static const QStringList suffixes = { "fits", "fits.fz", "fits.gz", "fit", "fts",
+                                           "xisf", "xisf.gz",
+                                           "jpg", "jpeg", "png", "gif", "bmp",
+                                           "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf"
+                                         };
+
+    const QString path = url.isLocalFile() ? url.toLocalFile() : url.path();
+    const QString lowerPath = path.toLower();
+    for (const QString &suffix : suffixes)
+    {
+        if (lowerPath.endsWith('.' + suffix))
+            return true;
+    }
+    return false;
+}
+
+bool isLocalDirectory(const QUrl &url)
+{
+    return url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir();
+}
+}
+
+void SkyMap::dragEnterEvent(QDragEnterEvent *event)
+{
+    const QMimeData *mimeData = event->mimeData();
+    if (mimeData->hasUrls())
+    {
+        for (const QUrl &url : mimeData->urls())
+        {
+            if (isDroppableImageUrl(url) || isLocalDirectory(url))
+            {
+                event->acceptProposedAction();
+                return;
+            }
+        }
+    }
+    event->ignore();
+}
+
+void SkyMap::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void SkyMap::dropEvent(QDropEvent *event)
+{
+    const QMimeData *mimeData = event->mimeData();
+    if (!mimeData->hasUrls())
+    {
+        event->ignore();
+        return;
+    }
+
+    // A dropped directory is treated as a request to blink through its images,
+    // taking priority over any individual files also present in the same drop.
+    QString droppedDirectory;
+    QList<QUrl> droppedFiles;
+    for (const QUrl &url : mimeData->urls())
+    {
+        if (isLocalDirectory(url))
+        {
+            if (droppedDirectory.isEmpty())
+                droppedDirectory = url.toLocalFile();
+        }
+        else if (isDroppableImageUrl(url))
+        {
+            droppedFiles.append(url);
+        }
+    }
+
+    if (!droppedDirectory.isEmpty())
+    {
+        KStars::Instance()->openFITSDirectory(droppedDirectory);
+        event->acceptProposedAction();
+    }
+    else if (!droppedFiles.isEmpty())
+    {
+        // Open all dropped files as tabs of a single FITS Viewer window.
+        KStars::Instance()->openFITS(droppedFiles);
+        event->acceptProposedAction();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
 
 void SkyMap::resizeEvent(QResizeEvent *)
 {

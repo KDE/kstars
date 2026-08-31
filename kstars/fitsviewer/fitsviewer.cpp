@@ -680,6 +680,12 @@ void FITSViewer::loadFiles()
     tab->loadFile(imageName, FITS_NORMAL, FITS_NONE);
 }
 
+void FITSViewer::openFiles(const QList<QUrl> &urls)
+{
+    m_urls = m_urls + urls;
+    loadFiles();
+}
+
 int FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText)
 {
     led.setColor(Qt::yellow);
@@ -992,8 +998,21 @@ void FITSViewer::blink()
         m_BlinkBusy = false;
         return;
     }
-    QString topDir = selected[0];
 
+    loadBlinkDirectory(selected[0]);
+}
+
+void FITSViewer::blinkDirectory(const QString &topDirPath)
+{
+    if (m_BlinkBusy)
+        return;
+    m_BlinkBusy = true;
+
+    loadBlinkDirectory(topDirPath);
+}
+
+void FITSViewer::loadBlinkDirectory(const QString &topDir)
+{
     auto allImages = findAllImagesBelowDir(QDir(topDir));
     if (allImages.size() == 0)
     {

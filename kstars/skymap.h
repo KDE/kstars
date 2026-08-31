@@ -20,6 +20,9 @@
 
 class QPainter;
 class QPaintDevice;
+class QDragEnterEvent;
+class QDragMoveEvent;
+class QDropEvent;
 
 class dms;
 class InfoBoxes;
@@ -651,6 +654,16 @@ class SkyMap : public QGraphicsView
              * function calls explicitly new computing of the skymap.
              */
         void resizeEvent(QResizeEvent *) override;
+
+        /** Accept the drag if it carries at least one file KStars knows how to open
+             * (FITS/XISF/RAW/image) in the FITS Viewer. */
+        void dragEnterEvent(QDragEnterEvent *event) override;
+
+        /** Keep accepting the drag as it moves over the map. */
+        void dragMoveEvent(QDragMoveEvent *event) override;
+
+        /** Open any dropped FITS/XISF/RAW/image files in the FITS Viewer. */
+        void dropEvent(QDropEvent *event) override;
 
     private Q_SLOTS:
         /** @short display tooltip for object under cursor. It's called by m_HoverTimer.

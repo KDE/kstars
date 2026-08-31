@@ -536,6 +536,14 @@ class KStars : public KXmlGuiWindow
              */
         Q_SCRIPTABLE Q_NOREPLY void openFITS(const QUrl &imageUrl);
 
+        /** Open a batch of FITS/image files as tabs of a single FITS Viewer window
+             * (e.g. from a multi-file drag & drop onto the sky map). */
+        void openFITS(const QList<QUrl> &imageUrls);
+
+        /** Open a directory of FITS/image files for blink comparison in the FITS Viewer
+             * (e.g. from a directory drag & drop onto the sky map). Bypasses the directory picker. */
+        void openFITSDirectory(const QString &dirPath);
+
         /** DBUS interface function. Return a list of SkyMap "View"s available
          */
         Q_SCRIPTABLE QStringList listSkyMapViews();

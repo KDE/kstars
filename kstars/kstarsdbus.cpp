@@ -1080,6 +1080,26 @@ void KStars::openFITS(const QUrl &imageURL)
 #endif
 }
 
+void KStars::openFITS(const QList<QUrl> &imageURLs)
+{
+#ifndef HAVE_CFITSIO
+    qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
+#else
+    QSharedPointer<FITSViewer> fv = createFITSViewer();
+    fv->openFiles(imageURLs);
+#endif
+}
+
+void KStars::openFITSDirectory(const QString &dirPath)
+{
+#ifndef HAVE_CFITSIO
+    qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
+#else
+    QSharedPointer<FITSViewer> fv = createFITSViewer();
+    fv->blinkDirectory(dirPath);
+#endif
+}
+
 QStringList KStars::listSkyMapViews()
 {
     QStringList output;
