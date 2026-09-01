@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-30 02:11+0000\n"
+"POT-Creation-Date: 2026-09-01 02:12+0000\n"
 "PO-Revision-Date: 2026-08-29 17:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -769,7 +769,7 @@ msgstr "Error de lectura en archivo de configuración de Astrometry."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Error de escritura en archivo de configuración de Astrometry interno."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3406
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3658
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1241,7 +1241,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:212
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1431
+#: skycomponents/skymapcomposite.cpp:610 skyglpainter.cpp:298 skymap.cpp:1432
 #: skymapdrawabstract.cpp:456 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -3017,7 +3017,7 @@ msgstr "Mapeado del tipo"
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2393
 #: ekos/capture/cameraprocess.cpp:2506 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
-#: fitsviewer/fitsviewer.cpp:833 fitsviewer/fitsviewer.cpp:834
+#: fitsviewer/fitsviewer.cpp:839 fitsviewer/fitsviewer.cpp:840
 #, kde-format
 msgid "Preview"
 msgstr "Vista previa"
@@ -14046,7 +14046,7 @@ msgstr "Puerto"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:478
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:487
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:373
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -14057,7 +14057,7 @@ msgstr "Conectar"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:405
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:414
 #: ekos/guide/guide.ui:439 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18893,28 +18893,28 @@ msgstr "Iniciado"
 msgid "Stopping"
 msgstr "Deteniendo"
 
-#: ekos/ekoslive/ekosliveclient.cpp:582
+#: ekos/ekoslive/ekosliveclient.cpp:591
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Seleccionar servidores de Ekos Live"
 
-#: ekos/ekoslive/ekosliveclient.cpp:584
+#: ekos/ekoslive/ekosliveclient.cpp:593
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatorio:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:585
+#: ekos/ekoslive/ekosliveclient.cpp:594
 #, kde-format
 msgid "Offline:"
 msgstr "Sin conexión:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:586
+#: ekos/ekoslive/ekosliveclient.cpp:595
 #, kde-format
 msgid "Online:"
 msgstr "Con conexión:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:587
+#: ekos/ekoslive/ekosliveclient.cpp:596
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID de máquina:"
@@ -18973,12 +18973,12 @@ msgstr "Con conexión"
 msgid "Offline"
 msgstr "Sin conexión"
 
-#: ekos/ekoslive/message.cpp:833
+#: ekos/ekoslive/message.cpp:861
 #, kde-format
 msgid "target"
 msgstr "objetivo"
 
-#: ekos/ekoslive/message.cpp:1160
+#: ekos/ekoslive/message.cpp:1188
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -23213,17 +23213,17 @@ msgstr ""
 "Ya se han aplicado las correcciones. Ejecute el enfoque automático de nuevo "
 "para obtener nuevas medidas de inclinación."
 
-#: ekos/guide/aiguideprotocol.cpp:483
+#: ekos/guide/aiguideprotocol.cpp:511
 #, kde-format
 msgid "No data to train! Please run the protocol first."
 msgstr "No hay datos de entrenamiento. Ejecute el protocolo primero."
 
-#: ekos/guide/aiguideprotocol.cpp:484
+#: ekos/guide/aiguideprotocol.cpp:512
 #, kde-format
 msgid "No data to train"
 msgstr "No hay datos de entrenamiento"
 
-#: ekos/guide/aiguideprotocol.cpp:489
+#: ekos/guide/aiguideprotocol.cpp:517
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
 msgstr "Iniciando el entrenamiento de la IA mediante la nube de EkosLive…"
@@ -34239,77 +34239,77 @@ msgstr "Descripción de tipo de objeto"
 msgid "Object Type Comments"
 msgstr "Comentarios de tipo de objeto"
 
-#: fitsviewer/fitsdata.cpp:2350
+#: fitsviewer/fitsdata.cpp:2602
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Ha ocurrido un error al leer el búfer FITS: %1."
 
-#: fitsviewer/fitsdata.cpp:2359
+#: fitsviewer/fitsdata.cpp:2611
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "No se ha podido desempaquetar el FITS comprimido"
 
-#: fitsviewer/fitsdata.cpp:2389
+#: fitsviewer/fitsdata.cpp:2641
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Ha ocurrido un error al abrir el archivo FITS %1: %2"
 
-#: fitsviewer/fitsdata.cpp:2404
+#: fitsviewer/fitsdata.cpp:2656
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Ha ocurrido un error al leer el búfer FITS: %1"
 
-#: fitsviewer/fitsdata.cpp:2418
+#: fitsviewer/fitsdata.cpp:2670
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "No se puede localizar la HDU de la imagen: %1"
 
-#: fitsviewer/fitsdata.cpp:2428
+#: fitsviewer/fitsdata.cpp:2680
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Error de apertura de archivo FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2442
+#: fitsviewer/fitsdata.cpp:2694
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Las imágenes 1D FITS no están permitidas en KStars."
 
-#: fitsviewer/fitsdata.cpp:2490 fitsviewer/fitsdata.cpp:3235
+#: fitsviewer/fitsdata.cpp:2742 fitsviewer/fitsdata.cpp:3487
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "La profundidad de %1 bits no está permitida."
 
-#: fitsviewer/fitsdata.cpp:2500
+#: fitsviewer/fitsdata.cpp:2752
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "La imagen tiene dimensiones no válidas %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2554
+#: fitsviewer/fitsdata.cpp:2806
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Ha ocurrido un error al leer la imagen: %1"
 
-#: fitsviewer/fitsdata.cpp:2961 fitsviewer/fitsdata.cpp:3195
+#: fitsviewer/fitsdata.cpp:3213 fitsviewer/fitsdata.cpp:3447
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Error de apertura de archivo XISF: "
 
-#: fitsviewer/fitsdata.cpp:3109
+#: fitsviewer/fitsdata.cpp:3361
 #, kde-format
 msgid "File contain no images"
 msgstr "El archivo no contiene imágenes"
 
-#: fitsviewer/fitsdata.cpp:3138
+#: fitsviewer/fitsdata.cpp:3390
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "El formato de muestra %1 no es compatible."
 
-#: fitsviewer/fitsdata.cpp:3273
+#: fitsviewer/fitsdata.cpp:3525
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Ha ocurrido un error al guardar la imagen XISF"
 
-#: fitsviewer/fitsdata.cpp:3365 fitsviewer/fitsdata.cpp:3481
+#: fitsviewer/fitsdata.cpp:3617 fitsviewer/fitsdata.cpp:3733
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
@@ -34317,142 +34317,142 @@ msgstr ""
 "FITSData: No hay suficiente memoria para el canal «image_buffer». Se han "
 "solicitado %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3420
+#: fitsviewer/fitsdata.cpp:3672
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "No se puede abrir el archivo %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3433
+#: fitsviewer/fitsdata.cpp:3685
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "No se puede abrir el búfer: %1"
 
-#: fitsviewer/fitsdata.cpp:3444
+#: fitsviewer/fitsdata.cpp:3696
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "No se ha podido desempaquetar la miniatura: %1"
 
-#: fitsviewer/fitsdata.cpp:3451
+#: fitsviewer/fitsdata.cpp:3703
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "No se puede realizar el proceso «dcraw»: %1"
 
-#: fitsviewer/fitsdata.cpp:3459
+#: fitsviewer/fitsdata.cpp:3711
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "No se ha podido cargar en memoria: %1"
 
-#: fitsviewer/fitsdata.cpp:3606
+#: fitsviewer/fitsdata.cpp:3858
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "No se permite guardar archivos comprimidos."
 
-#: fitsviewer/fitsdata.cpp:3670
+#: fitsviewer/fitsdata.cpp:3922
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "No se ha podido crear el archivo: %1"
 
-#: fitsviewer/fitsdata.cpp:3692
+#: fitsviewer/fitsdata.cpp:3944
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "No se ha podido crear la imagen: %1"
 
-#: fitsviewer/fitsdata.cpp:3701 fitsviewer/fitsdata.cpp:3708
+#: fitsviewer/fitsdata.cpp:3953 fitsviewer/fitsdata.cpp:3960
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "No se ha podido actualizar la clave: %1"
 
-#: fitsviewer/fitsdata.cpp:3836
+#: fitsviewer/fitsdata.cpp:4088
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "No se ha podido actualizar la fecha: %1"
 
-#: fitsviewer/fitsdata.cpp:3845
+#: fitsviewer/fitsdata.cpp:4097
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "No se ha podido actualizar el historial: %1"
 
-#: fitsviewer/fitsdata.cpp:3867
+#: fitsviewer/fitsdata.cpp:4119
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "No se ha podido escribir la imagen: %1"
 
-#: fitsviewer/fitsdata.cpp:5642 fitsviewer/fitsdata.cpp:5653
-#: fitsviewer/fitsdata.cpp:5690 fitsviewer/fitsdata.cpp:5726
-#: fitsviewer/fitsdata.cpp:5860
+#: fitsviewer/fitsdata.cpp:5894 fitsviewer/fitsdata.cpp:5905
+#: fitsviewer/fitsdata.cpp:5942 fitsviewer/fitsdata.cpp:5978
+#: fitsviewer/fitsdata.cpp:6112
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No se ha encontrado ningún sistema de coordenadas mundial."
 
-#: fitsviewer/fitsdata.cpp:6110 fitsviewer/fitsdata.cpp:6216
+#: fitsviewer/fitsdata.cpp:6362 fitsviewer/fitsdata.cpp:6468
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Ha ocurrido un error al consultar Simbad"
 
-#: fitsviewer/fitsdata.cpp:6125
+#: fitsviewer/fitsdata.cpp:6377
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Se ha agotado el tiempo de espera de Simbad"
 
-#: fitsviewer/fitsdata.cpp:7102 fitsviewer/fitsdata.cpp:7215
+#: fitsviewer/fitsdata.cpp:7354 fitsviewer/fitsdata.cpp:7467
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Solo se permiten imágenes «bayered» de 8 y de 16 bits."
 
-#: fitsviewer/fitsdata.cpp:7110 fitsviewer/fitsdata.cpp:7221
+#: fitsviewer/fitsdata.cpp:7362 fitsviewer/fitsdata.cpp:7473
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Patrón de Bayer %1 desconocido"
 
-#: fitsviewer/fitsdata.cpp:7134 fitsviewer/fitsdata.cpp:7160
+#: fitsviewer/fitsdata.cpp:7386 fitsviewer/fitsdata.cpp:7412
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Patrón de Bayer %1 no permitido"
 
-#: fitsviewer/fitsdata.cpp:7168
+#: fitsviewer/fitsdata.cpp:7420
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Desplazamientos de Bayer %1 %2 no permitidos."
 
-#: fitsviewer/fitsdata.cpp:7179 fitsviewer/fitsdata.cpp:7232
+#: fitsviewer/fitsdata.cpp:7431 fitsviewer/fitsdata.cpp:7484
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Parámetros de debayerización DC1394 no válidos."
 
-#: fitsviewer/fitsdata.cpp:7190 fitsviewer/fitsdata.cpp:7243
+#: fitsviewer/fitsdata.cpp:7442 fitsviewer/fitsdata.cpp:7495
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Parámetros de debayerización OpenCV no válidos."
 
-#: fitsviewer/fitsdata.cpp:7199 fitsviewer/fitsdata.cpp:7252
+#: fitsviewer/fitsdata.cpp:7451 fitsviewer/fitsdata.cpp:7504
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Motor de debayerización no válido"
 
-#: fitsviewer/fitsdata.cpp:7506
+#: fitsviewer/fitsdata.cpp:7758
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "Se ha llamado debayer_8bit con parámetros de debayerización no válidos"
 
-#: fitsviewer/fitsdata.cpp:7522 fitsviewer/fitsdata.cpp:7568
-#: fitsviewer/fitsdata.cpp:7626 fitsviewer/fitsdata.cpp:7672
+#: fitsviewer/fitsdata.cpp:7774 fitsviewer/fitsdata.cpp:7820
+#: fitsviewer/fitsdata.cpp:7878 fitsviewer/fitsdata.cpp:7924
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "No ha sido posible asignar memoria intermedia temporal para «bayering»: %1"
 
-#: fitsviewer/fitsdata.cpp:7532 fitsviewer/fitsdata.cpp:7636
+#: fitsviewer/fitsdata.cpp:7784 fitsviewer/fitsdata.cpp:7888
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "No ha sido posible asignar memoria intermedia temporal para «bayering»."
 
-#: fitsviewer/fitsdata.cpp:7551 fitsviewer/fitsdata.cpp:7655
+#: fitsviewer/fitsdata.cpp:7803 fitsviewer/fitsdata.cpp:7907
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "El proceso de debayerización ha fallado (%1)"
 
-#: fitsviewer/fitsdata.cpp:7611
+#: fitsviewer/fitsdata.cpp:7863
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -34493,7 +34493,7 @@ msgstr "Desplazamiento Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:63 fitsviewer/fitsviewer.cpp:610
-#: fitsviewer/fitsviewer.cpp:1853
+#: fitsviewer/fitsviewer.cpp:1872
 #, kde-format
 msgid "Ready."
 msgstr "Preparado."
@@ -35421,7 +35421,7 @@ msgstr "Etiqueta del tipo"
 msgid "Distance"
 msgstr "Distancia"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1624
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1643
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -35642,13 +35642,13 @@ msgid "View Star Profile..."
 msgstr "Ver el perfil de estrellas…"
 
 #: fitsviewer/fitsview.cpp:2954 fitsviewer/fitsviewer.cpp:262
-#: fitsviewer/fitsviewer.cpp:1541
+#: fitsviewer/fitsviewer.cpp:1560
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostrar cuadrícula ecuatorial"
 
 #: fitsviewer/fitsview.cpp:2960 fitsviewer/fitsviewer.cpp:269
-#: fitsviewer/fitsviewer.cpp:1543
+#: fitsviewer/fitsviewer.cpp:1562
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostrar los objetos de la imagen"
@@ -35739,7 +35739,7 @@ msgstr "Estadísticas de la &selección"
 msgid "Show Clipping"
 msgstr "Mostrar recorte"
 
-#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1552
+#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1571
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -35788,18 +35788,18 @@ msgstr "Ampliar todas las pestañas"
 msgid "Zoom all tabs out"
 msgstr "Reducir todas las pestañas"
 
-#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1826
+#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1845
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marcar estrellas"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:940
-#: fitsviewer/fitsviewer.cpp:1789
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:946
+#: fitsviewer/fitsviewer.cpp:1808
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Ver gráfico 3D"
 
-#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1144 kstars.cpp:66
+#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1163 kstars.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
@@ -35840,89 +35840,89 @@ msgstr[1] "HFR:%2, %1 estrellas."
 msgid "Right click to change tab title."
 msgstr "Clic derecho para cambiar el título de la pestaña."
 
-#: fitsviewer/fitsviewer.cpp:785
+#: fitsviewer/fitsviewer.cpp:791
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "No se ha encontrado la pestaña con UID %1 en el visor FITS"
 
-#: fitsviewer/fitsviewer.cpp:922
+#: fitsviewer/fitsviewer.cpp:928
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Gráfico 3D de la vista actual"
 
-#: fitsviewer/fitsviewer.cpp:923 fitsviewer/fitsviewer.cpp:1697
+#: fitsviewer/fitsviewer.cpp:929 fitsviewer/fitsviewer.cpp:1716
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Cruceta"
 
-#: fitsviewer/fitsviewer.cpp:924 fitsviewer/fitsviewer.cpp:1711
+#: fitsviewer/fitsviewer.cpp:930 fitsviewer/fitsviewer.cpp:1730
 #, kde-format
 msgid "Clipping"
 msgstr "Recorte"
 
-#: fitsviewer/fitsviewer.cpp:925 fitsviewer/fitsviewer.cpp:1724
+#: fitsviewer/fitsviewer.cpp:931 fitsviewer/fitsviewer.cpp:1743
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Cuadrícula ecuatorial"
 
-#: fitsviewer/fitsviewer.cpp:926 fitsviewer/fitsviewer.cpp:1763
+#: fitsviewer/fitsviewer.cpp:932 fitsviewer/fitsviewer.cpp:1782
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objetos en la imagen"
 
-#: fitsviewer/fitsviewer.cpp:927 fitsviewer/fitsviewer.cpp:1776
+#: fitsviewer/fitsviewer.cpp:933 fitsviewer/fitsviewer.cpp:1795
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Cuadrícula de píxeles"
 
-#: fitsviewer/fitsviewer.cpp:928 fitsviewer/fitsviewer.cpp:1737
+#: fitsviewer/fitsviewer.cpp:934 fitsviewer/fitsviewer.cpp:1756
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Capa HiPS"
 
-#: fitsviewer/fitsviewer.cpp:980
+#: fitsviewer/fitsviewer.cpp:986
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Directorio superior de instantáneas"
 
-#: fitsviewer/fitsviewer.cpp:1116
+#: fitsviewer/fitsviewer.cpp:1135
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Abrir imagen"
 
-#: fitsviewer/fitsviewer.cpp:1196
+#: fitsviewer/fitsviewer.cpp:1215
 #, kde-format
 msgid "Stacking..."
 msgstr "Apilando…"
 
-#: fitsviewer/fitsviewer.cpp:1204
+#: fitsviewer/fitsviewer.cpp:1223
 #, kde-format
 msgid "Stacking Failed"
 msgstr "El apilamiento ha fallado"
 
-#: fitsviewer/fitsviewer.cpp:1222
+#: fitsviewer/fitsviewer.cpp:1241
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Apilamiento completado"
 
-#: fitsviewer/fitsviewer.cpp:1234
+#: fitsviewer/fitsviewer.cpp:1253
 #, kde-format
 msgid "Stacking Stopped"
 msgstr "Apilamiento detenido"
 
-#: fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1537
 #, kde-format
 msgid "Hide %1"
 msgstr "Ocultar %1"
 
-#: fitsviewer/fitsviewer.cpp:1523
+#: fitsviewer/fitsviewer.cpp:1542
 #, kde-format
 msgid "Show %1"
 msgstr "Mostrar %1"
 
-#: fitsviewer/fitsviewer.cpp:1547
+#: fitsviewer/fitsviewer.cpp:1566
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -35931,7 +35931,7 @@ msgstr ""
 "Centrar telescopio\n"
 "*Preparado*"
 
-#: fitsviewer/fitsviewer.cpp:1559
+#: fitsviewer/fitsviewer.cpp:1578
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -35940,7 +35940,7 @@ msgstr ""
 "Mostrar cuadrícula ecuatorial\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1561
+#: fitsviewer/fitsviewer.cpp:1580
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -35949,7 +35949,7 @@ msgstr ""
 "Centrar telescopio\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1563
+#: fitsviewer/fitsviewer.cpp:1582
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -35958,31 +35958,31 @@ msgstr ""
 "Mostrar objetos en la imagen\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1595 fitsviewer/fitsviewer.cpp:1750
+#: fitsviewer/fitsviewer.cpp:1614 fitsviewer/fitsviewer.cpp:1769
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rectángulo de selección"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1632 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:68
 #, kde-format
 msgid "Width"
 msgstr "Anchura"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1633 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:68
 #, kde-format
 msgid "Height"
 msgstr "Altura"
 
-#: fitsviewer/fitsviewer.cpp:1831
+#: fitsviewer/fitsviewer.cpp:1850
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarcar estrellas"
 
-#: fitsviewer/fitsviewer.cpp:1847
+#: fitsviewer/fitsviewer.cpp:1866
 #, kde-format
 msgid "Processing %1..."
 msgstr "Procesando %1…"
@@ -39744,7 +39744,7 @@ msgstr "Sin ocaso: siempre por debajo del horizonte"
 msgid "Transit time: %1"
 msgstr "Hora de tránsito: %1"
 
-#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:877
+#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:974
 #, kde-format
 msgid "Empty sky"
 msgstr "Cielo vacío"
@@ -39973,7 +39973,7 @@ msgstr "Apilador en vivo de KStars"
 msgid "© 2025 KStars Team"
 msgstr "© 2025 El equipo de KStars"
 
-#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Detener &seguimiento"
@@ -82176,60 +82176,60 @@ msgid "Userdata at index %1 does not exist."
 msgstr "Los datos del usuario del índice %1 no existen."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:80 tools/arglooktoward.ui:92
+#: kstarsdbus.cpp:81 tools/arglooktoward.ui:92
 #, kde-format
 msgid "zenith"
 msgstr "cenit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:84 tools/arglooktoward.ui:52
+#: kstarsdbus.cpp:85 tools/arglooktoward.ui:52
 #, kde-format
 msgid "north"
 msgstr "norte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:88 tools/arglooktoward.ui:62
+#: kstarsdbus.cpp:89 tools/arglooktoward.ui:62
 #, kde-format
 msgid "east"
 msgstr "este"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:92 tools/arglooktoward.ui:72
+#: kstarsdbus.cpp:93 tools/arglooktoward.ui:72
 #, kde-format
 msgid "south"
 msgstr "sur"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:96 tools/arglooktoward.ui:82
+#: kstarsdbus.cpp:97 tools/arglooktoward.ui:82
 #, kde-format
 msgid "west"
 msgstr "oeste"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:100 tools/arglooktoward.ui:57
+#: kstarsdbus.cpp:101 tools/arglooktoward.ui:57
 #, kde-format
 msgid "northeast"
 msgstr "noreste"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:108 tools/arglooktoward.ui:67
+#: kstarsdbus.cpp:109 tools/arglooktoward.ui:67
 #, kde-format
 msgid "southeast"
 msgstr "sureste"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:116 tools/arglooktoward.ui:77
+#: kstarsdbus.cpp:117 tools/arglooktoward.ui:77
 #, kde-format
 msgid "southwest"
 msgstr "suroeste"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:124 tools/arglooktoward.ui:87
+#: kstarsdbus.cpp:125 tools/arglooktoward.ui:87
 #, kde-format
 msgid "northwest"
 msgstr "noroeste"
 
-#: kstarsdbus.cpp:1033
+#: kstarsdbus.cpp:1034
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
@@ -83075,7 +83075,7 @@ msgstr "Preferencias de HiPS…"
 msgid " Welcome to KStars "
 msgstr " Bienvenido a KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:326
+#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
@@ -91852,12 +91852,12 @@ msgstr "Descargando actualizaciones de supernovas…"
 msgid "Error downloading supernova data: %1"
 msgstr "Ha ocurrido un error al descargar datos de supernovas: %1"
 
-#: skymap.cpp:437 skymaplite.cpp:357
+#: skymap.cpp:438 skymaplite.cpp:357
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Posición solicitada por debajo del horizonte"
 
-#: skymap.cpp:438 skymaplite.cpp:358
+#: skymap.cpp:439 skymaplite.cpp:358
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"
@@ -91866,17 +91866,17 @@ msgstr ""
 "La posición solicitada está por debajo del horizonte.\n"
 "¿Desea apuntar ahí de todos modos?"
 
-#: skymap.cpp:439
+#: skymap.cpp:440
 #, kde-format
 msgid "Go Anyway"
 msgstr "Ir de cualquier modo"
 
-#: skymap.cpp:440
+#: skymap.cpp:441
 #, kde-format
 msgid "Keep Position"
 msgstr "Mantener posición"
 
-#: skymap.cpp:531
+#: skymap.cpp:532
 #, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
@@ -91885,7 +91885,7 @@ msgstr ""
 "Imagen del Digitized Sky Survey proporcionada por el Space Telescope Science "
 "Institute [libre para uso no comercial]."
 
-#: skymap.cpp:570
+#: skymap.cpp:571
 #, kde-format
 msgctxt "Equatorial & Horizontal Coordinates"
 msgid ""
@@ -91897,7 +91897,7 @@ msgstr ""
 "J2000:\t%3\t%4\n"
 "AzAlt:\t%5\t%6"
 
-#: skymap.cpp:633
+#: skymap.cpp:634
 #, kde-format
 msgid ""
 "Sloan Digital Sky Survey image provided by the Astrophysical Research "
@@ -91906,43 +91906,43 @@ msgstr ""
 "Imagen del Sloan Digital Sky Survey proporcionada por el Astrophysical "
 "Research Consortium [libre para uso no comercial]."
 
-#: skymap.cpp:705
+#: skymap.cpp:706
 #, kde-format
 msgid "Angular distance: %1"
 msgstr "Distancia angular: %1"
 
-#: skymap.cpp:719
+#: skymap.cpp:720
 #, kde-format
 msgid "; Physical distance: %1 pc"
 msgstr "; Distancia física: %1 pc"
 
-#: skymap.cpp:755
+#: skymap.cpp:756
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
 msgstr "Saltos de estrellas: elija un campo de visión"
 
-#: skymap.cpp:756
+#: skymap.cpp:757
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr "Campo de visión a usar para los saltos de estrellas:"
 
-#: skymap.cpp:763
+#: skymap.cpp:764
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr "Saltos de estrellas: introduzca el campo de visión a usar"
 
-#: skymap.cpp:764
+#: skymap.cpp:765
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 "Campo de visión a usar para los saltos de estrellas (en minutos de arco):"
 
-#: skymap.cpp:942
+#: skymap.cpp:943
 #, kde-format
 msgid "No object selected."
 msgstr "Ningún objeto seleccionado."
 
-#: skymap.cpp:942
+#: skymap.cpp:943
 #, kde-format
 msgid "Object Details"
 msgstr "Detalles del objeto"
