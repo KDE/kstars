@@ -287,6 +287,7 @@ enum COMMANDS
     POSTPROCESS_BLEND_CHANNELS,
     POSTPROCESS_REDO_POSTPROCESS,
     POSTPROCESS_SAVE,
+    POSTPROCESS_GET_STATE,
     NEW_POSTPROCESS_STATE,
 
     // Artificial Horizon
@@ -558,6 +559,7 @@ static QMap<COMMANDS, QString> const commands =
     {POSTPROCESS_BLEND_CHANNELS, "postprocess_blend_channels"},
     {POSTPROCESS_REDO_POSTPROCESS, "postprocess_redo_postprocess"},
     {POSTPROCESS_SAVE, "postprocess_save"},
+    {POSTPROCESS_GET_STATE, "postprocess_get_state"},
     {NEW_POSTPROCESS_STATE, "new_postprocess_state"},
 
     {ARTIFICIAL_HORIZON_IMPORT, "artificial_horizon_import"},

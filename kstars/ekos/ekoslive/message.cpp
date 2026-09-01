@@ -48,6 +48,9 @@
 #include "Options.h"
 #include "version.h"
 
+#include <QtConcurrentRun>
+#include <QFutureWatcher>
+
 #include <KActionCollection>
 #include <basedevice.h>
 #include <QUuid>
@@ -78,6 +81,16 @@ QJsonObject buildPreviewMetadata(const QSharedPointer<FITSData> &data)
         {"hasWCS", data->hasWCS()}
     };
 }
+
+// Outcome of a crop/apply_*/save operation run on a worker thread (see
+// Message::processPostProcessCommands) — mirrors what each command's inline handler
+// used to build directly into the JSON response.
+struct PostProcessOpResult
+{
+    bool ok = false;
+    QString error;
+    QJsonObject extra;
+};
 }
 
 namespace EkosLive
@@ -3562,6 +3575,13 @@ QVector<ChannelBlendOperation::WeightedInput> Message::parseBlendInputs(const QJ
     return result;
 }
 
+void Message::sendPostProcessState(const QJsonObject &state)
+{
+    const QString sessionId = state["sessionId"].toString(m_DefaultPostProcessSession);
+    m_LastPostProcessState[sessionId] = state;
+    sendResponse(commands[NEW_POSTPROCESS_STATE], state);
+}
+
 void Message::processPostProcessCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[POSTPROCESS_STACK] && payload.contains("channels"))
@@ -3650,18 +3670,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             auto session = QSharedPointer<StackController>::create(this);
             connect(session.data(), &StackController::stackReady, this, [this, filter](bool cancelled)
             {
-                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                sendPostProcessState(
                 QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", filter}});
             });
             connect(session.data(), &StackController::stackFailed, this, [this, filter](const QString & reason)
             {
-                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                sendPostProcessState(
                 QJsonObject{{"state", "error"}, {"sessionId", filter}, {"message", reason}});
             });
             connect(session.data(), &StackController::stackUpdateStats, this,
                     [this, filter](bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR)
             {
-                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+                sendPostProcessState(QJsonObject
                 {
                     {"state", "progress"}, {"sessionId", filter}, {"ok", ok}, {"sub", sub}, {"total", total},
                     {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
@@ -3776,18 +3796,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         auto session = QSharedPointer<StackController>::create(this);
         connect(session.data(), &StackController::stackReady, this, [this, sessionId](bool cancelled)
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            sendPostProcessState(
             QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}});
         });
         connect(session.data(), &StackController::stackFailed, this, [this, sessionId](const QString & reason)
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            sendPostProcessState(
             QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", reason}});
         });
         connect(session.data(), &StackController::stackUpdateStats, this,
                 [this, sessionId](bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR)
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+            sendPostProcessState(QJsonObject
             {
                 {"state", "progress"}, {"sessionId", sessionId}, {"ok", ok}, {"sub", sub}, {"total", total},
                 {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
@@ -3796,7 +3816,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         session->start(directories, params);
         m_PostProcessSessions[sessionId] = session;
-        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "started"}, {"sessionId", sessionId}});
+        sendPostProcessState(QJsonObject{{"state", "started"}, {"sessionId", sessionId}});
     }
     else if (command == commands[POSTPROCESS_STOP])
     {
@@ -3854,41 +3874,91 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // original behavior of combining every FITS-loadable file in the directory.
         const double matchExptime = payload["matchExptime"].toDouble(-1.0);
         const double exptimeTolerance = payload["exptimeTolerance"].toDouble(0.5);
+        const bool wantPreview = payload["preview"].toBool(true);
 
-        QString error;
-        cv::Mat builtMaster;
-        if (!MasterBuilder::buildAndSave(directory, type, outputPath, error, lowSigma, highSigma, subtractPath,
-                                          matchExptime, exptimeTolerance, &builtMaster))
+        // No session of its own (see the comment above) — a fixed key stands in for
+        // "sessionId" here so it shares the busy-tracking/last-state-cache machinery
+        // every real session uses (postprocess_get_state, "state":"busy" rejection of
+        // an overlapping call) instead of needing a parallel mechanism just for this.
+        const QString buildMasterKey = QStringLiteral("build_master");
+        if (m_BusyPostProcessSessions.contains(buildMasterKey))
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "busy"}, {"sessionId", buildMasterKey}});
             return;
         }
 
-        QJsonObject response { {"state", "master_built"}, {"outputPath", outputPath} };
-        // Reuses the in-memory result directly (no re-reading the just-written file
-        // off disk) — see PreviewRenderer; headless, no FITSView/GUI dependency. Sent
-        // over the wsMedia binary channel (tagged "+P", same "+X module image"
-        // convention as Align/Focus/Guide/DarkLibrary previews) rather than inline in
-        // this JSON response — the app receives the fetchable URL asynchronously via
-        // the existing NEW_IMAGE_METADATA message. Opt-out via "preview": false, same
-        // convention as the crop/apply_*/denoise commands above.
-        if (payload["preview"].toBool(true))
+        // Combining dozens of subs and writing a large FITS to disk can take a while —
+        // run it off the GUI thread (same QtConcurrent::run + QFutureWatcher pattern
+        // FITSData::redoPostProcessStack() already uses) so it neither freezes KStars
+        // nor holds the caller's request open. Ack immediately; the real outcome
+        // follows as a second new_postprocess_state push (or via postprocess_get_state).
+        m_BusyPostProcessSessions.insert(buildMasterKey);
+        sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", buildMasterKey}});
+
+        struct BuildMasterResult
         {
-            QString previewError;
-            const QByteArray jpeg = PreviewRenderer::renderJpeg(builtMaster, previewError);
-            if (!jpeg.isEmpty())
+            bool ok = false;
+            QString error;
+            cv::Mat builtMaster;
+        };
+
+        auto future = QtConcurrent::run([directory, type, outputPath, lowSigma, highSigma, subtractPath,
+                                                     matchExptime, exptimeTolerance]() -> BuildMasterResult
+        {
+            BuildMasterResult result;
+            result.ok = MasterBuilder::buildAndSave(directory, type, outputPath, result.error, lowSigma, highSigma,
+                        subtractPath, matchExptime, exptimeTolerance, &result.builtMaster);
+            return result;
+        });
+
+        auto watcher = new QFutureWatcher<BuildMasterResult>(this);
+        connect(watcher, &QFutureWatcher<BuildMasterResult>::finished, this,
+                [this, watcher, buildMasterKey, outputPath, wantPreview]()
+        {
+            m_BusyPostProcessSessions.remove(buildMasterKey);
+            const BuildMasterResult result = watcher->result();
+            watcher->deleteLater();
+
+            if (!result.ok)
             {
-                // No FITSData wrapper for a freshly-built master — read stats straight
-                // off the cv::Mat instead of going through buildPreviewMetadata().
-                const QJsonObject metadata
+                sendPostProcessState(QJsonObject
                 {
-                    {"resolution", QString("%1x%2").arg(builtMaster.cols).arg(builtMaster.rows)},
-                    {"channels", builtMaster.channels()}
-                };
-                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), metadata);
+                    {"state", "error"}, {"sessionId", buildMasterKey}, {"message", result.error}
+                });
+                return;
             }
-        }
-        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
+
+            // Reuses the in-memory result directly (no re-reading the just-written file
+            // off disk) — see PreviewRenderer; headless, no FITSView/GUI dependency. Sent
+            // over the wsMedia binary channel (tagged "+P", same "+X module image"
+            // convention as Align/Focus/Guide/DarkLibrary previews) rather than inline in
+            // this JSON response — the app receives the fetchable URL asynchronously via
+            // the existing NEW_IMAGE_METADATA message. Opt-out via "preview": false, same
+            // convention as the crop/apply_*/denoise commands.
+            if (wantPreview)
+            {
+                QString previewError;
+                const QByteArray jpeg = PreviewRenderer::renderJpeg(result.builtMaster, previewError);
+                if (!jpeg.isEmpty())
+                {
+                    // No FITSData wrapper for a freshly-built master — read stats straight
+                    // off the cv::Mat instead of going through buildPreviewMetadata().
+                    const QJsonObject metadata
+                    {
+                        {"resolution", QString("%1x%2").arg(result.builtMaster.cols).arg(result.builtMaster.rows)},
+                        {"channels", result.builtMaster.channels()}
+                    };
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), metadata);
+                }
+            }
+
+            sendPostProcessState(QJsonObject
+            {
+                {"state", "master_built"}, {"sessionId", buildMasterKey}, {"outputPath", outputPath}
+            });
+        });
+        watcher->setFuture(future);
     }
     else if (command == commands[POSTPROCESS_INSPECT_DIRECTORY])
     {
@@ -3993,18 +4063,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // session's connections (see the POSTPROCESS_STACK handlers above).
         connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            sendPostProcessState(
             QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
         });
         connect(outputSession.data(), &StackController::stackFailed, this,
                 [this, outputSessionId](const QString & reason)
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            sendPostProcessState(
             QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
         });
         m_PostProcessSessions[outputSessionId] = outputSession;
-        sendResponse(commands[NEW_POSTPROCESS_STATE],
-        QJsonObject{{"state", "blended"}, {"outputSessionId", outputSessionId}});
+        sendPostProcessState(
+        QJsonObject{{"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}});
     }
     else if (command == commands[POSTPROCESS_REDO_POSTPROCESS])
     {
@@ -4034,7 +4104,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         ppParams.sharpenKernal = payload["sharpenKernal"].toInt(3);
         ppParams.sharpenSigma = payload["sharpenSigma"].toDouble(3.0);
         session->redoPostProcess(ppParams);
-        sendResponse(commands[NEW_POSTPROCESS_STATE],
+        sendPostProcessState(
         QJsonObject{{"state", "redoing"}, {"sessionId", payload["sessionId"].toString(m_DefaultPostProcessSession)}});
     }
     else if (command == commands[POSTPROCESS_CROP]
@@ -4056,89 +4126,12 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
-        QString error;
-        bool ok = false;
-        QJsonObject response;
-
-        if (command == commands[POSTPROCESS_CROP])
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        if (m_BusyPostProcessSessions.contains(sessionId))
         {
-            const QRect roi(payload["x"].toInt(), payload["y"].toInt(), payload["width"].toInt(), payload["height"].toInt());
-            ok = session->crop(roi, error);
-            response = {{"state", ok ? "cropped" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH])
-        {
-            ok = session->applyAutoStretch(payload["targetBackground"].toDouble(0.25),
-                    payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
-            response = {{"state", ok ? "stretched" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_CURVE])
-        {
-            const QVector<QPointF> points = parseCurvePoints(payload["points"].toArray());
-            ok = session->applyCurve(points, error);
-            response = {{"state", ok ? "curve_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL])
-        {
-            const QVector<QVector<QPointF>> channelPoints
-            {
-                parseCurvePoints(payload["red"].toArray()),
-                parseCurvePoints(payload["green"].toArray()),
-                parseCurvePoints(payload["blue"].toArray())
-            };
-            ok = session->applyCurvePerChannel(channelPoints, error);
-            response = {{"state", ok ? "curve_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_SATURATION])
-        {
-            ok = session->applySaturation(payload["amt"].toDouble(1.0), error);
-            response = {{"state", ok ? "saturation_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_CONTRAST])
-        {
-            ok = session->applyContrast(payload["amt"].toDouble(1.0), error);
-            response = {{"state", ok ? "contrast_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_DENOISE])
-        {
-            // Independent, composable post-combine step — unlike postprocess_start/
-            // redo_postprocess's bundled denoise (which always re-runs gradient/
-            // deconv/sharpen too), this only touches denoise, operating on whatever
-            // the current working image already is (post-crop, post-BGE, ...).
-            const auto method = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
-            ok = session->applyDenoise(payload["denoiseAmt"].toDouble(0.0), method,
-                                       payload["chromaDenoiseAmt"].toDouble(0.0), error);
-            response = {{"state", ok ? "denoise_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_BGE])
-        {
-            // Independent, composable post-combine step — a rebuild of the sampling/
-            // fitting core behind gradientAmt (see BGEOperation's class comment for
-            // what changed and why), operating on whatever the current working image
-            // already is.
-            ok = session->applyBGE(payload["strength"].toDouble(0.0), error);
-            response = {{"state", ok ? "bge_applied" : "error"}};
-        }
-        else if (command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION])
-        {
-            // Independent, opt-in, composable post-combine step — a caller that never
-            // sends this command gets exactly today's behavior. Requires the session
-            // to carry a WCS (a plate-solved stack, or a blend of plate-solved stacks
-            // — see StackController::adopt()/FITSData::setStackedImage()).
-            int starsDetected = 0, starsMatched = 0;
-            ok = session->applyPhotometricCalibration(payload["strength"].toDouble(1.0),
-                    payload["maxCatalogMagnitude"].toDouble(12.0),
-                    payload["matchRadiusArcsec"].toDouble(5.0),
-                    error, starsDetected, starsMatched,
-                    payload["photometricCatalogPath"].toString());
-            response = {{"state", ok ? "color_calibration_applied" : "error"},
-                {"starsDetected", starsDetected}, {"starsMatched", starsMatched}};
-        }
-        else if (command == commands[POSTPROCESS_SAVE])
-        {
-            const QString outputPath = payload["outputPath"].toString();
-            ok = session->save(outputPath, error);
-            response = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            return;
         }
 
         // A JPEG preview of the working image after this step — headless, no
@@ -4152,17 +4145,147 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // change) and on failure (nothing new to show). Opt-out via "preview": false
         // for a caller that doesn't need visual feedback on every call (e.g. scripted
         // batch adjustments) and wants the fastest possible response.
-        if (ok && command != commands[POSTPROCESS_SAVE] && payload["preview"].toBool(true))
-        {
-            QString previewError;
-            const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
-            if (!jpeg.isEmpty())
-                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
-        }
+        const bool wantPreview = command != commands[POSTPROCESS_SAVE] && payload["preview"].toBool(true);
 
-        if (!ok)
-            response["message"] = error;
-        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
+        // crop/apply_*/save bake directly into the session's working image and can take
+        // a while (denoise, color calibration with star matching, writing a large file)
+        // — run the actual operation off the GUI thread (same QtConcurrent::run +
+        // QFutureWatcher pattern FITSData::redoPostProcessStack() already uses for
+        // postprocess_redo_postprocess) so it neither freezes KStars nor holds the
+        // caller's request open. Ack immediately with "processing"; the real outcome
+        // follows as a second new_postprocess_state push (or via postprocess_get_state).
+        // Only one operation may be in flight per session at a time (see the "busy"
+        // check above) — that, plus each worker touching only its own session's
+        // QSharedPointer, keeps concurrent sessions (e.g. Ha + OIII) from racing.
+        m_BusyPostProcessSessions.insert(sessionId);
+        sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", sessionId}});
+
+        // Captures `this` only for parseCurvePoints() — a pure, const helper safe to
+        // call from a worker thread; no other Message state is touched here.
+        auto future = QtConcurrent::run([this, session, command, payload]() -> PostProcessOpResult
+        {
+            PostProcessOpResult result;
+            QString error;
+            bool ok = false;
+
+            if (command == commands[POSTPROCESS_CROP])
+            {
+                const QRect roi(payload["x"].toInt(), payload["y"].toInt(), payload["width"].toInt(), payload["height"].toInt());
+                ok = session->crop(roi, error);
+                result.extra = {{"state", ok ? "cropped" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH])
+            {
+                ok = session->applyAutoStretch(payload["targetBackground"].toDouble(0.25),
+                        payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
+                result.extra = {{"state", ok ? "stretched" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_CURVE])
+            {
+                const QVector<QPointF> points = parseCurvePoints(payload["points"].toArray());
+                ok = session->applyCurve(points, error);
+                result.extra = {{"state", ok ? "curve_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL])
+            {
+                const QVector<QVector<QPointF>> channelPoints
+                {
+                    parseCurvePoints(payload["red"].toArray()),
+                    parseCurvePoints(payload["green"].toArray()),
+                    parseCurvePoints(payload["blue"].toArray())
+                };
+                ok = session->applyCurvePerChannel(channelPoints, error);
+                result.extra = {{"state", ok ? "curve_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_SATURATION])
+            {
+                ok = session->applySaturation(payload["amt"].toDouble(1.0), error);
+                result.extra = {{"state", ok ? "saturation_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_CONTRAST])
+            {
+                ok = session->applyContrast(payload["amt"].toDouble(1.0), error);
+                result.extra = {{"state", ok ? "contrast_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_DENOISE])
+            {
+                // Independent, composable post-combine step — unlike postprocess_start/
+                // redo_postprocess's bundled denoise (which always re-runs gradient/
+                // deconv/sharpen too), this only touches denoise, operating on whatever
+                // the current working image already is (post-crop, post-BGE, ...).
+                const auto method = static_cast<DenoiseMethod>(payload["denoiseMethod"].toInt(0));
+                ok = session->applyDenoise(payload["denoiseAmt"].toDouble(0.0), method,
+                                           payload["chromaDenoiseAmt"].toDouble(0.0), error);
+                result.extra = {{"state", ok ? "denoise_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_BGE])
+            {
+                // Independent, composable post-combine step — a rebuild of the sampling/
+                // fitting core behind gradientAmt (see BGEOperation's class comment for
+                // what changed and why), operating on whatever the current working image
+                // already is.
+                ok = session->applyBGE(payload["strength"].toDouble(0.0), error);
+                result.extra = {{"state", ok ? "bge_applied" : "error"}};
+            }
+            else if (command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION])
+            {
+                // Independent, opt-in, composable post-combine step — a caller that never
+                // sends this command gets exactly today's behavior. Requires the session
+                // to carry a WCS (a plate-solved stack, or a blend of plate-solved stacks
+                // — see StackController::adopt()/FITSData::setStackedImage()).
+                int starsDetected = 0, starsMatched = 0;
+                ok = session->applyPhotometricCalibration(payload["strength"].toDouble(1.0),
+                        payload["maxCatalogMagnitude"].toDouble(12.0),
+                        payload["matchRadiusArcsec"].toDouble(5.0),
+                        error, starsDetected, starsMatched,
+                        payload["photometricCatalogPath"].toString());
+                result.extra = {{"state", ok ? "color_calibration_applied" : "error"},
+                    {"starsDetected", starsDetected}, {"starsMatched", starsMatched}};
+            }
+            else if (command == commands[POSTPROCESS_SAVE])
+            {
+                const QString outputPath = payload["outputPath"].toString();
+                ok = session->save(outputPath, error);
+                result.extra = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
+            }
+
+            result.ok = ok;
+            result.error = error;
+            return result;
+        });
+
+        auto watcher = new QFutureWatcher<PostProcessOpResult>(this);
+        connect(watcher, &QFutureWatcher<PostProcessOpResult>::finished, this,
+                [this, watcher, session, sessionId, wantPreview]()
+        {
+            m_BusyPostProcessSessions.remove(sessionId);
+            const PostProcessOpResult result = watcher->result();
+            watcher->deleteLater();
+
+            if (result.ok && wantPreview)
+            {
+                QString previewError;
+                const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+                if (!jpeg.isEmpty())
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+            }
+
+            QJsonObject response = result.extra;
+            response["sessionId"] = sessionId;
+            if (!result.ok)
+                response["message"] = result.error;
+            sendPostProcessState(response);
+        });
+        watcher->setFuture(future);
+    }
+    else if (command == commands[POSTPROCESS_GET_STATE])
+    {
+        // Synchronous, cheap — answers from m_LastPostProcessState (kept current by
+        // sendPostProcessState()) rather than waiting on a push, so a caller can poll
+        // instead of, or after missing, one (e.g. after a reconnect).
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        sendResponse(commands[NEW_POSTPROCESS_STATE],
+                     m_LastPostProcessState.value(sessionId, QJsonObject{{"state", "unknown"}, {"sessionId", sessionId}}));
     }
 }
 

@@ -22,6 +22,8 @@
 #include <QQueue>
 #include <QPointF>
 #include <QVector>
+#include <QSet>
+#include <QHash>
 
 namespace EkosLive
 {
@@ -264,6 +266,11 @@ class Message : public QObject
         // resolves each named session's currently-stacked image. Returns an empty vector
         // (with `error` set) if any named session doesn't exist or has no stacked image.
         QVector<ChannelBlendOperation::WeightedInput> parseBlendInputs(const QJsonArray &inputs, QString &error) const;
+        // Records payload's "state" against its "sessionId" in m_LastPostProcessState
+        // (for postprocess_get_state) before forwarding it as a normal
+        // new_postprocess_state push — use for every postprocess_* response that
+        // reports a session's state, not for the query response itself.
+        void sendPostProcessState(const QJsonObject &state);
 
         // Filter Offset Builder commands
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
@@ -345,6 +352,16 @@ class Message : public QObject
         // concurrently for postprocess_blend_channels.
         QMap<QString, QSharedPointer<StackController>> m_PostProcessSessions;
         const QString m_DefaultPostProcessSession { QStringLiteral("default") };
+        // crop/apply_*/save/build_master run on a worker thread (QtConcurrent) so they
+        // don't block the GUI thread or the caller. A session id present here has an
+        // operation in flight; a new command against it is rejected with "state":"busy"
+        // instead of queued. build_master has no session of its own, so it's tracked
+        // under the fixed key "build_master".
+        QSet<QString> m_BusyPostProcessSessions;
+        // Last new_postprocess_state payload sent for each session id (or
+        // "build_master"), so postprocess_get_state can answer without waiting on a
+        // push the caller might have missed (e.g. after a reconnect).
+        QHash<QString, QJsonObject> m_LastPostProcessState;
 
         typedef enum
         {

@@ -66,7 +66,10 @@ General response shape: every command replies via `new_postprocess_state`.
 Errors are always `{"state": "error", "message": "<text>"}`. Field types
 follow Qt's `QJsonValue::toX(default)` behavior — a field of the wrong JSON
 type, or absent, silently becomes the stated default; there's no schema
-validation or "missing required field" error except where noted below.
+validation or "missing required field" error except where noted below. Several
+commands (see "Asynchronous commands" below) reply immediately with
+`{"state": "processing", ...}` and deliver their real result as a second,
+later push — check a command's own section for which applies.
 
 ## Preview images
 
@@ -116,6 +119,30 @@ that don't apply to a stacked/blended composite: `resolution` (`"WxH"`),
 session's `FITSData`. `postprocess_build_master` has no `FITSData` wrapper
 for its freshly-built master, so it only attaches `resolution` and
 `channels`, read straight off the `cv::Mat`.
+
+## Asynchronous commands
+
+`postprocess_crop`, every `postprocess_apply_*`, `postprocess_save`, and
+`postprocess_build_master` run the actual operation off the GUI thread
+(`QtConcurrent::run` + `QFutureWatcher`, the same pattern
+`postprocess_redo_postprocess` already used) — the completion payloads
+documented per-command below (`{"state": "cropped"}`, `{"state":
+"stretched"}`, ...) are what arrives as a **second** `new_postprocess_state`
+push, not the immediate reply. The immediate reply is always
+`{"state": "processing", "op": "<command>", "sessionId": "<id>"}`.
+
+Only one operation may be in flight per session at a time (`build_master`
+shares this under the fixed key `"build_master"`, since it has no session of
+its own). Sending another mutating command against a session that's still
+processing gets `{"state": "busy", "sessionId": "<id>"}` immediately — it is
+**not** queued; wait for the completion event (or poll `postprocess_get_state`)
+before sending the next one.
+
+`postprocess_get_state` answers with the last known `new_postprocess_state`
+payload for a given `sessionId` (or `"build_master"`) without waiting on a
+push — useful for polling instead of trusting every push arrives, and for a
+client that reconnected mid-operation. See its entry in the command
+reference below.
 
 ## Command reference
 
@@ -221,12 +248,15 @@ subs into one master frame (`MasterBuilder::buildAndSave()`).
 | `matchExptime` | double | `-1.0` | When ≥0, only combine files whose `EXPTIME` header is within `exptimeTolerance` seconds of this value; everything else is skipped (header-checked only, never pixel-decoded). Negative disables filtering — every FITS-loadable file in the directory is combined. See "Shared calibration folders" below for why this matters. Also fixes the `NCOMBINE` header to reflect the actual post-filter count. |
 | `exptimeTolerance` | double | `0.5` | Seconds of slack around `matchExptime` — real exposures rarely land exactly on a nominal value (auto-exposed flats, shutter-timing variance). |
 
-Response: `{"state": "master_built", "outputPath": "<path>"}`, or
-`{"state": "error", "message": "<reason>"}` (empty folder, dimension
-mismatch between subs, `matchExptime` filtering leaving zero usable files,
-etc.). The preview is rendered directly from the just-built in-memory
-result and sent over the `+P` media channel, not embedded in this response
-— see "Preview images" above.
+Response: immediately `{"state": "processing", "op": "postprocess_build_master", "sessionId": "build_master"}`
+(or `{"state": "busy", ...}` if one is already running), then on completion
+`{"state": "master_built", "sessionId": "build_master", "outputPath": "<path>"}`,
+or `{"state": "error", "sessionId": "build_master", "message": "<reason>"}`
+(empty folder, dimension mismatch between subs, `matchExptime` filtering
+leaving zero usable files, etc.) — see "Asynchronous commands" above. The
+preview is rendered directly from the just-built in-memory result and sent
+over the `+P` media channel, not embedded in this response — see "Preview
+images" above.
 
 ### `postprocess_inspect_directory`
 
@@ -434,6 +464,15 @@ already-FITS-encoded in-memory buffer, no re-encoding. Response:
 `{"state": "error", "message": "<reason>", "outputPath": "<path>"}` — note
 `outputPath` is present either way. No preview (the working image didn't
 change).
+
+### `postprocess_get_state`
+
+`{"sessionId": ...}` (default key if omitted). Synchronous — no
+worker-thread dispatch, no `"processing"` ack of its own. Returns whatever
+`new_postprocess_state` payload was most recently sent for that session (or
+`"build_master"`), including one still in flight (`{"state": "processing", ...}`)
+or a `"busy"` rejection. `{"state": "unknown", "sessionId": "<id>"}` if
+nothing has ever been sent for that id. See "Asynchronous commands" above.
 
 ## Key concepts and guidance
 
