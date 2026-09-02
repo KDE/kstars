@@ -464,7 +464,7 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
         }
     }
     qCDebug(KSTARS_FITS) << QString("Align master: %1").arg(m_AlignMasterChosen ? m_LiveStackData.alignMaster :
-                                    QStringLiteral("none chosen yet"));
+                         QStringLiteral("none chosen yet"));
 
     if (subs.size() > 0)
     {
@@ -1419,6 +1419,7 @@ bool FITSData::cropStack(const QRect &roi, QString &error)
         return false;
     }
 
+    snapshotForUndo();
     if (!CropOperation::apply(m_StackedImageMat, roi, m_WCSHandle, error))
         return false;
 
@@ -1449,6 +1450,7 @@ bool FITSData::applyAutoStretch(double targetBackground, double shadowsClipping,
         error = QStringLiteral("No stacked image to stretch — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!AutoStretch::apply(m_StackedImageMat, error, targetBackground, shadowsClipping, linked))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1466,6 +1468,7 @@ bool FITSData::applyCurve(const QVector<QPointF> &controlPoints, QString &error)
         error = QStringLiteral("No stacked image to apply a curve to — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!CurveOperation::apply(m_StackedImageMat, controlPoints, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1483,6 +1486,7 @@ bool FITSData::applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoin
         error = QStringLiteral("No stacked image to apply curves to — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!CurveOperation::applyPerChannel(m_StackedImageMat, channelPoints, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1514,6 +1518,47 @@ bool FITSData::saveStackedImage(const QString &path, QString &error)
         return false;
     }
 
+    return true;
+}
+
+void FITSData::snapshotForUndo()
+{
+    m_UndoStackedImageMat = m_StackedImageMat.clone();
+    if (m_WCSHandle != nullptr)
+    {
+        m_UndoCrpix1 = m_WCSHandle->crpix[0];
+        m_UndoCrpix2 = m_WCSHandle->crpix[1];
+    }
+}
+
+bool FITSData::undoLastOperation(QString &error)
+{
+    if (m_UndoStackedImageMat.empty())
+    {
+        error = QStringLiteral("Nothing to undo");
+        return false;
+    }
+
+    m_StackedImageMat = m_UndoStackedImageMat;
+    m_UndoStackedImageMat.release(); // single-level — consume it, don't leave it undoable again
+    m_StackStatistics.stats.width = m_StackedImageMat.cols;
+    m_StackStatistics.stats.height = m_StackedImageMat.rows;
+
+    if (m_WCSHandle != nullptr)
+    {
+        // Restore the reference pixel cropStack() may have adjusted — same header
+        // records it updates after a crop, kept consistent here too.
+        m_WCSHandle->crpix[0] = m_UndoCrpix1;
+        m_WCSHandle->crpix[1] = m_UndoCrpix2;
+        updateRecordValue("CRPIX1", m_WCSHandle->crpix[0], "CRPIX1");
+        updateRecordValue("CRPIX2", m_WCSHandle->crpix[1], "CRPIX2");
+    }
+
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the restored image");
+        return false;
+    }
     return true;
 }
 
@@ -1599,6 +1644,7 @@ bool FITSData::applySaturation(double amt, QString &error)
         error = QStringLiteral("No stacked image to adjust saturation on — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!SaturationOperation::apply(m_StackedImageMat, amt, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1616,6 +1662,7 @@ bool FITSData::applyContrast(double amt, QString &error)
         error = QStringLiteral("No stacked image to adjust contrast on — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!ContrastOperation::apply(m_StackedImageMat, amt, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1633,6 +1680,7 @@ bool FITSData::applyDenoise(double amt, DenoiseMethod method, double chromaAmt, 
         error = QStringLiteral("No stacked image to denoise — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!DenoiseOperation::apply(m_StackedImageMat, amt, method, chromaAmt, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1650,6 +1698,7 @@ bool FITSData::applyBGE(double strength, QString &error)
         error = QStringLiteral("No stacked image to process — stack it first");
         return false;
     }
+    snapshotForUndo();
     if (!BGEOperation::apply(m_StackedImageMat, strength, error))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
@@ -1661,7 +1710,7 @@ bool FITSData::applyBGE(double strength, QString &error)
 }
 
 bool FITSData::applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
-        QString &error, int &starsDetected, int &starsMatched, const QString &photometricCatalogPath)
+        QString &error, int &starsDetected, int &starsMatched)
 {
     starsDetected = 0;
     starsMatched = 0;
@@ -1690,14 +1739,26 @@ bool FITSData::applyPhotometricCalibration(double strength, double maxCatalogMag
         return false;
     }
 
-    if (!photometricCatalogPath.isEmpty())
+    // Located like any other KStars data file — see StarComponent::addDeepStarCatalogIfExists()'s
+    // identical use of KSPaths::locate() for deepstars.dat. KStars' own bundled
+    // catalog frequently has no usable B-V for non-named stars (see
+    // PhotometricCatalog's class comment), so this file is required, not an optional
+    // caller-supplied extra: without it, most detected stars would only ever get the
+    // "no usable photometry" neutral-gray fallback below, not a real correction.
+    const QString photometricCatalogPath = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                           QStringLiteral("photometriccatalog.bin"));
+    if (photometricCatalogPath.isEmpty())
     {
-        QString catalogError;
-        if (!PhotometricCatalog::load(photometricCatalogPath, catalogError))
-        {
-            error = catalogError;
-            return false;
-        }
+        error = QStringLiteral("Photometric catalog not found — download the Tycho2 Photometric Catalog first "
+                               "(expected at ~/.local/share/kstars/photometriccatalog.bin)");
+        return false;
+    }
+
+    QString catalogError;
+    if (!PhotometricCatalog::load(photometricCatalogPath, catalogError))
+    {
+        error = catalogError;
+        return false;
     }
 
     QString detectError;
@@ -1779,7 +1840,7 @@ bool FITSData::applyPhotometricCalibration(double strength, double maxCatalogMag
             {
                 float supplementalV, supplementalBv;
                 if (PhotometricCatalog::findNearest(skyPoint.ra0().Degrees(), skyPoint.dec0().Degrees(),
-                                                     matchRadiusDeg, supplementalV, supplementalBv))
+                                                    matchRadiusDeg, supplementalV, supplementalBv))
                 {
                     PhotometricCalibrationOperation::colorFromBVIndex(supplementalBv, targetR, targetG, targetB);
                     gotColor = true;
@@ -1816,13 +1877,14 @@ bool FITSData::applyPhotometricCalibration(double strength, double maxCatalogMag
     starsMatched = static_cast<int>(matches.size());
 
     qCInfo(KSTARS_FITS) << QString("Photometric calibration: %1 star(s) detected, %2 corrected "
-                                    "(%3 via real catalog color, %4 via neutral fallback)")
-                         .arg(detected.size()).arg(matches.size()).arg(catalogMatchCount)
-                         .arg(matches.size() - catalogMatchCount);
+                                   "(%3 via real catalog color, %4 via neutral fallback)")
+                        .arg(detected.size()).arg(matches.size()).arg(catalogMatchCount)
+                        .arg(matches.size() - catalogMatchCount);
 
     if (matches.empty())
         return true; // nothing matched — not an error, just nothing to correct
 
+    snapshotForUndo();
     if (!PhotometricCalibrationOperation::apply(m_StackedImageMat, matches, strength, error))
         return false;
 
@@ -2445,7 +2507,7 @@ void FITSData::prepareStackBufferAsync()
         {
             qCDebug(KSTARS_FITS) << "prepareStackBuffer() produced no usable result — emitting stackFailed().";
             Q_EMIT stackFailed("Stacking produced no usable result — every sub may have failed "
-                                "calibration/alignment/plate-solving, or the combine came back empty");
+                               "calibration/alignment/plate-solving, or the combine came back empty");
         }
     });
     watcher->setFuture(m_StackPrepareFuture);
@@ -4708,10 +4770,10 @@ struct SumData
     SumData() : sum(0), squaredSum(0), numSamples(0) {}
 };
 
-template <typename T>
+template < typename T >
 SumData getSumAndSquaredSum(uint32_t start, uint32_t stride, uint8_t *buff)
 {
-    auto * buffer = reinterpret_cast<T *>(buff);
+    auto * buffer = reinterpret_cast < T * > (buff);
     const uint32_t end = start + stride;
     double sum = 0;
     double squaredSum = 0;
@@ -4725,7 +4787,7 @@ SumData getSumAndSquaredSum(uint32_t start, uint32_t stride, uint8_t *buff)
     return SumData(sum, squaredSum, numSamples);
 }
 
-template <typename T>
+template < typename T >
 void FITSData::calculateStdDev(bool roi )
 {
     // Create N threads
@@ -4746,13 +4808,13 @@ void FITSData::calculateStdDev(bool roi )
         uint32_t tStart = cStart;
 
         // List of futures
-        QList<QFuture<SumData>> futures;
+        QList < QFuture < SumData>> futures;
 
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
             uint8_t *buff = roi ? m_ImageRoiBuffer : m_ImageBuffer;
-            futures.append(QtConcurrent::run(&getSumAndSquaredSum<T>, tStart,
+            futures.append(QtConcurrent::run(&getSumAndSquaredSum < T >, tStart,
                                              (i == (nThreads - 1)) ? fStride : tStride, buff));
             tStart += tStride;
         }
@@ -4784,9 +4846,9 @@ void FITSData::calculateStdDev(bool roi )
     }
 }
 
-QVector<double> FITSData::createGaussianKernel(int size, double sigma)
+QVector < double > FITSData::createGaussianKernel(int size, double sigma)
 {
-    QVector<double> kernel(size * size);
+    QVector < double > kernel(size * size);
     kernel.fill(0.0, size * size);
 
     double kernelSum = 0.0;
@@ -4814,10 +4876,10 @@ QVector<double> FITSData::createGaussianKernel(int size, double sigma)
     return kernel;
 }
 
-template <typename T>
-void FITSData::convolutionFilter(const QVector<double> &kernel, int kernelSize)
+template < typename T >
+void FITSData::convolutionFilter(const QVector < double > &kernel, int kernelSize)
 {
-    T * imagePtr = reinterpret_cast<T *>(m_ImageBuffer);
+    T * imagePtr = reinterpret_cast < T * > (m_ImageBuffer);
 
     // Create variable for pixel data for each kernel
     T gt = 0;
@@ -4859,7 +4921,7 @@ void FITSData::convolutionFilter(const QVector<double> &kernel, int kernelSize)
     }
 }
 
-template <typename T>
+template < typename T >
 void FITSData::gaussianBlur(int kernelSize, double sigma)
 {
     // Size must be an odd number!
@@ -4874,8 +4936,8 @@ void FITSData::gaussianBlur(int kernelSize, double sigma)
         kernelSize = 1;
     }
 
-    QVector<double> gaussianKernel = createGaussianKernel(kernelSize, sigma);
-    convolutionFilter<T>(gaussianKernel, kernelSize);
+    QVector < double > gaussianKernel = createGaussianKernel(kernelSize, sigma);
+    convolutionFilter < T > (gaussianKernel, kernelSize);
 }
 
 void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
@@ -5107,7 +5169,7 @@ bool FITSData::parseSolution(FITSImage::Solution &solution, const bool stack) co
     return (coordOK || scaleOK);
 }
 
-QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
+QFuture < bool > FITSData::findStars(StarAlgorithm algorithm, const QRect &trackingBox)
 {
     if (m_StarFindFuture.isRunning())
         m_StarFindFuture.waitForFinished();
@@ -5130,7 +5192,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
                     //Just finds stars in the center 25% of the image.
                     const int w = getStatistics().width;
                     const int h = getStatistics().height;
-                    QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
+                    QRect middle(static_cast < int > (w * 0.25), static_cast < int > (h * 0.25), w / 2, h / 2);
                     m_StarFindFuture = m_StarDetector->findSources(middle);
                     return m_StarFindFuture;
                 }
@@ -5188,7 +5250,7 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     }
 }
 
-int FITSData::filterStars(QSharedPointer<ImageMask> mask)
+int FITSData::filterStars(QSharedPointer < ImageMask > mask)
 {
     if (mask.isNull() == false)
     {
@@ -5247,7 +5309,7 @@ double FITSData::getHFR(HFRType type)
         if (starCenters.empty())
             return -1;
 
-        m_SelectedHFRStar = *starCenters[static_cast<int>(starCenters.size() * 0.05)];
+        m_SelectedHFRStar = *starCenters[static_cast < int > (starCenters.size() * 0.05)];
         cacheHFR = m_SelectedHFRStar.HFR;
         cacheHFRType = type;
         return cacheHFR;
@@ -5275,7 +5337,7 @@ double FITSData::getHFR(HFRType type)
     if (removeSaturatedStars && numSaturated > 0)
         qCDebug(KSTARS_FITS) << "Removing " << numSaturated << " stars from HFR calculation";
 
-    std::vector<double> HFRs;
+    std::vector < double > HFRs;
 
     for (auto center : starCenters)
     {
@@ -5319,7 +5381,7 @@ double FITSData::getHFR(int x, int y, double scale)
 
     for (int i = 0; i < starCenters.count(); i++)
     {
-        const int maxDist = std::max(2, static_cast<int>(0.5 + 2 * starCenters[i]->width / scale));
+        const int maxDist = std::max(2, static_cast < int > (0.5 + 2 * starCenters[i]->width / scale));
         const int dx = std::fabs(starCenters[i]->x - x);
         const int dy = std::fabs(starCenters[i]->y - y);
         if (dx <= maxDist && dy <= maxDist)
@@ -5338,7 +5400,7 @@ double FITSData::getEccentricity()
         return -1;
     if (cacheEccentricity >= 0)
         return cacheEccentricity;
-    std::vector<float> eccs;
+    std::vector < float > eccs;
     for (const auto &s : starCenters)
         eccs.push_back(s->ellipticity);
     int middle = eccs.size() / 2;
@@ -5361,13 +5423,13 @@ void FITSData::abortStarDetection()
         m_StarDetector->abort();
 }
 
-void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * min, QVector<double> * max)
+void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector < double > * min, QVector < double > * max)
 {
     if (type == FITS_NONE)
         return;
 
-    QVector<double> dataMin(3);
-    QVector<double> dataMax(3);
+    QVector < double > dataMin(3);
+    QVector < double > dataMax(3);
 
     if (min)
         dataMin = *min;
@@ -5418,7 +5480,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT8_MAX ? UINT8_MAX : dataMax[i];
             }
-            applyFilter<uint8_t>(type, image, &dataMin, &dataMax);
+            applyFilter < uint8_t > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5429,7 +5491,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < INT16_MIN ? INT16_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > INT16_MAX ? INT16_MAX : dataMax[i];
             }
-            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+            applyFilter < uint16_t > (type, image, &dataMin, &dataMax);
         }
 
         break;
@@ -5441,7 +5503,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT16_MAX ? UINT16_MAX : dataMax[i];
             }
-            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+            applyFilter < uint16_t > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5452,7 +5514,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < INT_MIN ? INT_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > INT_MAX ? INT_MAX : dataMax[i];
             }
-            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+            applyFilter < uint16_t > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5463,7 +5525,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < 0 ? 0 : dataMin[i];
                 dataMax[i] = dataMax[i] > UINT_MAX ? UINT_MAX : dataMax[i];
             }
-            applyFilter<uint16_t>(type, image, &dataMin, &dataMax);
+            applyFilter < uint16_t > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5474,7 +5536,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < FLT_MIN ? FLT_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > FLT_MAX ? FLT_MAX : dataMax[i];
             }
-            applyFilter<float>(type, image, &dataMin, &dataMax);
+            applyFilter < float > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5486,7 +5548,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMax[i] = dataMax[i] > LLONG_MAX ? LLONG_MAX : dataMax[i];
             }
 
-            applyFilter<long>(type, image, &dataMin, &dataMax);
+            applyFilter < long > (type, image, &dataMin, &dataMax);
         }
         break;
 
@@ -5497,7 +5559,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
                 dataMin[i] = dataMin[i] < DBL_MIN ? DBL_MIN : dataMin[i];
                 dataMax[i] = dataMax[i] > DBL_MAX ? DBL_MAX : dataMax[i];
             }
-            applyFilter<double>(type, image, &dataMin, &dataMax);
+            applyFilter < double > (type, image, &dataMin, &dataMax);
         }
 
         break;
@@ -5514,25 +5576,26 @@ void FITSData::applyFilter(FITSScale type, uint8_t * image, QVector<double> * mi
     Q_EMIT dataChanged();
 }
 
-template <typename T>
-void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double> * targetMin, QVector<double> * targetMax)
+template < typename T >
+void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector < double > * targetMin,
+                           QVector < double > * targetMax)
 {
     bool calcStats = false;
     T * image = nullptr;
 
     if (targetImage)
-        image = reinterpret_cast<T *>(targetImage);
+        image = reinterpret_cast < T * > (targetImage);
     else
     {
-        image     = reinterpret_cast<T *>(m_ImageBuffer);
+        image     = reinterpret_cast < T * > (m_ImageBuffer);
         calcStats = true;
     }
 
     T min[3], max[3];
     for (int i = 0; i < 3; i++)
     {
-        min[i] = (*targetMin)[i] < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min() : (*targetMin)[i];
-        max[i] = (*targetMax)[i] > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max() : (*targetMax)[i];
+        min[i] = (*targetMin)[i] < std::numeric_limits < T>::min() ? std::numeric_limits < T >::min() : (*targetMin)[i];
+        max[i] = (*targetMax)[i] > std::numeric_limits < T >::max() ? std::numeric_limits < T >::max() : (*targetMax)[i];
     }
 
 
@@ -5555,8 +5618,8 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
         case FITS_HIGH_PASS:
         {
             // List of futures
-            QList<QFuture<void>> futures;
-            QVector<double> coeff(3);
+            QList < QFuture < void>> futures;
+            QVector < double > coeff(3);
 
             if (type == FITS_LOG)
             {
@@ -5592,7 +5655,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                         futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
                                                          coeff, n](T & a)
                         {
-                            a = qBound(min[n], static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))), max[n]);
+                            a = qBound(min[n], static_cast < T > (round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))), max[n]);
                         }));
 
                         runningBuffer += tStride;
@@ -5606,7 +5669,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                         futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
                                                          coeff, n](T & a)
                         {
-                            a = qBound(min[n], static_cast<T>(round(coeff[n] * a)), max[n]);
+                            a = qBound(min[n], static_cast < T > (round(coeff[n] * a)), max[n]);
                         }));
                     }
 
@@ -5637,7 +5700,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     m_Statistics.min[i] = min[i];
                     m_Statistics.max[i] = max[i];
                 }
-                calculateStdDev<T>();
+                calculateStdDev < T > ();
             }
         }
         break;
@@ -5668,7 +5731,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                         if (bufferVal >= m_CumulativeFrequency[i].size())
                             bufferVal = m_CumulativeFrequency[i].size() - 1;
 
-                        image[index] = qBound(min[i], static_cast<T>(round(coeff * m_CumulativeFrequency[i][bufferVal])), max[i]);
+                        image[index] = qBound(min[i], static_cast < T > (round(coeff * m_CumulativeFrequency[i][bufferVal])), max[i]);
                     }
                 }
             }
@@ -5741,33 +5804,33 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
             delete[] extension;
 
             if (calcStats)
-                calculateStdDev<T>();
+                calculateStdDev < T > ();
         }
         break;
 
         case FITS_GAUSSIAN:
-            gaussianBlur<T>(Options::focusGaussianKernelSize(), Options::focusGaussianSigma());
+            gaussianBlur < T > (Options::focusGaussianKernelSize(), Options::focusGaussianSigma());
             if (calcStats)
                 calculateStats(true, false);
             break;
 
         case FITS_ROTATE_CW:
-            rotFITS<T>(90, 0);
+            rotFITS < T > (90, 0);
             rotCounter++;
             break;
 
         case FITS_ROTATE_CCW:
-            rotFITS<T>(270, 0);
+            rotFITS < T > (270, 0);
             rotCounter--;
             break;
 
         case FITS_MOUNT_FLIP_H:
-            rotFITS<T>(0, 1);
+            rotFITS < T > (0, 1);
             flipHCounter++;
             break;
 
         case FITS_MOUNT_FLIP_V:
-            rotFITS<T>(0, 2);
+            rotFITS < T > (0, 2);
             flipVCounter++;
             break;
 
@@ -5776,13 +5839,13 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
     }
 }
 
-QList<Edge *> FITSData::getStarCentersInSubFrame(QRect subFrame) const
+QList < Edge * > FITSData::getStarCentersInSubFrame(QRect subFrame) const
 {
-    QList<Edge *> starCentersInSubFrame;
+    QList < Edge * > starCentersInSubFrame;
     for (int i = 0; i < starCenters.count(); i++)
     {
-        int x = static_cast<int>(starCenters[i]->x);
-        int y = static_cast<int>(starCenters[i]->y);
+        int x = static_cast < int > (starCenters[i]->x);
+        int y = static_cast < int > (starCenters[i]->y);
         if(subFrame.contains(x, y))
         {
             starCentersInSubFrame.append(starCenters[i]);
@@ -5852,9 +5915,9 @@ bool FITSData::loadWCS()
         // Build the WCS header from m_HeaderRecords.
         // wcspih() requires string values to be single-quoted (FITS convention),
         // so we add quotes around string-type WCS keywords that need them.
-        static const QSet<QString> wcsStringKeys = { "CTYPE1", "CTYPE2", "RADECSYS",
-                                                     "OBJCTRA", "OBJCTDEC"
-                                                   };
+        static const QSet < QString > wcsStringKeys = { "CTYPE1", "CTYPE2", "RADECSYS",
+                                                        "OBJCTRA", "OBJCTDEC"
+                                                      };
         nkeyrec = 1;
         for (auto &fitsKeyword : m_HeaderRecords)
         {
@@ -6206,7 +6269,7 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
     // Query the catalog independently of what is toggled on for the interactive Sky Map
     // display (e.g. "Show Stars" / "Show Deep Sky Objects"), since those settings have
     // nothing to do with whether the FITS Viewer should be able to annotate this image.
-    QList<SkyObject *> list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint, true);
+    QList < SkyObject * > list = KStarsData::Instance()->skyComposite()->findObjectsInArea(startPoint, endPoint, true);
     // Note: stars returned here already exclude unnamed catalog stars (see
     // StarComponent::objectsInArea), so what remains are bright, named field stars
     // worth annotating -- similar in spirit to astrometry.net's bright-star overlay.
@@ -6233,7 +6296,7 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
             centerPoint.updateCoordsNow(num);
 
             const double searchRadius = startPoint.angularDistanceTo(&endPoint).Degrees() / 2.0;
-            QList<StarObject *> deepStars;
+            QList < StarObject * > deepStars;
             stars->starsInAperture(deepStars, centerPoint, searchRadius, 10.0f);
             for (auto * star : deepStars)
             {
@@ -6273,7 +6336,7 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
                 // through the same WCS transform used for the object's position.
                 // This avoids having to reason by hand about image orientation
                 // and parity conventions -- the WCS transform already encodes them.
-                if (auto * dso = dynamic_cast<CatalogObject *>(object); dso && dso->a() > 0)
+                if (auto * dso = dynamic_cast < CatalogObject * > (object); dso && dso->a() > 0)
                 {
                     const double decRad = world[1] * M_PI / 180.0;
                     const double cosDec = qMax(0.01, std::cos(decRad));
@@ -6789,7 +6852,7 @@ void FITSData::setRotCounter(int value)
  * verbose generates extra info on stdout.
  * return nullptr if successful or rotated image.
  */
-template <typename T>
+template < typename T >
 bool FITSData::rotFITS(int rotate, int mirror)
 {
     int ny, nx;
@@ -6820,8 +6883,8 @@ bool FITSData::rotFITS(int rotate, int mirror)
         return false;
     }
 
-    auto * rotBuffer = reinterpret_cast<T *>(rotimage);
-    auto * buffer    = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * rotBuffer = reinterpret_cast < T * > (rotimage);
+    auto * buffer    = reinterpret_cast < T * > (m_ImageBuffer);
 
     /* Mirror image without rotation */
     if (rotate < 45 && rotate > -45)
@@ -7426,24 +7489,24 @@ bool FITSData::checkDebayerFITS()
     QVariant algo;
     if (params.engine == DebayerEngine::DC1394)
     {
-        if (!params.params.canConvert<DC1394Params>())
+        if (!params.params.canConvert < DC1394Params > ())
         {
             m_LastError = i18n("Invalid dc1394 debayer parameters.");
             return false;
         }
 
-        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        const DC1394Params dc1394Params = params.params.value < DC1394Params > ();
         algo = QVariant::fromValue(dc1394Params.params.method);
     }
     else if (params.engine == DebayerEngine::OpenCV)
     {
-        if (!params.params.canConvert<OpenCVParams>())
+        if (!params.params.canConvert < OpenCVParams > ())
         {
             m_LastError = i18n("Invalid OpenCV debayer parameters.");
             return false;
         }
 
-        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        const OpenCVParams cvParams = params.params.value < OpenCVParams > ();
         algo = QVariant::fromValue(cvParams.algo);
     }
     else
@@ -7479,24 +7542,24 @@ bool FITSData::checkDebayerXISF(const QString pattern)
     QVariant algo;
     if (params.engine == DebayerEngine::DC1394)
     {
-        if (!params.params.canConvert<DC1394Params>())
+        if (!params.params.canConvert < DC1394Params > ())
         {
             m_LastError = i18n("Invalid dc1394 debayer parameters.");
             return false;
         }
 
-        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        const DC1394Params dc1394Params = params.params.value < DC1394Params > ();
         algo = QVariant::fromValue(dc1394Params.params.method);
     }
     else if (params.engine == DebayerEngine::OpenCV)
     {
-        if (!params.params.canConvert<OpenCVParams>())
+        if (!params.params.canConvert < OpenCVParams > ())
         {
             m_LastError = i18n("Invalid OpenCV debayer parameters.");
             return false;
         }
 
-        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        const OpenCVParams cvParams = params.params.value < OpenCVParams > ();
         algo = QVariant::fromValue(cvParams.algo);
     }
     else
@@ -7596,24 +7659,24 @@ bool FITSData::stackCheckDebayerFITS(BayerParameters &params)
     QVariant algo;
     if (params.engine == DebayerEngine::DC1394)
     {
-        if (!params.params.canConvert<DC1394Params>())
+        if (!params.params.canConvert < DC1394Params > ())
         {
             qCDebug(KSTARS_FITS) << QString("Invalid dc1394 debayer parameters");
             return false;
         }
 
-        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        const DC1394Params dc1394Params = params.params.value < DC1394Params > ();
         algo = QVariant::fromValue(dc1394Params.params.method);
     }
     else if (params.engine == DebayerEngine::OpenCV)
     {
-        if (!params.params.canConvert<OpenCVParams>())
+        if (!params.params.canConvert < OpenCVParams > ())
         {
             qCDebug(KSTARS_FITS) << QString("Invalid OpenCV debayer parameters");
             return false;
         }
 
-        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        const OpenCVParams cvParams = params.params.value < OpenCVParams > ();
         algo = QVariant::fromValue(cvParams.algo);
     }
     else
@@ -7644,24 +7707,24 @@ bool FITSData::stackCheckDebayerXISF(const QString pattern, BayerParameters &par
     QVariant algo;
     if (params.engine == DebayerEngine::DC1394)
     {
-        if (!params.params.canConvert<DC1394Params>())
+        if (!params.params.canConvert < DC1394Params > ())
         {
             qCDebug(KSTARS_FITS) << QString("Invalid dc1394 debayer parameters");
             return false;
         }
 
-        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        const DC1394Params dc1394Params = params.params.value < DC1394Params > ();
         algo = QVariant::fromValue(dc1394Params.params.method);
     }
     else if (params.engine == DebayerEngine::OpenCV)
     {
-        if (!params.params.canConvert<OpenCVParams>())
+        if (!params.params.canConvert < OpenCVParams > ())
         {
             qCDebug(KSTARS_FITS) << QString("Invalid OpenCV debayer parameters");
             return false;
         }
 
-        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        const OpenCVParams cvParams = params.params.value < OpenCVParams > ();
         algo = QVariant::fromValue(cvParams.algo);
     }
     else
@@ -7722,10 +7785,10 @@ bool FITSData::debayer(bool reload)
         switch (m_Statistics.dataType)
         {
             case TBYTE:
-                return debayerCV<uint8_t>(params);
+                return debayerCV < uint8_t > (params);
 
             case TUSHORT:
-                return debayerCV<uint16_t>(params);
+                return debayerCV < uint16_t > (params);
 
             default:
                 return false;
@@ -7775,8 +7838,8 @@ bool FITSData::debayer_8bit()
         return false;
     }
 
-    auto * bayer_source_buffer      = reinterpret_cast<uint8_t *>(m_ImageBuffer);
-    auto * bayer_destination_buffer = reinterpret_cast<uint8_t *>(destinationBuffer);
+    auto * bayer_source_buffer      = reinterpret_cast < uint8_t * > (m_ImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast < uint8_t * > (destinationBuffer);
 
     if (bayer_destination_buffer == nullptr)
     {
@@ -7824,7 +7887,7 @@ bool FITSData::debayer_8bit()
         m_ImageBufferSize = rgb_size;
     }
 
-    auto bayered_buffer = reinterpret_cast<uint8_t *>(m_ImageBuffer);
+    auto bayered_buffer = reinterpret_cast < uint8_t * > (m_ImageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
@@ -7849,7 +7912,7 @@ bool FITSData::debayer_8bit()
     auto end = std::chrono::high_resolution_clock::now();
     qCDebug(KSTARS_FITS) << "Debayer (dc1394 8bit) using method:"
                          << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method)
-                         << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+                         << " took:" << std::chrono::duration < double, std::milli > (end - start).count() << "ms";
     return true;
 }
 
@@ -7879,8 +7942,8 @@ bool FITSData::debayer_16bit()
         return false;
     }
 
-    auto * bayer_source_buffer      = reinterpret_cast<uint16_t *>(m_ImageBuffer);
-    auto * bayer_destination_buffer = reinterpret_cast<uint16_t *>(destinationBuffer);
+    auto * bayer_source_buffer      = reinterpret_cast < uint16_t * > (m_ImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast < uint16_t * > (destinationBuffer);
 
     if (bayer_destination_buffer == nullptr)
     {
@@ -7928,7 +7991,7 @@ bool FITSData::debayer_16bit()
         m_ImageBufferSize = rgb_size;
     }
 
-    auto bayered_buffer = reinterpret_cast<uint16_t *>(m_ImageBuffer);
+    auto bayered_buffer = reinterpret_cast < uint16_t * > (m_ImageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
@@ -7950,13 +8013,13 @@ bool FITSData::debayer_16bit()
     auto end = std::chrono::high_resolution_clock::now();
     qCDebug(KSTARS_FITS) << "Debayer (dc1394 16bit) using method:"
                          << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method)
-                         << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+                         << " took:" << std::chrono::duration < double, std::milli > (end - start).count() << "ms";
     return true;
 }
 
 // Template function to handle both 8-bit and 16-bit debayering
 #if !defined (KSTARS_LITE)
-template <typename T>
+template < typename T >
 bool FITSData::stackDebayer(BayerParameters &bayerParams)
 {
     auto start = std::chrono::high_resolution_clock::now();
@@ -7982,8 +8045,8 @@ bool FITSData::stackDebayer(BayerParameters &bayerParams)
         return false;
     }
 
-    auto * bayer_source_buffer = reinterpret_cast<T *>(m_StackImageBuffer);
-    auto * bayer_destination_buffer = reinterpret_cast<T *>(destinationBuffer);
+    auto * bayer_source_buffer = reinterpret_cast < T * > (m_StackImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast < T * > (destinationBuffer);
 
     if (bayer_destination_buffer == nullptr)
     {
@@ -8001,7 +8064,7 @@ bool FITSData::stackDebayer(BayerParameters &bayerParams)
     }
 
     // Call appropriate debayering function based on template type
-    if constexpr (std::is_same_v<T, uint16_t>)
+    if constexpr (std::is_same_v < T, uint16_t > )
     {
         error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer,
                      m_StackStatistics.stats.width, ds1394_height,
@@ -8037,7 +8100,7 @@ bool FITSData::stackDebayer(BayerParameters &bayerParams)
         m_StackImageBufferSize = rgb_size;
     }
 
-    auto bayered_buffer = reinterpret_cast<T *>(m_StackImageBuffer);
+    auto bayered_buffer = reinterpret_cast < T * > (m_StackImageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
     T * rBuff = bayered_buffer;
@@ -8062,12 +8125,12 @@ bool FITSData::stackDebayer(BayerParameters &bayerParams)
     auto end = std::chrono::high_resolution_clock::now();
     qCDebug(KSTARS_FITS) << "Stack Debayer (dc1394) using method:"
                          << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method) << " took:"
-                         << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+                         << std::chrono::duration < double, std::milli > (end - start).count() << "ms";
     return true;
 }
 
 // This is the openCV stack debayer routine
-template <typename T>
+template < typename T >
 bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
 {
     try
@@ -8097,8 +8160,8 @@ bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
         int cvCode = BayerUtils::getCVDebayerCode(algo, cvParams);
 
         // Setup Source & Destination
-        int cv_type = std::is_same_v<T, uint16_t> ? CV_16UC1 : CV_8UC1;
-        T *source_ptr = (stack) ? reinterpret_cast<T *>(m_StackImageBuffer) : reinterpret_cast<T *>(m_ImageBuffer);
+        int cv_type = std::is_same_v < T, uint16_t > ? CV_16UC1 : CV_8UC1;
+        T *source_ptr = (stack) ? reinterpret_cast < T * > (m_StackImageBuffer) : reinterpret_cast < T * > (m_ImageBuffer);
         int proc_height = h;
         if (cvParams.offsetY == 1)
         {
@@ -8129,11 +8192,11 @@ bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
             }
         }
 
-        T *out_ptr = (stack) ? reinterpret_cast<T *>(m_StackImageBuffer) : reinterpret_cast<T *>(m_ImageBuffer);
-        std::vector<cv::Mat> planes = { cv::Mat(h, w, cv_type, out_ptr),
-                                        cv::Mat(h, w, cv_type, out_ptr + sPerC),
-                                        cv::Mat(h, w, cv_type, out_ptr + (sPerC * 2))
-                                      };
+        T *out_ptr = (stack) ? reinterpret_cast < T * > (m_StackImageBuffer) : reinterpret_cast < T * > (m_ImageBuffer);
+        std::vector < cv::Mat > planes = { cv::Mat(h, w, cv_type, out_ptr),
+                                           cv::Mat(h, w, cv_type, out_ptr + sPerC),
+                                           cv::Mat(h, w, cv_type, out_ptr + (sPerC * 2))
+                                         };
 
         // Seems like openCV forces BGR so we have to go with it and remap the channels afterwards
         cv::split(interleavedBGR, planes);
@@ -8151,7 +8214,7 @@ bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
 
         auto end = std::chrono::high_resolution_clock::now();
         qCDebug(KSTARS_FITS) << "Stack Debayer (openCV) using algo:" << BayerUtils::openCVAlgoToString(algo)
-                             << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+                             << " took:" << std::chrono::duration < double, std::milli > (end - start).count() << "ms";
         return true;
     }
     catch (const cv::Exception &ex)
@@ -8174,7 +8237,7 @@ double FITSData::getADU() const
     for (int i = 0; i < m_Statistics.channels; i++)
         adu += m_Statistics.mean[i];
 
-    return (adu / static_cast<double>(m_Statistics.channels));
+    return (adu / static_cast < double > (m_Statistics.channels));
 }
 
 QString FITSData::getLastError() const
@@ -8182,11 +8245,11 @@ QString FITSData::getLastError() const
     return m_LastError;
 }
 
-template <typename T>
+template < typename T >
 void FITSData::convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image)
 {
-    const auto * buffer = reinterpret_cast<const T *>(getImageBuffer());
-    const T limit   = std::numeric_limits<T>::max();
+    const auto * buffer = reinterpret_cast < const T * > (getImageBuffer());
+    const T limit   = std::numeric_limits < T >::max();
     T bMin    = dataMin < 0 ? 0 : dataMin;
     T bMax    = dataMax > limit ? limit : dataMax;
     uint16_t w    = width();
@@ -8205,7 +8268,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
             {
                 val         = qBound(bMin, buffer[j * w + i], bMax);
                 val         = val * scale + zero;
-                scanLine[i] = qBound<unsigned char>(0, static_cast<uint8_t>(val), 255);
+                scanLine[i] = qBound < unsigned char > (0, static_cast < uint8_t > (val), 255);
             }
         }
     }
@@ -8216,7 +8279,7 @@ void FITSData::convertToQImage(double dataMin, double dataMax, double scale, dou
         /* Fill in pixel values using indexed map, linear scale */
         for (int j = 0; j < h; j++)
         {
-            auto * scanLine = reinterpret_cast<QRgb *>((image.scanLine(j)));
+            auto * scanLine = reinterpret_cast < QRgb * > ((image.scanLine(j)));
 
             for (int i = 0; i < w; i++)
             {
@@ -8239,7 +8302,7 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     FITSData data;
 
-    QFuture<bool> future = data.loadFromFile(filename);
+    QFuture < bool > future = data.loadFromFile(filename);
 
     // Wait synchronously
     future.waitForFinished();
@@ -8277,35 +8340,35 @@ QImage FITSData::FITSToImage(const QString &filename)
     switch (data.m_Statistics.dataType)
     {
         case TBYTE:
-            data.convertToQImage<uint8_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < uint8_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TSHORT:
-            data.convertToQImage<int16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < int16_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TUSHORT:
-            data.convertToQImage<uint16_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < uint16_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TLONG:
-            data.convertToQImage<int32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < int32_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TULONG:
-            data.convertToQImage<uint32_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < uint32_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TFLOAT:
-            data.convertToQImage<float>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < float > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TLONGLONG:
-            data.convertToQImage<int64_t>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < int64_t > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         case TDOUBLE:
-            data.convertToQImage<double>(dataMin, dataMax, bscale, bzero, fitsImage);
+            data.convertToQImage < double > (dataMin, dataMax, bscale, bzero, fitsImage);
             break;
 
         default:
@@ -8581,35 +8644,35 @@ void FITSData::constructHistogram()
     switch (m_Statistics.dataType)
     {
         case TBYTE:
-            constructHistogramInternal<uint8_t>();
+            constructHistogramInternal < uint8_t > ();
             break;
 
         case TSHORT:
-            constructHistogramInternal<int16_t>();
+            constructHistogramInternal < int16_t > ();
             break;
 
         case TUSHORT:
-            constructHistogramInternal<uint16_t>();
+            constructHistogramInternal < uint16_t > ();
             break;
 
         case TLONG:
-            constructHistogramInternal<int32_t>();
+            constructHistogramInternal < int32_t > ();
             break;
 
         case TULONG:
-            constructHistogramInternal<uint32_t>();
+            constructHistogramInternal < uint32_t > ();
             break;
 
         case TFLOAT:
-            constructHistogramInternal<float>();
+            constructHistogramInternal < float > ();
             break;
 
         case TLONGLONG:
-            constructHistogramInternal<int64_t>();
+            constructHistogramInternal < int64_t > ();
             break;
 
         case TDOUBLE:
-            constructHistogramInternal<double>();
+            constructHistogramInternal < double > ();
             break;
 
         default:
@@ -8617,19 +8680,19 @@ void FITSData::constructHistogram()
     }
 }
 
-template <typename T> int32_t FITSData::histogramBinInternal(T value, int channel) const
+template < typename T > int32_t FITSData::histogramBinInternal(T value, int channel) const
 {
-    return qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
-                                        static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
+    return qMax(static_cast < T > (0), qMin(static_cast < T > (m_HistogramBinCount),
+                                            static_cast < T > (rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
 }
 
-template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
+template < typename T > int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
 {
     if (!m_ImageBuffer || !isHistogramConstructed())
         return 0;
     uint32_t samples = m_Statistics.width * m_Statistics.height;
     uint32_t offset = channel * samples;
-    auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
+    auto * const buffer = reinterpret_cast < T const * > (m_ImageBuffer);
     int index = y * m_Statistics.width + x;
     const T &sample = buffer[index + offset];
     return histogramBinInternal(sample, channel);
@@ -8640,35 +8703,35 @@ int32_t FITSData::histogramBin(int x, int y, int channel) const
     switch (m_Statistics.dataType)
     {
         case TBYTE:
-            return histogramBinInternal<uint8_t>(x, y, channel);
+            return histogramBinInternal < uint8_t > (x, y, channel);
             break;
 
         case TSHORT:
-            return histogramBinInternal<int16_t>(x, y, channel);
+            return histogramBinInternal < int16_t > (x, y, channel);
             break;
 
         case TUSHORT:
-            return histogramBinInternal<uint16_t>(x, y, channel);
+            return histogramBinInternal < uint16_t > (x, y, channel);
             break;
 
         case TLONG:
-            return histogramBinInternal<int32_t>(x, y, channel);
+            return histogramBinInternal < int32_t > (x, y, channel);
             break;
 
         case TULONG:
-            return histogramBinInternal<uint32_t>(x, y, channel);
+            return histogramBinInternal < uint32_t > (x, y, channel);
             break;
 
         case TFLOAT:
-            return histogramBinInternal<float>(x, y, channel);
+            return histogramBinInternal < float > (x, y, channel);
             break;
 
         case TLONGLONG:
-            return histogramBinInternal<int64_t>(x, y, channel);
+            return histogramBinInternal < int64_t > (x, y, channel);
             break;
 
         case TDOUBLE:
-            return histogramBinInternal<double>(x, y, channel);
+            return histogramBinInternal < double > (x, y, channel);
             break;
 
         default:
@@ -8677,9 +8740,9 @@ int32_t FITSData::histogramBin(int x, int y, int channel) const
     }
 }
 
-template <typename T> void FITSData::constructHistogramInternal()
+template < typename T > void FITSData::constructHistogramInternal()
 {
-    auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
+    auto * const buffer = reinterpret_cast < T const * > (m_ImageBuffer);
     uint32_t samples = m_Statistics.width * m_Statistics.height;
     const uint32_t sampleBy = samples > 500000 ? samples / 500000 : 1;
 
@@ -8697,7 +8760,7 @@ template <typename T> void FITSData::constructHistogramInternal()
         m_HistogramBinWidth[n] = qMax(minBinSize, (m_Statistics.max[n] - m_Statistics.min[n]) / m_HistogramBinCount);
     }
 
-    QVector<QFuture<void>> futures;
+    QVector < QFuture < void>> futures;
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
@@ -8716,13 +8779,13 @@ template <typename T> void FITSData::constructHistogramInternal()
 
             for (uint32_t i = 0; i < samples; i += sampleBy)
             {
-                int32_t id = histogramBinInternal<T>(buffer[i + offset], n);
+                int32_t id = histogramBinInternal < T > (buffer[i + offset], n);
                 m_HistogramFrequency[n][id] += sampleBy;
             }
         }));
     }
 
-    for (QFuture<void> future : futures)
+    for (QFuture < void > future : futures)
         future.waitForFinished();
 
     futures.clear();
@@ -8740,14 +8803,14 @@ template <typename T> void FITSData::constructHistogramInternal()
         }));
     }
 
-    for (QFuture<void> future : futures)
+    for (QFuture < void > future : futures)
         future.waitForFinished();
 
     futures.clear();
 
     // Custom index to indicate the overall contrast of the image
     if (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 4] > 0)
-        m_JMIndex = m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 8] / static_cast<double>
+        m_JMIndex = m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 8] / static_cast < double >
                     (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount /
                         4]);
     else

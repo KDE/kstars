@@ -288,6 +288,7 @@ enum COMMANDS
     POSTPROCESS_REDO_POSTPROCESS,
     POSTPROCESS_SAVE,
     POSTPROCESS_GET_STATE,
+    POSTPROCESS_UNDO,
     NEW_POSTPROCESS_STATE,
 
     // Artificial Horizon
@@ -560,6 +561,7 @@ static QMap<COMMANDS, QString> const commands =
     {POSTPROCESS_REDO_POSTPROCESS, "postprocess_redo_postprocess"},
     {POSTPROCESS_SAVE, "postprocess_save"},
     {POSTPROCESS_GET_STATE, "postprocess_get_state"},
+    {POSTPROCESS_UNDO, "postprocess_undo"},
     {NEW_POSTPROCESS_STATE, "new_postprocess_state"},
 
     {ARTIFICIAL_HORIZON_IMPORT, "artificial_horizon_import"},

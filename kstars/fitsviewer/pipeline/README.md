@@ -78,32 +78,44 @@ Every command that changes the working image — `postprocess_crop`,
 `postprocess_apply_curve_per_channel`, `postprocess_apply_saturation`,
 `postprocess_apply_contrast`, `postprocess_apply_denoise`,
 `postprocess_apply_bge`, `postprocess_apply_color_calibration`, and
-`postprocess_build_master` — renders a JPEG preview on success (downscaled,
-1024px on the long side by default, so generating it stays cheap regardless
-of source resolution; auto-stretched if the underlying data still needs one
-— e.g. right after a fresh stack, before any explicit
+`postprocess_undo` — renders **two** JPEG previews: one of the working
+image right before the step runs, one right after (downscaled, 1024px on
+the long side by default, so generating either stays cheap regardless of
+source resolution; auto-stretched if the underlying data still needs one —
+e.g. right after a fresh stack, before any explicit
 `postprocess_apply_autostretch` call — and left alone if it's already
-display-ready). Pass `"preview": false` in the payload to skip generating it
-entirely — useful for a scripted batch of adjustments that only cares about
-the final result. `postprocess_save` never generates a preview (the working
-image didn't change).
+display-ready). Sending both lets a client show a visual before/after
+comparison and decide whether to keep a step or undo it and retry with
+different parameters, rather than only ever seeing the end result. Pass
+`"preview": false` in the payload to skip generating either — useful for a
+scripted batch of adjustments that only cares about the final result.
+`postprocess_save` never generates a preview (the working image didn't
+change). `postprocess_build_master` is the one exception that still sends
+only a single preview (see below) — it's a standalone, session-less
+one-shot op with no prior working-image state to show a "before" of.
 
-**The preview is not embedded in the JSON response.** It's sent over the
+**Previews are not embedded in the JSON response.** They're sent over the
 same binary `wsMedia` channel — and the same `+X` single-letter module-tag
 convention — that Align/Focus/Guide/DarkLibrary previews already use
-(`+A`/`+F`/`+G`/`+D`; postprocess previews use `+P`). Server-side, any
-`uuid` starting with `+` is cached and served back as a timestamped URL via
-a `NEW_IMAGE_METADATA` message on the regular (non-binary) socket — see
-`Media::uploadPreview()` (`kstars/ekos/ekoslive/media.cpp`) on the KStars
-side and `wssMediaServerManager.js`'s generic `uuid.startsWith("+")`
-handling on the `ekoslive-offline` side, unchanged for this new tag. This
-was deliberately *not* embedded inline as base64 (an earlier version of
-this pipeline did that): every state update would otherwise carry a full
-image payload over the JSON socket, exactly what the existing `+A`/`+F`/
-`+G`/`+D` mechanism exists to avoid. A client must be listening for
-`NEW_IMAGE_METADATA` (the same way it already does for those) to receive
-the fetchable URL — a `new_postprocess_state` response carries no
-image-related field at all.
+(`+A`/`+F`/`+G`/`+D`). Postprocess previews use two tags: **`+PB`** (before
+the step) and **`+PA`** (after) — sent as two separate uploads, each
+producing its own `NEW_IMAGE_METADATA` push, so the client gets two
+independent fetchable URLs per command rather than one. `postprocess_build_master`,
+having no "before" to show, still uses the single `+P` tag on its own.
+Server-side, any `uuid` starting with `+` is cached and served back as a
+timestamped URL via a `NEW_IMAGE_METADATA` message on the regular
+(non-binary) socket — see `Media::uploadPreview()` (`kstars/ekos/ekoslive/media.cpp`)
+on the KStars side and `wssMediaServerManager.js`'s generic
+`uuid.startsWith("+")` handling on the `ekoslive-offline` side, unchanged
+for these tags (the server has no per-tag special-casing — `+PB`/`+PA`
+work exactly as `+P` already did, just as two independent cache slots
+instead of one). This was deliberately *not* embedded inline as base64 (an
+earlier version of this pipeline did that): every state update would
+otherwise carry a full image payload over the JSON socket, exactly what
+the existing `+A`/`+F`/`+G`/`+D` mechanism exists to avoid. A client must
+be listening for `NEW_IMAGE_METADATA` (the same way it already does for
+those) to receive the fetchable URLs — a `new_postprocess_state` response
+carries no image-related field at all.
 
 `Message` doesn't hold a `Media` pointer to send this — it emits
 `Message::postProcessPreviewReady(jpeg, uuid, metadata)`, which
@@ -143,6 +155,59 @@ payload for a given `sessionId` (or `"build_master"`) without waiting on a
 push — useful for polling instead of trusting every push arrives, and for a
 client that reconnected mid-operation. See its entry in the command
 reference below.
+
+`postprocess_undo` is the one mutating exception to the "processing" ack
+above — it's synchronous (a buffer restore, not real pixel math), so it
+replies once, immediately, with its real outcome. It's still checked
+against the busy-set (rejected with `"busy"` if a real op on that session
+is currently mid-flight) even though it doesn't set that flag itself. See
+its entry in the command reference below.
+
+## Linear vs. non-linear pipeline stages
+
+Every `postprocess_*` step mutates the same working-image buffer, so nothing
+stops a caller from running them in any order — but which stage a command
+belongs to determines whether it does what you'd expect. This section is
+checked against external references (PixInsight's own docs and established
+community processing workflows — see Sources at the end), not just inferred
+from this codebase.
+
+**Linear stage** — pixel values are still proportional to actual captured
+light; no tone curve has been applied. Background modeling, color
+calibration, and noise reduction are all standard practice to run here,
+*before* anything nonlinear touches the data:
+
+| Command | Why it belongs here |
+|---|---|
+| `postprocess_stack` (+ `build_master`/`blend_channels`/`redo_postprocess`) | The combined result is raw ADU-scale linear data — confirmed in code: `FITSStack`'s combine path does a bare type cast, no `/65535`-style rescale. Nothing has stretched it yet. |
+| `postprocess_crop` | Domain-agnostic (works identically on linear or stretched data) — but cropping before background extraction avoids feeding partial-coverage edge artifacts into the background model. |
+| `postprocess_apply_bge` | Standard practice: background/gradient modeling is more accurate on linear data, since the signal-to-background relationship hasn't been compressed by a tone curve yet. |
+| `postprocess_apply_color_calibration` | Every source checked agrees: color-calibrate **before** stretching (including before any saturation adjustment) — doing it after makes accurate color much harder to recover. See the important caveat below, though. |
+| `postprocess_apply_denoise` | Standard practice runs the first noise-reduction pass on linear data, before stretch amplifies both signal and noise together. |
+
+**The stretch is the boundary.** `postprocess_apply_autostretch` is what
+converts the image from linear (light-proportional) to non-linear
+(display-referred, tone-mapped) — this is the one command that changes
+which stage you're in.
+
+**Non-linear stage** — pixel values now follow a display/tone curve, not
+raw captured-light proportion. Global "look"/finishing adjustments belong
+here, after the stretch:
+
+| Command | Why it belongs here |
+|---|---|
+| `postprocess_apply_saturation`, `postprocess_apply_contrast`, `postprocess_apply_curve`/`_per_channel` | Global tone/color-grading adjustments meant for a display-referred image — they interpret pixel values relative to a `[0,1]`-ish display range that doesn't exist yet on linear data. Running these before stretch produces different, not generally useful, results. |
+
+`postprocess_save` isn't stage-specific — it writes out whatever the current
+working image is, linear or already stretched.
+
+**Important caveat on color calibration specifically**: "run it on linear
+data" is the *correct* ordering per every external source checked, but this
+pipeline's actual color-calibration *implementation* has a separate,
+confirmed-independent-of-ordering defect — see the warning in "Photometric
+color calibration" below before relying on it for a final image.
+
+Sources: [Deep-Sky Image Processing Workflow — Astrodoc](https://astrodoc.ca/deep-sky-image-processing-workflow/), [PixInsight SPCC reference documentation](https://pixinsight.com/doc/docs/SPCC/SPCC.html), [PixInsight — Photometry-Based Color Calibration](https://pixinsight.com/tutorials/PCC/), [PixInsight Deconvolution and Noise Reduction Example](https://www.pixinsight.com/examples/M81M82/index.html).
 
 ## Command reference
 
@@ -362,7 +427,7 @@ event `postprocess_stack` uses for this session.
 `{"x", "y", "width", "height"}` (all int, default `0`). Crops the working
 image in place; adjusts the WCS reference pixel automatically if one
 exists. Omitting `width`/`height` produces a degenerate 0×0 crop, rejected
-as an out-of-bounds error. Response: `{"state": "cropped"}` (also sends a `+P` preview — see "Preview images" above)
+as an out-of-bounds error. Response: `{"state": "cropped"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above)
 or an error.
 
 ### `postprocess_apply_autostretch`
@@ -373,13 +438,13 @@ or an error.
 | `shadowsClipping` | double | `2.8` | MADN (robust sigma) units below/above the median to clip at. |
 | `linked` | bool | `true` | See "Linked vs. unlinked autostretch" below — **this choice matters a lot** and depends entirely on what kind of data you're stretching. |
 
-Response: `{"state": "stretched"}` (also sends a `+P` preview — see "Preview images" above) or an error.
+Response: `{"state": "stretched"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_curve`
 
 `{"points": [{"x","y"}, ...]}` — at least 2 points, strictly increasing
 `x`, each in `[0,1]×[0,1]`. One shared curve applied identically to every
-channel. Response: `{"state": "curve_applied"}` (also sends a `+P` preview — see "Preview images" above) or an
+channel. Response: `{"state": "curve_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an
 error (non-monotonic points, fewer than 2).
 
 ### `postprocess_apply_curve_per_channel`
@@ -387,20 +452,20 @@ error (non-monotonic points, fewer than 2).
 `{"red": [...], "green": [...], "blue": [...]}` — same point rules as
 above, independent curves per channel (color grading).
 Fails against a mono/single-channel stack. Response:
-`{"state": "curve_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
+`{"state": "curve_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_saturation`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=grayscale,
 `>1.0`=more saturated). No-op (still succeeds) on a mono image. Fails if
 the current image isn't normalized to `[0,1]` yet (stretch/curve first).
-Response: `{"state": "saturation_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
+Response: `{"state": "saturation_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_contrast`
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=flat at the pivot,
 `>1.0`=more contrast). Pivots on the image's own mean; output clamped to
-`[0,1]`. Response: `{"state": "contrast_applied"}` (also sends a `+P` preview — see "Preview images" above) or an
+`[0,1]`. Response: `{"state": "contrast_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an
 error.
 
 ### `postprocess_apply_denoise`
@@ -417,7 +482,7 @@ always re-runs gradient/deconvolution/sharpen alongside it.
 | `denoiseMethod` | int | `0` | `0`=HARD, `1`=SOFT — same meaning as the pre-combine field above. |
 | `chromaDenoiseAmt` | double | `0.0` | Chroma-only denoise strength, `[0,1]`. `0` skips this pass. Ignored (no-op) on a mono image. |
 
-Response: `{"state": "denoise_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
+Response: `{"state": "denoise_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_bge`
 
@@ -431,7 +496,7 @@ and when to prefer this over the pre-combine field.
 |---|---|---|---|
 | `strength` | double | `0.0` | How much of the fitted background model to remove, `[0,1]`. `0` is a no-op — this must be set explicitly. |
 
-Response: `{"state": "bge_applied"}` (also sends a `+P` preview — see "Preview images" above) or an error.
+Response: `{"state": "bge_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_color_calibration`
 
@@ -440,21 +505,28 @@ independent of every other step, and skipped entirely by a caller who never
 sends it. Requires the session to carry a WCS (a plate-solved stack, or a
 `postprocess_blend_channels` result whose inputs were plate-solved — see
 "Photometric color calibration" below for why a blend needs this spelled
-out). Run it **last**, after `postprocess_apply_saturation` — see "Where
-this fits in the pipeline order" below.
+out). Run it early, on the **linear** image right after
+`postprocess_apply_bge` — before `_denoise`/`_autostretch`/`_saturation`/
+`_contrast` — see "Where this fits in the pipeline order" below.
 
 | Field | Type | Default | Notes |
 |---|---|---|---|
 | `strength` | double | `1.0` | How much of the computed per-star correction to apply, `[0,1]`. `0` is a no-op. |
 | `maxCatalogMagnitude` | double | `12.0` | Faintest catalog star considered a candidate match. |
 | `matchRadiusArcsec` | double | `5.0` | How close (on sky) a catalog star must be to a detected star's position to count as a match. |
-| `photometricCatalogPath` | string | *(none)* | Optional supplementary `(RA, Dec, V, B-V)` binary catalog, consulted only when KStars' own bundled catalog has no usable color for a match. See "Photometric color calibration" below. |
+
+No path parameter for the supplementary catalog — it's located the same way
+any other KStars data file is (`photometriccatalog.bin`, see "The
+supplementary catalog" below) and is required, not optional: if it isn't
+installed, this command fails immediately rather than silently running
+without real photometry for most stars.
 
 Response: `{"state": "color_calibration_applied", "starsDetected": N, "starsMatched": M}`
-(also sends a `+P` preview — see "Preview images" above) or `{"state": "error", "message": "..."}` (most commonly
-"no WCS available"). `starsMatched` counts every corrected star, whether it
-got a real catalog color or fell back to neutral — see below for why both
-count.
+(also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or `{"state": "error", "message": "..."}` (most commonly
+"no WCS available", or "Photometric catalog not found — download the Tycho2
+Photometric Catalog first" if `photometriccatalog.bin` isn't installed).
+`starsMatched` counts every corrected star, whether it got a real catalog
+color or fell back to neutral — see below for why both count.
 
 ### `postprocess_save`
 
@@ -473,6 +545,28 @@ worker-thread dispatch, no `"processing"` ack of its own. Returns whatever
 `"build_master"`), including one still in flight (`{"state": "processing", ...}`)
 or a `"busy"` rejection. `{"state": "unknown", "sessionId": "<id>"}` if
 nothing has ever been sent for that id. See "Asynchronous commands" above.
+
+### `postprocess_undo`
+
+`{"sessionId": ...}` (default key if omitted). Reverts the single most
+recent `postprocess_crop`/`apply_*`/`apply_color_calibration` step —
+**single-level**: it consumes the one snapshot taken just before that step
+ran, so calling this twice in a row (with nothing new applied in between)
+fails the second time rather than stepping further back. Unlike
+crop/apply_*, this is synchronous — no `"processing"` ack, no busy-set
+entry of its own (a buffer restore plus a FITS re-encode, not real pixel
+math) — but it's still rejected with `{"state": "busy", ...}` if that
+session has a real crop/apply_* op currently in flight, so it can't race
+one. Sends the same `+PB`/`+PA` before/after previews as the ops it
+reverts (`"preview": false` to skip, same convention). Response:
+`{"state": "undone", "sessionId": "<id>"}`, or `{"state": "error",
+"message": "Nothing to undo", "sessionId": "<id>"}` if nothing's been
+applied yet (or a previous undo already consumed the snapshot).
+
+Undoing a crop also restores the WCS reference pixel crop adjusted, not
+just the pixel data — everything else it might revert (saturation, a
+curve, denoise, BGE, color calibration, ...) only ever touched pixels, so
+there's nothing else to restore.
 
 ## Key concepts and guidance
 
@@ -682,6 +776,33 @@ specific "merge two already-aligned stacks" case instead.
 
 ### Photometric color calibration
 
+**Fixed: a ring/halo artifact that used to appear around many stars.**
+Previously confirmed (independent of pipeline ordering) that many stars
+came out with a visible colored ring once the image was stretched enough
+to reveal it. Root cause: `PhotometricCalibrationOperation::apply()`
+measures a star's color from a small aperture at its core, but was applying
+the resulting gain through a Gaussian spatial falloff reaching several
+times the star's radius outward — well past the aperture that produced the
+measurement, into the star's fainter PSF wings and surrounding
+background/nebula, which have a different native color than what was
+measured. Fixed by adding a second, independent per-pixel weight factor: a
+**local, per-star background-relative brightness gate**, sampled from the
+same correction patch's own outer annulus (robust median + MAD estimate,
+so it reflects what's actually under *this* star rather than a whole-frame
+average). A pixel now only receives meaningful correction if it's both
+spatially close to the star (the existing Gaussian) *and* still
+meaningfully brighter than the local background/noise floor around it —
+so the correction stops bleeding into pixels that were never part of the
+star's light, regardless of star size. Verified against real data: the
+ring is gone under the same aggressive stretch that originally revealed
+it, and per-star saturation sampled before/after is essentially unchanged
+on average (individual stars shift both directions — some lose spurious
+saturation from the removed ring-bleed, some gain slightly more accurate
+core color — rather than a systematic wash-out). This remains a
+deliberately **local** (per-star, not whole-image) correction, unlike
+PixInsight's PCC/SPCC (a global per-channel gain) — nebula/background
+color is still left untouched by design.
+
 `postprocess_apply_color_calibration` nudges each detected star's own local
 color toward a target derived from its real catalog B-V color index, without
 touching anything else in the frame — nebula/background color is left
@@ -794,22 +915,47 @@ entries with both BT and VT present and V ≤ 12.5, with BT/VT converted to
 Johnson V/B-V via the standard ESA transformation (Perryman et al. 1997,
 valid for -0.25 < BT-VT < 2.0): `V = VT - 0.090×(BT-VT)`, `B-V = 0.850×(BT-VT)`.
 The full-sky build is ~2.33 million stars, ~35.5MB, installed at
-`~/.local/share/kstars/photometriccatalog.bin` (the same directory KStars'
-own `deepstars.dat` lives in) — pass that path as `photometricCatalogPath`
-to use it; there's no automatic default path lookup in code, so a caller
-that wants the supplementary catalog must specify it explicitly every time.
-`findNearest()` does a declination-bound binary search before the final
+`~/.local/share/kstars/photometriccatalog.bin` — the same directory, and the
+same `KSPaths::locate(QStandardPaths::AppLocalDataLocation, ...)` lookup,
+KStars already uses for `deepstars.dat` (see
+`StarComponent::addDeepStarCatalogIfExists()`). No caller-supplied path:
+`FITSData::applyPhotometricCalibration()` locates it itself, and since
+KStars' own bundled catalog alone leaves most stars with no usable
+photometry, **the file is required** — if it isn't found there, the command
+fails immediately with `"Photometric catalog not found — download the
+Tycho2 Photometric Catalog first"` rather than silently falling back to
+correcting nearly every star toward neutral gray with no real color data at
+all. `findNearest()` does a declination-bound binary search before the final
 angular-distance scan, so a lookup against the full 2.33M-entry file stays
 fast even without a spatial index.
 
-**Where this fits in the pipeline order.** Run it **after**
-`postprocess_apply_saturation`, not before — saturation is a global,
-uniform boost that would re-exaggerate whatever small residual chroma bias
-survives an earlier correction, and the correction math itself only cares
-about the *current* pixel ratios at the moment it runs, so there's no
-benefit to running it earlier in the sequence. Confirmed on real data
-across many iterations: running it before saturation left a visible
-residual cast that running it after eliminated.
+**Where this fits in the pipeline order.** Run it on the **linear** stacked
+image — right after `postprocess_apply_bge` and **before**
+`postprocess_apply_denoise`/`_autostretch`/`_saturation`/`_contrast` — not
+last, as earlier revisions of this doc said. The target color comes from a
+real CIE color-matching integration of the star's catalog blackbody
+spectrum, a physically linear light quantity; comparing that against a
+"measured" color already run through a nonlinear stretch and a uniform
+saturation boost means the correction is fighting the wrong bias (stretch/
+saturation-induced, not sensor/optics/atmosphere-induced) rather than fixing
+the one it's designed for. Matches how PixInsight's PCC/SPCC and equivalent
+tools always run on linear data, before any stretch, for the same reason.
+Run it as early as the image is background-clean (right after BGE) so
+nothing downstream — denoise's chroma blur, autostretch's nonlinear remap,
+saturation's uniform chroma boost — gets a chance to perturb the
+just-corrected star colors again.
+
+One caveat worth watching for on real linear data (not yet needed on a
+stretched `[0,1]` image, where clipped pixels are reliably pinned at
+exactly `1.0`): the saturated/clipped-core heuristic
+(`PhotometricCalibrationOperation`, compares each star's peak against the
+buffer's own `cv::minMaxLoc` max) assumes that max pixel is a genuinely
+clipped star core. On raw ADU-scale linear data that's less certain — sigma-
+rejection/hot-pixel correction during stacking, or simply a conservative
+exposure that never hit the sensor's true ceiling, could mean the buffer's
+current max isn't actually a saturated core. Nothing has been observed to
+go wrong from this in practice yet — noted here so it isn't a surprise if it
+does.
 
 ## Worked example 1 — single-color (OSC) full pipeline
 
@@ -848,28 +994,29 @@ length throughout.
 // 4. Background extraction on the final composed image
 {"type": "postprocess_apply_bge", "payload": {"strength": 0.8}}
 
-// 5. Denoise — luminance and chroma (OSC data commonly shows per-channel
+// 5. Optional: catalog-based star color correction — run here, on the
+//    still-linear image, before anything nonlinear (denoise/stretch/
+//    saturation) gets a chance to perturb star colors again (see
+//    "Photometric color calibration" above). Requires the stack to have
+//    been plate-solved (alignMethod: 0 in step 2).
+{"type": "postprocess_apply_color_calibration", "payload": {
+  "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0
+}}
+
+// 6. Denoise — luminance and chroma (OSC data commonly shows per-channel
 //    color speckle, see "denoiseAmt vs. chromaDenoiseAmt" above)
 {"type": "postprocess_apply_denoise", "payload": {
   "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
 }}
 
-// 6. Stretch — OSC data, so linked:true is correct here
+// 7. Stretch — OSC data, so linked:true is correct here
 {"type": "postprocess_apply_autostretch", "payload": {
   "targetBackground": 0.25, "shadowsClipping": 2.8, "linked": true
 }}
 
-// 7. Color/tone finishing
+// 8. Color/tone finishing
 {"type": "postprocess_apply_saturation", "payload": {"amt": 1.2}}
 {"type": "postprocess_apply_contrast", "payload": {"amt": 1.1}}
-
-// 8. Optional: catalog-based star color correction — run last, after
-//    saturation/contrast (see "Photometric color calibration" above).
-//    Requires the stack to have been plate-solved (alignMethod: 0 in step 2).
-{"type": "postprocess_apply_color_calibration", "payload": {
-  "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0,
-  "photometricCatalogPath": "/home/USER/.local/share/kstars/photometriccatalog.bin"
-}}
 
 {"type": "postprocess_save", "payload": {"outputPath": "/output/final.fits"}}
 ```
@@ -971,26 +1118,27 @@ different sub-exposure lengths.
 // 7. Background extraction on the composed image
 {"type": "postprocess_apply_bge", "payload": {"sessionId": "hoo_final", "strength": 0.8}}
 
-// 8. Denoise
+// 8. Optional: catalog-based star color correction — run here, on the
+//    still-linear blended image, right after it has a WCS to work with (see
+//    "Why a blended session needs a WCS spelled out" and "Photometric color
+//    calibration" above). Note this corrects star color against real
+//    catalog photometry; it cannot and does not make the nebula "true
+//    color" — Hα/OIII/SII are a false-color palette by design.
+{"type": "postprocess_apply_color_calibration", "payload": {
+  "sessionId": "hoo_final", "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0
+}}
+
+// 9. Denoise
 {"type": "postprocess_apply_denoise", "payload": {
   "sessionId": "hoo_final", "denoiseAmt": 0.4, "denoiseMethod": 1, "chromaDenoiseAmt": 0.4
 }}
 
-// 9. Stretch UNLINKED (see "Linked vs. unlinked autostretch" above — this is
-//    narrowband, not OSC)
+// 10. Stretch UNLINKED (see "Linked vs. unlinked autostretch" above — this is
+//     narrowband, not OSC)
 {"type": "postprocess_apply_autostretch", "payload": {
   "sessionId": "hoo_final", "targetBackground": 0.15, "shadowsClipping": 2.8, "linked": false
 }}
 {"type": "postprocess_apply_saturation", "payload": {"sessionId": "hoo_final", "amt": 1.2}}
-
-// 10. Optional: catalog-based star color correction — run last (see
-//     "Photometric color calibration" above). Note this corrects star color
-//     against real catalog photometry; it cannot and does not make the
-//     nebula "true color" — Hα/OIII/SII are a false-color palette by design.
-{"type": "postprocess_apply_color_calibration", "payload": {
-  "sessionId": "hoo_final", "strength": 1.0, "maxCatalogMagnitude": 12.0, "matchRadiusArcsec": 5.0,
-  "photometricCatalogPath": "/home/USER/.local/share/kstars/photometriccatalog.bin"
-}}
 
 {"type": "postprocess_save", "payload": {"sessionId": "hoo_final", "outputPath": "/output/hoo_final.fits"}}
 ```

@@ -949,22 +949,23 @@ class FITSData : public QObject
          * catalog B-V-implied real color — nebula/background pixels are untouched.
          * Requires a WCS (a plate-solved stack, or a blend whose setStackedImage() was
          * given one).
+         *
+         * The supplementary (RA, Dec, V, B-V) Tycho-2 catalog (see PhotometricCatalog)
+         * is looked up the same way any other KStars data file is — via
+         * KSPaths::locate() under photometriccatalog.bin — rather than taking a path
+         * from the caller. Since KStars' own bundled catalog frequently has no usable
+         * B-V for non-named stars, this file is required, not optional: if it can't be
+         * located, this call fails immediately with an actionable error instead of
+         * silently running in a degraded mode.
          * @param strength [0,1]; how much of the computed per-star correction to apply
          * @param maxCatalogMagnitude faintest catalog star considered a candidate match
          * @param matchRadiusArcsec how close (on sky) a catalog star must be to a
          * detected star's position to count as a match
          * @param starsDetected receives how many star-like blobs were found
          * @param starsMatched receives how many of those were matched and corrected
-         * @param photometricCatalogPath optional path to a supplementary (RA, Dec, V,
-         * B-V) binary catalog (see PhotometricCatalog) consulted as a color fallback
-         * whenever KStars' own bundled star catalog has no usable B-V for an otherwise
-         * position-matched (or unmatched) star. Empty (the default) disables it —
-         * matching relies solely on KStars' own catalog, same as before this parameter
-         * existed.
          */
         bool applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
-                                          QString &error, int &starsDetected, int &starsMatched,
-                                          const QString &photometricCatalogPath = QString());
+                                         QString &error, int &starsDetected, int &starsMatched);
 
         /**
          * @brief Write the current combined stacked image (already FITS-encoded in
@@ -976,6 +977,24 @@ class FITSData : public QObject
          * @return success
          */
         bool saveStackedImage(const QString &path, QString &error);
+
+        /**
+         * @brief Revert the most recent post-combine step (cropStack() through
+         * applyPhotometricCalibration() — anything that took a snapshot via the
+         * private snapshotForUndo()). Single-level: consumes the snapshot, so a second
+         * call in a row with nothing new applied in between fails with "Nothing to
+         * undo" rather than stepping further back.
+         * @param error receives a human-readable failure reason on failure
+         */
+        bool undoLastOperation(QString &error);
+
+        /**
+         * @brief Whether undoLastOperation() currently has something to restore.
+         */
+        bool hasUndo() const
+        {
+            return !m_UndoStackedImageMat.empty();
+        }
 
 #if !defined (KSTARS_LITE)
         /**
@@ -1146,6 +1165,14 @@ class FITSData : public QObject
         void loadCommon(const QString &inFilename);
         void releaseMemFileBuffer();
         void releaseStackMemFileBuffer();
+#if !defined (KSTARS_LITE)
+        /**
+         * @brief Snapshot m_StackedImageMat into the single-level undo buffer — called
+         * by cropStack() and every apply*() post-combine step just before they mutate
+         * the working image, so undoLastOperation() has something to restore.
+         */
+        void snapshotForUndo();
+#endif
         /**
          * @brief privateLoad Load an image (FITS, RAW, or images supported by Qt like jpeg, png).
          * @param Buffer pointer to image data. If buffer is emtpy, read from disk (m_Filename).
@@ -1638,6 +1665,20 @@ class FITSData : public QObject
         // steps that operate on the combined result, e.g. cropStack(), don't need to
         // round-trip through FITS encoding to get a Mat to work on.
         cv::Mat m_StackedImageMat;
+        // Single-level undo buffer for the post-combine ops below (cropStack() through
+        // applyPhotometricCalibration()) — a snapshot of m_StackedImageMat taken by
+        // snapshotForUndo() just before each one mutates it in place, consumed (and
+        // cleared, so a second undo in a row has nothing left to restore) by
+        // undoLastOperation(). Deliberately one level, not a growing history: cheap
+        // (one extra image-sized buffer per session, not one per step) and matches the
+        // actual use case (the caller changes their mind about the step they just ran).
+        cv::Mat m_UndoStackedImageMat;
+        // cropStack() is the one post-combine op that also mutates the WCS (its
+        // reference pixel) rather than just m_StackedImageMat — snapshotted alongside
+        // it so undoLastOperation() restores both together. Harmless to snapshot/
+        // restore unconditionally on every op (not just crop): restoring the same,
+        // unchanged values back is a no-op for anything that isn't a crop.
+        double m_UndoCrpix1 { 0.0 }, m_UndoCrpix2 { 0.0 };
         double m_StackSNR { 0.0 };
 
         StackData m_LiveStackData;

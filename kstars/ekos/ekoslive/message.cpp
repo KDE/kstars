@@ -3718,7 +3718,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
             QJsonObject{{"state", "error"}, {"message", "Specify either \"directory\" (mono) or \"directories\" "
-                        "with 3 (RGB) or 4 (RGB+L) entries in that order"}});
+                    "with 3 (RGB) or 4 (RGB+L) entries in that order"
+                }});
             return;
         }
 
@@ -3904,11 +3905,11 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         };
 
         auto future = QtConcurrent::run([directory, type, outputPath, lowSigma, highSigma, subtractPath,
-                                                     matchExptime, exptimeTolerance]() -> BuildMasterResult
+                                         matchExptime, exptimeTolerance]() -> BuildMasterResult
         {
             BuildMasterResult result;
             result.ok = MasterBuilder::buildAndSave(directory, type, outputPath, result.error, lowSigma, highSigma,
-                        subtractPath, matchExptime, exptimeTolerance, &result.builtMaster);
+                                                    subtractPath, matchExptime, exptimeTolerance, &result.builtMaster);
             return result;
         });
 
@@ -4134,18 +4135,27 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
-        // A JPEG preview of the working image after this step — headless, no
-        // FITSView/GUI dependency (PreviewRenderer), downscaled first so it stays cheap
-        // regardless of the source resolution. Sent over the wsMedia binary channel
-        // (tagged "+P", same "+X module image" convention as Align/Focus/Guide/
-        // DarkLibrary previews) rather than inline in this JSON response — every state
-        // update would otherwise carry a full image payload over the JSON socket. The
-        // app receives the fetchable URL asynchronously via the existing
-        // NEW_IMAGE_METADATA message. Skipped for save() (the working image didn't
-        // change) and on failure (nothing new to show). Opt-out via "preview": false
-        // for a caller that doesn't need visual feedback on every call (e.g. scripted
-        // batch adjustments) and wants the fastest possible response.
+        // A JPEG preview of the working image, before and after this step — headless,
+        // no FITSView/GUI dependency (PreviewRenderer), downscaled first so it stays
+        // cheap regardless of the source resolution. Sent over the wsMedia binary
+        // channel using the same "+X module image" convention as Align/Focus/Guide/
+        // DarkLibrary previews ("+PB" before, "+PA" after) rather than inline in this
+        // JSON response — every state update would otherwise carry a full image
+        // payload over the JSON socket. The app receives fetchable URLs
+        // asynchronously via the existing NEW_IMAGE_METADATA message, one per tag, so
+        // it can show a before/after comparison rather than just the end result.
+        // Skipped for save() (the working image didn't change) and, for the "after"
+        // half, on failure (nothing new to show). Opt-out via "preview": false for a
+        // caller that doesn't need visual feedback on every call (e.g. scripted batch
+        // adjustments) and wants the fastest possible response.
         const bool wantPreview = command != commands[POSTPROCESS_SAVE] && payload["preview"].toBool(true);
+        if (wantPreview)
+        {
+            QString previewError;
+            const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+            if (!jpeg.isEmpty())
+                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PB"), buildPreviewMetadata(session->imageData()));
+        }
 
         // crop/apply_*/save bake directly into the session's working image and can take
         // a while (denoise, color calibration with star matching, writing a large file)
@@ -4177,7 +4187,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             else if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH])
             {
                 ok = session->applyAutoStretch(payload["targetBackground"].toDouble(0.25),
-                        payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
+                                               payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
                 result.extra = {{"state", ok ? "stretched" : "error"}};
             }
             else if (command == commands[POSTPROCESS_APPLY_CURVE])
@@ -4235,12 +4245,12 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 // — see StackController::adopt()/FITSData::setStackedImage()).
                 int starsDetected = 0, starsMatched = 0;
                 ok = session->applyPhotometricCalibration(payload["strength"].toDouble(1.0),
-                        payload["maxCatalogMagnitude"].toDouble(12.0),
-                        payload["matchRadiusArcsec"].toDouble(5.0),
-                        error, starsDetected, starsMatched,
-                        payload["photometricCatalogPath"].toString());
+                     payload["maxCatalogMagnitude"].toDouble(12.0),
+                     payload["matchRadiusArcsec"].toDouble(5.0),
+                     error, starsDetected, starsMatched);
                 result.extra = {{"state", ok ? "color_calibration_applied" : "error"},
-                    {"starsDetected", starsDetected}, {"starsMatched", starsMatched}};
+                    {"starsDetected", starsDetected}, {"starsMatched", starsMatched}
+                };
             }
             else if (command == commands[POSTPROCESS_SAVE])
             {
@@ -4267,7 +4277,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 QString previewError;
                 const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
                 if (!jpeg.isEmpty())
-                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PA"), buildPreviewMetadata(session->imageData()));
             }
 
             QJsonObject response = result.extra;
@@ -4285,7 +4295,56 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // instead of, or after missing, one (e.g. after a reconnect).
         const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
         sendResponse(commands[NEW_POSTPROCESS_STATE],
-                     m_LastPostProcessState.value(sessionId, QJsonObject{{"state", "unknown"}, {"sessionId", sessionId}}));
+        m_LastPostProcessState.value(sessionId, QJsonObject{{"state", "unknown"}, {"sessionId", sessionId}}));
+    }
+    else if (command == commands[POSTPROCESS_UNDO])
+    {
+        // Reverts the single most recent crop/apply_*/color-calibration step (see
+        // FITSData::undoLastOperation()) — synchronous and cheap (a buffer swap plus a
+        // FITS re-encode, not real pixel math), unlike the ops it undoes, so this
+        // doesn't need the QtConcurrent dispatch/"processing" ack those use. Still
+        // checked against the busy-set so it can't race a same-session op that's
+        // currently mid-flight.
+        auto session = resolvePostProcessSession(payload);
+        if (!session)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "No active post-processing session — call postprocess_stack first"}});
+            return;
+        }
+
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        if (m_BusyPostProcessSessions.contains(sessionId))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            return;
+        }
+
+        const bool wantPreview = payload["preview"].toBool(true);
+        if (wantPreview)
+        {
+            QString previewError;
+            const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+            if (!jpeg.isEmpty())
+                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PB"), buildPreviewMetadata(session->imageData()));
+        }
+
+        QString error;
+        const bool ok = session->undoLastOperation(error);
+
+        if (ok && wantPreview)
+        {
+            QString previewError;
+            const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+            if (!jpeg.isEmpty())
+                Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PA"), buildPreviewMetadata(session->imageData()));
+        }
+
+        QJsonObject response{{"state", ok ? "undone" : "error"}, {"sessionId", sessionId}};
+        if (!ok)
+            response["message"] = error;
+        sendPostProcessState(response);
     }
 }
 

@@ -149,6 +149,16 @@ bool StackController::save(const QString &path, QString &error)
     return m_ImageData->saveStackedImage(path, error);
 }
 
+bool StackController::undoLastOperation(QString &error)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return false;
+    }
+    return m_ImageData->undoLastOperation(error);
+}
+
 QByteArray StackController::getPreviewJpegBytes(QString &error, int maxDimension)
 {
     if (!m_ImageData)
@@ -167,8 +177,7 @@ bool StackController::adopt(const cv::Mat &image, QString &error, const struct w
 }
 
 bool StackController::applyPhotometricCalibration(double strength, double maxCatalogMagnitude,
-        double matchRadiusArcsec, QString &error, int &starsDetected, int &starsMatched,
-        const QString &photometricCatalogPath)
+        double matchRadiusArcsec, QString &error, int &starsDetected, int &starsMatched)
 {
     if (!m_ImageData)
     {
@@ -176,7 +185,7 @@ bool StackController::applyPhotometricCalibration(double strength, double maxCat
         return false;
     }
     return m_ImageData->applyPhotometricCalibration(strength, maxCatalogMagnitude, matchRadiusArcsec, error,
-            starsDetected, starsMatched, photometricCatalogPath);
+            starsDetected, starsMatched);
 }
 
 void StackController::handlePlateSolveSub(const double ra, const double dec, const double pixScale, const int index,
@@ -196,7 +205,7 @@ void StackController::handlePlateSolveSub(const double ra, const double dec, con
 }
 
 void StackController::runExtract(const double ra, const double dec, const double pixScale, const int index,
-                                  const int healpix)
+                                 const int healpix)
 {
     auto parameters = Ekos::getDefaultAlignOptionsProfiles().at(Options::solveOptionsProfile());
     const double lowerPixScale = (index == -1) ? pixScale * 0.8 : pixScale * 0.95;
@@ -215,7 +224,7 @@ void StackController::runExtract(const double ra, const double dec, const double
 }
 
 void StackController::runSolve(const double ra, const double dec, const double pixScale, const int index,
-                                const int healpix)
+                               const int healpix)
 {
     auto parameters = Ekos::getDefaultAlignOptionsProfiles().at(Options::solveOptionsProfile());
     double lowerPixScale, upperPixScale;
@@ -244,7 +253,7 @@ void StackController::runSolve(const double ra, const double dec, const double p
 }
 
 void StackController::handleExtractDone(bool timedOut, bool success, const FITSImage::Solution &solution,
-        double elapsedSeconds)
+                                        double elapsedSeconds)
 {
     Q_UNUSED(solution);
     Q_UNUSED(elapsedSeconds);
@@ -267,7 +276,7 @@ void StackController::handleExtractDone(bool timedOut, bool success, const FITSI
     {
         std::vector<FITSImage::Star> stars(starList.constBegin(), starList.constEnd());
         std::nth_element(stars.begin(), stars.begin() + stars.size() / 2, stars.end(),
-                          [](const FITSImage::Star & a, const FITSImage::Star & b)
+                         [](const FITSImage::Star & a, const FITSImage::Star & b)
         {
             return a.HFR < b.HFR;
         });
@@ -280,7 +289,7 @@ void StackController::handleExtractDone(bool timedOut, bool success, const FITSI
 }
 
 void StackController::handleSolveDone(bool timedOut, bool success, const FITSImage::Solution &solution,
-                                       double elapsedSeconds)
+                                      double elapsedSeconds)
 {
     Q_UNUSED(elapsedSeconds);
     disconnect(m_Solver.get(), &SolverUtils::done, this, &StackController::handleSolveDone);
@@ -297,7 +306,7 @@ void StackController::handleSolveDone(bool timedOut, bool success, const FITSIma
         m_ImageData->setStackSubSolution(solution.ra, solution.dec, solution.pixscale, indexUsed, healpixUsed);
         const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
         m_ImageData->injectStackWCS(solution.orientation, solution.ra, solution.dec, solution.pixscale,
-                                     eastToTheRight);
+                                    eastToTheRight);
         m_ImageData->stackLoadWCS();
         m_ImageData->solverDone(false, true, m_StackMedianHFR, m_StackNumStars);
         return;

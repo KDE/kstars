@@ -69,7 +69,7 @@ std::vector<PhotometricCalibrationOperation::DetectedStar> PhotometricCalibratio
 
         DetectedStar star;
         star.pixel = cv::Point2f(static_cast<float>(centroids.at<double>(i, 0)),
-                                  static_cast<float>(centroids.at<double>(i, 1)));
+                                 static_cast<float>(centroids.at<double>(i, 1)));
         star.radiusPx = std::sqrt(static_cast<float>(area) / static_cast<float>(M_PI));
         stars.push_back(star);
     }
@@ -152,8 +152,8 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
         const float peakB = originalB.at<float>(cy, cx);
         constexpr double kClipTolerance = 0.03;
         const bool saturated = peakR >= ceilingR * (1.0 - kClipTolerance)
-                                && peakG >= ceilingG * (1.0 - kClipTolerance)
-                                && peakB >= ceilingB * (1.0 - kClipTolerance);
+                               && peakG >= ceilingG * (1.0 - kClipTolerance)
+                               && peakB >= ceilingB * (1.0 - kClipTolerance);
         constexpr float neutral = 1.0f / 3.0f;
         const float effectiveTargetR = saturated ? neutral : match.targetR;
         const float effectiveTargetG = saturated ? neutral : match.targetG;
@@ -164,8 +164,8 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
         // re-fit PSF peak).
         const int apertureRadius = std::max(1, static_cast<int>(std::round(match.radiusPx * 0.6)));
         const cv::Rect apertureRect(static_cast<int>(match.pixel.x) - apertureRadius,
-                                     static_cast<int>(match.pixel.y) - apertureRadius,
-                                     2 * apertureRadius + 1, 2 * apertureRadius + 1);
+                                    static_cast<int>(match.pixel.y) - apertureRadius,
+                                    2 * apertureRadius + 1, 2 * apertureRadius + 1);
         const cv::Rect clippedAperture = apertureRect & bounds;
         if (clippedAperture.width <= 0 || clippedAperture.height <= 0)
             continue;
@@ -194,11 +194,70 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
         const double fallOffSigma = std::max(1.5, std::min(match.radiusPx, 8.0f) * 1.5);
         const int patchRadius = static_cast<int>(std::ceil(fallOffSigma * 3.0));
         const cv::Rect patchRect(static_cast<int>(match.pixel.x) - patchRadius,
-                                  static_cast<int>(match.pixel.y) - patchRadius,
-                                  2 * patchRadius + 1, 2 * patchRadius + 1);
+                                 static_cast<int>(match.pixel.y) - patchRadius,
+                                 2 * patchRadius + 1, 2 * patchRadius + 1);
         const cv::Rect clippedPatch = patchRect & bounds;
         if (clippedPatch.width <= 0 || clippedPatch.height <= 0)
             continue;
+
+        const cv::Mat origRPatch = originalR(clippedPatch);
+        const cv::Mat origGPatch = originalG(clippedPatch);
+        const cv::Mat origBPatch = originalB(clippedPatch);
+
+        // The Gaussian falloff above only bounds *how far* a correction can reach —
+        // it says nothing about *what's actually there*. patchRadius is typically
+        // several times the aperture that produced the gain (e.g. a 47x47 patch for
+        // a 7x7 measurement) — that outer zone is the star's faint PSF wings and
+        // surrounding background/nebula, not what was measured, and applying a
+        // core-derived gain there produced a real, visible artifact on real data: a
+        // colored ring around many stars. Gate each pixel's weight by how much of it
+        // is actually still starlight, using a *local* background/noise floor (not a
+        // flat fraction of peak, which fails outright for a star sitting on
+        // non-trivial nebula background — the background can already be a large
+        // fraction of the peak there) sampled from this same patch's own outer
+        // annulus, so it reflects what's actually under this star rather than a
+        // whole-frame average.
+        const double innerAnnulus2 = std::pow(patchRadius * 0.8, 2);
+        std::vector<float> annulusLum;
+        annulusLum.reserve(static_cast<size_t>(clippedPatch.width) * clippedPatch.height / 3);
+        for (int y = 0; y < origRPatch.rows; y++)
+        {
+            const float *rRow = origRPatch.ptr<float>(y);
+            const float *gRow = origGPatch.ptr<float>(y);
+            const float *bRow = origBPatch.ptr<float>(y);
+            const double dy = (clippedPatch.y + y) - match.pixel.y;
+            for (int x = 0; x < origRPatch.cols; x++)
+            {
+                const double dx = (clippedPatch.x + x) - match.pixel.x;
+                if (dx * dx + dy * dy >= innerAnnulus2)
+                    annulusLum.push_back(0.299f * rRow[x] + 0.587f * gRow[x] + 0.114f * bRow[x]);
+            }
+        }
+
+        // Too few annulus samples (patch clipped hard against an image edge) —
+        // degrade gracefully to no brightness gating for this one star rather than
+        // trust a near-empty sample.
+        double localFloor = 0.0;
+        if (annulusLum.size() >= 8)
+        {
+            const size_t mid = annulusLum.size() / 2;
+            std::nth_element(annulusLum.begin(), annulusLum.begin() + mid, annulusLum.end());
+            const double median = annulusLum[mid];
+            std::vector<float> absDev(annulusLum.size());
+            for (size_t i = 0; i < annulusLum.size(); i++)
+                absDev[i] = std::abs(annulusLum[i] - static_cast<float>(median));
+            std::nth_element(absDev.begin(), absDev.begin() + mid, absDev.end());
+            // 1.4826x converts MAD to a sigma-equivalent for Gaussian noise (the same
+            // "robust sigma" convention this codebase already uses elsewhere, e.g.
+            // DenoiseOperation::robustSigma()) — a 1.5-sigma margin above the local
+            // background median so ordinary noise fluctuations don't get partial
+            // weight just from sitting on the positive side of the median.
+            localFloor = median + 1.5 * 1.4826 * absDev[mid];
+        }
+
+        const double peakLum = 0.299 * peakR + 0.587 * peakG + 0.114 * peakB;
+        if (peakLum <= localFloor)
+            continue; // doesn't clear its own local background — not a usable match
 
         cv::Mat weightPatch = sumWeight(clippedPatch);
         cv::Mat wgRPatch = sumWeightedGainR(clippedPatch);
@@ -211,12 +270,20 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
             float *wgRRow = wgRPatch.ptr<float>(y);
             float *wgGRow = wgGPatch.ptr<float>(y);
             float *wgBRow = wgBPatch.ptr<float>(y);
+            const float *rRow = origRPatch.ptr<float>(y);
+            const float *gRow = origGPatch.ptr<float>(y);
+            const float *bRow = origBPatch.ptr<float>(y);
             const double dy = (clippedPatch.y + y) - match.pixel.y;
             for (int x = 0; x < weightPatch.cols; x++)
             {
                 const double dx = (clippedPatch.x + x) - match.pixel.x;
                 const double dist2 = dx * dx + dy * dy;
-                const double weight = clampedStrength * std::exp(-dist2 / (2.0 * fallOffSigma * fallOffSigma));
+                const double lum = 0.299 * rRow[x] + 0.587 * gRow[x] + 0.114 * bRow[x];
+                const double brightnessWeight = std::clamp((lum - localFloor) / std::max(peakLum - localFloor, 1e-6),
+                                                0.0, 1.0);
+                const double weight = clampedStrength
+                                      * std::exp(-dist2 / (2.0 * fallOffSigma * fallOffSigma))
+                                      * brightnessWeight;
                 wRow[x] += static_cast<float>(weight);
                 wgRRow[x] += static_cast<float>(weight * (gainR - 1.0));
                 wgGRow[x] += static_cast<float>(weight * (gainG - 1.0));

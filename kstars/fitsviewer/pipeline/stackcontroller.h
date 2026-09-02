@@ -132,6 +132,12 @@ class StackController : public QObject
         bool save(const QString &path, QString &error);
 
         /**
+         * @brief Revert the most recent post-combine step (crop, apply_*, or
+         * photometric calibration) — single-level, see FITSData::undoLastOperation().
+         */
+        bool undoLastOperation(QString &error);
+
+        /**
          * @brief Render the session's current working image to raw JPEG bytes (see
          * PreviewRenderer — headless, no FITSView/GUI dependency, cheap enough to call
          * after every step). Useful after any command that mutates the working image
@@ -166,12 +172,9 @@ class StackController : public QObject
          * @param starsDetected receives how many star-like blobs were found in the image
          * @param starsMatched receives how many of those were matched to a catalog star
          * and corrected
-         * @param photometricCatalogPath optional supplementary (RA, Dec, V, B-V)
-         * catalog path — see FITSData::applyPhotometricCalibration().
          */
         bool applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
-                                          QString &error, int &starsDetected, int &starsMatched,
-                                          const QString &photometricCatalogPath = QString());
+                                         QString &error, int &starsDetected, int &starsMatched);
 
         /**
          * @brief Access the underlying FITSData for the current session,
@@ -184,7 +187,7 @@ class StackController : public QObject
 
     Q_SIGNALS:
         void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                            const int healpix, const StackFrameWeighting &weighting);
+                           const int healpix, const StackFrameWeighting &weighting);
         void alignMasterChosen(const QString &alignMaster);
         void stackInProgress();
         void stackReady(const bool cancelled);
@@ -206,7 +209,7 @@ class StackController : public QObject
          * search index/healpix is retried once with widened criteria before giving up.
          */
         void handlePlateSolveSub(const double ra, const double dec, const double pixScale, const int index,
-                                  const int healpix, const StackFrameWeighting &weighting);
+                                 const int healpix, const StackFrameWeighting &weighting);
         void runExtract(const double ra, const double dec, const double pixScale, const int index, const int healpix);
         void runSolve(const double ra, const double dec, const double pixScale, const int index, const int healpix);
         void handleExtractDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
