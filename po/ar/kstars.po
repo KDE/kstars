@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-01 02:12+0000\n"
+"POT-Creation-Date: 2026-09-02 02:08+0000\n"
 "PO-Revision-Date: 2026-08-30 17:48+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -18438,12 +18438,12 @@ msgstr "متصل"
 msgid "Offline"
 msgstr "غير متّصل"
 
-#: ekos/ekoslive/message.cpp:861
+#: ekos/ekoslive/message.cpp:874
 #, kde-format
 msgid "target"
 msgstr "هدف"
 
-#: ekos/ekoslive/message.cpp:1188
+#: ekos/ekoslive/message.cpp:1201
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "فشل استيراد الفسيفساء."

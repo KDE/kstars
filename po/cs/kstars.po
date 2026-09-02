@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-01 02:12+0000\n"
+"POT-Creation-Date: 2026-09-02 02:08+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -17505,12 +17505,12 @@ msgstr "Připojen"
 msgid "Offline"
 msgstr "Odpojen"
 
-#: ekos/ekoslive/message.cpp:861
+#: ekos/ekoslive/message.cpp:874
 #, kde-format
 msgid "target"
 msgstr "cíl"
 
-#: ekos/ekoslive/message.cpp:1188
+#: ekos/ekoslive/message.cpp:1201
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
