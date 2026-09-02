@@ -3804,6 +3804,8 @@ void Focus::startAberrationInspector()
     data.starUnits = getStarUnits(m_StarMeasure, m_StarUnits);
     data.cfzSteps = m_cfzSteps;
     data.isPositionBased = isPositionBased();
+    // Current optical train id so the Tilt Correction Advisory persists its settings per train.
+    data.opticalTrainID = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
 
     // Launch the Aberration Inspector.
     appendLogText(i18n("Launching Aberration Inspector run %1...", m_abInsRun));

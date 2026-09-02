@@ -10,14 +10,18 @@
 #include <QtGraphs/QCustom3DLabel>
 #include <QtQuickWidgets/QQuickWidget>
 
+#include <cstdint>
+
 #include "curvefit.h"
 #include "ui_aberrationinspector.h"
 #include "aberrationinspectorutils.h"
 #include "tiltcorrectionwidget.h"
 
 // The AberrationInspector class manages the Aberration Inspector dialog.
-// Settings are managed in a global way, rather than per Optical Train which would be overkill. The approach is the same as Focus
-// using loadSettings, connectSettings & syncSettings.
+// The inspector's own settings (tile selection, labels, CFZ, ...) are managed in a global way, rather than per Optical Train
+// which would be overkill. The approach is the same as Focus using loadSettings, connectSettings & syncSettings.
+// Exception: the embedded Tilt Correction Advisory (TiltCorrectionWidget) persists its plate settings PER optical train
+// (they genuinely differ per camera + tilt plate), keyed by the optical train id passed in via abInsData::opticalTrainID.
 //
 // Aberration Inspector uses focus position of different parts of the sensor to examine backfocus and tilt. A single Autofocus run can
 // be used as the basis for the analysis.
@@ -90,6 +94,9 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
             double starUnits;
             double cfzSteps;
             bool isPositionBased;
+            // Optical train id, so the Tilt Correction Advisory can persist its settings
+            // per train (0 = unknown → falls back to global settings).
+            uint32_t opticalTrainID = 0;
         } abInsData;
 
         /**

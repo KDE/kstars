@@ -14,6 +14,8 @@
 #include <QPushButton>
 #include <QSharedPointer>
 
+#include <cstdint>
+
 #include "indi/indiproperty.h"
 
 namespace ISD
@@ -80,6 +82,18 @@ class TiltCorrectionWidget : public QGroupBox
          */
         void updateVisibility();
 
+        /**
+         * @brief Set the optical train these settings belong to and reload them.
+         *
+         * The advisory's plate settings (type, radius, thread/pitch, plate angle, mode) are
+         * persisted per optical train via OpticalTrainSettings. When @p id is non-zero the
+         * settings for that train are loaded (falling back to the global defaults if the
+         * train has none stored yet) and subsequent changes are saved against that train.
+         * When @p id is 0 (unknown), the widget uses the global settings only.
+         * @param id optical train id (from OpticalTrainManager)
+         */
+        void setOpticalTrainID(uint32_t id);
+
     private:
         void setupUI();
         void recalculate();
@@ -120,7 +134,7 @@ class TiltCorrectionWidget : public QGroupBox
         QComboBox *m_modeCombo { nullptr };             // Adjustment mode (relative vs push-only)
         QDoubleSpinBox *m_radiusSpin { nullptr };      // Bolt circle radius in mm
         QDoubleSpinBox *m_screwPitchSpin { nullptr };  // mm per full turn (optional)
-        QDoubleSpinBox *m_rotationSpin { nullptr };    // Camera rotation angle in degrees
+        QDoubleSpinBox *m_plateAngleSpin { nullptr };  // Tilt-plate (screw ring) rotation, degrees
         QWidget *m_diagramWidget { nullptr };           // Custom painted rear-view diagram
         QLabel *m_point1Label { nullptr };
         QLabel *m_point2Label { nullptr };
@@ -144,12 +158,20 @@ class TiltCorrectionWidget : public QGroupBox
         double m_radius { 64.0 };       // Default bolt circle radius (mm) — Wanderer ETA M54
         double m_screwPitch { 0.5 };    // Default screw pitch (mm/turn)
 
+        // Optical train these settings belong to (0 = unknown → use global settings only)
+        uint32_t m_opticalTrainID { 0 };
+
         // Tilt input (from Aberration Inspector)
         double m_lrMicrons { 0.0 };
         double m_tbMicrons { 0.0 };
         double m_sensorWidthMicrons { 0.0 };
         double m_sensorHeightMicrons { 0.0 };
-        double m_rotationDegrees { 0.0 };  // Camera rotation in optical train (degrees)
+        // Tilt-plate rotation: angular offset (degrees) of the screw ring relative to the
+        // sensor. The sensor stays fixed (horizontal); only the screws rotate. Positive =
+        // clockwise viewed from behind (looking onto the camera end plate). Fed into the
+        // correction math so the suggested screw + amount are recomputed from the last
+        // focus run without needing a new autofocus sweep.
+        double m_plateAngleDegrees { 0.0 };
         bool m_valid { false };
 
         // Calculated adjustments (mm)

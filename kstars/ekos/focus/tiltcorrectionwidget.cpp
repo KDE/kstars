@@ -9,6 +9,7 @@
 #include "Options.h"
 #include "indi/indilistener.h"
 #include "indi/clientmanager.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include <KLocalizedString>
 
@@ -42,9 +43,9 @@ class TiltDiagramWidget : public QWidget
             m_type = type;
             update();
         }
-        void setRotation(double degrees)
+        void setPlateAngle(double degrees)
         {
-            m_rotationDegrees = degrees;
+            m_plateAngleDegrees = degrees;
             update();
         }
         void setAdjustments(double adj[4], int count)
@@ -81,11 +82,10 @@ class TiltDiagramWidget : public QWidget
             painter.setBrush(QBrush(QColor(40, 40, 40)));
             painter.drawEllipse(QPoint(cx, cy), radius, radius);
 
-            // Draw the rotated content (sensor rect, screws, "Camera top" arrow)
-            painter.save();
-            painter.translate(cx, cy);
-            painter.rotate(m_rotationDegrees);
-            painter.translate(-cx, -cy);
+            // The sensor and the "camera top" reference are drawn UNROTATED: the sensor
+            // orientation is fixed (always horizontal). Only the tilt plate / screw ring
+            // rotates (below), matching plates whose screws sit at a fixed angular offset
+            // relative to the sensor.
 
             // Draw sensor rectangle (rear view — mirrored LR from sky view)
             int sensorW = radius * 1.2;
@@ -95,7 +95,7 @@ class TiltDiagramWidget : public QWidget
             painter.setBrush(Qt::NoBrush);
             painter.drawRect(sensorRect);
 
-            // "Camera top" indicator inside the rotated frame: small arrow at top edge of plate
+            // "Camera top" indicator (fixed, marks the sensor's top edge): arrow at plate top
             painter.setPen(QPen(QColor(220, 200, 120), 2));
             QPointF arrowBase(cx, cy - radius + 10);
             QPointF arrowTip(cx, cy - radius - 4);
@@ -103,20 +103,23 @@ class TiltDiagramWidget : public QWidget
             painter.drawLine(arrowTip, QPointF(arrowTip.x() - 4, arrowTip.y() + 6));
             painter.drawLine(arrowTip, QPointF(arrowTip.x() + 4, arrowTip.y() + 6));
 
-            if (!m_valid)
+            if (m_valid)
             {
-                // Will draw the message after restoring (so it's not rotated)
-            }
-            else
-            {
-                // Draw screws (their positions follow the painter's rotation)
+                // Draw the screw ring with the plate rotation applied. Positive angle
+                // rotates the screws CLOCKWISE as seen from behind (looking onto the
+                // camera end plate) — the same sign convention as the correction math.
+                painter.save();
+                painter.translate(cx, cy);
+                painter.rotate(m_plateAngleDegrees);
+                painter.translate(-cx, -cy);
+
                 if (m_type == PLATE_3POINT)
                     draw3Point(painter, cx, cy, radius);
                 else
                     draw4Point(painter, cx, cy, radius);
-            }
 
-            painter.restore();
+                painter.restore();
+            }
 
             // Sensor label inside sensor rect (NOT rotated — keep readable)
             painter.setPen(QColor(100, 100, 100));
@@ -136,15 +139,22 @@ class TiltDiagramWidget : public QWidget
             QFont smallFont = painter.font();
             smallFont.setPointSize(8);
             painter.setFont(smallFont);
-            QString topLabel = (std::abs(m_rotationDegrees) < 0.01)
-                               ? i18n("↑ Camera top (logo side) ↑")
-                               : i18n("Camera top rotated %1°", QString::number(m_rotationDegrees, 'f', 0));
-            painter.drawText(QRect(0, 2, w, reservedTop), Qt::AlignCenter, topLabel);
+            // Sensor is fixed, so its top is always up.
+            painter.drawText(QRect(0, 2, w, reservedTop), Qt::AlignCenter,
+                             i18n("↑ Camera top (logo side) ↑"));
 
-            // Bottom label: viewing orientation
+            // Bottom label: viewing orientation + plate rotation (clockwise from behind)
             painter.setPen(QColor(150, 150, 150));
+            QString bottomLabel;
+            if (std::abs(m_plateAngleDegrees) < 0.01)
+                bottomLabel = i18n("View from behind camera");
+            else
+                bottomLabel = i18n("View from behind · plate %1° %2",
+                                   QString::number(std::abs(m_plateAngleDegrees), 'f', 0),
+                                   m_plateAngleDegrees > 0 ? i18nc("clockwise", "CW")
+                                   : i18nc("counter-clockwise", "CCW"));
             painter.drawText(QRect(0, h - reservedBottom, w, reservedBottom),
-                             Qt::AlignCenter, i18n("View from behind camera"));
+                             Qt::AlignCenter, bottomLabel);
         }
 
     private:
@@ -222,10 +232,10 @@ class TiltDiagramWidget : public QWidget
             painter.drawEllipse(pos, pointRadius, pointRadius);
 
             // For the text labels, counter-rotate so they stay readable
-            // even when the diagram is rotated.
+            // even when the screw ring is rotated.
             painter.save();
             painter.translate(pos);
-            painter.rotate(-m_rotationDegrees);
+            painter.rotate(-m_plateAngleDegrees);
 
             // Label inside circle
             painter.setPen(Qt::white);
@@ -260,8 +270,40 @@ class TiltDiagramWidget : public QWidget
         double m_adj[4] { 0, 0, 0, 0 };
         int m_count { 3 };
         bool m_valid { false };
-        double m_rotationDegrees { 0.0 };
+        double m_plateAngleDegrees { 0.0 };
 };
+
+// Map a screw's math angle (radians, incl. plate rotation) to a human-readable position
+// word describing where it appears in the rear-view diagram. In that view the visual
+// axes are: right = -cos(angle), up = sin(angle) (LR mirrored, screen-Y is down).
+static QString tiltPositionWord(double angleRad)
+{
+    const double right = -std::cos(angleRad);
+    const double up = std::sin(angleRad);
+    double deg = std::atan2(up, right) * 180.0 / M_PI;  // 0 = right, 90 = top
+    if (deg < 0)
+        deg += 360.0;
+    const int idx = static_cast<int>(std::lround(deg / 45.0)) % 8;
+    switch (idx)
+    {
+        case 0:
+            return i18nc("screw position", "right");
+        case 1:
+            return i18nc("screw position", "upper-right");
+        case 2:
+            return i18nc("screw position", "top");
+        case 3:
+            return i18nc("screw position", "upper-left");
+        case 4:
+            return i18nc("screw position", "left");
+        case 5:
+            return i18nc("screw position", "lower-left");
+        case 6:
+            return i18nc("screw position", "bottom");
+        default:
+            return i18nc("screw position", "lower-right");
+    }
+}
 
 // ============================================================================
 // TiltCorrectionWidget implementation
@@ -334,17 +376,20 @@ void TiltCorrectionWidget::setupUI()
     settingsLayout->addWidget(m_screwPitchSpin);
 
     settingsLayout->addSpacing(10);
-    settingsLayout->addWidget(new QLabel(i18n("Rotation:")));
-    m_rotationSpin = new QDoubleSpinBox();
-    m_rotationSpin->setRange(-180.0, 180.0);
-    m_rotationSpin->setValue(0.0);
-    m_rotationSpin->setSuffix(QStringLiteral(" °"));
-    m_rotationSpin->setDecimals(0);
-    m_rotationSpin->setSingleStep(5.0);
-    m_rotationSpin->setToolTip(i18n("Camera rotation in optical train (0° = camera logo at top).\n"
-                                    "Positive values rotate the camera clockwise as seen from behind.\n"
-                                    "Diagram is adjusted so screw positions match what you physically see."));
-    settingsLayout->addWidget(m_rotationSpin);
+    settingsLayout->addWidget(new QLabel(i18n("Plate angle:")));
+    m_plateAngleSpin = new QDoubleSpinBox();
+    m_plateAngleSpin->setRange(-180.0, 180.0);
+    m_plateAngleSpin->setValue(0.0);
+    m_plateAngleSpin->setSuffix(QStringLiteral(" °"));
+    m_plateAngleSpin->setDecimals(0);
+    m_plateAngleSpin->setSingleStep(5.0);
+    m_plateAngleSpin->setToolTip(i18n("Rotation of the tilt plate (screw ring) relative to the sensor.\n"
+                                      "The sensor stays fixed (horizontal); only the screws rotate to match\n"
+                                      "your physical plate — e.g. a 3-point plate bolted at 15°.\n"
+                                      "Positive = clockwise viewed from behind (looking onto the camera end plate).\n"
+                                      "The suggested screw and amount are recomputed from the last focus run,\n"
+                                      "so no new autofocus is needed after changing this."));
+    settingsLayout->addWidget(m_plateAngleSpin);
 
     settingsLayout->addSpacing(10);
     settingsLayout->addWidget(new QLabel(i18n("Mode:")));
@@ -449,9 +494,9 @@ void TiltCorrectionWidget::setupUI()
         saveSettings();
     });
 
-    connect(m_rotationSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double val)
+    connect(m_plateAngleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double val)
     {
-        m_rotationDegrees = val;
+        m_plateAngleDegrees = val;
         recalculate();
         saveSettings();
     });
@@ -515,7 +560,7 @@ void TiltCorrectionWidget::recalculate()
     TiltDiagramWidget *diagram = static_cast<TiltDiagramWidget *>(m_diagramWidget);
     diagram->setPlateType(m_plateType == PLATE_3POINT ?
                           TiltDiagramWidget::PLATE_3POINT : TiltDiagramWidget::PLATE_4POINT);
-    diagram->setRotation(m_rotationDegrees);
+    diagram->setPlateAngle(m_plateAngleDegrees);
     diagram->setAdjustments(m_adj, m_plateType == PLATE_3POINT ? 3 : 4);
     diagram->setValid(true);
 }
@@ -602,11 +647,19 @@ void TiltCorrectionWidget::calc3Point()
     // Convert radius from mm to microns for consistent units
     double R = m_radius * 1000.0;  // mm to microns
 
-    // Point positions relative to center (front view):
-    // Point 1: angle 150° (upper-left)
-    // Point 3: angle 30°  (upper-right)
+    // Tilt-plate rotation: the screw ring may sit at a fixed angular offset relative to
+    // the sensor (e.g. a 3-point plate bolted at 15°). The measured tilt plane is fixed
+    // in sensor coordinates, so we simply re-evaluate each screw's required piston at its
+    // rotated position — no new focus run needed. Positive = clockwise viewed from behind,
+    // the same sign as the diagram's painter rotation (so the number lands under the screw
+    // the user actually sees).
+    const double phi = m_plateAngleDegrees * M_PI / 180.0;
+
+    // Point positions relative to center (front view), plus plate rotation phi:
+    // Point 1: angle 150° (upper-right in rear view)
     // Point 2: angle 270° (bottom)
-    double angles[3] = { 150.0 * M_PI / 180.0, 270.0 * M_PI / 180.0, 30.0 * M_PI / 180.0 };
+    // Point 3: angle 30°  (upper-left in rear view)
+    double angles[3] = { 150.0 * M_PI / 180.0 + phi, 270.0 * M_PI / 180.0 + phi, 30.0 * M_PI / 180.0 + phi };
 
     // For each point, the correction needed is the NEGATIVE of the tilt at that position
     // Z_correction = -(lrSlope * x + tbSlope * y)
@@ -644,9 +697,16 @@ void TiltCorrectionWidget::calc3Point()
                     QString::number(turns, 'f', 1));
     };
 
-    m_point1Label->setText(formatPoint(0, i18nc("3-point tilt plate screw", "Point 1 (upper-right)")));
-    m_point2Label->setText(formatPoint(1, i18nc("3-point tilt plate screw", "Point 2 (bottom)")));
-    m_point3Label->setText(formatPoint(2, i18nc("3-point tilt plate screw", "Point 3 (upper-left)")));
+    // Position words are derived from the (rotated) screw angle so they stay correct as
+    // the plate is rotated. The screw number is just a tag — for manual (unnumbered)
+    // plates only the position + amount matter; for the ETA the index stays bound to the
+    // physical motor (Point 1/2/3) used by "Apply to ETA".
+    m_point1Label->setText(formatPoint(0, i18nc("3-point tilt plate screw", "Point 1 (%1)",
+                                       tiltPositionWord(angles[0]))));
+    m_point2Label->setText(formatPoint(1, i18nc("3-point tilt plate screw", "Point 2 (%1)",
+                                       tiltPositionWord(angles[1]))));
+    m_point3Label->setText(formatPoint(2, i18nc("3-point tilt plate screw", "Point 3 (%1)",
+                                       tiltPositionWord(angles[2]))));
 
     double maxAbs = std::max({std::abs(m_adj[0]), std::abs(m_adj[1]), std::abs(m_adj[2])});
     QString modeLabel = (m_mode == MODE_PUSH_ONLY)
@@ -682,17 +742,27 @@ void TiltCorrectionWidget::calc4Point()
     double tbSlope = (m_sensorHeightMicrons > 0) ? m_tbMicrons / m_sensorHeightMicrons : 0.0;
 
     double R = m_radius * 1000.0;  // mm to microns
-    const double C = R * std::cos(M_PI / 4.0);  // R / sqrt(2)
 
-    // m_adj[0..3] correspond to Screw 1..4 in the diagram (rear view positions).
-    // Screw 1 (rear-view top-left) sits above body-frame coordinate (+C, +C)
-    m_adj[0] = -(lrSlope *  C + tbSlope *  C) / 1000.0;
-    // Screw 2 (rear-view top-right) sits above body-frame (-C, +C)
-    m_adj[1] = -(lrSlope * -C + tbSlope *  C) / 1000.0;
-    // Screw 3 (rear-view bottom-left) sits above body-frame (+C, -C)
-    m_adj[2] = -(lrSlope *  C + tbSlope * -C) / 1000.0;
-    // Screw 4 (rear-view bottom-right) sits above body-frame (-C, -C)
-    m_adj[3] = -(lrSlope * -C + tbSlope * -C) / 1000.0;
+    // Tilt-plate rotation (see calc3Point): re-evaluate each corner screw's piston at its
+    // rotated position from the same measured tilt plane — no new focus run needed.
+    const double phi = m_plateAngleDegrees * M_PI / 180.0;
+
+    // Screw base angles reproduce the corner layout drawn in the rear-view diagram:
+    //   Screw 1 = 45°  (top-left in rear view)
+    //   Screw 2 = 135° (top-right)
+    //   Screw 3 = 315° (bottom-left)
+    //   Screw 4 = 225° (bottom-right)
+    // m_adj[0..3] correspond to Screw 1..4. At phi = 0 this is identical to the previous
+    // (±C, ±C) body-frame formulation.
+    double angles[4] = { 45.0 * M_PI / 180.0 + phi, 135.0 * M_PI / 180.0 + phi,
+                         315.0 * M_PI / 180.0 + phi, 225.0 * M_PI / 180.0 + phi
+                       };
+    for (int i = 0; i < 4; i++)
+    {
+        double x = R * std::cos(angles[i]);
+        double y = R * std::sin(angles[i]);
+        m_adj[i] = -(lrSlope * x + tbSlope * y) / 1000.0;
+    }
 
     // Apply push-only normalization if requested: shift values so minimum is 0
     if (m_mode == MODE_PUSH_ONLY)
@@ -716,10 +786,16 @@ void TiltCorrectionWidget::calc4Point()
                     QString::number(turns, 'f', 1));
     };
 
-    m_point1Label->setText(formatPoint(0, i18nc("4-point tilt plate screw", "Screw 1 (top-left)")));
-    m_point2Label->setText(formatPoint(1, i18nc("4-point tilt plate screw", "Screw 2 (top-right)")));
-    m_point3Label->setText(formatPoint(2, i18nc("4-point tilt plate screw", "Screw 3 (bottom-left)")));
-    m_point4Label->setText(formatPoint(3, i18nc("4-point tilt plate screw", "Screw 4 (bottom-right)")));
+    // Position words follow the (rotated) screw angle. The screw number is just a tag;
+    // for manual plates only position + amount matter.
+    m_point1Label->setText(formatPoint(0, i18nc("4-point tilt plate screw", "Screw 1 (%1)",
+                                       tiltPositionWord(angles[0]))));
+    m_point2Label->setText(formatPoint(1, i18nc("4-point tilt plate screw", "Screw 2 (%1)",
+                                       tiltPositionWord(angles[1]))));
+    m_point3Label->setText(formatPoint(2, i18nc("4-point tilt plate screw", "Screw 3 (%1)",
+                                       tiltPositionWord(angles[2]))));
+    m_point4Label->setText(formatPoint(3, i18nc("4-point tilt plate screw", "Screw 4 (%1)",
+                                       tiltPositionWord(angles[3]))));
 
     double maxAbs = std::max(
     {
@@ -739,43 +815,77 @@ void TiltCorrectionWidget::calc4Point()
 }
 
 // ============================================================================
-// Settings persistence (via KStars Options / kstars.kcfg)
+// Settings persistence — per optical train (OpticalTrainSettings) with the
+// global Options (kstars.kcfg) values as the default/fallback.
 // ============================================================================
+
+void TiltCorrectionWidget::setOpticalTrainID(uint32_t id)
+{
+    if (m_opticalTrainID == id)
+        return;
+    m_opticalTrainID = id;
+    // Reload settings for the newly-selected train (falls back to global defaults).
+    loadSettings();
+    // If we already have a tilt measurement, refresh the advisory with the new geometry.
+    if (m_valid)
+        recalculate();
+}
 
 void TiltCorrectionWidget::loadSettings()
 {
+    // Per-train settings (if any). Missing keys fall back to the global Options values,
+    // so a train that was never configured inherits the last global defaults.
+    QVariantMap trainMap;
+    if (m_opticalTrainID != 0)
+    {
+        OpticalTrainSettings::Instance()->setOpticalTrainID(m_opticalTrainID);
+        auto stored = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::FocusTilt);
+        if (stored.isValid())
+            trainMap = stored.toJsonObject().toVariantMap();
+    }
+    auto asInt = [&trainMap](const QString & key, int fallback) -> int
+    {
+        return trainMap.contains(key) ? trainMap.value(key).toInt() : fallback;
+    };
+    auto asDouble = [&trainMap](const QString & key, double fallback) -> double
+    {
+        return trainMap.contains(key) ? trainMap.value(key).toDouble() : fallback;
+    };
+
     // Block signals while restoring to avoid triggering recalc/save loops
     m_plateTypeCombo->blockSignals(true);
     m_radiusSpin->blockSignals(true);
     m_threadPresetCombo->blockSignals(true);
     m_screwPitchSpin->blockSignals(true);
-    m_rotationSpin->blockSignals(true);
+    m_plateAngleSpin->blockSignals(true);
     m_modeCombo->blockSignals(true);
 
-    int plateType = Options::tiltPlateType();
+    int plateType = asInt(QStringLiteral("plateType"), Options::tiltPlateType());
     if (plateType >= 0 && plateType < m_plateTypeCombo->count())
         m_plateTypeCombo->setCurrentIndex(plateType);
     m_plateType = static_cast<PlateType>(m_plateTypeCombo->currentData().toInt());
     m_point4Label->setVisible(m_plateType == PLATE_4POINT);
     m_applyETAButton->setVisible(m_plateType == PLATE_3POINT);
 
-    double radius = Options::tiltRadius();
+    double radius = asDouble(QStringLiteral("radius"), Options::tiltRadius());
     m_radiusSpin->setValue(radius);
     m_radius = radius;
 
-    int threadIndex = Options::tiltThreadIndex();
+    int threadIndex = asInt(QStringLiteral("threadIndex"), Options::tiltThreadIndex());
     if (threadIndex >= 0 && threadIndex < m_threadPresetCombo->count())
         m_threadPresetCombo->setCurrentIndex(threadIndex);
 
-    double screwPitch = Options::tiltScrewPitch();
+    double screwPitch = asDouble(QStringLiteral("screwPitch"), Options::tiltScrewPitch());
     m_screwPitchSpin->setValue(screwPitch);
     m_screwPitch = screwPitch;
 
-    double rotation = Options::tiltRotation();
-    m_rotationSpin->setValue(rotation);
-    m_rotationDegrees = rotation;
+    // Plate angle (Options::tiltRotation() is the global default — repurposed from the old
+    // camera-rotation control; same stored value, new meaning).
+    double plateAngle = asDouble(QStringLiteral("plateAngle"), Options::tiltRotation());
+    m_plateAngleSpin->setValue(plateAngle);
+    m_plateAngleDegrees = plateAngle;
 
-    int mode = Options::tiltMode();
+    int mode = asInt(QStringLiteral("mode"), Options::tiltMode());
     if (mode >= 0 && mode < m_modeCombo->count())
         m_modeCombo->setCurrentIndex(mode);
     m_mode = static_cast<AdjustmentMode>(m_modeCombo->currentData().toInt());
@@ -784,18 +894,33 @@ void TiltCorrectionWidget::loadSettings()
     m_radiusSpin->blockSignals(false);
     m_threadPresetCombo->blockSignals(false);
     m_screwPitchSpin->blockSignals(false);
-    m_rotationSpin->blockSignals(false);
+    m_plateAngleSpin->blockSignals(false);
     m_modeCombo->blockSignals(false);
 }
 
 void TiltCorrectionWidget::saveSettings()
 {
+    // Always update the global defaults so a brand-new train inherits the latest values.
     Options::setTiltPlateType(m_plateTypeCombo->currentIndex());
     Options::setTiltRadius(m_radiusSpin->value());
     Options::setTiltThreadIndex(m_threadPresetCombo->currentIndex());
     Options::setTiltScrewPitch(m_screwPitchSpin->value());
-    Options::setTiltRotation(m_rotationSpin->value());
+    Options::setTiltRotation(m_plateAngleSpin->value());  // stores the plate angle
     Options::setTiltMode(m_modeCombo->currentIndex());
+
+    // Also persist per optical train when we know which one we're on.
+    if (m_opticalTrainID != 0)
+    {
+        QVariantMap trainMap;
+        trainMap[QStringLiteral("plateType")]   = m_plateTypeCombo->currentIndex();
+        trainMap[QStringLiteral("radius")]      = m_radiusSpin->value();
+        trainMap[QStringLiteral("threadIndex")] = m_threadPresetCombo->currentIndex();
+        trainMap[QStringLiteral("screwPitch")]  = m_screwPitchSpin->value();
+        trainMap[QStringLiteral("plateAngle")]  = m_plateAngleSpin->value();
+        trainMap[QStringLiteral("mode")]        = m_modeCombo->currentIndex();
+        OpticalTrainSettings::Instance()->setOpticalTrainID(m_opticalTrainID);
+        OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::FocusTilt, trainMap);
+    }
 }
 
 // ============================================================================
@@ -807,6 +932,11 @@ void TiltCorrectionWidget::applyToETA()
     // Sanity checks
     if (m_plateType != PLATE_3POINT || !m_valid)
         return;
+
+    // Note on plate angle: m_adj[0..2] stay bound to the physical ETA motors (Point 1/2/3);
+    // the plate angle only changes where each motor sits in the tilt plane, not the index.
+    // So this apply path stays correct — set the plate angle to the camera's rotation
+    // relative to the ETA body.
 
     constexpr double ETA_MAX_TRAVEL = 1.200;  // mm — maximum plate travel per point
 
