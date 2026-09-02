@@ -41,10 +41,10 @@ namespace
 bool isDroppableImageUrl(const QUrl &url)
 {
     static const QStringList suffixes = { "fits", "fits.fz", "fits.gz", "fit", "fts",
-                                           "xisf", "xisf.gz",
-                                           "jpg", "jpeg", "png", "gif", "bmp",
-                                           "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf"
-                                         };
+                                          "xisf", "xisf.gz",
+                                          "jpg", "jpeg", "png", "gif", "bmp",
+                                          "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf"
+                                        };
 
     const QString path = url.isLocalFile() ? url.toLocalFile() : url.path();
     const QString lowerPath = path.toLower();

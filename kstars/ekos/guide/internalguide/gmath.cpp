@@ -777,7 +777,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         // under-corrected because confidence says nothing about whether aiResponse is
         // large enough, or even correctly signed, to replace the P it displaces).
         const AIBlendResult blend = blendAIPulse(proportionalResponse, integralResponse, aiResponse,
-                                     conf, aiGain, Options::aIProportionalBackoff());
+                                    conf, aiGain, Options::aIProportionalBackoff());
         const double activePropGain = blend.activePropGain;
         const double total = blend.total;
 

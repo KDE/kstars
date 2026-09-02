@@ -350,18 +350,18 @@ class Message : public QObject
         // it, preserving single-session behavior for simple LRGB-in-one-call use) so
         // multiple filters (e.g. Ha + OIII) can be stacked independently and kept alive
         // concurrently for postprocess_blend_channels.
-        QMap<QString, QSharedPointer<StackController>> m_PostProcessSessions;
+        QMap < QString, QSharedPointer < StackController>> m_PostProcessSessions;
         const QString m_DefaultPostProcessSession { QStringLiteral("default") };
         // crop/apply_*/save/build_master run on a worker thread (QtConcurrent) so they
         // don't block the GUI thread or the caller. A session id present here has an
         // operation in flight; a new command against it is rejected with "state":"busy"
         // instead of queued. build_master has no session of its own, so it's tracked
         // under the fixed key "build_master".
-        QSet<QString> m_BusyPostProcessSessions;
+        QSet < QString > m_BusyPostProcessSessions;
         // Last new_postprocess_state payload sent for each session id (or
         // "build_master"), so postprocess_get_state can answer without waiting on a
         // push the caller might have missed (e.g. after a reconnect).
-        QHash<QString, QJsonObject> m_LastPostProcessState;
+        QHash < QString, QJsonObject > m_LastPostProcessState;
 
         typedef enum
         {

@@ -105,7 +105,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     }
 
     clientManager->startBlob(solverBLOB->getDeviceName(), solverBLOB->getName(),
-                              QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
+                             QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
 
     clientManager->sendOneBlob(bp);
 

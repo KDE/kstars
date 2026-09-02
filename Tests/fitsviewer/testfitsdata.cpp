@@ -941,7 +941,7 @@ void TestFitsData::testMasterBuilder()
     const float outlierPixel = darkMaster.at<float>(5, 5);
     QVERIFY2(std::abs(outlierPixel - baseline) < 50.0f,
              qPrintable(QString("Outlier pixel combined to %1, expected close to baseline %2 — sigma-clip"
-                                 " rejection did not work").arg(outlierPixel).arg(baseline)));
+                       " rejection did not work").arg(outlierPixel).arg(baseline)));
 
     // Flat: three frames at different uniform illumination levels. Per-frame median
     // normalization should equalize them to ~1.0 before combining, so the combined flat
@@ -957,7 +957,7 @@ void TestFitsData::testMasterBuilder()
              qPrintable(error));
     QVERIFY2(std::abs(flatMaster.at<float>(8, 8) - 1.0f) < 0.01f,
              qPrintable(QString("Flat master pixel is %1, expected ~1.0 after median normalization")
-                         .arg(flatMaster.at<float>(8, 8))));
+                        .arg(flatMaster.at<float>(8, 8))));
 
     // Bias subtraction: build() must subtract the given master before normalizing, not
     // just normalize the raw (still bias-included) frame — a plain "does it normalize to
@@ -990,7 +990,7 @@ void TestFitsData::testMasterBuilder()
     const float brightAfter = biasedFlatMaster.at<float>(0, 0);
     QVERIFY2(std::abs(brightAfter / bgAfter - 2.0f) < 0.05f,
              qPrintable(QString("Bright/background ratio %1 after bias subtraction, expected ~2.0 (500 not "
-                                 "properly removed before normalization)").arg(brightAfter / bgAfter)));
+                       "properly removed before normalization)").arg(brightAfter / bgAfter)));
 
     // buildAndSave() round-trip: the saved file must be a valid, loadable FITS file with
     // the right dimensions — this is what gets fed straight into StackData::masterDark/
@@ -1065,7 +1065,7 @@ void TestFitsData::testCropOperation()
     const QPointF skyAfter = skyAt(&wcs, 10.0, 7.0);
     QVERIFY2(std::abs(skyBefore.x() - skyAfter.x()) < 1e-9 && std::abs(skyBefore.y() - skyAfter.y()) < 1e-9,
              qPrintable(QString("Sky coord before crop (%1,%2) != after (%3,%4)")
-                         .arg(skyBefore.x()).arg(skyBefore.y()).arg(skyAfter.x()).arg(skyAfter.y())));
+                        .arg(skyBefore.x()).arg(skyBefore.y()).arg(skyAfter.x()).arg(skyAfter.y())));
 
     wcsfree(&wcs);
 }
@@ -1097,10 +1097,10 @@ void TestFitsData::testAutoStretch()
 
     QVERIFY2(std::abs(background - targetBackground) < 0.05,
              qPrintable(QString("Background stretched to %1, expected close to targetBackground %2")
-                         .arg(background).arg(targetBackground)));
+                        .arg(background).arg(targetBackground)));
     QVERIFY2(star > background,
              qPrintable(QString("Star (%1) should be brighter than background (%2) after stretch")
-                         .arg(star).arg(background)));
+                        .arg(star).arg(background)));
     QVERIFY2(star > 0.9f, qPrintable(QString("Star pixel only reached %1 after stretch, expected near 1.0").arg(star)));
 }
 
@@ -1140,7 +1140,7 @@ void TestFitsData::testCurveOperation()
 
         QVERIFY2(std::abs(image.at<float>(0, 1) - 0.7f) < 1e-4f,
                  qPrintable(QString("Curve at its own control point x=0.5 gave %1, expected exactly 0.7")
-                             .arg(image.at<float>(0, 1))));
+                            .arg(image.at<float>(0, 1))));
         QVERIFY2(image.at<float>(0, 0) < image.at<float>(0, 1),
                  "Curve should be monotonically increasing between (0,0) and (0.5,0.7)");
         QVERIFY2(image.at<float>(0, 1) < image.at<float>(0, 2),
@@ -1219,7 +1219,7 @@ void TestFitsData::testSaturationOperation()
         QVERIFY2(SaturationOperation::apply(image, 0.0, error), qPrintable(error));
         QVERIFY2(channelSpread(image.at<cv::Vec3f>(0, 0)) < 0.01f,
                  qPrintable(QString("Expected near-gray after amt=0, spread=%1").arg(channelSpread(image.at<cv::Vec3f>(0,
-                             0)))));
+                            0)))));
     }
 
     // amt>1 increases saturation (spread grows), staying within valid [0,1] bounds.

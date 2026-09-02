@@ -52,7 +52,8 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
 }
 
 uint8_t GenericDevice::m_ID = 1;
-GenericDevice::GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManager *cm, QObject *parent) : GDInterface(parent)
+GenericDevice::GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManager *cm,
+                             QObject *parent) : GDInterface(parent)
 {
     // Register DBus
     new GenericDeviceAdaptor(this);
@@ -1727,7 +1728,7 @@ void GenericDevice::sendNewProperty(INDI::Property prop)
     if (m_ClientManager.isNull())
     {
         qCWarning(KSTARS_INDI) << "Cannot send property" << prop.getName() << "for" << getDeviceName() <<
-                                "client manager is no longer valid.";
+                                  "client manager is no longer valid.";
         return;
     }
 

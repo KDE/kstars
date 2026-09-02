@@ -83,7 +83,7 @@ void INDI_D::sendNewProperty(INDI::Property prop)
     if (m_ClientManager.isNull())
     {
         qCWarning(KSTARS_INDI) << "Cannot send property" << prop.getName() << "for" << name() <<
-                                "client manager is no longer valid.";
+                                  "client manager is no longer valid.";
         return;
     }
 

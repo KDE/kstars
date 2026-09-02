@@ -63,7 +63,7 @@ class DirectoryInspector
          * @return success
          */
         static bool inspect(const QString &dir, QVector<FileInfo> &outFiles, QVector<Group> &outGroups,
-                             QString &error);
+                            QString &error);
 
     private:
         // Header-only read via cfitsio directly (fits_read_key) — no pixel decoding.

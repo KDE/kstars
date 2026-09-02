@@ -187,7 +187,7 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
                     medianElongation > m_StackData.maxStarElongation)
             {
                 qCDebug(KSTARS_FITS) << QString("Sub rejected: median star elongation %1 (from %2 sources) exceeds "
-                                                 "threshold %3 - likely trailing/tracking error")
+                                                "threshold %3 - likely trailing/tracking error")
                                      .arg(medianElongation).arg(numSources).arg(m_StackData.maxStarElongation);
                 m_StackImageData.last().status = TRAILING_REJECTED;
                 return false;
@@ -791,7 +791,7 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         if (centerDisplacement > maxCenterDisplacement)
         {
             qCDebug(KSTARS_FITS) << QString("Sub-frame center displacement too large (%1 px, limit %2 px), sub rejected")
-                                  .arg(centerDisplacement).arg(maxCenterDisplacement);
+                                 .arg(centerDisplacement).arg(maxCenterDisplacement);
             return false;
         }
 
@@ -818,8 +818,8 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         {
             double scale = 1.0 / getDownscaleFactor();
             cv::Mat S = cv::Mat(cv::Matx33d(scale, 0,     0,
-                                             0,     scale, 0,
-                                             0,     0,     1));
+                                            0,     scale, 0,
+                                            0,     0,     1));
             cv::Mat S_inv;
             cv::invert(S, S_inv);
             warp = S * warp * S_inv;

@@ -71,8 +71,8 @@ class MasterBuilder
          * zero usable files)
          */
         static bool build(const QString &dir, Type type, cv::Mat &outMaster, QString &error,
-                           double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
-                           double matchExptime = -1.0, double exptimeTolerance = 0.5, int *outUsedCount = nullptr);
+                          double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
+                          double matchExptime = -1.0, double exptimeTolerance = 0.5, int *outUsedCount = nullptr);
 
         /**
          * @brief Build a master (see build()) and write it to outputPath as a FITS file,
@@ -84,8 +84,8 @@ class MasterBuilder
          * the just-written file back off disk.
          */
         static bool buildAndSave(const QString &dir, Type type, const QString &outputPath, QString &error,
-                                  double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
-                                  double matchExptime = -1.0, double exptimeTolerance = 0.5, cv::Mat *outMaster = nullptr);
+                                 double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
+                                 double matchExptime = -1.0, double exptimeTolerance = 0.5, cv::Mat *outMaster = nullptr);
 
     private:
         // Loads one FITS file into a CV_32F Mat (1 or 3 channels), via FITSData's public

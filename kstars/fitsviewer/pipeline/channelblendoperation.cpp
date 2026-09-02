@@ -110,7 +110,7 @@ bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, c
     if (first.depth() != CV_32F || first.channels() != 1)
     {
         error = QStringLiteral("ChannelBlendOperation expects single-channel CV_32F inputs "
-                              "(one already-stacked mono session per input, not a combined RGB result)");
+                               "(one already-stacked mono session per input, not a combined RGB result)");
         return false;
     }
 
@@ -121,7 +121,7 @@ bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, c
                 || input.image.depth() != CV_32F)
         {
             error = QStringLiteral("All inputs to a blended channel must be the same size and a single-channel "
-                                  "CV_32F image");
+                                   "CV_32F image");
             return false;
         }
         outChannel += input.image * static_cast<float>(input.weight);
@@ -131,7 +131,7 @@ bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, c
 
 bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                                      const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                                     const struct wcsprm *&outRefWcs, QString &error)
+                                     const struct wcsprm * &outRefWcs, QString &error)
 {
     // Register every WCS-carrying input onto a common reference grid before blending —
     // each was only independently plate-solved to its own align master, so two
@@ -139,11 +139,18 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     // the first WCS encountered (red, then green, then blue) as the reference; inputs
     // with no WCS at all (alignMethod NONE) are left as-is, matching prior behavior.
     const struct wcsprm *refWcs = nullptr;
-    for (const auto *inputs : { &red, &green, &blue })
+    for (const auto *inputs :
+            {
+                &red, &green, &blue
+            })
     {
         for (const auto &input : *inputs)
         {
-            if (input.wcs) { refWcs = input.wcs; break; }
+            if (input.wcs)
+            {
+                refWcs = input.wcs;
+                break;
+            }
         }
         if (refWcs) break;
     }
@@ -152,7 +159,10 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     QVector<WeightedInput> redReg = red, greenReg = green, blueReg = blue;
     if (refWcs)
     {
-        for (auto *inputs : { &redReg, &greenReg, &blueReg })
+        for (auto *inputs :
+                {
+                    &redReg, &greenReg, &blueReg
+                })
         {
             for (auto &input : *inputs)
             {

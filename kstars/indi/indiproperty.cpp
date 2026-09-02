@@ -568,7 +568,7 @@ void INDI_P::sendBlob()
     bvp->setState(IPS_BUSY);
 
     clientManager->startBlob(bvp->getDeviceName(), bvp->getName(),
-                              QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
+                             QDateTime::currentDateTimeUtc().toString(Qt::ISODate).remove("Z").toLatin1().constData());
 
     for (int i = 0; i < elementList.count(); i++)
     {

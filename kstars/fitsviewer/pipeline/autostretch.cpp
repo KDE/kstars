@@ -10,7 +10,7 @@
 #include <cmath>
 
 AutoStretch::ChannelParams AutoStretch::computeParams(const std::vector<const cv::Mat *> &channels, float maxInput,
-                                                      float targetBackground, float shadowsClipping)
+        float targetBackground, float shadowsClipping)
 {
     std::vector<float> samples;
     for (const cv::Mat *channel : channels)

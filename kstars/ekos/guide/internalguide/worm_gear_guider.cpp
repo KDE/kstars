@@ -160,7 +160,7 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
     {
         if (!altTrustTable.isEmpty())
             qCWarning(KSTARS_EKOS_GUIDE) << "[AI GUIDER] Ignoring malformed residual_filter.dec_alt_trust_table "
-                                          << "(must be >=2 strictly-ascending [altitude, multiplier] pairs)";
+                                         << "(must be >=2 strictly-ascending [altitude, multiplier] pairs)";
         m_decAltTrustAltitudes.clear();
         m_decAltTrustMultipliers.clear();
     }
@@ -221,7 +221,7 @@ bool WormGearGuider::loadWeights(const QString &weightsPath)
         m_shapeNetRefAmplitude = shapeNet["ref_amplitude_px"].toDouble(1.0);
         m_hasShapeNet = true;
         qCInfo(KSTARS_EKOS_GUIDE) << "[AI GUIDER] v2 Shape Net loaded -- physicsRA() will use it "
-                                  "instead of the harmonic-sum path. ref_amplitude_px="
+                                     "instead of the harmonic-sum path. ref_amplitude_px="
                                   << m_shapeNetRefAmplitude;
     }
     else
@@ -381,7 +381,7 @@ void WormGearGuider::updateResidualKF(double measuredRate_px_s, double shapeNetR
 }
 
 void WormGearGuider::updateResidualKFDec(double measuredRate_px_s, double physicsDecRate_px_s, double dt,
-                                         bool activeContaminated, double altitude_deg)
+        bool activeContaminated, double altitude_deg)
 {
     if (dt <= 0.0) return;
 

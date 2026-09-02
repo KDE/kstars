@@ -73,7 +73,7 @@ class ChannelBlendOperation
          */
         static bool blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                              const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                             const struct wcsprm *&outRefWcs, QString &error);
+                             const struct wcsprm * &outRefWcs, QString &error);
 
     private:
         // Warps `image` (in place) from its own WCS (`imageWcs`) onto `refWcs`'s pixel

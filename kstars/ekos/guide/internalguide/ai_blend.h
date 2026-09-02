@@ -54,8 +54,8 @@ struct AIBlendResult
  *        (Options::AIProportionalBackoff()); when false, behaves as plain P+I+AI with no cap needed.
  */
 inline AIBlendResult blendAIPulse(double proportionalResponse, double integralResponse,
-                                   double aiResponse, double confidence, double aiGain,
-                                   bool proportionalBackoffEnabled)
+                                  double aiResponse, double confidence, double aiGain,
+                                  bool proportionalBackoffEnabled)
 {
     const double aiContribution = aiGain * confidence * aiResponse;
 
@@ -69,7 +69,7 @@ inline AIBlendResult blendAIPulse(double proportionalResponse, double integralRe
         if (aiContribution != 0.0 && (proposedReduction > 0.0) == (aiContribution > 0.0))
         {
             actualReduction = std::copysign(
-                                   std::min(std::abs(proposedReduction), std::abs(aiContribution)), proposedReduction);
+                                  std::min(std::abs(proposedReduction), std::abs(aiContribution)), proposedReduction);
         }
         activePropGain = 1.0 - (actualReduction / proportionalResponse);
     }
