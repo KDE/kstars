@@ -17,6 +17,7 @@
 #include "../ekos.h"
 
 #include <ekos_capture_debug.h>
+#include <QPointer>
 #include <QString>
 
 // Logging macros, accessible by all camera_*.cpp files including this header
@@ -846,6 +847,13 @@ class Camera : public QWidget, public Ui::Camera
         QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
         QSharedPointer<CameraProcess> m_cameraProcess;
         QSharedPointer<CameraState> m_cameraState;
+
+        // Camera whose device signals (cooler, property updates, ...) are currently
+        // connected in refreshCameraSettings(), so they can be disconnected when the
+        // active camera changes (e.g. optical train reselection in a multi-camera setup).
+        // QPointer so this safely clears itself if the device is destroyed elsewhere
+        // (e.g. removeDevice()) without going through another refreshCameraSettings() call.
+        QPointer<ISD::Camera> m_lastConnectedCamera;
 
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };

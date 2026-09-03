@@ -604,6 +604,19 @@ void Camera::refreshCameraSettings()
     else
         liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
+    if (m_lastConnectedCamera && m_lastConnectedCamera != camera)
+    {
+        // The active camera changed (e.g. optical train reselection). Sever the signals
+        // connected below from the previous camera, otherwise this tab keeps reacting to
+        // the old device's state changes (e.g. its cooler toggling) alongside the new one.
+        disconnect(m_lastConnectedCamera, &ISD::Camera::propertyUpdated, this, &Camera::processCameraNumber);
+        disconnect(m_lastConnectedCamera, &ISD::Camera::coolerToggled, this, &Camera::setCoolerToggled);
+        disconnect(m_lastConnectedCamera, &ISD::Camera::videoStreamToggled, this, &Camera::setVideoStreamEnabled);
+        disconnect(m_lastConnectedCamera, &ISD::Camera::ready, this, &Camera::ready);
+        disconnect(m_lastConnectedCamera, &ISD::Camera::error, m_cameraProcess.data(), &CameraProcess::processCaptureError);
+    }
+    m_lastConnectedCamera = camera;
+
     connect(camera, &ISD::Camera::propertyUpdated, this, &Camera::processCameraNumber, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::coolerToggled, this, &Camera::setCoolerToggled, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::videoStreamToggled, this, &Camera::setVideoStreamEnabled, Qt::UniqueConnection);
