@@ -7,7 +7,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/build/kstars/kstars",
       "args": [],
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "sourceLanguages": [
         "cpp"
       ],
