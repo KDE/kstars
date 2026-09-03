@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-02 02:08+0000\n"
+"POT-Creation-Date: 2026-09-03 02:45+0000\n"
 "PO-Revision-Date: 2026-08-29 19:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -770,7 +770,7 @@ msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "Помилка під час записування файла налаштувань вбудованого засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3658
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3720
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -824,7 +824,7 @@ msgstr "< &Назад"
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:177
 #: ekos/focus/focusadvisor.cpp:765 ekos/focus/focusadvisor.cpp:1160
-#: ekos/focus/focusadvisor.cpp:1405 ekos/focus/tiltcorrectionwidget.cpp:990
+#: ekos/focus/focusadvisor.cpp:1405 ekos/focus/tiltcorrectionwidget.cpp:1120
 #, kde-format
 msgid "Done"
 msgstr "Виконано"
@@ -1458,7 +1458,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:352 dialogs/newfov.ui:1095
-#: ekos/focus/tiltcorrectionwidget.cpp:337 indi/collimationOptions.ui:462
+#: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "Обертання:"
@@ -6812,7 +6812,7 @@ msgstr ""
 msgid "Dustcap error detected. Aborting alignment."
 msgstr "Виявлено помилку з пилозахисним ковпаком. Перериваємо вирівнювання."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5900
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5902
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Пристрій пилозахисного ковпака %1 вилучено"
@@ -7058,7 +7058,7 @@ msgid "dDE (arcsec)"
 msgstr "ΔСхил (кут. сек.)"
 
 #: ekos/align/align_settings.cpp:226 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5980
+#: ekos/focus/focus.cpp:5982
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Невдала спроба фільтрування."
@@ -7212,7 +7212,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Помилка: втрачено з'єднання із барабаном фільтрів."
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6099
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6101
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7453,19 +7453,19 @@ msgstr ""
 "отримати докладні відомості щодо помилки."
 
 #: ekos/align/align_solver.cpp:1223 ekos/capture/cameraprocess.cpp:2158
-#: ekos/focus/focus.cpp:6154
+#: ekos/focus/focus.cpp:6156
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Перевищення часу очікування експонування. Перериваємо обробку…"
 
-#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
+#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6163
 #: ekos/guide/guide.cpp:1229
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Перевищено час експонування. Забагато. Перезапускаємо драйвер."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1194
+#: ekos/focus/focus.cpp:6177 ekos/guide/guide.cpp:1194
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Перевищено час експонування. Виконуємо повторну спробу…"
@@ -19025,20 +19025,20 @@ msgstr ""
 msgid "Check to exclude row from calculations"
 msgstr "Позначте, щоб виключити рядок з обчислень"
 
-#: ekos/focus/aberrationinspector.cpp:593
-#: ekos/focus/aberrationinspector.cpp:610
-#: ekos/focus/aberrationinspector.cpp:611
-#: ekos/focus/aberrationinspector.cpp:612
+#: ekos/focus/aberrationinspector.cpp:598
+#: ekos/focus/aberrationinspector.cpp:615
+#: ekos/focus/aberrationinspector.cpp:616
+#: ekos/focus/aberrationinspector.cpp:617
 #, kde-format
 msgid "N/A"
 msgstr "н/д"
 
-#: ekos/focus/aberrationinspector.cpp:598
+#: ekos/focus/aberrationinspector.cpp:603
 #, kde-format
 msgid "Move sensor nearer flattener"
 msgstr "Пересунути датчик ближче до вирівнювача"
 
-#: ekos/focus/aberrationinspector.cpp:600
+#: ekos/focus/aberrationinspector.cpp:605
 #, kde-format
 msgid "Move sensor away from flattener"
 msgstr "Пересунути датчик далі від вирівнювача"
@@ -19184,7 +19184,7 @@ msgstr "Зсув ліворуч-праворуч:"
 
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
-#: ekos/focus/tiltcorrectionwidget.cpp:272
+#: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgid "Tilt Correction Advisory"
 msgstr "Порадник з виправлення нахилу"
@@ -19924,7 +19924,7 @@ msgstr "Вилучити кадри фокусування?"
 msgid "No Focuser connected."
 msgstr "Не з'єднано жодного засобу фокусування."
 
-#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5056
+#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5058
 #, kde-format
 msgid "No camera connected."
 msgstr "Не з'єднано жодної камери."
@@ -19954,16 +19954,16 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Цикл у фокусуванні, в автоматичному фокусуванні відмовлено."
 
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5483
-#: ekos/focus/focus.cpp:5758
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
+#: ekos/focus/focus.cpp:5760
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Коригувальне фокусування"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
-#: ekos/focus/focus.cpp:5758 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5487
+#: ekos/focus/focus.cpp:5760 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -20222,18 +20222,18 @@ msgstr "РПП %1 > Обмеження %2"
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Помилка автофокусування: перевищено максимальну кількість ітерацій, %1"
 
-#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3852
-#: ekos/focus/focus.cpp:4460
+#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:4462
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Не виявлено зірок, повторюємо спробу захоплення…"
 
-#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4466
+#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4468
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Не вдалося виявити жодної зірки у позиції %1. Продовжуємо…"
 
-#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4472
+#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4474
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Не вдалося знайти жодної зірки. Скиньте кадрування і повторіть спробу."
@@ -20243,87 +20243,87 @@ msgstr "Не вдалося знайти жодної зірки. Скиньте
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Не вдалося виконати прохід %1 Інспектора аберації…"
 
-#: ekos/focus/focus.cpp:3809
+#: ekos/focus/focus.cpp:3811
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Запускаємо прохід %1 Інспектора аберації…"
 
-#: ekos/focus/focus.cpp:3835
+#: ekos/focus/focus.cpp:3837
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Починаємо пошуку початкової позиції фокусування."
 
-#: ekos/focus/focus.cpp:3836
+#: ekos/focus/focus.cpp:3838
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Шукаємо початкову позицію…"
 
-#: ekos/focus/focus.cpp:3858
+#: ekos/focus/focus.cpp:3860
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Не вдалося виявити жодної зірки. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:3867
+#: ekos/focus/focus.cpp:3869
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Початкова позиція сканування: перевищено максимальну кількість ітерацій, %1"
 
-#: ekos/focus/focus.cpp:3886
+#: ekos/focus/focus.cpp:3888
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Шукаємо початкову позицію, %1 з %2"
 
-#: ekos/focus/focus.cpp:3900
+#: ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Не знайдено мінімуму — розширюємо пошук…"
 
-#: ekos/focus/focus.cpp:3913
+#: ekos/focus/focus.cpp:3915
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Знайдено початкову позицію %1"
 
-#: ekos/focus/focus.cpp:3914
+#: ekos/focus/focus.cpp:3916
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Знайдено початкову позицію %1"
 
-#: ekos/focus/focus.cpp:3983
+#: ekos/focus/focus.cpp:3985
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Перевірка кривої апроксимації зазнала невдачі, R2=%1 focusR2Limit=%2. "
 "Повторюємо спробу…"
 
-#: ekos/focus/focus.cpp:3985
+#: ekos/focus/focus.cpp:3987
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Обмеження=%2"
 
-#: ekos/focus/focus.cpp:3993
+#: ekos/focus/focus.cpp:3995
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Перевірка кривої апроксимації знову зазнала невдачі, R2=%1 focusR2Limit=%2, "
 "втім, продовжуємо…"
 
-#: ekos/focus/focus.cpp:4003
+#: ekos/focus/focus.cpp:4005
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Перервано роботу алгоритму лінійного автофокусування: %1"
 
-#: ekos/focus/focus.cpp:4038
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Отримано FITS. РПП (HFR) %1 @ %2. Різниця (%3%)"
 
-#: ekos/focus/focus.cpp:4040
+#: ekos/focus/focus.cpp:4042
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Отримано FITS. РПП (HFR) %1 @ %2."
 
-#: ekos/focus/focus.cpp:4101
+#: ekos/focus/focus.cpp:4103
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -20332,26 +20332,26 @@ msgstr ""
 "Зміна радіуса половинного потоку (HFR) є надто малою. Спробуйте збільшити "
 "крок або зменшити допуск."
 
-#: ekos/focus/focus.cpp:4108
+#: ekos/focus/focus.cpp:4110
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Не вдалося знайти зірку для фокусування у кадрі. Вам слід захопити "
 "зображення і вибрати на ньому зірку для фокусування."
 
-#: ekos/focus/focus.cpp:4214
+#: ekos/focus/focus.cpp:4216
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Знайдено поліноміальний розв'язок @ %1"
 
-#: ekos/focus/focus.cpp:4278
+#: ekos/focus/focus.cpp:4280
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Засіб фокусування не може продовжити рух, перевищено обмеження пристрою. "
 "Автофокусування перервано."
 
-#: ekos/focus/focus.cpp:4289
+#: ekos/focus/focus.cpp:4291
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -20359,22 +20359,22 @@ msgstr ""
 "Нестабільні відхилення. Спробуйте збільшити розмір початкового кроку або час "
 "експонування."
 
-#: ekos/focus/focus.cpp:4299
+#: ekos/focus/focus.cpp:4301
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Заблоковано. Спробуйте змінити параметри."
 
-#: ekos/focus/focus.cpp:4328
+#: ekos/focus/focus.cpp:4330
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Досягнуто максимального обмеження шляху. Автофокусування перервано."
 
-#: ekos/focus/focus.cpp:4445
+#: ekos/focus/focus.cpp:4447
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Отримано FITS. РПП (HFR) %1. Різниця (%2%) Мін. РПП (%3)"
 
-#: ekos/focus/focus.cpp:4449
+#: ekos/focus/focus.cpp:4451
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -20382,112 +20382,112 @@ msgstr ""
 "Засобу автоматичного фокусування не вдалося отримати належне фокусування. "
 "Спробуйте скоригувати значення допуску."
 
-#: ekos/focus/focus.cpp:4563 ekos/focus/focus.cpp:4586
-#: ekos/focus/focus.cpp:4771 ekos/focus/focus.cpp:4864
-#: ekos/focus/focus.cpp:4946 ekos/focus/focus.cpp:5031
+#: ekos/focus/focus.cpp:4565 ekos/focus/focus.cpp:4588
+#: ekos/focus/focus.cpp:4773 ekos/focus/focus.cpp:4866
+#: ekos/focus/focus.cpp:4948 ekos/focus/focus.cpp:5033
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Помилка фокусування. Подробиці викладено на панелі INDI."
 
-#: ekos/focus/focus.cpp:4647 ekos/focus/focus.cpp:4787
+#: ekos/focus/focus.cpp:4649 ekos/focus/focus.cpp:4789
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Імітуємо помилку обміну даними із засобом фокусування…"
 
-#: ekos/focus/focus.cpp:4748 ekos/focus/focus.cpp:4845
-#: ekos/focus/focus.cpp:4927 ekos/focus/focus.cpp:4968
+#: ekos/focus/focus.cpp:4750 ekos/focus/focus.cpp:4847
+#: ekos/focus/focus.cpp:4929 ekos/focus/focus.cpp:4970
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Перезапускаємо процес автофокусування…"
 
-#: ekos/focus/focus.cpp:5072
+#: ekos/focus/focus.cpp:5074
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Розпочинаємо неперервне експонування…"
 
-#: ekos/focus/focus.cpp:5453
+#: ekos/focus/focus.cpp:5455
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Вимикаємо автоматичний вибір зірок, оскільки область вибору зірки було "
 "пересунуто вручну."
 
-#: ekos/focus/focus.cpp:5459
+#: ekos/focus/focus.cpp:5461
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Вибрано зірку для фокусування."
 
-#: ekos/focus/focus.cpp:5461
+#: ekos/focus/focus.cpp:5463
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Вибрано область зацікавлення."
 
-#: ekos/focus/focus.cpp:5481
+#: ekos/focus/focus.cpp:5483
 #, kde-format
 msgid "Autofocus"
 msgstr "Автофокусування"
 
-#: ekos/focus/focus.cpp:5489
+#: ekos/focus/focus.cpp:5491
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Запит на перевірку фокусування — очікуємо 10 секунд на завершення дії %1."
 
-#: ekos/focus/focus.cpp:5497
+#: ekos/focus/focus.cpp:5499
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Відкидаємо запит перевірки фокусування — виконання дії %1."
 
-#: ekos/focus/focus.cpp:5510
+#: ekos/focus/focus.cpp:5512
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Перевірку фокусування проігноровано — вимірювання зірок має бути засновано "
 "на зірках"
 
-#: ekos/focus/focus.cpp:5515
+#: ekos/focus/focus.cpp:5517
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Захоплення для перевірки РПП…"
 
-#: ekos/focus/focus.cpp:5645
+#: ekos/focus/focus.cpp:5647
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Не позначено жодної зірки. Використовуємо останню відому позицію…"
 
-#: ekos/focus/focus.cpp:5651
+#: ekos/focus/focus.cpp:5653
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Не позначено жодної зірки. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:5662
+#: ekos/focus/focus.cpp:5664
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Засіб фокусування вже у %1…"
 
-#: ekos/focus/focus.cpp:5761
+#: ekos/focus/focus.cpp:5763
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Запит на коригування фокусування — очікуємо 10 секунд на завершення дії %1."
 
-#: ekos/focus/focus.cpp:5795
+#: ekos/focus/focus.cpp:5797
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Кадр фокусування"
 
-#: ekos/focus/focus.cpp:6199
+#: ekos/focus/focus.cpp:6201
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Не вдалося зберегти зображення. Перериваємо завдання…"
 
-#: ekos/focus/focus.cpp:6214 ekos/focus/focus.cpp:6239
+#: ekos/focus/focus.cpp:6216 ekos/focus/focus.cpp:6241
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Помилка експонування. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:6538
+#: ekos/focus/focus.cpp:6540
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -22661,52 +22661,123 @@ msgstr "Адаптувати початкову позицію"
 msgid "Max Total Move:"
 msgstr "Макс. загальний рух:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:124
+#: ekos/focus/tiltcorrectionwidget.cpp:127
 #, kde-format
 msgid "Sensor (rear view)"
 msgstr "Датчик (задній)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:131
+#: ekos/focus/tiltcorrectionwidget.cpp:134
 #, kde-format
 msgid "No tilt data"
 msgstr "Немає даних щодо нахилу"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:140
+#: ekos/focus/tiltcorrectionwidget.cpp:144
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
 msgstr "↑ Верх камери (бік з логотипом) ↑"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:141
-#, kde-format
-msgid "Camera top rotated %1°"
-msgstr "Верх камери повернутий на %1°"
-
-#: ekos/focus/tiltcorrectionwidget.cpp:147
+#: ekos/focus/tiltcorrectionwidget.cpp:150
 #, kde-format
 msgid "View from behind camera"
 msgstr "Вид з-за камери"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:249
+#: ekos/focus/tiltcorrectionwidget.cpp:152
+#, fuzzy, kde-format
+#| msgid "View from behind camera"
+msgid "View from behind · plate %1° %2"
+msgstr "Вид з-за камери"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:154
+#, fuzzy, kde-format
+#| msgid "&CW"
+msgctxt "clockwise"
+msgid "CW"
+msgstr "&ЗГС"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:155
+#, fuzzy, kde-format
+#| msgid "CCW"
+msgctxt "counter-clockwise"
+msgid "CCW"
+msgstr "ПГС"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:259
 #, kde-format
 msgid "%1%2 μm"
 msgstr "%1%2 мкм"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:284
+#: ekos/focus/tiltcorrectionwidget.cpp:290
+#, fuzzy, kde-format
+#| msgid "Right"
+msgctxt "screw position"
+msgid "right"
+msgstr "Праворуч"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:292
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 1 (upper-right)"
+msgctxt "screw position"
+msgid "upper-right"
+msgstr "Точка 1 (вгорі праворуч)"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:294
+#, fuzzy, kde-format
+#| msgid "Stop"
+msgctxt "screw position"
+msgid "top"
+msgstr "Зупинити"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:296
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 3 (upper-left)"
+msgctxt "screw position"
+msgid "upper-left"
+msgstr "Точка 3 (вгорі ліворуч)"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:298
+#, fuzzy, kde-format
+#| msgid "left"
+msgctxt "screw position"
+msgid "left"
+msgstr "лишилося"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:300
+#, kde-format
+msgctxt "screw position"
+msgid "lower-left"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:302
+#, kde-format
+msgctxt "screw position"
+msgid "bottom"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:304
+#, fuzzy, kde-format
+#| msgid "Lower right corner"
+msgctxt "screw position"
+msgid "lower-right"
+msgstr "У нижньому правому куті"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
 msgid "Plate:"
 msgstr "Плита:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:286
+#: ekos/focus/tiltcorrectionwidget.cpp:328
 #, kde-format
 msgid "3-point"
 msgstr "триточкова"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:287
+#: ekos/focus/tiltcorrectionwidget.cpp:329
 #, kde-format
 msgid "4-point"
 msgstr "чотириточкова"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:288
+#: ekos/focus/tiltcorrectionwidget.cpp:330
 #, kde-format
 msgid ""
 "Select your tilt plate type.\n"
@@ -22722,18 +22793,18 @@ msgstr ""
 "TouTek."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
+#: ekos/focus/tiltcorrectionwidget.cpp:337 tools/imagingplanner.ui:1410
 #, kde-format
 msgid "Radius:"
 msgstr "Радіус:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:299
+#: ekos/focus/tiltcorrectionwidget.cpp:341
 #, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr " мм"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:301
+#: ekos/focus/tiltcorrectionwidget.cpp:343
 #, kde-format
 msgid ""
 "Distance from plate center to adjustment point (bolt circle radius).\n"
@@ -22748,72 +22819,72 @@ msgstr ""
 "  Плити нахилу ZWO (M42/M48/M54/M68): 40 мм\n"
 "  TouTek M42 Tilter (Ø100мм): 46 мм"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:309
+#: ekos/focus/tiltcorrectionwidget.cpp:351
 #, kde-format
 msgid "Thread:"
 msgstr "Потік:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:311
+#: ekos/focus/tiltcorrectionwidget.cpp:353
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
 msgstr "M2.5 (0.45 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:312
+#: ekos/focus/tiltcorrectionwidget.cpp:354
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
 msgstr "M3 (0.50 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:313
+#: ekos/focus/tiltcorrectionwidget.cpp:355
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
 msgstr "Тонкий M3 (0.35 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:314
+#: ekos/focus/tiltcorrectionwidget.cpp:356
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
 msgstr "M4 (0.70 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:315
+#: ekos/focus/tiltcorrectionwidget.cpp:357
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
 msgstr "Тонкий M4 (0.50 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:316
+#: ekos/focus/tiltcorrectionwidget.cpp:358
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
 msgstr "M5 (0.80 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:317
+#: ekos/focus/tiltcorrectionwidget.cpp:359
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
 msgstr "Тонкий M5 (0.50 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:318
+#: ekos/focus/tiltcorrectionwidget.cpp:360
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
 msgstr "M6 (1.00 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:319
+#: ekos/focus/tiltcorrectionwidget.cpp:361
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
 msgstr "Wanderer ETA (0.50 мм)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:320
+#: ekos/focus/tiltcorrectionwidget.cpp:362
 #, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Нетиповий"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:322
+#: ekos/focus/tiltcorrectionwidget.cpp:364
 #, kde-format
 msgid ""
 "Common adjustment screw thread types.\n"
@@ -22823,18 +22894,18 @@ msgstr ""
 "Виберіть автоматичне заповнення кроку або виберіть «Нетиповий», щоб ввести "
 "вручну."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:327
+#: ekos/focus/tiltcorrectionwidget.cpp:369
 #, kde-format
 msgid "Pitch:"
 msgstr "Крок:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:331
+#: ekos/focus/tiltcorrectionwidget.cpp:373
 #, kde-format
 msgctxt "millimeters per turn suffix"
 msgid " mm/turn"
 msgstr " мм/оберт"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:333
+#: ekos/focus/tiltcorrectionwidget.cpp:375
 #, kde-format
 msgid ""
 "Screw pitch (mm per full turn). Used to show turn count for manual plates."
@@ -22842,38 +22913,43 @@ msgstr ""
 "Крок різьби (у міліметрах на повний оберт). Використовується для показу "
 "кількості обертів для регульованих вручну пластинок."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:344
+#: ekos/focus/tiltcorrectionwidget.cpp:379
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgid "Plate angle:"
+msgstr "Розв'язання зображень"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
 msgid ""
-"Camera rotation in optical train (0° = camera logo at top).\n"
-"Positive values rotate the camera clockwise as seen from behind.\n"
-"Diagram is adjusted so screw positions match what you physically see."
+"Rotation of the tilt plate (screw ring) relative to the sensor.\n"
+"The sensor stays fixed (horizontal); only the screws rotate to match\n"
+"your physical plate — e.g. a 3-point plate bolted at 15°.\n"
+"Positive = clockwise viewed from behind (looking onto the camera end "
+"plate).\n"
+"The suggested screw and amount are recomputed from the last focus run,\n"
+"so no new autofocus is needed after changing this."
 msgstr ""
-"Обертання камери в оптичному тракті (0° = логотип камери зверху).\n"
-"Додатні значення повертають камеру за годинниковою стрілкою, якщо дивитися "
-"ззаду.\n"
-"Схему налаштовано таким чином, щоб положення гвинтів відповідали тому, що ви "
-"бачите фізично."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
+#: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
 #, kde-format
 msgid "Mode:"
 msgstr "Режим:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:352
+#: ekos/focus/tiltcorrectionwidget.cpp:397
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Relative (± deltas)"
 msgstr "Відносно (± дельти)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:353
+#: ekos/focus/tiltcorrectionwidget.cpp:398
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Push-only (from zero)"
 msgstr "Лише вперед (від нуля)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:355
+#: ekos/focus/tiltcorrectionwidget.cpp:400
 #, kde-format
 msgid ""
 "Choose how the corrections are presented:\n"
@@ -22897,35 +22973,35 @@ msgstr ""
 "Плити, які працюють лише вперед, фізично не можуть мати від'ємні значення, "
 "тому скористайтеся цим для початкового налаштовування."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:392
+#: ekos/focus/tiltcorrectionwidget.cpp:437
 #, kde-format
 msgid "Point 1: —"
 msgstr "Точка 1: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:393
+#: ekos/focus/tiltcorrectionwidget.cpp:438
 #, kde-format
 msgid "Point 2: —"
 msgstr "Точка 2: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:394
+#: ekos/focus/tiltcorrectionwidget.cpp:439
 #, kde-format
 msgid "Point 3: —"
 msgstr "Точка 3: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:395
+#: ekos/focus/tiltcorrectionwidget.cpp:440
 #, kde-format
 msgid "Point 4: —"
 msgstr "Точка 4: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:413
-#: ekos/focus/tiltcorrectionwidget.cpp:666
+#: ekos/focus/tiltcorrectionwidget.cpp:458
+#: ekos/focus/tiltcorrectionwidget.cpp:726
 #, kde-format
 msgid "Apply to ETA"
 msgstr "Застосувати до ETA"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:414
-#: ekos/focus/tiltcorrectionwidget.cpp:562
-#: ekos/focus/tiltcorrectionwidget.cpp:667
+#: ekos/focus/tiltcorrectionwidget.cpp:459
+#: ekos/focus/tiltcorrectionwidget.cpp:607
+#: ekos/focus/tiltcorrectionwidget.cpp:727
 #, kde-format
 msgid ""
 "Send computed corrections to the Wanderer ETA M54 tilt plate via INDI.\n"
@@ -22936,84 +23012,88 @@ msgstr ""
 "INDI.\n"
 "Зчитує поточні позиції, додає обчислені дельти і переміщує всі три точки."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:488
+#: ekos/focus/tiltcorrectionwidget.cpp:533
 #, kde-format
 msgid "Point 1: N/A"
 msgstr "Точка 1: н/д"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:489
+#: ekos/focus/tiltcorrectionwidget.cpp:534
 #, kde-format
 msgid "Point 2: N/A"
 msgstr "Точка 2: н/д"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:490
+#: ekos/focus/tiltcorrectionwidget.cpp:535
 #, kde-format
 msgid "Point 3: N/A"
 msgstr "Точка 3: н/д"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:491
+#: ekos/focus/tiltcorrectionwidget.cpp:536
 #, kde-format
 msgid "Point 4: N/A"
 msgstr "Точка 4: н/д"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:557
+#: ekos/focus/tiltcorrectionwidget.cpp:602
 #, kde-format
 msgid "Locked: Wanderer ETA M54 radius is 64 mm"
 msgstr "Заблоковано: радіус M54 Wanderer ETA дорівнює 64 мм"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:558
+#: ekos/focus/tiltcorrectionwidget.cpp:603
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
 msgstr "Заблоковано: крок різьби M54 Wanderer ETA дорівнює 0.50 мм/оберт"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:559
+#: ekos/focus/tiltcorrectionwidget.cpp:604
 #, kde-format
 msgid "Locked: Wanderer ETA M54 detected"
 msgstr "Заблоковано: виявлено Wanderer ETA M54"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:638
-#: ekos/focus/tiltcorrectionwidget.cpp:710
+#: ekos/focus/tiltcorrectionwidget.cpp:691
+#: ekos/focus/tiltcorrectionwidget.cpp:780
 #, kde-format
 msgid "%1: no change"
 msgstr "%1: без змін"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:639
-#: ekos/focus/tiltcorrectionwidget.cpp:711
+#: ekos/focus/tiltcorrectionwidget.cpp:692
+#: ekos/focus/tiltcorrectionwidget.cpp:781
 #, kde-format
 msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 мм (%4%5 обертів)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:647
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:704
+#, fuzzy, kde-format
+#| msgid "Point 1: —"
 msgctxt "3-point tilt plate screw"
-msgid "Point 1 (upper-right)"
-msgstr "Точка 1 (вгорі праворуч)"
+msgid "Point 1 (%1)"
+msgstr "Точка 1: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:648
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:706
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 2 (bottom)"
 msgctxt "3-point tilt plate screw"
-msgid "Point 2 (bottom)"
+msgid "Point 2 (%1)"
 msgstr "Точка 2 (внизу)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:649
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:708
+#, fuzzy, kde-format
+#| msgid "Point 3: —"
 msgctxt "3-point tilt plate screw"
-msgid "Point 3 (upper-left)"
-msgstr "Точка 3 (вгорі ліворуч)"
+msgid "Point 3 (%1)"
+msgstr "Точка 3: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:653
-#: ekos/focus/tiltcorrectionwidget.cpp:730
+#: ekos/focus/tiltcorrectionwidget.cpp:713
+#: ekos/focus/tiltcorrectionwidget.cpp:806
 #, kde-format
 msgid "Push-only mode (from zero)"
 msgstr "Режим «лише вперед» (від нуля)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:654
-#: ekos/focus/tiltcorrectionwidget.cpp:731
+#: ekos/focus/tiltcorrectionwidget.cpp:714
+#: ekos/focus/tiltcorrectionwidget.cpp:807
 #, kde-format
 msgid "Relative mode (± deltas)"
 msgstr "Відносний режим (± дельта)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:655
+#: ekos/focus/tiltcorrectionwidget.cpp:715
 #, kde-format
 msgid ""
 "Total tilt: %1 μm\n"
@@ -23024,31 +23104,39 @@ msgstr ""
 "Макс. коригування: %2 мм\n"
 "%3"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:719
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:791
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 1 (top-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 1 (top-left)"
+msgid "Screw 1 (%1)"
 msgstr "Гвинт 1 (вгорі ліворуч)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:720
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:793
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 2 (top-right)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 2 (top-right)"
+msgid "Screw 2 (%1)"
 msgstr "Гвинт 2 (вгорі праворуч)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:721
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:795
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 3 (bottom-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 3 (bottom-left)"
+msgid "Screw 3 (%1)"
 msgstr "Гвинт 3 (внизу ліворуч)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:722
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:797
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 1 (top-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 4 (bottom-right)"
-msgstr "Гвинт 4 (внизу праворуч)"
+msgid "Screw 4 (%1)"
+msgstr "Гвинт 1 (вгорі ліворуч)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:732
+#: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
 msgid ""
 "Total tilt: %1 μm\n"
@@ -23061,28 +23149,28 @@ msgstr ""
 "Макс. коригування: %4 мм\n"
 "%5"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:817
+#: ekos/focus/tiltcorrectionwidget.cpp:947
 #, kde-format
 msgid "⚠ Wanderer ETA M54 not connected"
 msgstr "⚠ Wanderer ETA M54 не з'єднано"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:819
+#: ekos/focus/tiltcorrectionwidget.cpp:949
 #, kde-format
 msgid "Wanderer ETA not connected"
 msgstr "Wanderer ETA не з'єднано"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:827
+#: ekos/focus/tiltcorrectionwidget.cpp:957
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
 msgstr ""
 "⚠ Не вдалося прочитати позиції ETA (значення POSITION_READBACK недоступне)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:837
+#: ekos/focus/tiltcorrectionwidget.cpp:967
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
 msgstr "⚠ не знайдено полів зворотного читання позицій ETA"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:871
+#: ekos/focus/tiltcorrectionwidget.cpp:1001
 #, kde-format
 msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
@@ -23091,12 +23179,12 @@ msgstr ""
 "⚠ Діапазон виправлення (%1 мм) перевищує хід плити ETA (%2 мм).\n"
 "Неможливо застосувати навіть частково. Спочатку обнуліть плиту."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:884
+#: ekos/focus/tiltcorrectionwidget.cpp:1014
 #, kde-format
 msgid "Partial Correction"
 msgstr "Часткове виправлення"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:885
+#: ekos/focus/tiltcorrectionwidget.cpp:1015
 #, kde-format
 msgid ""
 "Full correction exceeds plate travel. Apply best-fit partial correction?\n"
@@ -23112,27 +23200,27 @@ msgstr ""
 "\n"
 "Виконайте автоматичне фокусування знову після, щоб застосувати решту."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:905
+#: ekos/focus/tiltcorrectionwidget.cpp:1035
 #, kde-format
 msgid "⚠ ETA target properties not available"
 msgstr "⚠ Властивості цілі ETA недоступні"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:922
+#: ekos/focus/tiltcorrectionwidget.cpp:1052
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
 msgstr "⏳ Застосування виправлень до ETA (Точка 1)…"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:966
+#: ekos/focus/tiltcorrectionwidget.cpp:1096
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
 msgstr "⚠ Не вдалося пересунути точку ETA %1. Зупинено"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:979
+#: ekos/focus/tiltcorrectionwidget.cpp:1109
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
 msgstr "⏳ Застосування виправлень до ETA (Точка %1)…"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:985
+#: ekos/focus/tiltcorrectionwidget.cpp:1115
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
@@ -23140,7 +23228,7 @@ msgstr ""
 "✓ Застосовано до ETA: Т1→%1  Т2→%2  Т3→%3 мм. Запустіть автофокусування "
 "знову, щоб виміряти повторно."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:991
+#: ekos/focus/tiltcorrectionwidget.cpp:1121
 #, kde-format
 msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
@@ -27033,7 +27121,7 @@ msgid "%1 is disconnected."
 msgstr "%1 від'єднано."
 
 #: ekos/manager.cpp:2047 ekos/manager.cpp:2056 ekos/manager.cpp:2089
-#: indi/indistd.cpp:738
+#: indi/indistd.cpp:739
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 доступний."
@@ -34149,217 +34237,217 @@ msgstr "Опис типу об'єкта"
 msgid "Object Type Comments"
 msgstr "Коментарі до типу об'єкта"
 
-#: fitsviewer/fitsdata.cpp:2602
+#: fitsviewer/fitsdata.cpp:2664
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Помилка при читанні буфера fits: %1."
 
-#: fitsviewer/fitsdata.cpp:2611
+#: fitsviewer/fitsdata.cpp:2673
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Не вдалося розпакувати стиснений FITS"
 
-#: fitsviewer/fitsdata.cpp:2641
+#: fitsviewer/fitsdata.cpp:2703
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Помилка під час відкриття файла fits %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2656
+#: fitsviewer/fitsdata.cpp:2718
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Помилка під час читання буфера fits: %1"
 
-#: fitsviewer/fitsdata.cpp:2670
+#: fitsviewer/fitsdata.cpp:2732
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Не вдалося визначити місце HDU зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:2680
+#: fitsviewer/fitsdata.cpp:2742
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Помилка під час відкриття файла FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2694
+#: fitsviewer/fitsdata.cpp:2756
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Підтримки одновимірних зображень FITS у KStars не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2742 fitsviewer/fitsdata.cpp:3487
+#: fitsviewer/fitsdata.cpp:2804 fitsviewer/fitsdata.cpp:3549
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Підтримки бітової глибини %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2752
+#: fitsviewer/fitsdata.cpp:2814
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Розміри зображення, %1⨯%2, є некоректними"
 
-#: fitsviewer/fitsdata.cpp:2806
+#: fitsviewer/fitsdata.cpp:2868
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Помилка під час спроби читання зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:3213 fitsviewer/fitsdata.cpp:3447
+#: fitsviewer/fitsdata.cpp:3275 fitsviewer/fitsdata.cpp:3509
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Помилка під час спроби відкрити файл XISF: "
 
-#: fitsviewer/fitsdata.cpp:3361
+#: fitsviewer/fitsdata.cpp:3423
 #, kde-format
 msgid "File contain no images"
 msgstr "У файлі не міститься зображень"
 
-#: fitsviewer/fitsdata.cpp:3390
+#: fitsviewer/fitsdata.cpp:3452
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Підтримки формату зразка %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:3525
+#: fitsviewer/fitsdata.cpp:3587
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Помилка під час спроби зберегти зображення XISF"
 
-#: fitsviewer/fitsdata.cpp:3617 fitsviewer/fitsdata.cpp:3733
+#: fitsviewer/fitsdata.cpp:3679 fitsviewer/fitsdata.cpp:3795
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: недостатньо пам'яті для каналу image_buffer. Потрібно %1 байтів "
 
-#: fitsviewer/fitsdata.cpp:3672
+#: fitsviewer/fitsdata.cpp:3734
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Не вдалося відкрити файл %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3685
+#: fitsviewer/fitsdata.cpp:3747
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Не вдалося відкрити буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:3696
+#: fitsviewer/fitsdata.cpp:3758
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Не вдалося виконати unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3703
+#: fitsviewer/fitsdata.cpp:3765
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Не вдалося dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3711
+#: fitsviewer/fitsdata.cpp:3773
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Не вдалося завантажити до пам'яті: %1"
 
-#: fitsviewer/fitsdata.cpp:3858
+#: fitsviewer/fitsdata.cpp:3920
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Підтримки збереження стиснених файлів не передбачено."
 
-#: fitsviewer/fitsdata.cpp:3922
+#: fitsviewer/fitsdata.cpp:3984
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Не вдалося створити файл: %1"
 
-#: fitsviewer/fitsdata.cpp:3944
+#: fitsviewer/fitsdata.cpp:4006
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Не вдалося створити зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:3953 fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:4015 fitsviewer/fitsdata.cpp:4022
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Не вдалося оновити ключ: %1"
 
-#: fitsviewer/fitsdata.cpp:4088
+#: fitsviewer/fitsdata.cpp:4150
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Не вдалося оновити дату: %1"
 
-#: fitsviewer/fitsdata.cpp:4097
+#: fitsviewer/fitsdata.cpp:4159
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Не вдалося оновити журнал: %1"
 
-#: fitsviewer/fitsdata.cpp:4119
+#: fitsviewer/fitsdata.cpp:4181
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Не вдалося записати зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:5894 fitsviewer/fitsdata.cpp:5905
-#: fitsviewer/fitsdata.cpp:5942 fitsviewer/fitsdata.cpp:5978
-#: fitsviewer/fitsdata.cpp:6112
+#: fitsviewer/fitsdata.cpp:5957 fitsviewer/fitsdata.cpp:5968
+#: fitsviewer/fitsdata.cpp:6005 fitsviewer/fitsdata.cpp:6041
+#: fitsviewer/fitsdata.cpp:6175
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Не знайдено світових координатних систем."
 
-#: fitsviewer/fitsdata.cpp:6362 fitsviewer/fitsdata.cpp:6468
+#: fitsviewer/fitsdata.cpp:6425 fitsviewer/fitsdata.cpp:6531
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Помилка під час опитування Simbad"
 
-#: fitsviewer/fitsdata.cpp:6377
+#: fitsviewer/fitsdata.cpp:6440
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Перевищено час очікування на дані щодо запиту Simbad"
 
-#: fitsviewer/fitsdata.cpp:7354 fitsviewer/fitsdata.cpp:7467
+#: fitsviewer/fitsdata.cpp:7417 fitsviewer/fitsdata.cpp:7530
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Передбачено підтримку лише 8- та 16-бітових зображень із мозаїчністю."
 
-#: fitsviewer/fitsdata.cpp:7362 fitsviewer/fitsdata.cpp:7473
+#: fitsviewer/fitsdata.cpp:7425 fitsviewer/fitsdata.cpp:7536
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Невідомий взірець мозаїчності %1."
 
-#: fitsviewer/fitsdata.cpp:7386 fitsviewer/fitsdata.cpp:7412
+#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7475
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Непідтримуваний взірець мозаїчності %1"
 
-#: fitsviewer/fitsdata.cpp:7420
+#: fitsviewer/fitsdata.cpp:7483
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Непідтримувані зсуви мозаїчності %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7431 fitsviewer/fitsdata.cpp:7484
+#: fitsviewer/fitsdata.cpp:7494 fitsviewer/fitsdata.cpp:7547
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності dc1394."
 
-#: fitsviewer/fitsdata.cpp:7442 fitsviewer/fitsdata.cpp:7495
+#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7451 fitsviewer/fitsdata.cpp:7504
+#: fitsviewer/fitsdata.cpp:7514 fitsviewer/fitsdata.cpp:7567
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Некоректний рушій усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:7758
+#: fitsviewer/fitsdata.cpp:7821
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit викликано з некоректними параметрами усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:7774 fitsviewer/fitsdata.cpp:7820
-#: fitsviewer/fitsdata.cpp:7878 fitsviewer/fitsdata.cpp:7924
+#: fitsviewer/fitsdata.cpp:7837 fitsviewer/fitsdata.cpp:7883
+#: fitsviewer/fitsdata.cpp:7941 fitsviewer/fitsdata.cpp:7987
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк: %1"
 
-#: fitsviewer/fitsdata.cpp:7784 fitsviewer/fitsdata.cpp:7888
+#: fitsviewer/fitsdata.cpp:7847 fitsviewer/fitsdata.cpp:7951
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк."
 
-#: fitsviewer/fitsdata.cpp:7803 fitsviewer/fitsdata.cpp:7907
+#: fitsviewer/fitsdata.cpp:7866 fitsviewer/fitsdata.cpp:7970
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Помилка засобу усування мозаїчності (%1)"
 
-#: fitsviewer/fitsdata.cpp:7863
+#: fitsviewer/fitsdata.cpp:7926
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -38893,17 +38981,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Вивантажити"
 
-#: indi/indistd.cpp:415
+#: indi/indistd.cpp:416
 #, kde-format
 msgid "GPS Location"
 msgstr "Розташування за GPS"
 
-#: indi/indistd.cpp:417
+#: indi/indistd.cpp:418
 #, kde-format
 msgid "Mount Location"
 msgstr "Розташування лафета"
 
-#: indi/indistd.cpp:677
+#: indi/indistd.cpp:678
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Файл даних збережено до %1"
@@ -100274,6 +100362,24 @@ msgstr "Колір тла:"
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
 
+#~ msgid "Camera top rotated %1°"
+#~ msgstr "Верх камери повернутий на %1°"
+
+#~ msgid ""
+#~ "Camera rotation in optical train (0° = camera logo at top).\n"
+#~ "Positive values rotate the camera clockwise as seen from behind.\n"
+#~ "Diagram is adjusted so screw positions match what you physically see."
+#~ msgstr ""
+#~ "Обертання камери в оптичному тракті (0° = логотип камери зверху).\n"
+#~ "Додатні значення повертають камеру за годинниковою стрілкою, якщо "
+#~ "дивитися ззаду.\n"
+#~ "Схему налаштовано таким чином, щоб положення гвинтів відповідали тому, що "
+#~ "ви бачите фізично."
+
+#~ msgctxt "4-point tilt plate screw"
+#~ msgid "Screw 4 (bottom-right)"
+#~ msgstr "Гвинт 4 (внизу праворуч)"
+
 #~ msgid "Qt"
 #~ msgstr "Qt"
 
@@ -103798,9 +103904,6 @@ msgstr "Встановити колір тла."
 
 #~ msgid "Select CCD Rotation."
 #~ msgstr "Виберіть обертання ПЗЗ."
-
-#~ msgid "left"
-#~ msgstr "лишилося"
 
 #~ msgid "Sequence (x/y)"
 #~ msgstr "Послідовність (x/y)"

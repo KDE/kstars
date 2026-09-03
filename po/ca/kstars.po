@@ -1,17 +1,17 @@
 # Translation of kstars.po to Catalan
 # Copyright (C) 2003-2026 This_file_is_part_of_KDE
 #
-# SPDX-FileCopyrightText: 2003, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
+# SPDX-FileCopyrightText: 2003, 2012-2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2004 Ivan Lloro Boada <antispam@wanadoo.es>
 # SPDX-FileCopyrightText: 2004 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2004 David Gil, <al016950@yahoo.es>
-# SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016 Orestes Mas Casals <orestes@tsc.upc.edu>
+# SPDX-FileCopyrightText: 2005-2014, 2016 Orestes Mas Casals <orestes@tsc.upc.edu>
 # SPDX-FileCopyrightText: 2006-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-02 02:08+0000\n"
+"POT-Creation-Date: 2026-09-03 02:45+0000\n"
 "PO-Revision-Date: 2026-08-30 11:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -780,7 +780,7 @@ msgstr "Error de lectura del fitxer de configuració d'astrometria."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Error d'escriptura en el fitxer de configuració intern d'astrometria."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3658
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3720
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -834,7 +834,7 @@ msgstr "< &Enrere"
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:177
 #: ekos/focus/focusadvisor.cpp:765 ekos/focus/focusadvisor.cpp:1160
-#: ekos/focus/focusadvisor.cpp:1405 ekos/focus/tiltcorrectionwidget.cpp:990
+#: ekos/focus/focusadvisor.cpp:1405 ekos/focus/tiltcorrectionwidget.cpp:1120
 #, kde-format
 msgid "Done"
 msgstr "Fet"
@@ -1475,7 +1475,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:352 dialogs/newfov.ui:1095
-#: ekos/focus/tiltcorrectionwidget.cpp:337 indi/collimationOptions.ui:462
+#: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "Rotació:"
@@ -6853,7 +6853,7 @@ msgid "Dustcap error detected. Aborting alignment."
 msgstr ""
 "S'ha detectat un error de la tapa per la pols. S'interromp l'alineació."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5900
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5902
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "S'ha extret la tapa per la pols del dispositiu %1."
@@ -7110,7 +7110,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
 #: ekos/align/align_settings.cpp:226 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5980
+#: ekos/focus/focus.cpp:5982
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ha fallat l'operació del filtre."
@@ -7264,7 +7264,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: S'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6099
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6101
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7501,12 +7501,12 @@ msgstr ""
 "Registres per a obtenir informació detallada de la fallada."
 
 #: ekos/align/align_solver.cpp:1223 ekos/capture/cameraprocess.cpp:2158
-#: ekos/focus/focus.cpp:6154
+#: ekos/focus/focus.cpp:6156
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp..."
 
-#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6161
+#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6163
 #: ekos/guide/guide.cpp:1229
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
@@ -7514,7 +7514,7 @@ msgstr ""
 "S'ha excedit el temps d'exposició. Massa. Es torna a iniciar el controlador."
 
 #: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1194
+#: ekos/focus/focus.cpp:6177 ekos/guide/guide.cpp:1194
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició..."
@@ -19104,20 +19104,20 @@ msgstr "Nombre mín./màx. d'estrelles detectades en l'execució d'enfocament"
 msgid "Check to exclude row from calculations"
 msgstr "Marqueu-ho per a excloure la fila dels càlculs"
 
-#: ekos/focus/aberrationinspector.cpp:593
-#: ekos/focus/aberrationinspector.cpp:610
-#: ekos/focus/aberrationinspector.cpp:611
-#: ekos/focus/aberrationinspector.cpp:612
+#: ekos/focus/aberrationinspector.cpp:598
+#: ekos/focus/aberrationinspector.cpp:615
+#: ekos/focus/aberrationinspector.cpp:616
+#: ekos/focus/aberrationinspector.cpp:617
 #, kde-format
 msgid "N/A"
 msgstr "N/A"
 
-#: ekos/focus/aberrationinspector.cpp:598
+#: ekos/focus/aberrationinspector.cpp:603
 #, kde-format
 msgid "Move sensor nearer flattener"
 msgstr "Mou el sensor més a prop de l'aplanador"
 
-#: ekos/focus/aberrationinspector.cpp:600
+#: ekos/focus/aberrationinspector.cpp:605
 #, kde-format
 msgid "Move sensor away from flattener"
 msgstr "Mou el sensor més lluny de l'aplanador"
@@ -19264,7 +19264,7 @@ msgstr "Inclinació esquerra-dreta:"
 
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
-#: ekos/focus/tiltcorrectionwidget.cpp:272
+#: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgid "Tilt Correction Advisory"
 msgstr "Assessor de correcció d'inclinació"
@@ -20012,7 +20012,7 @@ msgstr "Suprimeixo els fotogrames d'enfocament?"
 msgid "No Focuser connected."
 msgstr "No s'ha connectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5056
+#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5058
 #, kde-format
 msgid "No camera connected."
 msgstr "No hi ha cap càmera connectada."
@@ -20044,16 +20044,16 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Bucle d'enfocament. S'ha rebutjat l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5483
-#: ekos/focus/focus.cpp:5758
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
+#: ekos/focus/focus.cpp:5760
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Enfocament d'ajust"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
-#: ekos/focus/focus.cpp:5758 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5487
+#: ekos/focus/focus.cpp:5760 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -20308,20 +20308,20 @@ msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Ha fallat l'enfocament automàtic: ha excedit el nombre màxim d'iteracions %1"
 
-#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3852
-#: ekos/focus/focus.cpp:4460
+#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:4462
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "No s'han detectat estrelles. S'està tornant a capturar..."
 
-#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4466
+#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4468
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
 "Ha fallat en detectar qualsevol estrella en la posició %1. S'està "
 "continuant..."
 
-#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4472
+#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4474
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
@@ -20333,86 +20333,86 @@ msgstr ""
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "No s'ha pogut llançar l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3809
+#: ekos/focus/focus.cpp:3811
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Es llança l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3835
+#: ekos/focus/focus.cpp:3837
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "S'està iniciant l'escaneig per a la posició inicial de l'enfocador."
 
-#: ekos/focus/focus.cpp:3836
+#: ekos/focus/focus.cpp:3838
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "S'està escanejant per a la posició d'inici..."
 
-#: ekos/focus/focus.cpp:3858
+#: ekos/focus/focus.cpp:3860
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Ha fallat en detectar qualsevol estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:3867
+#: ekos/focus/focus.cpp:3869
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Posició d'inici d'escaneig: ha excedit el nombre màxim d'iteracions %1"
 
-#: ekos/focus/focus.cpp:3886
+#: ekos/focus/focus.cpp:3888
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "S'està escanejant per a la posició d'inici %1/%2"
 
-#: ekos/focus/focus.cpp:3900
+#: ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "No hi ha cap mínim d'escaneig - s'està ampliant la cerca..."
 
-#: ekos/focus/focus.cpp:3913
+#: ekos/focus/focus.cpp:3915
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "S'ha trobat la posició d'inici d'escaneig %1"
 
-#: ekos/focus/focus.cpp:3914
+#: ekos/focus/focus.cpp:3916
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "S'ha trobat la posició d'inici d'escaneig %1"
 
-#: ekos/focus/focus.cpp:3983
+#: ekos/focus/focus.cpp:3985
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Ha fallat la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2. S'està "
 "tornant a intentar..."
 
-#: ekos/focus/focus.cpp:3985
+#: ekos/focus/focus.cpp:3987
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Límit=%2"
 
-#: ekos/focus/focus.cpp:3993
+#: ekos/focus/focus.cpp:3995
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Ha tornat a fallar la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2, "
 "però es continua..."
 
-#: ekos/focus/focus.cpp:4003
+#: ekos/focus/focus.cpp:4005
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "S'ha interromput l'algorisme lineal d'enfocament automàtic: %1"
 
-#: ekos/focus/focus.cpp:4038
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS rebut. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:4040
+#: ekos/focus/focus.cpp:4042
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS rebut. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:4101
+#: ekos/focus/focus.cpp:4103
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -20421,26 +20421,26 @@ msgstr ""
 "El canvi a HFR és massa petit. Proveu d'incrementar la mida del pas o a "
 "disminuir la tolerància."
 
-#: ekos/focus/focus.cpp:4108
+#: ekos/focus/focus.cpp:4110
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Ha fallat en detectar una estrella a enfocar en el fotograma. Captureu i "
 "seleccioneu una estrella a enfocar."
 
-#: ekos/focus/focus.cpp:4214
+#: ekos/focus/focus.cpp:4216
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "S'ha trobat la solució polinòmica @ %1"
 
-#: ekos/focus/focus.cpp:4278
+#: ekos/focus/focus.cpp:4280
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "L'enfocador no pot anar més enllà, s'ha arribat al límit del dispositiu. "
 "S'ha interromput l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:4289
+#: ekos/focus/focus.cpp:4291
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -20448,24 +20448,24 @@ msgstr ""
 "Fluctuacions inestables. Intenteu incrementar la mida del pas inicial o el "
 "temps d'exposició."
 
-#: ekos/focus/focus.cpp:4299
+#: ekos/focus/focus.cpp:4301
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "S'ha arribat a un punt mort. Proveu-ho amb una configuració diferent."
 
-#: ekos/focus/focus.cpp:4328
+#: ekos/focus/focus.cpp:4330
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "S'ha arribat al límit màxim del recorregut. S'ha interromput l'enfocament "
 "automàtic."
 
-#: ekos/focus/focus.cpp:4445
+#: ekos/focus/focus.cpp:4447
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS rebut. HFR %1. Delta (%2%) HFR mínim (%3)"
 
-#: ekos/focus/focus.cpp:4449
+#: ekos/focus/focus.cpp:4451
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -20473,113 +20473,113 @@ msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu d'ajustar el valor "
 "de la tolerància."
 
-#: ekos/focus/focus.cpp:4563 ekos/focus/focus.cpp:4586
-#: ekos/focus/focus.cpp:4771 ekos/focus/focus.cpp:4864
-#: ekos/focus/focus.cpp:4946 ekos/focus/focus.cpp:5031
+#: ekos/focus/focus.cpp:4565 ekos/focus/focus.cpp:4588
+#: ekos/focus/focus.cpp:4773 ekos/focus/focus.cpp:4866
+#: ekos/focus/focus.cpp:4948 ekos/focus/focus.cpp:5033
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Error de l'enfocador, comproveu el plafó de l'INDI."
 
-#: ekos/focus/focus.cpp:4647 ekos/focus/focus.cpp:4787
+#: ekos/focus/focus.cpp:4649 ekos/focus/focus.cpp:4789
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simula una fallada de les comunicacions amb l'enfocador..."
 
-#: ekos/focus/focus.cpp:4748 ekos/focus/focus.cpp:4845
-#: ekos/focus/focus.cpp:4927 ekos/focus/focus.cpp:4968
+#: ekos/focus/focus.cpp:4750 ekos/focus/focus.cpp:4847
+#: ekos/focus/focus.cpp:4929 ekos/focus/focus.cpp:4970
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "S'està reiniciant el procés d'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:5072
+#: ekos/focus/focus.cpp:5074
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "S'està iniciant l'exposició contínua..."
 
 # skip-rule: kct-selectionbox
-#: ekos/focus/focus.cpp:5453
+#: ekos/focus/focus.cpp:5455
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "S'ha desactivat la selecció automàtica d'estrella, ja que el quadre de "
 "selecció d'estrella s'ha mogut manualment."
 
-#: ekos/focus/focus.cpp:5459
+#: ekos/focus/focus.cpp:5461
 #, kde-format
 msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:5461
+#: ekos/focus/focus.cpp:5463
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "S'ha seleccionat a regió d'interès."
 
-#: ekos/focus/focus.cpp:5481
+#: ekos/focus/focus.cpp:5483
 #, kde-format
 msgid "Autofocus"
 msgstr "Enfocament automàtic"
 
-#: ekos/focus/focus.cpp:5489
+#: ekos/focus/focus.cpp:5491
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Sol·licitud de comprovació d'enfocament - S'esperen 10 s fins a completar %1."
 
-#: ekos/focus/focus.cpp:5497
+#: ekos/focus/focus.cpp:5499
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Es descarta la sol·licitud de comprovació d'enfocament - %1 en curs."
 
-#: ekos/focus/focus.cpp:5510
+#: ekos/focus/focus.cpp:5512
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "S'ha ignorat la comprovació d'enfocament - La mesura d'estrelles cal que "
 "estigui basada en estrella"
 
-#: ekos/focus/focus.cpp:5515
+#: ekos/focus/focus.cpp:5517
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "S'està capturant per a la comprovació HFR..."
 
-#: ekos/focus/focus.cpp:5645
+#: ekos/focus/focus.cpp:5647
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No s'ha seleccionat cap estrella. S'està emprant l'última posició coneguda..."
 
-#: ekos/focus/focus.cpp:5651
+#: ekos/focus/focus.cpp:5653
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No s'ha seleccionat cap estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:5662
+#: ekos/focus/focus.cpp:5664
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "L'enfocador ja és a %1..."
 
-#: ekos/focus/focus.cpp:5761
+#: ekos/focus/focus.cpp:5763
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Sol·licitud d'ajust d'enfocament - S'esperen 10 s per a completar %1."
 
-#: ekos/focus/focus.cpp:5795
+#: ekos/focus/focus.cpp:5797
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enquadrat de l'enfocament"
 
-#: ekos/focus/focus.cpp:6199
+#: ekos/focus/focus.cpp:6201
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Ha fallat en desar la imatge. S'interromp..."
 
-#: ekos/focus/focus.cpp:6214 ekos/focus/focus.cpp:6239
+#: ekos/focus/focus.cpp:6216 ekos/focus/focus.cpp:6241
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallada de l'exposició. S'interromp..."
 
-#: ekos/focus/focus.cpp:6538
+#: ekos/focus/focus.cpp:6540
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -22761,52 +22761,123 @@ msgstr "Pos. d'inici adaptativa"
 msgid "Max Total Move:"
 msgstr "Moviment total màx.:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:124
+#: ekos/focus/tiltcorrectionwidget.cpp:127
 #, kde-format
 msgid "Sensor (rear view)"
 msgstr "Sensor (vista posterior)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:131
+#: ekos/focus/tiltcorrectionwidget.cpp:134
 #, kde-format
 msgid "No tilt data"
 msgstr "Sense dades d'inclinació"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:140
+#: ekos/focus/tiltcorrectionwidget.cpp:144
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
 msgstr "↑ Part superior de la càmera (costat del logotip) ↑"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:141
-#, kde-format
-msgid "Camera top rotated %1°"
-msgstr "Part superior de la càmera girada %1°"
-
-#: ekos/focus/tiltcorrectionwidget.cpp:147
+#: ekos/focus/tiltcorrectionwidget.cpp:150
 #, kde-format
 msgid "View from behind camera"
 msgstr "Vista des de la càmera posterior"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:249
+#: ekos/focus/tiltcorrectionwidget.cpp:152
+#, fuzzy, kde-format
+#| msgid "View from behind camera"
+msgid "View from behind · plate %1° %2"
+msgstr "Vista des de la càmera posterior"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:154
+#, fuzzy, kde-format
+#| msgid "&CW"
+msgctxt "clockwise"
+msgid "CW"
+msgstr "&Horari"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:155
+#, fuzzy, kde-format
+#| msgid "CCW"
+msgctxt "counter-clockwise"
+msgid "CCW"
+msgstr "Antihorari"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:259
 #, kde-format
 msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:284
+#: ekos/focus/tiltcorrectionwidget.cpp:290
+#, fuzzy, kde-format
+#| msgid "Right"
+msgctxt "screw position"
+msgid "right"
+msgstr "Dreta"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:292
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 1 (upper-right)"
+msgctxt "screw position"
+msgid "upper-right"
+msgstr "Punt 1 (superior dret)"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:294
+#, fuzzy, kde-format
+#| msgid "Stop"
+msgctxt "screw position"
+msgid "top"
+msgstr "Atura"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:296
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 3 (upper-left)"
+msgctxt "screw position"
+msgid "upper-left"
+msgstr "Punt 3 (superior esquerre)"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:298
+#, fuzzy, kde-format
+#| msgid "Top left"
+msgctxt "screw position"
+msgid "left"
+msgstr "Superior esquerra"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:300
+#, kde-format
+msgctxt "screw position"
+msgid "lower-left"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:302
+#, kde-format
+msgctxt "screw position"
+msgid "bottom"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:304
+#, fuzzy, kde-format
+#| msgid "Lower right corner"
+msgctxt "screw position"
+msgid "lower-right"
+msgstr "Cantonada inferior dreta"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
 msgid "Plate:"
 msgstr "Placa:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:286
+#: ekos/focus/tiltcorrectionwidget.cpp:328
 #, kde-format
 msgid "3-point"
 msgstr "3 punts"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:287
+#: ekos/focus/tiltcorrectionwidget.cpp:329
 #, kde-format
 msgid "4-point"
 msgstr "4 punts"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:288
+#: ekos/focus/tiltcorrectionwidget.cpp:330
 #, kde-format
 msgid ""
 "Select your tilt plate type.\n"
@@ -22820,18 +22891,18 @@ msgstr ""
 "d'anells d'inclinació d'estil TouTek."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
+#: ekos/focus/tiltcorrectionwidget.cpp:337 tools/imagingplanner.ui:1410
 #, kde-format
 msgid "Radius:"
 msgstr "Radi:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:299
+#: ekos/focus/tiltcorrectionwidget.cpp:341
 #, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr " mm"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:301
+#: ekos/focus/tiltcorrectionwidget.cpp:343
 #, kde-format
 msgid ""
 "Distance from plate center to adjustment point (bolt circle radius).\n"
@@ -22847,72 +22918,72 @@ msgstr ""
 "  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:309
+#: ekos/focus/tiltcorrectionwidget.cpp:351
 #, kde-format
 msgid "Thread:"
 msgstr "Fil:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:311
+#: ekos/focus/tiltcorrectionwidget.cpp:353
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
 msgstr "M2.5 (0,45 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:312
+#: ekos/focus/tiltcorrectionwidget.cpp:354
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
 msgstr "M3 (0,50 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:313
+#: ekos/focus/tiltcorrectionwidget.cpp:355
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
 msgstr "M3 fi (0,35 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:314
+#: ekos/focus/tiltcorrectionwidget.cpp:356
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
 msgstr "M4 (0,70 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:315
+#: ekos/focus/tiltcorrectionwidget.cpp:357
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
 msgstr "M4 fi (0,50 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:316
+#: ekos/focus/tiltcorrectionwidget.cpp:358
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
 msgstr "M5 (0,80 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:317
+#: ekos/focus/tiltcorrectionwidget.cpp:359
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
 msgstr "M5 fi (0,50 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:318
+#: ekos/focus/tiltcorrectionwidget.cpp:360
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
 msgstr "M6 (1,00 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:319
+#: ekos/focus/tiltcorrectionwidget.cpp:361
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
 msgstr "Wanderer ETA (0,50 mm)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:320
+#: ekos/focus/tiltcorrectionwidget.cpp:362
 #, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Personalitzat"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:322
+#: ekos/focus/tiltcorrectionwidget.cpp:364
 #, kde-format
 msgid ""
 "Common adjustment screw thread types.\n"
@@ -22922,18 +22993,18 @@ msgstr ""
 "Seleccioneu per a emplenar automàticament el capcineig, o trieu Personalitza "
 "per a introduir manualment."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:327
+#: ekos/focus/tiltcorrectionwidget.cpp:369
 #, kde-format
 msgid "Pitch:"
 msgstr "Capcineig:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:331
+#: ekos/focus/tiltcorrectionwidget.cpp:373
 #, kde-format
 msgctxt "millimeters per turn suffix"
 msgid " mm/turn"
 msgstr " mm/volta"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:333
+#: ekos/focus/tiltcorrectionwidget.cpp:375
 #, kde-format
 msgid ""
 "Screw pitch (mm per full turn). Used to show turn count for manual plates."
@@ -22941,39 +23012,43 @@ msgstr ""
 "Capcineig del caragol (mm per volta completa). Utilitzat per a mostrar el "
 "comptador de voltes de les plaques manuals."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:344
+#: ekos/focus/tiltcorrectionwidget.cpp:379
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgid "Plate angle:"
+msgstr "Solució de plaques"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
 msgid ""
-"Camera rotation in optical train (0° = camera logo at top).\n"
-"Positive values rotate the camera clockwise as seen from behind.\n"
-"Diagram is adjusted so screw positions match what you physically see."
+"Rotation of the tilt plate (screw ring) relative to the sensor.\n"
+"The sensor stays fixed (horizontal); only the screws rotate to match\n"
+"your physical plate — e.g. a 3-point plate bolted at 15°.\n"
+"Positive = clockwise viewed from behind (looking onto the camera end "
+"plate).\n"
+"The suggested screw and amount are recomputed from the last focus run,\n"
+"so no new autofocus is needed after changing this."
 msgstr ""
-"Gir de la càmera en el tren òptic (0° = logotip de la càmera a la part "
-"superior).\n"
-"Els valors positius giren la càmera en el sentit de les agulles del rellotge "
-"vist des del darrere.\n"
-"El diagrama s'ajusta perquè les posicions dels caragols coincideixin amb el "
-"que es veu físicament."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
+#: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
 #, kde-format
 msgid "Mode:"
 msgstr "Mode:"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:352
+#: ekos/focus/tiltcorrectionwidget.cpp:397
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Relative (± deltas)"
 msgstr "Relatiu (± deltes)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:353
+#: ekos/focus/tiltcorrectionwidget.cpp:398
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Push-only (from zero)"
 msgstr "Només empènyer (des de zero)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:355
+#: ekos/focus/tiltcorrectionwidget.cpp:400
 #, kde-format
 msgid ""
 "Choose how the corrections are presented:\n"
@@ -22997,35 +23072,35 @@ msgstr ""
 "  Les plaques de només empènyer físicament no poden ser negatives, així que "
 "utilitzeu-ho per a la primera afinació."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:392
+#: ekos/focus/tiltcorrectionwidget.cpp:437
 #, kde-format
 msgid "Point 1: —"
 msgstr "Punt 1: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:393
+#: ekos/focus/tiltcorrectionwidget.cpp:438
 #, kde-format
 msgid "Point 2: —"
 msgstr "Punt 2: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:394
+#: ekos/focus/tiltcorrectionwidget.cpp:439
 #, kde-format
 msgid "Point 3: —"
 msgstr "Punt 3: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:395
+#: ekos/focus/tiltcorrectionwidget.cpp:440
 #, kde-format
 msgid "Point 4: —"
 msgstr "Punt 4: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:413
-#: ekos/focus/tiltcorrectionwidget.cpp:666
+#: ekos/focus/tiltcorrectionwidget.cpp:458
+#: ekos/focus/tiltcorrectionwidget.cpp:726
 #, kde-format
 msgid "Apply to ETA"
 msgstr "Aplica a l'ETA"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:414
-#: ekos/focus/tiltcorrectionwidget.cpp:562
-#: ekos/focus/tiltcorrectionwidget.cpp:667
+#: ekos/focus/tiltcorrectionwidget.cpp:459
+#: ekos/focus/tiltcorrectionwidget.cpp:607
+#: ekos/focus/tiltcorrectionwidget.cpp:727
 #, kde-format
 msgid ""
 "Send computed corrections to the Wanderer ETA M54 tilt plate via INDI.\n"
@@ -23037,84 +23112,88 @@ msgstr ""
 "Llegeix les posicions actuals, afegeix les deltes calculades i mou els tres "
 "punts."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:488
+#: ekos/focus/tiltcorrectionwidget.cpp:533
 #, kde-format
 msgid "Point 1: N/A"
 msgstr "Punt 1: N/A"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:489
+#: ekos/focus/tiltcorrectionwidget.cpp:534
 #, kde-format
 msgid "Point 2: N/A"
 msgstr "Punt 2: N/A"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:490
+#: ekos/focus/tiltcorrectionwidget.cpp:535
 #, kde-format
 msgid "Point 3: N/A"
 msgstr "Punt 3: N/A"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:491
+#: ekos/focus/tiltcorrectionwidget.cpp:536
 #, kde-format
 msgid "Point 4: N/A"
 msgstr "Punt 4: N/A"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:557
+#: ekos/focus/tiltcorrectionwidget.cpp:602
 #, kde-format
 msgid "Locked: Wanderer ETA M54 radius is 64 mm"
 msgstr "Bloquejat: El radi de la Wanderer ETA M54 és 64 mm"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:558
+#: ekos/focus/tiltcorrectionwidget.cpp:603
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
 msgstr "Bloquejat: El capcineig de la Wanderer ETA M54 és 0,50 mm/volta"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:559
+#: ekos/focus/tiltcorrectionwidget.cpp:604
 #, kde-format
 msgid "Locked: Wanderer ETA M54 detected"
 msgstr "Bloquejat: S'ha detectat una Wanderer ETA M54"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:638
-#: ekos/focus/tiltcorrectionwidget.cpp:710
+#: ekos/focus/tiltcorrectionwidget.cpp:691
+#: ekos/focus/tiltcorrectionwidget.cpp:780
 #, kde-format
 msgid "%1: no change"
 msgstr "%1: sense canvis"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:639
-#: ekos/focus/tiltcorrectionwidget.cpp:711
+#: ekos/focus/tiltcorrectionwidget.cpp:692
+#: ekos/focus/tiltcorrectionwidget.cpp:781
 #, kde-format
 msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 mm (%4%5 voltes)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:647
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:704
+#, fuzzy, kde-format
+#| msgid "Point 1: —"
 msgctxt "3-point tilt plate screw"
-msgid "Point 1 (upper-right)"
-msgstr "Punt 1 (superior dret)"
+msgid "Point 1 (%1)"
+msgstr "Punt 1: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:648
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:706
+#, fuzzy, kde-format
+#| msgctxt "3-point tilt plate screw"
+#| msgid "Point 2 (bottom)"
 msgctxt "3-point tilt plate screw"
-msgid "Point 2 (bottom)"
+msgid "Point 2 (%1)"
 msgstr "Punt 2 (inferior)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:649
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:708
+#, fuzzy, kde-format
+#| msgid "Point 3: —"
 msgctxt "3-point tilt plate screw"
-msgid "Point 3 (upper-left)"
-msgstr "Punt 3 (superior esquerre)"
+msgid "Point 3 (%1)"
+msgstr "Punt 3: —"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:653
-#: ekos/focus/tiltcorrectionwidget.cpp:730
+#: ekos/focus/tiltcorrectionwidget.cpp:713
+#: ekos/focus/tiltcorrectionwidget.cpp:806
 #, kde-format
 msgid "Push-only mode (from zero)"
 msgstr "Mode només empènyer (des de zero)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:654
-#: ekos/focus/tiltcorrectionwidget.cpp:731
+#: ekos/focus/tiltcorrectionwidget.cpp:714
+#: ekos/focus/tiltcorrectionwidget.cpp:807
 #, kde-format
 msgid "Relative mode (± deltas)"
 msgstr "Mode relatiu (± deltes)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:655
+#: ekos/focus/tiltcorrectionwidget.cpp:715
 #, kde-format
 msgid ""
 "Total tilt: %1 μm\n"
@@ -23125,31 +23204,39 @@ msgstr ""
 "Ajust màx.: %2 mm\n"
 "%3"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:719
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:791
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 1 (top-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 1 (top-left)"
+msgid "Screw 1 (%1)"
 msgstr "Caragol 1 (superior esquerre)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:720
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:793
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 2 (top-right)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 2 (top-right)"
+msgid "Screw 2 (%1)"
 msgstr "Caragol 2 (superior dret)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:721
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:795
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 3 (bottom-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 3 (bottom-left)"
+msgid "Screw 3 (%1)"
 msgstr "Caragol 3 (inferior esquerre)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:722
-#, kde-format
+#: ekos/focus/tiltcorrectionwidget.cpp:797
+#, fuzzy, kde-format
+#| msgctxt "4-point tilt plate screw"
+#| msgid "Screw 1 (top-left)"
 msgctxt "4-point tilt plate screw"
-msgid "Screw 4 (bottom-right)"
-msgstr "Caragol 4 (inferior dret)"
+msgid "Screw 4 (%1)"
+msgstr "Caragol 1 (superior esquerre)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:732
+#: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
 msgid ""
 "Total tilt: %1 μm\n"
@@ -23162,30 +23249,30 @@ msgstr ""
 "Ajust màx.: %4 mm\n"
 "%5"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:817
+#: ekos/focus/tiltcorrectionwidget.cpp:947
 #, kde-format
 msgid "⚠ Wanderer ETA M54 not connected"
 msgstr "⚠ Wanderer ETA M54 no connectada"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:819
+#: ekos/focus/tiltcorrectionwidget.cpp:949
 #, kde-format
 msgid "Wanderer ETA not connected"
 msgstr "Wanderer ETA no connectada"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:827
+#: ekos/focus/tiltcorrectionwidget.cpp:957
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
 msgstr ""
 "⚠ No s'ha pogut llegir les posicions de l'ETA (POSITION_READBACK no "
 "disponible)"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:837
+#: ekos/focus/tiltcorrectionwidget.cpp:967
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
 msgstr ""
 "⚠ No s'han trobat els camps de retorn de lectura de la posició de l'ETA"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:871
+#: ekos/focus/tiltcorrectionwidget.cpp:1001
 #, kde-format
 msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
@@ -23195,12 +23282,12 @@ msgstr ""
 "mm).\n"
 "No es pot aplicar ni parcialment. Primer poseu a zero la placa."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:884
+#: ekos/focus/tiltcorrectionwidget.cpp:1014
 #, kde-format
 msgid "Partial Correction"
 msgstr "Correcció parcial"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:885
+#: ekos/focus/tiltcorrectionwidget.cpp:1015
 #, kde-format
 msgid ""
 "Full correction exceeds plate travel. Apply best-fit partial correction?\n"
@@ -23216,27 +23303,27 @@ msgstr ""
 "\n"
 "Després torneu a executar l'enfocament automàtic per aplicar el romanent."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:905
+#: ekos/focus/tiltcorrectionwidget.cpp:1035
 #, kde-format
 msgid "⚠ ETA target properties not available"
 msgstr "⚠ Propietats de l'objectiu ETA no disponibles"
 
-#: ekos/focus/tiltcorrectionwidget.cpp:922
+#: ekos/focus/tiltcorrectionwidget.cpp:1052
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
 msgstr "⏳ S'estan aplicant les correccions a l'ETA (Punt 1)..."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:966
+#: ekos/focus/tiltcorrectionwidget.cpp:1096
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
 msgstr "⚠ Ha fallat en moure el punt %1 de l'ETA. S'atura."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:979
+#: ekos/focus/tiltcorrectionwidget.cpp:1109
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
 msgstr "⏳ S'estan aplicant les correccions a l'ETA (Punt %1)..."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:985
+#: ekos/focus/tiltcorrectionwidget.cpp:1115
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
@@ -23244,7 +23331,7 @@ msgstr ""
 "✓ S'ha aplicat a l'ETA: P1→%1  P2→%2  P3→%3 mm. Torneu a executar "
 "l'enfocament automàtic per tornar a mesurar."
 
-#: ekos/focus/tiltcorrectionwidget.cpp:991
+#: ekos/focus/tiltcorrectionwidget.cpp:1121
 #, kde-format
 msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
@@ -27143,7 +27230,7 @@ msgid "%1 is disconnected."
 msgstr "El %1 està desconnectat."
 
 #: ekos/manager.cpp:2047 ekos/manager.cpp:2056 ekos/manager.cpp:2089
-#: indi/indistd.cpp:738
+#: indi/indistd.cpp:739
 #, kde-format
 msgid "%1 is online."
 msgstr "El %1 està en línia."
@@ -34268,78 +34355,78 @@ msgstr "Descripció de tipus d'objecte"
 msgid "Object Type Comments"
 msgstr "Comentaris de tipus d'objecte"
 
-#: fitsviewer/fitsdata.cpp:2602
+#: fitsviewer/fitsdata.cpp:2664
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Error en llegir la memòria intermèdia del FITS: %1."
 
-#: fitsviewer/fitsdata.cpp:2611
+#: fitsviewer/fitsdata.cpp:2673
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Ha fallat en desempaquetar els FITS comprimits"
 
-#: fitsviewer/fitsdata.cpp:2641
+#: fitsviewer/fitsdata.cpp:2703
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "S'ha produït un error en obrir el fitxer FITS %1: %2"
 
-#: fitsviewer/fitsdata.cpp:2656
+#: fitsviewer/fitsdata.cpp:2718
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Error en llegir la memòria intermèdia del FITS: %1"
 
-#: fitsviewer/fitsdata.cpp:2670
+#: fitsviewer/fitsdata.cpp:2732
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "No s'ha pogut localitzar la imatge HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2680
+#: fitsviewer/fitsdata.cpp:2742
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "S'ha produït un error en obrir el fitxer FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2694
+#: fitsviewer/fitsdata.cpp:2756
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "El KStars no admet les imatges FITS 1D."
 
-#: fitsviewer/fitsdata.cpp:2742 fitsviewer/fitsdata.cpp:3487
+#: fitsviewer/fitsdata.cpp:2804 fitsviewer/fitsdata.cpp:3549
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "La profunditat de bits %1 no està admesa."
 
-#: fitsviewer/fitsdata.cpp:2752
+#: fitsviewer/fitsdata.cpp:2814
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "La imatge té dimensions no vàlides %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2806
+#: fitsviewer/fitsdata.cpp:2868
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Error en llegir la imatge: %1"
 
 # skip-rule: k-Alt-1
-#: fitsviewer/fitsdata.cpp:3213 fitsviewer/fitsdata.cpp:3447
+#: fitsviewer/fitsdata.cpp:3275 fitsviewer/fitsdata.cpp:3509
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Error en obrir el fitxer XISF: "
 
-#: fitsviewer/fitsdata.cpp:3361
+#: fitsviewer/fitsdata.cpp:3423
 #, kde-format
 msgid "File contain no images"
 msgstr "El fitxer no conté cap imatge"
 
-#: fitsviewer/fitsdata.cpp:3390
+#: fitsviewer/fitsdata.cpp:3452
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "El format de mostra %1 no està admès."
 
-#: fitsviewer/fitsdata.cpp:3525
+#: fitsviewer/fitsdata.cpp:3587
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Error en desar la imatge XISF"
 
-#: fitsviewer/fitsdata.cpp:3617 fitsviewer/fitsdata.cpp:3733
+#: fitsviewer/fitsdata.cpp:3679 fitsviewer/fitsdata.cpp:3795
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
@@ -34347,147 +34434,147 @@ msgstr ""
 "FITSData: No hi ha prou memòria per al canal «image_buffer». Sol·licitats: "
 "%1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3672
+#: fitsviewer/fitsdata.cpp:3734
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "No s'ha pogut obrir el fitxer %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3685
+#: fitsviewer/fitsdata.cpp:3747
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "No s'ha pogut la memòria intermèdia: %1"
 
-#: fitsviewer/fitsdata.cpp:3696
+#: fitsviewer/fitsdata.cpp:3758
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "No s'ha pogut fer el «unpack_thumb»: %1"
 
-#: fitsviewer/fitsdata.cpp:3703
+#: fitsviewer/fitsdata.cpp:3765
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "No s'ha pogut fer el «dcraw_process»: %1"
 
-#: fitsviewer/fitsdata.cpp:3711
+#: fitsviewer/fitsdata.cpp:3773
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "No s'ha pogut carregar a la memòria: %1"
 
-#: fitsviewer/fitsdata.cpp:3858
+#: fitsviewer/fitsdata.cpp:3920
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "No s'admet el desament de fitxers comprimits."
 
-#: fitsviewer/fitsdata.cpp:3922
+#: fitsviewer/fitsdata.cpp:3984
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Ha fallat en crear el fitxer: %1"
 
-#: fitsviewer/fitsdata.cpp:3944
+#: fitsviewer/fitsdata.cpp:4006
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Ha fallat en crear la imatge: %1"
 
-#: fitsviewer/fitsdata.cpp:3953 fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:4015 fitsviewer/fitsdata.cpp:4022
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Ha fallat en actualitzar la clau: %1"
 
-#: fitsviewer/fitsdata.cpp:4088
+#: fitsviewer/fitsdata.cpp:4150
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Ha fallat en actualitzar la data: %1"
 
-#: fitsviewer/fitsdata.cpp:4097
+#: fitsviewer/fitsdata.cpp:4159
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Ha fallat en actualitzar l'historial: %1"
 
-#: fitsviewer/fitsdata.cpp:4119
+#: fitsviewer/fitsdata.cpp:4181
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Ha fallat en escriure la imatge: %1"
 
-#: fitsviewer/fitsdata.cpp:5894 fitsviewer/fitsdata.cpp:5905
-#: fitsviewer/fitsdata.cpp:5942 fitsviewer/fitsdata.cpp:5978
-#: fitsviewer/fitsdata.cpp:6112
+#: fitsviewer/fitsdata.cpp:5957 fitsviewer/fitsdata.cpp:5968
+#: fitsviewer/fitsdata.cpp:6005 fitsviewer/fitsdata.cpp:6041
+#: fitsviewer/fitsdata.cpp:6175
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No s'ha trobat cap sistema de coordenades mundial."
 
-#: fitsviewer/fitsdata.cpp:6362 fitsviewer/fitsdata.cpp:6468
+#: fitsviewer/fitsdata.cpp:6425 fitsviewer/fitsdata.cpp:6531
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Error en consultar el Simbad"
 
-#: fitsviewer/fitsdata.cpp:6377
+#: fitsviewer/fitsdata.cpp:6440
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "La consulta del Simbad ha excedit el temps límit"
 
-#: fitsviewer/fitsdata.cpp:7354 fitsviewer/fitsdata.cpp:7467
+#: fitsviewer/fitsdata.cpp:7417 fitsviewer/fitsdata.cpp:7530
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 "Només es permeten imatges de 8 i 16 bits construïdes amb el filtre mosaic de "
 "Bayer."
 
-#: fitsviewer/fitsdata.cpp:7362 fitsviewer/fitsdata.cpp:7473
+#: fitsviewer/fitsdata.cpp:7425 fitsviewer/fitsdata.cpp:7536
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Patró de Bayer desconegut %1"
 
-#: fitsviewer/fitsdata.cpp:7386 fitsviewer/fitsdata.cpp:7412
+#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7475
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Patró de Bayer no implementat %1"
 
-#: fitsviewer/fitsdata.cpp:7420
+#: fitsviewer/fitsdata.cpp:7483
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Desplaçaments del filtre mosaic de Bayer no implementats %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7431 fitsviewer/fitsdata.cpp:7484
+#: fitsviewer/fitsdata.cpp:7494 fitsviewer/fitsdata.cpp:7547
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Paràmetres no vàlids de reconstrucció des de Bayer del dc1394."
 
-#: fitsviewer/fitsdata.cpp:7442 fitsviewer/fitsdata.cpp:7495
+#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Paràmetres no vàlids de reconstrucció des de Bayer de l'OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7451 fitsviewer/fitsdata.cpp:7504
+#: fitsviewer/fitsdata.cpp:7514 fitsviewer/fitsdata.cpp:7567
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Motor no vàlid de reconstrucció des de Bayer"
 
-#: fitsviewer/fitsdata.cpp:7758
+#: fitsviewer/fitsdata.cpp:7821
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 "debayer_8bit invocat amb paràmetres no vàlids de reconstrucció des de Bayer"
 
-#: fitsviewer/fitsdata.cpp:7774 fitsviewer/fitsdata.cpp:7820
-#: fitsviewer/fitsdata.cpp:7878 fitsviewer/fitsdata.cpp:7924
+#: fitsviewer/fitsdata.cpp:7837 fitsviewer/fitsdata.cpp:7883
+#: fitsviewer/fitsdata.cpp:7941 fitsviewer/fitsdata.cpp:7987
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:7784 fitsviewer/fitsdata.cpp:7888
+#: fitsviewer/fitsdata.cpp:7847 fitsviewer/fitsdata.cpp:7951
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer."
 
-#: fitsviewer/fitsdata.cpp:7803 fitsviewer/fitsdata.cpp:7907
+#: fitsviewer/fitsdata.cpp:7866 fitsviewer/fitsdata.cpp:7970
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "La reconstrucció des de Bayer ha fallat (%1)"
 
-#: fitsviewer/fitsdata.cpp:7863
+#: fitsviewer/fitsdata.cpp:7926
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -39042,17 +39129,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Puja"
 
-#: indi/indistd.cpp:415
+#: indi/indistd.cpp:416
 #, kde-format
 msgid "GPS Location"
 msgstr "Localització de GPS"
 
-#: indi/indistd.cpp:417
+#: indi/indistd.cpp:418
 #, kde-format
 msgid "Mount Location"
 msgstr "Emplaçament de la muntura"
 
-#: indi/indistd.cpp:677
+#: indi/indistd.cpp:678
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "El fitxer de dades s'ha desat a %1"
@@ -100772,6 +100859,25 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
+
+#~ msgid "Camera top rotated %1°"
+#~ msgstr "Part superior de la càmera girada %1°"
+
+#~ msgid ""
+#~ "Camera rotation in optical train (0° = camera logo at top).\n"
+#~ "Positive values rotate the camera clockwise as seen from behind.\n"
+#~ "Diagram is adjusted so screw positions match what you physically see."
+#~ msgstr ""
+#~ "Gir de la càmera en el tren òptic (0° = logotip de la càmera a la part "
+#~ "superior).\n"
+#~ "Els valors positius giren la càmera en el sentit de les agulles del "
+#~ "rellotge vist des del darrere.\n"
+#~ "El diagrama s'ajusta perquè les posicions dels caragols coincideixin amb "
+#~ "el que es veu físicament."
+
+#~ msgctxt "4-point tilt plate screw"
+#~ msgid "Screw 4 (bottom-right)"
+#~ msgstr "Caragol 4 (inferior dret)"
 
 #~ msgid "Qt"
 #~ msgstr "Qt"
