@@ -401,8 +401,13 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         }
         else if (((match.captured("name") == "temperature") || (match.captured("name") == "C")))
         {
+            // The sensor temperature drifts between exposures of the same sequence (unless a
+            // target temperature is enforced), so when scanning for existing files to determine
+            // the next sequence ID, always match it as a wildcard rather than a specific value.
+            // Otherwise a temperature change mid-sequence would make the scan miss previously
+            // captured files and restart the sequence numbering from 1.
             replacement = generateReplacement(pathPropertyMap, PP_TEMPERATURE,
-                                              (glob || gettingSignature) && pathPropertyMap[PP_TEMPERATURE].isValid() == false);
+                                              glob || (gettingSignature && pathPropertyMap[PP_TEMPERATURE].isValid() == false));
         }
         else if (((match.captured("name") == "bin") || (match.captured("name") == "B")))
         {
