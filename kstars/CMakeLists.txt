@@ -778,6 +778,7 @@ set(kstars_dialogs_SRCS
     dialogs/addlinkdialog.cpp
     dialogs/detaildialog.cpp
     dialogs/finddialog.cpp
+    dialogs/skyobjectsearchadapter.cpp
     dialogs/focusdialog.cpp
     dialogs/fovdialog.cpp
     dialogs/viewsdialog.cpp

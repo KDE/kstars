@@ -8,8 +8,8 @@
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "kstars.h"
-#include "ekos/manager.h"
-#include "dialogs/finddialog.h"
+#include "dialogs/skyobjectsearchadapter.h"
+#include "skyobjects/skyobject.h"
 
 #define EQ_BUTTON_ID  0
 #define HOR_BUTTON_ID 1
@@ -40,8 +40,9 @@ MountTargetWidget::MountTargetWidget(QWidget *parent)
     connect(gotoButtonObject, &QPushButton::clicked, this, &MountTargetWidget::processSlew);
     // SYNC
     connect(syncButtonObject, &QPushButton::clicked, this, &MountTargetWidget::processSync);
-    // Find
-    connect(findButtonObject, &QPushButton::clicked, this, &MountTargetWidget::findTarget);
+    // Incremental target search
+    auto searchAdapter = new SkyObjectSearchAdapter(targetTextObject, this);
+    connect(searchAdapter, &SkyObjectSearchAdapter::objectSelected, this, &MountTargetWidget::applyFoundObject);
 }
 
 bool MountTargetWidget::processCoords(dms &ra, dms &de)
@@ -219,28 +220,23 @@ void MountTargetWidget::processSync()
         Q_EMIT sync(ra.Hours(), de.Degrees());
 }
 
-void MountTargetWidget::findTarget()
+void MountTargetWidget::applyFoundObject(SkyObject *object)
 {
-    if (FindDialog::Instance()->execWithParent(Ekos::Manager::Instance()) == QDialog::Accepted)
-    {
-        auto object = FindDialog::Instance()->targetObject();
-        if (object != nullptr)
-        {
-            auto const data = KStarsData::Instance();
-            auto o = object->clone();
-            o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-            o->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    if (object == nullptr)
+        return;
 
-            equatorialCheckObject->setProperty("checked", true);
+    auto const data = KStarsData::Instance();
+    auto o = object->clone();
+    o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+    o->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-            targetTextObject->setProperty("text", o->name());
-            m_currentTarget = o;
-            updateTargetDisplay();
-            // send a signal that a new target is set
-            Q_EMIT newTarget();
-        }
-    }
+    equatorialCheckObject->setProperty("checked", true);
 
+    targetTextObject->setProperty("text", o->name());
+    m_currentTarget = o;
+    updateTargetDisplay();
+    // send a signal that a new target is set
+    Q_EMIT newTarget();
 }
 
 void MountTargetWidget::updateTargetDisplay(int id, SkyPoint *target)

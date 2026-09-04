@@ -11,6 +11,8 @@
 #include <QObject>
 #include <QWidget>
 
+class SkyObject;
+
 namespace Ekos
 {
 class MountTargetWidget : public QWidget, public Ui::MountTargetWidget
@@ -45,7 +47,7 @@ class MountTargetWidget : public QWidget, public Ui::MountTargetWidget
     private:
         void processSlew();
         void processSync();
-        void findTarget();
+        void applyFoundObject(SkyObject *object);
         void updateTargetDisplay(int id = -1, SkyPoint *target = nullptr);
 
         bool updateTarget();
