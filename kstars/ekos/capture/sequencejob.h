@@ -36,8 +36,6 @@ class SequenceJob : public QObject
         typedef enum
         {
             // Bool
-            SJ_EnforceTemperature,
-            // Bool
             // SJ_EnforceStartGuiderDrift, // no specific option
             // Bool
             SJ_GuiderActive,

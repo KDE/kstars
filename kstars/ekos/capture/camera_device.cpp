@@ -137,7 +137,7 @@ void Camera::setRotatorReversed(bool toggled)
 
 void Camera::updateCCDTemperature(double value)
 {
-    if (cameraTemperatureS->isEnabled() == false && devices()->getActiveCamera())
+    if (cameraTemperatureN->isEnabled() == false && devices()->getActiveCamera())
     {
         if (devices()->getActiveCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
             process()->checkCamera();
@@ -797,7 +797,6 @@ void Camera::syncCameraInfo()
 
     if (activeCamera()->hasCooler())
     {
-        cameraTemperatureS->setEnabled(true);
         cameraTemperatureN->setEnabled(true);
 
         if (activeCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
@@ -805,33 +804,28 @@ void Camera::syncCameraInfo()
             double min, max, step;
             setTemperatureB->setEnabled(true);
             cameraTemperatureN->setReadOnly(false);
-            cameraTemperatureS->setEnabled(true);
             temperatureRegulationB->setEnabled(true);
             activeCamera()->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
-            cameraTemperatureN->setMinimum(min);
-            cameraTemperatureN->setMaximum(max);
+
+            // Allow the possibility of no target temperature at all.
+            TemperatureSpinSpecialValue = min - step;
+            cameraTemperatureN->setRange(TemperatureSpinSpecialValue, max);
+            cameraTemperatureN->setSpecialValueText(i18n("--"));
             cameraTemperatureN->setSingleStep(1);
-            bool isChecked = activeCamera()->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(activeCamera()->getDeviceName()),
-                             false).toBool();
-            cameraTemperatureS->setChecked(isChecked);
 
             // Save the camera's temperature parameters for the stand-alone editor.
             const QStringList temperatureList =
-                QStringList( { QString::number(min),
-                               QString::number(max),
-                               isChecked ? "1" : "0" } );
+                QStringList( { QString::number(min), QString::number(max) } );
             storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
         else
         {
             setTemperatureB->setEnabled(false);
             cameraTemperatureN->setReadOnly(true);
-            cameraTemperatureS->setEnabled(false);
-            cameraTemperatureS->setChecked(false);
             temperatureRegulationB->setEnabled(false);
 
             // Save default camera temperature parameters for the stand-alone editor.
-            const QStringList temperatureList = QStringList( { "-50", "50", "0" } );
+            const QStringList temperatureList = QStringList( { "-50", "50" } );
             storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
 
@@ -840,12 +834,11 @@ void Camera::syncCameraInfo()
         {
             temperatureOUT->setText(QString("%L1º").arg(temperature, 0, 'f', 1));
             if (cameraTemperatureN->cleanText().isEmpty())
-                cameraTemperatureN->setValue(temperature);
+                cameraTemperatureN->setValue(TemperatureSpinSpecialValue);
         }
     }
     else
     {
-        cameraTemperatureS->setEnabled(false);
         cameraTemperatureN->setEnabled(false);
         temperatureRegulationB->setEnabled(false);
         cameraTemperatureN->clear();

@@ -617,19 +617,19 @@ void SequenceJob::prepareCapture()
     {
         case FRAME_LIGHT:
         case FRAME_VIDEO:
-            state->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+            state->prepareLightFrameCapture(getTargetTemperature() != Ekos::INVALID_VALUE,
                                             jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_FLAT:
-            state->prepareFlatFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+            state->prepareFlatFrameCapture(getTargetTemperature() != Ekos::INVALID_VALUE,
                                            jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_DARK:
-            state->prepareDarkFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+            state->prepareDarkFrameCapture(getTargetTemperature() != Ekos::INVALID_VALUE,
                                            jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_BIAS:
-            state->prepareBiasFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+            state->prepareBiasFrameCapture(getTargetTemperature() != Ekos::INVALID_VALUE,
                                            jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         default:
@@ -698,7 +698,6 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
     m_CoreProperties[SJ_Delay] = -1;
     m_CoreProperties[SJ_Binning] = QPoint(1, 1);
     m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
-    m_CoreProperties[SJ_EnforceTemperature] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
     m_CoreProperties[SJ_DitherPerJobEnabled] = true;
     m_CoreProperties[SJ_DitherPerJobFrequency] = 0;
@@ -763,13 +762,11 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "Temperature"))
         {
-            setTargetTemperature(cLocale.toDouble(pcdataXMLEle(ep)));
-
-            // If force attribute exist, we change cameraTemperatureS, otherwise do nothing.
+            // A temperature is only enforced if the "force" attribute is set; otherwise
+            // (including older files without the attribute) the target temperature stays
+            // unset, matching the default (Ekos::INVALID_VALUE).
             if (!strcmp(findXMLAttValu(ep, "force"), "true"))
-                setCoreProperty(SequenceJob::SJ_EnforceTemperature, true);
-            else if (!strcmp(findXMLAttValu(ep, "force"), "false"))
-                setCoreProperty(SequenceJob::SJ_EnforceTemperature, false);
+                setTargetTemperature(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
@@ -1046,8 +1043,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
     outstream << "<H>" << cLocale.toString(roi.height()) << "</H>" << Qt::endl;
     outstream << "</Frame>" << Qt::endl;
     if (getTargetTemperature() != Ekos::INVALID_VALUE)
-        outstream << "<Temperature force='" << (getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool() ? "true" :
-                                                "false") << "'>"
+        outstream << "<Temperature force='true'>"
                   << cLocale.toString(getTargetTemperature()) << "</Temperature>" << Qt::endl;
     if (getTargetFilter() >= 0)
         outstream << "<Filter>" << getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;

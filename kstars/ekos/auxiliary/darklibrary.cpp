@@ -1175,14 +1175,9 @@ void DarkLibrary::generateDarkJobs()
         {
             temperatures << oneTemperature;
         }
-
-        // Enforce temperature set
-        cam->setForceTemperature(true);
     }
     else
     {
-        // Disable temperature set
-        cam->setForceTemperature(false);
         temperatures << INVALID_VALUE;
     }
 

@@ -491,9 +491,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
                              Options::maxTemperatureDiff(),
                              60000);
 
-    // set target temperature
+    // set target temperature (a real, non-"--" value enforces it - there is no separate checkbox anymore)
     KTRY_SET_DOUBLESPINBOX(capture, cameraTemperatureN, targetTemp);
-    KTRY_SET_CHECKBOX(capture, cameraTemperatureS, true);
 
     // build a simple 1xL sequence
     KTRY_CAPTURE_ADD_LIGHT(10.0, 5, 5.0, "Luminance", "test", getImageLocation()->path() + " / test");
@@ -1178,7 +1177,6 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
     KTRY_SET_LINEEDIT(capture, placeholderFormatT, "/%T");
     KTRY_SET_SPINBOX(capture, formatSuffixN, 1);
     KTRY_SET_DOUBLESPINBOX(capture, cameraTemperatureN, 10.0);
-    KTRY_SET_CHECKBOX(capture, cameraTemperatureS, false);
     KTRY_SET_COMBO_INDEX(capture, fileUploadModeS, 1);
 
     // create the job
@@ -1252,8 +1250,12 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
     QTRY_COMPARE(fileDirectoryT->text(), fitsDirectory);
     QTRY_COMPARE(placeholderFormatT->text(), placeholderFormat);
     QTRY_COMPARE(formatSuffixN->value(), formatSuffix);
-    QTRY_COMPARE(cameraTemperatureN->value(), cameraTemperature);
-    QTRY_COMPARE(cameraTemperatureS->isChecked(), cameraCooling);
+    // A disabled target temperature no longer round-trips its specific value - the field simply
+    // holds the "--" special value (its minimum), exactly like Gain/Offset already behave.
+    if (cameraCooling)
+        QTRY_COMPARE(cameraTemperatureN->value(), cameraTemperature);
+    else
+        QTRY_COMPARE(cameraTemperatureN->value(), cameraTemperatureN->minimum());
     QTRY_COMPARE(fileUploadModeS->currentIndex(), fileUploadMode);
 }
 

@@ -547,8 +547,10 @@ void Camera::updateJobFromUI(const QSharedPointer<SequenceJob> &job, FilenamePre
 
     if (cameraTemperatureN->isEnabled())
     {
-        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
-        job->setTargetTemperature(cameraTemperatureN->value());
+        if (cameraTemperatureN->value() != TemperatureSpinSpecialValue)
+            job->setTargetTemperature(cameraTemperatureN->value());
+        else
+            job->setTargetTemperature(Ekos::INVALID_VALUE);
     }
 
     job->setScripts(m_scriptsManager->getScripts());
@@ -683,9 +685,10 @@ void Camera::syncGUIToJob(const QSharedPointer<SequenceJob> &job)
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
 
     // Temperature Options
-    cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
-    if (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
+    if (job->getTargetTemperature() != Ekos::INVALID_VALUE)
         cameraTemperatureN->setValue(job->getTargetTemperature());
+    else
+        cameraTemperatureN->setValue(TemperatureSpinSpecialValue);
 
     // Start guider drift options
     m_LimitsUI->enableDitherPerJob->setChecked(job->getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toBool());
@@ -886,8 +889,8 @@ QJsonObject Camera::createJsonJob(const QSharedPointer<SequenceJob> &job, int cu
     jsonJob.insert("Offset", queueTable->item(currentRow, JOBTABLE_COL_OFFSET)->text());
     jsonJob.insert("Encoding", job->getCoreProperty(SequenceJob::SJ_Encoding).toJsonValue());
     jsonJob.insert("Format", job->getCoreProperty(SequenceJob::SJ_Format).toJsonValue());
-    jsonJob.insert("Temperature", job->getTargetTemperature());
-    jsonJob.insert("EnforceTemperature", job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toJsonValue());
+    jsonJob.insert("Temperature", job->getTargetTemperature() != Ekos::INVALID_VALUE ?
+                   QJsonValue(job->getTargetTemperature()) : QJsonValue(QLatin1String("--")));
     jsonJob.insert("DitherPerJobEnabled", job->getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toJsonValue());
     jsonJob.insert("DitherPerJobFrequency", job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toJsonValue());
 

@@ -166,7 +166,6 @@ void SequenceEditor::onStandAloneShow()
     m_camera->cameraTemperatureN->setEnabled(true);
     m_camera->cameraTemperatureN->setReadOnly(false);
     m_camera->cameraTemperatureN->setSingleStep(1);
-    m_camera->cameraTemperatureS->setEnabled(true);
 
     double minTemp = -50, maxTemp = 50;
     if (m_Settings.contains(KEY_TEMPERATURE))
@@ -180,6 +179,7 @@ void SequenceEditor::onStandAloneShow()
     }
     m_camera->cameraTemperatureN->setMinimum(minTemp);
     m_camera->cameraTemperatureN->setMaximum(maxTemp);
+    m_camera->cameraTemperatureN->setSpecialValueText(i18n("--"));
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.

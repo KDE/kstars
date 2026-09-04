@@ -507,7 +507,7 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     setPathProperty(pathPropertyMap, PP_HOSTNAME, QHostInfo::localHostName());
 
     // handle optional parameters
-    if (job.getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
+    if (job.getTargetTemperature() != Ekos::INVALID_VALUE)
         setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
     else if (job.currentTemperature() != Ekos::INVALID_VALUE && !gettingSignature)
         setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.currentTemperature()));

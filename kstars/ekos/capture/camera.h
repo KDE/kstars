@@ -367,11 +367,6 @@ class Camera : public QWidget, public Ui::Camera
          */
         double currentAperture();
 
-        void setForceTemperature(bool enabled)
-        {
-            cameraTemperatureS->setChecked(enabled);
-        }
-
         // Propagate meridian flip state changes to the UI
         void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
@@ -858,5 +853,6 @@ class Camera : public QWidget, public Ui::Camera
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
+        double TemperatureSpinSpecialValue { INVALID_VALUE };
 };
 } // namespace Ekos

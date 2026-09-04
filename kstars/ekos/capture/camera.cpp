@@ -275,18 +275,10 @@ void Camera::initCamera()
     connect(scriptManagerB, &QPushButton::clicked, this, &Camera::handleScriptsManager);
 
     connect(temperatureRegulationB, &QPushButton::clicked, this, &Camera::showTemperatureRegulation);
-    connect(cameraTemperatureS, &QCheckBox::toggled, this, [this](bool toggled)
-    {
-        if (devices()->getActiveCamera())
-        {
-            QVariantMap auxInfo = devices()->getActiveCamera()->getDriverInfo()->getAuxInfo();
-            auxInfo[QString("%1_TC").arg(devices()->getActiveCamera()->getDeviceName())] = toggled;
-            devices()->getActiveCamera()->getDriverInfo()->setAuxInfo(auxInfo);
-        }
-    });
     connect(setTemperatureB, &QPushButton::clicked, this, [&]()
     {
-        if (devices()->getActiveCamera())
+        // Never send the "--" special value (no target temperature) to the device.
+        if (devices()->getActiveCamera() && cameraTemperatureN->value() != TemperatureSpinSpecialValue)
             devices()->getActiveCamera()->setTemperature(cameraTemperatureN->value());
     });
     connect(coolerOnB, &QPushButton::clicked, this, [&]()
@@ -301,6 +293,13 @@ void Camera::initCamera()
     });
     connect(cameraTemperatureN, &QDoubleSpinBox::editingFinished, setTemperatureB,
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
+    // Only allow "Set temperature now" when a real target temperature is entered;
+    // at the "--" special value there is nothing meaningful to send to the device.
+    connect(cameraTemperatureN, &QDoubleSpinBox::valueChanged, this, [this](double value)
+    {
+        setTemperatureB->setEnabled(cameraTemperatureN->isEnabled() && !cameraTemperatureN->isReadOnly() &&
+                                     value != TemperatureSpinSpecialValue);
+    });
     connect(resetFormatB, &QPushButton::clicked, this, [this]()
     {
         placeholderFormatT->setText(KSUtils::getDefaultPath("PlaceholderFormat"));
