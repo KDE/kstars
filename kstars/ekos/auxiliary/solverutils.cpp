@@ -14,6 +14,21 @@
 
 int SolverUtils::s_MultiAlgorithmOverride = -1;
 
+// Parallel solving races on the process-global error stack before StellarSolver 2.8.
+static bool isStellarSolverThreadSafe()
+{
+    const QString version = StellarSolver::getVersionNumber();
+    const QStringList parts = version.split('.');
+    if (parts.size() < 2)
+        return false;
+    bool majorOk = false, minorOk = false;
+    const int major = parts[0].toInt(&majorOk);
+    const int minor = parts[1].toInt(&minorOk);
+    if (!majorOk || !minorOk)
+        return false;
+    return (major > 2) || (major == 2 && minor >= 8);
+}
+
 SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds,
                          SSolver::ProcessType type) :
     m_Parameters(parameters), m_TimeoutMilliseconds(timeoutSeconds * 1000.0), m_Type(type)
@@ -247,6 +262,22 @@ void SolverUtils::patchMultiAlgorithm(StellarSolver *solver)
 
     if (params.multiAlgorithm == MULTI_AUTO)
     {
+        // Pre-2.8, parallel solving races on the process-global error stack.
+        if (!isStellarSolverThreadSafe())
+        {
+            static bool s_warnedThreadSafety = false;
+            if (!s_warnedThreadSafety)
+            {
+                s_warnedThreadSafety = true;
+                qCInfo(KSTARS_EKOS) << "StellarSolver" << StellarSolver::getVersionNumber()
+                                    << "uses a non-thread-safe internal error stack;"
+                                    << "disabling parallel (multi-algorithm) plate solving.";
+            }
+            params.multiAlgorithm = NOT_MULTI;
+            solver->setParameters(params);
+            return;
+        }
+
         bool usePosition = solver->property("UsePosition").toBool();
         // MULTI_DEPTHS partitions the star-depth axis across threads, which
         // helps when a position hint constrains the healpix search area but
