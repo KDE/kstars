@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-03 02:45+0000\n"
+"POT-Creation-Date: 2026-09-04 02:10+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -3987,7 +3987,7 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
+#: ekos/capture/camera_device.cpp:920 ekos/capture/camera_device.cpp:962
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
@@ -15636,42 +15636,42 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera_device.cpp:713
+#: ekos/capture/camera_device.cpp:726
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera_device.cpp:715
+#: ekos/capture/camera_device.cpp:728
 #, fuzzy, kde-format
 msgid "Confirmation"
 msgstr "_എല്ലാം നീക്കം ചെയ്യുക"
 
-#: ekos/capture/camera_device.cpp:733 ekos/capture/camera_device.cpp:734
+#: ekos/capture/camera_device.cpp:746 ekos/capture/camera_device.cpp:747
 #, fuzzy, kde-format
 msgid "Focus complete."
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
 
-#: ekos/capture/camera_device.cpp:738
+#: ekos/capture/camera_device.cpp:751
 #, fuzzy, kde-format
 msgid "Autofocus failed."
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
 
-#: ekos/capture/camera_device.cpp:758
+#: ekos/capture/camera_device.cpp:771
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera_device.cpp:763
+#: ekos/capture/camera_device.cpp:776
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "തീയതി കാണിക്കേണ്ട വിധം: "
 
-#: ekos/capture/camera_device.cpp:764
+#: ekos/capture/camera_device.cpp:777
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "തീയതി കാണിക്കേണ്ട വിധം: "
 
-#: ekos/capture/camera_device.cpp:768
+#: ekos/capture/camera_device.cpp:781
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"

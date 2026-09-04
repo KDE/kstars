@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-03 02:45+0000\n"
-"PO-Revision-Date: 2026-09-02 22:30+0200\n"
+"POT-Creation-Date: 2026-09-04 02:10+0000\n"
+"PO-Revision-Date: 2026-09-03 20:13+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -3898,7 +3898,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
+#: ekos/capture/camera_device.cpp:920 ekos/capture/camera_device.cpp:962
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
@@ -11071,7 +11071,7 @@ msgstr "Inte tillräckligt med minne för filen %1."
 #: ekos/align/remoteastrometryparser.cpp:101
 #, kde-format
 msgid "Remote astrometry driver is no longer connected."
-msgstr ""
+msgstr "Drivrutinen för fjärrastrometri är inte längre ansluten."
 
 #: ekos/align/remoteastrometryparser.cpp:114
 #, kde-format
@@ -16217,42 +16217,42 @@ msgstr "Kylenhet är på"
 msgid "Cooler is off"
 msgstr "Kylenhet är av"
 
-#: ekos/capture/camera_device.cpp:713
+#: ekos/capture/camera_device.cpp:726
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Återställ inställning av %1 till standardvärde?"
 
-#: ekos/capture/camera_device.cpp:715
+#: ekos/capture/camera_device.cpp:728
 #, kde-format
 msgid "Confirmation"
 msgstr "Bekräftelse"
 
-#: ekos/capture/camera_device.cpp:733 ekos/capture/camera_device.cpp:734
+#: ekos/capture/camera_device.cpp:746 ekos/capture/camera_device.cpp:747
 #, kde-format
 msgid "Focus complete."
 msgstr "Fokusering slutförd."
 
-#: ekos/capture/camera_device.cpp:738
+#: ekos/capture/camera_device.cpp:751
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Automatisk fokusering misslyckades."
 
-#: ekos/capture/camera_device.cpp:758
+#: ekos/capture/camera_device.cpp:771
 #, kde-format
 msgid "Paused..."
 msgstr "Paus..."
 
-#: ekos/capture/camera_device.cpp:763
+#: ekos/capture/camera_device.cpp:776
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridianvändning..."
 
-#: ekos/capture/camera_device.cpp:764
+#: ekos/capture/camera_device.cpp:777
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Medianvändning startad"
 
-#: ekos/capture/camera_device.cpp:768
+#: ekos/capture/camera_device.cpp:781
 #, kde-format
 msgid "Flip complete."
 msgstr "Vändning färdig."
@@ -22410,21 +22410,18 @@ msgid "View from behind camera"
 msgstr "Vy från kamerans baksida"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:152
-#, fuzzy, kde-format
-#| msgid "View from behind camera"
+#, kde-format
 msgid "View from behind · plate %1° %2"
-msgstr "Vy från kamerans baksida"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "&CW"
+#, kde-format
 msgctxt "clockwise"
 msgid "CW"
-msgstr "Med&urs"
+msgstr "Medurs"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:155
-#, fuzzy, kde-format
-#| msgid "CCW"
+#, kde-format
 msgctxt "counter-clockwise"
 msgid "CCW"
 msgstr "Moturs"
@@ -22435,38 +22432,31 @@ msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:290
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "screw position"
 msgid "right"
-msgstr "Höger"
+msgstr "höger"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 1 (upper-right)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-right"
-msgstr "Punkt 1 (uppe till höger)"
+msgstr "uppe till höger"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgctxt "screw position"
 msgid "top"
-msgstr "Stoppa"
+msgstr "överst"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 3 (upper-left)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-left"
-msgstr "Punkt 3 (uppe till vänster)"
+msgstr "uppe till vänster"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "left"
+#, kde-format
 msgctxt "screw position"
 msgid "left"
 msgstr "vänster"
@@ -22475,20 +22465,19 @@ msgstr "vänster"
 #, kde-format
 msgctxt "screw position"
 msgid "lower-left"
-msgstr ""
+msgstr "nere till vänster"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:302
 #, kde-format
 msgctxt "screw position"
 msgid "bottom"
-msgstr ""
+msgstr "underst"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:304
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgctxt "screw position"
 msgid "lower-right"
-msgstr "Nedre högra hörnet"
+msgstr "nere till höger"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
@@ -22640,10 +22629,9 @@ msgstr ""
 "manuella plattor."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate angle:"
-msgstr "Analys av astrobilder"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
@@ -22787,26 +22775,22 @@ msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 mm (%4%5 varv)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:704
-#, fuzzy, kde-format
-#| msgid "Point 1: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (%1)"
-msgstr "Punkt 1: —"
+msgstr "Punkt 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 2 (bottom)"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (%1)"
-msgstr "Punkt 2 (nere)"
+msgstr "Punkt 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:708
-#, fuzzy, kde-format
-#| msgid "Point 3: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (%1)"
-msgstr "Punkt 3: —"
+msgstr "Punkt 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:713
 #: ekos/focus/tiltcorrectionwidget.cpp:806
@@ -22832,36 +22816,28 @@ msgstr ""
 "%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (%1)"
-msgstr "Skruv 1 (uppe till vänster)"
+msgstr "Skruv 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:793
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 2 (top-right)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (%1)"
-msgstr "Skruv 2 (uppe till höger)"
+msgstr "Skruv 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 3 (bottom-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (%1)"
-msgstr "Skruv 3 (nere till vänster)"
+msgstr "Skruv 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:797
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (%1)"
-msgstr "Skruv 1 (uppe till vänster)"
+msgstr "Skruv 4 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format

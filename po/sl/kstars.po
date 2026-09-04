@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-03 02:45+0000\n"
-"PO-Revision-Date: 2026-08-29 13:13+0200\n"
+"POT-Creation-Date: 2026-09-04 02:10+0000\n"
+"PO-Revision-Date: 2026-09-03 07:43+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3935,7 +3935,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
+#: ekos/capture/camera_device.cpp:920 ekos/capture/camera_device.cpp:962
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
@@ -16252,42 +16252,42 @@ msgstr "Hladilnik je prižgan"
 msgid "Cooler is off"
 msgstr "Hladilnik je ugasnjen"
 
-#: ekos/capture/camera_device.cpp:713
+#: ekos/capture/camera_device.cpp:726
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Ali želite ponastaviti prilagoditev %1 na privzeto?"
 
-#: ekos/capture/camera_device.cpp:715
+#: ekos/capture/camera_device.cpp:728
 #, kde-format
 msgid "Confirmation"
 msgstr "Potrditev"
 
-#: ekos/capture/camera_device.cpp:733 ekos/capture/camera_device.cpp:734
+#: ekos/capture/camera_device.cpp:746 ekos/capture/camera_device.cpp:747
 #, kde-format
 msgid "Focus complete."
 msgstr "Ostrenje zaključeno."
 
-#: ekos/capture/camera_device.cpp:738
+#: ekos/capture/camera_device.cpp:751
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Neuspelo samodejno ostrenje."
 
-#: ekos/capture/camera_device.cpp:758
+#: ekos/capture/camera_device.cpp:771
 #, kde-format
 msgid "Paused..."
 msgstr "V premoru…"
 
-#: ekos/capture/camera_device.cpp:763
+#: ekos/capture/camera_device.cpp:776
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Obrat čez poldnevnik…"
 
-#: ekos/capture/camera_device.cpp:764
+#: ekos/capture/camera_device.cpp:777
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Začetek obrata čez poldnevnik"
 
-#: ekos/capture/camera_device.cpp:768
+#: ekos/capture/camera_device.cpp:781
 #, kde-format
 msgid "Flip complete."
 msgstr "Obrat končan."
@@ -22438,21 +22438,18 @@ msgid "View from behind camera"
 msgstr "Pogled izza kamere"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:152
-#, fuzzy, kde-format
-#| msgid "View from behind camera"
+#, kde-format
 msgid "View from behind · plate %1° %2"
-msgstr "Pogled izza kamere"
+msgstr "Pogled od zadaj · plošča %1° %2"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "&CW"
+#, kde-format
 msgctxt "clockwise"
 msgid "CW"
-msgstr "&SUK"
+msgstr "SUK"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:155
-#, fuzzy, kde-format
-#| msgid "CCW"
+#, kde-format
 msgctxt "counter-clockwise"
 msgid "CCW"
 msgstr "NSUK"
@@ -22463,60 +22460,52 @@ msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:290
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "screw position"
 msgid "right"
-msgstr "Desno"
+msgstr "desno"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 1 (upper-right)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-right"
-msgstr "Točka 1 (zgoraj desno)"
+msgstr "zgoraj desno"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgctxt "screw position"
 msgid "top"
-msgstr "Zaustavi"
+msgstr "zgoraj"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 3 (upper-left)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-left"
-msgstr "Točka 3 (zgoraj levo)"
+msgstr "zgoraj levo"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgctxt "screw position"
 msgid "left"
-msgstr "Zgoraj levo"
+msgstr "levo"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:300
 #, kde-format
 msgctxt "screw position"
 msgid "lower-left"
-msgstr ""
+msgstr "spodaj levo"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:302
 #, kde-format
 msgctxt "screw position"
 msgid "bottom"
-msgstr ""
+msgstr "spodaj"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:304
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgctxt "screw position"
 msgid "lower-right"
-msgstr "Spodnji desni kot"
+msgstr "spodaj desno"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
@@ -22668,10 +22657,9 @@ msgstr ""
 "ročnih ploščah."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate angle:"
-msgstr "Reševanje plošč"
+msgstr "Kot plošče:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
@@ -22684,6 +22672,13 @@ msgid ""
 "The suggested screw and amount are recomputed from the last focus run,\n"
 "so no new autofocus is needed after changing this."
 msgstr ""
+"Vrtenje nagibne plošče (vijaka) glede na senzor.\n"
+"Senzor ostane fiksen (vodoravno); vrtijo se le vijaki, da se ujemajo z\n"
+"vašo fizično ploščo – npr. 3-točkovna plošča, pritrjena pod kotom 15°.\n"
+"Pozitivno = v smeri urinega kazalca, gledano od zadaj (gledano na končno "
+"ploščo kamere).\n"
+"Predlagani vijak in količina se ponovno izračunata iz zadnjega ostrenja,\n"
+"zato po spremembi tega ni potrebe po novem samodejnem ostrenju."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
@@ -22815,26 +22810,22 @@ msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 mm (%4%5 obratov)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:704
-#, fuzzy, kde-format
-#| msgid "Point 1: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (%1)"
-msgstr "Točka 1: —"
+msgstr "Točka 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 2 (bottom)"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (%1)"
-msgstr "Točka 2 (spodaj)"
+msgstr "Točka 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:708
-#, fuzzy, kde-format
-#| msgid "Point 3: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (%1)"
-msgstr "Točka 3: —"
+msgstr "Točka 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:713
 #: ekos/focus/tiltcorrectionwidget.cpp:806
@@ -22860,36 +22851,28 @@ msgstr ""
 "%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (%1)"
-msgstr "Vijak 1 (zgoraj levo)"
+msgstr "Vijak 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:793
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 2 (top-right)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (%1)"
-msgstr "Vijak 2 (zgoraj desno)"
+msgstr "Vijak 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 3 (bottom-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (%1)"
-msgstr "Vijak 3 (spodaj levo)"
+msgstr "Vijak 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:797
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (%1)"
-msgstr "Vijak 1 (zgoraj levo)"
+msgstr "Vijak 4 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
