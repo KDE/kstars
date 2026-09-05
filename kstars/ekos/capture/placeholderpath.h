@@ -40,7 +40,9 @@ class PlaceholderPath
             PP_OFFSET,     // double
             PP_PIERSIDE,   // ISD::Mount::PierSide (int)
             PP_HOSTNAME,   // QString
-            PP_TEMPERATURE // double
+            PP_TEMPERATURE, // double
+            PP_CAMERANAME,  // QString
+            PP_OPTICALTRAIN // QString
         } PathProperty;
 
         typedef enum
@@ -61,7 +63,7 @@ class PlaceholderPath
          * @brief processJobInfo loads the placeHolderPath with properties from the SequenceJob
          * @param sequence job to be processed
          */
-        void processJobInfo(SequenceJob *job);
+        void processJobInfo(SequenceJob *job, const QString &opticalTrain = QString(), const QString &cameraName = QString());
 
         /**
          * @brief addjob creates the directory suffix for the SequenceJob
@@ -94,7 +96,8 @@ class PlaceholderPath
          */
         QString generateSequenceFilename(const SequenceJob &job, bool local, const bool batch_mode,
                                          const int nextSequenceID, const QString &extension, const QString &filename,
-                                         const bool glob = false, const bool gettingSignature = false);
+                                         const bool glob = false, const bool gettingSignature = false,
+                                         const QString &opticalTrain = QString(), const QString &cameraName = QString());
 
         /**
          * @brief generateFilename performs the data for tag substitution in the filename
@@ -215,7 +218,8 @@ class PlaceholderPath
         // TODO use QVariantMap or QVariantList instead of passing this many args.
         QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local,
                                          const bool batch_mode, const int nextSequenceID, const QString &extension,
-                                         const QString &filename, const bool glob = false, const bool gettingSignature = false, const bool isVideo = false) const;
+                                         const QString &filename, const bool glob = false, const bool gettingSignature = false, const bool isVideo = false,
+                                         const QString &opticalTrain = QString(), const QString &cameraName = QString()) const;
 
         /**
          * @brief setGenerateFilenameSettings Generate property map from job settings. In case that gettingSignature is set to true,

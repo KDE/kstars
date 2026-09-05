@@ -36,9 +36,12 @@ class TestEkosCaptureCount : public QObject
         /**
          * @brief Setup capturing for tests with the scheduler
          * @param completionCondition completion condition for the scheduler
+         * @param placeholderFormat placeholder format used by the capture sequence
+         * @param schedulerTrain scheduler optical train selection
          * @return true iff preparation was successful
          */
-        bool prepareScheduledCapture(Ekos::CompletionCondition completionCondition);
+        bool prepareScheduledCapture(Ekos::CompletionCondition completionCondition, const QString &placeholderFormat = QString(),
+                                     const QString &schedulerTrain = QString());
 
         /**
          * @brief Prepare the scheduler for the test.
@@ -49,11 +52,13 @@ class TestEkosCaptureCount : public QObject
          * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
          * @param rememberJobProgress should the scheduler use the option "Remember job progress"
          * @param exptime exposure time (identical for all frames)
+         * @param schedulerTrain scheduler optical train selection
          * @return true iff preparation was successful
          */
         bool setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap,
                             Ekos::CompletionCondition completionCondition,
-                            int iterations, bool rememberJobProgress, double exptime);
+                            int iterations, bool rememberJobProgress, double exptime,
+                            const QString &schedulerTrain = QString());
 
         /**
          * @brief Verify the counts that the scheduler displays in the job table
@@ -189,6 +194,14 @@ class TestEkosCaptureCount : public QObject
 
         /** @brief Test data for @see testSchedulerCaptureInfiteLooping() */
         void testSchedulerCaptureInfiteLooping_data();
+
+        /**
+         * @brief Test scheduler counting when a schedule is started without a prestarted Ekos profile.
+         */
+        void testSchedulerCaptureWithoutPrestartedEkosPlaceholderTrain();
+
+        /** @brief Test data for @see testSchedulerCaptureWithoutPrestartedEkosPlaceholderTrain() */
+        void testSchedulerCaptureWithoutPrestartedEkosPlaceholderTrain_data();
 };
 
 #endif // HAVE_INDI

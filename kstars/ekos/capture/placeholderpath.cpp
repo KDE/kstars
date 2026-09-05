@@ -16,6 +16,7 @@
 #include <cmath>
 #include <algorithm>
 #include <ekos_capture_debug.h>
+#include <qcontainerfwd.h>
 
 namespace
 {
@@ -64,7 +65,7 @@ QString PlaceholderPath::defaultFormat(bool useFilter, bool useExposure, bool us
     return tempFormat;
 }
 
-void PlaceholderPath::processJobInfo(SequenceJob *job)
+void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &opticalTrain, const QString &cameraName)
 {
     QString jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     auto frameType = getFrameType(job->getFrameType());
@@ -126,7 +127,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job)
 
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
 
-    QString signature = generateSequenceFilename(*job, true, true, 1, ".fits", "", false, true);
+    QString signature = generateSequenceFilename(*job, true, true, 1, ".fits", "", false, true, opticalTrain, cameraName);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
@@ -197,13 +198,16 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
         const QString &extension,
         const QString &filename,
         const bool glob,
-        const bool gettingSignature)
+        const bool gettingSignature,
+        const QString &opticalTrain,
+        const QString &cameraName)
 {
     QMap<PathProperty, QVariant> pathPropertyMap;
     setGenerateFilenameSettings(job, pathPropertyMap, local, gettingSignature);
 
     return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
-                                    gettingSignature, job.isVideo());
+                                    gettingSignature, job.isVideo(),
+                                    opticalTrain, cameraName);
 }
 
 QString PlaceholderPath::generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID,
@@ -289,7 +293,9 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         const QString &filename,
         const bool glob,
         const bool gettingSignature,
-        const bool isVideo) const
+        const bool isVideo,
+        const QString &opticalTrain,
+        const QString &cameraname) const
 {
     QString targetNameSanitized = KSUtils::sanitize(pathPropertyMap[PP_TARGETNAME].toString());
     int i = 0;
@@ -322,9 +328,9 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
     QRegularExpressionMatch match;
     QRegularExpression
 #if defined(Q_OS_WIN)
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s|cameraname|c|opticaltrain|o))(?<level>\\d+)?)(?<sep>[_\\\\])?");
 #else
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|hostname|H|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|hostname|H|sequence|s|cameraname|c|opticaltrain|o))(?<level>\\d+)?)(?<sep>[_/])?");
 #endif
 
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
@@ -471,6 +477,25 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
                 replacement = isVideo ? "" : "XXX";
             }
         }
+        else if (((match.captured("name") == "cameraname") || (match.captured("name") == "c")))
+        {
+            QString replacement_raw = generateReplacement(pathPropertyMap, PP_CAMERANAME,
+                                      (glob || gettingSignature) && pathPropertyMap[PP_CAMERANAME].isValid() == false);
+            if (replacement_raw.isEmpty())
+                replacement_raw = cameraname;
+
+            replacement = KSUtils::sanitize(replacement_raw);
+        }
+        else if (((match.captured("name") == "opticaltrain") || (match.captured("name") == "o")))
+        {
+            QString replacement_raw = generateReplacement(pathPropertyMap, PP_OPTICALTRAIN,
+                                      (glob || gettingSignature) && pathPropertyMap[PP_OPTICALTRAIN].isValid() == false);
+
+            if (replacement_raw.isEmpty())
+                replacement_raw = opticalTrain;
+
+            replacement = KSUtils::sanitize(replacement_raw);
+        }
         else
             qWarning() << "Unknown replacement string: " << match.captured("replace");
 
@@ -505,6 +530,8 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     setPathProperty(pathPropertyMap, PP_PIERSIDE, QVariant(job.getPierSide()));
     setPathProperty(pathPropertyMap, PP_ISO, job.getCoreProperty(SequenceJob::SJ_ISO));
     setPathProperty(pathPropertyMap, PP_HOSTNAME, QHostInfo::localHostName());
+    setPathProperty(pathPropertyMap, PP_CAMERANAME, job.getActiveCamera());
+    setPathProperty(pathPropertyMap, PP_OPTICALTRAIN, job.getOpticalTrain());
 
     // handle optional parameters
     if (job.getTargetTemperature() != Ekos::INVALID_VALUE)
@@ -708,6 +735,8 @@ PlaceholderPath::PathPropertyType PlaceholderPath::propertyType(PathProperty pro
         case PP_FILTER:
         case PP_PIERSIDE:
         case PP_HOSTNAME:
+        case PP_CAMERANAME:
+        case PP_OPTICALTRAIN:
             return PP_TYPE_STRING;
 
         case PP_DARKFLAT:

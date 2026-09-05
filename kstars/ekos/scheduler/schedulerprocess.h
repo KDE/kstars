@@ -52,7 +52,6 @@ class SchedulerProcess : public QObject, public ModuleLogger
                          QueueManager *queueManager = nullptr, QueueExecutor *queueExecutor = nullptr);
         ~SchedulerProcess();
 
-
         // ////////////////////////////////////////////////////////////////////
         // external DBUS interface
         // ////////////////////////////////////////////////////////////////////
@@ -499,6 +498,8 @@ class SchedulerProcess : public QObject, public ModuleLogger
         {
             m_captureInterface = newInterface;
         }
+        QString getOpticalTranName(); // Get the optical train name from the captureInterface
+
         QPointer<QDBusInterface> mountInterface() const
         {
             return m_mountInterface;

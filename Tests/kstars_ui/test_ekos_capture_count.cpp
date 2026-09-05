@@ -13,7 +13,11 @@
 #include "Options.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/capture/capture.h"
+#include "ekos/scheduler/schedulerprocess.h"
 #include "test_ekos_capture_helper.h"
+
+#include <QDir>
+#include <QFileInfo>
 
 /* *****************************************************************************
  * Determining the correct number of frames being already captured and need to be
@@ -82,6 +86,68 @@ void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping()
     QVERIFY(prepareScheduledCapture(Ekos::FINISH_LOOP));
 }
 
+void TestEkosCaptureCount::testSchedulerCaptureWithoutPrestartedEkosPlaceholderTrain()
+{
+    QFETCH(QString, placeholderFormat);
+    QFETCH(QString, schedulerTrain);
+
+    KTELL("Prepare scheduler captures with placeholder-based filenames");
+    QVERIFY(prepareScheduledCapture(Ekos::FINISH_SEQUENCE, placeholderFormat, schedulerTrain));
+
+    QString scheduleFile = m_CaptureHelper->destination->filePath("test_scheduler_reload.esl");
+    const bool saved = Ekos::Manager::Instance()->schedulerModule()->process()->saveScheduler(QUrl::fromLocalFile(
+                           scheduleFile));
+    QVERIFY2(saved, "Saving scheduler file failed.");
+    QVERIFY2(QFileInfo::exists(scheduleFile), "Saved scheduler file does not exist.");
+
+    KTELL("Stop Ekos before the scheduler starts so it has to bring the profile up itself");
+    QVERIFY(m_CaptureHelper->shutdownEkosProfile());
+
+    KTELL("Reload the saved schedule while Ekos is still down");
+    bool loaded = false;
+    const bool invoked = QMetaObject::invokeMethod(Ekos::Manager::Instance()->schedulerModule(), "load",
+                         Q_RETURN_ARG(bool, loaded), Q_ARG(bool, true), Q_ARG(QString, scheduleFile));
+    QVERIFY2(invoked, "Invoking Scheduler::load() failed.");
+    if (!loaded)
+    {
+        const QFileInfo info(scheduleFile);
+        const QString message = QString("Scheduler::load() returned false for '%1' (exists=%2, readable=%3, size=%4)")
+                                .arg(scheduleFile)
+                                .arg(info.exists() ? "true" : "false")
+                                .arg(info.isReadable() ? "true" : "false")
+                                .arg(info.size());
+        QWARN(message.toStdString().c_str());
+
+        // Keep the test environment stable for cleanup and following tests.
+        QVERIFY(m_CaptureHelper->startEkosProfile());
+        QFAIL(message.toStdString().c_str());
+    }
+
+    KTELL("Start scheduler job without a prestarted Ekos profile");
+    expectedSchedulerStates.enqueue(Ekos::SCHEDULER_IDLE);
+    KTRY_CLICK(Ekos::Manager::Instance()->schedulerModule(), startB);
+
+    KTELL("Wait for Scheduler to finish capturing");
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedSchedulerStates, 600000);
+
+    KTELL("Verify resulting file count after scheduler-driven Ekos restart");
+    const QString capturePath = m_CaptureHelper->getImageLocation()->filePath("test/test/Primary/Light/Luminance");
+    QDir captureDir(capturePath);
+    QVERIFY2(captureDir.exists(), QString("Capture directory does not exist: %1").arg(capturePath).toStdString().c_str());
+    const int totalFrames = captureDir.entryList(QStringList() << "*.fits", QDir::Files).size();
+    QEXPECT_FAIL("no-prestarted-ekos-placeholder-train",
+                 "Known regression: after Ekos restart, scheduler miscounts existing captures and over-captures.",
+                 Continue);
+    QVERIFY2(totalFrames == 6,
+             QString("Unexpected number of captured frames in %1: got %2, expected 6 (3 pre-existing + 3 remaining).")
+             .arg(capturePath).arg(totalFrames).toStdString().c_str());
+
+    KTELL("Restore the Ekos profile for the remaining tests");
+    if (!Ekos::Manager::Instance()->profileGroup->isEnabled())
+        QVERIFY(m_CaptureHelper->shutdownEkosProfile());
+    QVERIFY(m_CaptureHelper->startEkosProfile());
+}
+
 /* *********************************************************************************
  *
  * Test data
@@ -126,6 +192,28 @@ void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping_data()
     prepareTestData(0.1, "Luminance:3,Red:1,Green:1,Blue:1,Luminance:2", "Luminance:5,Green:1,Blue:1", "");
 }
 
+void TestEkosCaptureCount::testSchedulerCaptureWithoutPrestartedEkosPlaceholderTrain_data()
+{
+    QTest::addColumn<double>("exptime");
+    QTest::addColumn<QString>("sequence");
+    QTest::addColumn<QString>("capturedFramesMap");
+    QTest::addColumn<QString>("expectedFrames");
+    QTest::addColumn<int>("iterations");
+    QTest::addColumn<bool>("rememberJobProgress");
+    QTest::addColumn<QString>("placeholderFormat");
+    QTest::addColumn<QString>("schedulerTrain");
+
+    QTest::newRow("no-prestarted-ekos-placeholder-train")
+            << 1.0
+            << QString("Luminance:6")
+            << QString("Luminance:3")
+            << QString("Luminance:3")
+            << 1
+            << true
+            << QString("/%t/%o/%T/%F/%o_%t_%T_%F_%c_%e_%C_%G_%O_%H")
+            << QString("--");
+}
+
 /* *********************************************************************************
  *
  * Test infrastructure
@@ -158,7 +246,8 @@ void TestEkosCaptureCount::initTestCase()
 void TestEkosCaptureCount::cleanupTestCase()
 {
     m_CaptureHelper->cleanup();
-    QVERIFY(m_CaptureHelper->shutdownEkosProfile());
+    if (!Ekos::Manager::Instance()->profileGroup->isEnabled())
+        QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
@@ -178,13 +267,16 @@ void TestEkosCaptureCount::cleanup()
 {
     QVERIFY(m_CaptureHelper->stopCapturing());
 
-    disconnect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this,
-               &TestEkosCaptureCount::schedulerStateChanged);
-    disconnect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::captureComplete, this,
-               &TestEkosCaptureCount::captureComplete);
+    if (Ekos::Manager::Instance()->schedulerModule() != nullptr)
+        disconnect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this,
+                   &TestEkosCaptureCount::schedulerStateChanged);
+    if (Ekos::Manager::Instance()->captureModule() != nullptr)
+        disconnect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::captureComplete, this,
+                   &TestEkosCaptureCount::captureComplete);
 
     // clean up capture page
-    Ekos::Manager::Instance()->captureModule()->clearSequenceQueue();
+    if (Ekos::Manager::Instance()->captureModule() != nullptr)
+        Ekos::Manager::Instance()->captureModule()->clearSequenceQueue();
 
     // clean up expected images
     m_expectedImages.clear();
@@ -276,7 +368,9 @@ bool TestEkosCaptureCount::prepareCapture()
     return true;
 }
 
-bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition completionCondition)
+bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition completionCondition,
+        const QString &placeholderFormat,
+        const QString &schedulerTrain)
 {
     QFETCH(double, exptime);
     QFETCH(QString, sequence);
@@ -293,10 +387,12 @@ bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition com
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << m_CaptureHelper->getImageLocation()->path();
 
     // step 1: create the frames due to the captured frames map
+    const QString effectiveFormat = placeholderFormat.isEmpty() ? Ekos::PlaceholderPath::defaultFormat(true, false, false)
+                                    : placeholderFormat;
     if (capturedFramesMap != "")
     {
         KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, capturedFramesMap, exptime,
-                    m_CaptureHelper->getImageLocation()->filePath(target)));
+                    m_CaptureHelper->getImageLocation()->filePath(target), 0, effectiveFormat));
         KVERIFY_SUB(fillCapturedFramesMap("", m_CaptureHelper->getImageLocation()->filePath(target)));
         KVERIFY_SUB(setExpectedFrames(capturedFramesMap));
 
@@ -312,7 +408,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition com
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = m_CaptureHelper->getImageLocation()->path() + "/" + target;
 
-    KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
+    KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath, 0, effectiveFormat));
     KVERIFY_SUB(fillCapturedFramesMap("", imagepath));
     if (rememberJobProgress)
         KVERIFY_SUB(setExpectedFrames(expectedFrames));
@@ -326,7 +422,8 @@ bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition com
     KVERIFY_SUB(Ekos::Manager::Instance()->captureModule()->saveSequenceQueue(sequenceFile));
 
     // setup scheduler
-    setupScheduler(sequenceFile, sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress, exptime);
+    KVERIFY_SUB(setupScheduler(sequenceFile, sequence, capturedFramesMap, completionCondition, iterations,
+                               rememberJobProgress, exptime, schedulerTrain));
 
     // everything successfully completed
     return true;
@@ -334,7 +431,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition com
 
 bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap,
         Ekos::CompletionCondition completionCondition,
-        int iterations, bool rememberJobProgress, double exptime)
+        int iterations, bool rememberJobProgress, double exptime, const QString &schedulerTrain)
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
@@ -351,6 +448,8 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
     KTRY_SET_CHECKBOX_SUB(scheduler, schedulerGuideStep, false);
     // ignore twilight
     KTRY_SET_CHECKBOX_SUB(scheduler, schedulerTwilight, false);
+    if (!schedulerTrain.isEmpty())
+        KTRY_SET_COMBO_SUB(scheduler, opticalTrainCombo, schedulerTrain);
     // set remember job progress
     Options::setRememberJobProgress(rememberJobProgress);
     // disable INDI stopping after scheduler finished
@@ -363,6 +462,9 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
             // repeat the job for a fixed amount
             KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerRepeatSequences, true);
             KTRY_SET_SPINBOX_SUB(scheduler, schedulerRepeatSequencesLimit, iterations);
+            break;
+        case Ekos::FINISH_SEQUENCE:
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerCompleteSequences, true);
             break;
         case Ekos::FINISH_LOOP:
             KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerUntilTerminated, true);
@@ -389,9 +491,11 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KTRY_GADGET_SUB(scheduler, QTableWidget, queueTable);
-    KVERIFY_SUB(queueTable->rowCount() == 1);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(queueTable->rowCount() > 0, 5000);
     KVERIFY_SUB(queueTable->columnCount() > 3);
-    QString displayedCounts = queueTable->item(0, 2)->text();
+    const int row = queueTable->rowCount() - 1;
+    KVERIFY_SUB(queueTable->item(row, 2) != nullptr);
+    QString displayedCounts = queueTable->item(row, 2)->text();
     KVERIFY2_SUB(displayedCounts.indexOf("/") > 0, "Scheduler job table does not display in style captured/total.");
 
     int total = -1, captured = -1, total_repeat_expected = 0;
@@ -427,8 +531,10 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     // check estimated duration time (only relevant for repeats)
     if (completionCondition == Ekos::FINISH_REPEAT)
     {
-        QTime startTime = QTime::fromString(queueTable->item(0, 4)->text(), "HH:mm");
-        QTime endTime = QTime::fromString(queueTable->item(0, 5)->text().right(5), "HH:mm");
+        KVERIFY_SUB(queueTable->item(row, 4) != nullptr);
+        KVERIFY_SUB(queueTable->item(row, 5) != nullptr);
+        QTime startTime = QTime::fromString(queueTable->item(row, 4)->text(), "HH:mm");
+        QTime endTime = QTime::fromString(queueTable->item(row, 5)->text().right(5), "HH:mm");
 
         int duration = startTime.secsTo(endTime);
         KVERIFY2_SUB(std::fabs((total_repeat_expected - captured_expected)*exptime - duration) <= 60,

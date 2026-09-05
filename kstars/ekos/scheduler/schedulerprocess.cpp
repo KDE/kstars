@@ -43,7 +43,6 @@
 
 namespace Ekos
 {
-
 SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr,
                                    const QString &ekosInterfaceStr, QueueManager *queueManager, QueueExecutor *queueExecutor)
     : QObject(KStars::Instance()), m_queueManager(queueManager), m_queueExecutor(queueExecutor)
@@ -4850,5 +4849,16 @@ void SchedulerProcess::resetLatchedStartupErrorIfQueuesDisabled()
         m_startupQueueFailurePopupShown = false;
     }
 }
+
+// Get the optical train name from the capture interface
+QString SchedulerProcess::getOpticalTranName()
+{
+    QDBusInterface *capture = captureInterface();
+    if (!capture)
+        return QString();
+
+    return capture->property("opticalTrain").toString();
+}
+
 
 } // Ekos namespace

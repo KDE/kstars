@@ -4,14 +4,19 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+#include "scheduler.h"
 #include "schedulerutils.h"
 #include "schedulerjob.h"
 #include "schedulermodulestate.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/manager.h"
 #include "Options.h"
 #include "skypoint.h"
 #include "kstarsdata.h"
 #include <ekos_scheduler_debug.h>
+
+#include "schedulerprocess.h"
 
 namespace Ekos
 {
@@ -346,6 +351,9 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QLis
 
 QSharedPointer<SequenceJob> SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob * schedJob)
 {
+    QString opticalTrain;
+    QString cameraname;
+
     QSharedPointer<SequenceJob> job = QSharedPointer<SequenceJob>(new SequenceJob(root, schedJob->getName()));
     if (schedJob)
     {
@@ -353,10 +361,30 @@ QSharedPointer<SequenceJob> SchedulerUtils::processSequenceJobInfo(XMLEle * root
             schedJob->setLightFramesRequired(true);
         if (job->getCalibrationPreAction() & CAPTURE_PREACTION_PARK_MOUNT)
             schedJob->setCalibrationMountPark(true);
+
+        // Retrieve the optical train name from the scheduler job or from the Capture module via DBus
+        opticalTrain = schedJob->getOpticalTrain(); // Get the optical train name from the scheduler job
+        if (opticalTrain.isEmpty())
+        {
+            // If the optical train is not set in the scheduler job, try to retrieve it from the SchedulerProcess
+            auto process = Ekos::Manager::Instance()->schedulerModule()->process();
+
+            opticalTrain = process->getOpticalTranName();
+        }
+
+        // Retrieve the camera name from the optical train
+        if (opticalTrain.isEmpty() == false)
+        {
+            ISD::Camera *camera = OpticalTrainManager::Instance()->getCamera(opticalTrain);
+            if (camera)
+            {
+                cameraname = camera->getDeviceName();
+            }
+        }
     }
 
     auto placeholderPath = Ekos::PlaceholderPath();
-    placeholderPath.processJobInfo(job.get());
+    placeholderPath.processJobInfo(job.get(), opticalTrain, cameraname);
 
     return job;
 }

@@ -377,6 +377,10 @@ class SequenceJob : public QObject
             state->autoFocusReady = value;
         }
 
+        const QString  &getOpticalTrain() const
+        {
+            return state->m_CameraState->opticalTrain();
+        }
         // ////////////////////////////////////////////////////////////////////////////
         // Facade to devices
         // ////////////////////////////////////////////////////////////////////////////
