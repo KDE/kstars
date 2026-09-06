@@ -9,6 +9,8 @@
 #include <QString>
 #include <opencv2/core/core.hpp>
 
+#include <functional>
+
 /**
  * @class MasterBuilder
  * @brief Combines a folder of raw calibration subs (bias, dark, or flat) into a single
@@ -29,6 +31,17 @@ class MasterBuilder
 {
     public:
         enum class Type { BIAS, DARK, FLAT };
+
+        // Reported after each raw sub is loaded (and, for FLAT, normalized) — current is
+        // 1-based, total is the frame count that will actually be combined (post
+        // matchExptime filtering), filename is the sub just processed. Lets a caller
+        // surface e.g. "Bias frame foo.fits 1/20 processed" without polling.
+        using ProgressCallback = std::function<void(int current, int total, const QString &filename)>;
+        // Polled once per sub (and once per header check during matchExptime
+        // filtering) — return true to abort the build as soon as possible. build()/
+        // buildAndSave() then fail with outCancelled set rather than outError, so a
+        // caller can tell a deliberate stop apart from a real failure.
+        using CancelCallback = std::function<bool()>;
 
         /**
          * @brief Combine every FITS-loadable file directly inside `dir` (non-recursive,
@@ -67,12 +80,19 @@ class MasterBuilder
          * @param outUsedCount when non-null, receives the number of files actually
          * combined — equal to the full directory listing unless matchExptime filtered it
          * down. buildAndSave() uses this for an accurate NCOMBINE header.
+         * @param onProgress optional, called after each sub is loaded — see
+         * ProgressCallback.
+         * @param isCancelled optional, polled periodically — see CancelCallback.
+         * @param outCancelled when non-null, set to true if the build stopped because
+         * isCancelled() returned true (vs. a genuine failure, reported via error).
          * @return success (fails with a clear error if matchExptime filtering leaves
          * zero usable files)
          */
         static bool build(const QString &dir, Type type, cv::Mat &outMaster, QString &error,
                           double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
-                          double matchExptime = -1.0, double exptimeTolerance = 0.5, int *outUsedCount = nullptr);
+                          double matchExptime = -1.0, double exptimeTolerance = 0.5, int *outUsedCount = nullptr,
+                          const ProgressCallback &onProgress = ProgressCallback(),
+                          const CancelCallback &isCancelled = CancelCallback(), bool *outCancelled = nullptr);
 
         /**
          * @brief Build a master (see build()) and write it to outputPath as a FITS file,
@@ -82,10 +102,14 @@ class MasterBuilder
          * @param outMaster when non-null, receives a copy of the built master — lets a
          * caller (e.g. for a preview) reuse the in-memory result instead of re-reading
          * the just-written file back off disk.
+         * @param onProgress / isCancelled / outCancelled forwarded as-is to build() —
+         * see there. No file is written if the build itself is cancelled or fails.
          */
         static bool buildAndSave(const QString &dir, Type type, const QString &outputPath, QString &error,
                                  double lowSigma = 3.0, double highSigma = 3.0, const QString &subtractPath = QString(),
-                                 double matchExptime = -1.0, double exptimeTolerance = 0.5, cv::Mat *outMaster = nullptr);
+                                 double matchExptime = -1.0, double exptimeTolerance = 0.5, cv::Mat *outMaster = nullptr,
+                                 const ProgressCallback &onProgress = ProgressCallback(),
+                                 const CancelCallback &isCancelled = CancelCallback(), bool *outCancelled = nullptr);
 
     private:
         // Loads one FITS file into a CV_32F Mat (1 or 3 channels), via FITSData's public

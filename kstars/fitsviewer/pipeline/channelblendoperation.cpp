@@ -131,8 +131,22 @@ bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, c
 
 bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                                      const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                                     const struct wcsprm * &outRefWcs, QString &error)
+                                     const struct wcsprm * &outRefWcs, QString &error,
+                                     const ProgressCallback &onProgress, const CancelCallback &isCancelled,
+                                     bool *outCancelled)
 {
+    if (outCancelled)
+        *outCancelled = false;
+    auto cancelled = [&]()
+    {
+        if (!isCancelled || !isCancelled())
+            return false;
+        error = QStringLiteral("Blend cancelled");
+        if (outCancelled)
+            *outCancelled = true;
+        return true;
+    };
+
     // Register every WCS-carrying input onto a common reference grid before blending —
     // each was only independently plate-solved to its own align master, so two
     // channels sharing pixel dimensions is no guarantee they share a pixel grid. Pick
@@ -157,28 +171,67 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     outRefWcs = refWcs;
 
     QVector<WeightedInput> redReg = red, greenReg = green, blueReg = blue;
+    // Every registration pass plus the final per-channel blend (3) — see
+    // ProgressCallback's doc comment.
+    const int registrationTotal = refWcs ? (red.size() + green.size() + blue.size()) : 0;
+    const int total = registrationTotal + 3;
+    int current = 0;
+
     if (refWcs)
     {
-        for (auto *inputs :
+        struct ChannelGroup
+        {
+            QVector<WeightedInput> *inputs;
+            const char *name;
+        };
+        for (auto &group :
                 {
-                    &redReg, &greenReg, &blueReg
+                    ChannelGroup{&redReg, "red"}, ChannelGroup{&greenReg, "green"}, ChannelGroup{&blueReg, "blue"}
                 })
         {
-            for (auto &input : *inputs)
+            for (int i = 0; i < group.inputs->size(); i++)
             {
+                if (cancelled())
+                    return false;
+
                 QString regError;
-                if (!registerToReference(input.image, input.wcs, refWcs, regError))
+                if (!registerToReference((*group.inputs)[i].image, (*group.inputs)[i].wcs, refWcs, regError))
                 {
                     error = QString("Cross-channel registration failed: %1").arg(regError);
                     return false;
                 }
+                current++;
+                if (onProgress)
+                    onProgress(current, total,
+                              QString("Registered %1 channel input %2/%3").arg(group.name).arg(i + 1).arg(group.inputs->size()));
             }
         }
     }
 
-    cv::Mat r, g, b;
-    if (!blendChannel(redReg, r, error) || !blendChannel(greenReg, g, error) || !blendChannel(blueReg, b, error))
+    if (cancelled())
         return false;
+    cv::Mat r, g, b;
+    if (!blendChannel(redReg, r, error))
+        return false;
+    current++;
+    if (onProgress)
+        onProgress(current, total, QStringLiteral("Blended red channel"));
+
+    if (cancelled())
+        return false;
+    if (!blendChannel(greenReg, g, error))
+        return false;
+    current++;
+    if (onProgress)
+        onProgress(current, total, QStringLiteral("Blended green channel"));
+
+    if (cancelled())
+        return false;
+    if (!blendChannel(blueReg, b, error))
+        return false;
+    current++;
+    if (onProgress)
+        onProgress(current, total, QStringLiteral("Blended blue channel"));
 
     if (r.size() != g.size() || g.size() != b.size())
     {

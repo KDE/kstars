@@ -2422,12 +2422,16 @@ void FITSStack::setWCSStackImage(const QSharedPointer<wcsprm> &wcs)
     }
 }
 
-cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
+cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F, const PostProcessProgressCallback &onProgress,
+                                    const PostProcessCancelCallback &isCancelled)
 {
     try
     {
         if (!m_StackData.postProcessing.postProcess)
             return image32F;
+
+        if (isCancelled && isCancelled())
+            return cv::Mat();
 
         cv::Mat finalImage, gradCorrect;
 
@@ -2436,7 +2440,12 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             gradCorrect = image32F;
         else
             gradCorrect = gradientCorrection(image32F, m_StackData.postProcessing.gradientAmt);
-        \
+        if (onProgress)
+            onProgress(m_Channel, QStringLiteral("Gradient correction"));
+
+        if (isCancelled && isCancelled())
+            return cv::Mat();
+
         // Next perform deconvolution (if requested). Calculate psf then use this for deconvolution
         cv::Mat deconvolvedImage = gradCorrect;
         if (m_StackData.postProcessing.deconvAmt > 0.0)
@@ -2456,6 +2465,11 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
                     deconvolvedImage = deconvolved;
             }
         }
+        if (onProgress)
+            onProgress(m_Channel, QStringLiteral("Deconvolution"));
+
+        if (isCancelled && isCancelled())
+            return cv::Mat();
 
         cv::Mat sharpenedImage;
 
@@ -2478,6 +2492,11 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             cv::GaussianBlur(deconvolvedImage, blurredImage, cv::Size(sharpenKernal, sharpenKernal), sharpenSigma);
             cv::addWeighted(deconvolvedImage, 1.0 + sharpenAmount, blurredImage, -sharpenAmount, 0, sharpenedImage);
         }
+        if (onProgress)
+            onProgress(m_Channel, QStringLiteral("Sharpening"));
+
+        if (isCancelled && isCancelled())
+            return cv::Mat();
 
         // Denoise (luminance + chroma) — DenoiseOperation is the single source of
         // truth for this now; it's also exposed independently as its own post-combine
@@ -2489,6 +2508,8 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
                                      m_StackData.postProcessing.denoiseMethod,
                                      m_StackData.postProcessing.chromaDenoiseAmt, denoiseError))
             qCDebug(KSTARS_FITS) << QString("DenoiseOperation::apply failed in %1: %2").arg(__FUNCTION__).arg(denoiseError);
+        if (onProgress)
+            onProgress(m_Channel, QStringLiteral("Denoising"));
 
         // Convert the image back to float before returning
         cv::Mat returnImage;
@@ -2907,7 +2928,8 @@ cv::Mat FITSStack::wienerDeconvolution(const cv::Mat &image, const cv::Mat &psf)
     }
 }
 
-void FITSStack::redoPostProcessStack(const StackPPData &ppParams)
+void FITSStack::redoPostProcessStack(const StackPPData &ppParams, const PostProcessProgressCallback &onProgress,
+                                     const PostProcessCancelCallback &isCancelled)
 {
     // Get the current user options for post processing
     m_StackData.postProcessing = ppParams;
@@ -2920,8 +2942,12 @@ void FITSStack::redoPostProcessStack(const StackPPData &ppParams)
 
     if (!m_StackedImage32F.empty())
     {
-        cv::Mat finalImage = postProcessImage(m_StackedImage32F);
-        finalImage.copyTo(m_StackedImageFinal);
+        cv::Mat finalImage = postProcessImage(m_StackedImage32F, onProgress, isCancelled);
+        // Empty means either cancelled or failed (see postProcessImage()) — leave
+        // m_StackedImageFinal as whatever it was before this call rather than
+        // overwrite it with nothing.
+        if (!finalImage.empty())
+            finalImage.copyTo(m_StackedImageFinal);
     }
 }
 

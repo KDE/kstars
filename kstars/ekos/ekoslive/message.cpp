@@ -3576,6 +3576,13 @@ QVector<ChannelBlendOperation::WeightedInput> Message::parseBlendInputs(const QJ
     return result;
 }
 
+QString Message::describePostProcessStage(StackChannel channel, const QString &stage) const
+{
+    if (channel == StackChannel::SINGLE || channel == StackChannel::NONE)
+        return stage;
+    return QString("%1: %2").arg(StackChannelNames.value(channel)).arg(stage);
+}
+
 void Message::sendPostProcessState(const QJsonObject &state)
 {
     const QString sessionId = state["sessionId"].toString(m_DefaultPostProcessSession);
@@ -3686,6 +3693,14 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 {
                     {"state", "progress"}, {"sessionId", filter}, {"ok", ok}, {"sub", sub}, {"total", total},
                     {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
+                });
+            });
+            connect(session.data(), &StackController::postProcessProgress, this,
+                    [this, filter](StackChannel channel, const QString & stage)
+            {
+                sendPostProcessState(QJsonObject
+                {
+                    {"state", "progress"}, {"sessionId", filter}, {"message", describePostProcessStage(channel, stage)}
                 });
             });
 
@@ -3815,6 +3830,14 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 {"meanSNR", meanSNR}, {"minSNR", minSNR}, {"maxSNR", maxSNR}
             });
         });
+        connect(session.data(), &StackController::postProcessProgress, this,
+                [this, sessionId](StackChannel channel, const QString & stage)
+        {
+            sendPostProcessState(QJsonObject
+            {
+                {"state", "progress"}, {"sessionId", sessionId}, {"message", describePostProcessStage(channel, stage)}
+            });
+        });
 
         session->start(directories, params);
         m_PostProcessSessions[sessionId] = session;
@@ -3822,6 +3845,20 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
     }
     else if (command == commands[POSTPROCESS_STOP])
     {
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        // build_master and blend_channels have no StackController session (see their
+        // handlers below) — their cancel path is a plain flag the worker thread polls
+        // between steps, keyed the same way their "processing"/"busy" states already
+        // are (build_master's fixed key, or blend's own outputSessionId), so a caller
+        // can stop either the same way it stops any real session.
+        auto cancelFlag = m_PostProcessCancelFlags.value(sessionId);
+        if (cancelFlag)
+        {
+            cancelFlag->storeRelease(1);
+            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "stopping"}, {"sessionId", sessionId}});
+            return;
+        }
+
         auto session = resolvePostProcessSession(payload);
         if (session)
             session->cancel();
@@ -3901,24 +3938,66 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         struct BuildMasterResult
         {
             bool ok = false;
+            bool cancelled = false;
             QString error;
             cv::Mat builtMaster;
         };
 
-        auto future = QtConcurrent::run([directory, type, outputPath, lowSigma, highSigma, subtractPath,
-                                         matchExptime, exptimeTolerance]() -> BuildMasterResult
+        // Fresh flag per build (build_master's own "busy" check above guarantees only
+        // one runs at a time under this fixed key). postprocess_stop sets it;
+        // MasterBuilder polls it between subs on the worker thread below.
+        auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
+        m_PostProcessCancelFlags[buildMasterKey] = cancelFlag;
+
+        // Human-readable label for the progress messages below, e.g. "Bias frame
+        // foo.fits 3/20 processed" — mirrors what a caller building a master flat/dark/
+        // bias would want to show a user, same spirit as postprocess_stack's per-sub
+        // "progress" state (see the POSTPROCESS_STACK handlers above) but MasterBuilder
+        // has no StackController/FITSData session to emit stackUpdateStats from.
+        const QString typeLabel = typeStr.isEmpty() ? QStringLiteral("Dark")
+                                  : (typeStr.left(1).toUpper() + typeStr.mid(1));
+
+        auto future = QtConcurrent::run([this, directory, type, outputPath, lowSigma, highSigma, subtractPath,
+                                         matchExptime, exptimeTolerance, buildMasterKey, typeLabel,
+                                         cancelFlag]() -> BuildMasterResult
         {
             BuildMasterResult result;
+            auto onProgress = [this, buildMasterKey, typeLabel](int current, int total, const QString & filename)
+            {
+                // Emitted from this worker thread — QMetaObject::invokeMethod on `this`
+                // (GUI-thread-affine) queues it there instead of touching the websocket
+                // off-thread, same cross-thread-signal rule the rest of Message relies on.
+                QMetaObject::invokeMethod(this, [this, buildMasterKey, typeLabel, current, total, filename]()
+                {
+                    sendPostProcessState(QJsonObject
+                    {
+                        {"state", "progress"}, {"sessionId", buildMasterKey}, {"current", current}, {"total", total},
+                        {
+                            "message", QString("%1 frame %2 %3/%4 processed")
+                            .arg(typeLabel).arg(filename).arg(current).arg(total)
+                        }
+                    });
+                }, Qt::QueuedConnection);
+            };
+            auto isCancelled = [cancelFlag]()
+            {
+                return cancelFlag->loadAcquire() != 0;
+            };
             result.ok = MasterBuilder::buildAndSave(directory, type, outputPath, result.error, lowSigma, highSigma,
-                                                    subtractPath, matchExptime, exptimeTolerance, &result.builtMaster);
+                                                    subtractPath, matchExptime, exptimeTolerance, &result.builtMaster,
+                                                    onProgress, isCancelled, &result.cancelled);
             return result;
         });
 
         auto watcher = new QFutureWatcher<BuildMasterResult>(this);
         connect(watcher, &QFutureWatcher<BuildMasterResult>::finished, this,
-                [this, watcher, buildMasterKey, outputPath, wantPreview]()
+                [this, watcher, buildMasterKey, outputPath, wantPreview, typeLabel, cancelFlag]()
         {
             m_BusyPostProcessSessions.remove(buildMasterKey);
+            // Only clear if it's still ours — a newer build_master call may already have
+            // replaced it with its own flag by the time this one's finished() fires.
+            if (m_PostProcessCancelFlags.value(buildMasterKey) == cancelFlag)
+                m_PostProcessCancelFlags.remove(buildMasterKey);
             const BuildMasterResult result = watcher->result();
             watcher->deleteLater();
 
@@ -3926,7 +4005,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             {
                 sendPostProcessState(QJsonObject
                 {
-                    {"state", "error"}, {"sessionId", buildMasterKey}, {"message", result.error}
+                    {"state", result.cancelled ? "cancelled" : "error"},
+                    {"sessionId", buildMasterKey}, {"message", result.error}
                 });
                 return;
             }
@@ -3957,7 +4037,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
             sendPostProcessState(QJsonObject
             {
-                {"state", "master_built"}, {"sessionId", buildMasterKey}, {"outputPath", outputPath}
+                {"state", "master_built"}, {"sessionId", buildMasterKey}, {"outputPath", outputPath},
+                {"message", QString("%1 master frame built successfully").arg(typeLabel)}
             });
         });
         watcher->setFuture(future);
@@ -4048,6 +4129,12 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // The actual narrowband "pixel math": arbitrary weighted sums of any named,
         // already-stacked mono session into each output R/G/B channel — not just a
         // fixed one-filter-per-slot assignment. See ChannelBlendOperation.
+        //
+        // parseBlendInputs() itself stays on the GUI thread (it only resolves session
+        // ids to their already-stacked cv::Mat/wcsprm, cheap, and touches
+        // m_PostProcessSessions which isn't thread-safe) — only the actual
+        // registration+blend work below (potentially several WCS registrations, each
+        // real image-warping work) moves to a worker thread.
         QString error;
         const auto red = parseBlendInputs(payload["red"].toArray(), error);
         if (!error.isEmpty())
@@ -4068,43 +4155,120 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
-        cv::Mat blended;
-        const struct wcsprm *refWcs = nullptr;
-        if (!ChannelBlendOperation::blendRGB(red, green, blue, blended, refWcs, error))
+        // The blend result becomes its own session — same crop/apply_*/save lifecycle
+        // as any real stack from here on, adopted (with its WCS, if any) once blending
+        // finishes below.
+        const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
+        if (m_BusyPostProcessSessions.contains(outputSessionId))
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "busy"}, {"sessionId", outputSessionId}});
             return;
         }
 
-        // The blend result becomes its own session — same crop/apply_*/save lifecycle
-        // as any real stack from here on. Passing refWcs (deep-copied inside adopt())
-        // lets it also carry a WCS, same as a real plate-solved stack, so crop() keeps
-        // tracking it and postprocess_apply_color_calibration can use it.
-        const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
-        auto outputSession = QSharedPointer<StackController>::create(this);
-        if (!outputSession->adopt(blended, error, refWcs))
+        m_BusyPostProcessSessions.insert(outputSessionId);
+        sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", outputSessionId}});
+
+        struct BlendResult
         {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
-            return;
-        }
-        // Without these, a later postprocess_redo_postprocess against this session
-        // would complete (or fail) with no way to tell the caller — nothing forwarded
-        // its stackReady/stackFailed to a response at all, unlike a postprocess_stack
-        // session's connections (see the POSTPROCESS_STACK handlers above).
-        connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
+            bool ok = false;
+            bool cancelled = false;
+            QString error;
+            cv::Mat blended;
+            const struct wcsprm *refWcs = nullptr;
+        };
+
+        // Independent concurrent blends (different outputSessionId) each get their own
+        // flag, so stopping one doesn't touch the others — see m_PostProcessCancelFlags.
+        auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
+        m_PostProcessCancelFlags[outputSessionId] = cancelFlag;
+
+        auto future = QtConcurrent::run([this, red, green, blue, outputSessionId, cancelFlag]() -> BlendResult
         {
-            sendPostProcessState(
-            QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
+            BlendResult result;
+            auto onProgress = [this, outputSessionId](int current, int total, const QString & label)
+            {
+                // See the build_master handler above for why this needs
+                // QMetaObject::invokeMethod rather than calling sendPostProcessState()
+                // directly from this worker thread.
+                QMetaObject::invokeMethod(this, [this, outputSessionId, current, total, label]()
+                {
+                    sendPostProcessState(QJsonObject
+                    {
+                        {"state", "progress"}, {"sessionId", outputSessionId}, {"current", current}, {"total", total},
+                        {"message", label}
+                    });
+                }, Qt::QueuedConnection);
+            };
+            auto isCancelled = [cancelFlag]()
+            {
+                return cancelFlag->loadAcquire() != 0;
+            };
+            result.ok = ChannelBlendOperation::blendRGB(red, green, blue, result.blended, result.refWcs, result.error,
+                                                        onProgress, isCancelled, &result.cancelled);
+            return result;
         });
-        connect(outputSession.data(), &StackController::stackFailed, this,
-                [this, outputSessionId](const QString & reason)
+
+        auto watcher = new QFutureWatcher<BlendResult>(this);
+        connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
+                [this, watcher, outputSessionId, cancelFlag]()
         {
+            m_BusyPostProcessSessions.remove(outputSessionId);
+            if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
+                m_PostProcessCancelFlags.remove(outputSessionId);
+            const BlendResult result = watcher->result();
+            watcher->deleteLater();
+
+            if (!result.ok)
+            {
+                sendPostProcessState(QJsonObject
+                {
+                    {"state", result.cancelled ? "cancelled" : "error"},
+                    {"sessionId", outputSessionId}, {"message", result.error}
+                });
+                return;
+            }
+
+            // Passing refWcs (deep-copied inside adopt()) lets the new session carry a
+            // WCS, same as a real plate-solved stack, so crop() keeps tracking it and
+            // postprocess_apply_color_calibration can use it.
+            QString adoptError;
+            auto outputSession = QSharedPointer<StackController>::create(this);
+            if (!outputSession->adopt(result.blended, adoptError, result.refWcs))
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
+                return;
+            }
+            // Without these, a later postprocess_redo_postprocess against this session
+            // would complete (or fail) with no way to tell the caller — nothing
+            // forwarded its stackReady/stackFailed/postProcessProgress to a response at
+            // all, unlike a postprocess_stack session's connections (see the
+            // POSTPROCESS_STACK handlers above).
+            connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
+            });
+            connect(outputSession.data(), &StackController::stackFailed, this,
+                    [this, outputSessionId](const QString & reason)
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
+            });
+            connect(outputSession.data(), &StackController::postProcessProgress, this,
+                    [this, outputSessionId](StackChannel channel, const QString & stage)
+            {
+                sendPostProcessState(QJsonObject
+                {
+                    {"state", "progress"}, {"sessionId", outputSessionId}, {"message", describePostProcessStage(channel, stage)}
+                });
+            });
+            m_PostProcessSessions[outputSessionId] = outputSession;
             sendPostProcessState(
-            QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
+            QJsonObject{{"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}});
         });
-        m_PostProcessSessions[outputSessionId] = outputSession;
-        sendPostProcessState(
-        QJsonObject{{"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}});
+        watcher->setFuture(future);
     }
     else if (command == commands[POSTPROCESS_REDO_POSTPROCESS])
     {

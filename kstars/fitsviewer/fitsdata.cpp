@@ -1333,7 +1333,8 @@ bool FITSData::detectStarTrailing(const cv::Mat &image, double &medianElongation
 }
 
 // User signalled to redo post processing options with the passed in parameters
-void FITSData::redoPostProcessStack(const StackPPData &ppParams)
+void FITSData::redoPostProcessStack(const StackPPData &ppParams, const FITSStack::PostProcessProgressCallback &onProgress,
+                                    const FITSStack::PostProcessCancelCallback &isCancelled)
 {
     // Update the new parameters
     m_LiveStackData.postProcessing = ppParams;
@@ -1355,12 +1356,12 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams)
             return;
         }
 
-        auto future = QtConcurrent::run([this, ppParams]() -> bool
+        auto future = QtConcurrent::run([this, ppParams, onProgress, isCancelled]() -> bool
         {
             StackData params;
             params.postProcessing = ppParams;
             FITSStack throwaway(this, StackChannel::SINGLE, params);
-            cv::Mat result = throwaway.postProcessImage(m_StackedImageMat);
+            cv::Mat result = throwaway.postProcessImage(m_StackedImageMat, onProgress, isCancelled);
             if (result.empty())
                 return false;
             m_StackedImageMat = result;
@@ -1368,10 +1369,12 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams)
         });
 
         auto *watcher = new QFutureWatcher<bool>(this);
-        connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]()
+        connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher, isCancelled]()
         {
             watcher->deleteLater();
-            if (watcher->future().result())
+            if (isCancelled && isCancelled())
+                Q_EMIT stackReady(true);
+            else if (watcher->future().result())
                 Q_EMIT stackReady();
             else
                 Q_EMIT stackFailed("Post-processing failed to produce a usable image");
@@ -1387,9 +1390,9 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams)
         if (stack)
         {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            futures << QtConcurrent::run(&FITSStack::redoPostProcessStack, stack.get(), ppParams);
+            futures << QtConcurrent::run(&FITSStack::redoPostProcessStack, stack.get(), ppParams, onProgress, isCancelled);
 #else
-            futures << QtConcurrent::run(stack.get(), &FITSStack::redoPostProcessStack, ppParams);
+            futures << QtConcurrent::run(stack.get(), &FITSStack::redoPostProcessStack, ppParams, onProgress, isCancelled);
 #endif
         }
     }
@@ -1401,12 +1404,20 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams)
             f.waitForFinished();
     });
 
-    // Watch the combined future and process the final image when all stacks complete
+    // Watch the combined future and process the final image when all stacks complete.
+    // A stop request (isCancelled() true by the time every channel's redo has finished
+    // reacting to it) skips the combine/buffer-prep step entirely — each channel's own
+    // postProcessImage() already left m_StackedImageFinal as it was pre-redo (see
+    // FITSStack::redoPostProcessStack()), so there's nothing new to merge, and
+    // reporting "ready" here would be misleading.
     auto *watcher = new QFutureWatcher<void>(this);
-    connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher]()
+    connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, isCancelled]()
     {
-        prepareStackBufferAsync();
         watcher->deleteLater();
+        if (isCancelled && isCancelled())
+            Q_EMIT stackReady(true);
+        else
+            prepareStackBufferAsync();
     });
     watcher->setFuture(combined);
 }

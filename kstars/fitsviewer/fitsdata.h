@@ -866,8 +866,17 @@ class FITSData : public QObject
         /**
          * @brief redo Post Processing on the existing stack (user requsted)
          * @param ppParams are the current user requested post processing params
+         * @param onProgress optional, forwarded to each channel's
+         * FITSStack::redoPostProcessStack() — see FITSStack::PostProcessProgressCallback.
+         * @param isCancelled optional, polled once every channel's work has finished (as
+         * well as inside each channel's own postProcessImage()) — if it returns true,
+         * stackReady(true) (cancelled) is emitted instead of running the final
+         * combine/emit-ready step, matching the behavior a real stack's own cancel()
+         * reports via the same signal.
          */
-        void redoPostProcessStack(const StackPPData &ppParams);
+        void redoPostProcessStack(const StackPPData &ppParams,
+                                  const FITSStack::PostProcessProgressCallback &onProgress = FITSStack::PostProcessProgressCallback(),
+                                  const FITSStack::PostProcessCancelCallback &isCancelled = FITSStack::PostProcessCancelCallback());
 
         /**
          * @brief Crop the current combined stacked image to roi, in place, adjusting the

@@ -154,8 +154,13 @@ cv::Mat MasterBuilder::combineSigmaClip(const std::vector<cv::Mat> &frames, doub
 
 bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QString &error,
                           double lowSigma, double highSigma, const QString &subtractPath,
-                          double matchExptime, double exptimeTolerance, int *outUsedCount)
+                          double matchExptime, double exptimeTolerance, int *outUsedCount,
+                          const ProgressCallback &onProgress, const CancelCallback &isCancelled,
+                          bool *outCancelled)
 {
+    if (outCancelled)
+        *outCancelled = false;
+
     QDir directory(dir);
     if (!directory.exists())
     {
@@ -185,6 +190,14 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
         int checked = 0;
         for (const auto &file : files)
         {
+            if (isCancelled && isCancelled())
+            {
+                error = QString("Build cancelled while scanning %1").arg(dir);
+                if (outCancelled)
+                    *outCancelled = true;
+                return false;
+            }
+
             double exptime = 0.0;
             QString readError;
             if (!readExptime(file, exptime, readError))
@@ -220,8 +233,17 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
 
     std::vector<cv::Mat> frames;
     QVector<double> medians;
-    for (const auto &file : files)
+    for (int i = 0; i < files.size(); i++)
     {
+        if (isCancelled && isCancelled())
+        {
+            error = QString("Build cancelled after %1/%2 subs").arg(i).arg(files.size());
+            if (outCancelled)
+                *outCancelled = true;
+            return false;
+        }
+
+        const QString &file = files.at(i);
         cv::Mat frame;
         double median = 0.0;
         if (!loadFrame(file, frame, median, error))
@@ -269,6 +291,9 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
 
         frames.push_back(frame);
         medians.push_back(median);
+
+        if (onProgress)
+            onProgress(i + 1, files.size(), QFileInfo(file).fileName());
     }
 
     outMaster = combineSigmaClip(frames, lowSigma, highSigma);
@@ -277,11 +302,14 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
 
 bool MasterBuilder::buildAndSave(const QString &dir, Type type, const QString &outputPath, QString &error,
                                  double lowSigma, double highSigma, const QString &subtractPath,
-                                 double matchExptime, double exptimeTolerance, cv::Mat *outMaster)
+                                 double matchExptime, double exptimeTolerance, cv::Mat *outMaster,
+                                 const ProgressCallback &onProgress, const CancelCallback &isCancelled,
+                                 bool *outCancelled)
 {
     cv::Mat master;
     int usedCount = 0;
-    if (!build(dir, type, master, error, lowSigma, highSigma, subtractPath, matchExptime, exptimeTolerance, &usedCount))
+    if (!build(dir, type, master, error, lowSigma, highSigma, subtractPath, matchExptime, exptimeTolerance, &usedCount,
+              onProgress, isCancelled, outCancelled))
         return false;
 
     if (outMaster)

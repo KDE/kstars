@@ -49,14 +49,26 @@ void StackController::start(const QStringList &inDir, const StackData &params)
 
 void StackController::cancel()
 {
+    m_RedoPostProcessCancelled.storeRelease(1);
     if (m_ImageData)
         m_ImageData->cancelStack();
 }
 
 void StackController::redoPostProcess(const StackPPData &ppParams)
 {
-    if (m_ImageData)
-        m_ImageData->redoPostProcessStack(ppParams);
+    if (!m_ImageData)
+        return;
+
+    m_RedoPostProcessCancelled.storeRelease(0);
+    m_ImageData->redoPostProcessStack(ppParams,
+                                      [this](StackChannel channel, const QString & stage)
+    {
+        Q_EMIT postProcessProgress(channel, stage);
+    },
+    [this]()
+    {
+        return m_RedoPostProcessCancelled.loadAcquire() != 0;
+    });
 }
 
 bool StackController::crop(const QRect &roi, QString &error)

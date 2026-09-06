@@ -8,6 +8,7 @@
 
 #include "fitsviewer/fitscommon.h"
 
+#include <QAtomicInt>
 #include <QByteArray>
 #include <QObject>
 #include <QPointF>
@@ -62,13 +63,17 @@ class StackController : public QObject
         void start(const QStringList &inDir, const StackData &params);
 
         /**
-         * @brief User/caller request to cancel an in-progress stack.
+         * @brief User/caller request to cancel an in-progress stack, or an in-progress
+         * redoPostProcess() — whichever (if either) is actually running.
          */
         void cancel();
 
         /**
          * @brief Re-run post processing (denoise, sharpen, gradient removal,
-         * stretch, etc.) on the existing stack with new parameters.
+         * stretch, etc.) on the existing stack with new parameters. Runs on a
+         * background thread per channel; emits postProcessProgress() as each
+         * channel's stages complete, and stackReady(true) if cancel() is called
+         * before it finishes (same signal a cancelled initial stack() reports).
          */
         void redoPostProcess(const StackPPData &ppParams);
 
@@ -194,6 +199,12 @@ class StackController : public QObject
         void stackFailed(const QString &reason);
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
                               const double maxSNR);
+        // Emitted from redoPostProcess()'s worker thread as each channel completes each
+        // stage (gradient correction/deconvolution/sharpening/denoising) — see
+        // FITSStack::PostProcessProgressCallback. Channels run in parallel, so these can
+        // arrive interleaved across channels; each carries its own channel so a caller
+        // can tell them apart.
+        void postProcessProgress(const StackChannel channel, const QString &stage);
 
     private:
         /**
@@ -216,6 +227,10 @@ class StackController : public QObject
         void handleSolveDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
         FITSMode m_Mode;
+        // Set fresh at the start of each redoPostProcess() call; cancel() sets it so a
+        // caller can stop an in-flight redo the same way it stops an in-progress
+        // initial stack — see cancel()'s doc comment.
+        QAtomicInt m_RedoPostProcessCancelled { 0 };
         QSharedPointer<FITSData> m_ImageData;
         QFutureWatcher<bool> m_FitsWatcher;
         QSharedPointer<SolverUtils> m_Solver;

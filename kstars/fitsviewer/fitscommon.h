@@ -354,6 +354,7 @@ static const QMap<StackingMethod, QString> StackingMethodNames
 };
 
 enum class StackChannel { SINGLE, RED, GREEN, BLUE, LUM, NONE };
+Q_DECLARE_METATYPE(StackChannel)
 static const QMap<StackChannel, QString> StackChannelNames
 {
     { StackChannel::SINGLE, "Single" },

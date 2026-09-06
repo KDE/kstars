@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QPointer>
 
+#include <functional>
+
 // Include OpenCV headers after Windows headers
 #ifdef _WIN32
 #pragma push_macro("NOMINMAX")
@@ -174,11 +176,29 @@ class FITSStack : public QObject
          */
         bool stackn();
 
+        // Reported after each postProcessImage() stage completes (gradient correction,
+        // deconvolution, sharpen, denoise) — this instance's own m_Channel plus a short
+        // human-readable stage label, e.g. (StackChannel::RED, "Denoising"). Lets a
+        // caller driving several channels' redoPostProcessStack() in parallel (see
+        // FITSData::redoPostProcessStack()) surface per-channel, per-stage progress
+        // without polling.
+        using PostProcessProgressCallback = std::function<void(StackChannel channel, const QString &stage)>;
+        // Polled before each stage — return true to abandon this call as soon as
+        // possible. postProcessImage() then returns an empty Mat (the same "nothing
+        // usable" signal it already gives on failure); redoPostProcessStack() leaves
+        // the previous m_StackedImageFinal untouched rather than overwrite it with a
+        // partial result.
+        using PostProcessCancelCallback = std::function<bool()>;
+
         /**
          * @brief Redo post-processing on the stack
          * @param Post processing parameters
+         * @param onProgress / isCancelled optional — see PostProcessProgressCallback /
+         * PostProcessCancelCallback.
          */
-        void redoPostProcessStack(const StackPPData &ppParams);
+        void redoPostProcessStack(const StackPPData &ppParams,
+                                  const PostProcessProgressCallback &onProgress = PostProcessProgressCallback(),
+                                  const PostProcessCancelCallback &isCancelled = PostProcessCancelCallback());
 
         /**
          * @brief Get the WCS data structure for stacked image
@@ -245,9 +265,14 @@ class FITSStack : public QObject
          * still run gradient/denoise/deconv/sharpen via a throwaway FITSStack instance,
          * using only this call and this instance's m_StackData.postProcessing.
          * @param Image to process
-         * @return Processed image
+         * @param onProgress / isCancelled optional — see PostProcessProgressCallback /
+         * PostProcessCancelCallback.
+         * @return Processed image, or an empty Mat if cancelled (isCancelled() returned
+         * true before a stage started) or if a stage failed.
          */
-        cv::Mat postProcessImage(const cv::Mat &image);
+        cv::Mat postProcessImage(const cv::Mat &image,
+                                 const PostProcessProgressCallback &onProgress = PostProcessProgressCallback(),
+                                 const PostProcessCancelCallback &isCancelled = PostProcessCancelCallback());
 
         /**
          * @brief Gets the downscaling factor for the use downscale option

@@ -24,6 +24,7 @@
 #include <QVector>
 #include <QSet>
 #include <QHash>
+#include <QAtomicInt>
 
 namespace EkosLive
 {
@@ -271,6 +272,11 @@ class Message : public QObject
         // new_postprocess_state push — use for every postprocess_* response that
         // reports a session's state, not for the query response itself.
         void sendPostProcessState(const QJsonObject &state);
+        // Human-readable label for a StackController::postProcessProgress signal, e.g.
+        // "Red: Gradient correction" — just the bare stage name for a SINGLE/NONE
+        // channel (the common mono-session case), where naming the channel would be
+        // redundant noise.
+        QString describePostProcessStage(StackChannel channel, const QString &stage) const;
 
         // Filter Offset Builder commands
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
@@ -362,6 +368,13 @@ class Message : public QObject
         // "build_master"), so postprocess_get_state can answer without waiting on a
         // push the caller might have missed (e.g. after a reconnect).
         QHash < QString, QJsonObject > m_LastPostProcessState;
+        // Cancel flags for postprocess_* operations with no StackController session of
+        // their own to call cancel() on — build_master (fixed key "build_master") and
+        // blend_channels (keyed by outputSessionId, so independent concurrent blends
+        // can each be stopped without affecting the others). postprocess_stop sets the
+        // entry for its sessionId; the matching worker thread polls it between steps.
+        // Entry removed once that job's QFutureWatcher::finished fires.
+        QHash < QString, QSharedPointer < QAtomicInt>> m_PostProcessCancelFlags;
 
         typedef enum
         {

@@ -10,6 +10,8 @@
 #include <QVector>
 #include <opencv2/core/core.hpp>
 
+#include <functional>
+
 struct wcsprm;
 
 /**
@@ -31,6 +33,16 @@ struct wcsprm;
 class ChannelBlendOperation
 {
     public:
+        // Reported after each registration/blend step of blendRGB() — current/total
+        // count every per-channel-input registration pass plus the final per-channel
+        // blend (3), and label is a short human-readable description, e.g.
+        // "Registered green channel input 2/3" or "Blended red channel".
+        using ProgressCallback = std::function<void(int current, int total, const QString &label)>;
+        // Polled before each step — return true to abandon the blend as soon as
+        // possible. blendRGB() then fails with outCancelled set (rather than error),
+        // same convention as MasterBuilder::build().
+        using CancelCallback = std::function<bool()>;
+
         struct WeightedInput
         {
             cv::Mat image;   // CV_32F, single channel — one already-stacked mono session
@@ -69,11 +81,17 @@ class ChannelBlendOperation
          * input's WCS is; a caller that wants to keep it (e.g. to adopt the blended
          * result as a new session) must deep-copy it itself.
          * @param error receives a human-readable failure reason on failure
+         * @param onProgress optional — see ProgressCallback.
+         * @param isCancelled optional — see CancelCallback.
+         * @param outCancelled when non-null, set to true if the blend stopped because
+         * isCancelled() returned true (vs. a genuine failure, reported via error).
          * @return success
          */
         static bool blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                              const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                             const struct wcsprm * &outRefWcs, QString &error);
+                             const struct wcsprm * &outRefWcs, QString &error,
+                             const ProgressCallback &onProgress = ProgressCallback(),
+                             const CancelCallback &isCancelled = CancelCallback(), bool *outCancelled = nullptr);
 
     private:
         // Warps `image` (in place) from its own WCS (`imageWcs`) onto `refWcs`'s pixel
