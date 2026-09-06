@@ -263,6 +263,7 @@ void QueueExecutor::executeItem(QueueItem *item)
                     // No device found with required interfaces - check failure action
                     QString errorMsg = i18n("No connected device found with required interfaces");
                     qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg << QString::number(requiredInterfaces, 2) << "for task:" << task->name();
+                    emit newLog(i18n("Task '%1' failed device assignment: %2", task->name(), errorMsg));
 
                     // Handle based on task's device mapping failure action
                     switch (task->deviceMappingFailureAction())
@@ -406,6 +407,8 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
             disconnect(action, nullptr, this, nullptr);
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "failed:" << action->errorMessage();
+            Q_EMIT newLog(i18n("Task '%1', action %2 failed: %3",
+                             m_currentItem->task()->name(), m_currentActionIndex + 1, action->errorMessage()));
             Q_EMIT actionFailed(action, action->errorMessage());
             handleActionFailure(action);
             break;
@@ -415,6 +418,8 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
             disconnect(action, nullptr, this, nullptr);
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "aborted";
+            emit newLog(i18n("Task '%1', action %2 aborted.",
+                             m_currentItem->task()->name(), m_currentActionIndex + 1));
             // Action was aborted
             handleItemFailure(m_currentItem);
             break;
@@ -460,6 +465,7 @@ void QueueExecutor::handleItemFailure(QueueItem *item)
 
     qCWarning(KSTARS_EKOS_SCHEDULER) << "Task failed:" << item->task()->name()
                                      << "- Error:" << item->errorMessage();
+    emit newLog(i18n("Task '%1' failed: %2", item->task()->name(), item->errorMessage()));
 
     item->setStatus(QueueItem::FAILED);
     Q_EMIT itemFailed(item, item->errorMessage());
