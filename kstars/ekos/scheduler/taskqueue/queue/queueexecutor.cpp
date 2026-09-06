@@ -93,6 +93,29 @@ QueueExecutor::~QueueExecutor()
     stop();
 }
 
+Task *QueueExecutor::taskForItem(QueueItem *item, const QString &context)
+{
+    if (!item)
+    {
+        const QString message = i18n("Task queue executor cannot %1 because no queue item is active.", context);
+        qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+        Q_EMIT newLog(message);
+        return nullptr;
+    }
+
+    Task *task = item->task();
+    if (!task)
+    {
+        const QString itemName = item->name().isEmpty() ? item->id() : item->name();
+        const QString message = i18n("Task queue item '%1' has no task while trying to %2.", itemName, context);
+        qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+        Q_EMIT newLog(message);
+        return nullptr;
+    }
+
+    return task;
+}
+
 bool QueueExecutor::start()
 {
     if (m_running)
@@ -113,32 +136,31 @@ bool QueueExecutor::start()
 
     for (QueueItem *item : m_manager->items())
     {
-        if (item && item->task())
+        Task *task = taskForItem(item, i18n("start a queue"));
+        if (!task)
+            return false;
+
+        // Check if task has explicit device OR template requires interfaces
+        if (!task->device().isEmpty())
         {
-            Task *task = item->task();
+            requiresDevices = true;
+            break;
+        }
 
-            // Check if task has explicit device OR template requires interfaces
-            if (!item->device().isEmpty())
-            {
-                requiresDevices = true;
-                break;
-            }
+        QList<uint32_t> supportedInterfaces;
+        if (!ensureSupportedInterfaces(task, supportedInterfaces))
+        {
+            const QString errorMsg = i18n("Cannot start queue: task template '%1' is unavailable for '%2'.")
+                                     .arg(task->templateId(), task->name());
+            qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg;
+            emit newLog(errorMsg);
+            return false;
+        }
 
-            QList<uint32_t> supportedInterfaces;
-            if (!ensureSupportedInterfaces(task, supportedInterfaces))
-            {
-                const QString errorMsg = i18n("Cannot start queue: task template '%1' is unavailable for '%2'.")
-                                         .arg(task->templateId(), task->name());
-                qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg;
-                emit newLog(errorMsg);
-                return false;
-            }
-
-            if (!supportedInterfaces.isEmpty())
-            {
-                requiresDevices = true;
-                break;
-            }
+        if (!supportedInterfaces.isEmpty())
+        {
+            requiresDevices = true;
+            break;
         }
     }
 
@@ -270,7 +292,8 @@ void QueueExecutor::executeNext()
 
 void QueueExecutor::executeItem(QueueItem *item)
 {
-    if (!item || !item->task())
+    Task *task = taskForItem(item, i18n("execute an item"));
+    if (!task)
         return;
 
     m_currentItem = item;
@@ -282,7 +305,6 @@ void QueueExecutor::executeItem(QueueItem *item)
             this, &QueueExecutor::onItemStatusChanged);
 
     // Check if device needs to be assigned at runtime
-    Task *task = item->task();
     if (task->device().isEmpty())
     {
         QList<uint32_t> supportedInterfaces;
@@ -351,8 +373,8 @@ void QueueExecutor::executeItem(QueueItem *item)
 
     item->setStatus(QueueItem::RUNNING);
 
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting task:" << item->task()->name()
-                                  << "with" << item->task()->actions().size() << "actions";
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting task:" << task->name()
+                                  << "with" << task->actions().size() << "actions";
 
     Q_EMIT itemStarted(item);
 
@@ -372,10 +394,11 @@ void QueueExecutor::executeItem(QueueItem *item)
 
 void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg)
 {
-    if (!item || !item->task())
+    Task *task = taskForItem(item, i18n("handle a missing device"));
+    if (!task)
         return;
 
-    switch (item->task()->deviceMappingFailureAction())
+    switch (task->deviceMappingFailureAction())
     {
         case TaskAction::SKIP_TO_NEXT_TASK:
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Skipping task due to missing device (failure_action: skip_to_next_task)";
@@ -409,6 +432,10 @@ void QueueExecutor::executeAction(TaskAction *action)
     if (!action || m_paused || m_abortRequested)
         return;
 
+    Task *task = taskForItem(m_currentItem, i18n("execute an action"));
+    if (!task)
+        return;
+
     m_currentAction = action;
 
     // Connect to action signals
@@ -418,7 +445,7 @@ void QueueExecutor::executeAction(TaskAction *action)
             this, &QueueExecutor::onActionProgress);
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing action" << (m_currentActionIndex + 1)
-                                  << "of" << m_currentItem->task()->actions().size()
+                                  << "of" << task->actions().size()
                                   << "- Type:" << action->type();
 
     Q_EMIT actionStarted(action);
@@ -431,7 +458,7 @@ void QueueExecutor::executeAction(TaskAction *action)
     // state may not have been updated if the value was already correct
     if (action->type() == TaskAction::EVALUATE && m_currentActionIndex > 0)
     {
-        TaskAction *prevAction = m_currentItem->task()->actions().at(m_currentActionIndex - 1);
+        TaskAction *prevAction = task->actions().at(m_currentActionIndex - 1);
         if (prevAction && prevAction->type() == TaskAction::SET && prevAction->wasSkipped())
         {
             auto *evaluateAction = qobject_cast<EvaluateAction *>(action);
@@ -459,6 +486,10 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
     if (!m_currentAction || !m_currentItem)
         return;
 
+    Task *task = taskForItem(m_currentItem, i18n("handle an action status change"));
+    if (!task)
+        return;
+
     TaskAction *action = qobject_cast<TaskAction *>(sender());
     if (!action || action != m_currentAction)
         return;
@@ -475,9 +506,9 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             // Move to next action
             m_currentActionIndex++;
-            if (m_currentActionIndex < m_currentItem->task()->actions().size())
+            if (m_currentActionIndex < task->actions().size())
             {
-                m_currentAction = m_currentItem->task()->actions().at(m_currentActionIndex);
+                m_currentAction = task->actions().at(m_currentActionIndex);
                 executeAction(m_currentAction);
             }
             else
@@ -493,7 +524,7 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "failed:" << action->errorMessage();
             Q_EMIT newLog(i18n("Task '%1', action %2 failed: %3",
-                               m_currentItem->task()->name(), m_currentActionIndex + 1, action->errorMessage()));
+                               task->name(), m_currentActionIndex + 1, action->errorMessage()));
             Q_EMIT actionFailed(action, action->errorMessage());
             handleActionFailure(action);
             break;
@@ -504,7 +535,7 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "aborted";
             emit newLog(i18n("Task '%1', action %2 aborted.",
-                             m_currentItem->task()->name(), m_currentActionIndex + 1));
+                             task->name(), m_currentActionIndex + 1));
             // Action was aborted
             handleItemFailure(m_currentItem);
             break;
@@ -524,10 +555,11 @@ void QueueExecutor::onActionProgress(const QString &message)
 
 void QueueExecutor::handleItemCompletion(QueueItem *item)
 {
-    if (!item)
+    Task *task = taskForItem(item, i18n("complete an item"));
+    if (!task)
         return;
 
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Task completed:" << item->task()->name();
+    qCInfo(KSTARS_EKOS_SCHEDULER) << "Task completed:" << task->name();
 
     // Set progress to 100% on completion
     item->setProgress(100);
@@ -545,12 +577,13 @@ void QueueExecutor::handleItemCompletion(QueueItem *item)
 
 void QueueExecutor::handleItemFailure(QueueItem *item)
 {
-    if (!item)
+    Task *task = taskForItem(item, i18n("fail an item"));
+    if (!task)
         return;
 
-    qCWarning(KSTARS_EKOS_SCHEDULER) << "Task failed:" << item->task()->name()
+    qCWarning(KSTARS_EKOS_SCHEDULER) << "Task failed:" << task->name()
                                      << "- Error:" << item->errorMessage();
-    emit newLog(i18n("Task '%1' failed: %2", item->task()->name(), item->errorMessage()));
+    emit newLog(i18n("Task '%1' failed: %2", task->name(), item->errorMessage()));
 
     item->setStatus(QueueItem::FAILED);
     Q_EMIT itemFailed(item, item->errorMessage());
@@ -568,6 +601,10 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
     if (!action || !m_currentItem)
         return;
 
+    Task *task = taskForItem(m_currentItem, i18n("handle an action failure"));
+    if (!task)
+        return;
+
     // Check failure action policy
     switch (action->failureAction())
     {
@@ -582,9 +619,9 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Failure action: Continuing to next action";
             // Log error and continue to next action
             m_currentActionIndex++;
-            if (m_currentActionIndex < m_currentItem->task()->actions().size())
+            if (m_currentActionIndex < task->actions().size())
             {
-                m_currentAction = m_currentItem->task()->actions().at(m_currentActionIndex);
+                m_currentAction = task->actions().at(m_currentActionIndex);
                 executeAction(m_currentAction);
             }
             else
@@ -608,10 +645,10 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
 
 void QueueExecutor::updateProgress()
 {
-    if (!m_currentItem || !m_currentItem->task())
+    Task *task = taskForItem(m_currentItem, i18n("update progress"));
+    if (!task)
         return;
 
-    Task *task = m_currentItem->task();
     if (task->actionCount() == 0)
         return;
 
