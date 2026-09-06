@@ -90,6 +90,7 @@ class QueueExecutor : public QObject
         void executeAction(TaskAction *action);
         void handleItemCompletion(QueueItem *item);
         void handleItemFailure(QueueItem *item);
+        void handleMissingDevice(QueueItem *item, const QString &errorMsg);
         void handleActionFailure(TaskAction *action);
         void updateProgress();
 

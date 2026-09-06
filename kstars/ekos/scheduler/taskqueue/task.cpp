@@ -56,6 +56,7 @@ bool Task::instantiateFromTemplate(TaskTemplate *tmpl,
     m_templateId = tmpl->id();
     m_device = deviceName;
     m_category = tmpl->category();
+    m_supportedInterfaces = tmpl->supportedInterfaces();
     m_parameters = parameters;
 
     // Generate default name
@@ -260,6 +261,11 @@ QJsonObject Task::toJson() const
     json["category"] = m_category;
     json["status"] = static_cast<int>(m_status);
 
+    QJsonArray supportedInterfacesArray;
+    for (uint32_t interface : m_supportedInterfaces)
+        supportedInterfacesArray.append(static_cast<int>(interface));
+    json["supported_interfaces"] = supportedInterfacesArray;
+
     if (!m_errorMessage.isEmpty())
     {
         json["error_message"] = m_errorMessage;
@@ -293,6 +299,11 @@ bool Task::loadFromJson(const QJsonObject &json)
     m_category = json["category"].toString();
     m_status = static_cast<Status>(json["status"].toInt());
     m_errorMessage = json["error_message"].toString();
+
+    m_supportedInterfaces.clear();
+    const QJsonArray supportedInterfacesArray = json["supported_interfaces"].toArray();
+    for (const QJsonValue &value : supportedInterfacesArray)
+        m_supportedInterfaces.append(value.toInt());
 
     // Load parameters
     m_parameters.clear();
