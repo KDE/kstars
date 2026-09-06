@@ -54,6 +54,7 @@
 #include <KActionCollection>
 #include <basedevice.h>
 #include <QUuid>
+#include <functional>
 #include <thread>
 
 namespace
@@ -3967,7 +3968,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // folder (EXPTIME/FILTER/binning/IMAGETYP per file, header-only) so a caller can
         // discover the right matchExptime for build_master, or the right exposure/filter
         // for postprocess_stack, without external tooling. Useful for any folder
-        // (bias/dark/flat/light), not darks specifically.
+        // (bias/dark/flat/light), not darks specifically. Recurses into subfolders (e.g.
+        // a Lights/Darks/Flats/Bias layout with Lights further split into HA/SII/OIII),
+        // so "tree" below reports per-folder totals like Lights=100, Lights/HA=20.
         const QString directory = payload["directory"].toString();
         if (directory.isEmpty())
         {
@@ -3978,8 +3981,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         QVector<DirectoryInspector::FileInfo> files;
         QVector<DirectoryInspector::Group> groups;
+        DirectoryInspector::DirectoryNode tree;
         QString error;
-        if (!DirectoryInspector::inspect(directory, files, groups, error))
+        if (!DirectoryInspector::inspect(directory, files, groups, tree, error))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
             return;
@@ -3990,7 +3994,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         {
             QJsonObject entry
             {
-                {"filename", file.filename}, {"exptime", file.exptime},
+                {"filename", file.filename}, {"directory", file.directory}, {"exptime", file.exptime},
                 {"filter", file.filter}, {"binning", file.binning}, {"imagetyp", file.imagetyp}
             };
             if (!file.error.isEmpty())
@@ -3998,20 +4002,45 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             filesArray << entry;
         }
 
-        QJsonArray groupsArray;
-        for (const auto &group : groups)
+        std::function<QJsonArray(const QVector<DirectoryInspector::Group> &)> groupsToJson =
+                [](const QVector<DirectoryInspector::Group> &groups)
         {
-            groupsArray << QJsonObject
+            QJsonArray groupsArray;
+            for (const auto &group : groups)
             {
-                {"exptime", group.exptime}, {"filter", group.filter},
-                {"binning", group.binning}, {"imagetyp", group.imagetyp}, {"count", group.count}
+                groupsArray << QJsonObject
+                {
+                    {"exptime", group.exptime}, {"filter", group.filter},
+                    {"binning", group.binning}, {"imagetyp", group.imagetyp}, {"count", group.count}
+                };
+            }
+            return groupsArray;
+        };
+
+        // Mirrors DirectoryInspector::DirectoryNode: "groups"/"fileCount" describe only
+        // this folder's own files, while "totalGroups"/"totalFileCount" roll up this
+        // folder plus every descendant (e.g. Lights totalFileCount = HA + SII + OIII +
+        // any files directly under Lights itself).
+        std::function<QJsonObject(const DirectoryInspector::DirectoryNode &)> nodeToJson =
+                [&](const DirectoryInspector::DirectoryNode & node)
+        {
+            QJsonArray subdirsArray;
+            for (const auto &child : node.subdirs)
+                subdirsArray << nodeToJson(child);
+
+            return QJsonObject
+            {
+                {"name", node.name}, {"path", node.relativePath},
+                {"fileCount", node.files.size()}, {"groups", groupsToJson(node.groups)},
+                {"totalFileCount", node.totalFileCount}, {"totalGroups", groupsToJson(node.totalGroups)},
+                {"subdirs", subdirsArray}
             };
-        }
+        };
 
         sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
         {
             {"state", "inspected"}, {"directory", directory}, {"fileCount", files.size()},
-            {"files", filesArray}, {"groups", groupsArray}
+            {"files", filesArray}, {"groups", groupsToJson(groups)}, {"tree", nodeToJson(tree)}
         });
     }
     else if (command == commands[POSTPROCESS_BLEND_CHANNELS])

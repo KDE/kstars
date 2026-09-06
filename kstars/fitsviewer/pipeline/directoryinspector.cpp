@@ -33,6 +33,67 @@ void readOptionalInt(fitsfile *fptr, const char *key, int &outValue, bool &outFo
     if (!fits_read_key(fptr, TINT, key, &outValue, nullptr, &status))
         outFound = true;
 }
+
+void sortGroups(QVector<DirectoryInspector::Group> &groups)
+{
+    std::sort(groups.begin(), groups.end(), [](const DirectoryInspector::Group & a, const DirectoryInspector::Group & b)
+    {
+        return a.exptime < b.exptime;
+    });
+}
+
+// Builds the per-folder groups for a set of files, ignoring ones whose header
+// couldn't be read (FileInfo::error non-empty).
+QVector<DirectoryInspector::Group> groupFiles(const QVector<DirectoryInspector::FileInfo> &files)
+{
+    QVector<DirectoryInspector::Group> groups;
+    for (const auto &info : files)
+    {
+        if (!info.error.isEmpty())
+            continue;
+
+        auto match = std::find_if(groups.begin(), groups.end(), [&info](const DirectoryInspector::Group & g)
+        {
+            return g.exptime == info.exptime && g.filter == info.filter &&
+                   g.binning == info.binning && g.imagetyp == info.imagetyp;
+        });
+
+        if (match != groups.end())
+            match->count++;
+        else
+            groups.push_back({ info.exptime, info.filter, info.binning, info.imagetyp, 1 });
+    }
+
+    sortGroups(groups);
+    return groups;
+}
+
+// Folds `addition` into `accumulator`, merging counts for matching (exptime, filter,
+// binning, imagetyp) combinations rather than duplicating them — used to roll a child
+// folder's groups up into its parent's totalGroups.
+void mergeGroupsInto(QVector<DirectoryInspector::Group> &accumulator, const QVector<DirectoryInspector::Group> &addition)
+{
+    for (const auto &g : addition)
+    {
+        auto match = std::find_if(accumulator.begin(), accumulator.end(), [&g](const DirectoryInspector::Group & existing)
+        {
+            return existing.exptime == g.exptime && existing.filter == g.filter &&
+                   existing.binning == g.binning && existing.imagetyp == g.imagetyp;
+        });
+
+        if (match != accumulator.end())
+            match->count += g.count;
+        else
+            accumulator.push_back(g);
+    }
+}
+
+void flattenFiles(const DirectoryInspector::DirectoryNode &node, QVector<DirectoryInspector::FileInfo> &outFiles)
+{
+    outFiles += node.files;
+    for (const auto &child : node.subdirs)
+        flattenFiles(child, outFiles);
+}
 }
 
 bool DirectoryInspector::readFileInfo(const QString &path, FileInfo &outInfo)
@@ -70,8 +131,47 @@ bool DirectoryInspector::readFileInfo(const QString &path, FileInfo &outInfo)
     return true;
 }
 
+// Subdirectories reached via a symlink are skipped so a cyclic link (e.g. a folder
+// linked into itself) can't cause unbounded recursion.
+DirectoryInspector::DirectoryNode DirectoryInspector::buildNode(const QDir &directory, const QString &relativePath)
+{
+    DirectoryNode node;
+    node.relativePath = relativePath;
+    node.name = relativePath.isEmpty() ? directory.dirName() : relativePath.section('/', -1);
+
+    for (const auto &fileInfo : directory.entryInfoList(QDir::Files, QDir::Name))
+    {
+        if (!FITSData::readableFilename(fileInfo.absoluteFilePath()))
+            continue;
+
+        FileInfo info;
+        info.directory = relativePath;
+        readFileInfo(fileInfo.absoluteFilePath(), info); // per-file failure recorded in info.error, not fatal
+        node.files.push_back(info);
+    }
+
+    node.groups = groupFiles(node.files);
+    node.totalFileCount = node.files.size();
+    node.totalGroups = node.groups;
+
+    const auto subdirFilter = QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks;
+    for (const auto &subdirInfo : directory.entryInfoList(subdirFilter, QDir::Name))
+    {
+        QString childRelativePath = relativePath.isEmpty() ? subdirInfo.fileName()
+                                     : relativePath + '/' + subdirInfo.fileName();
+        DirectoryNode child = buildNode(QDir(subdirInfo.absoluteFilePath()), childRelativePath);
+
+        node.totalFileCount += child.totalFileCount;
+        mergeGroupsInto(node.totalGroups, child.totalGroups);
+        node.subdirs.push_back(child);
+    }
+
+    sortGroups(node.totalGroups);
+    return node;
+}
+
 bool DirectoryInspector::inspect(const QString &dir, QVector<FileInfo> &outFiles, QVector<Group> &outGroups,
-                                 QString &error)
+                                 DirectoryNode &outTree, QString &error)
 {
     QDir directory(dir);
     if (!directory.exists())
@@ -80,49 +180,17 @@ bool DirectoryInspector::inspect(const QString &dir, QVector<FileInfo> &outFiles
         return false;
     }
 
-    QStringList files;
-    for (const auto &info : directory.entryInfoList(QDir::Files, QDir::Name))
-    {
-        if (FITSData::readableFilename(info.absoluteFilePath()))
-            files << info.absoluteFilePath();
-    }
-
-    if (files.isEmpty())
-    {
-        error = QString("No FITS-loadable files found in %1").arg(dir);
-        return false;
-    }
+    outTree = buildNode(directory, QString());
 
     outFiles.clear();
-    for (const auto &file : files)
+    flattenFiles(outTree, outFiles);
+    outGroups = outTree.totalGroups;
+
+    if (outFiles.isEmpty())
     {
-        FileInfo info;
-        readFileInfo(file, info); // per-file failure recorded in info.error, not fatal
-        outFiles.push_back(info);
+        error = QString("No FITS-loadable files found in %1 or its subdirectories").arg(dir);
+        return false;
     }
-
-    outGroups.clear();
-    for (const auto &info : outFiles)
-    {
-        if (!info.error.isEmpty())
-            continue;
-
-        auto match = std::find_if(outGroups.begin(), outGroups.end(), [&info](const Group & g)
-        {
-            return g.exptime == info.exptime && g.filter == info.filter &&
-                   g.binning == info.binning && g.imagetyp == info.imagetyp;
-        });
-
-        if (match != outGroups.end())
-            match->count++;
-        else
-            outGroups.push_back({ info.exptime, info.filter, info.binning, info.imagetyp, 1 });
-    }
-
-    std::sort(outGroups.begin(), outGroups.end(), [](const Group & a, const Group & b)
-    {
-        return a.exptime < b.exptime;
-    });
 
     return true;
 }
