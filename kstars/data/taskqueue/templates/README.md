@@ -8,6 +8,9 @@ This directory contains system templates for the Ekos Task Queue system. Templat
 Camera operations including:
 - **Cool Camera**: Cools camera to target temperature with controlled ramping using CCD_TEMPERATURE and CCD_TEMP_RAMP
 - **Warm Camera**: Warms camera to ambient temperature with controlled ramping
+- **Warm Camera (Passive)**: Disables camera cooling and waits until the sensor temperature reaches or exceeds the requested threshold
+
+The passive warm-camera template is useful for cameras that cannot accept a warmer CCD temperature setpoint directly. Its default threshold is below typical ambient temperature so the wait condition can complete before the camera reaches ambient in temperate conditions.
 
 ### mount.json
 Mount operations including:
