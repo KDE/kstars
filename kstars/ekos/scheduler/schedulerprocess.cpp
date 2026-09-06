@@ -3300,15 +3300,22 @@ void SchedulerProcess::solverDone(bool timedOut, bool success, const FITSImage::
         // This is an approximation, probably ok for small angles.
         const double diffTotal = hypot(diffRa, diffDec);
 
+        // Also grab the mount's own raw reported position (as opposed to the plate-solved
+        // one above) so a log can distinguish a real optical/mechanical shift from a mount
+        // reporting/sync quirk: if the two disagree, the mount thinks it's somewhere it isn't.
+        const SkyPoint mountCoord = mountCoords();
+
         // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
         // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
         qCDebug(KSTARS_EKOS_SCHEDULER) <<
-                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) %6 solved in %7s")
+                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) Mount (RA: %6 DE: %7) %8 solved in %9s")
                                        .arg(QString("%L1").arg(diffTotal, 0, 'f', 0),
                                             target.ra().toDMSString(),
                                             target.dec().toDMSString(),
                                             alignCoord.ra().toDMSString(),
                                             alignCoord.dec().toDMSString(),
+                                            mountCoord.ra().toDMSString(),
+                                            mountCoord.dec().toDMSString(),
                                             healpixString,
                                             QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
         Q_EMIT targetDistance(diffTotal);

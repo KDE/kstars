@@ -3568,7 +3568,7 @@
       </entry>
       <entry name="AlignCheckThreshold" type="Double">
          <label>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</label>
-         <default>30</default>
+         <default>10</default>
       </entry>
       <entry name="SchedulerTrackStep" type="Bool">
          <label>Default scheduler checkbox for starting mount tracking on job startup.</label>
