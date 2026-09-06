@@ -3291,7 +3291,10 @@ void SchedulerProcess::solverDone(bool timedOut, bool success, const FITSImage::
         alignCoord.setDec0(dec);
         alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
         alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        const double diffRa = (alignCoord.ra().deltaAngle(target.ra())).Degrees() * 3600;
+        // Scale the RA difference by cos(dec) to get the true angular (great-circle) separation.
+        // Lines of RA converge toward the poles, so a raw RA-coordinate difference overstates the
+        // actual on-sky separation more and more as declination increases.
+        const double diffRa = (alignCoord.ra().deltaAngle(target.ra())).Degrees() * 3600 * cos(target.dec().radians());
         const double diffDec = (alignCoord.dec().deltaAngle(target.dec())).Degrees() * 3600;
 
         // This is an approximation, probably ok for small angles.

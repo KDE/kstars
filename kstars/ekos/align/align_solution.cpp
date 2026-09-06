@@ -325,7 +325,11 @@ void Align::calculateAlignTargetDiff()
 {
     // Normal align: Target coords are destinations coords
     // JM 2025.09.17: Calculate anyway, we don't need to take any actions.
-    m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
+    // Scale the RA difference by cos(dec) to get the true angular (great-circle) separation.
+    // Lines of RA converge toward the poles, so a raw RA-coordinate difference overstates the
+    // actual on-sky separation more and more as declination increases.
+    m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600 *
+                      cos(m_TargetCoord.dec().radians());  // arcsec
     m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
 
     // Must update target coordinate horizontal coordinates.
@@ -345,7 +349,8 @@ void Align::calculateAlignTargetDiff()
     // Differential slewing: Target coords are new position coords
     if (Options::astrometryDifferentialSlewing())
     {
-        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra())).Degrees() * 3600;  // arcsec
+        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra())).Degrees() * 3600 *
+                          cos(m_DestinationCoord.dec().radians());  // arcsec
         m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec())).Degrees() * 3600;  // arcsec
         m_TargetDiffAZ = (m_AlignCoord.az().deltaAngle(m_DestinationCoord.az())).Degrees() * 3600;  // arcsec
         m_TargetDiffAL = (m_AlignCoord.alt().deltaAngle(m_DestinationCoord.alt())).Degrees() * 3600;  // arcsec
