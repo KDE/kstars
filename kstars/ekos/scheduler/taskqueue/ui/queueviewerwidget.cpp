@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -37,12 +38,12 @@ QueueViewerWidget::QueueViewerWidget(QWidget *parent)
 {
     // Set window flags to make this a standalone window
     setWindowFlags(Qt::Window);
-    setWindowTitle(i18n("Task Queue Viewer"));
 
     // Set reasonable initial size
     resize(800, 600);
 
     setupUI();
+    updateWindowTitle();
 }
 
 QueueViewerWidget::~QueueViewerWidget()
@@ -197,6 +198,7 @@ void QueueViewerWidget::setQueueManager(QueueManager *manager)
         connect(m_manager, &QueueManager::itemRemoved, this, &QueueViewerWidget::onItemRemoved);
         connect(m_manager, &QueueManager::itemMoved, this, &QueueViewerWidget::onItemMoved);
         connect(m_manager, &QueueManager::queueCleared, this, &QueueViewerWidget::onQueueCleared);
+        connect(m_manager, &QueueManager::queueLoaded, this, &QueueViewerWidget::onQueueLoaded);
         connect(m_manager, &QueueManager::stateChanged, this, &QueueViewerWidget::onStateChanged);
 
         refreshQueue();
@@ -504,8 +506,17 @@ void QueueViewerWidget::onItemMoved(int fromIndex, int toIndex)
 void QueueViewerWidget::onQueueCleared()
 {
     m_queueTable->setRowCount(0);
+    m_displayedSourcePath.clear();
     updateControls();
     setModified(true);
+}
+
+void QueueViewerWidget::onQueueLoaded(const QString &filePath, QueueManager::QueueSource source)
+{
+    const bool useAsSaveTarget = source == QueueManager::QueueFile;
+    setDisplayedSource(filePath, useAsSaveTarget);
+    refreshQueue();
+    setModified(!useAsSaveTarget);
 }
 
 void QueueViewerWidget::onStateChanged(QueueManager::QueueState state)
@@ -776,6 +787,7 @@ void QueueViewerWidget::onSaveQueue()
     {
         if (m_manager->saveQueue(m_lastQueueFilePath))
         {
+            setDisplayedSource(m_lastQueueFilePath, true);
             setModified(false);
         }
         else
@@ -825,9 +837,7 @@ void QueueViewerWidget::onSaveAsQueue()
 
     if (m_manager->saveQueue(filePath))
     {
-        // Remember the last used file path for next time
-        m_lastQueueFilePath = filePath;
-        // Mark as not modified after successful save
+        setDisplayedSource(filePath, true);
         setModified(false);
     }
     else
@@ -876,15 +886,7 @@ void QueueViewerWidget::onLoadQueue()
     if (filePath.isEmpty())
         return;
 
-    if (m_manager->loadQueue(filePath))
-    {
-        // Remember the last used file path for next time
-        m_lastQueueFilePath = filePath;
-        refreshQueue();
-        // Mark as not modified after successful load
-        setModified(false);
-    }
-    else
+    if (!m_manager->loadQueue(filePath))
     {
         QMessageBox::critical(this, i18n("Error"),
                               i18n("Failed to load queue from %1", filePath));
@@ -1043,6 +1045,8 @@ void QueueViewerWidget::loadCollectionFile(const QString &filePath)
 
     if (!message.isEmpty())
         QMessageBox::information(this, i18n("Collection Loaded"), message);
+
+    setDisplayedSource(filePath, false);
     refreshQueue();
 
     // Mark as modified after loading collection (user may want to save combined queue)
@@ -1052,17 +1056,43 @@ void QueueViewerWidget::loadCollectionFile(const QString &filePath)
 
 void QueueViewerWidget::setModified(bool modified)
 {
-    if (m_isModified == modified)
-        return;
+    if (m_isModified != modified)
+        m_isModified = modified;
 
-    m_isModified = modified;
+    updateWindowTitle();
+}
 
-    // Update window title to show modified state
+void QueueViewerWidget::setDisplayedSource(const QString &filePath, bool useAsSaveTarget)
+{
+    m_displayedSourcePath = filePath;
+
+    if (useAsSaveTarget)
+        m_lastQueueFilePath = filePath;
+    else
+        m_lastQueueFilePath.clear();
+
+    updateWindowTitle();
+}
+
+void QueueViewerWidget::updateWindowTitle()
+{
     QString title = i18n("Task Queue Viewer");
+
+    if (!m_displayedSourcePath.isEmpty())
+    {
+        title += i18n(" - %1", QFileInfo(m_displayedSourcePath).fileName());
+    }
+    else if (m_manager && m_manager->count() > 0)
+    {
+        // Scheduler-driven and collection-backed queues can have live content without a writable queue file.
+        title += i18n(" - Runtime Queue");
+    }
+
     if (m_isModified)
     {
         title += " *";
     }
+
     setWindowTitle(title);
 }
 
