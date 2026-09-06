@@ -12,4 +12,11 @@ ADD_CUSTOM_COMMAND( TARGET testschedulerunit POST_BUILD
 ADD_TEST( NAME SchedulerunitTest COMMAND testschedulerunit )
 SET_TESTS_PROPERTIES( SchedulerunitTest PROPERTIES LABELS "stable" TIMEOUT 600)
 
+SET( SchedulerTaskQueueExecutorTests_SRCS testtaskqueueexecutor.cpp  )
+
+ADD_EXECUTABLE( testtaskqueueexecutor testtaskqueueexecutor.cpp )
+TARGET_LINK_LIBRARIES( testtaskqueueexecutor ${TEST_LIBRARIES})
+ADD_TEST( NAME SchedulerTaskQueueExecutorTest COMMAND testtaskqueueexecutor )
+SET_TESTS_PROPERTIES( SchedulerTaskQueueExecutorTest PROPERTIES LABELS "stable" TIMEOUT 60)
+
 ENDIF ()
