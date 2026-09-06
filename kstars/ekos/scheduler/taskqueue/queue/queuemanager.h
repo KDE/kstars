@@ -9,8 +9,9 @@
 #include "queueitem.h"
 
 #include <QObject>
-#include <QString>
 #include <QList>
+#include <QPointer>
+#include <QString>
 
 namespace Ekos
 {
@@ -86,7 +87,7 @@ class QueueManager : public QObject
         // Current execution
         QueueItem *currentItem() const
         {
-            return m_currentItem;
+            return m_currentItem.data();
         }
         void setCurrentItem(QueueItem *item);
         int currentIndex() const;
@@ -141,8 +142,11 @@ class QueueManager : public QObject
         void itemsReset();
 
     private:
+        bool isExecutionLocked() const;
+        QueueState normalizedState(int stateValue) const;
+
         QList<QueueItem *> m_items;
-        QueueItem *m_currentItem = nullptr;
+        QPointer<QueueItem> m_currentItem;
         QueueState m_state = IDLE;
 
         // Helper method to create tasks from templates
