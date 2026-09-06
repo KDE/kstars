@@ -234,7 +234,7 @@
         {
             "id": "camera_warm_passive",
             "name": "Warm Camera (Passive)",
-            "description": "Warm camera by disabling cooling and waiting for the sensor to reach or exceed the target temperature",
+            "description": "Warm camera by disabling cooling and waiting for the sensor to reach or exceed a passive warm-up threshold",
             "version": "1.0",
             "category": "Camera",
             "supported_interfaces": [
@@ -244,12 +244,12 @@
                 {
                     "name": "target_temperature",
                     "type": "number",
-                    "default": 20,
+                    "default": -10,
                     "min": -10,
                     "max": 50,
                     "step": 1,
                     "unit": "°C",
-                    "description": "Target warming temperature (usually ambient)"
+                    "description": "Passive warm-up threshold below typical ambient temperature"
                 },
                 {
                     "name": "max_wait_time",
