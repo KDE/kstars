@@ -116,6 +116,22 @@ Task *QueueExecutor::taskForItem(QueueItem *item, const QString &context)
     return task;
 }
 
+void QueueExecutor::clearCurrentExecution()
+{
+    if (m_currentAction)
+        disconnect(m_currentAction, nullptr, this, nullptr);
+
+    if (m_currentItem)
+        disconnect(m_currentItem, nullptr, this, nullptr);
+
+    if (m_manager)
+        m_manager->setCurrentItem(nullptr);
+
+    m_currentItem = nullptr;
+    m_currentAction = nullptr;
+    m_currentActionIndex = -1;
+}
+
 bool QueueExecutor::start()
 {
     if (m_running)
@@ -233,9 +249,7 @@ void QueueExecutor::stop()
 
     m_running = false;
     m_paused = false;
-    m_currentItem = nullptr;
-    m_currentAction = nullptr;
-    m_currentActionIndex = -1;
+    clearCurrentExecution();
 
     m_manager->setState(QueueManager::IDLE);
     Q_EMIT stopped();
@@ -248,17 +262,23 @@ void QueueExecutor::abort()
 
     m_abortRequested = true;
 
-    // Stop current action if running
-    if (m_currentAction && m_currentAction->status() == TaskAction::Status::RUNNING)
-    {
-        // Action will handle abort in its own way
-        // We'll catch it in onActionStatusChanged
-    }
+    TaskAction *action = m_currentAction;
+    if (action)
+        disconnect(action, nullptr, this, nullptr);
+
+    if (m_currentItem)
+        disconnect(m_currentItem, nullptr, this, nullptr);
+
+    if (action && action->status() == TaskAction::Status::RUNNING)
+        action->abort();
+
+    m_running = false;
+    m_paused = false;
+    clearCurrentExecution();
 
     m_manager->setState(QueueManager::ABORTED);
     Q_EMIT aborted();
-
-    stop();
+    Q_EMIT stopped();
 }
 
 void QueueExecutor::executeNext()
@@ -336,7 +356,7 @@ void QueueExecutor::executeItem(QueueItem *item)
             item->setErrorMessage(errorMsg);
             item->setStatus(QueueItem::FAILED);
             emit itemFailed(item, errorMsg);
-            m_currentItem = nullptr;
+            clearCurrentExecution();
             executeNext();
             return;
         }
@@ -424,7 +444,7 @@ void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg
             item->setStatus(QueueItem::SKIPPED);
             item->setErrorMessage(errorMsg);
             // Skipped tasks are not failures; continue with the next pending queue item.
-            m_currentItem = nullptr;
+            clearCurrentExecution();
             executeNext();
             return;
 
@@ -440,7 +460,7 @@ void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg
             item->setErrorMessage(errorMsg);
             item->setStatus(QueueItem::FAILED);
             Q_EMIT itemFailed(item, errorMsg);
-            m_currentItem = nullptr;
+            clearCurrentExecution();
             executeNext();
             return;
     }
@@ -586,9 +606,7 @@ void QueueExecutor::handleItemCompletion(QueueItem *item)
     item->setStatus(QueueItem::COMPLETED);
     Q_EMIT itemCompleted(item);
 
-    m_currentItem = nullptr;
-    m_currentAction = nullptr;
-    m_currentActionIndex = -1;
+    clearCurrentExecution();
 
     // Continue to next item
     executeNext();
@@ -607,9 +625,7 @@ void QueueExecutor::handleItemFailure(QueueItem *item)
     item->setStatus(QueueItem::FAILED);
     Q_EMIT itemFailed(item, item->errorMessage());
 
-    m_currentItem = nullptr;
-    m_currentAction = nullptr;
-    m_currentActionIndex = -1;
+    clearCurrentExecution();
 
     // Stop queue execution on failure
     abort();
@@ -654,9 +670,7 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Failure action: Skipping to next task";
             // Skip remaining actions, move to next item
             m_currentItem->setStatus(QueueItem::SKIPPED);
-            m_currentItem = nullptr;
-            m_currentAction = nullptr;
-            m_currentActionIndex = -1;
+            clearCurrentExecution();
             executeNext();
             break;
     }
