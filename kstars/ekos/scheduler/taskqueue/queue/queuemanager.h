@@ -40,6 +40,13 @@ class QueueManager : public QObject
         };
         Q_ENUM(QueueState)
 
+        enum QueueSource
+        {
+            QueueFile,
+            CollectionFile
+        };
+        Q_ENUM(QueueSource)
+
         explicit QueueManager(QObject *parent = nullptr);
         ~QueueManager() override;
 
@@ -128,6 +135,7 @@ class QueueManager : public QObject
         void itemRemoved(QueueItem *item, int index);
         void itemMoved(int fromIndex, int toIndex);
         void queueCleared();
+        void queueLoaded(const QString &filePath, QueueSource source);
         void stateChanged(QueueState newState);
         void currentItemChanged(QueueItem *item);
         void itemsReset();
