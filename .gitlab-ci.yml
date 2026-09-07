@@ -169,7 +169,6 @@ flatpak-arm64:
 # download-only the .debs, which are then unpacked with dpkg-deb -x (also
 # root-free) into a private prefix added to CMAKE_PREFIX_PATH.
 kubuntu_2604_qt610:
-  extends: .kubuntu_2604_qt610
   allow_failure: true # TODO: remove once proven stable as sole path
   timeout: 3 hours
   needs:
