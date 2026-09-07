@@ -7,6 +7,8 @@
 #include "Options.h"
 #include "ksnotification.h"
 
+#include <ekos_align_debug.h>
+
 #include <KConfigDialog>
 #include <KMessageBox>
 #include <QFileDialog>
@@ -105,7 +107,7 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
             removeDirectoryFromList(indexLocations->currentText());
     });
 
-
+    logInstalledIndexFiles();
 }
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
@@ -588,6 +590,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             if (currentIndex == maxIndex)
             {
                 slotUpdate();
+                logInstalledIndexFiles();
             }
             else
                 downloadIndexFile(URL, fileN, indexSeriesName, currentIndex + 1, maxIndex, fileSize);
@@ -747,6 +750,7 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
                     }
                 }
                 slotUpdate();
+                logInstalledIndexFiles();
             }
             else
             {
@@ -782,6 +786,79 @@ QString OpsAstrometryIndexFiles::findFirstWritableDir()
     }
 
     return QString();
+}
+
+void OpsAstrometryIndexFiles::logInstalledIndexFiles()
+{
+    QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
+    if (astrometryDataDirs.isEmpty())
+    {
+        qCInfo(KSTARS_EKOS_ALIGN) << "Astrometry Index Files: No index file directories are configured.";
+        return;
+    }
+
+    const QStringList nameFilter("*.fits");
+    int totalSeriesFound = 0;
+
+    for (const QString &dirPath : astrometryDataDirs)
+    {
+        QDir directory(dirPath);
+        if (!directory.exists())
+        {
+            qCInfo(KSTARS_EKOS_ALIGN) << "Astrometry Index Files: Directory" << dirPath << "does not exist.";
+            continue;
+        }
+
+        QStringList indexList = directory.entryList(nameFilter, QDir::Files, QDir::Name);
+
+        // Group the individual .fits files by their index series (e.g. index-4207).
+        QMap<QString, QStringList> seriesFiles;
+        for (const QString &fileName : indexList)
+            seriesFiles[fileName.left(10)].append(fileName);
+
+        if (seriesFiles.isEmpty())
+        {
+            qCInfo(KSTARS_EKOS_ALIGN) << "Astrometry Index Files: Directory" << dirPath << "contains no index files.";
+            continue;
+        }
+
+        for (auto it = seriesFiles.constBegin(); it != seriesFiles.constEnd(); ++it)
+        {
+            const QString &series = it.key();
+            const QStringList &files = it.value();
+            const QString &sampleFile = files.first();
+
+            int expectedCount = indexFileCount(sampleFile);
+            bool complete = fileCountMatches(directory, sampleFile);
+
+            qint64 totalBytes = 0;
+            for (const QString &fileName : files)
+                totalBytes += QFileInfo(directory, fileName).size();
+
+            QString fovDescription = "Unknown FOV";
+            QString fileNumString = sampleFile.mid(8, 2);
+            if (astrometryIndex.values().contains(fileNumString))
+            {
+                float skymarkSize = astrometryIndex.key(fileNumString);
+                // Per slotUpdate(), an index is usable for FOVs between the skymark size
+                // and 10x the skymark size, and ideal for FOVs between ~1.1x and 2.5x it.
+                fovDescription = QString("Index Scale: %1' - Usable FOV: %2' - %3'")
+                                  .arg(QString::number(skymarkSize, 'f', 1),
+                                       QString::number(skymarkSize, 'f', 1),
+                                       QString::number(skymarkSize * 10.0, 'f', 1));
+            }
+
+            qCInfo(KSTARS_EKOS_ALIGN) << "Astrometry Index Files:" << dirPath << series
+                                       << QString("%1/%2 files").arg(files.count()).arg(expectedCount)
+                                       << QString("%1 MB").arg(QString::number(totalBytes / 1048576.0, 'f', 1))
+                                       << fovDescription
+                                       << (complete ? "Complete" : "Incomplete");
+            totalSeriesFound++;
+        }
+    }
+
+    qCInfo(KSTARS_EKOS_ALIGN) << QString("Astrometry Index Files: Found %1 index series across %2 configured director%3.")
+                               .arg(totalSeriesFound).arg(astrometryDataDirs.count()).arg(astrometryDataDirs.count() == 1 ? "y" : "ies");
 }
 
 void OpsAstrometryIndexFiles::installIndexFile(const QString &name)

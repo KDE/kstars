@@ -56,6 +56,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
         void disconnectDownload(QMetaObject::Connection *cancelConnection, QMetaObject::Connection *replyConnection,
                                 QMetaObject::Connection *percentConnection);
         QString findFirstWritableDir();
+        void logInstalledIndexFiles();
 
         KConfigDialog *m_ConfigDialog { nullptr };
         Align *alignModule { nullptr };
