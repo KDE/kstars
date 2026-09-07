@@ -90,9 +90,10 @@ different parameters, rather than only ever seeing the end result. Pass
 `"preview": false` in the payload to skip generating either — useful for a
 scripted batch of adjustments that only cares about the final result.
 `postprocess_save` never generates a preview (the working image didn't
-change). `postprocess_build_master` is the one exception that still sends
-only a single preview (see below) — it's a standalone, session-less
-one-shot op with no prior working-image state to show a "before" of.
+change). `postprocess_build_master` and `postprocess_stack` are the two
+exceptions that send only a single preview (see below) each — both are
+one-shot ops with no prior working-image state to show a "before" of
+(`build_master` is also session-less).
 
 **Previews are not embedded in the JSON response.** They're sent over the
 same binary `wsMedia` channel — and the same `+X` single-letter module-tag
@@ -100,15 +101,28 @@ convention — that Align/Focus/Guide/DarkLibrary previews already use
 (`+A`/`+F`/`+G`/`+D`). Postprocess previews use two tags: **`+PB`** (before
 the step) and **`+PA`** (after) — sent as two separate uploads, each
 producing its own `NEW_IMAGE_METADATA` push, so the client gets two
-independent fetchable URLs per command rather than one. `postprocess_build_master`,
-having no "before" to show, still uses the single `+P` tag on its own.
+independent fetchable URLs per command rather than one.
+`postprocess_build_master` and `postprocess_stack`, having no "before" to
+show, each get their own single standalone tag instead: `postprocess_build_master`
+uses `+P`, `postprocess_stack` uses `+PS` (both stack modes — per-channel and
+single-session). These two used to share the single `+P` tag on the
+reasoning that both are "a single preview with no before counterpart" —
+but that's the only thing distinguishing pushes on this channel, and
+neither `sessionId` nor the originating command is present on the
+`NEW_IMAGE_METADATA` push, so a client had no reliable way to tell a
+build_master preview and a stack preview apart. That mattered because they
+can legitimately race in time under ordinary usage — calibrate (one or
+more `build_master` calls) followed by stack, same session — so whichever
+`+P` arrived last would silently win, even if it was the calibration
+master's rather than the stack's. Each command now gets its own tag/cache
+slot so no such inference is needed.
 Server-side, any `uuid` starting with `+` is cached and served back as a
 timestamped URL via a `NEW_IMAGE_METADATA` message on the regular
 (non-binary) socket — see `Media::uploadPreview()` (`kstars/ekos/ekoslive/media.cpp`)
 on the KStars side and `wssMediaServerManager.js`'s generic
 `uuid.startsWith("+")` handling on the `ekoslive-offline` side, unchanged
-for these tags (the server has no per-tag special-casing — `+PB`/`+PA`
-work exactly as `+P` already did, just as two independent cache slots
+for these tags (the server has no per-tag special-casing — `+PB`/`+PA`/`+PS`
+work exactly as `+P` already did, just as independent cache slots
 instead of one). This was deliberately *not* embedded inline as base64 (an
 earlier version of this pipeline did that): every state update would
 otherwise carry a full image payload over the JSON socket, exactly what
@@ -130,7 +144,11 @@ that don't apply to a stacked/blended composite: `resolution` (`"WxH"`),
 `hasWCS` — built by `buildPreviewMetadata()` in `message.cpp` from the
 session's `FITSData`. `postprocess_build_master` has no `FITSData` wrapper
 for its freshly-built master, so it only attaches `resolution` and
-`channels`, read straight off the `cv::Mat`.
+`channels`, read straight off the `cv::Mat`. That shape difference (bare
+vs. `hasWCS`-bearing) is no longer needed to tell a `+P` push from a
+`postprocess_stack` push — they're on separate tags now — but it remains
+a usable fallback for a client that needs to distinguish metadata shape
+for some other reason.
 
 ## Asynchronous commands
 
@@ -276,6 +294,7 @@ per channel, each tagged `"sessionId": "<filter>"`.
 | `sharpenAmt` | double | `0.0` | Unsharp-mask amount |
 | `sharpenKernal` | int | `3` | Unsharp-mask kernel size (forced odd, minimum 3) |
 | `sharpenSigma` | double | `3.0` | Unsharp-mask Gaussian blur sigma |
+| `preview` | bool | `true` | Opt-out for the completion preview below, same convention as `build_master`/`crop`/`apply_*`. |
 
 Responses over the session's lifetime: immediately `{"state": "started"}`
 (or a directory/validation error); per-sub during stacking
@@ -283,7 +302,11 @@ Responses over the session's lifetime: immediately `{"state": "started"}`
 on completion, `{"state": "ready"}` (or `{"state": "cancelled"}` if
 `postprocess_stop` was called mid-stack, or `{"state": "error", "message": "..."}`
 if the stack finished but produced nothing usable — e.g. every sub failed
-calibration/alignment/plate-solving).
+calibration/alignment/plate-solving). On a non-cancelled `"ready"`, also sends
+a single completion preview over the `+PS` media channel (same mechanics as
+`build_master`'s `+P` — see "Preview images" above) unless `preview: false`
+was passed; applies to both Mode A (one `+PS` per channel, as each finishes)
+and Mode B.
 
 ### `postprocess_stop`
 

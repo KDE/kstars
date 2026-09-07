@@ -183,7 +183,8 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connect(m_Message, &Message::liveStackingActiveChanged, m_Media, &Media::setLiveStackingActive);
 
     // postprocess_* commands send their previews over the wsMedia binary channel
-    // (tagged "+P"), with image stats (resolution/channels/mean/...) attached as
+    // (tagged "+P" for build_master, "+PS" for stack, "+PB"/"+PA" for before/after
+    // edit-step pairs), with image stats (resolution/channels/mean/...) attached as
     // metadata — see buildPreviewMetadata() in message.cpp.
     connect(m_Message, &Message::postProcessPreviewReady, m_Media,
             [this](const QByteArray & jpeg, const QString & uuid, const QJsonObject & metadata)

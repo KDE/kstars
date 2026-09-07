@@ -3682,14 +3682,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             connect(session.data(), &StackController::stackReady, this, [this, filter, session, wantPreview](bool cancelled)
             {
                 // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
-                // build_master previews above — tagged "+P" (a standalone result, no
-                // "before" counterpart the way "+PB"/"+PA" pair up for an edit step).
+                // build_master previews above — tagged "+PS", its own slot distinct from
+                // build_master's "+P" (a standalone result, no "before" counterpart the
+                // way "+PB"/"+PA" pair up for an edit step, but sharing "+P" with
+                // build_master let a build_master preview and a stack preview from the
+                // same calibrate-then-stack session race on the same tag with no
+                // sessionId to break the tie).
                 if (!cancelled && wantPreview)
                 {
                     QString previewError;
                     const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
                     if (!jpeg.isEmpty())
-                        Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+                        Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PS"), buildPreviewMetadata(session->imageData()));
                 }
 
                 sendPostProcessState(
@@ -3831,14 +3835,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         connect(session.data(), &StackController::stackReady, this, [this, sessionId, session, wantPreview](bool cancelled)
         {
             // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
-            // build_master previews above — tagged "+P" (a standalone result, no
-            // "before" counterpart the way "+PB"/"+PA" pair up for an edit step).
+            // build_master previews above — tagged "+PS", its own slot distinct from
+            // build_master's "+P" (a standalone result, no "before" counterpart the way
+            // "+PB"/"+PA" pair up for an edit step, but sharing "+P" with build_master
+            // let a build_master preview and a stack preview from the same
+            // calibrate-then-stack session race on the same tag with no sessionId to
+            // break the tie).
             if (!cancelled && wantPreview)
             {
                 QString previewError;
                 const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
                 if (!jpeg.isEmpty())
-                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PS"), buildPreviewMetadata(session->imageData()));
             }
 
             sendPostProcessState(
