@@ -3609,6 +3609,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
+        // Opt-out via "preview": false, same convention as build_master/crop/apply_*.
+        const bool wantPreview = payload["preview"].toBool(true);
+
         QJsonArray startedSessions;
         for (const auto &value : channels)
         {
@@ -3676,8 +3679,19 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 params.masterFlat = QVector<QString> {masterFlat};
 
             auto session = QSharedPointer<StackController>::create(this);
-            connect(session.data(), &StackController::stackReady, this, [this, filter](bool cancelled)
+            connect(session.data(), &StackController::stackReady, this, [this, filter, session, wantPreview](bool cancelled)
             {
+                // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
+                // build_master previews above — tagged "+P" (a standalone result, no
+                // "before" counterpart the way "+PB"/"+PA" pair up for an edit step).
+                if (!cancelled && wantPreview)
+                {
+                    QString previewError;
+                    const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+                    if (!jpeg.isEmpty())
+                        Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+                }
+
                 sendPostProcessState(
                 QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", filter}});
             });
@@ -3809,10 +3823,24 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         params.masterDark = resolveMasterPaths("masterDarkPaths", "masterDarkPath");
         params.masterFlat = resolveMasterPaths("masterFlatPaths", "masterFlatPath");
 
+        // Opt-out via "preview": false, same convention as build_master/crop/apply_*.
+        const bool wantPreview = payload["preview"].toBool(true);
+
         const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
         auto session = QSharedPointer<StackController>::create(this);
-        connect(session.data(), &StackController::stackReady, this, [this, sessionId](bool cancelled)
+        connect(session.data(), &StackController::stackReady, this, [this, sessionId, session, wantPreview](bool cancelled)
         {
+            // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
+            // build_master previews above — tagged "+P" (a standalone result, no
+            // "before" counterpart the way "+PB"/"+PA" pair up for an edit step).
+            if (!cancelled && wantPreview)
+            {
+                QString previewError;
+                const QByteArray jpeg = session->getPreviewJpegBytes(previewError);
+                if (!jpeg.isEmpty())
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+P"), buildPreviewMetadata(session->imageData()));
+            }
+
             sendPostProcessState(
             QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}});
         });
