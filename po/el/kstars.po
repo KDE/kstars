@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-06 02:48+0000\n"
+"POT-Creation-Date: 2026-09-07 02:19+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -499,14 +499,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Αποθήκευση όλων των εικόνων"
 
-#: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:438
+#: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
 #: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ένα αρχείο με το όνομα \"%1\" υπάρχει ήδη. Να αντικατασταθεί;"
 
-#: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:441
+#: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
 #: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
@@ -801,7 +801,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3720
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3731
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -2786,7 +2786,7 @@ msgstr ""
 "Το URL δεν είναι έγκυρο. Επιθυμείτε να ανοίξετε ένα παράθυρο περιήγησης\n"
 "στη μηχανή αναζήτησης του Google;"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:449
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:454
 #: ekos/align/mountmodel.cpp:281 ekos/align/mountmodel.cpp:407
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2229
@@ -6492,7 +6492,7 @@ msgstr ""
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1508 ekos/manager.cpp:2468 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
-#: ekos/scheduler/schedulerprocess.cpp:3631
+#: ekos/scheduler/schedulerprocess.cpp:3641
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -7375,14 +7375,14 @@ msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πε�
 msgid "Clear Solution Points"
 msgstr "Καθαρισμός όλων των ιχνών τροχιάς"
 
-#: ekos/align/align_solution.cpp:425
+#: ekos/align/align_solution.cpp:430
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Καθαρισμός όλων των ιχνών τροχιάς"
 
-#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:280
+#: ekos/align/align_solution.cpp:453 ekos/align/mountmodel.cpp:280
 #: ekos/align/mountmodel.cpp:406 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2338
@@ -7392,22 +7392,22 @@ msgstr "Καθαρισμός όλων των ιχνών τροχιάς"
 msgid "Invalid URL: %1"
 msgstr "Μη έγκυρο URL: %1"
 
-#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:417
+#: ekos/align/align_solution.cpp:462 ekos/align/mountmodel.cpp:417
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
 #: ekos/scheduler/schedulerprocess.cpp:2984
-#: ekos/scheduler/schedulerprocess.cpp:4594
+#: ekos/scheduler/schedulerprocess.cpp:4604
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:300
+#: ekos/align/align_solution.cpp:463 ekos/align/mountmodel.cpp:300
 #: ekos/align/mountmodel.cpp:418 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2651 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2985
-#: ekos/scheduler/schedulerprocess.cpp:3454
-#: ekos/scheduler/schedulerprocess.cpp:4595
-#: ekos/scheduler/schedulerprocess.cpp:4615 indi/drivermanager.cpp:1589
+#: ekos/scheduler/schedulerprocess.cpp:3464
+#: ekos/scheduler/schedulerprocess.cpp:4605
+#: ekos/scheduler/schedulerprocess.cpp:4625 indi/drivermanager.cpp:1589
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
@@ -7421,19 +7421,19 @@ msgstr "Αδυναμία αποθήκευσης της εικόνας: %1 "
 msgid "Could Not Open File"
 msgstr "Αδυναμία ανοίγματος του αρχείου"
 
-#: ekos/align/align_solution.cpp:479
+#: ekos/align/align_solution.cpp:484
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Σφάλματα σε γραμμές"
 
-#: ekos/align/align_solution.cpp:488
+#: ekos/align/align_solution.cpp:493
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Οριζόντιες συντεταγμένες"
 
-#: ekos/align/align_solution.cpp:552
+#: ekos/align/align_solution.cpp:557
 #, fuzzy, kde-format
 #| msgid "Align"
 msgctxt "@title:window"
@@ -7839,8 +7839,8 @@ msgstr "Ουρά ακολουθίας"
 
 #: ekos/align/mountmodel.cpp:299 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2650 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3453
-#: ekos/scheduler/schedulerprocess.cpp:4614
+#: ekos/scheduler/schedulerprocess.cpp:3463
+#: ekos/scheduler/schedulerprocess.cpp:4624
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -19124,12 +19124,12 @@ msgstr "Μολίν"
 msgid "Offline"
 msgstr "Μολίν"
 
-#: ekos/ekoslive/message.cpp:874
+#: ekos/ekoslive/message.cpp:875
 #, fuzzy, kde-format
 msgid "target"
 msgstr "Σάρτζεντ"
 
-#: ekos/ekoslive/message.cpp:1201
+#: ekos/ekoslive/message.cpp:1202
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -31216,7 +31216,7 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2449
-#: ekos/scheduler/schedulerprocess.cpp:3540
+#: ekos/scheduler/schedulerprocess.cpp:3550
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -32734,7 +32734,7 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:2752
-#: ekos/scheduler/schedulerprocess.cpp:3699
+#: ekos/scheduler/schedulerprocess.cpp:3709
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
@@ -32761,7 +32761,7 @@ msgid ""
 msgstr "Στοίχιση"
 
 #: ekos/scheduler/schedulerprocess.cpp:2861
-#: ekos/scheduler/schedulerprocess.cpp:3772
+#: ekos/scheduler/schedulerprocess.cpp:3782
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
@@ -32805,143 +32805,143 @@ msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 msgid "Solver failed: %1s %2"
 msgstr "Χωρίς FOV"
 
-#: ekos/scheduler/schedulerprocess.cpp:3316
+#: ekos/scheduler/schedulerprocess.cpp:3326
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3328
+#: ekos/scheduler/schedulerprocess.cpp:3338
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:3336
+#: ekos/scheduler/schedulerprocess.cpp:3346
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post-startup queue completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:3343
+#: ekos/scheduler/schedulerprocess.cpp:3353
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3359
+#: ekos/scheduler/schedulerprocess.cpp:3369
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Pre-shutdown queue completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:3390
+#: ekos/scheduler/schedulerprocess.cpp:3400
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post-shutdown queue completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:3411
+#: ekos/scheduler/schedulerprocess.cpp:3421
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Startup queue failed: %1"
 msgstr "Χωρίς FOV"
 
-#: ekos/scheduler/schedulerprocess.cpp:3418
+#: ekos/scheduler/schedulerprocess.cpp:3428
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Pre-shutdown queue failed: %1"
 msgstr "Χωρίς FOV"
 
-#: ekos/scheduler/schedulerprocess.cpp:3425
+#: ekos/scheduler/schedulerprocess.cpp:3435
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3437
+#: ekos/scheduler/schedulerprocess.cpp:3447
 #, kde-format
 msgid "Warning: task failed during job '%1': %2. Marking job aborted."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3503
+#: ekos/scheduler/schedulerprocess.cpp:3513
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3504
+#: ekos/scheduler/schedulerprocess.cpp:3514
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3506
-#: ekos/scheduler/schedulerprocess.cpp:3518
+#: ekos/scheduler/schedulerprocess.cpp:3516
+#: ekos/scheduler/schedulerprocess.cpp:3528
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Select optical train"
 msgstr "Ορατό"
 
-#: ekos/scheduler/schedulerprocess.cpp:3515
+#: ekos/scheduler/schedulerprocess.cpp:3525
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3665
+#: ekos/scheduler/schedulerprocess.cpp:3675
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Job '%1' alignment is complete."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:3684
+#: ekos/scheduler/schedulerprocess.cpp:3694
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Warning: job '%1' alignment failed."
 msgstr "Στοίχιση"
 
-#: ekos/scheduler/schedulerprocess.cpp:3690
+#: ekos/scheduler/schedulerprocess.cpp:3700
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3694
-#: ekos/scheduler/schedulerprocess.cpp:3760
+#: ekos/scheduler/schedulerprocess.cpp:3704
+#: ekos/scheduler/schedulerprocess.cpp:3770
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting %1 alignment procedure..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3730
+#: ekos/scheduler/schedulerprocess.cpp:3740
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' guiding is in progress."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3744
+#: ekos/scheduler/schedulerprocess.cpp:3754
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' guiding failed."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3746
+#: ekos/scheduler/schedulerprocess.cpp:3756
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Warning: job '%1' calibration failed."
 msgstr "Βαθμονόμηση"
 
-#: ekos/scheduler/schedulerprocess.cpp:3765
+#: ekos/scheduler/schedulerprocess.cpp:3775
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3818
+#: ekos/scheduler/schedulerprocess.cpp:3828
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:3836
+#: ekos/scheduler/schedulerprocess.cpp:3846
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid ""
@@ -32949,136 +32949,136 @@ msgid ""
 "of %4)."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3845
+#: ekos/scheduler/schedulerprocess.cpp:3855
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:3851
+#: ekos/scheduler/schedulerprocess.cpp:3861
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:3864
+#: ekos/scheduler/schedulerprocess.cpp:3874
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3870
+#: ekos/scheduler/schedulerprocess.cpp:3880
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3878
+#: ekos/scheduler/schedulerprocess.cpp:3888
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3954
+#: ekos/scheduler/schedulerprocess.cpp:3964
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3966
+#: ekos/scheduler/schedulerprocess.cpp:3976
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' focusing failed."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3970
+#: ekos/scheduler/schedulerprocess.cpp:3980
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3975
+#: ekos/scheduler/schedulerprocess.cpp:3985
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr "Στοίχιση"
 
-#: ekos/scheduler/schedulerprocess.cpp:4008
+#: ekos/scheduler/schedulerprocess.cpp:4018
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' slew is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:4014
+#: ekos/scheduler/schedulerprocess.cpp:4024
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4020
+#: ekos/scheduler/schedulerprocess.cpp:4030
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:4033
+#: ekos/scheduler/schedulerprocess.cpp:4043
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:4039
+#: ekos/scheduler/schedulerprocess.cpp:4049
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4045
+#: ekos/scheduler/schedulerprocess.cpp:4055
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:4059
-#: ekos/scheduler/schedulerprocess.cpp:4070
+#: ekos/scheduler/schedulerprocess.cpp:4069
+#: ekos/scheduler/schedulerprocess.cpp:4080
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4136
+#: ekos/scheduler/schedulerprocess.cpp:4146
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Safety has improved. Resuming operations."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4159
+#: ekos/scheduler/schedulerprocess.cpp:4169
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4187
+#: ekos/scheduler/schedulerprocess.cpp:4197
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown. Monitoring weather indefinitely "
 "until safety improves."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4189
+#: ekos/scheduler/schedulerprocess.cpp:4199
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4217
+#: ekos/scheduler/schedulerprocess.cpp:4227
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:4223
+#: ekos/scheduler/schedulerprocess.cpp:4233
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4384
+#: ekos/scheduler/schedulerprocess.cpp:4394
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
@@ -33086,29 +33086,29 @@ msgid ""
 "ready..."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:4705
+#: ekos/scheduler/schedulerprocess.cpp:4715
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:4795
+#: ekos/scheduler/schedulerprocess.cpp:4805
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4833
+#: ekos/scheduler/schedulerprocess.cpp:4843
 #, kde-format
 msgid "Unknown error occurred during startup queue execution."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4836
+#: ekos/scheduler/schedulerprocess.cpp:4846
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Startup Queue Failed"
 msgstr "Χωρίς FOV"
 
-#: ekos/scheduler/schedulerprocess.cpp:4837
+#: ekos/scheduler/schedulerprocess.cpp:4847
 #, kde-format
 msgid ""
 "The scheduler startup queue has failed:\n"
@@ -34448,242 +34448,242 @@ msgstr "Περιγραφή"
 msgid "Object Type Comments"
 msgstr "Τύπος αντικειμένου"
 
-#: fitsviewer/fitsdata.cpp:2664
+#: fitsviewer/fitsdata.cpp:2675
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:2673
+#: fitsviewer/fitsdata.cpp:2684
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2703
+#: fitsviewer/fitsdata.cpp:2714
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:2718
+#: fitsviewer/fitsdata.cpp:2729
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:2732
+#: fitsviewer/fitsdata.cpp:2743
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: fitsviewer/fitsdata.cpp:2742
+#: fitsviewer/fitsdata.cpp:2753
 #, fuzzy, kde-format
 #| msgid "FITS file open error (fits_get_img_param): %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Σφάλμα ανοίγματος αρχείου FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2756
+#: fitsviewer/fitsdata.cpp:2767
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "To KStars δεν υποστηρίζει εικόνες FITS 1D."
 
-#: fitsviewer/fitsdata.cpp:2804 fitsviewer/fitsdata.cpp:3549
+#: fitsviewer/fitsdata.cpp:2815 fitsviewer/fitsdata.cpp:3560
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2814
+#: fitsviewer/fitsdata.cpp:2825
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2868
+#: fitsviewer/fitsdata.cpp:2879
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:3275 fitsviewer/fitsdata.cpp:3509
+#: fitsviewer/fitsdata.cpp:3286 fitsviewer/fitsdata.cpp:3520
 #, fuzzy, kde-format
 msgid "XISF file open error: "
 msgstr "Εγγραφή ορίων σημειώσεων"
 
-#: fitsviewer/fitsdata.cpp:3423
+#: fitsviewer/fitsdata.cpp:3434
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "Αποτυχία φόρτωσης της εικόνας"
 
-#: fitsviewer/fitsdata.cpp:3452
+#: fitsviewer/fitsdata.cpp:3463
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Sample format %1 is not supported."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: fitsviewer/fitsdata.cpp:3587
+#: fitsviewer/fitsdata.cpp:3598
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:3679 fitsviewer/fitsdata.cpp:3795
+#: fitsviewer/fitsdata.cpp:3690 fitsviewer/fitsdata.cpp:3806
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3734
+#: fitsviewer/fitsdata.cpp:3745
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "Αδύνατο το άνοιγμα του αρχείου: %1"
 
-#: fitsviewer/fitsdata.cpp:3747
+#: fitsviewer/fitsdata.cpp:3758
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "Αδύνατο το άνοιγμα του αρχείου: %1"
 
-#: fitsviewer/fitsdata.cpp:3758
+#: fitsviewer/fitsdata.cpp:3769
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3765
+#: fitsviewer/fitsdata.cpp:3776
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Αδυναμία εγγραφής στο αρχείο καταγραφής χρήστη"
 
-#: fitsviewer/fitsdata.cpp:3773
+#: fitsviewer/fitsdata.cpp:3784
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3920
+#: fitsviewer/fitsdata.cpp:3931
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Saving compressed files is not supported."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: fitsviewer/fitsdata.cpp:3984
+#: fitsviewer/fitsdata.cpp:3995
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: fitsviewer/fitsdata.cpp:4006
+#: fitsviewer/fitsdata.cpp:4017
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "Αποτυχία φόρτωσης της εικόνας στο %1"
 
-#: fitsviewer/fitsdata.cpp:4015 fitsviewer/fitsdata.cpp:4022
+#: fitsviewer/fitsdata.cpp:4026 fitsviewer/fitsdata.cpp:4033
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to update key: %1"
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: fitsviewer/fitsdata.cpp:4150
+#: fitsviewer/fitsdata.cpp:4161
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "Αποτυχία φόρτωσης της εικόνας στο %1"
 
-#: fitsviewer/fitsdata.cpp:4159
+#: fitsviewer/fitsdata.cpp:4170
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to update history: %1"
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: fitsviewer/fitsdata.cpp:4181
+#: fitsviewer/fitsdata.cpp:4192
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "Αποτυχία φόρτωσης της εικόνας στο %1"
 
-#: fitsviewer/fitsdata.cpp:5957 fitsviewer/fitsdata.cpp:5968
-#: fitsviewer/fitsdata.cpp:6005 fitsviewer/fitsdata.cpp:6041
-#: fitsviewer/fitsdata.cpp:6175
+#: fitsviewer/fitsdata.cpp:5968 fitsviewer/fitsdata.cpp:5979
+#: fitsviewer/fitsdata.cpp:6016 fitsviewer/fitsdata.cpp:6052
+#: fitsviewer/fitsdata.cpp:6186
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "Χρήση οριζόντιου συστήματος συντεταγμένων;"
 
-#: fitsviewer/fitsdata.cpp:6425 fitsviewer/fitsdata.cpp:6531
+#: fitsviewer/fitsdata.cpp:6436 fitsviewer/fitsdata.cpp:6542
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error querying Simbad"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: fitsviewer/fitsdata.cpp:6440
+#: fitsviewer/fitsdata.cpp:6451
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Simbad query timed out"
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: fitsviewer/fitsdata.cpp:7417 fitsviewer/fitsdata.cpp:7530
+#: fitsviewer/fitsdata.cpp:7428 fitsviewer/fitsdata.cpp:7541
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7425 fitsviewer/fitsdata.cpp:7536
+#: fitsviewer/fitsdata.cpp:7436 fitsviewer/fitsdata.cpp:7547
 #, fuzzy, kde-format
 #| msgid "Unknown planet "
 msgid "Unknown bayer pattern %1"
 msgstr "Άγνωστος πλανήτης"
 
-#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7475
+#: fitsviewer/fitsdata.cpp:7460 fitsviewer/fitsdata.cpp:7486
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7483
+#: fitsviewer/fitsdata.cpp:7494
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7494 fitsviewer/fitsdata.cpp:7547
+#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Παράμετροι εισόδου"
 
-#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
+#: fitsviewer/fitsdata.cpp:7516 fitsviewer/fitsdata.cpp:7569
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Παράμετροι εισόδου"
 
-#: fitsviewer/fitsdata.cpp:7514 fitsviewer/fitsdata.cpp:7567
+#: fitsviewer/fitsdata.cpp:7525 fitsviewer/fitsdata.cpp:7578
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Invalid debayer engine"
 msgstr "Μη έγκυρο όνομα αρχείου"
 
-#: fitsviewer/fitsdata.cpp:7821
+#: fitsviewer/fitsdata.cpp:7832
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7837 fitsviewer/fitsdata.cpp:7883
-#: fitsviewer/fitsdata.cpp:7941 fitsviewer/fitsdata.cpp:7987
+#: fitsviewer/fitsdata.cpp:7848 fitsviewer/fitsdata.cpp:7894
+#: fitsviewer/fitsdata.cpp:7952 fitsviewer/fitsdata.cpp:7998
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7847 fitsviewer/fitsdata.cpp:7951
+#: fitsviewer/fitsdata.cpp:7858 fitsviewer/fitsdata.cpp:7962
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7866 fitsviewer/fitsdata.cpp:7970
+#: fitsviewer/fitsdata.cpp:7877 fitsviewer/fitsdata.cpp:7981
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7926
+#: fitsviewer/fitsdata.cpp:7937
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
