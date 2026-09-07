@@ -75,6 +75,7 @@ class ProfileEditor : public QDialog
     private:
         QIcon getIconForFamily(DeviceFamily family);
         QString getTooltip(const QSharedPointer<DriverInfo> &driver);
+        bool isDriverLocallyAvailable(const QSharedPointer<DriverInfo> &driver) const;
         void scanIP(const QString &ip);
         void clearAllRequests();
 

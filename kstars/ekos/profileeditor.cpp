@@ -22,6 +22,9 @@
 #include <QDesktopServices>
 #include <QStandardItemModel>
 #include <QStringListModel>
+#include <QFont>
+#include <QBrush>
+#include <QColor>
 
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
@@ -331,15 +334,21 @@ void ProfileEditor::setPi(const QSharedPointer<ProfileInfo> &newProfile)
     updateDriverCount();
 }
 
+bool ProfileEditor::isDriverLocallyAvailable(const QSharedPointer<DriverInfo> &driver) const
+{
+    if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+        return driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+
+    return false;
+}
+
 QString ProfileEditor::getTooltip(const QSharedPointer<DriverInfo> &driver)
 {
-    bool locallyAvailable = false;
-    if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-        locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
     QString toolTipText;
-    if (!locallyAvailable)
+    if (!isDriverLocallyAvailable(driver))
         toolTipText = i18n(
-                          "<nobr>Available as <b>Remote</b> Driver. To use locally, install the corresponding driver.<nobr/>");
+                          "<nobr>Available as <b>Remote</b> Driver only. It is not installed locally and cannot be used in a "
+                          "<b>Local</b> profile. To use it locally, install the corresponding driver.<nobr/>");
     else
         toolTipText = i18n("<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>",
                            driver->getLabel(), driver->getName(), driver->getExecutable());
@@ -356,6 +365,11 @@ void ProfileEditor::loadDrivers()
 
     for (QSharedPointer<DriverInfo> driver : DriverManager::Instance()->getDrivers())
     {
+        // Skip entries without a label (e.g. manually-added Host client connections),
+        // which are not installable drivers and would otherwise leave behind empty groups.
+        if (driver->getLabel().isEmpty())
+            continue;
+
         categorizedDrivers[driver->getType()][driver->manufacturer()] << driver;
     }
 
@@ -373,11 +387,23 @@ void ProfileEditor::loadDrivers()
 
             for (const QSharedPointer<DriverInfo> &driver : it2.value())
             {
-                if (driver->getLabel().isEmpty())
-                    continue;
                 QStandardItem *driverItem = new QStandardItem(driver->getLabel());
                 driverItem->setToolTip(getTooltip(driver));
                 driverItem->setEditable(false);
+
+                const bool locallyAvailable = isDriverLocallyAvailable(driver);
+                driverItem->setData(locallyAvailable, Qt::UserRole + 1);
+
+                if (!locallyAvailable)
+                {
+                    // Distinguish remote-only drivers that cannot run in a Local profile.
+                    QFont italicFont = driverItem->font();
+                    italicFont.setItalic(true);
+                    driverItem->setFont(italicFont);
+                    driverItem->setForeground(QBrush(QColor(Qt::gray)));
+                    driverItem->setIcon(QIcon(":/icons/cloud-online.svg"));
+                }
+
                 manufacturerItem->appendRow(driverItem);
             }
         }
@@ -620,13 +646,21 @@ void ProfileEditor::addDriver(const QModelIndex &index)
     }
 
     QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(driverLabel);
-    if (driverInfo)
+    if (!driverInfo)
+        return;
+
+    if (ui->localMode->isChecked() && !isDriverLocallyAvailable(driverInfo))
     {
-        QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverLabel);
-        item->setEditable(false);
-        profileDriversModel->appendRow(item);
-        profileDriversModel->sort(0);
+        KSNotification::error(i18n("<b>%1</b> is only available as a <b>Remote</b> driver and is not installed "
+                                    "locally. It cannot be added to a Local profile. Switch to a Remote profile "
+                                    "or install the driver locally.", driverLabel));
+        return;
     }
+
+    QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverLabel);
+    item->setEditable(false);
+    profileDriversModel->appendRow(item);
+    profileDriversModel->sort(0);
 }
 
 void ProfileEditor::addDriver()
