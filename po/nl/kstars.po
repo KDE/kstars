@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-07 02:19+0000\n"
-"PO-Revision-Date: 2026-09-05 14:44+0200\n"
+"POT-Creation-Date: 2026-09-08 02:16+0000\n"
+"PO-Revision-Date: 2026-09-07 13:33+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -589,17 +589,17 @@ msgstr "Annuleren"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
-#: ekos/align/opsastrometryindexfiles.cpp:161
-#: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:513
-#: ekos/align/opsastrometryindexfiles.cpp:551
-#: ekos/align/opsastrometryindexfiles.cpp:565
-#: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:652
-#: ekos/align/opsastrometryindexfiles.cpp:722
-#: ekos/align/opsastrometryindexfiles.cpp:743
-#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
+#: ekos/align/opsastrometryindexfiles.cpp:163
+#: ekos/align/opsastrometryindexfiles.cpp:187
+#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:515
+#: ekos/align/opsastrometryindexfiles.cpp:553
+#: ekos/align/opsastrometryindexfiles.cpp:567
+#: ekos/align/opsastrometryindexfiles.cpp:587
+#: ekos/align/opsastrometryindexfiles.cpp:655
+#: ekos/align/opsastrometryindexfiles.cpp:725
+#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:757 ekos/capture/sequencejob.cpp:36
 #: ekos/manager.cpp:1599 ekos/manager.cpp:1614 ekos/manager.cpp:1630
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
@@ -620,7 +620,7 @@ msgid "Error"
 msgstr "Fout"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:659
+#: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -2477,7 +2477,7 @@ msgstr "Onbekend"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:313
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8967,24 +8967,24 @@ msgstr ""
 msgid "Use differential slewing instead of syncing"
 msgstr "Gebruik differentieel draaien in plaats van syncen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:161
+#: ekos/align/opsastrometryindexfiles.cpp:163
 #, kde-format
 msgid "No index file directories configured."
 msgstr "Geen mappen voor indexbestanden geconfigureerd."
 
-#: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:187
+#: ekos/align/opsastrometryindexfiles.cpp:655
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Geen beschrijfbare map voor indexbestand gevonden."
 
-#: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:725
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Geen verbinding met de indexserver van Astrometry."
 
-#: ekos/align/opsastrometryindexfiles.cpp:268
+#: ekos/align/opsastrometryindexfiles.cpp:270
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8992,40 +8992,40 @@ msgstr ""
 "Downloads stop gezet, dit is geen map, maar een lijst van alle "
 "indexbestanden."
 
-#: ekos/align/opsastrometryindexfiles.cpp:278
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr "Downloads aangezet, de map bestaat en is schrijfbaar."
 
-#: ekos/align/opsastrometryindexfiles.cpp:280
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr "Downloads uitgezet, probleem met permissies tot de map."
 
-#: ekos/align/opsastrometryindexfiles.cpp:282
+#: ekos/align/opsastrometryindexfiles.cpp:284
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "Downloads uitgezet, map bestaat niet."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:331
-#: ekos/align/opsastrometryindexfiles.cpp:336
-#: ekos/align/opsastrometryindexfiles.cpp:341
+#: ekos/align/opsastrometryindexfiles.cpp:333
+#: ekos/align/opsastrometryindexfiles.cpp:338
+#: ekos/align/opsastrometryindexfiles.cpp:343
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Vereist"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:349
-#: ekos/align/opsastrometryindexfiles.cpp:354
-#: ekos/align/opsastrometryindexfiles.cpp:359
+#: ekos/align/opsastrometryindexfiles.cpp:351
+#: ekos/align/opsastrometryindexfiles.cpp:356
+#: ekos/align/opsastrometryindexfiles.cpp:361
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Aanbevolen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:512
+#: ekos/align/opsastrometryindexfiles.cpp:514
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -9034,28 +9034,28 @@ msgstr ""
 "Download duurt te lang. Of het netwerk is niet snel genoeg, of het bestand "
 "is ontoegankelijk, of er is geen verbinding."
 
-#: ekos/align/opsastrometryindexfiles.cpp:530
+#: ekos/align/opsastrometryindexfiles.cpp:532
 #, kde-format
 msgid "%1 download cancelled."
 msgstr "%1 download geannuleerd."
 
-#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:567
 #, kde-format
 msgid "File Write Error"
 msgstr "Schrijffout bestand"
 
-#: ekos/align/opsastrometryindexfiles.cpp:579
+#: ekos/align/opsastrometryindexfiles.cpp:581
 #, kde-format
 msgid "%1 download complete."
 msgstr "%1 download voltooid."
 
-#: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:753
+#: ekos/align/opsastrometryindexfiles.cpp:587
+#: ekos/align/opsastrometryindexfiles.cpp:757
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Fout met permissies map Astrometry"
 
-#: ekos/align/opsastrometryindexfiles.cpp:659
+#: ekos/align/opsastrometryindexfiles.cpp:662
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -9064,7 +9064,7 @@ msgstr ""
 "De geselecteerde map voor het indexbestand bestaat niet. Maak het aan of "
 "kies een andere map."
 
-#: ekos/align/opsastrometryindexfiles.cpp:678
+#: ekos/align/opsastrometryindexfiles.cpp:681
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -9073,22 +9073,22 @@ msgstr ""
 "Het bestand %1 is reeds aanwezig in een andere map. Wilt u het echt ook naar "
 "deze map downloaden?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:680
+#: ekos/align/opsastrometryindexfiles.cpp:683
 #, kde-format
 msgid "Install File(s)"
 msgstr "Bestand(en) installeren"
 
-#: ekos/align/opsastrometryindexfiles.cpp:728
+#: ekos/align/opsastrometryindexfiles.cpp:731
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Wilt u deze indexbestanden werkelijk wissen? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:729
+#: ekos/align/opsastrometryindexfiles.cpp:732
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Bestand(en) wissen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "File Delete Error"
 msgstr "Fout wissen bestand"
@@ -13959,7 +13959,7 @@ msgstr "Poort"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:488
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:373
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13970,7 +13970,7 @@ msgstr "Verbinden"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:414
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:415
 #: ekos/guide/guide.ui:439 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -15754,89 +15754,7 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1861
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %f</span> or <span style=\" font-weight:704;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %D</span> or <span style=\" font-weight:704;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:704;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %T</span> or <span style=\" font-weight:704;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %e</span> or <span style=\" font-weight:704;\">%exposure</span>: The "
-#| "exposure duration in seconds, with '_secs' as suffix.</li><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %E</span> or "
-#| "<span style=\" font-weight:704;\">%exp</span>: The exposure duration in "
-#| "seconds as plain number, without any unit as suffix.</li></ul><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Placeholder<span style=\" font-"
-#| "weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
-#| "span>: The active filter name.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %t</span> or "
-#| "<span style=\" font-weight:704;\">%target</span>: The Target name.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder "
-#| "<span style=\" font-weight:600;\">%C</span> or <span style=\" font-"
-#| "weight:600;\">%temperature</span>: The camera temperature of capturing.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%B</"
-#| "span> or <span style=\" font-weight:600;\">%bin</span>: The binning "
-#| "configured for capturing.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder <span style=\" font-weight:600;\">%G</span> or "
-#| "<span style=\" font-weight:600;\">%gain</span>: The gain configured for "
-#| "capturing.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%O</span> or <span style="
-#| "\" font-weight:600;\">%offset</span>: The offset configured for capturing."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%I</"
-#| "span> or <span style=\" font-weight:600;\">%iso</span>: The ISO value "
-#| "(DSLRs only).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%P</span> or <span style="
-#| "\" font-weight:600;\">%pierside</span>: The current mount's pier side.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%H</"
-#| "span> or <span style=\" font-weight:600;\">%hostname</span>: The hostname "
-#| "running EKOS.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder<span style=\" font-weight:704;\"> %s*</span> or <span "
-#| "style=\" font-weight:704;\">%sequence</span>: The image sequence "
-#| "identifier where * is the number of digits used (1-9). <span style=\" "
-#| "font-weight:704;\">This tag is mandatory and must be the last element in "
-#| "the format.</span></li></ul><p>Arbitrary text may also be included within "
-#| "the Format string, <span style=\" font-weight:704;\">except the % and \\ "
-#| "characters.</span> The / path character can be used to define arbitrary "
-#| "directories.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Tags are case sensitive in both "
-#| "their short and long forms.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Only use the %Datetime tag in the filename portion of the "
-#| "format, not in the path definition.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -15979,24 +15897,34 @@ msgstr ""
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Plaatshouder <span style=\" font-"
 "weight:600;\">%H</span> or <span style=\" font-weight:600;\">%hostname</"
-"span>: De hostnaam die EKOS uitvoert.</li></ul><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Plaatshouder<span style=\" font-weight:704;\"> %s*</span> "
-"or <span style=\" font-weight:704;\">%sequence</span>: De volgorde-"
-"identifier van de afbeelding waar * het aantal gebruikte cijfers (1-9) is. "
-"<span style=\" font-weight:704;\">Deze tag is verplicht en moet het laatste "
-"element in het formaat zijn.</span></li></ul><p>Willekeurige tekst kan ook "
-"ingevoegd worden in de formattekenreeks, <span style=\"font-weight:704;"
-"\">behalve de tekens % en \\.</span> Het teken padteken / kan gebruikt "
-"worden om willekeurige mappen te definiëren.</p><p>Opmerkingen:</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Tags zijn "
-"hoofdlettergevoelig in zowel hun korte als lange vormen.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Gebruik alleen de tag %Datetime in het "
-"bestandsnaamgedeelte van het formaat, niet in de definitie van pad.</li></"
-"ul></body></html>"
+"span>: De hostnaam die EKOS uitvoert.</li></ul><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Plaatshouder <span style="
+"\" font-weight:600;\">%c</span> or <span style=\" font-weight:600;\">"
+"%cameraname</span>: De actieve cameranaam.</li></ul><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Plaatshouder <span style=\" font-weight:600;\">%o</span> or <span style="
+"\" font-weight:600;\">%opticaltrain</span>: De actieve optische treinnaam.</"
+"li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Plaatshouder<span "
+"style=\" font-weight:704;\"> %s*</span> or <span style=\" font-weight:704;\">"
+"%sequence</span>: De volgorde-identifier van de afbeelding waar * het aantal "
+"gebruikte cijfers (1-9) is. <span style=\" font-weight:704;\">Deze tag is "
+"verplicht en moet het laatste element in het formaat zijn.</span></li></"
+"ul><p>Willekeurige tekst kan ook ingevoegd worden in de formattekenreeks, "
+"<span style=\"font-weight:704;\">behalve de tekens % en \\.</span> Het teken "
+"padteken / kan gebruikt worden om willekeurige mappen te definiëren.</"
+"p><p>Opmerkingen:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Tags zijn hoofdlettergevoelig in zowel hun "
+"korte als lange vormen.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Gebruik alleen de tag %Datetime in het bestandsnaamgedeelte van het "
+"formaat, niet in de definitie van pad.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1896
@@ -18809,28 +18737,28 @@ msgstr "Gestart"
 msgid "Stopping"
 msgstr "Bezig met stoppen"
 
-#: ekos/ekoslive/ekosliveclient.cpp:591
+#: ekos/ekoslive/ekosliveclient.cpp:592
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Ekos-livedervers selecteren"
 
-#: ekos/ekoslive/ekosliveclient.cpp:593
+#: ekos/ekoslive/ekosliveclient.cpp:594
 #, kde-format
 msgid "Observatory:"
 msgstr "Sterrenwacht:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:594
+#: ekos/ekoslive/ekosliveclient.cpp:595
 #, kde-format
 msgid "Offline:"
 msgstr "Offline:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:595
+#: ekos/ekoslive/ekosliveclient.cpp:596
 #, kde-format
 msgid "Online:"
 msgstr "Online:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:596
+#: ekos/ekoslive/ekosliveclient.cpp:597
 #, kde-format
 msgid "Machine ID:"
 msgstr "Machine-ID:"
@@ -28696,32 +28624,36 @@ msgstr "Beschikbare hulpmiddelen"
 msgid "Tool"
 msgstr "Hulpmiddel"
 
-#: ekos/profileeditor.cpp:51
+#: ekos/profileeditor.cpp:54
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Profiel bewerken"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:120
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Kan leeg profiel niet opslaan."
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:132
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Profielnaam bestaat al."
 
-#: ekos/profileeditor.cpp:342
-#, kde-format
+#: ekos/profileeditor.cpp:350
+#, fuzzy, kde-format
+#| msgid ""
+#| "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
+#| "corresponding driver.<nobr/>"
 msgid ""
-"<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
+"<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
+"and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 "<nobr>Beschikbaar als <b>externe</b> driver. Voor lokaal gebruik, installeer "
 "de overeenkomstige driver.<nobr/>"
 
-#: ekos/profileeditor.cpp:344
+#: ekos/profileeditor.cpp:353
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -28730,23 +28662,31 @@ msgstr ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 
-#: ekos/profileeditor.cpp:353
+#: ekos/profileeditor.cpp:362
 #, kde-format
 msgid "Drivers"
 msgstr "Stuurprogramma's"
 
-#: ekos/profileeditor.cpp:751
+#: ekos/profileeditor.cpp:654
+#, kde-format
+msgid ""
+"<b>%1</b> is only available as a <b>Remote</b> driver and is not installed "
+"locally. It cannot be added to a Local profile. Switch to a Remote profile "
+"or install the driver locally."
+msgstr ""
+
+#: ekos/profileeditor.cpp:785
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Netwerk nalopen"
 
-#: ekos/profileeditor.cpp:752
+#: ekos/profileeditor.cpp:786
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Netwerk nalopen naar INDI Web Managers..."
 
-#: ekos/profileeditor.cpp:816
+#: ekos/profileeditor.cpp:850
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "INDI Web Manager gevonden op %1"

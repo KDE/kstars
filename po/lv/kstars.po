@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-07 02:19+0000\n"
+"POT-Creation-Date: 2026-09-08 02:16+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -613,17 +613,17 @@ msgstr "Atcelt"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
-#: ekos/align/opsastrometryindexfiles.cpp:161
-#: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:513
-#: ekos/align/opsastrometryindexfiles.cpp:551
-#: ekos/align/opsastrometryindexfiles.cpp:565
-#: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:652
-#: ekos/align/opsastrometryindexfiles.cpp:722
-#: ekos/align/opsastrometryindexfiles.cpp:743
-#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
+#: ekos/align/opsastrometryindexfiles.cpp:163
+#: ekos/align/opsastrometryindexfiles.cpp:187
+#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:515
+#: ekos/align/opsastrometryindexfiles.cpp:553
+#: ekos/align/opsastrometryindexfiles.cpp:567
+#: ekos/align/opsastrometryindexfiles.cpp:587
+#: ekos/align/opsastrometryindexfiles.cpp:655
+#: ekos/align/opsastrometryindexfiles.cpp:725
+#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:757 ekos/capture/sequencejob.cpp:36
 #: ekos/manager.cpp:1599 ekos/manager.cpp:1614 ekos/manager.cpp:1630
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
@@ -644,7 +644,7 @@ msgid "Error"
 msgstr "Kļūda"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:659
+#: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -2543,7 +2543,7 @@ msgstr "Nezināms"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:313
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, fuzzy, kde-format
 #| msgid "Options"
@@ -8981,127 +8981,127 @@ msgstr ""
 msgid "Use differential slewing instead of syncing"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:161
+#: ekos/align/opsastrometryindexfiles.cpp:163
 #, kde-format
 msgid "No index file directories configured."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:187
+#: ekos/align/opsastrometryindexfiles.cpp:655
 #, kde-format
 msgid "No writable index file directory found."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:725
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Could not contact Astrometry Index Server."
 msgstr "Pievienot"
 
-#: ekos/align/opsastrometryindexfiles.cpp:268
+#: ekos/align/opsastrometryindexfiles.cpp:270
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:278
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:280
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:282
+#: ekos/align/opsastrometryindexfiles.cpp:284
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:331
-#: ekos/align/opsastrometryindexfiles.cpp:336
-#: ekos/align/opsastrometryindexfiles.cpp:341
+#: ekos/align/opsastrometryindexfiles.cpp:333
+#: ekos/align/opsastrometryindexfiles.cpp:338
+#: ekos/align/opsastrometryindexfiles.cpp:343
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:349
-#: ekos/align/opsastrometryindexfiles.cpp:354
-#: ekos/align/opsastrometryindexfiles.cpp:359
+#: ekos/align/opsastrometryindexfiles.cpp:351
+#: ekos/align/opsastrometryindexfiles.cpp:356
+#: ekos/align/opsastrometryindexfiles.cpp:361
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:512
+#: ekos/align/opsastrometryindexfiles.cpp:514
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:530
+#: ekos/align/opsastrometryindexfiles.cpp:532
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "%1 download cancelled."
 msgstr "Labot saiti..."
 
-#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:567
 #, fuzzy, kde-format
 #| msgid "Write Error"
 msgid "File Write Error"
 msgstr "Rakstīšanas kļūda"
 
-#: ekos/align/opsastrometryindexfiles.cpp:579
+#: ekos/align/opsastrometryindexfiles.cpp:581
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "%1 download complete."
 msgstr "Autofokusa opcijas"
 
-#: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:753
+#: ekos/align/opsastrometryindexfiles.cpp:587
+#: ekos/align/opsastrometryindexfiles.cpp:757
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:659
+#: ekos/align/opsastrometryindexfiles.cpp:662
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:678
+#: ekos/align/opsastrometryindexfiles.cpp:681
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:680
+#: ekos/align/opsastrometryindexfiles.cpp:683
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Install File(s)"
 msgstr "Dzēst visus attēlus"
 
-#: ekos/align/opsastrometryindexfiles.cpp:728
+#: ekos/align/opsastrometryindexfiles.cpp:731
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Vai tiešām vēlaties nodzēst klientu %1?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:729
+#: ekos/align/opsastrometryindexfiles.cpp:732
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Delete File(s)"
 msgstr "Dzēst visus attēlus"
 
-#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "File Delete Error"
 msgstr ""
@@ -13893,7 +13893,7 @@ msgstr "Ports"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:488
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:373
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13904,7 +13904,7 @@ msgstr "Pievienot"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:414
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:415
 #: ekos/guide/guide.ui:439 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18697,34 +18697,34 @@ msgstr "Sākt"
 msgid "Stopping"
 msgstr "Apturē&t sekošanu"
 
-#: ekos/ekoslive/ekosliveclient.cpp:591
+#: ekos/ekoslive/ekosliveclient.cpp:592
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Apstādināt Servisu"
 
-#: ekos/ekoslive/ekosliveclient.cpp:593
+#: ekos/ekoslive/ekosliveclient.cpp:594
 #, fuzzy, kde-format
 #| msgid "&Observation"
 msgid "Observatory:"
 msgstr "&Novērošana"
 
-#: ekos/ekoslive/ekosliveclient.cpp:594
+#: ekos/ekoslive/ekosliveclient.cpp:595
 #, fuzzy, kde-format
 #| msgctxt "City in Alberta Canada"
 #| msgid "Brooks"
 msgid "Offline:"
 msgstr "Bruksa"
 
-#: ekos/ekoslive/ekosliveclient.cpp:595
+#: ekos/ekoslive/ekosliveclient.cpp:596
 #, fuzzy, kde-format
 #| msgctxt "City in Alberta Canada"
 #| msgid "Brooks"
 msgid "Online:"
 msgstr "Bruksa"
 
-#: ekos/ekoslive/ekosliveclient.cpp:596
+#: ekos/ekoslive/ekosliveclient.cpp:597
 #, kde-format
 msgid "Machine ID:"
 msgstr ""
@@ -28202,57 +28202,66 @@ msgstr "2. Izvēlieties ierīces"
 msgid "Tool"
 msgstr "&Rīki"
 
-#: ekos/profileeditor.cpp:51
+#: ekos/profileeditor.cpp:54
 #, fuzzy, kde-format
 #| msgid "1. Select INDI Mode"
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "1. Izvēlieties INDI režīmu"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:120
 #, fuzzy, kde-format
 #| msgid "Open an observation session list"
 msgid "Cannot save an empty profile."
 msgstr "Atvērt novērojumu sesijas sarakstu"
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:132
 #, fuzzy, kde-format
 #| msgid "A file named \"%1\" already exists. Overwrite it?"
 msgid "Profile name already exists."
 msgstr "Fails ar nosaukumu \"%1\" jau pastāv. Vai vēlaties to pārrakstīt?"
 
-#: ekos/profileeditor.cpp:342
+#: ekos/profileeditor.cpp:350
 #, kde-format
 msgid ""
-"<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
+"<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
+"and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:344
+#: ekos/profileeditor.cpp:353
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:353
+#: ekos/profileeditor.cpp:362
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Drivers"
 msgstr "Dzinis:"
 
-#: ekos/profileeditor.cpp:751
+#: ekos/profileeditor.cpp:654
+#, kde-format
+msgid ""
+"<b>%1</b> is only available as a <b>Remote</b> driver and is not installed "
+"locally. It cannot be added to a Local profile. Switch to a Remote profile "
+"or install the driver locally."
+msgstr ""
+
+#: ekos/profileeditor.cpp:785
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:752
+#: ekos/profileeditor.cpp:786
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:816
+#: ekos/profileeditor.cpp:850
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Site Management"
