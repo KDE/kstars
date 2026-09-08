@@ -18,7 +18,6 @@
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/devicecleanupdialog.h"
 #include "oal/equipmentwriter.h"
-#include "oal/scope.h"
 #include "profileinfo.h"
 
 #include <QTimer>
@@ -1393,53 +1392,10 @@ QStringList OpticalTrainManager::getMissingDevices() const
 }
 
 ////////////////////////////////////////////////////////////////////////////
-/// Heuristic: a stored device name is still considered "known" to a profile
-/// if it matches (as a substring, either direction) a driver label configured
-/// for that profile, whether started locally or listed as a remote driver.
-/// This can't be exact since a driver label (e.g. "ZWO CCD") and the device
-/// name it reports at runtime (e.g. "ZWO CCD ASI2600MM Pro") are related but
-/// not identical strings.
-////////////////////////////////////////////////////////////////////////////
-bool OpticalTrainManager::isDeviceKnownToAnyProfile(const QString &deviceName) const
-{
-    if (deviceName.isEmpty() || deviceName == "--")
-        return true;
-
-    QList<QSharedPointer<ProfileInfo>> profiles;
-    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
-
-    for (auto &profile : profiles)
-    {
-        for (auto it = profile->drivers.constBegin(); it != profile->drivers.constEnd(); ++it)
-        {
-            for (auto &label : it.value())
-            {
-                if (!label.isEmpty() &&
-                        (deviceName.contains(label, Qt::CaseInsensitive) || label.contains(deviceName, Qt::CaseInsensitive)))
-                    return true;
-            }
-        }
-
-        if (!profile->remotedrivers.isEmpty())
-        {
-            for (auto &entry : profile->remotedrivers.split(","))
-            {
-                QString label = entry.split("@").first();
-                label.remove("\"");
-                label = label.trimmed();
-                if (!label.isEmpty() &&
-                        (deviceName.contains(label, Qt::CaseInsensitive) || label.contains(deviceName, Qt::CaseInsensitive)))
-                    return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////
-/// Collect stored device references that match no currently-connected device
-/// and no driver configured in any saved profile - i.e. safe to clear.
+/// Collect stored device references, in the current profile's optical trains,
+/// that match no currently-connected device. Whether a match not being connected
+/// right now means "temporarily unavailable" or "gone for good" can't be
+/// determined from stored data alone, so that judgment call is left to the user.
 ////////////////////////////////////////////////////////////////////////////
 QList<OpticalTrainManager::UnusedDevice> OpticalTrainManager::getUnusedDevices() const
 {
@@ -1474,7 +1430,7 @@ QList<OpticalTrainManager::UnusedDevice> OpticalTrainManager::getUnusedDevices()
             if (value.isEmpty() || value == "--")
                 continue;
 
-            if (role.liveNames->contains(value) || isDeviceKnownToAnyProfile(value))
+            if (role.liveNames->contains(value))
                 continue;
 
             UnusedDevice device;
@@ -1484,51 +1440,7 @@ QList<OpticalTrainManager::UnusedDevice> OpticalTrainManager::getUnusedDevices()
             device.fieldName = role.field;
             result << device;
         }
-
-        // Scope is matched against the persistent scope catalog rather than a live INDI device.
-        const QString scopeValue = train["scope"].toString();
-        if (!scopeValue.isEmpty() && scopeValue != "--" && !m_ScopeNames.contains(scopeValue))
-        {
-            UnusedDevice device;
-            device.displayName = scopeValue;
-            device.subtitle = i18n("%1 - Scope", trainName);
-            device.trainName = trainName;
-            device.fieldName = "scope";
-            result << device;
-        }
     }
-
-    // Scope catalog entries that no optical train in any profile references anymore.
-    QSet<QString> referencedScopes;
-    QList<QSharedPointer<ProfileInfo>> profiles;
-    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
-    for (auto &profile : profiles)
-    {
-        QList<QVariantMap> trains;
-        KStarsData::Instance()->userdb()->GetOpticalTrains(profile->id, trains);
-        for (auto &train : trains)
-        {
-            const QString scopeValue = train["scope"].toString();
-            if (!scopeValue.isEmpty() && scopeValue != "--")
-                referencedScopes.insert(scopeValue);
-        }
-    }
-
-    QList<OAL::Scope *> scopeList;
-    KStarsData::Instance()->userdb()->GetAllScopes(scopeList);
-    for (auto &scope : scopeList)
-    {
-        if (!referencedScopes.contains(scope->name()))
-        {
-            UnusedDevice device;
-            device.displayName = scope->name();
-            device.subtitle = i18n("Scope catalog - unused entry");
-            device.isScopeCatalogEntry = true;
-            device.scopeElementID = scope->id();
-            result << device;
-        }
-    }
-    qDeleteAll(scopeList);
 
     return result;
 }
@@ -1538,14 +1450,6 @@ QList<OpticalTrainManager::UnusedDevice> OpticalTrainManager::getUnusedDevices()
 ////////////////////////////////////////////////////////////////////////////
 bool OpticalTrainManager::removeUnusedDevice(const UnusedDevice &device)
 {
-    if (device.isScopeCatalogEntry)
-    {
-        const bool result = KStarsData::Instance()->userdb()->DeleteEquipment("telescope", device.scopeElementID);
-        if (result)
-            refreshOpticalElements();
-        return result;
-    }
-
     return setOpticalTrainValue(device.trainName, device.fieldName, "--");
 }
 

@@ -100,8 +100,7 @@ class OpticalTrainDBusInterface : public QObject
         bool remove();
 
         /**
-         * @brief Remove stored device references that are neither currently connected
-         * nor used by any saved profile.
+         * @brief Remove stored device references that are not currently connected.
          * @return The number of entries removed.
          */
         int cleanup();

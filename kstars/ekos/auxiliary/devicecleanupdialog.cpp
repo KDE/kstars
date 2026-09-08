@@ -29,8 +29,8 @@ DeviceCleanupDialog::DeviceCleanupDialog(QWidget *parent) : QDialog(parent)
 
     auto mainLayout = new QVBoxLayout(this);
 
-    m_ExplainerLabel = new QLabel(i18n("These stored device names are not currently connected "
-                                       "and are not used in any profile."), this);
+    m_ExplainerLabel = new QLabel(i18n("These stored device names are not currently connected. "
+                                       "Some may only be temporarily unavailable, so check before removing."), this);
     m_ExplainerLabel->setWordWrap(true);
     mainLayout->addWidget(m_ExplainerLabel);
 
@@ -38,7 +38,7 @@ DeviceCleanupDialog::DeviceCleanupDialog(QWidget *parent) : QDialog(parent)
     m_List->setSelectionMode(QAbstractItemView::NoSelection);
     mainLayout->addWidget(m_List);
 
-    m_EmptyLabel = new QLabel(i18n("All stored devices are currently in use."), this);
+    m_EmptyLabel = new QLabel(i18n("All stored devices are currently connected."), this);
     m_EmptyLabel->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(m_EmptyLabel);
 

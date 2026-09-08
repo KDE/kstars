@@ -16,8 +16,7 @@ namespace Ekos
 
 /**
  * @class DeviceCleanupDialog
- * @brief Lists stored device references (optical train fields and scope catalog
- * entries) that are neither currently connected nor used by any saved profile,
+ * @brief Lists stored optical train device references that are not currently connected,
  * and lets the user clear them one at a time.
  */
 class DeviceCleanupDialog : public QDialog
