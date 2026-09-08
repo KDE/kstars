@@ -181,6 +181,151 @@ against the busy-set (rejected with `"busy"` if a real op on that session
 is currently mid-flight) even though it doesn't set that flag itself. See
 its entry in the command reference below.
 
+## Auto-generated output paths
+
+`postprocess_build_master`, `postprocess_stack`, `postprocess_save`, and
+`postprocess_blend_channels` all write a real FITS file to disk as part of
+completing, and none of them require the caller to invent/supply a
+destination — a client (e.g. StellarMate's app, which typically never
+specifies output directories) can drive the whole calibrate → stack → blend
+→ save pipeline without ever naming a single output path itself:
+
+- **`postprocess_build_master`** — `outputPath` is optional. When supplied,
+  it's used as-is (unchanged behavior). When omitted, one is generated (see
+  below) from `directory`.
+- **`postprocess_stack`** — has no `outputPath` field at all; every
+  completed (non-cancelled) stack is unconditionally auto-saved this way,
+  in addition to staying live in memory as a session exactly as before
+  (`postprocess_crop`/`apply_*`/`postprocess_save` all keep working
+  normally afterward — the auto-save doesn't close or otherwise consume the
+  session). In Mode A ("channels"), each channel is saved from its own
+  `directory`; in Mode B, from `directories[0]` (or the mono `directory`).
+- **`postprocess_save`** — `outputPath` is also optional now. When omitted,
+  it falls back to the same auto-generated location this session's root
+  already resolved to (see `m_PostProcessSessionRoots` below) — if the
+  session has no known root (only possible for one adopted with no
+  root-bearing input anywhere upstream), the call fails with
+  `{"state": "error", "message": "outputPath is required — no
+  auto-generated location available for this session"}` rather than
+  guessing.
+- **`postprocess_blend_channels`** — has no `directory`/`outputPath` of its
+  own at all (its inputs are already-stacked named sessions, not raw
+  folders), but its `"blended"` response now carries an `outputPath` (or
+  `saveError`) too, on the same "auto-save, doesn't consume the session"
+  terms as `postprocess_stack` — see "Where the blend result goes" below.
+
+**Session root** (`Message::pipelineSessionRootFor()`): every one of these
+commands ultimately resolves to a single directory shared by a whole
+target — its **session root** — rather than scattering a separate output
+folder under each individual input directory. Given an input `directory`,
+however deeply it's nested under a target's calibration layout
+(`Mono/Flats/HA`, `NGC_3572.../Light-Flats/H-Alpha`, `.../Light/OIII`, a
+flat `Cresent Nebula/Darks` with no filter subfolder at all, ...), it walks
+upward looking for the first ancestor path segment that's a recognized
+calibration-type folder name — `Bias`/`Biases`, `Dark`/`Darks`,
+`Flat`/`Flats`, `Light`/`Lights`, and hyphen/space/underscore-joined
+compounds like `Dark-Flats`/`Light-Flats` (case-insensitive, whole-segment
+match only — a target literally named "Flats Nebula" won't false-positive)
+— and returns **that segment's own parent**. For every real dataset this
+has been checked against, that's exactly the top-level target folder, no
+matter which of its subfolders (however deeply filter/exposure-nested) a
+given call's `directory` points at. Falls back to the old "immediate
+sibling of the input directory" rule if nothing recognized turns up within
+a few levels, so an unrecognized/custom layout still gets a sane, if less
+consolidated, default instead of failing outright.
+
+**Output directory** (`Message::pipelineOutputDirFor()`/
+`pipelineOutputDirForRoot()`): `<session root>/Output/`, created if missing.
+Because the root-finding above collapses every input directory belonging to
+one target down to the same root, **every** `build_master`/`postprocess_stack`
+call against that target — however differently nested their own `directory`
+arguments — converges on this one folder, e.g.
+`.../NGC_3572 SparkyNZL/Output/` holding the bias master, the light-dark,
+every filter's flat master, and every filter's stacked light, all together
+and easy to find later. (This is also exactly why the filename
+disambiguation described below matters more than it would with a
+one-output-folder-per-input-directory scheme — many more files now
+legitimately share one folder.)
+
+**Filenames differ by command, since they solve different naming problems:**
+
+- **`build_master`** (`Message::generatePipelineOutputPath()`):
+  `master_<type>[_<dirName>]_<millisecond-timestamp>.fits`. Always
+  timestamped, since multiple distinct masters legitimately come from the
+  *same* directory in one session (e.g. several `matchExptime`-filtered dark
+  groups, see "Shared calibration folders" above) — a fixed name would have
+  each overwrite the last. `dirName` — `directory`'s own last path
+  component (e.g. `H-Alpha`, `OIII`, `300`) — is folded in too, because a
+  typical calibration layout has *several* sibling subfolders needing a
+  master of the same `type` (`Dark-Flats/120`, `/180`, `/300`;
+  `Light-Flats/H-Alpha`, `/OIII`, `/SII`; ...), and since `pipelineOutputDirFor()`
+  is keyed off the *parent* directory, every one of those calls lands in the
+  same output folder — without `dirName` they'd all collide on
+  indistinguishable `master_<type>_<ts>.fits` names. Skipped when it would
+  be pure noise: a directory literally called `Bias`/`Biases`/`Dark`/
+  `Darks`/`Flat`/`Flats` for the matching `type` (singular/plural-
+  insensitive, including the "-es" plural `bias` itself takes) gets plain
+  `master_<type>_<ts>.fits`, not the redundant `master_bias_Biases_<ts>.fits`.
+- **`postprocess_stack`** (`Message::generateStackOutputPath()`):
+  deterministic, not timestamped — `light_master_<identity>.fits`, or plain
+  `light_master.fits` when there's no identity to attach. `identity` is the
+  channel's own `filter` in Mode A ("channels") — e.g. `light_master_Ha.fits`,
+  `light_master_OIII.fits` — or, in Mode B, an explicit `sessionId` **if the
+  caller passed one other than the internal default key** (e.g.
+  `light_master_ha_600.fits` for a `sessionId: "ha_600"` call). A Mode B call
+  that never set `sessionId` (the common single-target case, or an
+  already-combined RGB/RGBL result) has no such identity and gets plain
+  `light_master.fits`. This matters for the split-exposure workflow (see
+  "Split-exposure light sequences" below): its `"ha_600"`/`"ha_900"`/
+  `"ha_final"` intermediate sessions each get a distinct auto-saved file
+  instead of colliding on the same plain name and clobbering each other —
+  though that workflow's own `postprocess_save` calls with explicit paths
+  remain the authoritative way to keep those intermediates, regardless.
+  Re-stacking the same directory/identity is expected to replace its master
+  file — the same "current best result" semantics a same-key session
+  replacement in `m_PostProcessSessions` already has, and consistent with
+  `postprocess_save`/`MasterBuilder::buildAndSave()` both already
+  overwriting unconditionally at a caller-given `outputPath`.
+- **`postprocess_save`** (only when its own `outputPath` was omitted —
+  `Message::generateStackOutputPathForRoot()`): same naming rule as
+  `postprocess_stack` Mode B — `light_master_<sessionId>.fits` for a
+  non-default `sessionId`, plain `light_master.fits` for the default
+  session key. A fully post-processed save this way lands at the **same**
+  filename its own session's raw stack/blend auto-save already used,
+  intentionally — "the current best version of this session's result",
+  raw or fully edited, is still one file per session identity.
+- **`postprocess_blend_channels`** (`Message::generateStackOutputPathForRoot()`):
+  `light_master_<outputSessionId>.fits`, always — unlike Mode B's stack
+  identity, blend's own default `outputSessionId` ("blended") is already
+  meaningful, so it's never suppressed to a plain `light_master.fits`.
+
+**Where the blend result goes, and `m_PostProcessSessionRoots`.**
+`postprocess_blend_channels` has no `directory` of its own to derive a
+session root from — its inputs are already-resolved named sessions, not raw
+folders. To still land in the same target's `Output/` folder as everything
+else, `Message` remembers each stack session's resolved root in
+`m_PostProcessSessionRoots` (keyed the same way `m_PostProcessSessions` is,
+set when `postprocess_stack` starts a session, cleared on
+`postprocess_close`) — a blend inherits its root from whichever of its
+named `red`/`green`/`blue` inputs has one (checked in that order), and that
+inherited root is then recorded for the blend's own `outputSessionId` too,
+so a *further* blend built from it, or a later `postprocess_save` against
+it with no `outputPath`, keeps resolving to the same folder. If none of a
+blend's inputs have a tracked root (only possible for an unusual all-adopted
+input chain), the blend result simply isn't auto-saved — exactly the
+behavior before this feature existed, not a new failure mode.
+`m_PostProcessSessionRoots` is also what makes `postprocess_save`'s own
+fallback (above) work for a Mode A/B stack session, not just a blend.
+
+**This auto-save is for persistence/traceability, not a pipeline
+dependency.** `postprocess_blend_channels` resolves every named input
+purely from the live, in-memory `m_PostProcessSessions` map
+(`parseBlendInputs()` reads `session->imageData()->stackedImageMat()`
+directly) — it never reads from disk, so a multi-filter narrowband workflow
+(stack Ha, stack OIII, then blend) works identically whether or not either
+stack's auto-saved file is ever looked at, as long as neither session was
+closed (`postprocess_close`) first.
+
 ## Linear vs. non-linear pipeline stages
 
 Every `postprocess_*` step mutates the same working-image buffer, so nothing
@@ -197,7 +342,7 @@ calibration, and noise reduction are all standard practice to run here,
 
 | Command | Why it belongs here |
 |---|---|
-| `postprocess_stack` (+ `build_master`/`blend_channels`/`redo_postprocess`) | The combined result is raw ADU-scale linear data — confirmed in code: `FITSStack`'s combine path does a bare type cast, no `/65535`-style rescale. Nothing has stretched it yet. |
+| `postprocess_stack` (+ `build_master`/`blend_channels`/`redo_postprocess`) | The combined result is raw ADU-scale linear data — confirmed in code: `FITSStack`'s combine path does a bare type cast, no `/65535`-style rescale. Nothing has stretched it yet. The working buffer is `CV_32F` (float) throughout, not 16-bit integer — `FITSStack::convertMat()` upconverts every sub to float on entry as "our standard internal processing type" and it stays float end-to-end (`AutoStretch::apply()` hard-errors on anything else) — but the *values* still sit on the original ADU scale (background a few hundred–few thousand, saturation ~65535), just stored as `float` rather than `uint16_t`. A naive, unstretched display of this buffer looks mostly black: real sensor sky background typically occupies only a few percent of the full range. `AutoStretch` itself distinguishes "still ADU-scale" from "already normalized" by checking whether the buffer's max exceeds `1.01` (see `autostretch.cpp`) — assuming a `65536.0` ceiling for the former case. |
 | `postprocess_crop` | Domain-agnostic (works identically on linear or stretched data) — but cropping before background extraction avoids feeding partial-coverage edge artifacts into the background model. |
 | `postprocess_apply_bge` | Standard practice: background/gradient modeling is more accurate on linear data, since the signal-to-background relationship hasn't been compressed by a tone curve yet. |
 | `postprocess_apply_color_calibration` | Every source checked agrees: color-calibrate **before** stretching (including before any saturation adjustment) — doing it after makes accurate color much harder to recover. See the important caveat below, though. |
@@ -299,14 +444,20 @@ per channel, each tagged `"sessionId": "<filter>"`.
 Responses over the session's lifetime: immediately `{"state": "started"}`
 (or a directory/validation error); per-sub during stacking
 (`{"state": "progress", "ok": bool, "sub": int, "total": int, "meanSNR"/"minSNR"/"maxSNR": double}`);
-on completion, `{"state": "ready"}` (or `{"state": "cancelled"}` if
+on completion, `{"state": "ready", "outputPath": "<path>"}` (or `{"state": "cancelled"}` if
 `postprocess_stop` was called mid-stack, or `{"state": "error", "message": "..."}`
 if the stack finished but produced nothing usable — e.g. every sub failed
 calibration/alignment/plate-solving). On a non-cancelled `"ready"`, also sends
 a single completion preview over the `+PS` media channel (same mechanics as
 `build_master`'s `+P` — see "Preview images" above) unless `preview: false`
 was passed; applies to both Mode A (one `+PS` per channel, as each finishes)
-and Mode B.
+and Mode B. There is no `outputPath` field on this command's request — every
+completed (non-cancelled) stack is auto-saved to a generated path, reported
+back as `outputPath` on the `"ready"` push; see "Auto-generated output paths"
+below. If the auto-save itself fails (disk full, permissions, ...) `"ready"`
+carries `"saveError"` instead of `"outputPath"` — the stack itself still
+succeeded and the session is still usable (crop/apply_*/`postprocess_save`
+with an explicit path all still work), only the automatic write failed.
 
 ### `postprocess_stop`
 
@@ -327,9 +478,9 @@ subs into one master frame (`MasterBuilder::buildAndSave()`).
 
 | Field | Type | Default | Notes |
 |---|---|---|---|
-| `directory` | string | — | **Required** with `outputPath`. |
+| `directory` | string | — | **Required**. |
 | `type` | string | — | **Required** — exactly `"bias"`, `"dark"`, or `"flat"`. |
-| `outputPath` | string | — | **Required**. |
+| `outputPath` | string | *(auto-generated)* | If omitted, a path is generated in a sibling `output/` directory next to `directory` (created if missing) — see "Auto-generated output paths" below. |
 | `lowSigma` | double | `3.0` | Sigma-clip rejection threshold. |
 | `highSigma` | double | `3.0` | Sigma-clip rejection threshold. |
 | `biasPath` | string | *(none)* | A pre-built master bias (or matching-exposure dark), subtracted from each raw sub before combining. Real use case: building a proper master **flat** — flats are usually taken at a much shorter exposure than lights, where dark current is negligible but the sensor's bias/offset pattern still isn't. |
@@ -409,10 +560,15 @@ image, or the call fails with a specific message identifying which one.
 Inputs feeding the same or different output channels must all be the same
 pixel dimensions.
 
-Response: `{"state": "blended", "outputSessionId": "<id>"}`, or
-`{"state": "error", "message": "<reason>"}`. The output session behaves
-exactly like a real stack from here on (crop/apply_*/save all work against
-it normally), but carries no WCS.
+Response: `{"state": "blended", "outputSessionId": "<id>", "outputPath": "<path>"}`,
+or `{"state": "error", "message": "<reason>"}`. `outputPath` is only present
+when a root could be inherited from one of the named inputs (see
+"Auto-generated output paths" above) and the auto-save succeeded; a
+`saveError` field appears instead if a root was found but the write itself
+failed, and neither field appears if no input had a tracked root at all —
+in all three cases the blend itself still succeeded and the output session
+is usable. The output session behaves exactly like a real stack from here
+on (crop/apply_*/save all work against it normally), but carries no WCS.
 
 **See "Narrowband/multi-channel palette choice" below** for why the plain
 `green: [{"filter":"OIII"}]` mapping usually looks wrong, and the mixed
@@ -553,9 +709,15 @@ color or fell back to neutral — see below for why both count.
 
 ### `postprocess_save`
 
-`{"outputPath": string}` — required. Plain byte-for-byte write of the
-already-FITS-encoded in-memory buffer, no re-encoding. Response:
-`{"state": "saved", "outputPath": "<path>"}`, or
+`{"outputPath": string}` — optional. If omitted, falls back to an
+auto-generated path in this session's target `Output/` folder (see
+"Auto-generated output paths" above) — fails immediately with
+`{"state": "error", "message": "outputPath is required — no auto-generated
+location available for this session"}` if the session has no known root to
+fall back to. Plain byte-for-byte write of the already-FITS-encoded
+in-memory buffer, no re-encoding. Response:
+`{"state": "saved", "outputPath": "<path>"}` (the resolved path, whether it
+came from the caller or was auto-generated), or
 `{"state": "error", "message": "<reason>", "outputPath": "<path>"}` — note
 `outputPath` is present either way. No preview (the working image didn't
 change).

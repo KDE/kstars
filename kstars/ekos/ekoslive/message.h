@@ -267,6 +267,55 @@ class Message : public QObject
         // resolves each named session's currently-stacked image. Returns an empty vector
         // (with `error` set) if any named session doesn't exist or has no stacked image.
         QVector<ChannelBlendOperation::WeightedInput> parseBlendInputs(const QJsonArray &inputs, QString &error) const;
+        // Finds the calibration "session root" for an input directory — the common
+        // ancestor of a target's Lights/Darks/Flats/Bias folders, however deep the
+        // caller's own `directory` sits under one of them (Mono/Flats/HA,
+        // NGC_3572/Light-Flats/H-Alpha, .../Light/OIII, ...). Walks up from
+        // sourceDirectory looking for the first ancestor segment that's a recognized
+        // calibration-type folder name (case-insensitive, singular or plural, and
+        // hyphen/space/underscore-joined compounds like "Dark-Flats"/"Light-Flats") and
+        // returns *that segment's own parent*. Falls back to sourceDirectory's immediate
+        // parent (the old "sibling of the input directory" rule) if nothing recognized
+        // turns up within a few levels — an unrecognized/custom layout still gets a
+        // sane, if less consolidated, default. See isCalibrationTypeFolderName().
+        QString pipelineSessionRootFor(const QString &sourceDirectory) const;
+        // Resolves (and creates, if missing) the single shared "Output" directory for a
+        // whole target — pipelineSessionRootFor(sourceDirectory) + "/Output" — used by
+        // every auto-path generator below, so build_master/stack/save/blend_channels
+        // calls against the same target (however differently nested their own input
+        // directories are) all converge on one folder instead of scattering an "output"
+        // subfolder under each individual input directory.
+        QString pipelineOutputDirFor(const QString &sourceDirectory) const;
+        // Same as pipelineOutputDirFor(), but starting from an already-resolved root
+        // (e.g. one looked up in m_PostProcessSessionRoots for an existing session)
+        // instead of re-deriving it from a directory — used by postprocess_save and
+        // postprocess_blend_channels, which don't have a source `directory` of their own.
+        QString pipelineOutputDirForRoot(const QString &root) const;
+        // Auto-generates an output FITS path for postprocess_build_master when its
+        // caller didn't supply an explicit outputPath: "<baseName>_<msec-timestamp>.fits"
+        // in pipelineOutputDirFor(sourceDirectory). Timestamped (rather than a fixed
+        // name) because multiple distinct masters legitimately come from the same
+        // directory (e.g. matchExptime-filtered dark groups) — a fixed name would have
+        // each overwrite the last.
+        QString generatePipelineOutputPath(const QString &sourceDirectory, const QString &baseName) const;
+        // Auto-generates the output FITS path for a completed postprocess_stack session,
+        // an explicitly-saved postprocess_save, or a postprocess_blend_channels result —
+        // deterministic (not timestamped): "light_master.fits", or
+        // "light_master_<identity>.fits" when identity is non-empty — the per-channel
+        // `filter` for a Mode A stack session, an explicit non-default `sessionId` for a
+        // Mode B stack or a later postprocess_save (e.g. the "ha_600"/"ha_900"/"ha_final"
+        // intermediate sessions a split-exposure merge uses, see "Split-exposure light
+        // sequences" below — without this, every such intermediate would collide on the
+        // same plain "light_master.fits" and clobber the last one's auto-save), or a
+        // blend's `outputSessionId` (always used as identity there, since blend_channels'
+        // own default, "blended", is already meaningful, unlike postprocess_stack Mode
+        // B's meaningless internal default session key). Re-stacking/re-saving the same
+        // directory/identity is expected to replace its master, the same "current best
+        // result" semantics a session replacement in m_PostProcessSessions already has.
+        QString generateStackOutputPath(const QString &sourceDirectory, const QString &identity) const;
+        // Same as generateStackOutputPath(), but from an already-resolved root — see
+        // pipelineOutputDirForRoot().
+        QString generateStackOutputPathForRoot(const QString &root, const QString &identity) const;
         // Records payload's "state" against its "sessionId" in m_LastPostProcessState
         // (for postprocess_get_state) before forwarding it as a normal
         // new_postprocess_state push — use for every postprocess_* response that
@@ -358,6 +407,14 @@ class Message : public QObject
         // concurrently for postprocess_blend_channels.
         QMap < QString, QSharedPointer < StackController>> m_PostProcessSessions;
         const QString m_DefaultPostProcessSession { QStringLiteral("default") };
+        // The calibration "session root" (see pipelineSessionRootFor()) each stack
+        // session was started from, keyed the same way m_PostProcessSessions is. Lets a
+        // later postprocess_save (with no explicit outputPath) or postprocess_blend_channels
+        // (which has no source directory of its own — only named sessions) find the same
+        // shared "Output" folder a build_master/postprocess_stack call against this
+        // target would have used, without needing the original directory again. A blend's
+        // outputSessionId inherits its root from whichever input session has one.
+        QHash < QString, QString > m_PostProcessSessionRoots;
         // crop/apply_*/save/build_master run on a worker thread (QtConcurrent) so they
         // don't block the GUI thread or the caller. A session id present here has an
         // operation in flight; a new command against it is rejected with "state":"busy"

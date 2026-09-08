@@ -3576,6 +3576,88 @@ QVector<ChannelBlendOperation::WeightedInput> Message::parseBlendInputs(const QJ
     return result;
 }
 
+namespace
+{
+// Recognizes a calibration-type folder name — the vocabulary real capture tools (NINA,
+// SharpCap, StellarMate/Ekos captures themselves, ...) use for this, in whatever
+// singular/plural/hyphenated form: "Bias", "Biases", "Dark", "Darks", "Flat", "Flats",
+// "Light", "Lights", and compounds like "Dark-Flats"/"Light-Flats" (also accepts "_"/" "
+// as the joiner). Every hyphen/space/underscore-separated word must be one of these —
+// whole-segment match only, so an unrelated folder that merely contains one of these
+// words (e.g. a target actually named "Flats Nebula") won't false-positive.
+bool isCalibrationTypeFolderName(const QString &name)
+{
+    static const QSet<QString> words
+    {
+        "bias", "biases", "dark", "darks", "flat", "flats", "light", "lights"
+    };
+    QString normalized = name.toLower();
+    normalized.replace('_', '-');
+    normalized.replace(' ', '-');
+    const auto parts = normalized.split('-', Qt::SkipEmptyParts);
+    if (parts.isEmpty())
+        return false;
+    for (const auto &part : parts)
+        if (!words.contains(part))
+            return false;
+    return true;
+}
+}
+
+QString Message::pipelineSessionRootFor(const QString &sourceDirectory) const
+{
+    QDir cursor(QDir::cleanPath(sourceDirectory));
+    // A handful of levels comfortably covers every real layout seen (root/type,
+    // root/type/filter, root/type/filter/exposure) without risking a false match many
+    // levels up an unrelated ancestor path.
+    for (int depth = 0; depth < 6; depth++)
+    {
+        if (isCalibrationTypeFolderName(cursor.dirName()))
+        {
+            QDir root = cursor;
+            root.cdUp();
+            return root.absolutePath();
+        }
+        if (!cursor.cdUp())
+            break;
+    }
+    // Nothing recognized — fall back to the old "sibling of the input directory" rule
+    // rather than refusing to generate a path at all.
+    return QFileInfo(QDir::cleanPath(sourceDirectory)).dir().absolutePath();
+}
+
+QString Message::pipelineOutputDirForRoot(const QString &root) const
+{
+    QDir outputDir(QDir(root).filePath("Output"));
+    QDir().mkpath(outputDir.absolutePath());
+    return outputDir.absolutePath();
+}
+
+QString Message::pipelineOutputDirFor(const QString &sourceDirectory) const
+{
+    return pipelineOutputDirForRoot(pipelineSessionRootFor(sourceDirectory));
+}
+
+QString Message::generatePipelineOutputPath(const QString &sourceDirectory, const QString &baseName) const
+{
+    // Millisecond timestamp for a unique, naturally-ordered filename — same convention
+    // saveLiveStackerFrame() already uses for the same reason.
+    const QString filename = QString("%1_%2.fits").arg(baseName).arg(QDateTime::currentMSecsSinceEpoch());
+    return QDir(pipelineOutputDirFor(sourceDirectory)).filePath(filename);
+}
+
+QString Message::generateStackOutputPathForRoot(const QString &root, const QString &identity) const
+{
+    const QString filename = identity.isEmpty() ? QStringLiteral("light_master.fits")
+                              : QString("light_master_%1.fits").arg(identity);
+    return QDir(pipelineOutputDirForRoot(root)).filePath(filename);
+}
+
+QString Message::generateStackOutputPath(const QString &sourceDirectory, const QString &identity) const
+{
+    return generateStackOutputPathForRoot(pipelineSessionRootFor(sourceDirectory), identity);
+}
+
 QString Message::describePostProcessStage(StackChannel channel, const QString &stage) const
 {
     if (channel == StackChannel::SINGLE || channel == StackChannel::NONE)
@@ -3679,7 +3761,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 params.masterFlat = QVector<QString> {masterFlat};
 
             auto session = QSharedPointer<StackController>::create(this);
-            connect(session.data(), &StackController::stackReady, this, [this, filter, session, wantPreview](bool cancelled)
+            connect(session.data(), &StackController::stackReady, this, [this, filter, session, wantPreview, directory](bool cancelled)
             {
                 // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
                 // build_master previews above — tagged "+PS", its own slot distinct from
@@ -3696,8 +3778,22 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                         Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PS"), buildPreviewMetadata(session->imageData()));
                 }
 
-                sendPostProcessState(
-                QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", filter}});
+                QJsonObject state{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", filter}};
+                if (!cancelled)
+                {
+                    // Auto-save the completed stack to a sibling "output" directory (next
+                    // to this channel's own raw-sub directory) so the caller gets a full
+                    // path back without a separate postprocess_save call. This is purely
+                    // for persistence/traceability — postprocess_blend_channels reads this
+                    // session's in-memory image directly and never needs the file on disk.
+                    const QString outputPath = generateStackOutputPath(directory, filter);
+                    QString saveError;
+                    if (session->save(outputPath, saveError))
+                        state["outputPath"] = outputPath;
+                    else
+                        state["saveError"] = saveError;
+                }
+                sendPostProcessState(state);
             });
             connect(session.data(), &StackController::stackFailed, this, [this, filter](const QString & reason)
             {
@@ -3724,6 +3820,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
             session->start(QStringList { directory }, params);
             m_PostProcessSessions[filter] = session;
+            m_PostProcessSessionRoots[filter] = pipelineSessionRootFor(directory);
             startedSessions << filter;
         }
 
@@ -3832,7 +3929,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
         auto session = QSharedPointer<StackController>::create(this);
-        connect(session.data(), &StackController::stackReady, this, [this, sessionId, session, wantPreview](bool cancelled)
+        connect(session.data(), &StackController::stackReady, this, [this, sessionId, session, wantPreview, directories](bool cancelled)
         {
             // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
             // build_master previews above — tagged "+PS", its own slot distinct from
@@ -3849,8 +3946,27 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PS"), buildPreviewMetadata(session->imageData()));
             }
 
-            sendPostProcessState(
-            QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}});
+            QJsonObject state{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}};
+            if (!cancelled)
+            {
+                // Auto-save the completed stack to a sibling "output" directory (next to
+                // directories[0]) so the caller gets a full path back without a separate
+                // postprocess_save call — see the Mode A "channels" branch above for why
+                // this doesn't matter for postprocess_blend_channels itself. No filter
+                // concept here (mono single-session, or an already-combined RGB/RGBL
+                // result), unlike Mode A's per-filter sessions — but an explicit, non-default
+                // sessionId (e.g. a split-exposure workflow's "ha_600"/"ha_900"/"ha_final"
+                // intermediates) still needs to be folded in, or every such call would
+                // collide on the same plain "light_master.fits" and clobber the last one.
+                const QString identity = (sessionId == m_DefaultPostProcessSession) ? QString() : sessionId;
+                const QString outputPath = generateStackOutputPath(directories.first(), identity);
+                QString saveError;
+                if (session->save(outputPath, saveError))
+                    state["outputPath"] = outputPath;
+                else
+                    state["saveError"] = saveError;
+            }
+            sendPostProcessState(state);
         });
         connect(session.data(), &StackController::stackFailed, this, [this, sessionId](const QString & reason)
         {
@@ -3877,6 +3993,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         session->start(directories, params);
         m_PostProcessSessions[sessionId] = session;
+        m_PostProcessSessionRoots[sessionId] = pipelineSessionRootFor(directories.first());
         sendPostProcessState(QJsonObject{{"state", "started"}, {"sessionId", sessionId}});
     }
     else if (command == commands[POSTPROCESS_STOP])
@@ -3905,7 +4022,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // Removes only the named session (default: the single-session key) — with
         // multiple concurrent sessions (filter-tagged mode), each must be closed
         // individually by its own sessionId.
-        m_PostProcessSessions.remove(payload["sessionId"].toString(m_DefaultPostProcessSession));
+        const QString closedSessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        m_PostProcessSessions.remove(closedSessionId);
+        m_PostProcessSessionRoots.remove(closedSessionId);
         sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "closed"}});
     }
     else if (command == commands[POSTPROCESS_BUILD_MASTER])
@@ -3915,11 +4034,13 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // runs against an existing stacked result.
         const QString directory = payload["directory"].toString();
         const QString typeStr = payload["type"].toString();
-        const QString outputPath = payload["outputPath"].toString();
-        if (directory.isEmpty() || outputPath.isEmpty())
+        // outputPath is now optional — if omitted, a path is auto-generated below (once
+        // typeStr is validated) in a sibling "output" directory next to `directory`.
+        QString outputPath = payload["outputPath"].toString();
+        if (directory.isEmpty())
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-            QJsonObject{{"state", "error"}, {"message", "directory and outputPath are required"}});
+            QJsonObject{{"state", "error"}, {"message", "directory is required"}});
             return;
         }
 
@@ -3933,6 +4054,31 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             sendResponse(commands[NEW_POSTPROCESS_STATE],
             QJsonObject{{"state", "error"}, {"message", QString("Unknown master type '%1' — expected bias/dark/flat").arg(typeStr)}});
             return;
+        }
+
+        if (outputPath.isEmpty())
+        {
+            // Fold the source folder's own name into the generated filename — building
+            // several masters of the same type from sibling subfolders (Dark-Flats/120,
+            // /180, /300; Light-Flats/H-Alpha, /OIII, /SII; ...) all land in the same
+            // sibling "output" directory (see pipelineOutputDirFor()), and without this
+            // they'd be indistinguishable "master_<type>_<timestamp>.fits" files. Skipped
+            // when the folder's own name is just the type word again — singular ("Bias",
+            // "Dark", "Flat") or plural ("Biases", "Darks", "Flats") — since that adds no
+            // information, just a redundant "master_bias_Biases_<ts>.fits". Checking both
+            // a trailing "s" and "es" strip covers "Darks"->"dark" and "Biases"->"bias"
+            // (English adds "-es", not just "-s", after a word already ending in "s").
+            const QString dirName = QFileInfo(QDir::cleanPath(directory)).fileName();
+            const QString normalizedDir = dirName.toLower();
+            QStringList dirCandidates{normalizedDir};
+            if (normalizedDir.endsWith(QStringLiteral("es")))
+                dirCandidates << normalizedDir.chopped(2);
+            if (normalizedDir.endsWith('s'))
+                dirCandidates << normalizedDir.chopped(1);
+            QString baseName = QString("master_%1").arg(typeStr);
+            if (!dirName.isEmpty() && !dirCandidates.contains(typeStr))
+                baseName += "_" + dirName;
+            outputPath = generatePipelineOutputPath(directory, baseName);
         }
 
         const double lowSigma = payload["lowSigma"].toDouble(3.0);
@@ -4191,6 +4337,33 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
+        // Inherit a "session root" (see pipelineSessionRootFor()) from whichever named
+        // input session has one, so the blend result can be auto-saved into the same
+        // shared "Output" folder its inputs' own masters/stacks already used — a blend
+        // has no source `directory` of its own to derive one from. Checked in red/green/
+        // blue order; every real input is a stack session that got one when it started
+        // (see postprocess_stack above), so this only comes up empty for an unusual case
+        // (all inputs already-adopted sessions with no root of their own) — the blend
+        // result then simply isn't auto-saved, same as before this feature existed.
+        auto findInheritedRoot = [this](const QJsonArray & inputs) -> QString
+        {
+            for (const auto &value : inputs)
+            {
+                const QJsonObject obj = value.toObject();
+                QString sessionId = obj["sessionId"].toString();
+                if (sessionId.isEmpty())
+                    sessionId = obj["filter"].toString();
+                if (!sessionId.isEmpty() && m_PostProcessSessionRoots.contains(sessionId))
+                    return m_PostProcessSessionRoots.value(sessionId);
+            }
+            return QString();
+        };
+        QString blendRoot = findInheritedRoot(payload["red"].toArray());
+        if (blendRoot.isEmpty())
+            blendRoot = findInheritedRoot(payload["green"].toArray());
+        if (blendRoot.isEmpty())
+            blendRoot = findInheritedRoot(payload["blue"].toArray());
+
         // The blend result becomes its own session — same crop/apply_*/save lifecycle
         // as any real stack from here on, adopted (with its WCS, if any) once blending
         // finishes below.
@@ -4247,7 +4420,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         auto watcher = new QFutureWatcher<BlendResult>(this);
         connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
-                [this, watcher, outputSessionId, cancelFlag]()
+                [this, watcher, outputSessionId, cancelFlag, blendRoot]()
         {
             m_BusyPostProcessSessions.remove(outputSessionId);
             if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
@@ -4301,8 +4474,28 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 });
             });
             m_PostProcessSessions[outputSessionId] = outputSession;
-            sendPostProcessState(
-            QJsonObject{{"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}});
+
+            QJsonObject state
+            {
+                {"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}
+            };
+            if (!blendRoot.isEmpty())
+            {
+                // Inherited from an input session above — carry it forward so a later
+                // postprocess_save (with no explicit outputPath) against this blend, or a
+                // further blend built from it, can keep using the same shared "Output"
+                // folder. Always uses outputSessionId as the identity (never suppressed
+                // the way postprocess_stack Mode B's internal default key is), since
+                // blend_channels' own default, "blended", is already meaningful.
+                m_PostProcessSessionRoots[outputSessionId] = blendRoot;
+                const QString outputPath = generateStackOutputPathForRoot(blendRoot, outputSessionId);
+                QString saveError;
+                if (outputSession->save(outputPath, saveError))
+                    state["outputPath"] = outputPath;
+                else
+                    state["saveError"] = saveError;
+            }
+            sendPostProcessState(state);
         });
         watcher->setFuture(future);
     }
@@ -4364,6 +4557,33 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
+        // postprocess_save's outputPath is optional too, same as build_master — falls
+        // back to the shared "Output" folder for this session's target when one is known
+        // (m_PostProcessSessionRoots, populated when the session was created by
+        // postprocess_stack/postprocess_blend_channels). Resolved here, on the GUI
+        // thread, before dispatch below — the worker lambda only touches
+        // `session`/`payload` by design (see its own comment), and
+        // m_PostProcessSessionRoots is regular Message state, not safe to read
+        // concurrently with a GUI-thread write (a different session starting/closing).
+        QString saveOutputPath;
+        if (command == commands[POSTPROCESS_SAVE])
+        {
+            saveOutputPath = payload["outputPath"].toString();
+            if (saveOutputPath.isEmpty())
+            {
+                const QString root = m_PostProcessSessionRoots.value(sessionId);
+                if (root.isEmpty())
+                {
+                    sendResponse(commands[NEW_POSTPROCESS_STATE],
+                    QJsonObject{{"state", "error"}, {"sessionId", sessionId},
+                        {"message", "outputPath is required — no auto-generated location available for this session"}});
+                    return;
+                }
+                const QString identity = (sessionId == m_DefaultPostProcessSession) ? QString() : sessionId;
+                saveOutputPath = generateStackOutputPathForRoot(root, identity);
+            }
+        }
+
         // A JPEG preview of the working image, before and after this step — headless,
         // no FITSView/GUI dependency (PreviewRenderer), downscaled first so it stays
         // cheap regardless of the source resolution. Sent over the wsMedia binary
@@ -4401,7 +4621,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         // Captures `this` only for parseCurvePoints() — a pure, const helper safe to
         // call from a worker thread; no other Message state is touched here.
-        auto future = QtConcurrent::run([this, session, command, payload]() -> PostProcessOpResult
+        // saveOutputPath is passed in already-resolved (see above) rather than reading
+        // payload["outputPath"] again in here, for the same reason.
+        auto future = QtConcurrent::run([this, session, command, payload, saveOutputPath]() -> PostProcessOpResult
         {
             PostProcessOpResult result;
             QString error;
@@ -4483,9 +4705,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             }
             else if (command == commands[POSTPROCESS_SAVE])
             {
-                const QString outputPath = payload["outputPath"].toString();
-                ok = session->save(outputPath, error);
-                result.extra = {{"state", ok ? "saved" : "error"}, {"outputPath", outputPath}};
+                ok = session->save(saveOutputPath, error);
+                result.extra = {{"state", ok ? "saved" : "error"}, {"outputPath", saveOutputPath}};
             }
 
             result.ok = ok;
