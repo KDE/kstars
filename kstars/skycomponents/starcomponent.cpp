@@ -747,7 +747,7 @@ void StarComponent::starsInAperture(QList<StarObject *> &list, const SkyPoint &c
         {
             if (!star)
                 continue;
-            if (star->mag() > m_FaintMagnitude)
+            if (star->mag() > maglim)
                 continue;
             if (star->angularDistanceTo(&center).Degrees() <= radius)
                 list.append(star);
