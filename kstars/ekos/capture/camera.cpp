@@ -295,10 +295,10 @@ void Camera::initCamera()
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
     // Only allow "Set temperature now" when a real target temperature is entered;
     // at the "--" special value there is nothing meaningful to send to the device.
-    connect(cameraTemperatureN, &QDoubleSpinBox::valueChanged, this, [this](double value)
+    connect(cameraTemperatureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double value)
     {
         setTemperatureB->setEnabled(cameraTemperatureN->isEnabled() && !cameraTemperatureN->isReadOnly() &&
-                                     value != TemperatureSpinSpecialValue);
+                                    value != TemperatureSpinSpecialValue);
     });
     connect(resetFormatB, &QPushButton::clicked, this, [this]()
     {
