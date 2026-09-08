@@ -236,6 +236,7 @@ if (INDI_FOUND)
             ekos/auxiliary/defectmap.cpp
             ekos/auxiliary/opticaltrainmanager.cpp
             ekos/auxiliary/opticaltraindbusinterface.cpp
+            ekos/auxiliary/devicecleanupdialog.cpp
             ekos/auxiliary/profilesettings.cpp
             ekos/auxiliary/opticaltrainsettings.cpp
             ekos/auxiliary/filtermanager.cpp

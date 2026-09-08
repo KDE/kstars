@@ -99,8 +99,12 @@ class OpticalTrainDBusInterface : public QObject
         /** @brief Remove this train from the database. */
         bool remove();
 
-        /** @brief Reset all device assignments in this train to defaults. */
-        void reset();
+        /**
+         * @brief Remove stored device references that are neither currently connected
+         * nor used by any saved profile.
+         * @return The number of entries removed.
+         */
+        int cleanup();
 
         /**
          * @brief Notify DBus clients that this train's configuration has changed.

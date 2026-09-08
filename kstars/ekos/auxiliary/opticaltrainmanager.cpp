@@ -16,13 +16,17 @@
 #include "indi/indipropertyexporter.h"
 #include "indi/indicommon.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/devicecleanupdialog.h"
 #include "oal/equipmentwriter.h"
+#include "oal/scope.h"
+#include "profileinfo.h"
 
 #include <QTimer>
 #include <QSqlTableModel>
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QJsonDocument>
+#include <QSet>
 
 #include <basedevice.h>
 
@@ -68,6 +72,8 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
     {
         Q_EMIT configurationRequested(false);
     });
+
+    connect(this, &OpticalTrainManager::updated, this, &OpticalTrainManager::refreshCleanupButtonState);
 
     // Mount Combo
     connect(mountComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -157,8 +163,6 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
         }
     });
 
-    connect(resetB, &QPushButton::clicked, this, &OpticalTrainManager::reset);
-
     connect(opticalElementsB, &QPushButton::clicked, this, [this]()
     {
         QScopedPointer<EquipmentWriter> writer(new EquipmentWriter());
@@ -166,6 +170,8 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
         writer->exec();
         refreshOpticalElements();
     });
+
+    connect(cleanupB, &QPushButton::clicked, this, &OpticalTrainManager::openCleanupDialog);
 
     connect(trainNamesList, &QListWidget::itemClicked, this, [this](QListWidgetItem * item)
     {
@@ -761,6 +767,8 @@ bool OpticalTrainManager::syncDelegatesToDevices()
     // Restore all signals
     for (auto &oneWidget : findChildren<QComboBox * >())
         oneWidget->blockSignals(false);
+
+    refreshCleanupButtonState();
 
     return changed;
 }
@@ -1382,6 +1390,197 @@ QStringList OpticalTrainManager::getMissingDevices() const
     }
 
     return missing;
+}
+
+////////////////////////////////////////////////////////////////////////////
+/// Heuristic: a stored device name is still considered "known" to a profile
+/// if it matches (as a substring, either direction) a driver label configured
+/// for that profile, whether started locally or listed as a remote driver.
+/// This can't be exact since a driver label (e.g. "ZWO CCD") and the device
+/// name it reports at runtime (e.g. "ZWO CCD ASI2600MM Pro") are related but
+/// not identical strings.
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::isDeviceKnownToAnyProfile(const QString &deviceName) const
+{
+    if (deviceName.isEmpty() || deviceName == "--")
+        return true;
+
+    QList<QSharedPointer<ProfileInfo>> profiles;
+    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
+
+    for (auto &profile : profiles)
+    {
+        for (auto it = profile->drivers.constBegin(); it != profile->drivers.constEnd(); ++it)
+        {
+            for (auto &label : it.value())
+            {
+                if (!label.isEmpty() &&
+                        (deviceName.contains(label, Qt::CaseInsensitive) || label.contains(deviceName, Qt::CaseInsensitive)))
+                    return true;
+            }
+        }
+
+        if (!profile->remotedrivers.isEmpty())
+        {
+            for (auto &entry : profile->remotedrivers.split(","))
+            {
+                QString label = entry.split("@").first();
+                label.remove("\"");
+                label = label.trimmed();
+                if (!label.isEmpty() &&
+                        (deviceName.contains(label, Qt::CaseInsensitive) || label.contains(deviceName, Qt::CaseInsensitive)))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////
+/// Collect stored device references that match no currently-connected device
+/// and no driver configured in any saved profile - i.e. safe to clear.
+////////////////////////////////////////////////////////////////////////////
+QList<OpticalTrainManager::UnusedDevice> OpticalTrainManager::getUnusedDevices() const
+{
+    QList<UnusedDevice> result;
+
+    struct RoleField
+    {
+        QString field;
+        QString label;
+        const QStringList *liveNames;
+    };
+
+    const QList<RoleField> roleFields =
+    {
+        {"mount", i18n("Mount"), &m_MountNames},
+        {"camera", i18n("Camera"), &m_CameraNames},
+        {"focuser", i18n("Focuser"), &m_FocuserNames},
+        {"filterwheel", i18n("Filter wheel"), &m_FilterWheelNames},
+        {"rotator", i18n("Rotator"), &m_RotatorNames},
+        {"dustcap", i18n("Dust cap"), &m_DustCapNames},
+        {"lightbox", i18n("Light box"), &m_LightBoxNames},
+        {"guider", i18n("Guider"), &m_GuiderNames},
+    };
+
+    for (auto &train : m_OpticalTrains)
+    {
+        const QString trainName = train["name"].toString();
+
+        for (auto &role : roleFields)
+        {
+            const QString value = train[role.field].toString();
+            if (value.isEmpty() || value == "--")
+                continue;
+
+            if (role.liveNames->contains(value) || isDeviceKnownToAnyProfile(value))
+                continue;
+
+            UnusedDevice device;
+            device.displayName = value;
+            device.subtitle = i18n("%1 - %2", trainName, role.label);
+            device.trainName = trainName;
+            device.fieldName = role.field;
+            result << device;
+        }
+
+        // Scope is matched against the persistent scope catalog rather than a live INDI device.
+        const QString scopeValue = train["scope"].toString();
+        if (!scopeValue.isEmpty() && scopeValue != "--" && !m_ScopeNames.contains(scopeValue))
+        {
+            UnusedDevice device;
+            device.displayName = scopeValue;
+            device.subtitle = i18n("%1 - Scope", trainName);
+            device.trainName = trainName;
+            device.fieldName = "scope";
+            result << device;
+        }
+    }
+
+    // Scope catalog entries that no optical train in any profile references anymore.
+    QSet<QString> referencedScopes;
+    QList<QSharedPointer<ProfileInfo>> profiles;
+    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
+    for (auto &profile : profiles)
+    {
+        QList<QVariantMap> trains;
+        KStarsData::Instance()->userdb()->GetOpticalTrains(profile->id, trains);
+        for (auto &train : trains)
+        {
+            const QString scopeValue = train["scope"].toString();
+            if (!scopeValue.isEmpty() && scopeValue != "--")
+                referencedScopes.insert(scopeValue);
+        }
+    }
+
+    QList<OAL::Scope *> scopeList;
+    KStarsData::Instance()->userdb()->GetAllScopes(scopeList);
+    for (auto &scope : scopeList)
+    {
+        if (!referencedScopes.contains(scope->name()))
+        {
+            UnusedDevice device;
+            device.displayName = scope->name();
+            device.subtitle = i18n("Scope catalog - unused entry");
+            device.isScopeCatalogEntry = true;
+            device.scopeElementID = scope->id();
+            result << device;
+        }
+    }
+    qDeleteAll(scopeList);
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::removeUnusedDevice(const UnusedDevice &device)
+{
+    if (device.isScopeCatalogEntry)
+    {
+        const bool result = KStarsData::Instance()->userdb()->DeleteEquipment("telescope", device.scopeElementID);
+        if (result)
+            refreshOpticalElements();
+        return result;
+    }
+
+    return setOpticalTrainValue(device.trainName, device.fieldName, "--");
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+int OpticalTrainManager::cleanupUnusedDevices()
+{
+    int count = 0;
+    for (const auto &device : getUnusedDevices())
+    {
+        if (removeUnusedDevice(device))
+            count++;
+    }
+
+    refreshCleanupButtonState();
+    return count;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::refreshCleanupButtonState()
+{
+    cleanupB->setEnabled(!getUnusedDevices().isEmpty());
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::openCleanupDialog()
+{
+    QScopedPointer<DeviceCleanupDialog> dialog(new DeviceCleanupDialog(this));
+    dialog->exec();
+    refreshCleanupButtonState();
 }
 
 ////////////////////////////////////////////////////////////////////////////

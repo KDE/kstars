@@ -207,6 +207,42 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         QStringList getOpticalTrainObjectPaths() const;
 
+        /**
+         * @brief A stored device reference that is neither currently connected nor used
+         * by any saved profile, and is therefore safe to clear.
+         */
+        struct UnusedDevice
+        {
+            QString displayName;
+            QString subtitle;
+            bool isScopeCatalogEntry { false };
+            // Valid when isScopeCatalogEntry is false: the train/field to reset to "--".
+            QString trainName;
+            QString fieldName;
+            // Valid when isScopeCatalogEntry is true: the telescope table row id to delete.
+            QString scopeElementID;
+        };
+
+        /**
+         * @brief getUnusedDevices Collect stored device references (per current profile's
+         * optical trains, and scope catalog entries used by no train in any profile) that
+         * match no currently-connected device and no driver configured in any saved profile.
+         */
+        QList<UnusedDevice> getUnusedDevices() const;
+
+        /**
+         * @brief removeUnusedDevice Clear a stale train field back to "--", or delete an
+         * unused scope catalog entry.
+         * @return True if the removal succeeded.
+         */
+        bool removeUnusedDevice(const UnusedDevice &device);
+
+        /**
+         * @brief cleanupUnusedDevices Remove all currently unused device references.
+         * @return The number of entries removed.
+         */
+        int cleanupUnusedDevices();
+
     Q_SIGNALS:
         void updated();
         void configurationRequested(bool show);
@@ -216,6 +252,8 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         QStringList getMissingDevices() const;
 
     private Q_SLOTS:
+        void refreshCleanupButtonState();
+        void openCleanupDialog();
         /**
          * @brief Update an element value in the currently selected optical train
          * @param cb combo box holding the new value
@@ -249,6 +287,13 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         QString addOpticalTrain(uint8_t index, const QString &name);
 
         void checkMissingDevices();
+
+        /**
+         * @brief isDeviceKnownToAnyProfile Heuristic check whether a stored device name could
+         * plausibly still be provided by a driver configured in any saved profile, by matching
+         * it against configured driver labels and remote driver entries.
+         */
+        bool isDeviceKnownToAnyProfile(const QString &deviceName) const;
 
         /**
            * @brief syncDelegatesToDevices Parses INDI devices and updates delegates accordingly.

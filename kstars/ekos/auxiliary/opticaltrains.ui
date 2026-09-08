@@ -413,7 +413,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="resetB">
+      <widget class="QPushButton" name="cleanupB">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="minimumSize">
         <size>
          <width>28</width>
@@ -427,13 +430,13 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Reset train</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove stored device names that are no longer connected and no longer used in any profile.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="system-reboot"/>
+        <iconset theme="view-refresh"/>
        </property>
        <property name="iconSize">
         <size>

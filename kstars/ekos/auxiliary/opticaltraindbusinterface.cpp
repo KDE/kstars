@@ -177,15 +177,9 @@ bool OpticalTrainDBusInterface::remove()
     return OpticalTrainManager::Instance()->removeOpticalTrain(train["name"].toString());
 }
 
-void OpticalTrainDBusInterface::reset()
+int OpticalTrainDBusInterface::cleanup()
 {
-    // selectOpticalTrain sets m_CurrentOpticalTrain; then reset() acts on it.
-    auto train = OpticalTrainManager::Instance()->getOpticalTrain(static_cast<uint8_t>(m_TrainID));
-    if (train.isEmpty())
-        return;
-
-    OpticalTrainManager::Instance()->selectOpticalTrain(train["name"].toString());
-    OpticalTrainManager::Instance()->reset();
+    return OpticalTrainManager::Instance()->cleanupUnusedDevices();
 }
 
 ////////////////////////////////////////////////////////////////////////////

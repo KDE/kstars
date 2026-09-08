@@ -69,8 +69,8 @@
         <method name="remove">
             <arg type="b" direction="out"/>
         </method>
-        <method name="reset">
-            <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+        <method name="cleanup">
+            <arg type="i" direction="out"/>
         </method>
 
         <!-- Signals -->
