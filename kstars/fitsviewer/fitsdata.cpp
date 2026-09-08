@@ -935,6 +935,9 @@ bool FITSData::prepareStackBuffer()
 
         m_StackSNR = m_LiveStackData.calcSNR ? calcStackSNR(finalImage) : 0.0;
         m_StackedImageMat = finalImage;
+        m_Statistics.width = static_cast<uint16_t>(finalImage.cols);
+        m_Statistics.height = static_cast<uint16_t>(finalImage.rows);
+        m_Statistics.channels = finalImage.channels();
 
         // Populate m_WCSHandle from the stack's own solved WCS (if plate-solved) so
         // convertMatToFITS() below writes real WCS keywords into the saved buffer, and
@@ -1436,6 +1439,9 @@ bool FITSData::cropStack(const QRect &roi, QString &error)
 
     m_StackStatistics.stats.width = m_StackedImageMat.cols;
     m_StackStatistics.stats.height = m_StackedImageMat.rows;
+    // Also keep the general Statistic struct in sync
+    m_Statistics.width = static_cast<uint16_t>(m_StackedImageMat.cols);
+    m_Statistics.height = static_cast<uint16_t>(m_StackedImageMat.rows);
 
     if (m_WCSHandle != nullptr)
     {
@@ -1554,6 +1560,10 @@ bool FITSData::undoLastOperation(QString &error)
     m_UndoStackedImageMat.release(); // single-level — consume it, don't leave it undoable again
     m_StackStatistics.stats.width = m_StackedImageMat.cols;
     m_StackStatistics.stats.height = m_StackedImageMat.rows;
+    // See cropStack() — keep the general Statistic struct (width()/height(),
+    // buildPreviewMetadata()'s "resolution") in sync too, e.g. undoing a crop.
+    m_Statistics.width = static_cast<uint16_t>(m_StackedImageMat.cols);
+    m_Statistics.height = static_cast<uint16_t>(m_StackedImageMat.rows);
 
     if (m_WCSHandle != nullptr)
     {
@@ -1589,6 +1599,9 @@ bool FITSData::setStackedImage(const cv::Mat &image, QString &error, const struc
     m_StackedImageMat = image;
     m_StackStatistics.stats.width = image.cols;
     m_StackStatistics.stats.height = image.rows;
+    m_Statistics.width = static_cast<uint16_t>(image.cols);
+    m_Statistics.height = static_cast<uint16_t>(image.rows);
+    m_Statistics.channels = image.channels();
 
     if (m_WCSHandle != nullptr)
     {
