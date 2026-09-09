@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-08 02:16+0000\n"
+"POT-Creation-Date: 2026-09-09 02:24+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -772,7 +772,7 @@ msgstr "Astrometry Configuration File Read Error."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Internal Astrometry Configuration File Write Error."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3731
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3744
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -5319,7 +5319,7 @@ msgstr "Compute FOV"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #: ekos/manager.cpp:2520
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
@@ -11049,7 +11049,8 @@ msgstr "Align"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2775 ekos/manager.ui:778
+#: ekos/auxiliary/opticaltrainmanager.cpp:1413 ekos/manager.cpp:2775
+#: ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -12982,6 +12983,30 @@ msgstr ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
 "wizard in Capture module."
 
+#: ekos/auxiliary/devicecleanupdialog.cpp:28
+#, kde-format
+msgctxt "@title:window"
+msgid "Clean Up Unused Devices"
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:32
+#, kde-format
+msgid ""
+"These stored device names are not currently connected. Some may only be "
+"temporarily unavailable, so check before removing."
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:41
+#, fuzzy, kde-format
+#| msgid "All devices are successfully mapped."
+msgid "All stored devices are currently connected."
+msgstr "All devices are successfully mapped."
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:83
+#, kde-format
+msgid "Remove this stored device reference"
+msgstr ""
+
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Filter exposure time during focus"
@@ -13521,7 +13546,8 @@ msgstr "Log Ekos Focus module activity"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
-#: ekos/auxiliary/opslogs.ui:380 ekos/focus/focus.ui:134
+#: ekos/auxiliary/opslogs.ui:380 ekos/auxiliary/opticaltrainmanager.cpp:1415
+#: ekos/focus/focus.ui:134
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:491
 #, kde-format
 msgid "Focuser"
@@ -13529,7 +13555,8 @@ msgstr "Focuser"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:1158
+#: ekos/auxiliary/opslogs.ui:390 ekos/auxiliary/opticaltrainmanager.cpp:1417
+#: ekos/capture/camera.ui:1158
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:509
 #, kde-format
 msgid "Rotator"
@@ -13583,27 +13610,27 @@ msgstr "INDI messages in status &bar"
 msgid "Open Logs Directory..."
 msgstr "Open Logs Directory..."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:144
+#: ekos/auxiliary/opticaltrainmanager.cpp:149
 #, kde-format
 msgid "New Train"
 msgstr "New Train"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:503
+#: ekos/auxiliary/opticaltrainmanager.cpp:508
 #, kde-format
 msgid "Primary"
 msgstr "Primary"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:506
+#: ekos/auxiliary/opticaltrainmanager.cpp:511
 #, kde-format
 msgid "Secondary"
 msgstr "Secondary"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:509
+#: ekos/auxiliary/opticaltrainmanager.cpp:514
 #, kde-format
 msgid "Tertiary"
 msgstr "Tertiary"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1301
+#: ekos/auxiliary/opticaltrainmanager.cpp:1308
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -13612,7 +13639,7 @@ msgstr ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1308
+#: ekos/auxiliary/opticaltrainmanager.cpp:1315
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -13620,6 +13647,35 @@ msgid ""
 msgstr ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1416
+#, fuzzy, kde-format
+#| msgid "Filter wheel:"
+msgid "Filter wheel"
+msgstr "Filter wheel:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1418
+#, fuzzy, kde-format
+#| msgid "Dust cap:"
+msgid "Dust cap"
+msgstr "Dust cap:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1419
+#, fuzzy, kde-format
+#| msgid "Light box:"
+msgid "Light box"
+msgstr "Light box:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1420
+#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
+#, kde-format
+msgid "Guider"
+msgstr "Guider"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1438
+#, kde-format
+msgid "%1 - %2"
+msgstr "%1 - %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
@@ -13842,11 +13898,14 @@ msgstr "Rotator:"
 msgid "Telescopes && Lenses"
 msgstr "Telescopes && Lenses"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/auxiliary/opticaltrains.ui:430
+#. i18n: ectx: property (toolTip), widget (QPushButton, cleanupB)
+#: ekos/auxiliary/opticaltrains.ui:433
 #, kde-format
-msgid "Reset train"
-msgstr "Reset train"
+msgid ""
+"<html><head/><body><p>Remove stored device names that are not currently "
+"connected. Some may only be temporarily unavailable, so check before "
+"removing.</p></body></html>"
+msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -32885,11 +32944,6 @@ msgstr ""
 msgid "No compatible devices in profile"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
-#, kde-format
-msgid "Guider"
-msgstr "Guider"
-
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:499
 #, kde-format
 msgid "Weather Station"
@@ -33993,222 +34047,222 @@ msgstr "Object Type Description"
 msgid "Object Type Comments"
 msgstr "Object Type Comments"
 
-#: fitsviewer/fitsdata.cpp:2675
+#: fitsviewer/fitsdata.cpp:2688
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Error reading fits buffer: %1."
 
-#: fitsviewer/fitsdata.cpp:2684
+#: fitsviewer/fitsdata.cpp:2697
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Failed to unpack compressed fits"
 
-#: fitsviewer/fitsdata.cpp:2714
+#: fitsviewer/fitsdata.cpp:2727
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Error opening fits file %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2729
+#: fitsviewer/fitsdata.cpp:2742
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Error reading fits buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:2743
+#: fitsviewer/fitsdata.cpp:2756
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Could not locate image HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2753
+#: fitsviewer/fitsdata.cpp:2766
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS file open error (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2767
+#: fitsviewer/fitsdata.cpp:2780
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS images are not supported in KStars."
 
-#: fitsviewer/fitsdata.cpp:2815 fitsviewer/fitsdata.cpp:3560
+#: fitsviewer/fitsdata.cpp:2828 fitsviewer/fitsdata.cpp:3573
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bit depth %1 is not supported."
 
-#: fitsviewer/fitsdata.cpp:2825
+#: fitsviewer/fitsdata.cpp:2838
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Image has invalid dimensions %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2879
+#: fitsviewer/fitsdata.cpp:2892
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Error reading image: %1"
 
-#: fitsviewer/fitsdata.cpp:3286 fitsviewer/fitsdata.cpp:3520
+#: fitsviewer/fitsdata.cpp:3299 fitsviewer/fitsdata.cpp:3533
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF file open error: "
 
-#: fitsviewer/fitsdata.cpp:3434
+#: fitsviewer/fitsdata.cpp:3447
 #, kde-format
 msgid "File contain no images"
 msgstr "File contain no images"
 
-#: fitsviewer/fitsdata.cpp:3463
+#: fitsviewer/fitsdata.cpp:3476
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Sample format %1 is not supported."
 
-#: fitsviewer/fitsdata.cpp:3598
+#: fitsviewer/fitsdata.cpp:3611
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Error saving XISF image"
 
-#: fitsviewer/fitsdata.cpp:3690 fitsviewer/fitsdata.cpp:3806
+#: fitsviewer/fitsdata.cpp:3703 fitsviewer/fitsdata.cpp:3819
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3745
+#: fitsviewer/fitsdata.cpp:3758
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Cannot open file %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3758
+#: fitsviewer/fitsdata.cpp:3771
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Cannot open buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:3769
+#: fitsviewer/fitsdata.cpp:3782
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Cannot unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3776
+#: fitsviewer/fitsdata.cpp:3789
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Cannot dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3784
+#: fitsviewer/fitsdata.cpp:3797
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Cannot load to memory: %1"
 
-#: fitsviewer/fitsdata.cpp:3931
+#: fitsviewer/fitsdata.cpp:3944
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Saving compressed files is not supported."
 
-#: fitsviewer/fitsdata.cpp:3995
+#: fitsviewer/fitsdata.cpp:4008
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Failed to create file: %1"
 
-#: fitsviewer/fitsdata.cpp:4017
+#: fitsviewer/fitsdata.cpp:4030
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Failed to create image: %1"
 
-#: fitsviewer/fitsdata.cpp:4026 fitsviewer/fitsdata.cpp:4033
+#: fitsviewer/fitsdata.cpp:4039 fitsviewer/fitsdata.cpp:4046
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Failed to update key: %1"
 
-#: fitsviewer/fitsdata.cpp:4161
+#: fitsviewer/fitsdata.cpp:4174
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Failed to update date: %1"
 
-#: fitsviewer/fitsdata.cpp:4170
+#: fitsviewer/fitsdata.cpp:4183
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Failed to update history: %1"
 
-#: fitsviewer/fitsdata.cpp:4192
+#: fitsviewer/fitsdata.cpp:4205
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Failed to write image: %1"
 
-#: fitsviewer/fitsdata.cpp:5968 fitsviewer/fitsdata.cpp:5979
-#: fitsviewer/fitsdata.cpp:6016 fitsviewer/fitsdata.cpp:6052
-#: fitsviewer/fitsdata.cpp:6186
+#: fitsviewer/fitsdata.cpp:5981 fitsviewer/fitsdata.cpp:5992
+#: fitsviewer/fitsdata.cpp:6029 fitsviewer/fitsdata.cpp:6065
+#: fitsviewer/fitsdata.cpp:6199
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No world coordinate systems found."
 
-#: fitsviewer/fitsdata.cpp:6436 fitsviewer/fitsdata.cpp:6542
+#: fitsviewer/fitsdata.cpp:6449 fitsviewer/fitsdata.cpp:6555
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Error querying Simbad"
 
-#: fitsviewer/fitsdata.cpp:6451
+#: fitsviewer/fitsdata.cpp:6464
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Simbad query timed out"
 
-#: fitsviewer/fitsdata.cpp:7428 fitsviewer/fitsdata.cpp:7541
+#: fitsviewer/fitsdata.cpp:7441 fitsviewer/fitsdata.cpp:7554
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Only 8 and 16 bits bayered images supported."
 
-#: fitsviewer/fitsdata.cpp:7436 fitsviewer/fitsdata.cpp:7547
+#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7560
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unknown bayer pattern %1"
 msgstr "Unsupported bayer pattern %1."
 
-#: fitsviewer/fitsdata.cpp:7460 fitsviewer/fitsdata.cpp:7486
+#: fitsviewer/fitsdata.cpp:7473 fitsviewer/fitsdata.cpp:7499
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unsupported bayer pattern %1"
 msgstr "Unsupported bayer pattern %1."
 
-#: fitsviewer/fitsdata.cpp:7494
+#: fitsviewer/fitsdata.cpp:7507
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Unsupported bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
+#: fitsviewer/fitsdata.cpp:7518 fitsviewer/fitsdata.cpp:7571
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Input Parameters"
 
-#: fitsviewer/fitsdata.cpp:7516 fitsviewer/fitsdata.cpp:7569
+#: fitsviewer/fitsdata.cpp:7529 fitsviewer/fitsdata.cpp:7582
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Input Parameters"
 
-#: fitsviewer/fitsdata.cpp:7525 fitsviewer/fitsdata.cpp:7578
+#: fitsviewer/fitsdata.cpp:7538 fitsviewer/fitsdata.cpp:7591
 #, fuzzy, kde-format
 #| msgid "Invalid response."
 msgid "Invalid debayer engine"
 msgstr "Invalid response."
 
-#: fitsviewer/fitsdata.cpp:7832
+#: fitsviewer/fitsdata.cpp:7845
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7848 fitsviewer/fitsdata.cpp:7894
-#: fitsviewer/fitsdata.cpp:7952 fitsviewer/fitsdata.cpp:7998
+#: fitsviewer/fitsdata.cpp:7861 fitsviewer/fitsdata.cpp:7907
+#: fitsviewer/fitsdata.cpp:7965 fitsviewer/fitsdata.cpp:8011
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Unable to allocate memory for temporary bayer buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:7858 fitsviewer/fitsdata.cpp:7962
+#: fitsviewer/fitsdata.cpp:7871 fitsviewer/fitsdata.cpp:7975
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Unable to allocate memory for temporary bayer buffer."
 
-#: fitsviewer/fitsdata.cpp:7877 fitsviewer/fitsdata.cpp:7981
+#: fitsviewer/fitsdata.cpp:7890 fitsviewer/fitsdata.cpp:7994
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer failed (%1)"
 
-#: fitsviewer/fitsdata.cpp:7937
+#: fitsviewer/fitsdata.cpp:7950
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -100162,6 +100216,9 @@ msgstr "Background colour:"
 msgid "Set the color for the background."
 msgstr "Set the colour for the background."
 
+#~ msgid "Reset train"
+#~ msgstr "Reset train"
+
 #~ msgid ""
 #~ "<html><head/><body><p>Enforce temperature value before capturing an "
 #~ "image</p></body></html>"
@@ -124949,9 +125006,6 @@ msgstr "Set the colour for the background."
 
 #~ msgid "Unsupported catalog format version.<br>Wanted '%1' and got '%2'."
 #~ msgstr "Unsupported catalogue format version.<br>Wanted '%1' and got '%2'."
-
-#~ msgid "%1 - %2"
-#~ msgstr "%1 - %2"
 
 #~ msgid "Hide the Milky Way contour while moving?"
 #~ msgstr "Hide the Milky Way contour while moving?"

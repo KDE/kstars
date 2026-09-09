@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-08 02:16+0000\n"
+"POT-Creation-Date: 2026-09-09 02:24+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -847,7 +847,7 @@ msgstr ""
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3731
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3744
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -5625,7 +5625,7 @@ msgstr "FOV গণনা করো"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #: ekos/manager.cpp:2520
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
@@ -11238,7 +11238,8 @@ msgstr "ফোকাসকৃত বস্তু: "
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2775 ekos/manager.ui:778
+#: ekos/auxiliary/opticaltrainmanager.cpp:1413 ekos/manager.cpp:2775
+#: ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, fuzzy, kde-format
 #| msgid "Count:"
@@ -13096,6 +13097,30 @@ msgid ""
 "wizard in Capture module."
 msgstr ""
 
+#: ekos/auxiliary/devicecleanupdialog.cpp:28
+#, kde-format
+msgctxt "@title:window"
+msgid "Clean Up Unused Devices"
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:32
+#, kde-format
+msgid ""
+"These stored device names are not currently connected. Some may only be "
+"temporarily unavailable, so check before removing."
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:41
+#, fuzzy, kde-format
+#| msgid "Celestial Coordinates"
+msgid "All stored devices are currently connected."
+msgstr "খ-স্থানাঙ্ক"
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:83
+#, kde-format
+msgid "Remove this stored device reference"
+msgstr ""
+
 #: ekos/auxiliary/filtermanager.cpp:121
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
@@ -13656,7 +13681,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
-#: ekos/auxiliary/opslogs.ui:380 ekos/focus/focus.ui:134
+#: ekos/auxiliary/opslogs.ui:380 ekos/auxiliary/opticaltrainmanager.cpp:1415
+#: ekos/focus/focus.ui:134
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:491
 #, fuzzy, kde-format
 #| msgid "Focused on: "
@@ -13665,7 +13691,8 @@ msgstr "ফোকাসকৃত বস্তু: "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:1158
+#: ekos/auxiliary/opslogs.ui:390 ekos/auxiliary/opticaltrainmanager.cpp:1417
+#: ekos/capture/camera.ui:1158
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:509
 #, fuzzy, kde-format
 msgid "Rotator"
@@ -13720,46 +13747,77 @@ msgstr "স্ট্যাটা&সবারে INDI'র বার্তা দ
 msgid "Open Logs Directory..."
 msgstr "ডিফল্ট FITS ডিরেক্টরি:"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:144
+#: ekos/auxiliary/opticaltrainmanager.cpp:149
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "New Britian"
 msgid "New Train"
 msgstr "নিউ ব্রিটেন"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:503
+#: ekos/auxiliary/opticaltrainmanager.cpp:508
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Primghar"
 msgid "Primary"
 msgstr "প্রিমঘর"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:506
+#: ekos/auxiliary/opticaltrainmanager.cpp:511
 #, fuzzy, kde-format
 #| msgctxt "seconds"
 #| msgid "secs"
 msgid "Secondary"
 msgstr "সেকেন্ড"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:509
+#: ekos/auxiliary/opticaltrainmanager.cpp:514
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Tertiary"
 msgstr "দৃষ্টিসংক্রান্ত"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1301
+#: ekos/auxiliary/opticaltrainmanager.cpp:1308
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1308
+#: ekos/auxiliary/opticaltrainmanager.cpp:1315
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
+msgstr ""
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1416
+#, fuzzy, kde-format
+#| msgid "Filter Wheel"
+msgid "Filter wheel"
+msgstr "ফিল্টার চক্র"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1418
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Dover"
+msgid "Dust cap"
+msgstr "ডোভার"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1419
+#, fuzzy, kde-format
+#| msgid "Height:"
+msgid "Light box"
+msgstr "উচ্চতা:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1420
+#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
+#, fuzzy, kde-format
+#| msgid "Guides"
+msgid "Guider"
+msgstr "নির্দেশিকা"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1438
+#, kde-format
+msgid "%1 - %2"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
@@ -13965,12 +14023,14 @@ msgstr "মেইন"
 msgid "Telescopes && Lenses"
 msgstr "দূরবীক্ষণ যন্ত্র:"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/auxiliary/opticaltrains.ui:430
-#, fuzzy, kde-format
-#| msgid "Dark Frames"
-msgid "Reset train"
-msgstr "অন্ধকার ফ্রেম"
+#. i18n: ectx: property (toolTip), widget (QPushButton, cleanupB)
+#: ekos/auxiliary/opticaltrains.ui:433
+#, kde-format
+msgid ""
+"<html><head/><body><p>Remove stored device names that are not currently "
+"connected. Some may only be temporarily unavailable, so check before "
+"removing.</p></body></html>"
+msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:64
 #, fuzzy, kde-format
@@ -32170,12 +32230,6 @@ msgstr ""
 msgid "No compatible devices in profile"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
-#, fuzzy, kde-format
-#| msgid "Guides"
-msgid "Guider"
-msgstr "নির্দেশিকা"
-
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:499
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -33263,234 +33317,234 @@ msgstr "বিবরণ"
 msgid "Object Type Comments"
 msgstr "বস্তুর ধরন"
 
-#: fitsviewer/fitsdata.cpp:2675
+#: fitsviewer/fitsdata.cpp:2688
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error reading fits buffer: %1."
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:2684
+#: fitsviewer/fitsdata.cpp:2697
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2714
+#: fitsviewer/fitsdata.cpp:2727
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error opening fits file %1 : %2"
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:2729
+#: fitsviewer/fitsdata.cpp:2742
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error reading fits buffer: %1"
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:2743
+#: fitsviewer/fitsdata.cpp:2756
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "%1 ফাইলটি খোলা যায় নি।"
 
-#: fitsviewer/fitsdata.cpp:2753
+#: fitsviewer/fitsdata.cpp:2766
 #, fuzzy, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: fitsviewer/fitsdata.cpp:2767
+#: fitsviewer/fitsdata.cpp:2780
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2815 fitsviewer/fitsdata.cpp:3560
+#: fitsviewer/fitsdata.cpp:2828 fitsviewer/fitsdata.cpp:3573
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2825
+#: fitsviewer/fitsdata.cpp:2838
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2879
+#: fitsviewer/fitsdata.cpp:2892
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error reading image: %1"
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:3286 fitsviewer/fitsdata.cpp:3520
+#: fitsviewer/fitsdata.cpp:3299 fitsviewer/fitsdata.cpp:3533
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "XISF file open error: "
 msgstr "নির্দেশিকা"
 
-#: fitsviewer/fitsdata.cpp:3434
+#: fitsviewer/fitsdata.cpp:3447
 #, fuzzy, kde-format
 msgid "File contain no images"
 msgstr "ছবি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:3463
+#: fitsviewer/fitsdata.cpp:3476
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Sample format %1 is not supported."
 msgstr "সম্পন্ন"
 
-#: fitsviewer/fitsdata.cpp:3598
+#: fitsviewer/fitsdata.cpp:3611
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error saving XISF image"
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:3690 fitsviewer/fitsdata.cpp:3806
+#: fitsviewer/fitsdata.cpp:3703 fitsviewer/fitsdata.cpp:3819
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3745
+#: fitsviewer/fitsdata.cpp:3758
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "এই ফাইলটি খোলা যায় নি: %1"
 
-#: fitsviewer/fitsdata.cpp:3758
+#: fitsviewer/fitsdata.cpp:3771
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "এই ফাইলটি খোলা যায় নি: %1"
 
-#: fitsviewer/fitsdata.cpp:3769
+#: fitsviewer/fitsdata.cpp:3782
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3776
+#: fitsviewer/fitsdata.cpp:3789
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3784
+#: fitsviewer/fitsdata.cpp:3797
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3931
+#: fitsviewer/fitsdata.cpp:3944
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Saving compressed files is not supported."
 msgstr "সম্পন্ন"
 
-#: fitsviewer/fitsdata.cpp:3995
+#: fitsviewer/fitsdata.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "%1 ফাইলটি খোলা যায় নি।"
 
-#: fitsviewer/fitsdata.cpp:4017
+#: fitsviewer/fitsdata.cpp:4030
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "%1-এর ছবিটি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:4026 fitsviewer/fitsdata.cpp:4033
+#: fitsviewer/fitsdata.cpp:4039 fitsviewer/fitsdata.cpp:4046
 #, fuzzy, kde-format
 msgid "Failed to update key: %1"
 msgstr "ছবি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:4161
+#: fitsviewer/fitsdata.cpp:4174
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "%1-এর ছবিটি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:4170
+#: fitsviewer/fitsdata.cpp:4183
 #, fuzzy, kde-format
 msgid "Failed to update history: %1"
 msgstr "ছবি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:4192
+#: fitsviewer/fitsdata.cpp:4205
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "%1-এর ছবিটি লোড করা যায় নি"
 
-#: fitsviewer/fitsdata.cpp:5968 fitsviewer/fitsdata.cpp:5979
-#: fitsviewer/fitsdata.cpp:6016 fitsviewer/fitsdata.cpp:6052
-#: fitsviewer/fitsdata.cpp:6186
+#: fitsviewer/fitsdata.cpp:5981 fitsviewer/fitsdata.cpp:5992
+#: fitsviewer/fitsdata.cpp:6029 fitsviewer/fitsdata.cpp:6065
+#: fitsviewer/fitsdata.cpp:6199
 #, fuzzy, kde-format
 msgid "No world coordinate systems found."
 msgstr "অনুভূমিক স্থানাঙ্ক"
 
-#: fitsviewer/fitsdata.cpp:6436 fitsviewer/fitsdata.cpp:6542
+#: fitsviewer/fitsdata.cpp:6449 fitsviewer/fitsdata.cpp:6555
 #, fuzzy, kde-format
 #| msgid "Error adding catalog: %1"
 msgid "Error querying Simbad"
 msgstr "এই ক্যাটালগটি যোগ করতে সমস্যা হয়েছে: %1"
 
-#: fitsviewer/fitsdata.cpp:6451
+#: fitsviewer/fitsdata.cpp:6464
 #, fuzzy, kde-format
 msgid "Simbad query timed out"
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: fitsviewer/fitsdata.cpp:7428 fitsviewer/fitsdata.cpp:7541
+#: fitsviewer/fitsdata.cpp:7441 fitsviewer/fitsdata.cpp:7554
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7436 fitsviewer/fitsdata.cpp:7547
+#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7560
 #, fuzzy, kde-format
 #| msgid "Unknown planet "
 msgid "Unknown bayer pattern %1"
 msgstr "অজ্ঞাত গ্রহ "
 
-#: fitsviewer/fitsdata.cpp:7460 fitsviewer/fitsdata.cpp:7486
+#: fitsviewer/fitsdata.cpp:7473 fitsviewer/fitsdata.cpp:7499
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7494
+#: fitsviewer/fitsdata.cpp:7507
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
+#: fitsviewer/fitsdata.cpp:7518 fitsviewer/fitsdata.cpp:7571
 #, fuzzy, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "সকল পরামিতি"
 
-#: fitsviewer/fitsdata.cpp:7516 fitsviewer/fitsdata.cpp:7569
+#: fitsviewer/fitsdata.cpp:7529 fitsviewer/fitsdata.cpp:7582
 #, fuzzy, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "সকল পরামিতি"
 
-#: fitsviewer/fitsdata.cpp:7525 fitsviewer/fitsdata.cpp:7578
+#: fitsviewer/fitsdata.cpp:7538 fitsviewer/fitsdata.cpp:7591
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Invalid debayer engine"
 msgstr "ফাইলের নাম অবৈধ"
 
-#: fitsviewer/fitsdata.cpp:7832
+#: fitsviewer/fitsdata.cpp:7845
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7848 fitsviewer/fitsdata.cpp:7894
-#: fitsviewer/fitsdata.cpp:7952 fitsviewer/fitsdata.cpp:7998
+#: fitsviewer/fitsdata.cpp:7861 fitsviewer/fitsdata.cpp:7907
+#: fitsviewer/fitsdata.cpp:7965 fitsviewer/fitsdata.cpp:8011
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7858 fitsviewer/fitsdata.cpp:7962
+#: fitsviewer/fitsdata.cpp:7871 fitsviewer/fitsdata.cpp:7975
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7877 fitsviewer/fitsdata.cpp:7981
+#: fitsviewer/fitsdata.cpp:7890 fitsviewer/fitsdata.cpp:7994
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7937
+#: fitsviewer/fitsdata.cpp:7950
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -105733,6 +105787,11 @@ msgstr "গতিপথকে পটভূমির রঙের সাথে �
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "গতিপথকে পটভূমির রঙের সাথে মিলিয়ে দেওয়া হবে কি?"
+
+#, fuzzy
+#~| msgid "Dark Frames"
+#~ msgid "Reset train"
+#~ msgstr "অন্ধকার ফ্রেম"
 
 #, fuzzy
 #~| msgid "Aperture:"

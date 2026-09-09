@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-08 02:16+0000\n"
-"PO-Revision-Date: 2026-09-06 11:39+0300\n"
+"POT-Creation-Date: 2026-09-09 02:24+0000\n"
+"PO-Revision-Date: 2026-09-08 12:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -773,7 +773,7 @@ msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "Помилка під час записування файла налаштувань вбудованого засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3731
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3744
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -5325,7 +5325,7 @@ msgstr "Обчислення поля зору"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #: ekos/manager.cpp:2520
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
@@ -11140,7 +11140,8 @@ msgstr "Вирівнювання"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2775 ekos/manager.ui:778
+#: ekos/auxiliary/opticaltrainmanager.cpp:1413 ekos/manager.cpp:2775
+#: ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -13082,6 +13083,30 @@ msgstr ""
 "Не виявлено придатних темних кадрів або карт дефектів. Будь ласка, запустіть "
 "майстер бібліотеки темних кадрів у модулі захоплення зображення."
 
+#: ekos/auxiliary/devicecleanupdialog.cpp:28
+#, kde-format
+msgctxt "@title:window"
+msgid "Clean Up Unused Devices"
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:32
+#, kde-format
+msgid ""
+"These stored device names are not currently connected. Some may only be "
+"temporarily unavailable, so check before removing."
+msgstr ""
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:41
+#, fuzzy, kde-format
+#| msgid "All devices are successfully mapped."
+msgid "All stored devices are currently connected."
+msgstr "Усі пристрої успішно прив'язано."
+
+#: ekos/auxiliary/devicecleanupdialog.cpp:83
+#, kde-format
+msgid "Remove this stored device reference"
+msgstr ""
+
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Filter exposure time during focus"
@@ -13623,7 +13648,8 @@ msgstr "Записувати до журналу дії у модулі фоку
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
-#: ekos/auxiliary/opslogs.ui:380 ekos/focus/focus.ui:134
+#: ekos/auxiliary/opslogs.ui:380 ekos/auxiliary/opticaltrainmanager.cpp:1415
+#: ekos/focus/focus.ui:134
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:491
 #, kde-format
 msgid "Focuser"
@@ -13631,7 +13657,8 @@ msgstr "Фокусування"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:1158
+#: ekos/auxiliary/opslogs.ui:390 ekos/auxiliary/opticaltrainmanager.cpp:1417
+#: ekos/capture/camera.ui:1158
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:509
 #, kde-format
 msgid "Rotator"
@@ -13685,27 +13712,27 @@ msgstr "Повідомлення INDI у рядку &стану"
 msgid "Open Logs Directory..."
 msgstr "Відкрити каталог журналів…"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:144
+#: ekos/auxiliary/opticaltrainmanager.cpp:149
 #, kde-format
 msgid "New Train"
 msgstr "Новий тракт"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:503
+#: ekos/auxiliary/opticaltrainmanager.cpp:508
 #, kde-format
 msgid "Primary"
 msgstr "Основний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:506
+#: ekos/auxiliary/opticaltrainmanager.cpp:511
 #, kde-format
 msgid "Secondary"
 msgstr "Вторинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:509
+#: ekos/auxiliary/opticaltrainmanager.cpp:514
 #, kde-format
 msgid "Tertiary"
 msgstr "Третинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1301
+#: ekos/auxiliary/opticaltrainmanager.cpp:1308
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -13714,7 +13741,7 @@ msgstr ""
 "Не виявлено деяких пристроїв (%1). Будь ласка, повторно налаштуйте оптичні "
 "тракти, перш ніж переходити до інших дій."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1308
+#: ekos/auxiliary/opticaltrainmanager.cpp:1315
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -13722,6 +13749,35 @@ msgid ""
 msgstr ""
 "Не виявлено деяких пристроїв (%1). Будь ласка, повторно налаштуйте оптичні "
 "тракти, перш ніж переходити до інших дій."
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1416
+#, fuzzy, kde-format
+#| msgid "Filter wheel:"
+msgid "Filter wheel"
+msgstr "Барабан з фільтрами:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1418
+#, fuzzy, kde-format
+#| msgid "Dust cap:"
+msgid "Dust cap"
+msgstr "Пилозахисний ковпак:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1419
+#, fuzzy, kde-format
+#| msgid "Light box:"
+msgid "Light box"
+msgstr "Підсвічування:"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1420
+#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
+#, kde-format
+msgid "Guider"
+msgstr "Наведення"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:1438
+#, kde-format
+msgid "%1 - %2"
+msgstr "%1 – %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
@@ -13951,11 +14007,14 @@ msgstr "Обертання:"
 msgid "Telescopes && Lenses"
 msgstr "Телескопи і об'єктиви"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/auxiliary/opticaltrains.ui:430
+#. i18n: ectx: property (toolTip), widget (QPushButton, cleanupB)
+#: ekos/auxiliary/opticaltrains.ui:433
 #, kde-format
-msgid "Reset train"
-msgstr "Скинути тракт"
+msgid ""
+"<html><head/><body><p>Remove stored device names that are not currently "
+"connected. Some may only be temporarily unavailable, so check before "
+"removing.</p></body></html>"
+msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -28851,17 +28910,16 @@ msgid "Profile name already exists."
 msgstr "Профіль із такою назвою вже існує."
 
 #: ekos/profileeditor.cpp:350
-#, fuzzy, kde-format
-#| msgid ""
-#| "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
-#| "corresponding driver.<nobr/>"
+#, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
 "and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
-"<nobr>Доступний як <b>Віддалений</b> драйвер. Для локального використання "
-"встановіть відповідний драйвер на ваш комп'ютер.<nobr/>"
+"<nobr>Доступний лише як <b>Віддалений</b> драйвер. Його не можна встановити "
+"локально і не можна використовувати у профілі <b>Локальний</b>. Для "
+"локального використання встановіть відповідний драйвер на ваш комп'ютер."
+"<nobr/>"
 
 #: ekos/profileeditor.cpp:353
 #, kde-format
@@ -28884,6 +28942,9 @@ msgid ""
 "locally. It cannot be added to a Local profile. Switch to a Remote profile "
 "or install the driver locally."
 msgstr ""
+"<b>%1</b> можна використовувати лише як <b>Віддалений</b> драйвер, його не "
+"встановлено локально. Його не можна додати до локального профілю. "
+"Перемкніться на профіль «Віддалений» або встановіть драйвер локально."
 
 #: ekos/profileeditor.cpp:785
 #, kde-format
@@ -33247,11 +33308,6 @@ msgstr "Немає кешованих пристроїв для профілю: 
 msgid "No compatible devices in profile"
 msgstr "Немає сумісних пристроїв у профілі"
 
-#: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
-#, kde-format
-msgid "Guider"
-msgstr "Наведення"
-
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:499
 #, kde-format
 msgid "Weather Station"
@@ -34261,217 +34317,217 @@ msgstr "Опис типу об'єкта"
 msgid "Object Type Comments"
 msgstr "Коментарі до типу об'єкта"
 
-#: fitsviewer/fitsdata.cpp:2675
+#: fitsviewer/fitsdata.cpp:2688
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Помилка при читанні буфера fits: %1."
 
-#: fitsviewer/fitsdata.cpp:2684
+#: fitsviewer/fitsdata.cpp:2697
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Не вдалося розпакувати стиснений FITS"
 
-#: fitsviewer/fitsdata.cpp:2714
+#: fitsviewer/fitsdata.cpp:2727
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Помилка під час відкриття файла fits %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2729
+#: fitsviewer/fitsdata.cpp:2742
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Помилка під час читання буфера fits: %1"
 
-#: fitsviewer/fitsdata.cpp:2743
+#: fitsviewer/fitsdata.cpp:2756
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Не вдалося визначити місце HDU зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:2753
+#: fitsviewer/fitsdata.cpp:2766
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Помилка під час відкриття файла FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2767
+#: fitsviewer/fitsdata.cpp:2780
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Підтримки одновимірних зображень FITS у KStars не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2815 fitsviewer/fitsdata.cpp:3560
+#: fitsviewer/fitsdata.cpp:2828 fitsviewer/fitsdata.cpp:3573
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Підтримки бітової глибини %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2825
+#: fitsviewer/fitsdata.cpp:2838
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Розміри зображення, %1⨯%2, є некоректними"
 
-#: fitsviewer/fitsdata.cpp:2879
+#: fitsviewer/fitsdata.cpp:2892
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Помилка під час спроби читання зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:3286 fitsviewer/fitsdata.cpp:3520
+#: fitsviewer/fitsdata.cpp:3299 fitsviewer/fitsdata.cpp:3533
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Помилка під час спроби відкрити файл XISF: "
 
-#: fitsviewer/fitsdata.cpp:3434
+#: fitsviewer/fitsdata.cpp:3447
 #, kde-format
 msgid "File contain no images"
 msgstr "У файлі не міститься зображень"
 
-#: fitsviewer/fitsdata.cpp:3463
+#: fitsviewer/fitsdata.cpp:3476
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Підтримки формату зразка %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:3598
+#: fitsviewer/fitsdata.cpp:3611
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Помилка під час спроби зберегти зображення XISF"
 
-#: fitsviewer/fitsdata.cpp:3690 fitsviewer/fitsdata.cpp:3806
+#: fitsviewer/fitsdata.cpp:3703 fitsviewer/fitsdata.cpp:3819
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: недостатньо пам'яті для каналу image_buffer. Потрібно %1 байтів "
 
-#: fitsviewer/fitsdata.cpp:3745
+#: fitsviewer/fitsdata.cpp:3758
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Не вдалося відкрити файл %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3758
+#: fitsviewer/fitsdata.cpp:3771
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Не вдалося відкрити буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:3769
+#: fitsviewer/fitsdata.cpp:3782
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Не вдалося виконати unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3776
+#: fitsviewer/fitsdata.cpp:3789
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Не вдалося dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3784
+#: fitsviewer/fitsdata.cpp:3797
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Не вдалося завантажити до пам'яті: %1"
 
-#: fitsviewer/fitsdata.cpp:3931
+#: fitsviewer/fitsdata.cpp:3944
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Підтримки збереження стиснених файлів не передбачено."
 
-#: fitsviewer/fitsdata.cpp:3995
+#: fitsviewer/fitsdata.cpp:4008
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Не вдалося створити файл: %1"
 
-#: fitsviewer/fitsdata.cpp:4017
+#: fitsviewer/fitsdata.cpp:4030
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Не вдалося створити зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:4026 fitsviewer/fitsdata.cpp:4033
+#: fitsviewer/fitsdata.cpp:4039 fitsviewer/fitsdata.cpp:4046
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Не вдалося оновити ключ: %1"
 
-#: fitsviewer/fitsdata.cpp:4161
+#: fitsviewer/fitsdata.cpp:4174
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Не вдалося оновити дату: %1"
 
-#: fitsviewer/fitsdata.cpp:4170
+#: fitsviewer/fitsdata.cpp:4183
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Не вдалося оновити журнал: %1"
 
-#: fitsviewer/fitsdata.cpp:4192
+#: fitsviewer/fitsdata.cpp:4205
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Не вдалося записати зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:5968 fitsviewer/fitsdata.cpp:5979
-#: fitsviewer/fitsdata.cpp:6016 fitsviewer/fitsdata.cpp:6052
-#: fitsviewer/fitsdata.cpp:6186
+#: fitsviewer/fitsdata.cpp:5981 fitsviewer/fitsdata.cpp:5992
+#: fitsviewer/fitsdata.cpp:6029 fitsviewer/fitsdata.cpp:6065
+#: fitsviewer/fitsdata.cpp:6199
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Не знайдено світових координатних систем."
 
-#: fitsviewer/fitsdata.cpp:6436 fitsviewer/fitsdata.cpp:6542
+#: fitsviewer/fitsdata.cpp:6449 fitsviewer/fitsdata.cpp:6555
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Помилка під час опитування Simbad"
 
-#: fitsviewer/fitsdata.cpp:6451
+#: fitsviewer/fitsdata.cpp:6464
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Перевищено час очікування на дані щодо запиту Simbad"
 
-#: fitsviewer/fitsdata.cpp:7428 fitsviewer/fitsdata.cpp:7541
+#: fitsviewer/fitsdata.cpp:7441 fitsviewer/fitsdata.cpp:7554
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Передбачено підтримку лише 8- та 16-бітових зображень із мозаїчністю."
 
-#: fitsviewer/fitsdata.cpp:7436 fitsviewer/fitsdata.cpp:7547
+#: fitsviewer/fitsdata.cpp:7449 fitsviewer/fitsdata.cpp:7560
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Невідомий взірець мозаїчності %1."
 
-#: fitsviewer/fitsdata.cpp:7460 fitsviewer/fitsdata.cpp:7486
+#: fitsviewer/fitsdata.cpp:7473 fitsviewer/fitsdata.cpp:7499
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Непідтримуваний взірець мозаїчності %1"
 
-#: fitsviewer/fitsdata.cpp:7494
+#: fitsviewer/fitsdata.cpp:7507
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Непідтримувані зсуви мозаїчності %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7505 fitsviewer/fitsdata.cpp:7558
+#: fitsviewer/fitsdata.cpp:7518 fitsviewer/fitsdata.cpp:7571
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності dc1394."
 
-#: fitsviewer/fitsdata.cpp:7516 fitsviewer/fitsdata.cpp:7569
+#: fitsviewer/fitsdata.cpp:7529 fitsviewer/fitsdata.cpp:7582
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7525 fitsviewer/fitsdata.cpp:7578
+#: fitsviewer/fitsdata.cpp:7538 fitsviewer/fitsdata.cpp:7591
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Некоректний рушій усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:7832
+#: fitsviewer/fitsdata.cpp:7845
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit викликано з некоректними параметрами усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:7848 fitsviewer/fitsdata.cpp:7894
-#: fitsviewer/fitsdata.cpp:7952 fitsviewer/fitsdata.cpp:7998
+#: fitsviewer/fitsdata.cpp:7861 fitsviewer/fitsdata.cpp:7907
+#: fitsviewer/fitsdata.cpp:7965 fitsviewer/fitsdata.cpp:8011
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк: %1"
 
-#: fitsviewer/fitsdata.cpp:7858 fitsviewer/fitsdata.cpp:7962
+#: fitsviewer/fitsdata.cpp:7871 fitsviewer/fitsdata.cpp:7975
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк."
 
-#: fitsviewer/fitsdata.cpp:7877 fitsviewer/fitsdata.cpp:7981
+#: fitsviewer/fitsdata.cpp:7890 fitsviewer/fitsdata.cpp:7994
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Помилка засобу усування мозаїчності (%1)"
 
-#: fitsviewer/fitsdata.cpp:7937
+#: fitsviewer/fitsdata.cpp:7950
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -100386,6 +100442,9 @@ msgstr "Колір тла:"
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
 
+#~ msgid "Reset train"
+#~ msgstr "Скинути тракт"
+
 #~ msgid ""
 #~ "<html><head/><body><p>Enforce temperature value before capturing an "
 #~ "image</p></body></html>"
@@ -125567,9 +125626,6 @@ msgstr "Встановити колір тла."
 #~ msgid "Unsupported catalog format version.<br>Wanted '%1' and got '%2'."
 #~ msgstr ""
 #~ "Непідтримувана версія формату каталогу.<br>Мала бути «%1», маємо «%2»."
-
-#~ msgid "%1 - %2"
-#~ msgstr "%1 – %2"
 
 #~ msgid "Number of static objects to load from the DSO catalog."
 #~ msgstr ""
