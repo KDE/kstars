@@ -6,10 +6,14 @@
 
 #pragma once
 
+#include "fitsviewer/fitscommon.h"
+
 #include <QString>
 #include <opencv2/core/core.hpp>
 
 #include <functional>
+
+struct wcsprm;
 
 /**
  * @class MasterBuilder
@@ -111,12 +115,39 @@ class MasterBuilder
                                  const ProgressCallback &onProgress = ProgressCallback(),
                                  const CancelCallback &isCancelled = CancelCallback(), bool *outCancelled = nullptr);
 
-    private:
-        // Loads one FITS file into a CV_32F Mat (1 or 3 channels), via FITSData's public
-        // loadFromFile() — not the private stackLoadImage() fast path, which is tightly
-        // coupled to FITSData's live-stack session state.
-        static bool loadFrame(const QString &path, cv::Mat &outFrame, double &outMedian, QString &error);
+        /**
+         * @brief Load one FITS file into a CV_32F Mat (1 or 3 channels), via FITSData's
+         * public loadFromFile() — not the private stackLoadImage() fast path, which is
+         * tightly coupled to FITSData's live-stack session state. Public (unlike build()'s
+         * other internals) so a caller with a single already-built master/light file — not
+         * a folder to combine — can still get it into the same CV_32F representation
+         * StackController::adopt() expects, e.g. for loading a previously-saved master as
+         * a postprocess_blend_channels input (see postprocess_load_master).
+         * @param mode passed to the internal FITSData — defaults to FITS_CALIBRATE (no WCS
+         * solve attempted, matching every existing build()/buildAndSave() caller). Pass
+         * FITS_NORMAL or FITS_ALIGN (with outWcs non-null) to also load the file's own WCS,
+         * if it has one — see FITSData::loadWCS(), only auto-invoked for those two modes.
+         * @param outWcs when non-null and the file has a WCS, receives a newly-allocated,
+         * independent deep copy (via wcssub()/wcsset()) the caller owns and must free with
+         * wcsvfree(outNwcs, outWcs) — not an alias into any FITSData internal, which goes
+         * out of scope when this function returns. Left null if the file has no WCS, or if
+         * `mode` isn't FITS_NORMAL/FITS_ALIGN.
+         * @param outNwcs receives the count wcsvfree() needs, alongside outWcs.
+         */
+        static bool loadFrame(const QString &path, cv::Mat &outFrame, double &outMedian, QString &error,
+                              FITSMode mode = FITS_CALIBRATE, struct wcsprm **outWcs = nullptr,
+                              int *outNwcs = nullptr);
 
+        /**
+         * @brief Free a WCS previously returned via loadFrame()'s outWcs/outNwcs — keeps
+         * wcslib's wcsvfree() (and the <wcs.h> include it needs) out of callers that only
+         * ever see `struct wcsprm` as an opaque forward-declared pointer (e.g. message.cpp,
+         * same convention StackController/ChannelBlendOperation's headers already use). A
+         * no-op if `*wcs` is null. Sets `*wcs` to null on return.
+         */
+        static void freeWcs(struct wcsprm **wcs, int nwcs);
+
+    private:
         // Header-only EXPTIME read via cfitsio directly (fits_read_key), not FITSData —
         // avoids decoding pixel data just to pre-filter a file list by exposure length.
         static bool readExptime(const QString &path, double &outExptime, QString &error);

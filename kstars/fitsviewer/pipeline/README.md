@@ -53,7 +53,7 @@ you need for the simple single-session case. Multiple sessions can be alive
 concurrently (e.g. one per narrowband filter), each independently stackable,
 post-processable, and saveable.
 
-A session comes into being one of two ways:
+A session comes into being one of three ways:
 - **`postprocess_stack`** — a real directory stack (calibrate → align →
   combine).
 - **`postprocess_blend_channels`** — an "adopted" image, computed from other
@@ -61,6 +61,12 @@ A session comes into being one of two ways:
   a real stack from that point on (crop/stretch/curve/saturation/
   contrast/denoise/BGE/save all work identically), but has no `FITSStack`
   per-channel workers behind it and no WCS.
+- **`postprocess_load_master`** — also an "adopted" session, seeded from
+  exactly one FITS file read straight off disk (e.g. a master light saved by
+  a previous run) rather than a directory scan or a computed blend. Same
+  adopted-session caveat as `postprocess_blend_channels` above (no
+  `FITSStack` workers behind it), but does carry the file's own WCS if it
+  has one — same as a real plate-solved stack.
 
 General response shape: every command replies via `new_postprocess_state`.
 Errors are always `{"state": "error", "message": "<text>"}`. Field types
@@ -90,10 +96,12 @@ different parameters, rather than only ever seeing the end result. Pass
 `"preview": false` in the payload to skip generating either — useful for a
 scripted batch of adjustments that only cares about the final result.
 `postprocess_save` never generates a preview (the working image didn't
-change). `postprocess_build_master` and `postprocess_stack` are the two
-exceptions that send only a single preview (see below) each — both are
-one-shot ops with no prior working-image state to show a "before" of
-(`build_master` is also session-less).
+change). `postprocess_build_master`, `postprocess_stack`, and
+`postprocess_blend_channels` are the three exceptions that send only a
+single preview (see below) each — all three are one-shot ops with no prior
+working-image state to show a "before" of (`build_master` is also
+session-less; `blend_channels` produces a brand-new session rather than
+editing an existing one).
 
 **Previews are not embedded in the JSON response.** They're sent over the
 same binary `wsMedia` channel — and the same `+X` single-letter module-tag
@@ -102,26 +110,30 @@ convention — that Align/Focus/Guide/DarkLibrary previews already use
 the step) and **`+PA`** (after) — sent as two separate uploads, each
 producing its own `NEW_IMAGE_METADATA` push, so the client gets two
 independent fetchable URLs per command rather than one.
-`postprocess_build_master` and `postprocess_stack`, having no "before" to
-show, each get their own single standalone tag instead: `postprocess_build_master`
-uses `+P`, `postprocess_stack` uses `+PS` (both stack modes — per-channel and
-single-session). These two used to share the single `+P` tag on the
-reasoning that both are "a single preview with no before counterpart" —
-but that's the only thing distinguishing pushes on this channel, and
-neither `sessionId` nor the originating command is present on the
-`NEW_IMAGE_METADATA` push, so a client had no reliable way to tell a
-build_master preview and a stack preview apart. That mattered because they
-can legitimately race in time under ordinary usage — calibrate (one or
-more `build_master` calls) followed by stack, same session — so whichever
-`+P` arrived last would silently win, even if it was the calibration
-master's rather than the stack's. Each command now gets its own tag/cache
-slot so no such inference is needed.
+`postprocess_build_master`, `postprocess_stack`, and
+`postprocess_blend_channels`, having no "before" to show, each get their own
+single standalone tag instead: `postprocess_build_master` uses `+P`,
+`postprocess_stack` uses `+PS` (both stack modes — per-channel and
+single-session), `postprocess_blend_channels` uses `+PC`. `+P`/`+PS` used to
+share the single `+P` tag on the reasoning that both are "a single preview
+with no before counterpart" — but that's the only thing distinguishing
+pushes on this channel, and neither `sessionId` nor the originating command
+is present on the `NEW_IMAGE_METADATA` push, so a client had no reliable way
+to tell a build_master preview and a stack preview apart. That mattered
+because they can legitimately race in time under ordinary usage — calibrate
+(one or more `build_master` calls) followed by stack, same session — so
+whichever `+P` arrived last would silently win, even if it was the
+calibration master's rather than the stack's. Each command now gets its own
+tag/cache slot so no such inference is needed — `+PC` follows the same
+reasoning from the start (a blend can legitimately race a sibling channel's
+own stack completing), rather than being added as a workaround for a
+problem hit later, unlike `+P`/`+PS`'s history above.
 Server-side, any `uuid` starting with `+` is cached and served back as a
 timestamped URL via a `NEW_IMAGE_METADATA` message on the regular
 (non-binary) socket — see `Media::uploadPreview()` (`kstars/ekos/ekoslive/media.cpp`)
 on the KStars side and `wssMediaServerManager.js`'s generic
 `uuid.startsWith("+")` handling on the `ekoslive-offline` side, unchanged
-for these tags (the server has no per-tag special-casing — `+PB`/`+PA`/`+PS`
+for these tags (the server has no per-tag special-casing — `+PB`/`+PA`/`+PS`/`+PC`
 work exactly as `+P` already did, just as independent cache slots
 instead of one). This was deliberately *not* embedded inline as base64 (an
 earlier version of this pipeline did that): every state update would
@@ -529,6 +541,44 @@ exist or has no FITS-loadable files.
   you actually scan** to decide what `matchExptime` to use for each master
   you need.
 
+### `postprocess_load_master`
+
+Loads exactly one FITS file from disk into a new session — no directory
+scan, unlike `postprocess_stack` (previously the only way to get a file into
+a session, and only ever a whole directory at a time — see
+`MasterBuilder::loadFrame()`). Exists so `postprocess_blend_channels` can be
+pointed at a previously-saved master (e.g. from an earlier run) as an R/G/B
+input, not just a session freshly stacked in this same run — see "Session
+model" above.
+
+| Field | Type | Notes |
+|---|---|---|
+| `sessionId` | string | **Required.** Names the new session, same as any other `sessionId` field — a later `postprocess_blend_channels` call references it by this name. |
+| `path` | string | **Required.** Path to the FITS file to load. |
+
+Response: immediately `{"state": "processing", "op": "postprocess_load_master", "sessionId": "<id>"}`
+(or `{"state": "busy", ...}` if a session under that id already has an
+operation in flight — see "Asynchronous commands" above), then on
+completion `{"state": "loaded", "sessionId": "<id>"}` or `{"state": "error",
+"sessionId": "<id>", "message": "<reason>"}` (file not found, unreadable, or
+an unsupported bit depth). Loading a file that has its own WCS (e.g. a
+previously plate-solved master) carries that WCS into the new session, same
+as a real plate-solved stack — so `postprocess_blend_channels`'s own
+cross-channel registration check (`ChannelBlendOperation::registerToReference()`)
+and `postprocess_apply_color_calibration` both still work against it. A file
+with no WCS loads fine regardless; the session simply has none, same as an
+`alignMethod` `NONE` stack. Loading into a `sessionId` that's already in use
+replaces it, same "current best result" semantics `postprocess_stack`
+already has for its own `sessionId`.
+
+No auto-save, no session root inherited/tracked (unlike
+`postprocess_stack`/`postprocess_blend_channels` — see "Auto-generated
+output paths" above): the file this session was loaded from is already
+sitting on disk under its own name, so there's nothing to write out
+automatically. A later `postprocess_save` against this session with no
+`outputPath` therefore fails with "outputPath is required", same as any
+other session with no known root.
+
 ### `postprocess_blend_channels`
 
 The narrowband "pixel math" — arbitrary weighted sums of any named,
@@ -551,6 +601,7 @@ already-stacked mono session into each output R/G/B channel
 | `green` | same shape | **Required.** |
 | `blue` | same shape | **Required.** |
 | `outputSessionId` | string | Default `"blended"`. Where the result is stored as a new session. |
+| `preview` | bool | `true` | Opt-out for the completion preview below, same convention as `build_master`/`stack`/`crop`/`apply_*`. |
 
 Weights are **not** renormalized — a literal weighted sum, not a weighted
 average (two inputs at weight `1.0` each produce roughly double the
@@ -558,7 +609,19 @@ brightness of either alone). A single input at weight `1.0` is an exact
 passthrough. Every named session must exist and already have a stacked
 image, or the call fails with a specific message identifying which one.
 Inputs feeding the same or different output channels must all be the same
-pixel dimensions.
+pixel dimensions. Before combining, every WCS-carrying input is registered
+onto a common reference grid (`ChannelBlendOperation::registerToReference()`):
+each is fit to a rigid (rotation + uniform scale + translation) transform
+against whichever input's WCS was picked as reference, and rejected — with
+`{"state": "error", "message": "Cross-channel registration failed: <reason>"}`
+— if that fit isn't consistent (≥80% of a 5×5 sample grid agreeing within
+1px) or shifts the frame center by more than half the image's shorter
+dimension. A real, large pointing difference between channels fails this
+correctly; so does an input whose WCS is real-looking but wrong in a way
+that still produces a *consistent* fit with an implausible shift — e.g. a
+bogus plate scale (see `FITSData::loadWCS()`'s own `CDELT == 1.0` guard,
+added after exactly this was found baked into an auto-saved master's WCS
+header).
 
 Response: `{"state": "blended", "outputSessionId": "<id>", "outputPath": "<path>"}`,
 or `{"state": "error", "message": "<reason>"}`. `outputPath` is only present
@@ -567,8 +630,14 @@ when a root could be inherited from one of the named inputs (see
 `saveError` field appears instead if a root was found but the write itself
 failed, and neither field appears if no input had a tracked root at all —
 in all three cases the blend itself still succeeded and the output session
-is usable. The output session behaves exactly like a real stack from here
-on (crop/apply_*/save all work against it normally), but carries no WCS.
+is usable. On success, also sends a single completion preview over the
+`+PC` media channel (same mechanics as `build_master`'s `+P`/`stack`'s
+`+PS` — see "Preview images" above) unless `preview: false` was passed. The
+output session behaves exactly like a real stack from here on
+(crop/apply_*/save all work against it normally) — including carrying a
+WCS, deep-copied from whichever named input's WCS was picked as the
+registration reference, if any input had one (see "Why a blended session
+needs a WCS spelled out" in "Photometric color calibration" below).
 
 **See "Narrowband/multi-channel palette choice" below** for why the plain
 `green: [{"filter":"OIII"}]` mapping usually looks wrong, and the mixed

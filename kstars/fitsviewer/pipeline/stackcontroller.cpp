@@ -11,6 +11,8 @@
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include "Options.h"
 
+#include <fits_debug.h>
+
 #include <algorithm>
 #include <vector>
 
@@ -315,13 +317,31 @@ void StackController::handleSolveDone(bool timedOut, bool success, const FITSIma
         // branch of FITSData::solverDone() calling wcssub() on a null/stale WCS handle.
         int indexUsed = -1, healpixUsed = -1;
         m_Solver->getSolutionHealpix(&indexUsed, &healpixUsed);
+        // Diagnostic: a genuinely-reported pixscale of exactly 3600"/px (-> 1 deg/px after
+        // injectStackWCS()'s /3600.0) would still pass every guard below, since it looks
+        // like a real, freshly-computed value rather than a wcslib default fill-in — if
+        // that's ever seen here, the bug is upstream in the solver result itself, not in
+        // anything that consumes it.
+        qCDebug(KSTARS_FITS) << QString("Stack sub solve: ra=%1 dec=%2 pixscale=%3\"/px orientation=%4")
+                             .arg(solution.ra).arg(solution.dec).arg(solution.pixscale).arg(solution.orientation);
         m_ImageData->setStackSubSolution(solution.ra, solution.dec, solution.pixscale, indexUsed, healpixUsed);
         const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
         m_ImageData->injectStackWCS(solution.orientation, solution.ra, solution.dec, solution.pixscale,
                                     eastToTheRight);
-        m_ImageData->stackLoadWCS();
-        m_ImageData->solverDone(false, true, m_StackMedianHFR, m_StackNumStars);
-        return;
+        if (m_ImageData->stackLoadWCS())
+        {
+            m_ImageData->solverDone(false, true, m_StackMedianHFR, m_StackNumStars);
+            return;
+        }
+        // stackLoadWCS() rejected the WCS we just injected — its own guard treats a
+        // missing CRPIX, or a wcslib-default CDELT of 1 deg/px (no real CDELT/CD-matrix
+        // keyword at all — see its comment), as "no genuine solution", even though the
+        // solver itself reported success. Falling through to the retry-then-give-up
+        // logic below (same as a genuine solve failure) instead of calling solverDone()
+        // avoids the align-master branch of FITSData::solverDone() running wcssub() on a
+        // null m_StackWCSHandle, and avoids silently baking a bogus 1 deg/px scale into
+        // this channel's stack (and, downstream, into postprocess_blend_channels'
+        // cross-channel registration).
     }
 
     if (m_StackExtendedPlateSolve)

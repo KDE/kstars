@@ -4306,6 +4306,117 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             {"files", filesArray}, {"groups", groupsToJson(groups)}, {"tree", nodeToJson(tree)}
         });
     }
+    else if (command == commands[POSTPROCESS_LOAD_MASTER])
+    {
+        // Loads exactly one FITS file from disk into a new session — e.g. a
+        // previously-saved master light from an earlier run — with no directory scan
+        // involved, unlike postprocess_stack (the only other way to get a file into a
+        // session, which always scans+combines a whole directory). Exists so
+        // postprocess_blend_channels can be pointed at an on-disk master as an R/G/B
+        // input, not just a session freshly stacked in this same run — see the
+        // "Session model" section above.
+        const QString sessionId = payload["sessionId"].toString();
+        const QString path = payload["path"].toString();
+        if (sessionId.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"message", "sessionId is required"}});
+            return;
+        }
+        if (path.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", "path is required"}});
+            return;
+        }
+
+        if (m_BusyPostProcessSessions.contains(sessionId))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+            QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            return;
+        }
+
+        m_BusyPostProcessSessions.insert(sessionId);
+        sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", sessionId}});
+
+        struct LoadMasterResult
+        {
+            bool ok = false;
+            QString error;
+            cv::Mat frame;
+            struct wcsprm *wcs = nullptr;
+            int nwcs = 0;
+        };
+
+        auto future = QtConcurrent::run([path]() -> LoadMasterResult
+        {
+            LoadMasterResult result;
+            double median = 0;
+            // FITS_NORMAL (not MasterBuilder's own FITS_CALIBRATE default) so
+            // FITSData::loadImage() also loads the file's own WCS, if it has one — see
+            // MasterBuilder::loadFrame()'s doc comment. A file with no WCS (or a solve
+            // that never ran) loads fine here regardless; result.wcs just stays null,
+            // same as an alignMethod-NONE stack session.
+            result.ok = MasterBuilder::loadFrame(path, result.frame, median, result.error,
+                                                 FITS_NORMAL, &result.wcs, &result.nwcs);
+            return result;
+        });
+
+        auto watcher = new QFutureWatcher<LoadMasterResult>(this);
+        connect(watcher, &QFutureWatcher<LoadMasterResult>::finished, this, [this, watcher, sessionId]()
+        {
+            m_BusyPostProcessSessions.remove(sessionId);
+            LoadMasterResult result = watcher->result();
+            watcher->deleteLater();
+
+            if (!result.ok)
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", result.error}});
+                return;
+            }
+
+            // Passing wcs (deep-copied again inside adopt()) lets this session carry a
+            // WCS, same as a real plate-solved stack or a blend_channels output — so
+            // postprocess_blend_channels' own cross-channel registration check, and
+            // postprocess_apply_color_calibration, both still work against it.
+            QString adoptError;
+            auto session = QSharedPointer<StackController>::create(this);
+            const bool adopted = session->adopt(result.frame, adoptError, result.wcs);
+            MasterBuilder::freeWcs(&result.wcs, result.nwcs);
+            if (!adopted)
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", adoptError}});
+                return;
+            }
+            // Same defensive wiring as postprocess_blend_channels' output session (see
+            // below) — otherwise a later postprocess_redo_postprocess against this
+            // session would complete or fail with no way to tell the caller.
+            connect(session.data(), &StackController::stackReady, this, [this, sessionId](bool cancelled)
+            {
+                sendPostProcessState(
+                QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", sessionId}});
+            });
+            connect(session.data(), &StackController::stackFailed, this, [this, sessionId](const QString & reason)
+            {
+                sendPostProcessState(QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", reason}});
+            });
+            connect(session.data(), &StackController::postProcessProgress, this,
+                    [this, sessionId](StackChannel channel, const QString & stage)
+            {
+                sendPostProcessState(QJsonObject
+                {
+                    {"state", "progress"}, {"sessionId", sessionId}, {"message", describePostProcessStage(channel, stage)}
+                });
+            });
+            m_PostProcessSessions[sessionId] = session;
+
+            sendPostProcessState(QJsonObject{{"state", "loaded"}, {"sessionId", sessionId}});
+        });
+        watcher->setFuture(future);
+    }
     else if (command == commands[POSTPROCESS_BLEND_CHANNELS])
     {
         // The actual narrowband "pixel math": arbitrary weighted sums of any named,
@@ -4368,6 +4479,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // as any real stack from here on, adopted (with its WCS, if any) once blending
         // finishes below.
         const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
+        const bool wantPreview = payload["preview"].toBool(true);
         if (m_BusyPostProcessSessions.contains(outputSessionId))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
@@ -4420,7 +4532,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         auto watcher = new QFutureWatcher<BlendResult>(this);
         connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
-                [this, watcher, outputSessionId, cancelFlag, blendRoot]()
+                [this, watcher, outputSessionId, cancelFlag, blendRoot, wantPreview]()
         {
             m_BusyPostProcessSessions.remove(outputSessionId);
             if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
@@ -4448,6 +4560,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 sendPostProcessState(
                 QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
                 return;
+            }
+            // A standalone completion preview, same "+P"/"+PS" convention build_master/
+            // stack already use — blend_channels previously sent none of its own, and the
+            // app had to fake one with a no-op postprocess_apply_bge(strength: 0) purely
+            // to trigger that command's +PB/+PA mechanism. "+PC" gives it a real preview
+            // slot instead — see "Preview images" in the pipeline README.
+            if (wantPreview)
+            {
+                QString previewError;
+                const QByteArray jpeg = outputSession->getPreviewJpegBytes(previewError);
+                if (!jpeg.isEmpty())
+                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PC"), buildPreviewMetadata(outputSession->imageData()));
             }
             // Without these, a later postprocess_redo_postprocess against this session
             // would complete (or fail) with no way to tell the caller — nothing

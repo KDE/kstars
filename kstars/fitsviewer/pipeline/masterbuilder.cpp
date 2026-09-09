@@ -8,6 +8,8 @@
 #include "fitsviewer/fitsdata.h"
 
 #include <fitsio.h>
+#include <wcs.h>
+#include <wcshdr.h>
 
 #include <QDir>
 #include <QFile>
@@ -15,15 +17,49 @@
 
 #include <cmath>
 
-bool MasterBuilder::loadFrame(const QString &path, cv::Mat &outFrame, double &outMedian, QString &error)
+bool MasterBuilder::loadFrame(const QString &path, cv::Mat &outFrame, double &outMedian, QString &error,
+                              FITSMode mode, struct wcsprm **outWcs, int *outNwcs)
 {
-    FITSData data(FITS_CALIBRATE);
+    if (outWcs)
+        *outWcs = nullptr;
+    if (outNwcs)
+        *outNwcs = 0;
+
+    FITSData data(mode);
     QFuture<bool> future = data.loadFromFile(path);
     future.waitForFinished();
     if (!future.result())
     {
         error = QString("Failed to load %1").arg(path);
         return false;
+    }
+
+    // loadFromFile() already ran loadWCS() internally for FITS_NORMAL/FITS_ALIGN modes
+    // (see FITSData::loadImage()) — take our own deep copy (wcssub/wcsset, same as
+    // FITSData::stackSetupWCS()) since `data` goes out of scope at the end of this
+    // function, freeing whatever WCS it loaded.
+    if (outWcs && data.hasWCS())
+    {
+        const struct wcsprm *sourceWcs = data.getStackWCS();
+        if (sourceWcs)
+        {
+            auto *wcs = new struct wcsprm;
+            wcs->flag = -1;
+            int nwcs = 0;
+            int status = wcssub(1, sourceWcs, 0x0, 0x0, wcs);
+            if (status == 0)
+                status = wcsset(wcs);
+            if (status == 0)
+            {
+                *outWcs = wcs;
+                if (outNwcs)
+                    *outNwcs = nwcs;
+            }
+            else
+            {
+                delete wcs;
+            }
+        }
     }
 
     int cvType = -1;
@@ -68,6 +104,12 @@ bool MasterBuilder::loadFrame(const QString &path, cv::Mat &outFrame, double &ou
 
     outMedian = data.getAverageMedian();
     return true;
+}
+
+void MasterBuilder::freeWcs(struct wcsprm **wcs, int nwcs)
+{
+    if (wcs && *wcs)
+        wcsvfree(&nwcs, wcs);
 }
 
 bool MasterBuilder::readExptime(const QString &path, double &outExptime, QString &error)

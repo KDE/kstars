@@ -2307,6 +2307,22 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
     }
     else if (ok && alignMaster && !m_AlignMasterProcessed)
     {
+        // Re-validate m_StackWCSHandle right here rather than trusting `ok` alone — it's
+        // a single member reused across every sub's stackLoadWCS() call in this channel's
+        // session, so if another sub's solve-completion callback runs (e.g. via a queued
+        // connection) between when THIS sub's WCS was validated and when this handler
+        // actually executes, it could already have been overwritten. Same CRPIX/CDELT
+        // sanity check stackLoadWCS() itself already applies (see its own comment) —
+        // reused here as a last-resort guard against baking a stale/bogus WCS (e.g. a
+        // wcslib-default 1 deg/px scale) into this channel's stack.
+        if (!m_StackWCSHandle || m_StackWCSHandle->crpix[0] == 0 ||
+                (m_StackWCSHandle->cdelt[0] == 1.0 && m_StackWCSHandle->cdelt[1] == 1.0))
+        {
+            qCWarning(KSTARS_FITS) << "Align master WCS is stale or invalid at consumption time — "
+                                   "skipping, next successfully-solved sub can still become align master.";
+            return;
+        }
+
         // This is the Align Master so load the WCS info into all fitsstacks
         m_AlignMasterProcessed = true;
 
@@ -5984,7 +6000,13 @@ bool FITSData::loadWCS()
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (m_WCSHandle->crpix[0] == 0)
+    // A missing CRPIX defaults to 0; a missing CDELT (no CDELT/CD-matrix keywords at all)
+    // defaults to 1 degree/pixel per the WCS standard — both are wcslib filling in absent
+    // keywords rather than a genuine solution, so both must be rejected here — same guard
+    // stackLoadWCS() already applies to a sub's WCS before handing it to the solver (see
+    // its comment) — or a bogus 1 deg/px scale silently reaches every caller of getStackWCS()
+    // (crop, postprocess_blend_channels' cross-channel registration, postprocess_load_master, ...).
+    if (m_WCSHandle->crpix[0] == 0 || (m_WCSHandle->cdelt[0] == 1.0 && m_WCSHandle->cdelt[1] == 1.0))
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
