@@ -23,9 +23,11 @@ class ContrastOperation
          * (a single scalar shared across all channels, not computed per-channel) so
          * contrast adjustment doesn't shift color balance the way an independent
          * per-channel pivot could.
-         * @param image a CV_32F image, 1 or 3 channels; expected in [0,1] (e.g. after
-         * AutoStretch) since the result is clamped to [0,1] — this is a "final touches"
-         * step, meant to run after tone mapping, not on raw linear ADU data
+         * @param image a CV_32F image, 1 or 3 channels; must already be normalized to
+         * [0,1] (e.g. after AutoStretch), since the result is clamped to [0,1] — this is
+         * a "final touches" step, meant to run after tone mapping, not on raw linear ADU
+         * data. Fails (see SaturationOperation's identical guard) rather than silently
+         * clamping a still-linear image to solid white.
          * @param amt contrast scale — 1.0 = unchanged, 0.0 = flat at the pivot,
          * >1.0 = more contrast
          * @param error receives a human-readable failure reason on failure

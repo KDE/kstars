@@ -34,7 +34,11 @@ class CurveOperation
         /**
          * @brief Apply the same curve identically to every channel of `image` (the
          * common case — a single tone curve, not per-channel color grading).
-         * @param image a CV_32F image (1 or 3 channels) in [0,1]; modified in place
+         * @param image a CV_32F image (1 or 3 channels); must already be normalized to
+         * [0,1] (e.g. after AutoStretch) — any input past the curve's last control point
+         * clamps to that point's y, so still-linear data collapses to one flat value.
+         * Fails (see SaturationOperation/ContrastOperation's identical guard) rather
+         * than silently doing that; modified in place
          * @param controlPoints at least 2 points, sorted by x, distinct x values, each
          * in [0,1]x[0,1] — the caller is responsible for supplying the curve's actual
          * endpoints (e.g. (0,0) and (1,1) for an identity-anchored curve); this doesn't

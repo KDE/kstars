@@ -623,14 +623,24 @@ Response: `{"state": "stretched"}` (also sends `+PB`/`+PA` before/after previews
 
 `{"points": [{"x","y"}, ...]}` — at least 2 points, strictly increasing
 `x`, each in `[0,1]×[0,1]`. One shared curve applied identically to every
-channel. Response: `{"state": "curve_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an
-error (non-monotonic points, fewer than 2).
+channel. Fails if the current image isn't normalized to `[0,1]` yet
+(stretch/curve first) — same guard as `postprocess_apply_saturation`/
+`postprocess_apply_contrast`, added after a still-linear/un-stretched image
+was found to silently collapse to one flat value (typically solid white,
+for an identity-anchored curve's `(1,1)` endpoint) under this command: any
+input past the curve's last control point clamps to that point's `y`, and
+on linear ADU data (background in the hundreds-thousands) essentially
+every pixel is past it. Response: `{"state": "curve_applied"}` (also sends
+`+PB`/`+PA` before/after previews — see "Preview images" above) or an
+error (non-monotonic points, fewer than 2, or not normalized).
 
 ### `postprocess_apply_curve_per_channel`
 
 `{"red": [...], "green": [...], "blue": [...]}` — same point rules as
 above, independent curves per channel (color grading).
-Fails against a mono/single-channel stack. Response:
+Fails against a mono/single-channel stack, or against a still-linear/
+un-stretched image (same normalization guard as `postprocess_apply_curve`
+above). Response:
 `{"state": "curve_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
 ### `postprocess_apply_saturation`
@@ -644,8 +654,15 @@ Response: `{"state": "saturation_applied"}` (also sends `+PB`/`+PA` before/after
 
 `{"amt": double}`, default `1.0` (`1.0`=unchanged, `0.0`=flat at the pivot,
 `>1.0`=more contrast). Pivots on the image's own mean; output clamped to
-`[0,1]`. Response: `{"state": "contrast_applied"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an
-error.
+`[0,1]`. Fails if the current image isn't normalized to `[0,1]` yet
+(stretch/curve first) — same guard as `postprocess_apply_saturation`, added
+after a still-linear/un-stretched image (background in the hundreds—
+thousands, saturation ~65535) was found to silently clamp to solid white
+under this command, even at `amt: 1.0` ("unchanged"): the clamp ran
+unconditionally regardless of `amt`, so nothing about that value made it a
+real no-op on data outside `[0,1]`. Response: `{"state": "contrast_applied"}`
+(also sends `+PB`/`+PA` before/after previews — see "Preview images" above)
+or an error.
 
 ### `postprocess_apply_denoise`
 

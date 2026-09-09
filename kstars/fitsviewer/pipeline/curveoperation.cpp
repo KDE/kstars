@@ -111,6 +111,21 @@ bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints
         return false;
     }
 
+    // evaluate() clamps any x past the curve's last control point to that point's y —
+    // on still-linear/un-stretched data (background in the hundreds-thousands,
+    // saturation ~65535) every pixel sits past x1, so the whole image collapses to one
+    // flat value (typically 1.0/solid white for an identity-anchored curve). Refuse
+    // instead, matching SaturationOperation/ContrastOperation's guard for the same
+    // precondition.
+    double minVal, maxVal;
+    cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
+    if (maxVal > 1.5)
+    {
+        error = QString("CurveOperation expects a normalized [0,1] image (e.g. after "
+                        "AutoStretch) — got values up to %1").arg(maxVal);
+        return false;
+    }
+
     std::vector<cv::Mat> channels;
     cv::split(image, channels);
 
@@ -140,6 +155,15 @@ bool CurveOperation::applyPerChannel(cv::Mat &image, const QVector<QVector<QPoin
     {
         error = QString("Got %1 per-channel curves for a %2-channel image").arg(channelPoints.size()).arg(
                     image.channels());
+        return false;
+    }
+
+    double minVal, maxVal;
+    cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
+    if (maxVal > 1.5)
+    {
+        error = QString("CurveOperation expects a normalized [0,1] image (e.g. after "
+                        "AutoStretch) — got values up to %1").arg(maxVal);
         return false;
     }
 
