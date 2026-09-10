@@ -400,6 +400,54 @@ class FITSData : public QObject
         }
         // Load WCS data
         bool loadWCS();
+
+        /**
+         * @brief wcsEffectiveCD Effective linear transformation matrix of a wcsprm, in
+         * degrees/pixel, as the 4 row-major elements CD1_1, CD1_2, CD2_1, CD2_2.
+         *
+         * The plate scale/rotation half of a FITS WCS may be written either as CDELTia
+         * (+ an optional PCi_ja matrix) or as a CDi_ja matrix, and wcsset() normalizes
+         * the latter by folding CDi_ja into PCi_ja and resetting CDELTia to unity. So
+         * for a CD-matrix header - which is what every plate solver (astrometry.net,
+         * StellarSolver, ...) writes - CDELTia is 1.0 and carries no scale at all, while
+         * for a CDELT header PCi_ja is the identity. Only the product CDELTia * PCi_ja is
+         * convention-independent, so anything needing the real scale must use this.
+         *
+         * @param wcs a wcsprm that has been through wcsset()
+         * @param cd out: the 4 matrix elements, untouched if @p wcs is unusable
+         * @return true if the matrix could be read
+         */
+        static bool wcsEffectiveCD(const struct wcsprm *wcs, double cd[4]);
+
+        /**
+         * @brief wcsPixelScale Plate scale of @p wcs in degrees/pixel, as the
+         * geometric mean sqrt(|det CD|) - i.e. independent of field rotation.
+         * @return 0 if @p wcs is unusable or its matrix is singular
+         */
+        static double wcsPixelScale(const struct wcsprm *wcs);
+
+        /**
+         * @brief wcsHasPlateSolution Whether @p wcs holds a genuine plate solution
+         * rather than wcslib's fill-ins for keywords the header never had.
+         *
+         * wcspih() succeeds even on a header with no WCS at all, defaulting an absent
+         * CRPIXja to 0 and leaving the effective CD matrix as the identity - 1 degree
+         * (3600")/pixel with no rotation, which is not a plate scale any real instrument
+         * produces. Callers must check this before trusting a WCS, or a scale-less
+         * "solution" propagates into stack alignment, the plate solver's scale hint and
+         * saved output.
+         *
+         * @param wcs a wcsprm that has been through wcsset()
+         */
+        static bool wcsHasPlateSolution(const struct wcsprm *wcs);
+
+        /**
+         * @brief updateWCSMatrixRecords Write m_WCSHandle's effective scale/rotation into
+         * the header records as a CDi_ja matrix, so the WCS survives being saved and
+         * reloaded. No-op if there is no usable WCS.
+         */
+        void updateWCSMatrixRecords();
+
         // Get WCS State
         WCSState getWCSState() const
         {

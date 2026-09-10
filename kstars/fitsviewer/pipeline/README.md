@@ -343,9 +343,8 @@ closed (`postprocess_close`) first.
 Every `postprocess_*` step mutates the same working-image buffer, so nothing
 stops a caller from running them in any order — but which stage a command
 belongs to determines whether it does what you'd expect. This section is
-checked against external references (PixInsight's own docs and established
-community processing workflows — see Sources at the end), not just inferred
-from this codebase.
+checked against external references (established community processing
+workflows — see Sources at the end), not just inferred from this codebase.
 
 **Linear stage** — pixel values are still proportional to actual captured
 light; no tone curve has been applied. Background modeling, color
@@ -382,7 +381,7 @@ pipeline's actual color-calibration *implementation* has a separate,
 confirmed-independent-of-ordering defect — see the warning in "Photometric
 color calibration" below before relying on it for a final image.
 
-Sources: [Deep-Sky Image Processing Workflow — Astrodoc](https://astrodoc.ca/deep-sky-image-processing-workflow/), [PixInsight SPCC reference documentation](https://pixinsight.com/doc/docs/SPCC/SPCC.html), [PixInsight — Photometry-Based Color Calibration](https://pixinsight.com/tutorials/PCC/), [PixInsight Deconvolution and Noise Reduction Example](https://www.pixinsight.com/examples/M81M82/index.html).
+Sources: [Deep-Sky Image Processing Workflow — Astrodoc](https://astrodoc.ca/deep-sky-image-processing-workflow/).
 
 ## Command reference
 
@@ -611,17 +610,42 @@ image, or the call fails with a specific message identifying which one.
 Inputs feeding the same or different output channels must all be the same
 pixel dimensions. Before combining, every WCS-carrying input is registered
 onto a common reference grid (`ChannelBlendOperation::registerToReference()`):
-each is fit to a rigid (rotation + uniform scale + translation) transform
-against whichever input's WCS was picked as reference, and rejected — with
-`{"state": "error", "message": "Cross-channel registration failed: <reason>"}`
-— if that fit isn't consistent (≥80% of a 5×5 sample grid agreeing within
-1px) or shifts the frame center by more than half the image's shorter
-dimension. A real, large pointing difference between channels fails this
-correctly; so does an input whose WCS is real-looking but wrong in a way
-that still produces a *consistent* fit with an implausible shift — e.g. a
-bogus plate scale (see `FITSData::loadWCS()`'s own `CDELT == 1.0` guard,
+every destination pixel is mapped `ref pixel -> world (reference WCS) ->
+source pixel (this input's WCS)` and resampled with `cv::remap`, against
+whichever input's WCS was picked as reference.
+
+The mapping is taken from the two solutions directly rather than being
+approximated by a fitted rigid/similarity transform first. This differs from
+`FITSStack::calcWarpMatrix()`, which *does* fit one to align a sub to its
+align master — valid there because every sub in a stack shares one optical
+train and one distortion model. Blend inputs are separately plate-solved
+masters that each carry their own independently-fitted distortion polynomial
+(applied for us: wcslib parses SIP under `WCSHDR_all` and evaluates it as
+TPD). Two solves of the same field routinely disagree by several px toward
+the frame border, which no 4-DOF similarity can absorb — measured on
+synthetic pairs, a 2nd-order SIP difference of 6e-6 leaves a 4.5px corner
+residual and only 56% of a 5×5 grid within 1px. Fitting one would therefore
+both reject good input and, where it did pass, leave the corners
+misregistered — visible as colour fringing toward the edges of a narrowband
+blend.
+
+An input is rejected — with `{"state": "error", "message": "Cross-channel
+registration failed for <channel> input <n>/<m> (reference: <channel> input
+<n>/<m>): <reason>"}` — only if the reference or channel `wcsprm` cannot be
+evaluated at all, if under half the reference grid maps into the channel, or
+if the frame center is displaced by more than half the image's shorter
+dimension. Naming the reference matters: if the reference is itself the input
+with the bad WCS then every other channel fails against it, and the channel
+named first is not the culprit.
+
+A real, large pointing difference between channels fails these checks
+correctly, as does an input whose WCS is real-looking but wrong in a way that
+still resamples cleanly while placing the field somewhere implausible — e.g.
+a bogus plate scale (see `FITSData::loadWCS()`'s own `CDELT == 1.0` guard,
 added after exactly this was found baked into an auto-saved master's WCS
-header).
+header). What no longer fails is the common case this used to reject:
+well-solved channels that simply differ by more distortion than a rigid fit
+could express.
 
 Response: `{"state": "blended", "outputSessionId": "<id>", "outputPath": "<path>"}`,
 or `{"state": "error", "message": "<reason>"}`. `outputPath` is only present
@@ -1070,9 +1094,9 @@ it, and per-star saturation sampled before/after is essentially unchanged
 on average (individual stars shift both directions — some lose spurious
 saturation from the removed ring-bleed, some gain slightly more accurate
 core color — rather than a systematic wash-out). This remains a
-deliberately **local** (per-star, not whole-image) correction, unlike
-PixInsight's PCC/SPCC (a global per-channel gain) — nebula/background
-color is still left untouched by design.
+deliberately **local** (per-star, not whole-image) correction, unlike a
+global per-channel gain — nebula/background color is still left untouched
+by design.
 
 `postprocess_apply_color_calibration` nudges each detected star's own local
 color toward a target derived from its real catalog B-V color index, without
@@ -1209,9 +1233,9 @@ spectrum, a physically linear light quantity; comparing that against a
 "measured" color already run through a nonlinear stretch and a uniform
 saturation boost means the correction is fighting the wrong bias (stretch/
 saturation-induced, not sensor/optics/atmosphere-induced) rather than fixing
-the one it's designed for. Matches how PixInsight's PCC/SPCC and equivalent
-tools always run on linear data, before any stretch, for the same reason.
-Run it as early as the image is background-clean (right after BGE) so
+the one it's designed for. Matches how equivalent photometric color
+calibration tools always run on linear data, before any stretch, for the
+same reason. Run it as early as the image is background-clean (right after BGE) so
 nothing downstream — denoise's chroma blur, autostretch's nonlinear remap,
 saturation's uniform chroma boost — gets a chance to perturb the
 just-corrected star colors again.

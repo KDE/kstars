@@ -6,10 +6,10 @@
 
 #include "channelblendoperation.h"
 
-#include <opencv2/calib3d.hpp>
 #include <opencv2/imgproc.hpp>
 #include <wcs.h>
 
+#include <algorithm>
 #include <cmath>
 #include <vector>
 
@@ -21,74 +21,124 @@ bool ChannelBlendOperation::registerToReference(cv::Mat &image, const struct wcs
 
     const int width = image.cols;
     const int height = image.rows;
-    constexpr int gridSize = 5;
-    std::vector<cv::Point2d> refPoints, imagePoints;
 
-    for (int i = 0; i < gridSize; i++)
+    // Map every destination (reference-grid) pixel back to its source pixel in `image`
+    // by going through the sky: ref pixel -> world (refWcs) -> image pixel (imageWcs).
+    // That composite mapping is exactly what the two solutions say it is — including
+    // each one's own SIP distortion, which wcslib applies for us, and any shear in
+    // either CD matrix. Deliberately NOT approximated by a fitted rigid/similarity
+    // transform first: two independently plate-solved masters routinely disagree by a
+    // few px toward the frame border (each solve fits its own distortion polynomial to
+    // its own noise), which no 4-DOF similarity can absorb. Fitting one would both
+    // reject good input and, where it did pass, leave the corners misregistered —
+    // visible as colour fringing toward the edges of a narrowband blend.
+    cv::Mat map(height, width, CV_32FC2);
+
+    // Chunked so the wcslib scratch buffers stay a few MB rather than scaling with the
+    // frame (a full 3000x2000 pass at once would need ~400MB of doubles).
+    constexpr int targetChunkPoints = 1 << 18;
+    const int rowsPerChunk = std::max(1, std::min(height, targetChunkPoints / std::max(1, width)));
+    const size_t maxPoints = static_cast<size_t>(rowsPerChunk) * width;
+
+    std::vector<double> pixcrd(2 * maxPoints), imgcrd(2 * maxPoints), world(2 * maxPoints);
+    std::vector<double> phi(maxPoints), theta(maxPoints);
+    std::vector<int> stat(maxPoints);
+
+    size_t insideCount = 0;
+    for (int y0 = 0; y0 < height; y0 += rowsPerChunk)
     {
-        for (int j = 0; j < gridSize; j++)
+        const int rows = std::min(rowsPerChunk, height - y0);
+        const int nPoints = rows * width;
+
+        for (int r = 0; r < rows; r++)
         {
-            const double px = static_cast<double>(i) * (width - 1.0) / (gridSize - 1);
-            const double py = static_cast<double>(j) * (height - 1.0) / (gridSize - 1);
+            for (int x = 0; x < width; x++)
+            {
+                const size_t i = static_cast<size_t>(r) * width + x;
+                pixcrd[2 * i]     = x + 1.0;      // wcslib is 1-based
+                pixcrd[2 * i + 1] = y0 + r + 1.0;
+            }
+        }
 
-            double imgcrd[2], phi, theta, world[2], pixcrd[2];
-            int stat[2];
+        // WCSERR_BAD_PIX / WCSERR_BAD_WORLD are per-point and reported via stat[] — a
+        // frame corner that projects off the sphere is normal and just leaves that
+        // pixel unmapped. Any other status is a broken wcsprm, which is fatal.
+        int status = wcsp2s(const_cast<struct wcsprm *>(refWcs), nPoints, 2, pixcrd.data(), imgcrd.data(),
+                            phi.data(), theta.data(), world.data(), stat.data());
+        if (status != WCSERR_SUCCESS && status != WCSERR_BAD_PIX)
+        {
+            error = QString("Reference WCS could not be evaluated (wcsp2s error %1: %2)")
+                    .arg(status).arg(wcs_errmsg[status]);
+            return false;
+        }
+        const bool refHadBadPoints = (status == WCSERR_BAD_PIX);
+        std::vector<int> refStat;
+        if (refHadBadPoints)
+            refStat.assign(stat.begin(), stat.begin() + nPoints);
 
-            // Pixel (ref grid) -> World, using the reference session's own WCS
-            double refPixFits[2] = { px + 1.0, py + 1.0 };
-            if (wcsp2s(const_cast<struct wcsprm *>(refWcs), 1, 2, refPixFits, imgcrd, &phi, &theta, world, stat) != 0)
-                continue;
+        status = wcss2p(const_cast<struct wcsprm *>(imageWcs), nPoints, 2, world.data(), phi.data(), theta.data(),
+                        imgcrd.data(), pixcrd.data(), stat.data());
+        if (status != WCSERR_SUCCESS && status != WCSERR_BAD_WORLD)
+        {
+            error = QString("Channel WCS could not be evaluated (wcss2p error %1: %2)")
+                    .arg(status).arg(wcs_errmsg[status]);
+            return false;
+        }
 
-            // World -> Pixel (this image), using this session's own WCS
-            if (wcss2p(const_cast<struct wcsprm *>(imageWcs), 1, 2, world, &phi, &theta, imgcrd, pixcrd, stat) != 0)
-                continue;
-
-            refPoints.push_back(cv::Point2d(px, py));
-            imagePoints.push_back(cv::Point2d(pixcrd[0] - 1.0, pixcrd[1] - 1.0));
+        for (int r = 0; r < rows; r++)
+        {
+            auto *row = map.ptr<cv::Vec2f>(y0 + r);
+            for (int x = 0; x < width; x++)
+            {
+                const size_t i = static_cast<size_t>(r) * width + x;
+                if (stat[i] != 0 || (refHadBadPoints && refStat[i] != 0))
+                {
+                    // Unmappable — steer remap outside the source so it fills the
+                    // border value rather than sampling an arbitrary pixel.
+                    row[x] = cv::Vec2f(-1.0f, -1.0f);
+                    continue;
+                }
+                const float sx = static_cast<float>(pixcrd[2 * i] - 1.0);
+                const float sy = static_cast<float>(pixcrd[2 * i + 1] - 1.0);
+                row[x] = cv::Vec2f(sx, sy);
+                if (sx >= 0.0f && sy >= 0.0f && sx <= width - 1.0f && sy <= height - 1.0f)
+                    insideCount++;
+            }
         }
     }
 
-    const unsigned int minPoints = (gridSize * gridSize / 2) + 1;
-    if (refPoints.size() < minPoints)
+    // The rigid-fit consistency test is gone (the mapping is exact, so there is nothing
+    // to be inconsistent with), but the two sanity checks it also provided are not: a
+    // WCS that is real-looking yet wrong still has to be caught rather than silently
+    // warping the channel into nonsense.
+    const double overlap = static_cast<double>(insideCount) / (static_cast<double>(width) * height);
+    constexpr double minOverlap = 0.5;
+    if (overlap < minOverlap)
     {
-        error = QString("Not enough overlapping WCS points [%1] to register channel").arg(refPoints.size());
+        error = QString("Channel does not overlap the reference frame (only %1% of the reference grid maps "
+                        "into this channel, need %2%) — check that both images are solved to the same field")
+                .arg(overlap * 100.0, 0, 'f', 1).arg(minOverlap * 100.0, 0, 'g', 2);
         return false;
     }
 
-    cv::Mat inliers;
-    cv::Mat affine = cv::estimateAffinePartial2D(imagePoints, refPoints, inliers, cv::RANSAC, 1.0);
-    if (affine.empty())
-    {
-        error = QStringLiteral("Could not compute a registration transform between channels");
-        return false;
-    }
-
-    const double inlierRatio = static_cast<double>(cv::countNonZero(inliers)) / refPoints.size();
-    if (inlierRatio < 0.8)
-    {
-        error = QStringLiteral("Channels do not form a consistent rigid registration");
-        return false;
-    }
-
-    // Same center-displacement check as calcWarpMatrix() — raw affine translation is
-    // relative to the pixel-corner origin, so any rotation about the frame center
-    // (plate-solved images commonly differ by a few degrees of sky rotation between
-    // sessions) inflates it hugely even for a perfectly good registration.
-    const double cx = width / 2.0;
-    const double cy = height / 2.0;
-    const double cxWarped = affine.at<double>(0, 0) * cx + affine.at<double>(0, 1) * cy + affine.at<double>(0, 2);
-    const double cyWarped = affine.at<double>(1, 0) * cx + affine.at<double>(1, 1) * cy + affine.at<double>(1, 2);
-    const double centerDisplacement = std::sqrt((cxWarped - cx) * (cxWarped - cx) + (cyWarped - cy) * (cyWarped - cy));
+    const int cx = width / 2;
+    const int cy = height / 2;
+    const cv::Vec2f center = map.at<cv::Vec2f>(cy, cx);
+    const double centerDisplacement = std::sqrt((center[0] - cx) * (center[0] - cx)
+                                     + (center[1] - cy) * (center[1] - cy));
     const double maxCenterDisplacement = std::min(width, height) * 0.5;
-    if (centerDisplacement > maxCenterDisplacement)
+    if (center[0] < 0.0f || centerDisplacement > maxCenterDisplacement)
     {
         error = QString("Channel center displacement too large (%1 px, limit %2 px)")
                 .arg(centerDisplacement).arg(maxCenterDisplacement);
         return false;
     }
 
+    // Lanczos-4 rather than bilinear: better preserves stellar PSF shape and avoids
+    // softening compared to a plain bilinear resample — worth the extra cost here
+    // given registration only runs once per blend input, not per-sub.
     cv::Mat warped;
-    cv::warpAffine(image, warped, affine, image.size(), cv::INTER_LINEAR);
+    cv::remap(image, warped, map, cv::noArray(), cv::INTER_LANCZOS4, cv::BORDER_CONSTANT, cv::Scalar(0));
     image = warped;
     return true;
 }
@@ -153,16 +203,24 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     // the first WCS encountered (red, then green, then blue) as the reference; inputs
     // with no WCS at all (alignMethod NONE) are left as-is, matching prior behavior.
     const struct wcsprm *refWcs = nullptr;
-    for (const auto *inputs :
-            {
-                &red, &green, &blue
-            })
+    // Named so a registration failure can say what everything was being registered
+    // *onto* — which input became the reference is otherwise invisible to the caller,
+    // and it matters: if the reference is the input with the bad WCS, every other
+    // channel fails against it and the first one reported is not the culprit.
+    QString refLabel;
+    const struct
     {
-        for (const auto &input : *inputs)
+        const QVector<WeightedInput> *inputs;
+        const char *name;
+    } scan[] = { { &red, "red" }, { &green, "green" }, { &blue, "blue" } };
+    for (const auto &group : scan)
+    {
+        for (int i = 0; i < group.inputs->size(); i++)
         {
-            if (input.wcs)
+            if (group.inputs->at(i).wcs)
             {
-                refWcs = input.wcs;
+                refWcs = group.inputs->at(i).wcs;
+                refLabel = QString("%1 input %2/%3").arg(group.name).arg(i + 1).arg(group.inputs->size());
                 break;
             }
         }
@@ -197,7 +255,8 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
                 QString regError;
                 if (!registerToReference((*group.inputs)[i].image, (*group.inputs)[i].wcs, refWcs, regError))
                 {
-                    error = QString("Cross-channel registration failed: %1").arg(regError);
+                    error = QString("Cross-channel registration failed for %1 input %2/%3 (reference: %4): %5")
+                            .arg(group.name).arg(i + 1).arg(group.inputs->size()).arg(refLabel).arg(regError);
                     return false;
                 }
                 current++;

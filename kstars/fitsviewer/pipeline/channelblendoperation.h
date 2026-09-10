@@ -95,14 +95,26 @@ class ChannelBlendOperation
 
     private:
         // Warps `image` (in place) from its own WCS (`imageWcs`) onto `refWcs`'s pixel
-        // grid, via the same grid-point-correspondence + RANSAC rigid-affine approach
-        // FITSStack::calcWarpMatrix() uses to align a sub to its align master — the two
-        // sessions being registered here are just as independently-solved as any two
-        // subs, so the same technique applies. A no-op if imageWcs/refWcs are null or
-        // identical (already on the reference grid). Returns false only on a genuine
-        // registration failure (e.g. the two WCS solutions don't overlap); a caller
-        // should treat that as "leave this input unregistered" rather than aborting the
-        // whole blend, since a real cross-filter mismatch is still better shown than lost.
+        // grid, by resampling through the two solutions directly: every destination
+        // pixel is mapped ref pixel -> world (refWcs) -> source pixel (imageWcs) and the
+        // result fed to cv::remap. That composite mapping is exact, so it carries each
+        // solution's own distortion (wcslib applies SIP for us) and any shear in either
+        // CD matrix.
+        //
+        // Deliberately NOT the fitted rigid/similarity transform FITSStack::calcWarpMatrix()
+        // uses to align a sub to its align master. That works there because all the subs
+        // in a stack share one optical train and one distortion model, so they really do
+        // differ by a rigid transform. It does not hold here: these are separately
+        // plate-solved masters, each carrying its own independently-fitted distortion
+        // polynomial, and the two routinely disagree by several px toward the frame
+        // border. A 4-DOF similarity cannot absorb that — it rejects good input, and
+        // where it does pass it leaves the corners misregistered, which in a narrowband
+        // blend shows up as colour fringing toward the edges.
+        //
+        // A no-op if imageWcs/refWcs are null or identical (already on the reference
+        // grid). Returns false only on a genuine failure — a broken wcsprm, or a WCS
+        // that is real-looking but wrong (too little overlap with the reference field,
+        // or too large a center displacement).
         static bool registerToReference(cv::Mat &image, const struct wcsprm *imageWcs, const struct wcsprm *refWcs,
                                         QString &error);
 };

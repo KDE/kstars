@@ -1140,10 +1140,21 @@ bool FITSData::convertMatToFITS(const cv::Mat &inImage)
             fits_write_key(fptr, TDOUBLE, "CRVAL2", &m_WCSHandle->crval[1], (char *)"WCS reference Y coordinate", &status);
             fits_write_key(fptr, TDOUBLE, "CRPIX1", &m_WCSHandle->crpix[0], (char *)"WCS reference X pixel", &status);
             fits_write_key(fptr, TDOUBLE, "CRPIX2", &m_WCSHandle->crpix[1], (char *)"WCS reference Y pixel", &status);
-            fits_write_key(fptr, TDOUBLE, "CDELT1", &m_WCSHandle->cdelt[0], (char *)"WCS X pixel size", &status);
-            fits_write_key(fptr, TDOUBLE, "CDELT2", &m_WCSHandle->cdelt[1], (char *)"WCS Y pixel size", &status);
-            fits_write_key(fptr, TDOUBLE, "CROTA1", &m_WCSHandle->crota[0], (char *)"WCS rotation", &status);
-            fits_write_key(fptr, TDOUBLE, "CROTA2", &m_WCSHandle->crota[1], (char *)"WCS rotation", &status);
+            // Persist the scale/rotation as a CD matrix rather than CDELTia+CROTAi. m_WCSHandle
+            // is a wcsset()-normalized copy of the align master's WCS, so its CDELTia is unity
+            // and its CROTAi zero with the real transformation held in PCi_ja — writing those
+            // members verbatim saved a 1 deg/px, unrotated WCS, and reloading such a file (as
+            // postprocess_load_master and postprocess_blend_channels do) found no usable
+            // solution at all. wcsEffectiveCD() collapses both conventions into the one form
+            // that always carries it.
+            double cd[4];
+            if (wcsEffectiveCD(m_WCSHandle, cd))
+            {
+                fits_write_key(fptr, TDOUBLE, "CD1_1", &cd[0], (char *)"WCS transformation matrix", &status);
+                fits_write_key(fptr, TDOUBLE, "CD1_2", &cd[1], (char *)"WCS transformation matrix", &status);
+                fits_write_key(fptr, TDOUBLE, "CD2_1", &cd[2], (char *)"WCS transformation matrix", &status);
+                fits_write_key(fptr, TDOUBLE, "CD2_2", &cd[3], (char *)"WCS transformation matrix", &status);
+            }
         }
 
         if (channels == 3)
@@ -1305,9 +1316,13 @@ bool FITSData::detectStarTrailing(const cv::Mat &image, double &medianElongation
         for (const auto &contour : contours)
         {
             // fitEllipse needs >= 5 points; skip single/few-pixel hot-pixel-sized
-            // blobs and implausibly large ones (saturated cores, bright nebula knots)
-            // that aren't individual point sources.
-            if (contour.size() < 5 || contour.size() > 500)
+            // blobs. No upper bound here: a genuine tracking-failure trail produces
+            // a long, high-perimeter contour, which is exactly what this function
+            // needs to see to measure its elongation. A large but round contour
+            // (saturated core, bright nebula knot) still measures near-zero
+            // elongation and can't skew the median upward, so it's harmless to
+            // include rather than discard.
+            if (contour.size() < 5)
                 continue;
             const cv::RotatedRect ellipse = cv::fitEllipse(contour);
             const double major = std::max(ellipse.size.width, ellipse.size.height);
@@ -1652,10 +1667,7 @@ bool FITSData::setStackedImage(const cv::Mat &image, QString &error, const struc
         updateRecordValue("CTYPE2", QString(m_WCSHandle->ctype[1]), "CTYPE2");
         updateRecordValue("CRPIX1", m_WCSHandle->crpix[0], "CRPIX1");
         updateRecordValue("CRPIX2", m_WCSHandle->crpix[1], "CRPIX2");
-        updateRecordValue("CDELT1", m_WCSHandle->cdelt[0], "CDELT1");
-        updateRecordValue("CDELT2", m_WCSHandle->cdelt[1], "CDELT2");
-        updateRecordValue("CROTA1", m_WCSHandle->crota[0], "CROTA1");
-        updateRecordValue("CROTA2", m_WCSHandle->crota[1], "CROTA2");
+        updateWCSMatrixRecords();
     }
 
     return true;
@@ -1948,8 +1960,11 @@ bool FITSData::processNextSub(LiveStackFile &sub)
                 // stackLoadWCS() only provides an optional position hint for the plate solver;
                 // its failure (e.g. fresh sub with no WCS in header) must NOT prevent addSub().
                 if (stackLoadWCS())
+                    // Scale from the effective CD matrix, not CDELTia — for the CDi_ja header
+                    // a solved sub carries, CDELTia is wcsset()'s unity fill-in and would hand
+                    // the solver a 3600"/px hint that matches no index file at all.
                     setStackSubSolution(m_StackWCSHandle->crval[0], m_StackWCSHandle->crval[1],
-                                        std::fabs(m_StackWCSHandle->cdelt[0]) * 3600.0, -1, -1);
+                                        wcsPixelScale(m_StackWCSHandle) * 3600.0, -1, -1);
                 else
                 {
                     // Fall back to the simpler RA/DEC/SCALE keywords that Ekos capture writes
@@ -2311,12 +2326,11 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
         // a single member reused across every sub's stackLoadWCS() call in this channel's
         // session, so if another sub's solve-completion callback runs (e.g. via a queued
         // connection) between when THIS sub's WCS was validated and when this handler
-        // actually executes, it could already have been overwritten. Same CRPIX/CDELT
-        // sanity check stackLoadWCS() itself already applies (see its own comment) —
-        // reused here as a last-resort guard against baking a stale/bogus WCS (e.g. a
-        // wcslib-default 1 deg/px scale) into this channel's stack.
-        if (!m_StackWCSHandle || m_StackWCSHandle->crpix[0] == 0 ||
-                (m_StackWCSHandle->cdelt[0] == 1.0 && m_StackWCSHandle->cdelt[1] == 1.0))
+        // actually executes, it could already have been overwritten. Same sanity check
+        // stackLoadWCS() itself already applies (see its own comment) — reused here as a
+        // last-resort guard against baking a stale/bogus WCS (e.g. a wcslib-default
+        // 1 deg/px scale) into this channel's stack.
+        if (!wcsHasPlateSolution(m_StackWCSHandle))
         {
             qCWarning(KSTARS_FITS) << "Align master WCS is stale or invalid at consumption time — "
                                    "skipping, next successfully-solved sub can still become align master.";
@@ -2609,11 +2623,7 @@ void FITSData::stackSetupWCS()
     updateRecordValue("CRPIX1", m_WCSHandle->crpix[0], "CRPIX1");
     updateRecordValue("CRPIX2", m_WCSHandle->crpix[1], "CRPIX2");
 
-    updateRecordValue("CDELT1", m_WCSHandle->cdelt[0], "CDELT1");
-    updateRecordValue("CDELT2", m_WCSHandle->cdelt[1], "CDELT2");
-
-    updateRecordValue("CROTA1", m_WCSHandle->crota[0], "CROTA1");
-    updateRecordValue("CROTA2", m_WCSHandle->crota[1], "CROTA2");
+    updateWCSMatrixRecords();
 
     m_ObjectsSearched = false;
     m_CatObjectsSearched = false;
@@ -3383,21 +3393,6 @@ bool FITSData::stackLoadWCS()
         return false;
     }
 
-    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    // A missing CRPIX defaults to 0; a missing CDELT (no CDELT/CD-matrix keywords at all, e.g. a
-    // raw, never-plate-solved sub) defaults to 1 degree/pixel per the WCS standard — both are
-    // wcslib filling in absent keywords rather than a genuine solution, so both must be rejected
-    // here or a bogus 3600"/pixel scale gets fed to the plate solver, guaranteeing every solve fails.
-    if (m_StackWCSHandle->crpix[0] == 0 ||
-            (m_StackWCSHandle->cdelt[0] == 1.0 && m_StackWCSHandle->cdelt[1] == 1.0))
-    {
-        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
-        m_StackWCSHandle = nullptr;
-        m_Stacknwcs = 0;
-        qCDebug(KSTARS_FITS) << QString("No world coordinate systems found (check)");
-        return false;
-    }
-
     cdfix(m_StackWCSHandle);
     if ((status = wcsset(m_StackWCSHandle)) != 0)
     {
@@ -3405,6 +3400,21 @@ bool FITSData::stackLoadWCS()
         m_StackWCSHandle = nullptr;
         m_Stacknwcs = 0;
         qCDebug(KSTARS_FITS) << QString("wcsset error %1").arg(wcs_errmsg[status]);
+        return false;
+    }
+
+    // FIXME: wcspih() above goes through EVEN if no WCS is present, so we're adding this to
+    // return for now. A raw, never-plate-solved sub must be rejected here or wcslib's
+    // fill-in 3600"/pixel scale gets fed to the plate solver, guaranteeing every solve fails.
+    // Checked only after wcsset(), which is what turns a CDi_ja header - what every solved
+    // sub actually carries - into a matrix wcsHasPlateSolution() can read; checking before it
+    // rejected every genuinely solved sub, since CDELTia is still at its 1.0 default then.
+    if (!wcsHasPlateSolution(m_StackWCSHandle))
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_StackWCSHandle = nullptr;
+        m_Stacknwcs = 0;
+        qCDebug(KSTARS_FITS) << QString("No world coordinate systems found (check)");
         return false;
     }
     return true;
@@ -4119,11 +4129,16 @@ bool FITSData::saveImage(const QString &newFilename)
         const char *comment = m_HeaderRecords[i].comment.toLatin1().constBegin();
         QVariant value = m_HeaderRecords[i].value;
 
-        // Handle common WCS numeric keywords explicitly to ensure they are saved correctly
+        // Handle common WCS numeric keywords explicitly to ensure they are saved correctly -
+        // records are held as strings, so a keyword missing from this list is written as a
+        // string-valued one that no WCS parser will accept. The CDi_ja matrix belongs here
+        // too: it is what updateWCSMatrixRecords() writes the scale/rotation as.
         if (key == "CRPIX1" || key == "CRPIX2" ||
                 key == "CRVAL1" || key == "CRVAL2" ||
                 key == "CDELT1" || key == "CDELT2" ||
-                key == "CROTA1" || key == "CROTA2")
+                key == "CROTA1" || key == "CROTA2" ||
+                key == "CD1_1" || key == "CD1_2" ||
+                key == "CD2_1" || key == "CD2_2")
         {
             double number = value.toDouble();
             fits_write_key(fptr, TDOUBLE, key.toLatin1().constData(), &number, comment, &status);
@@ -5894,6 +5909,66 @@ QList < Edge * > FITSData::getStarCentersInSubFrame(QRect subFrame) const
     return starCentersInSubFrame;
 }
 
+void FITSData::updateWCSMatrixRecords()
+{
+    // Keep the header records' scale/rotation consistent with m_WCSHandle, as a CD matrix
+    // rather than CDELTia+CROTAi for the reason given where saveStackedImage() writes it:
+    // a wcsset()-normalized wcsprm holds the transformation in PCi_ja, leaving CDELTia at
+    // unity and CROTAi at zero. Any stale CDELTia/CROTAi already in the header are ignored
+    // by both the FITS standard and wcslib once CDi_ja is present, so they can stay.
+    double cd[4];
+    if (!wcsEffectiveCD(m_WCSHandle, cd))
+        return;
+
+    updateRecordValue("CD1_1", cd[0], "CD1_1");
+    updateRecordValue("CD1_2", cd[1], "CD1_2");
+    updateRecordValue("CD2_1", cd[2], "CD2_1");
+    updateRecordValue("CD2_2", cd[3], "CD2_2");
+}
+
+bool FITSData::wcsEffectiveCD(const struct wcsprm *wcs, double cd[4])
+{
+    if (!wcs || wcs->naxis < 2 || !wcs->cdelt || !wcs->pc)
+        return false;
+
+    // pc is stored row-major with naxis columns, so element (i,j) is pc[i * naxis + j].
+    const int n = wcs->naxis;
+    cd[0] = wcs->cdelt[0] * wcs->pc[0];
+    cd[1] = wcs->cdelt[0] * wcs->pc[1];
+    cd[2] = wcs->cdelt[1] * wcs->pc[n];
+    cd[3] = wcs->cdelt[1] * wcs->pc[n + 1];
+    return true;
+}
+
+double FITSData::wcsPixelScale(const struct wcsprm *wcs)
+{
+    double cd[4];
+    if (!wcsEffectiveCD(wcs, cd))
+        return 0.0;
+    return std::sqrt(std::fabs(cd[0] * cd[3] - cd[1] * cd[2]));
+}
+
+bool FITSData::wcsHasPlateSolution(const struct wcsprm *wcs)
+{
+    double cd[4];
+    if (!wcsEffectiveCD(wcs, cd) || !wcs->crpix)
+        return false;
+
+    // An absent CRPIXja defaults to 0.
+    if (wcs->crpix[0] == 0)
+        return false;
+
+    // An absent CDELTia/PCi_ja/CDi_ja leaves the effective matrix as wcslib's identity
+    // default: 1 degree/pixel, no rotation. Reject exactly that, not merely
+    // CDELTia == 1.0 - after wcsset() folds a CDi_ja header matrix into PCi_ja that is
+    // what CDELTia reads for every genuinely solved sub (see wcsEffectiveCD()).
+    if (cd[0] == 1.0 && cd[3] == 1.0 && cd[1] == 0.0 && cd[2] == 0.0)
+        return false;
+
+    // A singular matrix maps the whole image to a line or a point and is unusable.
+    return (cd[0] * cd[3] - cd[1] * cd[2]) != 0.0;
+}
+
 bool FITSData::loadWCS()
 {
 #if !defined(KSTARS_LITE)
@@ -5999,23 +6074,6 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    // A missing CRPIX defaults to 0; a missing CDELT (no CDELT/CD-matrix keywords at all)
-    // defaults to 1 degree/pixel per the WCS standard — both are wcslib filling in absent
-    // keywords rather than a genuine solution, so both must be rejected here — same guard
-    // stackLoadWCS() already applies to a sub's WCS before handing it to the solver (see
-    // its comment) — or a bogus 1 deg/px scale silently reaches every caller of getStackWCS()
-    // (crop, postprocess_blend_channels' cross-channel registration, postprocess_load_master, ...).
-    if (m_WCSHandle->crpix[0] == 0 || (m_WCSHandle->cdelt[0] == 1.0 && m_WCSHandle->cdelt[1] == 1.0))
-    {
-        wcsvfree(&m_nwcs, &m_WCSHandle);
-        m_WCSHandle = nullptr;
-        m_nwcs = 0;
-        m_LastError = i18n("No world coordinate systems found.");
-        m_WCSState = Failure;
-        return false;
-    }
-
     cdfix(m_WCSHandle);
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
@@ -6023,6 +6081,21 @@ bool FITSData::loadWCS()
         m_WCSHandle = nullptr;
         m_nwcs = 0;
         m_LastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
+        m_WCSState = Failure;
+        return false;
+    }
+
+    // FIXME: wcspih() above goes through EVEN if no WCS is present, so we're adding this to
+    // return for now. Checked only after wcsset() has normalized whichever convention the
+    // header used, since a CD-matrix WCS carries no scale in CDELTia until then, and a
+    // scale-less "solution" would otherwise reach every caller of getStackWCS() (crop,
+    // postprocess_blend_channels' cross-channel registration, postprocess_load_master, ...).
+    if (!wcsHasPlateSolution(m_WCSHandle))
+    {
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
+        m_nwcs = 0;
+        m_LastError = i18n("No world coordinate systems found.");
         m_WCSState = Failure;
         return false;
     }
