@@ -113,62 +113,44 @@ cv::Mat DenoiseOperation::chromaDenoise(const cv::Mat &image, double amt)
     cv::Mat Cr = R - Y;
     cv::Mat Cb = B - Y;
 
-    // Protect bright/saturated pixels (star cores) from bleeding their own chroma
-    // into the blur below. Clipping breaks the R:G:B ratio non-uniformly per channel
-    // (independently-stacked filters saturate at different signal levels), leaving an
-    // extreme, unrepresentative Cr/Cb exactly at the clipped core. A plain Gaussian
-    // blur spreads that extreme value outward; since newG below is reconstructed as a
-    // *residual* rather than blurred directly, the spread shows up as a dark ring in
-    // luminance around every bright star once amt is large enough for the blur radius
-    // to matter (confirmed on real data: invisible at low chromaDenoiseAmt, a clear
-    // dark ring at chromaDenoiseAmt 1.0). Replacing each bright pixel's chroma with a
-    // value inpainted from its non-bright neighborhood — before the main blur — keeps
-    // a saturated core's own chroma from ever being available to spread.
-    // A fraction of the single frame-wide maximum is the wrong threshold here: one
-    // exceptionally bright star (or hot pixel) sets the bar so high that every other
-    // genuinely bright star — which triggers the exact same clipping-mismatch
-    // mechanism — falls under it and stays unprotected (confirmed on real data: fixed
-    // the one star tested against, left a whole field of other bright stars still
-    // ringed). Use a robust, percentile-based cutoff instead, so it scales with how
-    // many bright sources are actually in the frame rather than with its single
-    // brightest pixel. Sampled the same strided way as robustSigma() above, for the
-    // same reason: bound the sort to a few hundred thousand samples on a full-
-    // resolution image without biasing the estimate via averaging.
+    // Bright pixels (top 0.5% by luma) are where clipping pins channels near the sensor
+    // ceiling; a bright core's own chroma is meaningless, but it IS an extreme value, and a
+    // plain blur of the chroma planes smears it outward — turning a bright star's wings
+    // strongly tinted (blue/yellow) and, in the stretched image, very wrong. So exclude
+    // those pixels from the blur entirely: smooth only the *normalized* average over the
+    // non-bright neighbourhood (a normalized convolution, so a bright core inside the
+    // window cannot bias it), and leave the bright pixels' own chroma untouched. The
+    // threshold is a strided-sample luma percentile, not a fraction of the frame maximum —
+    // one hot pixel would otherwise set the bar and leave every other bright star exposed.
     const int strideY = std::max(1, Y.rows / 750);
     const cv::Mat yView(Y.rows / strideY, Y.cols, Y.type(), Y.data, Y.step[0] * strideY);
-    // .reshape() requires a continuous Mat, which the strided view above isn't —
-    // .clone() first (robustSigma() above gets this for free since cv::abs() happens
-    // to always return a continuous copy of its input).
     cv::Mat yFlat = yView.clone().reshape(1, 1);
     cv::Mat ySorted;
     cv::sort(yFlat, ySorted, cv::SORT_ASCENDING);
     const int p995 = static_cast<int>(ySorted.cols * 0.995);
     const float brightThreshold = ySorted.at<float>(0, std::min(p995, ySorted.cols - 1));
-
     cv::Mat brightMask;
     cv::compare(Y, brightThreshold, brightMask, cv::CMP_GT);
-    if (cv::countNonZero(brightMask) > 0)
-    {
-        constexpr double kFillSigma = 15.0;
-        auto inpaintBright = [&](cv::Mat & plane)
-        {
-            cv::Mat filled = plane.clone();
-            filled.setTo(0.0f, brightMask);
-            cv::Mat weight = cv::Mat::ones(plane.size(), CV_32F);
-            weight.setTo(0.0f, brightMask);
-            cv::GaussianBlur(filled, filled, cv::Size(0, 0), kFillSigma);
-            cv::GaussianBlur(weight, weight, cv::Size(0, 0), kFillSigma);
-            cv::Mat replacement = filled / cv::max(weight, 1e-6f);
-            replacement.copyTo(plane, brightMask);
-        };
-        inpaintBright(Cr);
-        inpaintBright(Cb);
-    }
+    cv::Mat nonBright;                       // 255 where a pixel is to be smoothed
+    cv::bitwise_not(brightMask, nonBright);
+    cv::Mat keep;                            // 1.0 to be smoothed, 0.0 at a bright pixel
+    nonBright.convertTo(keep, CV_32F, 1.0 / 255.0);
 
     // [0,1] strength -> a 1-8px Gaussian blur radius on the chroma planes only.
     const double sigma = 1.0 + std::clamp(amt, 0.0, 1.0) * 7.0;
-    cv::GaussianBlur(Cr, Cr, cv::Size(0, 0), sigma);
-    cv::GaussianBlur(Cb, Cb, cv::Size(0, 0), sigma);
+    const cv::Mat CrIn = Cr.mul(keep), CbIn = Cb.mul(keep);
+    cv::Mat keepBlur, CrInBlur, CbInBlur;
+    cv::GaussianBlur(keep, keepBlur, cv::Size(0, 0), sigma);
+    cv::GaussianBlur(CrIn, CrInBlur, cv::Size(0, 0), sigma);
+    cv::GaussianBlur(CbIn, CbInBlur, cv::Size(0, 0), sigma);
+
+    // Normalized average of the non-bright chroma, written only on non-bright pixels —
+    // bright pixels keep their original Cr/Cb.
+    cv::Mat CrB, CbB;
+    cv::divide(CrInBlur, cv::max(keepBlur, 1e-6f), CrB);
+    cv::divide(CbInBlur, cv::max(keepBlur, 1e-6f), CbB);
+    CrB.copyTo(Cr, nonBright);
+    CbB.copyTo(Cb, nonBright);
 
     cv::Mat newR = Cr + Y;
     cv::Mat newB = Cb + Y;

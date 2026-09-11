@@ -83,14 +83,15 @@ bool StackController::crop(const QRect &roi, QString &error)
     return m_ImageData->cropStack(roi, error);
 }
 
-bool StackController::applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked)
+bool StackController::applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked,
+                                       bool neutralizeBackground)
 {
     if (!m_ImageData)
     {
         error = QStringLiteral("No active session — call start() first");
         return false;
     }
-    return m_ImageData->applyAutoStretch(targetBackground, shadowsClipping, error, linked);
+    return m_ImageData->applyAutoStretch(targetBackground, shadowsClipping, error, linked, neutralizeBackground);
 }
 
 bool StackController::applyCurve(const QVector<QPointF> &controlPoints, QString &error)

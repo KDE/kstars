@@ -55,6 +55,15 @@ class ChannelBlendOperation
             // other WCS-carrying input onto that same grid before summing; inputs with no
             // WCS are blended as-is (assumed already on a shared grid, the old behavior).
             const struct wcsprm *wcs = nullptr;
+            // Robust sky-background level for this input, filled in by blendRGB() when
+            // normalization is enabled (see robustBackground()). blendChannel() then
+            // subtracts background*weight from the channel sum, so inputs whose sky levels
+            // differ — routine for independently-stacked narrowband filters, where both the
+            // sky brightness and the filter throughput differ — combine to a neutral
+            // background instead of carrying their level ratio through as a colour cast.
+            // Defaults to 0.0, which makes the subtraction a no-op (a literal weighted sum,
+            // the pre-normalization behavior) for any caller that leaves it unset.
+            double background = 0.0;
         };
 
         /**
@@ -81,6 +90,10 @@ class ChannelBlendOperation
          * input's WCS is; a caller that wants to keep it (e.g. to adopt the blended
          * result as a new session) must deep-copy it itself.
          * @param error receives a human-readable failure reason on failure
+         * @param normalize when true (default), each named input is level-matched by its
+         * own robust sky background before the weighted sum — so inputs whose sky levels
+         * differ combine to a neutral background instead of carrying their level ratio as
+         * a colour cast. Set false for the raw literal weighted sum.
          * @param onProgress optional — see ProgressCallback.
          * @param isCancelled optional — see CancelCallback.
          * @param outCancelled when non-null, set to true if the blend stopped because
@@ -89,7 +102,7 @@ class ChannelBlendOperation
          */
         static bool blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                              const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                             const struct wcsprm * &outRefWcs, QString &error,
+                             const struct wcsprm * &outRefWcs, QString &error, bool normalize = true,
                              const ProgressCallback &onProgress = ProgressCallback(),
                              const CancelCallback &isCancelled = CancelCallback(), bool *outCancelled = nullptr);
 
@@ -117,4 +130,11 @@ class ChannelBlendOperation
         // or too large a center displacement).
         static bool registerToReference(cv::Mat &image, const struct wcsprm *imageWcs, const struct wcsprm *refWcs,
                                         QString &error);
+
+        // Robust sky-background estimate for one single-channel CV_32F input: a low (25th)
+        // percentile over a strided ~200k-pixel sample. Deliberately not the median — real
+        // signal (stars, nebulosity) would bias a median up — and deliberately strided
+        // rather than a full-resolution sort, so its cost is independent of frame size.
+        // Used by blendRGB() to level-match inputs before the weighted sum.
+        static float robustBackground(const cv::Mat &image);
 };

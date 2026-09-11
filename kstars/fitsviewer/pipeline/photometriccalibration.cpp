@@ -132,56 +132,69 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
 
     for (const auto &match : matches)
     {
-        // Detect a saturated core: sample the peak (not the aperture mean, which
-        // would dilute a small clipped core with unclipped surrounding pixels) at the
-        // star's exact center. If every channel there sits within 3% of its own
-        // frame-wide ceiling, the core is clipped and its true catalog-implied color
-        // is unrecoverable from it — but that's not a reason to leave the star
-        // untouched. These are typically the biggest, brightest, most visually
-        // prominent stars in the frame (confirmed on real data: this is exactly what
-        // was still showing the pre-existing chroma bias after correction, since
-        // skipping them outright meant the most eye-catching stars in the image were
-        // the only ones never pulled toward neutral). Fall back to a neutral target
-        // for these, same reasoning as an unmatched star with no catalog color at
-        // all: an unknown true color is better rendered as neutral gray than left
-        // with whatever bias the upstream pipeline gave it.
+        // The star's colour is measured from its *unclipped* pixels only. A bright core
+        // pins all three channels at their ceilings, so it reads as a flat, false neutral
+        // whatever the star's real colour is — using it as the measurement (the previous
+        // behavior, which then forced a neutral target for every such star) meant the
+        // biggest, most visually prominent stars in the frame were exactly the ones the
+        // correction could not act on. Excluding clipped pixels makes the measurement
+        // valid whether or not the core clips, so a star's real target (its catalog
+        // colour, or the neutral fallback) can be applied to every star.
         const int cx = std::clamp(static_cast<int>(std::round(match.pixel.x)), 0, image.cols - 1);
         const int cy = std::clamp(static_cast<int>(std::round(match.pixel.y)), 0, image.rows - 1);
         const float peakR = originalR.at<float>(cy, cx);
         const float peakG = originalG.at<float>(cy, cx);
         const float peakB = originalB.at<float>(cy, cx);
         constexpr double kClipTolerance = 0.03;
-        const bool saturated = peakR >= ceilingR * (1.0 - kClipTolerance)
-                               && peakG >= ceilingG * (1.0 - kClipTolerance)
-                               && peakB >= ceilingB * (1.0 - kClipTolerance);
-        constexpr float neutral = 1.0f / 3.0f;
-        const float effectiveTargetR = saturated ? neutral : match.targetR;
-        const float effectiveTargetG = saturated ? neutral : match.targetG;
-        const float effectiveTargetB = saturated ? neutral : match.targetB;
+        const double clipR = ceilingR * (1.0 - kClipTolerance);
+        const double clipG = ceilingG * (1.0 - kClipTolerance);
+        const double clipB = ceilingB * (1.0 - kClipTolerance);
 
-        // Measured color: the mean over a small aperture at the star's own core,
-        // robust to a slightly-off centroid (the detected blob's centroid, not a
-        // re-fit PSF peak).
-        const int apertureRadius = std::max(1, static_cast<int>(std::round(match.radiusPx * 0.6)));
-        const cv::Rect apertureRect(static_cast<int>(match.pixel.x) - apertureRadius,
-                                    static_cast<int>(match.pixel.y) - apertureRadius,
+        // Aperture wide enough to take in the star's wings (where its colour actually
+        // lives), not just its core.
+        const int apertureRadius = std::max(2, static_cast<int>(std::round(match.radiusPx * 1.5)));
+        const cv::Rect apertureRect(cx - apertureRadius, cy - apertureRadius,
                                     2 * apertureRadius + 1, 2 * apertureRadius + 1);
         const cv::Rect clippedAperture = apertureRect & bounds;
         if (clippedAperture.width <= 0 || clippedAperture.height <= 0)
             continue;
 
-        const double measuredB = cv::mean(originalB(clippedAperture))[0];
-        const double measuredG = cv::mean(originalG(clippedAperture))[0];
-        const double measuredR = cv::mean(originalR(clippedAperture))[0];
-        const double measuredSum = measuredR + measuredG + measuredB;
-        if (measuredSum <= 0.0)
+        const cv::Mat apR = originalR(clippedAperture);
+        const cv::Mat apG = originalG(clippedAperture);
+        const cv::Mat apB = originalB(clippedAperture);
+        double sumR = 0.0, sumG = 0.0, sumB = 0.0;
+        int usable = 0;
+        for (int y = 0; y < apR.rows; y++)
+        {
+            const float *rRow = apR.ptr<float>(y);
+            const float *gRow = apG.ptr<float>(y);
+            const float *bRow = apB.ptr<float>(y);
+            for (int x = 0; x < apR.cols; x++)
+            {
+                if (rRow[x] >= clipR || gRow[x] >= clipG || bRow[x] >= clipB)
+                    continue; // a clipped pixel's ratio is not a real colour
+                sumR += rRow[x];
+                sumG += gRow[x];
+                sumB += bRow[x];
+                usable++;
+            }
+        }
+        // Too few unclipped pixels to measure a colour (an almost entirely saturated
+        // star, or an aperture clipped hard against an edge) — leave this star alone
+        // rather than derive a gain from nothing.
+        if (usable < 4 || sumR + sumG + sumB <= 0.0)
             continue;
+
+        const double measuredR = sumR / usable;
+        const double measuredG = sumG / usable;
+        const double measuredB = sumB / usable;
+        const double measuredSum = measuredR + measuredG + measuredB;
 
         // Per-channel gain: target/measured normalized ratio, clamped against a bad
         // catalog match or a noisy/near-zero measurement blowing the correction up.
-        const double gainR = std::clamp(effectiveTargetR / (measuredR / measuredSum), 0.3, 3.0);
-        const double gainG = std::clamp(effectiveTargetG / (measuredG / measuredSum), 0.3, 3.0);
-        const double gainB = std::clamp(effectiveTargetB / (measuredB / measuredSum), 0.3, 3.0);
+        const double gainR = std::clamp(match.targetR / (measuredR / measuredSum), 0.3, 3.0);
+        const double gainG = std::clamp(match.targetG / (measuredG / measuredSum), 0.3, 3.0);
+        const double gainB = std::clamp(match.targetB / (measuredB / measuredSum), 0.3, 3.0);
 
         // Gaussian-weighted radial falloff centered on the star — full correction at
         // the core, tapering to a no-op (gain 1.0) a couple of radii out, so only the
@@ -238,6 +251,7 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
         // degrade gracefully to no brightness gating for this one star rather than
         // trust a near-empty sample.
         double localFloor = 0.0;
+        double localSigma = 0.0;
         if (annulusLum.size() >= 8)
         {
             const size_t mid = annulusLum.size() / 2;
@@ -252,7 +266,8 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
             // DenoiseOperation::robustSigma()) — a 1.5-sigma margin above the local
             // background median so ordinary noise fluctuations don't get partial
             // weight just from sitting on the positive side of the median.
-            localFloor = median + 1.5 * 1.4826 * absDev[mid];
+            localSigma = 1.4826 * absDev[mid];
+            localFloor = median + 1.5 * localSigma;
         }
 
         const double peakLum = 0.299 * peakR + 0.587 * peakG + 0.114 * peakB;
@@ -263,6 +278,11 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
         cv::Mat wgRPatch = sumWeightedGainR(clippedPatch);
         cv::Mat wgGPatch = sumWeightedGainG(clippedPatch);
         cv::Mat wgBPatch = sumWeightedGainB(clippedPatch);
+
+        // Full correction once a pixel sits this many sigma above the local floor (the
+        // floor is already 1.5 sigma up, so ~4.5 sigma over the local background median);
+        // nothing at or below the floor.
+        constexpr double kGateSigma = 3.0;
 
         for (int y = 0; y < weightPatch.rows; y++)
         {
@@ -279,8 +299,17 @@ bool PhotometricCalibrationOperation::apply(cv::Mat &image, const std::vector<St
                 const double dx = (clippedPatch.x + x) - match.pixel.x;
                 const double dist2 = dx * dx + dy * dy;
                 const double lum = 0.299 * rRow[x] + 0.587 * gRow[x] + 0.114 * bRow[x];
-                const double brightnessWeight = std::clamp((lum - localFloor) / std::max(peakLum - localFloor, 1e-6),
-                                                0.0, 1.0);
+                // Gate by how far above the local background *noise* this pixel sits, not
+                // by a fraction of the star's peak. The peak-relative gate suppressed the
+                // correction on everything but the very core of a bright star (a wing
+                // pixel at 5% of a saturated peak got 5% of the gain), which left exactly
+                // the star's coloured wings uncorrected — the reason bright stars kept
+                // their chroma cast after calibration. A noise-relative floor corrects
+                // where a pixel is genuinely starlight (well above the local noise) and
+                // leaves true background alone.
+                const double brightnessWeight = localSigma > 0.0
+                                                ? std::clamp((lum - localFloor) / (kGateSigma * localSigma), 0.0, 1.0)
+                                                : std::clamp((lum - localFloor) / std::max(peakLum - localFloor, 1e-6), 0.0, 1.0);
                 const double weight = clampedStrength
                                       * std::exp(-dist2 / (2.0 * fallOffSigma * fallOffSigma))
                                       * brightnessWeight;

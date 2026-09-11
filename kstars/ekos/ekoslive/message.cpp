@@ -4480,6 +4480,12 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // finishes below.
         const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
         const bool wantPreview = payload["preview"].toBool(true);
+        // Level-match the named inputs to a common background before the weighted sum (see
+        // ChannelBlendOperation::WeightedInput::background) — the inputs are
+        // independently-stacked filters whose sky levels routinely differ, and without this
+        // the blend carries that level ratio through as a colour cast. On by default;
+        // normalize:false gives the raw literal weighted sum.
+        const bool normalize = payload["normalize"].toBool(true);
         if (m_BusyPostProcessSessions.contains(outputSessionId))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
@@ -4504,7 +4510,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
         m_PostProcessCancelFlags[outputSessionId] = cancelFlag;
 
-        auto future = QtConcurrent::run([this, red, green, blue, outputSessionId, cancelFlag]() -> BlendResult
+        auto future = QtConcurrent::run([this, red, green, blue, outputSessionId, cancelFlag, normalize]() -> BlendResult
         {
             BlendResult result;
             auto onProgress = [this, outputSessionId](int current, int total, const QString & label)
@@ -4526,7 +4532,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 return cancelFlag->loadAcquire() != 0;
             };
             result.ok = ChannelBlendOperation::blendRGB(red, green, blue, result.blended, result.refWcs, result.error,
-                                                        onProgress, isCancelled, &result.cancelled);
+                                                        normalize, onProgress, isCancelled, &result.cancelled);
             return result;
         });
 
@@ -4762,7 +4768,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             else if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH])
             {
                 ok = session->applyAutoStretch(payload["targetBackground"].toDouble(0.25),
-                                               payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true));
+                                               payload["shadowsClipping"].toDouble(2.8), error, payload["linked"].toBool(true),
+                                               payload["neutralizeBackground"].toBool(false));
                 result.extra = {{"state", ok ? "stretched" : "error"}};
             }
             else if (command == commands[POSTPROCESS_APPLY_CURVE])

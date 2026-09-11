@@ -1305,20 +1305,49 @@ void TestFitsData::testChannelBlendOperation()
         QCOMPARE(out.at<float>(0, 0), 1000.0f);
     }
 
-    // HOO-style blend: red=Ha, green=0.7*OIII+0.3*Ha, blue=OIII.
+    // HOO-style blend: red=Ha, green=0.7*OIII+0.3*Ha, blue=OIII. normalize:false — the
+    // raw literal weighted sum (a uniform test image has no background level to match).
     {
         cv::Mat rgb;
+        const struct wcsprm *refWcs = nullptr;
         QVERIFY2(ChannelBlendOperation::blendRGB(
         { {ha, 1.0} },
         { {oiii, 0.7}, {ha, 0.3} },
         { {oiii, 1.0} },
-        rgb, error), qPrintable(error));
+        rgb, refWcs, error, false), qPrintable(error));
 
         const cv::Vec3f px = rgb.at<cv::Vec3f>(0, 0);
         QCOMPARE(px[0], 1000.0f);
         QVERIFY2(std::abs(px[1] - (0.7f * 400.0f + 0.3f * 1000.0f)) < 1e-3f,
                  qPrintable(QString("Green blend is %1, expected %2").arg(px[1]).arg(0.7 * 400.0 + 0.3 * 1000.0)));
         QCOMPARE(px[2], 400.0f);
+    }
+
+    // Normalized blend: each input's own robust background is subtracted before the
+    // weighted sum, so inputs sitting at different levels combine to a neutral background
+    // instead of carrying their level ratio through as a colour cast.
+    {
+        cv::Mat haBg(8, 8, CV_32FC1, cv::Scalar(1000.0f));   // sky background 1000
+        cv::Mat oiiiBg(8, 8, CV_32FC1, cv::Scalar(400.0f));  // sky background 400
+        haBg(cv::Rect(3, 3, 2, 2)) = 5000.0f;                // a bright source, so the
+        oiiiBg(cv::Rect(3, 3, 2, 2)) = 5000.0f;              // 25th-percentile estimate stays on the sky level
+
+        cv::Mat rgb;
+        const struct wcsprm *refWcs = nullptr;
+        QVERIFY2(ChannelBlendOperation::blendRGB(
+        { {haBg, 1.0} },
+        { {oiiiBg, 1.0} },
+        { {oiiiBg, 1.0} },
+        rgb, refWcs, error, true), qPrintable(error));
+
+        // A background pixel combines to neutral: each channel's own background was removed.
+        const cv::Vec3f bgPx = rgb.at<cv::Vec3f>(0, 0);
+        QCOMPARE(bgPx[0], 0.0f);
+        QCOMPARE(bgPx[1], 0.0f);
+        QCOMPARE(bgPx[2], 0.0f);
+        // The source pixel stays positive in every channel (4000 / 4600 above background).
+        const cv::Vec3f starPx = rgb.at<cv::Vec3f>(3, 3);
+        QVERIFY(starPx[0] > 0.0f && starPx[1] > 0.0f && starPx[2] > 0.0f);
     }
 
     // Mismatched sizes must be rejected.

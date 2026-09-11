@@ -68,14 +68,18 @@ class PhotometricCalibrationOperation
         /**
          * @brief Nudge each matched star's local color toward its target, in place.
          *
-         * For each match: samples the current measured color in a small aperture at
-         * its centroid, computes a per-channel gain (target/measured ratio, clamped to
-         * [0.3, 3.0] against a bad match or a noisy/undersaturated measurement blowing
-         * the correction up), and applies that gain through a Gaussian-weighted radial
-         * multiplier field centered on the star — full strength at the core, tapering
-         * to a no-op (gain 1.0) beyond a few times its detected radius — scaled overall
-         * by `strength`. Everything outside every star's falloff radius is untouched,
-         * by construction.
+         * For each match: measures the star's current color from its *unclipped* pixels
+         * over an aperture sized to the star's wings (a bright, saturated core reads as a
+         * false neutral regardless of the star's real color, so clipped pixels are
+         * skipped rather than used as the measurement), computes a per-channel gain
+         * (target/measured ratio, clamped to [0.3, 3.0] against a bad match or a noisy
+         * measurement blowing the correction up), and applies that gain through a
+         * Gaussian-weighted radial multiplier field centered on the star — full strength
+         * at the core, tapering to a no-op (gain 1.0) beyond a few times its detected
+         * radius — scaled overall by `strength`, and gated per pixel by how far that pixel
+         * sits above the local background *noise* (so the correction follows the star's
+         * actual light out through its wings but stops at true background). Everything
+         * outside every star's falloff radius is untouched, by construction.
          *
          * @param image CV_32FC3, modified in place
          * @param matches stars to correct (from detectStars() + a caller-side catalog
@@ -97,12 +101,12 @@ class PhotometricCalibrationOperation
          * coarse 7-bucket O/B/A/F/G/K/M lookup table, not a continuous function.
          *
          * Converts B-V to an effective temperature via Ballesteros' formula, then
-         * approximates the resulting blackbody's color by sampling Planck's law at one
-         * representative wavelength per channel (600/550/450nm) rather than a full CIE
-         * tristimulus integration — this only needs to produce the right *ratio*
-         * between channels (the normalized color a star of this temperature should
-         * read as, for nudging a measured color toward it), not a colorimetrically
-         * exact render.
+         * integrates a blackbody spectrum against the real CIE 1931 2-degree standard
+         * observer color-matching functions (the tables in the .cpp's anonymous
+         * namespace) to get the star's normalized RGB. (An earlier version sampled
+         * Planck's law at one representative wavelength per channel instead, which
+         * ignored how much real color channels overlap and produced oversaturated,
+         * cartoonish star colors.)
          * @param bvIndex B-V color index (see StarObject::getBVIndex())
          */
         static void colorFromBVIndex(float bvIndex, float &r, float &g, float &b);

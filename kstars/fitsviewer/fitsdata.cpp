@@ -1475,7 +1475,8 @@ bool FITSData::cropStack(const QRect &roi, QString &error)
     return true;
 }
 
-bool FITSData::applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked)
+bool FITSData::applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked,
+                                bool neutralizeBackground)
 {
     if (m_StackedImageMat.empty())
     {
@@ -1483,7 +1484,7 @@ bool FITSData::applyAutoStretch(double targetBackground, double shadowsClipping,
         return false;
     }
     snapshotForUndo();
-    if (!AutoStretch::apply(m_StackedImageMat, error, targetBackground, shadowsClipping, linked))
+    if (!AutoStretch::apply(m_StackedImageMat, error, targetBackground, shadowsClipping, linked, neutralizeBackground))
         return false;
     if (!convertMatToFITS(m_StackedImageMat))
     {

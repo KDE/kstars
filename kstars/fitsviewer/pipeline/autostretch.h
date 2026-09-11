@@ -45,10 +45,17 @@ class AutoStretch
          * black/white point per channel — turning faint neutral background noise into
          * visible red/green/blue speckle. Keep false only for deliberate per-channel work
          * (e.g. manual color balance correction).
+         * @param neutralizeBackground when true, each channel's own robust sky background is
+         * subtracted (down to the lowest of the channels) before stretching, so the
+         * background comes out neutral regardless of a per-channel cast — without the
+         * per-channel *curve* differences that `linked: false` uses to achieve the same
+         * background neutrality, which re-tint the stars. Combine with `linked: true` to get
+         * a neutral background and preserved (calibrated) star colors in one step. Off by
+         * default; a no-op on a mono image.
          * @return success
          */
         static bool apply(cv::Mat &image, QString &error, double targetBackground = 0.25,
-                          double shadowsClipping = 2.8, bool linked = true);
+                          double shadowsClipping = 2.8, bool linked = true, bool neutralizeBackground = false);
 
     private:
         struct ChannelParams
@@ -62,6 +69,13 @@ class AutoStretch
         // linked (shared) parameters, and passing just one yields unlinked (per-channel).
         static ChannelParams computeParams(const std::vector<const cv::Mat *> &channels, float maxInput,
                                            float targetBackground, float shadowsClipping);
+
+        // Robust sky-background level for one channel: a low (25th) percentile over a
+        // strided ~200k-pixel sample. Strided (not a full-resolution sort) so its cost is
+        // independent of frame size, and a low percentile rather than the median so real
+        // signal (stars, nebulosity) can't bias the sky level upward. Used by
+        // apply()'s neutralizeBackground path.
+        static float robustBackground(const cv::Mat &channel);
 
         // Applies the MTF curve to one channel in place, float output (no 8-bit
         // quantization) normalized to [0,1] — replicating stretchOneChannel()'s formula

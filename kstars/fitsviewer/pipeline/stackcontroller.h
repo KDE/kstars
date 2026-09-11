@@ -91,9 +91,12 @@ class StackController : public QObject
          * @brief Bake a one-shot MTF autostretch into the current combined result.
          * @param targetBackground where the background level lands post-stretch, [0,1]
          * @param shadowsClipping MADN units below/above the median to clip at
+         * @param linked see AutoStretch::apply()
+         * @param neutralizeBackground see AutoStretch::apply()
          * @param error receives a human-readable failure reason on failure
          */
-        bool applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked = true);
+        bool applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked = true,
+                              bool neutralizeBackground = false);
 
         /**
          * @brief Bake a control-point tone curve, identically on every channel.

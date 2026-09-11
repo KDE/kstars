@@ -143,6 +143,35 @@ bool ChannelBlendOperation::registerToReference(cv::Mat &image, const struct wcs
     return true;
 }
 
+float ChannelBlendOperation::robustBackground(const cv::Mat &image)
+{
+    if (image.empty() || image.channels() != 1 || image.depth() != CV_32F)
+        return 0.0f;
+
+    // Strided sample to a few hundred thousand pixels: enough for a stable low
+    // percentile, independent of frame resolution, and cheap even on a full-size frame
+    // (no full-resolution sort). A low percentile rather than the median so real signal
+    // (stars, nebulosity) can't bias the sky level upward.
+    constexpr size_t targetSamples = 200000;
+    const int step = std::max(1, static_cast<int>(std::lround(
+                                  std::sqrt(static_cast<double>(image.total()) / targetSamples))));
+
+    std::vector<float> samples;
+    samples.reserve(targetSamples + 1);
+    for (int y = 0; y < image.rows; y += step)
+    {
+        const float *row = image.ptr<float>(y);
+        for (int x = 0; x < image.cols; x += step)
+            samples.push_back(row[x]);
+    }
+    if (samples.empty())
+        return 0.0f;
+
+    const size_t k = samples.size() / 4; // 25th percentile
+    std::nth_element(samples.begin(), samples.begin() + k, samples.end());
+    return std::max(0.0f, samples[k]);
+}
+
 bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, cv::Mat &outChannel, QString &error)
 {
     if (inputs.isEmpty())
@@ -175,13 +204,19 @@ bool ChannelBlendOperation::blendChannel(const QVector<WeightedInput> &inputs, c
             return false;
         }
         outChannel += input.image * static_cast<float>(input.weight);
+        // Normalization (see WeightedInput::background): subtract this input's own sky
+        // level, scaled by its weight, so inputs at different levels combine to a neutral
+        // background. A scalar subtract — no extra full-frame temporary. background
+        // defaults to 0.0, making this a no-op for an un-normalized caller.
+        if (input.background != 0.0)
+            outChannel -= static_cast<float>(input.background * input.weight);
     }
     return true;
 }
 
 bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QVector<WeightedInput> &green,
                                      const QVector<WeightedInput> &blue, cv::Mat &outImage,
-                                     const struct wcsprm * &outRefWcs, QString &error,
+                                     const struct wcsprm * &outRefWcs, QString &error, bool normalize,
                                      const ProgressCallback &onProgress, const CancelCallback &isCancelled,
                                      bool *outCancelled)
 {
@@ -229,6 +264,19 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     outRefWcs = refWcs;
 
     QVector<WeightedInput> redReg = red, greenReg = green, blueReg = blue;
+
+    // Level-match the inputs before combining (see WeightedInput::background). Estimated
+    // on each input's *original* image, before registerToReference() warps it onto the
+    // reference grid — a warp pads the non-overlapping border with 0, which would drag a
+    // low-percentile estimate toward zero for a partially-overlapping channel. Cheap: a
+    // strided ~200k-sample percentile per input, no full-frame copy.
+    if (normalize)
+    {
+        for (auto *group : { &redReg, &greenReg, &blueReg })
+            for (auto &input : *group)
+                input.background = robustBackground(input.image);
+    }
+
     // Every registration pass plus the final per-channel blend (3) — see
     // ProgressCallback's doc comment.
     const int registrationTotal = refWcs ? (red.size() + green.size() + blue.size()) : 0;

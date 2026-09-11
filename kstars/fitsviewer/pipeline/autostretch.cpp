@@ -85,7 +85,7 @@ void AutoStretch::applyMTF(cv::Mat &channel, const ChannelParams &params, float 
 }
 
 bool AutoStretch::apply(cv::Mat &image, QString &error, double targetBackground, double shadowsClipping,
-                        bool linked)
+                        bool linked, bool neutralizeBackground)
 {
     if (image.empty())
     {
@@ -107,6 +107,28 @@ bool AutoStretch::apply(cv::Mat &image, QString &error, double targetBackground,
     double minVal, maxVal;
     cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
     const float maxInput = (maxVal <= 1.01) ? 1.0f : 65536.0f;
+
+    // Optional background neutralization: subtract each channel's own sky background (down
+    // to the lowest of the channels, so nothing is driven negative) before stretching, so a
+    // *linked* stretch — one shared curve — lands the background neutral. This reaches the
+    // same background neutrality `linked: false` achieves with per-channel curves, but
+    // without those per-channel curve differences re-tinting stars that were already
+    // colour-calibrated. Offset subtraction only (not a scale), so each channel's
+    // above-background signal — the stars' colour — is left exactly as it was.
+    if (neutralizeBackground && channels.size() > 1)
+    {
+        std::vector<float> background(channels.size());
+        background[0] = robustBackground(channels[0]);
+        float lowest = background[0];
+        for (size_t i = 1; i < channels.size(); i++)
+        {
+            background[i] = robustBackground(channels[i]);
+            lowest = std::min(lowest, background[i]);
+        }
+        for (size_t i = 0; i < channels.size(); i++)
+            if (background[i] > lowest)
+                channels[i] -= (background[i] - lowest);
+    }
 
     if (linked && channels.size() > 1)
     {
@@ -130,4 +152,31 @@ bool AutoStretch::apply(cv::Mat &image, QString &error, double targetBackground,
 
     cv::merge(channels, image);
     return true;
+}
+
+float AutoStretch::robustBackground(const cv::Mat &channel)
+{
+    if (channel.empty() || channel.channels() != 1 || channel.depth() != CV_32F)
+        return 0.0f;
+
+    // Strided sample to ~200k pixels: enough for a stable low percentile, independent of
+    // frame resolution, and cheap even on a full-size frame (no full-resolution sort).
+    constexpr size_t targetSamples = 200000;
+    const int step = std::max(1, static_cast<int>(std::lround(
+                                  std::sqrt(static_cast<double>(channel.total()) / targetSamples))));
+
+    std::vector<float> samples;
+    samples.reserve(targetSamples + 1);
+    for (int y = 0; y < channel.rows; y += step)
+    {
+        const float *row = channel.ptr<float>(y);
+        for (int x = 0; x < channel.cols; x += step)
+            samples.push_back(row[x]);
+    }
+    if (samples.empty())
+        return 0.0f;
+
+    const size_t k = samples.size() / 4; // 25th percentile
+    std::nth_element(samples.begin(), samples.begin() + k, samples.end());
+    return std::max(0.0f, samples[k]);
 }

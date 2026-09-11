@@ -600,13 +600,30 @@ already-stacked mono session into each output R/G/B channel
 | `green` | same shape | **Required.** |
 | `blue` | same shape | **Required.** |
 | `outputSessionId` | string | Default `"blended"`. Where the result is stored as a new session. |
+| `normalize` | bool | Level-match the named inputs to a common background before the weighted sum — see below. Default `true`; `false` gives the raw literal weighted sum. |
 | `preview` | bool | `true` | Opt-out for the completion preview below, same convention as `build_master`/`stack`/`crop`/`apply_*`. |
 
 Weights are **not** renormalized — a literal weighted sum, not a weighted
 average (two inputs at weight `1.0` each produce roughly double the
 brightness of either alone). A single input at weight `1.0` is an exact
-passthrough. Every named session must exist and already have a stacked
-image, or the call fails with a specific message identifying which one.
+passthrough when `normalize` is off. Every named session must exist and
+already have a stacked image, or the call fails with a specific message
+identifying which one.
+
+**Level matching (`normalize`, on by default).** Independently-stacked
+filters almost always sit at different sky backgrounds (different sky
+brightness and filter throughput), and a literal weighted sum then carries
+that level ratio straight through as a colour cast — e.g. an SHO set whose
+OIII sky is several times brighter than SII comes out strongly blue on
+`blue: OIII`. When `normalize` is on, each named input is first level-matched
+by its own robust sky background (a low percentile over a strided sample,
+computed on the input's original image before any WCS registration), and the
+weighted sum is taken on the background-subtracted values — so a background
+pixel combines to neutral regardless of the inputs' absolute levels. This is
+the background-neutralization step `postprocess_apply_bge` deliberately does
+*not* provide: BGE removes gradients while preserving each channel's mean
+level (`channel - bg + level`), so it can never correct a per-channel level
+mismatch. Set `normalize: false` for the raw literal weighted sum.
 Inputs feeding the same or different output channels must all be the same
 pixel dimensions. Before combining, every WCS-carrying input is registered
 onto a common reference grid (`ChannelBlendOperation::registerToReference()`):
@@ -709,6 +726,7 @@ or an error.
 | `targetBackground` | double | `0.25` | Where the background level lands post-stretch, `[0,1]`. |
 | `shadowsClipping` | double | `2.8` | MADN (robust sigma) units below/above the median to clip at. |
 | `linked` | bool | `true` | See "Linked vs. unlinked autostretch" below — **this choice matters a lot** and depends entirely on what kind of data you're stretching. |
+| `neutralizeBackground` | bool | `false` | Subtract each channel's own robust sky background (down to the lowest channel) before stretching, so a *linked* stretch lands a neutral background. See "Linked vs. unlinked autostretch" below. No-op on a mono image. |
 
 Response: `{"state": "stretched"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
@@ -953,6 +971,27 @@ before assuming it's a stretch-parameter problem — see "Shared calibration
 folders" and "Background/gradient removal" below for two real causes of a
 *content* difference that no amount of stretch tuning fixes.
 
+**`neutralizeBackground: true` removes the narrowband case's need for
+`linked: false`.** The reason `linked: false` is recommended for composites
+above is only that it equalises the channels' *backgrounds* — and it does
+that with per-channel curves, which necessarily re-tints the stars. If the
+channels' backgrounds are subtracted first, a single shared (`linked: true`)
+curve lands a neutral background *and* leaves each star's above-background
+colour exactly as it was — so a photometric-calibrated composite keeps its
+calibrated star colour instead of having the stretch re-introduce a cast.
+Confirmed on two real narrowband composites and a real OSC stack: the
+per-channel curves of `linked: false` swing measurable star colour (e.g.
+nB−nR from +0.03 to +0.08, and R−B from +0.03 to −0.07) that a
+`linked: true` + `neutralizeBackground: true` stretch does not. Prefer that
+combination; keep `linked: false` only for deliberate per-channel work (e.g.
+manual colour balance) where its per-channel curves *are* the intent.
+
+This is offset subtraction, not a scale, so it does **not** correct a
+multiplicative white-balance cast on the stars themselves (e.g. an
+un-white-balanced OSC stack whose stars are uniformly green) — that is the
+per-star photometric calibration's job. It only makes the *background*
+neutral, which is what the stretch's link mode controls.
+
 ### Narrowband/multi-channel palette choice
 
 `postprocess_blend_channels`'s weights are literal pixel math — nothing
@@ -1071,32 +1110,34 @@ specific "merge two already-aligned stacks" case instead.
 
 ### Photometric color calibration
 
-**Fixed: a ring/halo artifact that used to appear around many stars.**
-Previously confirmed (independent of pipeline ordering) that many stars
-came out with a visible colored ring once the image was stretched enough
-to reveal it. Root cause: `PhotometricCalibrationOperation::apply()`
-measures a star's color from a small aperture at its core, but was applying
-the resulting gain through a Gaussian spatial falloff reaching several
-times the star's radius outward — well past the aperture that produced the
-measurement, into the star's fainter PSF wings and surrounding
-background/nebula, which have a different native color than what was
-measured. Fixed by adding a second, independent per-pixel weight factor: a
-**local, per-star background-relative brightness gate**, sampled from the
-same correction patch's own outer annulus (robust median + MAD estimate,
-so it reflects what's actually under *this* star rather than a whole-frame
-average). A pixel now only receives meaningful correction if it's both
-spatially close to the star (the existing Gaussian) *and* still
-meaningfully brighter than the local background/noise floor around it —
-so the correction stops bleeding into pixels that were never part of the
-star's light, regardless of star size. Verified against real data: the
-ring is gone under the same aggressive stretch that originally revealed
-it, and per-star saturation sampled before/after is essentially unchanged
-on average (individual stars shift both directions — some lose spurious
-saturation from the removed ring-bleed, some gain slightly more accurate
-core color — rather than a systematic wash-out). This remains a
-deliberately **local** (per-star, not whole-image) correction, unlike a
-global per-channel gain — nebula/background color is still left untouched
-by design.
+**Fixed: a ring/halo artifact around many stars, and the reason bright stars
+kept their colour cast.** `PhotometricCalibrationOperation::apply()` has two
+parts that both have to be right:
+
+- **Measuring the star's colour.** It used to sample a small aperture at the
+  star's core. A bright core pins all three channels at their ceilings, so it
+  reads as a flat, false neutral regardless of the star's real colour — and the
+  code then forced a neutral *target* for such stars, so the biggest, most
+  visually prominent stars in the frame were exactly the ones the correction
+  could not act on (confirmed on real data: the brightest stars' chroma barely
+  moved after calibration). It now measures from the star's **unclipped pixels**
+  over an aperture sized to its wings, so a valid colour is available whether or
+  not the core clips, and each star's real target (its catalog B-V colour, or
+  the neutral fallback) is applied.
+- **Where the gain is applied.** The Gaussian falloff bounds *reach*; a
+  per-pixel gate decides *what* gets corrected. The gate used to be relative to
+  the star's own **peak** — a wing pixel at 5% of a saturated peak got 5% of the
+  gain — which left exactly the star's coloured wings uncorrected. It is now
+  relative to the **local background noise** (robust median + MAD over the
+  patch's outer annulus): a pixel is corrected in proportion to how far it sits
+  above the local floor, so the correction follows the star's actual light out
+  through its wings and stops at true background/nebula.
+
+Verified on a real narrowband composite: the mean star blueness (nB−nR, measured
+from the linear blend) goes from +0.150 to +0.013 with this fix, versus +0.096
+before, and the correction now reaches the wings rather than only the core. This
+remains a deliberately **local** (per-star) correction, unlike a global
+per-channel gain — nebula/background colour is still left untouched by design.
 
 `postprocess_apply_color_calibration` nudges each detected star's own local
 color toward a target derived from its real catalog B-V color index, without

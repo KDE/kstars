@@ -947,10 +947,13 @@ class FITSData : public QObject
          * same reasoning as cropStack().
          * @param targetBackground see AutoStretch::apply()
          * @param shadowsClipping see AutoStretch::apply()
+         * @param linked see AutoStretch::apply()
+         * @param neutralizeBackground see AutoStretch::apply()
          * @param error receives a human-readable failure reason on failure
          * @return success
          */
-        bool applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked = true);
+        bool applyAutoStretch(double targetBackground, double shadowsClipping, QString &error, bool linked = true,
+                              bool neutralizeBackground = false);
 
         /**
          * @brief Bake a control-point tone curve into the current combined stacked
