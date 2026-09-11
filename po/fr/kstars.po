@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.8.5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 02:16+0000\n"
+"POT-Creation-Date: 2026-09-11 02:14+0000\n"
 "PO-Revision-Date: 2026-07-03 13:40+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -793,7 +793,7 @@ msgstr "Erreur de lecture du fichier de configuration d'astrométrie."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Erreur interne d'écriture du fichier de configuration d'astrométrie."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3760
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3770
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1794,7 +1794,7 @@ msgstr "Impossible d'importer le catalogue.<br>%1"
 #: catalogsdb/catalogsdb.cpp:889
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
-msgstr "Impossible de rafraichir le catalogue principal.<br>"
+msgstr "Impossible de rafraîchir le catalogue principal.<br>"
 
 #: catalogsdb/catalogsdb.cpp:898
 #, kde-format
@@ -4528,7 +4528,7 @@ msgstr "(rien)"
 #: dialogs/finddialog.cpp:491
 #, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Recherche de « %1 » sur Internet…"
+msgstr "Recherche de « %1 » sur Internet…"
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -5929,7 +5929,7 @@ msgstr "Réglez également le champ de vision"
 #: dialogs/skyobjectsearchadapter.cpp:83
 #, kde-format
 msgid "Restrict search to an object category"
-msgstr ""
+msgstr "Restreindre la recherche à une catégorie d'objet"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -6957,7 +6957,7 @@ msgstr "Champ de vision non valable"
 #: ekos/align/align_goto.cpp:87
 #, kde-format
 msgid "Refresh is complete."
-msgstr "Le rafraichissement est terminé."
+msgstr "Le rafraîchissement est terminé."
 
 #: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1451
 #: ekos/focus/focus.cpp:1714
@@ -8511,7 +8511,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>À activer si le rotateur tourne physiquement dans la "
 "direction opposée à celle attendue. Détecté et réglé automatiquement la "
-"première fois que le contrôle de mauvaise direction le confirme ; peut aussi "
+"première fois que le contrôle de mauvaise direction le confirme ; peut aussi "
 "être réglé manuellement.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RotatorParityReversed)
@@ -8537,7 +8537,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Lorsqu'il est activé et qu'un appareil PAC (Correcteur "
 "d'Alignement Polaire) est connecté, le système enverra automatiquement des "
-"commandes de correction au PAC pendant la phase de rafraichissement au lieu "
+"commandes de correction au PAC pendant la phase de rafraîchissement au lieu "
 "de nécessiter des réglages manuels du bouton.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPACCorrection)
@@ -10278,12 +10278,12 @@ msgstr "Sélectionner une étoile"
 #: ekos/align/polaralignmentassistant.cpp:41
 #, kde-format
 msgid "Refreshing"
-msgstr "Rafraichissement"
+msgstr "Rafraîchissement"
 
 #: ekos/align/polaralignmentassistant.cpp:42
 #, kde-format
 msgid "Refresh Complete"
-msgstr "Rafraichissement terminé"
+msgstr "Rafraîchissement terminé"
 
 #: ekos/align/polaralignmentassistant.cpp:130
 #, kde-format
@@ -10376,7 +10376,7 @@ msgid ""
 "affect error measurements."
 msgstr ""
 "Impossible de mettre à jour l'étoile d'alignement polaire durant la phase de "
-"rafraichissement, cela pourrait affecter les mesures d'erreur."
+"rafraîchissement, cela pourrait affecter les mesures d'erreur."
 
 #: ekos/align/polaralignmentassistant.cpp:1066
 #, kde-format
@@ -10489,7 +10489,7 @@ msgid ""
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 "<p>Veuillez choisir la durée d'exposition et une méthode d'ajustement. "
-"Ensuite cliquez sur <i>Rafraichir</i> pour lancer l'ajustement.</p>"
+"Ensuite cliquez sur <i>Rafraîchir</i> pour lancer l'ajustement.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1310
 #, kde-format
@@ -10500,7 +10500,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 "<p>Veuillez choisir la durée d'exposition et une méthode d'ajustement. "
-"Ensuite cliquez sur <i>Rafraichir</i> pour commencer.</p><p>Le triangle de "
+"Ensuite cliquez sur <i>Rafraîchir</i> pour commencer.</p><p>Le triangle de "
 "correction est tracé dessus. <i>Zoomez et sélectionnez une étoile lumineuse</"
 "i> pour repositionner le vecteur de correction. Utilisez la méthode "
 "<i>MoveStar & Calc Error</i> pour estimer l'erreur résiduel.</p>"
@@ -11245,7 +11245,7 @@ msgstr "Mémoire insuffisante pour le fichier %1."
 #: ekos/align/remoteastrometryparser.cpp:101
 #, kde-format
 msgid "Remote astrometry driver is no longer connected."
-msgstr ""
+msgstr "Le pilote d'astrométrie distant n'est plus connecté."
 
 #: ekos/align/remoteastrometryparser.cpp:114
 #, kde-format
@@ -15615,30 +15615,29 @@ msgstr "Y"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_temperature)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/camera.ui:836 ekos/capture/camera.ui:900
-#, fuzzy, kde-format
-#| msgid "Desired CCD temperature"
+#, kde-format
 msgid "Desired temperature"
-msgstr "Température souhaitée du capteur CCD"
+msgstr "Température souhaitée"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_temperature)
 #: ekos/capture/camera.ui:842
-#, fuzzy, kde-format
-#| msgid "Temp:"
+#, kde-format
 msgid "Temp:"
-msgstr "Temp. :"
+msgstr "Temp"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:866
-#, fuzzy, kde-format
-#| msgid "Current CCD temperature"
+#, kde-format
 msgid "Current camera temperature"
-msgstr "Température courante CCD"
+msgstr "Température actuelle de la caméra"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/camera.ui:931
 #, kde-format
 msgid "Set temperature now (does not affect the job's target temperature)"
 msgstr ""
+"Réglez la température maintenant (n'affecte pas la température cible du "
+"travail)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/camera.ui:968
@@ -15956,89 +15955,7 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1861
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %f</span> or <span style=\" font-weight:704;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %D</span> or <span style=\" font-weight:704;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:704;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %T</span> or <span style=\" font-weight:704;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %e</span> or <span style=\" font-weight:704;\">%exposure</span>: The "
-#| "exposure duration in seconds, with '_secs' as suffix.</li><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %E</span> or "
-#| "<span style=\" font-weight:704;\">%exp</span>: The exposure duration in "
-#| "seconds as plain number, without any unit as suffix.</li></ul><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Placeholder<span style=\" font-"
-#| "weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
-#| "span>: The active filter name.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %t</span> or "
-#| "<span style=\" font-weight:704;\">%target</span>: The Target name.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder "
-#| "<span style=\" font-weight:600;\">%C</span> or <span style=\" font-"
-#| "weight:600;\">%temperature</span>: The camera temperature of capturing.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%B</"
-#| "span> or <span style=\" font-weight:600;\">%bin</span>: The binning "
-#| "configured for capturing.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder <span style=\" font-weight:600;\">%G</span> or "
-#| "<span style=\" font-weight:600;\">%gain</span>: The gain configured for "
-#| "capturing.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%O</span> or <span style="
-#| "\" font-weight:600;\">%offset</span>: The offset configured for capturing."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%I</"
-#| "span> or <span style=\" font-weight:600;\">%iso</span>: The ISO value "
-#| "(DSLRs only).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%P</span> or <span style="
-#| "\" font-weight:600;\">%pierside</span>: The current mount's pier side.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%H</"
-#| "span> or <span style=\" font-weight:600;\">%hostname</span>: The hostname "
-#| "running EKOS.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder<span style=\" font-weight:704;\"> %s*</span> or <span "
-#| "style=\" font-weight:704;\">%sequence</span>: The image sequence "
-#| "identifier where * is the number of digits used (1-9). <span style=\" "
-#| "font-weight:704;\">This tag is mandatory and must be the last element in "
-#| "the format.</span></li></ul><p>Arbitrary text may also be included within "
-#| "the Format string, <span style=\" font-weight:704;\">except the % and \\ "
-#| "characters.</span> The / path character can be used to define arbitrary "
-#| "directories.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Tags are case sensitive in both "
-#| "their short and long forms.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Only use the %Datetime tag in the filename portion of the "
-#| "format, not in the path definition.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -16200,7 +16117,7 @@ msgstr ""
 "où * correspond au nombre de chiffres utilisés (1 à 9). <span style=\" font-"
 "weight:704;\">Cette balise est obligatoire et doit être le dernier élément "
 "du format.</span></li></ul><p>Du texte arbitraire peut aussi être inclus "
-"dans la chaîne de format, <span style=\" font-weight:704;\">à l'exception "
+"dans la chaine de format, <span style=\" font-weight:704;\">à l'exception "
 "des caractères % et \\.</span> Le caractère de chemin / peut être utilisé "
 "pour définir des répertoires arbitraires.</p><p>Notes&nbsp;:</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -18450,7 +18367,7 @@ msgstr ""
 #: ekos/capture/refocusstate.cpp:76
 #, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "Nouvelle mise au point en cours de séquence, basée sur le HFR…"
+msgstr "Nouvelle mise au point en cours de séquence, fondée sur le HFR…"
 
 #: ekos/capture/refocusstate.cpp:84
 #, kde-format
@@ -22960,24 +22877,21 @@ msgid "View from behind camera"
 msgstr "Vue depuis l'arrière de la caméra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:152
-#, fuzzy, kde-format
-#| msgid "View from behind camera"
+#, kde-format
 msgid "View from behind · plate %1° %2"
-msgstr "Vue depuis l'arrière de la caméra"
+msgstr "Vue depuis l'arrière · plaque %1° %2"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "&CW"
+#, kde-format
 msgctxt "clockwise"
 msgid "CW"
-msgstr "&CW"
+msgstr "sens horaire"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:155
-#, fuzzy, kde-format
-#| msgid "CCW"
+#, kde-format
 msgctxt "counter-clockwise"
 msgid "CCW"
-msgstr "CCW"
+msgstr "sens antihoraire"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:259
 #, kde-format
@@ -22985,60 +22899,52 @@ msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:290
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "screw position"
 msgid "right"
-msgstr "Droite"
+msgstr "droite"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 1 (upper-right)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-right"
-msgstr "Point 1 (haut-droite)"
+msgstr "haut-droite"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgctxt "screw position"
 msgid "top"
-msgstr "Arrêter"
+msgstr "haut"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 3 (upper-left)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-left"
-msgstr "Point 3 (haut-gauche)"
+msgstr "haut-gauche"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgctxt "screw position"
 msgid "left"
-msgstr "En haut à gauche"
+msgstr "gauche"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:300
 #, kde-format
 msgctxt "screw position"
 msgid "lower-left"
-msgstr ""
+msgstr "bas-gauche"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:302
 #, kde-format
 msgctxt "screw position"
 msgid "bottom"
-msgstr ""
+msgstr "bas"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:304
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgctxt "screw position"
 msgid "lower-right"
-msgstr "Coin inférieur droit"
+msgstr "bas-droite"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
@@ -23191,10 +23097,9 @@ msgstr ""
 "pour les plaques manuelles."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate angle:"
-msgstr "Résolveur"
+msgstr "Angle de la plaque :"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
@@ -23207,6 +23112,16 @@ msgid ""
 "The suggested screw and amount are recomputed from the last focus run,\n"
 "so no new autofocus is needed after changing this."
 msgstr ""
+"Rotation de la plaque d'inclinaison (bague à vis) par rapport au capteur.\n"
+"Le capteur reste fixe (horizontal) ; seules les vis tournent pour "
+"correspondre\n"
+"à votre plaque physique — par exemple une plaque 3 points boulonnée à 15°.\n"
+"Positif = sens horaire vu de l'arrière (en regardant la plaque arrière de la "
+"caméra).\n"
+"La vis et la quantité suggérées sont recalculées à partir de la dernière "
+"passe de mise au point,\n"
+"donc aucune nouvelle mise au point automatique n'est nécessaire après avoir "
+"modifié ce réglage."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
@@ -23294,22 +23209,22 @@ msgstr ""
 #: ekos/focus/tiltcorrectionwidget.cpp:533
 #, kde-format
 msgid "Point 1: N/A"
-msgstr "Point 1 : N/A"
+msgstr "Point 1 : n/d"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:534
 #, kde-format
 msgid "Point 2: N/A"
-msgstr "Point 2 : N/A"
+msgstr "Point 2 : n/d"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:535
 #, kde-format
 msgid "Point 3: N/A"
-msgstr "Point 3 : N/A"
+msgstr "Point 3 : n/d"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:536
 #, kde-format
 msgid "Point 4: N/A"
-msgstr "Point 4 : N/A"
+msgstr "Point 4 : n/d"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:602
 #, kde-format
@@ -23339,26 +23254,22 @@ msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1 : %2%3 mm (%4%5 tours)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:704
-#, fuzzy, kde-format
-#| msgid "Point 1: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (%1)"
-msgstr "Point 1 : —"
+msgstr "Point 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 2 (bottom)"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (%1)"
-msgstr "Point 2 (bas)"
+msgstr "Point 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:708
-#, fuzzy, kde-format
-#| msgid "Point 3: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (%1)"
-msgstr "Point 3 : —"
+msgstr "Point 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:713
 #: ekos/focus/tiltcorrectionwidget.cpp:806
@@ -23384,36 +23295,28 @@ msgstr ""
 "%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (%1)"
-msgstr "Vis 1 (haut-gauche)"
+msgstr "Vis 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:793
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 2 (top-right)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (%1)"
-msgstr "Vis 2 (haut-droite)"
+msgstr "Vis 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 3 (bottom-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (%1)"
-msgstr "Vis 3 (bas-gauche)"
+msgstr "Vis 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:797
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (%1)"
-msgstr "Vis 1 (haut-gauche)"
+msgstr "Vis 4 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
@@ -24350,11 +24253,10 @@ msgid "Calibration is cleared."
 msgstr "La calibration est effacée."
 
 #: ekos/guide/guide.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"Détection d'un changement de côté du pied. Réinitialisation de la "
+"Champ tourné de %1° depuis la calibration du guidage. Réinitialisation de la "
 "calibration."
 
 #: ekos/guide/guide.cpp:2145
@@ -25367,7 +25269,7 @@ msgid ""
 "Re-run the Guide AI Assistant, load a different weights file, or switch the "
 "Guide Algorithm to a standard mode. Guiding has been aborted."
 msgstr ""
-"Échec du chargement des poids du Guide IA !\n"
+"Échec du chargement des poids du Guide IA !\n"
 "\n"
 "%1\n"
 "\n"
@@ -25388,7 +25290,7 @@ msgid ""
 "aborted."
 msgstr ""
 "Le guidage IA est sélectionné mais aucun poids entraîné n'est chargé. "
-"Chargez-les via le bouton IA > « Charger les poids… », ou exécutez "
+"Chargez-les via le bouton IA > « Charger les poids… », ou exécutez "
 "l'Assistant de guidage IA. Guidage interrompu."
 
 #: ekos/guide/internalguide/gmath.cpp:327
@@ -25689,7 +25591,7 @@ msgstr ""
 "Envoie des impulsions connues au début du protocole et mesure la réponse "
 "échelonnée de la monture pour dériver un gain de guidage RA/DEC de base pour "
 "tout type de monture. Le gain mesuré est appliqué et verrouillé pour le "
-"reste de la session ; le gain actuel est conservé si les réponses ne passent "
+"reste de la session ; le gain actuel est conservé si les réponses ne passent "
 "pas les contrôles de cohérence. Ajoute environ 20 minutes au protocole ; "
 "activé par défaut."
 
@@ -25978,13 +25880,22 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Réinitialise la calibration du guidage à chaque "
+"rotation du champ, afin qu'une nouvelle calibration soit mesurée au prochain "
+"démarrage du guidage plutôt que d'utiliser une calibration périmée. La "
+"rotation est détectée à partir de l'angle de position obtenu par résolution "
+"astrométrique, ce qui couvre aussi bien les mouvements du rotateur "
+"électronique que la rotation manuelle de la caméra (par exemple lors d'un "
+"cadrage sur une image de référence d'une session précédente). Toute rotation "
+"confirmée déclenche une réinitialisation ; les retournements au méridien "
+"sont gérés séparément et n'en déclenchent pas. Fonctionne avec le guidage "
+"interne et PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Enregistrer et réutiliser la calibration si possible."
+msgstr "Réinitialiser la calibration du guidage lorsque le champ tourne."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -26490,7 +26401,7 @@ msgstr ""
 "left: 0px; margin-right: 0px; -qt-list-indent:\n"
 "          1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0;\n"
-"          text-indent:0px;\">des grincements dans la chaîne d'engrenages,</"
+"          text-indent:0px;\">des grincements dans la chaine d'engrenages,</"
 "li><li style=\" margin-top:12px; margin-bottom:12px;\n"
 "          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\">des rafales de vents,</li><li style=\"\n"
@@ -29146,17 +29057,15 @@ msgid "Profile name already exists."
 msgstr "Ce nom de profil existe déjà."
 
 #: ekos/profileeditor.cpp:350
-#, fuzzy, kde-format
-#| msgid ""
-#| "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
-#| "corresponding driver.<nobr/>"
+#, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
 "and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
-"<nobr>Disponible comme pilote <b>distant</b>. Pour utiliser localement, "
-"veuillez installer le pilote correspondant.<nobr/>"
+"<nobr>Disponible uniquement comme pilote <b>distant</b>. Il n'est pas "
+"installé localement. Impossible de l'utiliser dans un profil <b>local</b>. "
+"Pour l'utiliser localement, installez le pilote correspondant.<nobr/>"
 
 #: ekos/profileeditor.cpp:353
 #, kde-format
@@ -29179,6 +29088,9 @@ msgid ""
 "locally. It cannot be added to a Local profile. Switch to a Remote profile "
 "or install the driver locally."
 msgstr ""
+"<b>%1</b> est disponible uniquement comme pilote <b>distant</b> et n'est pas "
+"installé localement. Impossible de l'ajouter à un profil local. Passez à un "
+"profil distant ou installez le pilote localement."
 
 #: ekos/profileeditor.cpp:785
 #, kde-format
@@ -29475,7 +29387,7 @@ msgid ""
 "port defaults to 7624.<br/>Remote INDI drivers must be already running for "
 "the connection to succeed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ajouter des pilotes INDI distants à chaîner avec le "
+"<html><head/><body><p>Ajouter des pilotes INDI distants à chainer avec le "
 "serveur INDI local configuré dans ce profil. Formatez ce champ comme une "
 "liste de noms de pilotes, de noms d'hôtes/adresses, le port facultatif, "
 "séparée par des virgules :</p><p><span style=\" font-weight:600;\">&quot;ZWO "
@@ -31253,7 +31165,7 @@ msgid ""
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
-"Chaîne de connexion du pilote INDI du moniteur de sécurité. L'ordonnanceur "
+"Chaine de connexion du pilote INDI du moniteur de sécurité. L'ordonnanceur "
 "l'utilise pour surveiller en continu les conditions de sécurité et "
 "déterminer s'il est possible d'exploiter l'observatoire en toute sécurité."
 
@@ -32501,7 +32413,7 @@ msgid ""
 "continuing to monitor..."
 msgstr ""
 "La période de grâce météorologique est définie sur attente indéfinie. La "
-"météo n'est toujours pas OK, surveillance en cours…"
+"météo n'est toujours pas Ok, surveillance en cours…"
 
 #: ekos/scheduler/schedulerprocess.cpp:561
 #, kde-format
@@ -33308,7 +33220,7 @@ msgstr ""
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr ""
-"Surveillance de la sécurité initialisée avec la chaîne de connexion : %1"
+"Surveillance de la sécurité initialisée avec la chaine de connexion : %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:4843
 #, kde-format
@@ -33351,7 +33263,7 @@ msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
-"Avertissement : format de chaîne de connexion de surveillance de la sécurité "
+"Avertissement : format de chaine de connexion de surveillance de la sécurité "
 "non valable. Format attendu : « hôte » ou « hôte:port »"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
@@ -33433,7 +33345,7 @@ msgstr "Client de surveillance autonome de la sécurité arrêté : %1"
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
 msgstr ""
-"Chaîne de connexion de la surveillance de la sécurité modifiée de %1:%2 à %3:"
+"Chaine de connexion de la surveillance de la sécurité modifiée de %1:%2 à %3:"
 "%4"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
@@ -33919,7 +33831,7 @@ msgstr "Valeur attendue"
 #: skycomponents/imageoverlaycomponent.cpp:557
 #, kde-format
 msgid "OK"
-msgstr "OK"
+msgstr "Ok"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #: indi/indilightbox.cpp:20
@@ -34581,77 +34493,77 @@ msgstr "Description du type d'objet"
 msgid "Object Type Comments"
 msgstr "Commentaire du type d'objet"
 
-#: fitsviewer/fitsdata.cpp:2704
+#: fitsviewer/fitsdata.cpp:2714
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Erreur de lecture du tampon FITS : %1."
 
-#: fitsviewer/fitsdata.cpp:2713
+#: fitsviewer/fitsdata.cpp:2723
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Impossible d'ouvrir un fichier compressé FITS."
 
-#: fitsviewer/fitsdata.cpp:2743
+#: fitsviewer/fitsdata.cpp:2753
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Erreur à l'ouverture du fichier FITS %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2758
+#: fitsviewer/fitsdata.cpp:2768
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Erreur de lecture du tampon FITS : %1"
 
-#: fitsviewer/fitsdata.cpp:2772
+#: fitsviewer/fitsdata.cpp:2782
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Impossible de trouver une image HDU : %1"
 
-#: fitsviewer/fitsdata.cpp:2782
+#: fitsviewer/fitsdata.cpp:2792
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Erreur à l'ouverture du fichier FITS (fits_get_img_param) : %1"
 
-#: fitsviewer/fitsdata.cpp:2796
+#: fitsviewer/fitsdata.cpp:2806
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Les images FITS 1D ne sont pas prises en charge dans KStars."
 
-#: fitsviewer/fitsdata.cpp:2844 fitsviewer/fitsdata.cpp:3589
+#: fitsviewer/fitsdata.cpp:2854 fitsviewer/fitsdata.cpp:3599
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "La profondeur de bit %1 n'est pas prise en charge."
 
-#: fitsviewer/fitsdata.cpp:2854
+#: fitsviewer/fitsdata.cpp:2864
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "L'image a des dimensions non valables %1 x %2."
 
-#: fitsviewer/fitsdata.cpp:2908
+#: fitsviewer/fitsdata.cpp:2918
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Erreur de lecture de l'image : %1"
 
-#: fitsviewer/fitsdata.cpp:3315 fitsviewer/fitsdata.cpp:3549
+#: fitsviewer/fitsdata.cpp:3325 fitsviewer/fitsdata.cpp:3559
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Erreur à l'ouverture du fichier XISF"
 
-#: fitsviewer/fitsdata.cpp:3463
+#: fitsviewer/fitsdata.cpp:3473
 #, kde-format
 msgid "File contain no images"
 msgstr "Le fichier ne contient pas d'image"
 
-#: fitsviewer/fitsdata.cpp:3492
+#: fitsviewer/fitsdata.cpp:3502
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Le format de l'échantillon %1 n'est pas pris en charge."
 
-#: fitsviewer/fitsdata.cpp:3627
+#: fitsviewer/fitsdata.cpp:3637
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Erreur à l'enregistrement de l'image XISF"
 
-#: fitsviewer/fitsdata.cpp:3719 fitsviewer/fitsdata.cpp:3835
+#: fitsviewer/fitsdata.cpp:3729 fitsviewer/fitsdata.cpp:3845
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
@@ -34659,144 +34571,144 @@ msgstr ""
 "Données FITS : mémoire insuffisante pour le canal image_buffer. Demandé : %1 "
 "octets"
 
-#: fitsviewer/fitsdata.cpp:3774
+#: fitsviewer/fitsdata.cpp:3784
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Impossible d'ouvrir le fichier %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:3787
+#: fitsviewer/fitsdata.cpp:3797
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Impossible d'ouvrir le tampon : %1"
 
-#: fitsviewer/fitsdata.cpp:3798
+#: fitsviewer/fitsdata.cpp:3808
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Impossible de décompresser l'aperçu : %1"
 
-#: fitsviewer/fitsdata.cpp:3805
+#: fitsviewer/fitsdata.cpp:3815
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Impossible de « dcraw_process » : %1"
 
-#: fitsviewer/fitsdata.cpp:3813
+#: fitsviewer/fitsdata.cpp:3823
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Changement en mémoire impossible : %1"
 
-#: fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:3970
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "L'enregistrement des fichiers compressés n'est pas pris en charge."
 
-#: fitsviewer/fitsdata.cpp:4024
+#: fitsviewer/fitsdata.cpp:4034
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Impossible de créer le fichier : %1"
 
-#: fitsviewer/fitsdata.cpp:4046
+#: fitsviewer/fitsdata.cpp:4056
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Impossible de créer l'image : %1"
 
-#: fitsviewer/fitsdata.cpp:4055 fitsviewer/fitsdata.cpp:4062
+#: fitsviewer/fitsdata.cpp:4065 fitsviewer/fitsdata.cpp:4072
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Impossible de mettre à jour la clé : %1"
 
-#: fitsviewer/fitsdata.cpp:4190
+#: fitsviewer/fitsdata.cpp:4205
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Impossible de mettre à jour la date : %1"
 
-#: fitsviewer/fitsdata.cpp:4199
+#: fitsviewer/fitsdata.cpp:4214
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Impossible de mettre à jour l'historique : %1"
 
-#: fitsviewer/fitsdata.cpp:4221
+#: fitsviewer/fitsdata.cpp:4236
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Impossible d'enregistrer l'image : %1"
 
-#: fitsviewer/fitsdata.cpp:5997 fitsviewer/fitsdata.cpp:6014
-#: fitsviewer/fitsdata.cpp:6051 fitsviewer/fitsdata.cpp:6087
-#: fitsviewer/fitsdata.cpp:6221
+#: fitsviewer/fitsdata.cpp:6072 fitsviewer/fitsdata.cpp:6098
+#: fitsviewer/fitsdata.cpp:6124 fitsviewer/fitsdata.cpp:6160
+#: fitsviewer/fitsdata.cpp:6294
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Aucun système de coordonnées mondiales trouvé."
 
-#: fitsviewer/fitsdata.cpp:6471 fitsviewer/fitsdata.cpp:6577
+#: fitsviewer/fitsdata.cpp:6544 fitsviewer/fitsdata.cpp:6650
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Erreur de la requête de Simbad"
 
-#: fitsviewer/fitsdata.cpp:6486
+#: fitsviewer/fitsdata.cpp:6559
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Fin du délai imparti pour la requête de Simbad"
 
-#: fitsviewer/fitsdata.cpp:7463 fitsviewer/fitsdata.cpp:7576
+#: fitsviewer/fitsdata.cpp:7536 fitsviewer/fitsdata.cpp:7649
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Seules des images de Bayer en 8 ou 16 bits sont prises en charge."
 
-#: fitsviewer/fitsdata.cpp:7471 fitsviewer/fitsdata.cpp:7582
+#: fitsviewer/fitsdata.cpp:7544 fitsviewer/fitsdata.cpp:7655
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Motif de Bayer %1 inconnu"
 
-#: fitsviewer/fitsdata.cpp:7495 fitsviewer/fitsdata.cpp:7521
+#: fitsviewer/fitsdata.cpp:7568 fitsviewer/fitsdata.cpp:7594
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Motif de Bayer %1 non géré"
 
-#: fitsviewer/fitsdata.cpp:7529
+#: fitsviewer/fitsdata.cpp:7602
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Décalage de Bayer non pris en charge %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7540 fitsviewer/fitsdata.cpp:7593
+#: fitsviewer/fitsdata.cpp:7613 fitsviewer/fitsdata.cpp:7666
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Paramètres de dématriçage dc1394 non valables."
 
-#: fitsviewer/fitsdata.cpp:7551 fitsviewer/fitsdata.cpp:7604
+#: fitsviewer/fitsdata.cpp:7624 fitsviewer/fitsdata.cpp:7677
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Paramètres de dématriçage OpenCV non valables."
 
-#: fitsviewer/fitsdata.cpp:7560 fitsviewer/fitsdata.cpp:7613
+#: fitsviewer/fitsdata.cpp:7633 fitsviewer/fitsdata.cpp:7686
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Moteur de dématriçage non valable"
 
-#: fitsviewer/fitsdata.cpp:7867
+#: fitsviewer/fitsdata.cpp:7940
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 "debayer_8bit a été appelé avec des paramètres de dématriçage non valables"
 
-#: fitsviewer/fitsdata.cpp:7883 fitsviewer/fitsdata.cpp:7929
-#: fitsviewer/fitsdata.cpp:7987 fitsviewer/fitsdata.cpp:8033
+#: fitsviewer/fitsdata.cpp:7956 fitsviewer/fitsdata.cpp:8002
+#: fitsviewer/fitsdata.cpp:8060 fitsviewer/fitsdata.cpp:8106
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "Impossible d'allouer de la mémoire pour le tampon temporaire de « Bayer » : "
 "%1"
 
-#: fitsviewer/fitsdata.cpp:7893 fitsviewer/fitsdata.cpp:7997
+#: fitsviewer/fitsdata.cpp:7966 fitsviewer/fitsdata.cpp:8070
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "Impossible d'allouer de la mémoire pour le tampon temporaire de « Bayer »."
 
-#: fitsviewer/fitsdata.cpp:7912 fitsviewer/fitsdata.cpp:8016
+#: fitsviewer/fitsdata.cpp:7985 fitsviewer/fitsdata.cpp:8089
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Échec du Debayer (%1)"
 
-#: fitsviewer/fitsdata.cpp:7972
+#: fitsviewer/fitsdata.cpp:8045
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -35682,7 +35594,7 @@ msgstr "Objets du catalogue"
 #: fitsviewer/fitstab.cpp:166
 #, kde-format
 msgid "Live Stacking"
-msgstr "Empilement live"
+msgstr "Empilement en direct"
 
 #: fitsviewer/fitstab.cpp:179
 #, kde-format
@@ -35698,7 +35610,7 @@ msgstr "R"
 #: fitsviewer/fitstab.cpp:642
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
-msgstr "%1 / %2 objets Simbad chargés"
+msgstr "%1 / %2 objets Simbad chargés"
 
 #: fitsviewer/fitstab.cpp:657
 #, kde-format
@@ -36046,7 +35958,7 @@ msgstr "Ouvrir le dossier"
 #: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:167
 #, kde-format
 msgid "Live Stacker..."
-msgstr "Empilement live…"
+msgstr "Empilement en direct…"
 
 #: fitsviewer/fitsviewer.cpp:174
 #, kde-format
@@ -36531,8 +36443,8 @@ msgstr ""
 #, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les paramètres de l'empilement live</p></"
-"body></html>"
+"<html><head/><body><p>Enregistrer les paramètres de l'empilement en direct</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:720
@@ -43748,7 +43660,7 @@ msgstr "Affiche le temps GMT au lieu de l'heure locale."
 #: kstars.kcfg:1396
 #, kde-format
 msgid "Planet string"
-msgstr "Chaîne de planète"
+msgstr "Chaine de planète"
 
 #. i18n: ectx: whatsthis, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1397
@@ -43804,7 +43716,7 @@ msgid ""
 "strftime(3). The default is \"%c %Z\", which shows the date, time, and time "
 "zone in the locale’s appropriate date and time representation."
 msgstr ""
-"Indiquer le format pour l'étiquette de date/heure. Cette chaîne de format "
+"Indiquer le format pour l'étiquette de date/heure. Cette chaine de format "
 "est passée à « strftime » (3). La valeur par défaut est « %c %Z », affichant "
 "la date, l'heure et le fuseau horaire selon la représentation de date et "
 "d'heure correspondant aux paramètres régionaux."
@@ -44766,13 +44678,13 @@ msgstr "Interrupteur de calcul du SRN de l'empilement en direct"
 #: kstars.kcfg:1835
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr "Master dark de l'empilement live"
+msgstr "Master dark de l'empilement en direct"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1839
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr "Master flat de l'empilement live"
+msgstr "Master flat de l'empilement en direct"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHotPixels), group (FITSViewer)
 #: kstars.kcfg:1843
@@ -44790,25 +44702,25 @@ msgstr "Empilement en direct : supprimer les pixels froids"
 #: kstars.kcfg:1851
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr "Méthode d'alignement de l'empilement live"
+msgstr "Méthode d'alignement de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1855
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr "Nombre maximum de poses pour l'empilement live."
+msgstr "Nombre maximum de poses pour l'empilement en direct."
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1859
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr "Facteur de réduction de l'empilement live"
+msgstr "Facteur de réduction de l'empilement en direct"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1863
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr "Pondération des images de l'empilement live"
+msgstr "Pondération des images de l'empilement en direct"
 
 #. i18n: ectx: whatsthis, entry (fitsLSNormalization), group (FITSViewer)
 #: kstars.kcfg:1867
@@ -44826,19 +44738,19 @@ msgstr "Méthode d'alignement de l'empilement en direct"
 #: kstars.kcfg:1875
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr "Critère de rejet de pixel avec Sigma bas de l'empilement live"
+msgstr "Critère de rejet de pixel avec Sigma bas de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1879
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr "Critère de rejet de pixel avec Sigma haut de l'empilement live"
+msgstr "Critère de rejet de pixel avec Sigma haut de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1883
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr "Coupure Sigma winsorisé de l'empilement live"
+msgstr "Coupure Sigma winsorisé de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1887
@@ -44882,43 +44794,44 @@ msgstr "Interrupteur de post-traitement de l'empilement en direct"
 #: kstars.kcfg:1911
 #, kde-format
 msgid "Live Stacking gradient removal amount"
-msgstr "Quantité de suppression du gradient pour l'empilement live"
+msgstr "Quantité de suppression du gradient pour l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1915
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr "Quantité de déconvolution de l'empilement live"
+msgstr "Quantité de déconvolution de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1919
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr "Quantité de Sigma PSF de déconvolution à appliquer à l'empilement live"
+msgstr ""
+"Quantité de Sigma PSF de déconvolution à appliquer à l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1923
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr "Quantité de débruitage pour l'empilement live"
+msgstr "Quantité de débruitage pour l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1927
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr "Quantité d'affinage pour l'empilement live"
+msgstr "Quantité d'affinage pour l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1931
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr "Taille de noyau pour l'affinage de l'empilement live"
+msgstr "Taille de noyau pour l'affinage de l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1935
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr "Sigma d'affinage pour l'empilement live"
+msgstr "Sigma d'affinage pour l'empilement en direct"
 
 #. i18n: ectx: label, entry (fitsLSMWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1939
@@ -47169,7 +47082,7 @@ msgstr ""
 "échelonnée de la monture pour dériver un gain de guidage RA/DEC de base pour "
 "tout type de monture. Le gain mesuré est appliqué et verrouillé pour le "
 "reste de la session, de sorte que les données suivantes sont collectées avec "
-"ce gain ; le gain actuel reste inchangé si les réponses ne réussissent pas "
+"ce gain ; le gain actuel reste inchangé si les réponses ne réussissent pas "
 "les contrôles de cohérence. Ajoute environ 20 minutes au protocole. Activé "
 "par défaut."
 
@@ -47192,7 +47105,7 @@ msgid ""
 "written to the AI debug CSV log but are never blended into guide pulses. Use "
 "this to evaluate AI model quality before enabling full AI guiding."
 msgstr ""
-"Lorsque cette option est activée et qu'un fichier de poids IA valide est "
+"Lorsque cette option est activée et qu'un fichier de poids IA valable est "
 "configuré, le modèle d'IA s'exécute silencieusement en parallèle de "
 "l'algorithme de guidage sélectionné. Les prédictions sont écrites dans le "
 "journal CSV de débogage de l'IA mais ne sont jamais mélangées aux impulsions "
@@ -47646,6 +47559,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Réinitialise une calibration de guidage enregistrée lorsque le champ tourne, "
+"détecté à partir de l'angle de position obtenu par résolution astrométrique "
+"(couvre à la fois les mouvements du rotateur électronique et la rotation "
+"manuelle de la caméra)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -47657,6 +47574,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Seuil de bruit, en degrés, pour détecter la rotation du champ à partir de "
+"l'angle de position obtenu par résolution astrométrique. Toute rotation "
+"égale ou supérieure à ce seuil réinitialise la calibration du guidage ; il "
+"est fixé juste au-dessus de la gigue de résolution astrométrique afin que "
+"toute rotation réelle déclenche une réinitialisation. Non exposé dans "
+"l'interface, afin d'éviter qu'un utilisateur ne règle une tolérance trop "
+"large qui dégraderait le guidage sans avertissement."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -48674,8 +48598,8 @@ msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
 "call. Tools not listed here are enabled."
 msgstr ""
-"Noms d'outils exclus de la réponse ``tools/list`` de MCP et rejetés lors de "
-"l'appel ``tools/call``. Les outils non répertoriés ici sont activés."
+"Noms d'outils exclus de la réponse « tools/list » de MCP et rejetés lors de "
+"l'appel « tools/call ». Les outils non répertoriés ici sont activés."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -86990,7 +86914,7 @@ msgstr "Rouge"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Refresh"
-msgstr "Rafraichir"
+msgstr "Rafraîchir"
 
 #: libindi_strings.cpp:394
 #, kde-kuit-format
@@ -90458,7 +90382,7 @@ msgid ""
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Rafraichir à partir du dossier des images de "
+"<html><head/><body><p>Rafraîchir à partir du dossier des images de "
 "superpositions. Ajouter les images ajoutées à ce dossier et supprimer celles "
 "qui ne sont plus présentes.</p></body></html>"
 
@@ -94382,7 +94306,7 @@ msgstr ""
 "Cliquez sur ce bouton pour choisir parmi les options d'affichage depuis une "
 "liste en arbre, où elles sont groupées par sujet. Sont également présentés "
 "une courte description de chaque option et le type de données de la valeur "
-"de l'option (chaîne, entier, nombre flottant ou booléen)."
+"de l'option (chaine, entier, nombre flottant ou booléen)."
 
 #. i18n: ectx: property (text), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:69
@@ -95544,7 +95468,7 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 "Vous devez charger un catalogue pour pouvoir utiliser cet outil.\n"
-"Utiliser le bouton Charger le Catalogue si présent. Voir Données / "
+"Utiliser le bouton Charger le Catalogue si présent. Voir Données / "
 "Télécharger de nouvelles données…"
 
 #: tools/imagingplanner.cpp:2399
@@ -97181,14 +97105,14 @@ msgid ""
 "and country.  If the string contains spaces, enclose it in quotes so it gets "
 "parsed properly."
 msgstr ""
-"Les chaînes de position se composent des noms - séparés par des virgules- de "
-"la ville, de la région et du pays. Si la chaîne contient des espaces, "
+"Les chaines de position se composent des noms - séparés par des virgules- de "
+"la ville, de la région et du pays. Si la chaine contient des espaces, "
 "entourez-la de guillemets pour qu'elle puisse être analysée correctement."
 
 #: tools/modcalcsidtime.cpp:139
 #, kde-format
 msgid "Hint for writing location strings"
-msgstr "Conseil pour l'écriture de chaînes de positions"
+msgstr "Conseil pour l'écriture de chaines de positions"
 
 #: tools/modcalcsidtime.cpp:148
 #, kde-format
@@ -99126,7 +99050,7 @@ msgstr "Sélectionner la couleur de l'indicateur de champ de vision"
 #: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "string"
-msgstr "chaîne"
+msgstr "chaine"
 
 #: tools/scriptbuilder.cpp:652
 #, kde-format
@@ -100837,7 +100761,7 @@ msgstr "GMT"
 #: xplanet/opsxplanet.ui:612
 #, kde-format
 msgid "Label string:"
-msgstr "Chaîne d'étiquette"
+msgstr "Chaine d'étiquette"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetLabelString)
 #: xplanet/opsxplanet.ui:619
@@ -100879,7 +100803,7 @@ msgid ""
 "strftime(3).  The default is \"%c %Z\", which shows the date, time, and time "
 "zone in the  locale’s  appropriate date and time representation."
 msgstr ""
-"Spécifiez le format pour l'étiquette date/heure. Cette chaîne de format est "
+"Spécifiez le format pour l'étiquette date/heure. Cette chaine de format est "
 "passée en paramètre à strftime(3). La valeur par défaut est « %c %Z », qui "
 "affiche la date, l'heure et le fuseau horaire dans la représentation de date "
 "et d'heure des paramètres régionaux."

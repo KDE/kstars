@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1746077 $
+# Version: $Revision: 1746157 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-10 02:16+0000\n"
+"POT-Creation-Date: 2026-09-11 02:14+0000\n"
 "PO-Revision-Date: 2026-03-21 07:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -790,7 +790,7 @@ msgstr "Błąd odczytu pliku ustawień Astrometry."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Błąd zapisu pliku ustawień wewnętrznych Astrometry."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3760
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3770
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -34757,77 +34757,77 @@ msgstr "Opis"
 msgid "Object Type Comments"
 msgstr "Rodzaj obiektu"
 
-#: fitsviewer/fitsdata.cpp:2704
+#: fitsviewer/fitsdata.cpp:2714
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Błąd odczytu bufora fits: %1."
 
-#: fitsviewer/fitsdata.cpp:2713
+#: fitsviewer/fitsdata.cpp:2723
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Nie udało się wypakować fits"
 
-#: fitsviewer/fitsdata.cpp:2743
+#: fitsviewer/fitsdata.cpp:2753
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Nie udało się otworzyć pliku fits %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2758
+#: fitsviewer/fitsdata.cpp:2768
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Błąd odczytu bufora fits: %1"
 
-#: fitsviewer/fitsdata.cpp:2772
+#: fitsviewer/fitsdata.cpp:2782
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Nie można znaleźć obrazu HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2782
+#: fitsviewer/fitsdata.cpp:2792
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Błąd otwierania pliku FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2796
+#: fitsviewer/fitsdata.cpp:2806
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Obrazy 1D FITS nie są obsługiwane przez KStars."
 
-#: fitsviewer/fitsdata.cpp:2844 fitsviewer/fitsdata.cpp:3589
+#: fitsviewer/fitsdata.cpp:2854 fitsviewer/fitsdata.cpp:3599
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Głębia bitowa %1 jest nieobsługiwana."
 
-#: fitsviewer/fitsdata.cpp:2854
+#: fitsviewer/fitsdata.cpp:2864
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Obraz ma nieprawidłowe wymiary %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2908
+#: fitsviewer/fitsdata.cpp:2918
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Błąd odczytu obrazu: %1"
 
-#: fitsviewer/fitsdata.cpp:3315 fitsviewer/fitsdata.cpp:3549
+#: fitsviewer/fitsdata.cpp:3325 fitsviewer/fitsdata.cpp:3559
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Błąd otwierania pliku XISF: "
 
-#: fitsviewer/fitsdata.cpp:3463
+#: fitsviewer/fitsdata.cpp:3473
 #, kde-format
 msgid "File contain no images"
 msgstr "Plik nie zawiera żadnego obrazu"
 
-#: fitsviewer/fitsdata.cpp:3492
+#: fitsviewer/fitsdata.cpp:3502
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Format próbkowania %1 jest nieobsługiwany."
 
-#: fitsviewer/fitsdata.cpp:3627
+#: fitsviewer/fitsdata.cpp:3637
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Błąd zapisywania obrazu XISF"
 
-#: fitsviewer/fitsdata.cpp:3719 fitsviewer/fitsdata.cpp:3835
+#: fitsviewer/fitsdata.cpp:3729 fitsviewer/fitsdata.cpp:3845
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
@@ -34835,147 +34835,147 @@ msgstr ""
 "Dane FITS: Niewystarczająco pamięci dla kanału image_buffer. Zażądano: %1 "
 "bajtów "
 
-#: fitsviewer/fitsdata.cpp:3774
+#: fitsviewer/fitsdata.cpp:3784
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Nie można otworzyć pliku %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3787
+#: fitsviewer/fitsdata.cpp:3797
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Nie można otworzyć bufora: %1"
 
-#: fitsviewer/fitsdata.cpp:3798
+#: fitsviewer/fitsdata.cpp:3808
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Nie można unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3805
+#: fitsviewer/fitsdata.cpp:3815
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Nie można dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3813
+#: fitsviewer/fitsdata.cpp:3823
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Nie można wczytać do pamięci: %1"
 
-#: fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:3970
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Zapisywanie spakowanych plików jest nieobsługiwane."
 
-#: fitsviewer/fitsdata.cpp:4024
+#: fitsviewer/fitsdata.cpp:4034
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Nie udało się utworzyć pliku: %1"
 
-#: fitsviewer/fitsdata.cpp:4046
+#: fitsviewer/fitsdata.cpp:4056
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Nie udało się utworzyć obrazu: %1"
 
-#: fitsviewer/fitsdata.cpp:4055 fitsviewer/fitsdata.cpp:4062
+#: fitsviewer/fitsdata.cpp:4065 fitsviewer/fitsdata.cpp:4072
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Nie można uaktualnić klucza: %1"
 
-#: fitsviewer/fitsdata.cpp:4190
+#: fitsviewer/fitsdata.cpp:4205
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Nie udało się uaktualnić daty: %1"
 
-#: fitsviewer/fitsdata.cpp:4199
+#: fitsviewer/fitsdata.cpp:4214
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Nie można uaktualnić historii: %1"
 
-#: fitsviewer/fitsdata.cpp:4221
+#: fitsviewer/fitsdata.cpp:4236
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Nie udało się zapisać obrazu: %1"
 
-#: fitsviewer/fitsdata.cpp:5997 fitsviewer/fitsdata.cpp:6014
-#: fitsviewer/fitsdata.cpp:6051 fitsviewer/fitsdata.cpp:6087
-#: fitsviewer/fitsdata.cpp:6221
+#: fitsviewer/fitsdata.cpp:6072 fitsviewer/fitsdata.cpp:6098
+#: fitsviewer/fitsdata.cpp:6124 fitsviewer/fitsdata.cpp:6160
+#: fitsviewer/fitsdata.cpp:6294
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Nie znaleziono układu współrzędnych świata."
 
-#: fitsviewer/fitsdata.cpp:6471 fitsviewer/fitsdata.cpp:6577
+#: fitsviewer/fitsdata.cpp:6544 fitsviewer/fitsdata.cpp:6650
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error querying Simbad"
 msgstr "Błąd odczytu obrazu: %1"
 
-#: fitsviewer/fitsdata.cpp:6486
+#: fitsviewer/fitsdata.cpp:6559
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Simbad query timed out"
 msgstr "Upłynął czas oczekiwania na program rozwiązujący."
 
-#: fitsviewer/fitsdata.cpp:7463 fitsviewer/fitsdata.cpp:7576
+#: fitsviewer/fitsdata.cpp:7536 fitsviewer/fitsdata.cpp:7649
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Obsługiwane są obrazy bayered tylko o głębi 8 i 16 bitów."
 
-#: fitsviewer/fitsdata.cpp:7471 fitsviewer/fitsdata.cpp:7582
+#: fitsviewer/fitsdata.cpp:7544 fitsviewer/fitsdata.cpp:7655
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unknown bayer pattern %1"
 msgstr "Nieobsługiwany wzór bayera %1."
 
-#: fitsviewer/fitsdata.cpp:7495 fitsviewer/fitsdata.cpp:7521
+#: fitsviewer/fitsdata.cpp:7568 fitsviewer/fitsdata.cpp:7594
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unsupported bayer pattern %1"
 msgstr "Nieobsługiwany wzór bayera %1."
 
-#: fitsviewer/fitsdata.cpp:7529
+#: fitsviewer/fitsdata.cpp:7602
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nieobsługiwane przesunięcia bayera %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7540 fitsviewer/fitsdata.cpp:7593
+#: fitsviewer/fitsdata.cpp:7613 fitsviewer/fitsdata.cpp:7666
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Parametry wejściowe"
 
-#: fitsviewer/fitsdata.cpp:7551 fitsviewer/fitsdata.cpp:7604
+#: fitsviewer/fitsdata.cpp:7624 fitsviewer/fitsdata.cpp:7677
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Parametry wejściowe"
 
-#: fitsviewer/fitsdata.cpp:7560 fitsviewer/fitsdata.cpp:7613
+#: fitsviewer/fitsdata.cpp:7633 fitsviewer/fitsdata.cpp:7686
 #, fuzzy, kde-format
 #| msgid "Invalid response."
 msgid "Invalid debayer engine"
 msgstr "Nieprawidłowa odpowiedź."
 
-#: fitsviewer/fitsdata.cpp:7867
+#: fitsviewer/fitsdata.cpp:7940
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7883 fitsviewer/fitsdata.cpp:7929
-#: fitsviewer/fitsdata.cpp:7987 fitsviewer/fitsdata.cpp:8033
+#: fitsviewer/fitsdata.cpp:7956 fitsviewer/fitsdata.cpp:8002
+#: fitsviewer/fitsdata.cpp:8060 fitsviewer/fitsdata.cpp:8106
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Nie można przydzielić pamięci do tymczasowego bufora bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:7893 fitsviewer/fitsdata.cpp:7997
+#: fitsviewer/fitsdata.cpp:7966 fitsviewer/fitsdata.cpp:8070
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Nie można przydzielić pamięci do tymczasowego bufora bayer."
 
-#: fitsviewer/fitsdata.cpp:7912 fitsviewer/fitsdata.cpp:8016
+#: fitsviewer/fitsdata.cpp:7985 fitsviewer/fitsdata.cpp:8089
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Niepowodzenie debayer (%1)"
 
-#: fitsviewer/fitsdata.cpp:7972
+#: fitsviewer/fitsdata.cpp:8045
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
