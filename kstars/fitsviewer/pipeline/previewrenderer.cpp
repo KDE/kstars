@@ -61,9 +61,23 @@ QByteArray PreviewRenderer::renderJpeg(const cv::Mat &image, QString &error, int
         cv::Mat display8u;
         clamped.convertTo(display8u, CV_8U, 255.0);
 
+        // The whole pipeline carries R,G,B order (ChannelBlendOperation::blendRGB()'s
+        // cv::merge({r,g,b},...), SaturationOperation's cv::COLOR_RGB2HSV and
+        // PhotometricCalibrationOperation all assume it), but cv::imencode() — like every
+        // other OpenCV 3-channel consumer — expects B,G,R. Encoding the RGB buffer as-is
+        // therefore swapped red and blue in every post-process preview, so an HOO/SHO
+        // composite (H-alpha in red) came out visibly too blue in the app while the exact
+        // same FITS, whose planes convertMatToFITS() writes as R,G,B, opened with correct
+        // colors in any viewer.
+        cv::Mat encodeImage;
+        if (display8u.channels() == 3)
+            cv::cvtColor(display8u, encodeImage, cv::COLOR_RGB2BGR);
+        else
+            encodeImage = display8u;
+
         std::vector<uchar> buffer;
         const std::vector<int> params { cv::IMWRITE_JPEG_QUALITY, jpegQuality };
-        if (!cv::imencode(".jpg", display8u, buffer, params))
+        if (!cv::imencode(".jpg", encodeImage, buffer, params))
         {
             error = QStringLiteral("Failed to JPEG-encode preview");
             return QByteArray();

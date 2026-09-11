@@ -1039,6 +1039,23 @@ class FITSData : public QObject
         bool saveStackedImage(const QString &path, QString &error);
 
         /**
+         * @brief Free the combined image (and its FITS-encoded buffer and any
+         * pending single-level undo snapshot) without touching the rest of the
+         * session. Exists so a caller can hand back a pipeline session's biggest
+         * single allocation once its content is no longer needed — notably the
+         * per-filter INPUT sessions of a completed postprocess_blend_channels,
+         * which otherwise sit on two full-resolution copies each (the working
+         * Mat plus its FITS buffer, i.e. roughly 2x the blended result) for the
+         * entire post-processing run that follows — enough to push a 4-8GB
+         * controller (the common StellarMate case) into swap or an OOM kill.
+         *
+         * After this, isStackedImageEmpty() is true and any further operation on
+         * the image fails cleanly ("no stacked image") until it is re-stacked.
+         * The session object and its metadata/WCS are left untouched.
+         */
+        void releaseStackedImage();
+
+        /**
          * @brief Revert the most recent post-combine step (cropStack() through
          * applyPhotometricCalibration() — anything that took a snapshot via the
          * private snapshotForUndo()). Single-level: consumes the snapshot, so a second

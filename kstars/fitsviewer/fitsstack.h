@@ -249,6 +249,18 @@ class FITSStack : public QObject
         }
 
         /**
+         * @brief Replace the stack parameters in place. FITSData constructs the
+         * per-channel FITSStack objects before it has inspected the folder, so the
+         * auto-sized numInMem it derives afterwards (see FITSData::loadStack())
+         * has to be pushed into each already-built stack rather than passed to the
+         * constructor.
+         */
+        void setStackData(const StackData &data)
+        {
+            m_StackData = data;
+        }
+
+        /**
          * @brief Return the stacked image
          * @return stacked image
          */

@@ -402,6 +402,35 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 }
 
 #if !defined (KSTARS_LITE)
+// Read a FITS file's dimensions from its header alone (no pixel decode) — used to
+// size the in-memory stacking batch to the machine's free RAM (see loadStack()).
+static bool peekFITSSize(const QString &path, int &width, int &height, int &channels)
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    if (fits_open_file(&fptr, QFile::encodeName(path).constData(), READONLY, &status))
+        return false;
+
+    int naxis = 0;
+    long naxes[3] = { 0, 0, 1 };
+    if (fits_get_img_dim(fptr, &naxis, &status) != 0 || naxis < 1)
+    {
+        fits_close_file(fptr, &status);
+        return false;
+    }
+    if (naxis > 3)
+        naxis = 3;
+    fits_get_img_size(fptr, naxis, naxes, &status);
+    fits_close_file(fptr, &status);
+
+    if (naxes[0] <= 0 || naxes[1] <= 0)
+        return false;
+    width = static_cast<int>(naxes[0]);
+    height = static_cast<int>(naxes[1]);
+    channels = (naxis >= 3 && naxes[2] > 0) ? static_cast<int>(naxes[2]) : 1;
+    return true;
+}
+
 bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 {
     m_LiveStackData = params;
@@ -468,6 +497,37 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 
     if (subs.size() > 0)
     {
+        // Auto-size the in-memory working set unless the caller pinned a count
+        // (numInMem <= 0 means "let KStars decide"). The engine holds `numInMem` subs
+        // resident at once, each decoded to CV_32F — on a large sensor that is
+        // hundreds of MB per sub, easily enough to OOM a 4-8 GB StellarMate
+        // controller. Read the first sub's dimensions (header only, cheap) and fit as
+        // many as a fraction of free RAM allows, leaving the rest for the running
+        // stack, the combine, post-processing temporaries and the OS. Capped at the
+        // number of files actually present so the full initial stack (rather than the
+        // slower incremental path) is still used whenever memory permits.
+        if (m_LiveStackData.numInMem <= 0)
+        {
+            const int fileCount = static_cast<int>(subs.size());
+            int width = 0, height = 0, channels = 1;
+            int dynamic = std::min(5, std::max(1, fileCount));
+            if (peekFITSSize(subs[0].file, width, height, channels))
+            {
+                const double subBytes = static_cast<double>(width) * height * channels * sizeof(float);
+                const double availBytes = KSUtils::getAvailableRAM();
+                if (subBytes > 0.0 && availBytes > 0.0)
+                {
+                    constexpr double kBatchBudgetFraction = 0.5;
+                    dynamic = static_cast<int>(std::floor(availBytes * kBatchBudgetFraction / subBytes));
+                    dynamic = std::clamp(dynamic, 1, std::max(1, fileCount));
+                    qCDebug(KSTARS_FITS) << QString("Auto-sized stack batch: numInMem=%1 (%2 MB/sub, %3 MB free, %4 file(s))")
+                                         .arg(dynamic).arg(subBytes / 1e6, 0, 'f', 1)
+                                         .arg(availBytes / 1e6, 0, 'f', 0).arg(fileCount);
+                }
+            }
+            m_LiveStackData.numInMem = dynamic;
+        }
+
         // We have some existing subs in the directory to process
         int subsToProcess = m_LiveStackData.numInMem;
         StackChannel prevChannel;
@@ -499,6 +559,19 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
             }
         }
     }
+
+    // An empty folder at start (live watching has nothing yet) has no sub to size
+    // from — fall back to a conservative fixed batch rather than leaving the auto
+    // sentinel (0) in place, which would make incrementalStack() dequeue nothing.
+    if (m_LiveStackData.numInMem <= 0)
+        m_LiveStackData.numInMem = 5;
+
+    // The per-channel FITSStack objects were constructed before the folder was
+    // inspected, so they still hold the caller's original StackData — push the
+    // resolved numInMem (auto-sized above, or the fallback) into each of them so
+    // FITSStack's own initial-stack trigger sees it.
+    for (auto &stack : m_Stacks)
+        stack->setStackData(m_LiveStackData);
 
     // Initialize the Stack Monitor
     Q_EMIT initStackMon(QDateTime::currentDateTime(), subs);
@@ -1552,6 +1625,18 @@ bool FITSData::saveStackedImage(const QString &path, QString &error)
     }
 
     return true;
+}
+
+void FITSData::releaseStackedImage()
+{
+    // Release order matters only for clarity: the Mat is the authoritative copy,
+    // the FITS buffer and the undo snapshot are derivatives that are rebuilt/
+    // re-taken on demand. Doing this drops a full image-sized allocation per held
+    // buffer — see the header comment for why a caller would want to.
+    m_StackedImageMat.release();
+    if (m_StackedBuffer)
+        m_StackedBuffer->clear();
+    m_UndoStackedImageMat.release();
 }
 
 void FITSData::snapshotForUndo()

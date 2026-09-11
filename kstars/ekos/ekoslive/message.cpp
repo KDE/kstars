@@ -46,6 +46,7 @@
 #include "ekos/align/mountmodel.h"
 #include "skymap.h"
 #include "Options.h"
+#include "auxiliary/ksutils.h"
 #include "version.h"
 
 #include <QtConcurrentRun>
@@ -54,11 +55,36 @@
 #include <KActionCollection>
 #include <basedevice.h>
 #include <QUuid>
+#include <QSet>
 #include <functional>
 #include <thread>
 
 namespace
 {
+// Rough multiple of one full-frame image that a given post-process step keeps
+// alive at peak: channel splits, blur pyramids, chroma planes, per-pixel
+// calibration buffers, registered warps and the merged result. Used to refuse a
+// step the machine cannot fit rather than letting the OOM killer take KStars down
+// on a 4-8 GB StellarMate controller (getAvailableRAM() reports MemAvailable, so
+// it already counts reclaimable page cache). 0 = not checked (cheap steps).
+int postProcessMemoryWeight(const QString &command)
+{
+    // This helper sits in the file-scope anonymous namespace, while the command
+    // table/enum live in EkosLive — pull them in rather than fully qualifying
+    // every comparison.
+    using namespace EkosLive;
+    if (command == commands[POSTPROCESS_APPLY_DENOISE])           return 8;
+    if (command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION]) return 6;
+    if (command == commands[POSTPROCESS_APPLY_BGE])               return 5;
+    if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH]
+            || command == commands[POSTPROCESS_APPLY_CURVE]
+            || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
+            || command == commands[POSTPROCESS_APPLY_SATURATION]
+            || command == commands[POSTPROCESS_APPLY_CONTRAST])   return 3;
+    if (command == commands[POSTPROCESS_CROP])                    return 2;
+    return 0;
+}
+
 // Image stats for a postprocess_* preview's metadata header — the same fields
 // Media::upload() already sends for a live capture (resolution/size/channels/bpp/
 // mean/median/stddev/min/max/hasWCS), minus the capture-specific ones (exposure,
@@ -3725,7 +3751,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             params.alignMaster = payload["alignMaster"].toString();
             params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
             params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
-            params.numInMem = payload["numInMem"].toInt(10);
+            params.numInMem = payload["numInMem"].toInt(0);
             params.weighting = static_cast<StackFrameWeighting>(payload["weighting"].toInt(0));
             params.lowSigma = payload["lowSigma"].toDouble(2.0);
             params.highSigma = payload["highSigma"].toDouble(3.0);
@@ -3862,7 +3888,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         params.alignMaster = payload["alignMaster"].toString();
         params.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
         params.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
-        params.numInMem = payload["numInMem"].toInt(10);
+        params.numInMem = payload["numInMem"].toInt(0);
         params.weighting = static_cast<StackFrameWeighting>(payload["weighting"].toInt(0));
         params.lowSigma = payload["lowSigma"].toDouble(2.0);
         params.highSigma = payload["highSigma"].toDouble(3.0);
@@ -4448,6 +4474,32 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
+        // RAM pre-flight for the blend: every input frame is resident at once, each
+        // is then warped onto the reference grid, and three output channels plus the
+        // merged result are built — roughly 2x the inputs plus a few output frames.
+        {
+            double inputBytes = 0.0;
+            int inputCount = 0;
+            for (const auto *group : { &red, &green, &blue })
+                for (const auto &in : *group)
+                {
+                    inputBytes += static_cast<double>(in.image.total()) * in.image.elemSize();
+                    inputCount++;
+                }
+            const double monoFrame = inputCount > 0 ? inputBytes / inputCount : 0.0;
+            const double needBytes = 2.0 * inputBytes + 4.0 * monoFrame;
+            const double availBytes = KSUtils::getAvailableRAM();
+            if (availBytes > 0.0 && availBytes < needBytes)
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE],
+                QJsonObject{{"state", "error"},
+                    {"message", QString("Not enough free memory to combine channels: ~%1 MB needed, %2 MB available. "
+                                        "Free up memory or combine fewer/smaller channels.")
+                     .arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}});
+                return;
+            }
+        }
+
         // Inherit a "session root" (see pipelineSessionRootFor()) from whichever named
         // input session has one, so the blend result can be auto-saved into the same
         // shared "Output" folder its inputs' own masters/stacks already used — a blend
@@ -4479,6 +4531,24 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // as any real stack from here on, adopted (with its WCS, if any) once blending
         // finishes below.
         const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
+
+        // Distinct named input sessions of this blend, gathered here on the GUI
+        // thread so the completion lambda can free their pixel buffers once the
+        // blend has succeeded — see the release call there. They are dead weight
+        // for the rest of the run and, on a small controller, three full-resolution
+        // mono stacks (each holding a working Mat AND its FITS buffer) are the
+        // single biggest avoidable cost during post-processing.
+        QSet<QString> blendInputIds;
+        for (const auto &key : { "red", "green", "blue" })
+        {
+            for (const auto &value : payload[key].toArray())
+            {
+                const QJsonObject obj = value.toObject();
+                const QString id = obj["sessionId"].toString(obj["filter"].toString());
+                if (!id.isEmpty() && id != outputSessionId)
+                    blendInputIds.insert(id);
+            }
+        }
         const bool wantPreview = payload["preview"].toBool(true);
         // Level-match the named inputs to a common background before the weighted sum (see
         // ChannelBlendOperation::WeightedInput::background) — the inputs are
@@ -4538,7 +4608,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         auto watcher = new QFutureWatcher<BlendResult>(this);
         connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
-                [this, watcher, outputSessionId, cancelFlag, blendRoot, wantPreview]()
+                [this, watcher, outputSessionId, cancelFlag, blendRoot, wantPreview, blendInputIds]()
         {
             m_BusyPostProcessSessions.remove(outputSessionId);
             if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
@@ -4626,6 +4696,21 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     state["saveError"] = saveError;
             }
             sendPostProcessState(state);
+
+            // The blend succeeded and the result is an independent image (blendRGB()'s
+            // cv::merge allocates a fresh buffer, so it shares nothing with the
+            // inputs), so the input sessions' pixel buffers are now pure overhead.
+            // Free them to keep the long post-processing run that follows inside a
+            // small controller's RAM budget. The sessions stay registered so their
+            // ids still resolve and postprocess_close stays a clean no-op; ops on
+            // them now fail with the normal "no stacked image" message, and a
+            // re-blend simply needs them re-stacked.
+            for (const QString &id : blendInputIds)
+            {
+                const auto input = m_PostProcessSessions.value(id);
+                if (input && input->imageData())
+                    input->imageData()->releaseStackedImage();
+            }
         });
         watcher->setFuture(future);
     }
@@ -4685,6 +4770,31 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             sendResponse(commands[NEW_POSTPROCESS_STATE],
             QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
             return;
+        }
+
+        // Refuse a memory-heavy step up front if the machine can't hold it, instead
+        // of letting an allocation fail (or the OOM killer reap KStars) mid-step.
+        // The estimate is a multiple of one full frame — see postProcessMemoryWeight.
+        if (const int memWeight = postProcessMemoryWeight(command))
+        {
+            const cv::Mat &working = session->imageData()->stackedImageMat();
+            if (!working.empty())
+            {
+                const double frameBytes = static_cast<double>(working.total()) * working.elemSize();
+                const double needBytes = frameBytes * memWeight;
+                const double availBytes = KSUtils::getAvailableRAM();
+                if (availBytes > 0.0 && availBytes < needBytes)
+                {
+                    sendPostProcessState(QJsonObject
+                    {
+                        {"state", "error"}, {"sessionId", sessionId},
+                        {"message", QString("Not enough free memory to run %1: ~%2 MB needed, %3 MB available. "
+                                             "Free up memory or process a smaller image.")
+                         .arg(command).arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}
+                    });
+                    return;
+                }
+            }
         }
 
         // postprocess_save's outputPath is optional too, same as build_master — falls
