@@ -7,6 +7,7 @@
 #include "imageoverlaycomponent.h"
 
 #include "kstars.h"
+#include "kstars_debug.h"
 #include "Options.h"
 #include "skypainter.h"
 #include "skymap.h"
@@ -489,12 +490,22 @@ QSharedPointer<QImage> getQImage(const QString &filename)
     QSharedPointer<QImage> tempImage;
     QString suffix = QFileInfo(filename).suffix().toLower();
 
+    try
+    {
 #ifdef HAVE_CFITSIO
-    if (suffix == "fits" || suffix == "fit" || suffix == "fts")
-        tempImage.reset(new QImage(FITSData::FITSToImage(filename)));
-    else
+        if (suffix == "fits" || suffix == "fit" || suffix == "fts")
+            tempImage.reset(new QImage(FITSData::FITSToImage(filename)));
+        else
 #endif
-        tempImage.reset(new QImage(filename));
+            tempImage.reset(new QImage(filename));
+    }
+    catch (...)
+    {
+        // Some Qt image plugins (e.g. the LibRaw-backed RAW format plugin) can throw
+        // when probing a corrupt/truncated file instead of failing gracefully.
+        qCWarning(KSTARS) << "Exception caught while loading image overlay" << filename;
+        tempImage.reset();
+    }
     return tempImage;
 }
 }

@@ -353,7 +353,19 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
         auto *item = new pixCacheItem_t;
 
         item->image = new QImage();
-        if (item->image->loadFromData(data))
+        bool loaded = false;
+        try
+        {
+            loaded = item->image->loadFromData(data);
+        }
+        catch (...)
+        {
+            // Some Qt image plugins (e.g. the LibRaw-backed RAW format plugin) can throw
+            // when probing a corrupt/truncated tile instead of failing gracefully.
+            qCWarning(KSTARS) << "Exception caught while loading HiPS tile data";
+        }
+
+        if (loaded)
         {
             addToMemoryCache(key, item);
 

@@ -206,7 +206,18 @@ bool HIPSFinder::renderPix(int level, int pix, QImage *destinationImage)
                            Options::hIPSOfflinePath() +
                            QString("/Norder%1/Dir%2/Npix%3.jpg").arg(level).arg(dir).arg(pix)
                        );
-        QImage sourceImage(path);
+        QImage sourceImage;
+        try
+        {
+            sourceImage.load(path);
+        }
+        catch (...)
+        {
+            // Some Qt image plugins (e.g. the LibRaw-backed RAW format plugin) can throw
+            // when probing a corrupt/truncated tile file instead of failing gracefully.
+            qCWarning(KSTARS) << "Exception caught while loading HiPS tile" << path;
+            return false;
+        }
 
         if (!sourceImage.isNull())
         {
