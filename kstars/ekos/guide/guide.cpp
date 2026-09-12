@@ -3952,28 +3952,23 @@ void Guide::setAllSettings(const QVariantMap &settings)
         }
     }
 
-    // Sync to options: build a map with combo indices for kcfg (UInt properties).
-    // guideBinning/guideSquareSize are the exception: their kcfg entries are Strings
-    // expecting the displayed value as text ("NxN" binning, pixel count for square
-    // size -- Options::setGuideBinning()/AIGuideProtocol::buildFingerprint() and every
-    // guideSquareSize->currentText().toInt() call site rely on that), not an index --
-    // pushing currentIndex() for them corrupts the global mirror to a bare digit that
-    // gets misread as the real value itself (index 1 = "2x2" looks like "bin 1x1" to a
-    // reader expecting text; index 3 = "64" looks like a 3px tracking box).
-    static const QSet<QString> textValuedCombos { "guideBinning", "guideSquareSize" };
+    // Sync to options. KSUtils::comboValueForGlobalSettings() stores the combo index
+    // for integer-backed kcfg entries and the displayed text for String/Double entries
+    // (e.g. timeSource/locationSource/focusBinning/guideBinning/alignISO), so a
+    // text-valued option is never overwritten with a bare index.
     QVariantMap optionValues = settings;
     for (auto &key : comboKeys)
     {
         auto cb = findChild<QComboBox*>(key);
         // Skip combos that aren't populated yet (e.g. device-dependent combos
-        // like guide binning before the camera connects). currentIndex() would
-        // be -1 in that case, which must not overwrite the persisted option.
+        // before the device connects). currentIndex() would be -1 in that
+        // case, which must not overwrite the persisted option.
         if (!cb || cb->count() == 0 || cb->currentIndex() < 0)
         {
             optionValues.remove(key);
             continue;
         }
-        optionValues[key] = textValuedCombos.contains(key) ? QVariant(cb->currentText()) : QVariant(cb->currentIndex());
+        optionValues[key] = KSUtils::comboValueForGlobalSettings(cb);
     }
     KSUtils::setGlobalSettings(optionValues);
 

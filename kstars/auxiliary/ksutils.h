@@ -48,6 +48,7 @@
 
 #include <cstddef>
 
+class QComboBox;
 class QFile;
 class QProcess;
 class QString;
@@ -402,6 +403,22 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
 double getAvailableRAM();
 
 void setGlobalSettings(const QVariantMap &settings);
+
+/**
+ * @brief comboValueForGlobalSettings Compute the value that a QComboBox should store in
+ *        the global (KConfigXT) settings mirror.
+ *
+ *        The kcfg entry matching the combo's objectName decides the value: integer-backed
+ *        entries (Int/UInt/enum/Bool) store the combo index, while every other entry
+ *        (String/Double/...) stores the displayed text. This is required because entries
+ *        such as timeSource/locationSource/focusBinning/guideBinning are Strings whose
+ *        persisted value is the displayed text, so writing currentIndex() would corrupt
+ *        the option to a bare digit.
+ *
+ * @param combo the combo box to read (may be nullptr).
+ * @return the value to store, or an invalid QVariant when the combo is null/unpopulated.
+ */
+QVariant comboValueForGlobalSettings(const QComboBox *combo);
 
 /**
  * @brief sanitize Remove all illegal characters and spaces that can be problematic in file paths across all OSes.

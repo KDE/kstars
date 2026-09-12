@@ -7933,7 +7933,10 @@ void Focus::setAllSettings(QVariantMap &settings)
         }
     }
 
-    // Sync to options: build a map with combo indices for kcfg (UInt properties)
+    // Sync to options. KSUtils::comboValueForGlobalSettings() stores the combo index
+    // for integer-backed kcfg entries and the displayed text for String/Double entries
+    // (e.g. timeSource/locationSource/focusBinning/guideBinning/alignISO), so a
+    // text-valued option is never overwritten with a bare index.
     QVariantMap optionValues = settings;
     for (auto &key : comboKeys)
     {
@@ -7941,10 +7944,12 @@ void Focus::setAllSettings(QVariantMap &settings)
         // Skip combos that aren't populated yet (e.g. device-dependent combos
         // before the device connects). currentIndex() would be -1 in that
         // case, which must not overwrite the persisted option.
-        if (cb && cb->count() > 0 && cb->currentIndex() >= 0)
-            optionValues[key] = cb->currentIndex();
-        else
+        if (!cb || cb->count() == 0 || cb->currentIndex() < 0)
+        {
             optionValues.remove(key);
+            continue;
+        }
+        optionValues[key] = KSUtils::comboValueForGlobalSettings(cb);
     }
     KSUtils::setGlobalSettings(optionValues);
 

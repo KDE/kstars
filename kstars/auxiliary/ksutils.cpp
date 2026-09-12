@@ -34,6 +34,9 @@
 #include <QProcess>
 #endif
 
+#include <QComboBox>
+#include <QMetaProperty>
+#include <QMetaType>
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
@@ -1934,6 +1937,43 @@ void setGlobalSettings(const QVariantMap &settings)
     }
 
     Options::self()->save();
+}
+
+QVariant comboValueForGlobalSettings(const QComboBox *combo)
+{
+    if (combo == nullptr || combo->count() == 0 || combo->currentIndex() < 0)
+        return {};
+
+    auto property = combo->objectName();
+    // Match the normalization performed by setGlobalSettings() for widgets that are
+    // bound through their kcfg_-prefixed object name.
+    if (property.startsWith(QLatin1String("kcfg_")))
+    {
+        property.remove(0, 5);
+        if (!property.isEmpty())
+            property.replace(0, 1, property.at(0).toLower());
+    }
+
+    const QMetaObject *metaObject = Options::self()->metaObject();
+    const int index = metaObject->indexOfProperty(property.toLatin1().constData());
+    if (index >= 0)
+    {
+        switch (metaObject->property(index).userType())
+        {
+            case QMetaType::Int:
+            case QMetaType::UInt:
+            case QMetaType::LongLong:
+            case QMetaType::ULongLong:
+            case QMetaType::Bool:
+                // Integer-backed option (index or enum): persist the combo index.
+                return combo->currentIndex();
+            default:
+                break;
+        }
+    }
+
+    // String/Double (and any other non-integer type) persist the displayed text.
+    return combo->currentText();
 }
 
 QString sanitize(const QString &text)
