@@ -240,6 +240,7 @@ class GenericDevice : public GDInterface
         void handleTimeout();
         void checkTimeUpdate();
         void checkLocationUpdate();
+        void syncTimeLocation();
 
     protected:
         uint32_t m_DriverInterface { 0 };
@@ -292,6 +293,10 @@ class GenericDevice : public GDInterface
         static void registerDBusType();
         bool m_Connected { false };
         bool m_Ready {false};
+        bool m_TimeSynced {false};
+        bool m_LocationSynced {false};
+        uint8_t m_TimeSyncRetries {0};
+        uint8_t m_LocationSyncRetries {0};
         QString m_Name;
         QSharedPointer<DriverInfo> m_DriverInfo;
         QSharedPointer<DeviceInfo> m_DeviceInfo;

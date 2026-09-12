@@ -45,6 +45,9 @@
 namespace ISD
 {
 
+// Maximum number of times to retry an unconfirmed TIME_UTC/GEOGRAPHIC_COORD write before giving up.
+constexpr uint8_t MAX_SYNC_RETRIES = 3;
+
 GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inProperty, const QString &inElement,
                            QVariant qValue, QObject *parent)
     : QObject(parent), propType(inPropertyType), indiProperty((inProperty)), indiElement(inElement), elementValue(qValue)
@@ -91,6 +94,14 @@ GenericDevice::GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManage
         }
     });
 
+    // Re-apply KStars time/location once the device is connected and its properties have
+    // settled. Connected() cannot be used here: libindi emits CONNECTION=IPS_OK *before*
+    // updateProperties() defines TIME_UTC / GEOGRAPHIC_COORD, so those properties do not
+    // exist yet at that point. ready() is emitted ~250ms after the last property definition
+    // (m_ReadyTimer is restarted by every registerProperty()), so they exist and we are known
+    // to be connected. This also covers drivers that only update (never re-define) them.
+    connect(this, &GenericDevice::ready, this, &GenericDevice::syncTimeLocation);
+
     m_ReadyTimer = new QTimer(this);
     m_ReadyTimer->setInterval(250);
     m_ReadyTimer->setSingleShot(true);
@@ -105,7 +116,6 @@ GenericDevice::GenericDevice(const QSharedPointer<DeviceInfo> &idv, ClientManage
     m_LocationUpdateTimer->setInterval(5000);
     m_LocationUpdateTimer->setSingleShot(true);
     connect(m_LocationUpdateTimer, &QTimer::timeout, this, &GenericDevice::checkLocationUpdate, Qt::UniqueConnection);
-
 }
 
 GenericDevice::~GenericDevice()
@@ -130,6 +140,42 @@ void GenericDevice::handleTimeout()
     //m_ReadyTimer->disconnect(this);
     m_Ready = true;
     Q_EMIT ready();
+}
+
+void GenericDevice::syncTimeLocation()
+{
+    if (isConnected() == false)
+        return;
+
+    if (m_TimeSynced == false && Options::useTimeUpdate() && Options::timeSource() == "KStars")
+    {
+        auto tvp = getProperty("TIME_UTC");
+        if (tvp)
+        {
+            auto timeTP = INDI::PropertyText(tvp);
+            if (timeTP && timeTP.getPermission() != IP_RO)
+            {
+                updateTime();
+                m_TimeSynced = true;
+                m_TimeSyncRetries = 0;
+            }
+        }
+    }
+
+    if (m_LocationSynced == false && Options::useGeographicUpdate() && Options::locationSource() == "KStars")
+    {
+        auto nvp = getProperty("GEOGRAPHIC_COORD");
+        if (nvp)
+        {
+            auto locationNP = INDI::PropertyNumber(nvp);
+            if (locationNP && locationNP.getPermission() != IP_RO)
+            {
+                updateLocation();
+                m_LocationSynced = true;
+                m_LocationSyncRetries = 0;
+            }
+        }
+    }
 }
 
 void GenericDevice::checkTimeUpdate()
@@ -201,6 +247,8 @@ void GenericDevice::registerProperty(INDI::Property prop)
 
         if (m_Connected == false && svp.getState() == IPS_OK && conSP->getState() == ISS_ON)
         {
+            m_TimeSynced = m_LocationSynced = false;
+            m_TimeSyncRetries = m_LocationSyncRetries = 0;
             m_Connected = true;
             Q_EMIT Connected();
             createDeviceInit();
@@ -257,7 +305,14 @@ void GenericDevice::registerProperty(INDI::Property prop)
         if (tvp)
         {
             if (Options::timeSource() == "KStars" && tvp.getPermission() != IP_RO)
+            {
                 updateTime();
+                m_TimeSyncRetries = 0;
+                // If we are not connected yet the write can be discarded by the driver, so
+                // leave the flag clear and let syncTimeLocation() (called on ready()) retry it.
+                if (isConnected())
+                    m_TimeSynced = true;
+            }
             else
                 m_TimeUpdateTimer->start();
         }
@@ -265,7 +320,12 @@ void GenericDevice::registerProperty(INDI::Property prop)
     else if (name == "GEOGRAPHIC_COORD" && Options::useGeographicUpdate())
     {
         if (Options::locationSource() == "KStars" && prop.getPermission() != IP_RO)
+        {
             updateLocation();
+            m_LocationSyncRetries = 0;
+            if (isConnected())
+                m_LocationSynced = true;
+        }
         else
             m_LocationUpdateTimer->start();
     }
@@ -330,6 +390,8 @@ void GenericDevice::processSwitch(INDI::Property prop)
             m_Ready = false;
             connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout, Qt::UniqueConnection);
 
+            m_TimeSynced = m_LocationSynced = false;
+            m_TimeSyncRetries = m_LocationSyncRetries = 0;
             m_Connected = true;
             Q_EMIT Connected();
             createDeviceInit();
@@ -434,6 +496,22 @@ void GenericDevice::processNumber(INDI::Property prop)
                             lat.toDMSString();
 
         KStars::Instance()->data()->setLocation(*geo);
+    }
+    // We are the ones pushing our location to this device; watch for the driver's response
+    // in case it silently rejected the write (e.g. still settling right after connecting).
+    else if (nvp.isNameMatch("GEOGRAPHIC_COORD") && Options::useGeographicUpdate() && Options::locationSource() == "KStars"
+             && nvp.getPermission() != IP_RO && nvp.getState() == IPS_ALERT)
+    {
+        if (m_LocationSyncRetries < MAX_SYNC_RETRIES)
+        {
+            m_LocationSyncRetries++;
+            qCWarning(KSTARS_INDI) << "GEOGRAPHIC_COORD update for" << getDeviceName() << "was rejected by the driver, retrying"
+                                    << m_LocationSyncRetries << "/" << MAX_SYNC_RETRIES;
+            updateLocation();
+        }
+        else
+            qCWarning(KSTARS_INDI) << "Giving up on GEOGRAPHIC_COORD update for" << getDeviceName()
+                                    << "after" << MAX_SYNC_RETRIES << "attempts.";
     }
     else if (nvp.isNameMatch("WATCHDOG_HEARTBEAT"))
     {
@@ -541,6 +619,22 @@ void GenericDevice::processText(INDI::Property prop)
         // TZ0 is the timezone WITHOUT any DST offsets. Above, we take INDI UTC Offset (with DST already included)
         // and subtract from it the deltaTZ from the current TZ rule.
         geo->setTZ0(utcOffset);
+    }
+    // We are the ones pushing our time to this device; watch for the driver's response in case
+    // it silently rejected the write (e.g. still settling right after connecting).
+    else if (tvp.isNameMatch("TIME_UTC") && Options::useTimeUpdate() && Options::timeSource() == "KStars"
+             && tvp.getPermission() != IP_RO && tvp.getState() == IPS_ALERT)
+    {
+        if (m_TimeSyncRetries < MAX_SYNC_RETRIES)
+        {
+            m_TimeSyncRetries++;
+            qCWarning(KSTARS_INDI) << "TIME_UTC update for" << getDeviceName() << "was rejected by the driver, retrying"
+                                    << m_TimeSyncRetries << "/" << MAX_SYNC_RETRIES;
+            updateTime();
+        }
+        else
+            qCWarning(KSTARS_INDI) << "Giving up on TIME_UTC update for" << getDeviceName()
+                                    << "after" << MAX_SYNC_RETRIES << "attempts.";
     }
 
     Q_EMIT propertyUpdated(prop);
