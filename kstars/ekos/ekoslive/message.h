@@ -242,6 +242,11 @@ class Message : public QObject
         // Process Astronomy Library command
         void processAstronomyCommands(const QString &command, const QJsonObject &payload);
 
+        // Apply a requested simulation date/time (Julian Date) to the SimClock.
+        // Forces the clock out of realtime mode first, otherwise
+        // SimClock::setUTC() silently ignores the request.
+        void applySimulationTime(const KStarsDateTime &jd);
+
         // Process file commands
         void processFileCommands(const QString &command, const QJsonObject &payload);
 
