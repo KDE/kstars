@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-11 02:14+0000\n"
+"POT-Creation-Date: 2026-09-12 02:05+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -798,7 +798,7 @@ msgstr "內部 Astrometry 設定檔讀取錯誤。"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "內部 Astrometry 設定檔寫入錯誤。"
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3770
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3856
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to find dcraw and cjpeg. Please install the required tools to "
@@ -19542,14 +19542,14 @@ msgstr "離線識別器"
 msgid "Offline"
 msgstr "離線識別器"
 
-#: ekos/ekoslive/message.cpp:875
+#: ekos/ekoslive/message.cpp:901
 #, fuzzy, kde-format
 #| msgctxt "City in Nebraska USA"
 #| msgid "Sargent"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:1202
+#: ekos/ekoslive/message.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -35367,243 +35367,243 @@ msgstr "描述"
 msgid "Object Type Comments"
 msgstr "物件類型"
 
-#: fitsviewer/fitsdata.cpp:2714
+#: fitsviewer/fitsdata.cpp:2800
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1."
 msgstr "讀取影像發生錯誤：%1"
 
-#: fitsviewer/fitsdata.cpp:2723
+#: fitsviewer/fitsdata.cpp:2809
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2753
+#: fitsviewer/fitsdata.cpp:2839
 #, fuzzy, kde-format
 #| msgid "Error Opening Output File"
 msgid "Error opening fits file %1 : %2"
 msgstr "開啟輸出檔案發生錯誤"
 
-#: fitsviewer/fitsdata.cpp:2768
+#: fitsviewer/fitsdata.cpp:2854
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1"
 msgstr "讀取影像發生錯誤：%1"
 
-#: fitsviewer/fitsdata.cpp:2782
+#: fitsviewer/fitsdata.cpp:2868
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "無法開啟檔案 %1。"
 
-#: fitsviewer/fitsdata.cpp:2792
+#: fitsviewer/fitsdata.cpp:2878
 #, fuzzy, kde-format
 #| msgid "FITS file open error (fits_get_img_param): %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS 檔開啟失敗（fits_get_img_param）：%1"
 
-#: fitsviewer/fitsdata.cpp:2806
+#: fitsviewer/fitsdata.cpp:2892
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "KStars 不支援 1D FITS 影像。"
 
-#: fitsviewer/fitsdata.cpp:2854 fitsviewer/fitsdata.cpp:3599
+#: fitsviewer/fitsdata.cpp:2940 fitsviewer/fitsdata.cpp:3685
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "不支援 %1 影像深度。"
 
-#: fitsviewer/fitsdata.cpp:2864
+#: fitsviewer/fitsdata.cpp:2950
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "影像的尺寸 %1x%2 不正確"
 
-#: fitsviewer/fitsdata.cpp:2918
+#: fitsviewer/fitsdata.cpp:3004
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "讀取影像發生錯誤：%1"
 
-#: fitsviewer/fitsdata.cpp:3325 fitsviewer/fitsdata.cpp:3559
+#: fitsviewer/fitsdata.cpp:3411 fitsviewer/fitsdata.cpp:3645
 #, fuzzy, kde-format
 #| msgid "Alt Error:"
 msgid "XISF file open error: "
 msgstr "高度角誤差："
 
-#: fitsviewer/fitsdata.cpp:3473
+#: fitsviewer/fitsdata.cpp:3559
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "載入影像失敗"
 
-#: fitsviewer/fitsdata.cpp:3502
+#: fitsviewer/fitsdata.cpp:3588
 #, fuzzy, kde-format
 #| msgid "Bit depth %1 is not supported."
 msgid "Sample format %1 is not supported."
 msgstr "不支援 %1 影像深度。"
 
-#: fitsviewer/fitsdata.cpp:3637
+#: fitsviewer/fitsdata.cpp:3723
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error saving XISF image"
 msgstr "讀取影像發生錯誤：%1"
 
-#: fitsviewer/fitsdata.cpp:3729 fitsviewer/fitsdata.cpp:3845
+#: fitsviewer/fitsdata.cpp:3815 fitsviewer/fitsdata.cpp:3931
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3784
+#: fitsviewer/fitsdata.cpp:3870
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "無法開啟檔案：%1"
 
-#: fitsviewer/fitsdata.cpp:3797
+#: fitsviewer/fitsdata.cpp:3883
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "無法開啟檔案：%1"
 
-#: fitsviewer/fitsdata.cpp:3808
+#: fitsviewer/fitsdata.cpp:3894
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3815
+#: fitsviewer/fitsdata.cpp:3901
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "無法寫入使用者紀錄檔"
 
-#: fitsviewer/fitsdata.cpp:3823
+#: fitsviewer/fitsdata.cpp:3909
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3970
+#: fitsviewer/fitsdata.cpp:4056
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Saving compressed files is not supported."
 msgstr "自動對焦處理中..."
 
-#: fitsviewer/fitsdata.cpp:4034
+#: fitsviewer/fitsdata.cpp:4120
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to create file: %1"
 msgstr "無法開啟檔案 %1。%2"
 
-#: fitsviewer/fitsdata.cpp:4056
+#: fitsviewer/fitsdata.cpp:4142
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "載入於 %1 的影像失敗"
 
-#: fitsviewer/fitsdata.cpp:4065 fitsviewer/fitsdata.cpp:4072
+#: fitsviewer/fitsdata.cpp:4151 fitsviewer/fitsdata.cpp:4158
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to update key: %1"
 msgstr "設定子框架失敗。"
 
-#: fitsviewer/fitsdata.cpp:4205
+#: fitsviewer/fitsdata.cpp:4291
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "載入於 %1 的影像失敗"
 
-#: fitsviewer/fitsdata.cpp:4214
+#: fitsviewer/fitsdata.cpp:4300
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to update history: %1"
 msgstr "設定 binning 失敗"
 
-#: fitsviewer/fitsdata.cpp:4236
+#: fitsviewer/fitsdata.cpp:4322
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "載入於 %1 的影像失敗"
 
-#: fitsviewer/fitsdata.cpp:6072 fitsviewer/fitsdata.cpp:6098
-#: fitsviewer/fitsdata.cpp:6124 fitsviewer/fitsdata.cpp:6160
-#: fitsviewer/fitsdata.cpp:6294
+#: fitsviewer/fitsdata.cpp:6158 fitsviewer/fitsdata.cpp:6184
+#: fitsviewer/fitsdata.cpp:6210 fitsviewer/fitsdata.cpp:6246
+#: fitsviewer/fitsdata.cpp:6380
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "要使用水平座標系統嗎？"
 
-#: fitsviewer/fitsdata.cpp:6544 fitsviewer/fitsdata.cpp:6650
+#: fitsviewer/fitsdata.cpp:6630 fitsviewer/fitsdata.cpp:6736
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error querying Simbad"
 msgstr "讀取影像發生錯誤：%1"
 
-#: fitsviewer/fitsdata.cpp:6559
+#: fitsviewer/fitsdata.cpp:6645
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Simbad query timed out"
 msgstr "識別器逾時。"
 
-#: fitsviewer/fitsdata.cpp:7536 fitsviewer/fitsdata.cpp:7649
+#: fitsviewer/fitsdata.cpp:7622 fitsviewer/fitsdata.cpp:7735
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支援 8 或 16 位元的 debayered 影像。"
 
-#: fitsviewer/fitsdata.cpp:7544 fitsviewer/fitsdata.cpp:7655
+#: fitsviewer/fitsdata.cpp:7630 fitsviewer/fitsdata.cpp:7741
 #, fuzzy, kde-format
 #| msgid "Unknown planet "
 msgid "Unknown bayer pattern %1"
 msgstr "未知行星 "
 
-#: fitsviewer/fitsdata.cpp:7568 fitsviewer/fitsdata.cpp:7594
+#: fitsviewer/fitsdata.cpp:7654 fitsviewer/fitsdata.cpp:7680
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7602
+#: fitsviewer/fitsdata.cpp:7688
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7613 fitsviewer/fitsdata.cpp:7666
+#: fitsviewer/fitsdata.cpp:7699 fitsviewer/fitsdata.cpp:7752
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "輸入參數"
 
-#: fitsviewer/fitsdata.cpp:7624 fitsviewer/fitsdata.cpp:7677
+#: fitsviewer/fitsdata.cpp:7710 fitsviewer/fitsdata.cpp:7763
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "輸入參數"
 
-#: fitsviewer/fitsdata.cpp:7633 fitsviewer/fitsdata.cpp:7686
+#: fitsviewer/fitsdata.cpp:7719 fitsviewer/fitsdata.cpp:7772
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Invalid debayer engine"
 msgstr "不合法的檔案名稱"
 
-#: fitsviewer/fitsdata.cpp:7940
+#: fitsviewer/fitsdata.cpp:8026
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7956 fitsviewer/fitsdata.cpp:8002
-#: fitsviewer/fitsdata.cpp:8060 fitsviewer/fitsdata.cpp:8106
+#: fitsviewer/fitsdata.cpp:8042 fitsviewer/fitsdata.cpp:8088
+#: fitsviewer/fitsdata.cpp:8146 fitsviewer/fitsdata.cpp:8192
 #, fuzzy, kde-format
 #| msgid "Unable to allocate memory for temporary bayer buffer."
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "無法為 bayer 暫存緩衝區配置記憶體。"
 
-#: fitsviewer/fitsdata.cpp:7966 fitsviewer/fitsdata.cpp:8070
+#: fitsviewer/fitsdata.cpp:8052 fitsviewer/fitsdata.cpp:8156
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "無法為 bayer 暫存緩衝區配置記憶體。"
 
-#: fitsviewer/fitsdata.cpp:7985 fitsviewer/fitsdata.cpp:8089
+#: fitsviewer/fitsdata.cpp:8071 fitsviewer/fitsdata.cpp:8175
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer 錯誤(%1)"
 
-#: fitsviewer/fitsdata.cpp:8045
+#: fitsviewer/fitsdata.cpp:8131
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
