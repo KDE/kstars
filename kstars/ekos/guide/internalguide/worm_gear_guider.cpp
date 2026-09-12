@@ -516,7 +516,7 @@ GuideOutput WormGearGuider::predict(const GuideFrameData &frame)
 void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
                             double uncorrected_drift_ra_px_delta, double uncorrected_drift_dec_px_delta, double snr,
                             double /*ra_pulse_px*/, double /*dec_pulse_px*/,
-                            bool ra_pulse_has_ai, bool dec_pulse_has_ai)
+                            bool ra_pulse_has_ai, bool /*dec_pulse_has_ai*/)
 {
     // Freeze RA's online phase/amplitude adaptation while the just-applied RA pulse included
     // this guider's own prediction. The pulse backout in gmath.cpp assumes one fixed linear
@@ -534,11 +534,10 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
     // 82.5ms to 35.7ms -- consistent with a corrupted phase estimate actively fighting the
     // real-time correction rather than just being a weak/noisy one.
     //
-    // DEC now has online-adaptive state too (m_kfResidualRateDec, added 2026-08-28 -- see its
-    // declaration), but this accumulator isn't what feeds it (that filter reads the raw
-    // uncorrected_drift_dec_px_delta directly, below), so it's left unguarded here same as
-    // before; the new filter's own closed-loop-bias defense lives in updateResidualKFDec()'s
-    // activeContaminated handling instead of a freeze at this accumulation step.
+    // DEC's own online-adaptive state (m_kfResidualRateDec) is disabled as of 2026-09-12 (see
+    // physicsDEC()'s comment) -- this accumulator was never what fed it anyway (that filter
+    // read the raw uncorrected_drift_dec_px_delta directly), so nothing here changes as a
+    // result; left unguarded same as before.
     if (!ra_pulse_has_ai)
         m_uncorrectedPosRA += uncorrected_drift_ra_px_delta;
     m_uncorrectedPosDEC += uncorrected_drift_dec_px_delta;
@@ -582,16 +581,9 @@ void WormGearGuider::update(double /*ra_error_px*/, double /*dec_error_px*/,
         updateResidualKF(measuredRate, shapeNetRate, m_lastDt, ra_pulse_has_ai);
     }
 
-    // DEC online drift tracker: see m_kfResidualRateDec's declaration. Always runs (no
-    // hasShapeNet-style gate -- there's no offline DEC shape to depend on), same
-    // inflate-don't-freeze defense as the RA filter against AI-driven-frame closed-loop bias.
-    if (m_lastDt > 0.0)
-    {
-        const double measuredRateDec = uncorrected_drift_dec_px_delta / m_lastDt;
-        const double altitude_deg = m_lastAltRad * 180.0 / M_PI;
-        const double physicsDecRate = physicsDECBase(altitude_deg, m_lastParallacticAngleDeg);
-        updateResidualKFDec(measuredRateDec, physicsDecRate, m_lastDt, dec_pulse_has_ai, altitude_deg);
-    }
+    // DEC online drift tracker: DISABLED 2026-09-12, not proven -- see physicsDEC()'s comment
+    // for the full reasoning. updateResidualKFDec() (and the altitude trust multiplier /
+    // adaptive-R layered inside it) is no longer called, so m_kfResidualRateDec stays 0.0.
 }
 
 QString WormGearGuider::stateString() const
@@ -688,10 +680,15 @@ double WormGearGuider::physicsRABase(double t_sec, double altitude_deg) const
 
 double WormGearGuider::physicsDEC(double altitude_deg, double parallactic_angle_deg) const
 {
-    // See m_kfResidualRateDec's declaration: the online drift tracker always runs (it has no
-    // "hasShapeNet"-style gate -- there's no offline DEC model to depend on), so it's added
-    // unconditionally here, unlike physicsRA()'s Shape-Net-only residual.
-    return physicsDECBase(altitude_deg, parallactic_angle_deg) + m_kfResidualRateDec;
+    // DISABLED 2026-09-12: the DEC online drift tracker (m_kfResidualRateDec) and everything
+    // layered on it (the altitude trust multiplier, the adaptive-R sketch) never cleared
+    // validation -- its own Shadow-mode correlation, re-checked against the full dataset
+    // rather than the one good first-night sample, came back unreliable (pooled r=0.16,
+    // per-session swinging -0.24 to +0.52, sign flips night to night). See
+    // DEC_ALTITUDE_THEORY_LOG.md and project memory for the full history. update() no longer
+    // calls updateResidualKFDec(), so m_kfResidualRateDec stays permanently 0.0; this skips
+    // adding it explicitly too, so DEC prediction reduces to the plain physics baseline.
+    return physicsDECBase(altitude_deg, parallactic_angle_deg);
 }
 
 double WormGearGuider::physicsDECBase(double altitude_deg, double parallactic_angle_deg) const
