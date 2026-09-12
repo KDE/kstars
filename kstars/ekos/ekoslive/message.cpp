@@ -2275,6 +2275,10 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 {"de0", oneObject->dec0().Degrees()},
                 {"ra", oneObject->ra().Hours()},
                 {"de", oneObject->dec().Degrees()},
+                // SkyObject::TYPE code (e.g. GALAXY = 8, COMET = 9) so the app can
+                // label the object's category (Galaxies, Comets, ...) from the
+                // object info response without a second lookup.
+                {"type", oneObject->type()},
                 {"object", true}
             };
             sendResponse(commands[ASTRO_GET_OBJECT_INFO], info);
@@ -2317,6 +2321,10 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                     {"de0", oneObject->dec0().Degrees()},
                     {"ra", oneObject->ra().Hours()},
                     {"de", oneObject->dec().Degrees()},
+                    // SkyObject::TYPE code (e.g. GALAXY = 8, COMET = 9) so the app can
+                    // label the object's category (Galaxies, Comets, ...) from the
+                    // object info response without a second lookup.
+                    {"type", oneObject->type()},
                 };
 
                 // If DSO, add angular size.
