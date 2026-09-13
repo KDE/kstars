@@ -42,6 +42,10 @@
 #include "fitsviewer/pipeline/masterbuilder.h"
 #include "fitsviewer/pipeline/directoryinspector.h"
 #include "fitsviewer/pipeline/previewrenderer.h"
+// fits_open_diskfile/fits_update_key — used to stamp postprocess_save output (see
+// markPostProcessed below). fitsdata.h pulls this in too, but include it directly
+// since this file calls cfitsio itself.
+#include <fitsio.h>
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/align/mountmodel.h"
 #include "skymap.h"
@@ -107,6 +111,29 @@ QJsonObject buildPreviewMetadata(const QSharedPointer<FITSData> &data)
         {"max", data->getMax()},
         {"hasWCS", data->hasWCS()}
     };
+}
+
+// Stamps a post-processed save with a marker keyword so a later
+// postprocess_inspect_directory can tell it apart from a raw auto-saved stack at the
+// same path: both go through StackController::save(), and the pipeline's
+// one-file-per-identity rule (stack auto-save vs. postprocess_save with an omitted
+// outputPath) means that path may hold a fully edited image rather than the raw
+// stack. Without the marker, a caller re-adopting "the stack" would silently re-apply
+// edits to already-edited pixels. A later raw re-stack clears it again, since
+// FITSData::saveStackedImage() opens the file WriteOnly (truncating).
+// Best-effort — failing to stamp must not fail the save itself.
+void markPostProcessed(const QString &path)
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    const QByteArray pathBytes = path.toLocal8Bit();
+    if (fits_open_diskfile(&fptr, pathBytes.constData(), READWRITE, &status))
+        return;
+    int postProcessed = 1;
+    fits_update_key(fptr, TLOGICAL, "POSTPROC", &postProcessed,
+                    (char *)"Image written by postprocess_save", &status);
+    status = 0;
+    fits_close_file(fptr, &status);
 }
 
 // Outcome of a crop/apply_*/save operation run on a worker thread (see
@@ -3686,6 +3713,19 @@ QString Message::generateStackOutputPathForRoot(const QString &root, const QStri
     return QDir(pipelineOutputDirForRoot(root)).filePath(filename);
 }
 
+QString Message::blendInputMasterPath(const QString &sessionId) const
+{
+    const QString root = m_PostProcessSessionRoots.value(sessionId);
+    if (root.isEmpty())
+        return QString();
+    // Mirrors exactly what each auto-save site actually wrote: Mode A (filter-tagged)
+    // and non-default Mode B sessions use their own session key as the identity, while
+    // the internal default key saves as plain "light_master.fits" (see the Mode B
+    // stackReady handler and README's "Auto-generated output paths").
+    const QString identity = (sessionId == m_DefaultPostProcessSession) ? QString() : sessionId;
+    return generateStackOutputPathForRoot(root, identity);
+}
+
 QString Message::generateStackOutputPath(const QString &sourceDirectory, const QString &identity) const
 {
     return generateStackOutputPathForRoot(pipelineSessionRootFor(sourceDirectory), identity);
@@ -4291,7 +4331,15 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             QJsonObject entry
             {
                 {"filename", file.filename}, {"directory", file.directory}, {"exptime", file.exptime},
-                {"filter", file.filter}, {"binning", file.binning}, {"imagetyp", file.imagetyp}
+                {"filter", file.filter}, {"binning", file.binning}, {"imagetyp", file.imagetyp},
+                // When the file was last written (epoch seconds) — lets a caller judge
+                // whether an auto-saved product under Output/ is still current with its
+                // inputs, rather than re-adopting a stale one.
+                {"mtime", file.mtime},
+                // True only for an explicitly saved, fully edited image (see
+                // markPostProcessed) — tells a caller it must not re-adopt this as
+                // a raw stack.
+                {"postProcessed", file.postProcessed}
             };
             if (!file.error.isEmpty())
                 entry["error"] = file.error;
@@ -4456,87 +4504,18 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // already-stacked mono session into each output R/G/B channel — not just a
         // fixed one-filter-per-slot assignment. See ChannelBlendOperation.
         //
+        // Two phases. A successful blend releases its input sessions' pixel buffers to
+        // stay inside a small controller's RAM budget (see the completion handler below),
+        // so a later re-blend — the normal "try different weights" iteration — finds them
+        // empty. In that case each such input is first reloaded from its own auto-saved
+        // master on disk (blendInputMasterPath()) and re-adopted into its existing
+        // session, then the blend runs; otherwise the blend starts immediately.
+        //
         // parseBlendInputs() itself stays on the GUI thread (it only resolves session
         // ids to their already-stacked cv::Mat/wcsprm, cheap, and touches
         // m_PostProcessSessions which isn't thread-safe) — only the actual
         // registration+blend work below (potentially several WCS registrations, each
         // real image-warping work) moves to a worker thread.
-        QString error;
-        const auto red = parseBlendInputs(payload["red"].toArray(), error);
-        if (!error.isEmpty())
-        {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
-            return;
-        }
-        const auto green = parseBlendInputs(payload["green"].toArray(), error);
-        if (!error.isEmpty())
-        {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
-            return;
-        }
-        const auto blue = parseBlendInputs(payload["blue"].toArray(), error);
-        if (!error.isEmpty())
-        {
-            sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
-            return;
-        }
-
-        // RAM pre-flight for the blend: every input frame is resident at once, each
-        // is then warped onto the reference grid, and three output channels plus the
-        // merged result are built — roughly 2x the inputs plus a few output frames.
-        {
-            double inputBytes = 0.0;
-            int inputCount = 0;
-            for (const auto *group : { &red, &green, &blue })
-                for (const auto &in : *group)
-                {
-                    inputBytes += static_cast<double>(in.image.total()) * in.image.elemSize();
-                    inputCount++;
-                }
-            const double monoFrame = inputCount > 0 ? inputBytes / inputCount : 0.0;
-            const double needBytes = 2.0 * inputBytes + 4.0 * monoFrame;
-            const double availBytes = KSUtils::getAvailableRAM();
-            if (availBytes > 0.0 && availBytes < needBytes)
-            {
-                sendResponse(commands[NEW_POSTPROCESS_STATE],
-                QJsonObject{{"state", "error"},
-                    {"message", QString("Not enough free memory to combine channels: ~%1 MB needed, %2 MB available. "
-                                        "Free up memory or combine fewer/smaller channels.")
-                     .arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}});
-                return;
-            }
-        }
-
-        // Inherit a "session root" (see pipelineSessionRootFor()) from whichever named
-        // input session has one, so the blend result can be auto-saved into the same
-        // shared "Output" folder its inputs' own masters/stacks already used — a blend
-        // has no source `directory` of its own to derive one from. Checked in red/green/
-        // blue order; every real input is a stack session that got one when it started
-        // (see postprocess_stack above), so this only comes up empty for an unusual case
-        // (all inputs already-adopted sessions with no root of their own) — the blend
-        // result then simply isn't auto-saved, same as before this feature existed.
-        auto findInheritedRoot = [this](const QJsonArray & inputs) -> QString
-        {
-            for (const auto &value : inputs)
-            {
-                const QJsonObject obj = value.toObject();
-                QString sessionId = obj["sessionId"].toString();
-                if (sessionId.isEmpty())
-                    sessionId = obj["filter"].toString();
-                if (!sessionId.isEmpty() && m_PostProcessSessionRoots.contains(sessionId))
-                    return m_PostProcessSessionRoots.value(sessionId);
-            }
-            return QString();
-        };
-        QString blendRoot = findInheritedRoot(payload["red"].toArray());
-        if (blendRoot.isEmpty())
-            blendRoot = findInheritedRoot(payload["green"].toArray());
-        if (blendRoot.isEmpty())
-            blendRoot = findInheritedRoot(payload["blue"].toArray());
-
-        // The blend result becomes its own session — same crop/apply_*/save lifecycle
-        // as any real stack from here on, adopted (with its WCS, if any) once blending
-        // finishes below.
         const QString outputSessionId = payload["outputSessionId"].toString(QStringLiteral("blended"));
 
         // Distinct named input sessions of this blend, gathered here on the GUI
@@ -4556,13 +4535,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     blendInputIds.insert(id);
             }
         }
-        const bool wantPreview = payload["preview"].toBool(true);
-        // Level-match the named inputs to a common background before the weighted sum (see
-        // ChannelBlendOperation::WeightedInput::background) — the inputs are
-        // independently-stacked filters whose sky levels routinely differ, and without this
-        // the blend carries that level ratio through as a colour cast. On by default;
-        // normalize:false gives the raw literal weighted sum.
-        const bool normalize = payload["normalize"].toBool(true);
+
         if (m_BusyPostProcessSessions.contains(outputSessionId))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
@@ -4570,156 +4543,375 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
-        m_BusyPostProcessSessions.insert(outputSessionId);
-        sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", outputSessionId}});
-
-        struct BlendResult
+        // Known input sessions whose stacked image a previous successful blend released,
+        // but whose auto-saved master still exists on disk — reloaded and re-adopted
+        // before the blend below. A session that's missing entirely, or has no master on
+        // disk, is left to parseBlendInputs()'s own precise error.
+        QVector<QPair<QString, QString>> pendingMasters;
+        for (const QString &id : blendInputIds)
         {
-            bool ok = false;
-            bool cancelled = false;
+            const auto session = m_PostProcessSessions.value(id);
+            if (!session || !session->imageData() || !session->imageData()->stackedImageMat().empty())
+                continue;
+            const QString masterPath = blendInputMasterPath(id);
+            if (!masterPath.isEmpty() && QFileInfo::exists(masterPath))
+                pendingMasters.append({id, masterPath});
+        }
+
+        // Everything below runs once every input is resident again — either immediately,
+        // or after the reload phase at the bottom of this handler completes. The parse ->
+        // RAM pre-flight -> blendRGB -> adopt/auto-save pipeline itself is unchanged.
+        auto runBlend = [this, payload, outputSessionId, blendInputIds, command]()
+        {
             QString error;
-            cv::Mat blended;
-            const struct wcsprm *refWcs = nullptr;
-        };
-
-        // Independent concurrent blends (different outputSessionId) each get their own
-        // flag, so stopping one doesn't touch the others — see m_PostProcessCancelFlags.
-        auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
-        m_PostProcessCancelFlags[outputSessionId] = cancelFlag;
-
-        auto future = QtConcurrent::run([this, red, green, blue, outputSessionId, cancelFlag, normalize]() -> BlendResult
-        {
-            BlendResult result;
-            auto onProgress = [this, outputSessionId](int current, int total, const QString & label)
+            const auto red = parseBlendInputs(payload["red"].toArray(), error);
+            if (!error.isEmpty())
             {
-                // See the build_master handler above for why this needs
-                // QMetaObject::invokeMethod rather than calling sendPostProcessState()
-                // directly from this worker thread.
-                QMetaObject::invokeMethod(this, [this, outputSessionId, current, total, label]()
+                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+                return;
+            }
+            const auto green = parseBlendInputs(payload["green"].toArray(), error);
+            if (!error.isEmpty())
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+                return;
+            }
+            const auto blue = parseBlendInputs(payload["blue"].toArray(), error);
+            if (!error.isEmpty())
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "error"}, {"message", error}});
+                return;
+            }
+
+            // RAM pre-flight for the blend: every input frame is resident at once, each
+            // is then warped onto the reference grid, and three output channels plus the
+            // merged result are built — roughly 2x the inputs plus a few output frames.
+            {
+                double inputBytes = 0.0;
+                int inputCount = 0;
+                for (const auto *group : { &red, &green, &blue })
+                    for (const auto &in : *group)
+                    {
+                        inputBytes += static_cast<double>(in.image.total()) * in.image.elemSize();
+                        inputCount++;
+                    }
+                const double monoFrame = inputCount > 0 ? inputBytes / inputCount : 0.0;
+                const double needBytes = 2.0 * inputBytes + 4.0 * monoFrame;
+                const double availBytes = KSUtils::getAvailableRAM();
+                if (availBytes > 0.0 && availBytes < needBytes)
+                {
+                    sendResponse(commands[NEW_POSTPROCESS_STATE],
+                    QJsonObject{{"state", "error"},
+                        {"message", QString("Not enough free memory to combine channels: ~%1 MB needed, %2 MB available. "
+                                            "Free up memory or combine fewer/smaller channels.")
+                         .arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}});
+                    return;
+                }
+            }
+
+            // Inherit a "session root" (see pipelineSessionRootFor()) from whichever named
+            // input session has one, so the blend result can be auto-saved into the same
+            // shared "Output" folder its inputs' own masters/stacks already used — a blend
+            // has no source `directory` of its own to derive one from. Checked in red/green/
+            // blue order; every real input is a stack session that got one when it started
+            // (see postprocess_stack above), so this only comes up empty for an unusual case
+            // (all inputs already-adopted sessions with no root of their own) — the blend
+            // result then simply isn't auto-saved, same as before this feature existed.
+            auto findInheritedRoot = [this](const QJsonArray & inputs) -> QString
+            {
+                for (const auto &value : inputs)
+                {
+                    const QJsonObject obj = value.toObject();
+                    QString sessionId = obj["sessionId"].toString();
+                    if (sessionId.isEmpty())
+                        sessionId = obj["filter"].toString();
+                    if (!sessionId.isEmpty() && m_PostProcessSessionRoots.contains(sessionId))
+                        return m_PostProcessSessionRoots.value(sessionId);
+                }
+                return QString();
+            };
+            QString blendRoot = findInheritedRoot(payload["red"].toArray());
+            if (blendRoot.isEmpty())
+                blendRoot = findInheritedRoot(payload["green"].toArray());
+            if (blendRoot.isEmpty())
+                blendRoot = findInheritedRoot(payload["blue"].toArray());
+
+            const bool wantPreview = payload["preview"].toBool(true);
+            // Level-match the named inputs to a common background before the weighted sum (see
+            // ChannelBlendOperation::WeightedInput::background) — the inputs are
+            // independently-stacked filters whose sky levels routinely differ, and without this
+            // the blend carries that level ratio through as a colour cast. On by default;
+            // normalize:false gives the raw literal weighted sum.
+            const bool normalize = payload["normalize"].toBool(true);
+
+            m_BusyPostProcessSessions.insert(outputSessionId);
+            sendPostProcessState(QJsonObject{{"state", "processing"}, {"op", command}, {"sessionId", outputSessionId}});
+
+            struct BlendResult
+            {
+                bool ok = false;
+                bool cancelled = false;
+                QString error;
+                cv::Mat blended;
+                const struct wcsprm *refWcs = nullptr;
+            };
+
+            // Independent concurrent blends (different outputSessionId) each get their own
+            // flag, so stopping one doesn't touch the others — see m_PostProcessCancelFlags.
+            auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
+            m_PostProcessCancelFlags[outputSessionId] = cancelFlag;
+
+            auto future = QtConcurrent::run([this, red, green, blue, outputSessionId, cancelFlag, normalize]() -> BlendResult
+            {
+                BlendResult result;
+                auto onProgress = [this, outputSessionId](int current, int total, const QString & label)
+                {
+                    // See the build_master handler above for why this needs
+                    // QMetaObject::invokeMethod rather than calling sendPostProcessState()
+                    // directly from this worker thread.
+                    QMetaObject::invokeMethod(this, [this, outputSessionId, current, total, label]()
+                    {
+                        sendPostProcessState(QJsonObject
+                        {
+                            {"state", "progress"}, {"sessionId", outputSessionId}, {"current", current}, {"total", total},
+                            {"message", label}
+                        });
+                    }, Qt::QueuedConnection);
+                };
+                auto isCancelled = [cancelFlag]()
+                {
+                    return cancelFlag->loadAcquire() != 0;
+                };
+                result.ok = ChannelBlendOperation::blendRGB(red, green, blue, result.blended, result.refWcs, result.error,
+                                                            normalize, onProgress, isCancelled, &result.cancelled);
+                return result;
+            });
+
+            auto watcher = new QFutureWatcher<BlendResult>(this);
+            connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
+                    [this, watcher, outputSessionId, cancelFlag, blendRoot, wantPreview, blendInputIds]()
+            {
+                m_BusyPostProcessSessions.remove(outputSessionId);
+                if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
+                    m_PostProcessCancelFlags.remove(outputSessionId);
+                const BlendResult result = watcher->result();
+                watcher->deleteLater();
+
+                if (!result.ok)
                 {
                     sendPostProcessState(QJsonObject
                     {
-                        {"state", "progress"}, {"sessionId", outputSessionId}, {"current", current}, {"total", total},
-                        {"message", label}
+                        {"state", result.cancelled ? "cancelled" : "error"},
+                        {"sessionId", outputSessionId}, {"message", result.error}
                     });
-                }, Qt::QueuedConnection);
-            };
-            auto isCancelled = [cancelFlag]()
+                    return;
+                }
+
+                // Passing refWcs (deep-copied inside adopt()) lets the new session carry a
+                // WCS, same as a real plate-solved stack, so crop() keeps tracking it and
+                // postprocess_apply_color_calibration can use it.
+                QString adoptError;
+                auto outputSession = QSharedPointer<StackController>::create(this);
+                if (!outputSession->adopt(result.blended, adoptError, result.refWcs))
+                {
+                    sendPostProcessState(
+                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
+                    return;
+                }
+                // A standalone completion preview, same "+P"/"+PS" convention build_master/
+                // stack already use — blend_channels previously sent none of its own, and the
+                // app had to fake one with a no-op postprocess_apply_bge(strength: 0) purely
+                // to trigger that command's +PB/+PA mechanism. "+PC" gives it a real preview
+                // slot instead — see "Preview images" in the pipeline README.
+                if (wantPreview)
+                {
+                    QString previewError;
+                    const QByteArray jpeg = outputSession->getPreviewJpegBytes(previewError);
+                    if (!jpeg.isEmpty())
+                        Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PC"), buildPreviewMetadata(outputSession->imageData()));
+                }
+                // Without these, a later postprocess_redo_postprocess against this session
+                // would complete (or fail) with no way to tell the caller — nothing
+                // forwarded its stackReady/stackFailed/postProcessProgress to a response at
+                // all, unlike a postprocess_stack session's connections (see the
+                // POSTPROCESS_STACK handlers above).
+                connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
+                {
+                    sendPostProcessState(
+                    QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
+                });
+                connect(outputSession.data(), &StackController::stackFailed, this,
+                        [this, outputSessionId](const QString & reason)
+                {
+                    sendPostProcessState(
+                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
+                });
+                connect(outputSession.data(), &StackController::postProcessProgress, this,
+                        [this, outputSessionId](StackChannel channel, const QString & stage)
+                {
+                    sendPostProcessState(QJsonObject
+                    {
+                        {"state", "progress"}, {"sessionId", outputSessionId}, {"message", describePostProcessStage(channel, stage)}
+                    });
+                });
+                m_PostProcessSessions[outputSessionId] = outputSession;
+
+                QJsonObject state
+                {
+                    {"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}
+                };
+                if (!blendRoot.isEmpty())
+                {
+                    // Inherited from an input session above — carry it forward so a later
+                    // postprocess_save (with no explicit outputPath) against this blend, or a
+                    // further blend built from it, can keep using the same shared "Output"
+                    // folder. Always uses outputSessionId as the identity (never suppressed
+                    // the way postprocess_stack Mode B's internal default key is), since
+                    // blend_channels' own default, "blended", is already meaningful.
+                    m_PostProcessSessionRoots[outputSessionId] = blendRoot;
+                    const QString outputPath = generateStackOutputPathForRoot(blendRoot, outputSessionId);
+                    QString saveError;
+                    if (outputSession->save(outputPath, saveError))
+                        state["outputPath"] = outputPath;
+                    else
+                        state["saveError"] = saveError;
+                }
+                sendPostProcessState(state);
+
+                // The blend succeeded and the result is an independent image (blendRGB()'s
+                // cv::merge allocates a fresh buffer, so it shares nothing with the
+                // inputs), so the input sessions' pixel buffers are now pure overhead.
+                // Free them to keep the long post-processing run that follows inside a
+                // small controller's RAM budget. The sessions stay registered so their
+                // ids still resolve and postprocess_close stays a clean no-op; ops on
+                // them now fail with the normal "no stacked image" message. A later
+                // re-blend transparently reloads them from their auto-saved master — see
+                // the reload phase below and blendInputMasterPath().
+                for (const QString &id : blendInputIds)
+                {
+                    const auto input = m_PostProcessSessions.value(id);
+                    if (input && input->imageData())
+                        input->imageData()->releaseStackedImage();
+                }
+            });
+            watcher->setFuture(future);
+        };
+
+        if (pendingMasters.isEmpty())
+        {
+            runBlend();
+            return;
+        }
+
+        // Reload phase: rehydrate each released input from its own auto-saved master,
+        // adopt it back into the existing session, then run the blend. Reserved under
+        // outputSessionId so a concurrent blend for the same output is rejected as busy,
+        // exactly as the blend phase reserves it.
+        m_BusyPostProcessSessions.insert(outputSessionId);
+        sendPostProcessState(QJsonObject
+        {
+            {"state", "processing"}, {"op", command}, {"sessionId", outputSessionId},
+            {"message", QStringLiteral("Reloading released input master(s)")}
+        });
+
+        struct ReloadedFrame
+        {
+            QString sessionId;
+            cv::Mat frame;
+            struct wcsprm *wcs = nullptr;
+            int nwcs = 0;
+            QString error;
+        };
+        struct ReloadResult
+        {
+            QVector<ReloadedFrame> frames;
+            bool cancelled = false;
+        };
+
+        auto reloadCancelFlag = QSharedPointer<QAtomicInt>::create(0);
+        m_PostProcessCancelFlags[outputSessionId] = reloadCancelFlag;
+
+        auto reloadFuture = QtConcurrent::run([pendingMasters, reloadCancelFlag]() -> ReloadResult
+        {
+            ReloadResult result;
+            for (const auto &entry : pendingMasters)
             {
-                return cancelFlag->loadAcquire() != 0;
-            };
-            result.ok = ChannelBlendOperation::blendRGB(red, green, blue, result.blended, result.refWcs, result.error,
-                                                        normalize, onProgress, isCancelled, &result.cancelled);
+                if (reloadCancelFlag->loadAcquire() != 0)
+                {
+                    result.cancelled = true;
+                    break;
+                }
+                ReloadedFrame loaded;
+                loaded.sessionId = entry.first;
+                double median = 0;
+                // FITS_NORMAL (not MasterBuilder's FITS_CALIBRATE default) so the file's
+                // own WCS comes along, exactly like postprocess_load_master — that's what
+                // keeps cross-channel registration working on the re-blend.
+                if (!MasterBuilder::loadFrame(entry.second, loaded.frame, median, loaded.error,
+                                              FITS_NORMAL, &loaded.wcs, &loaded.nwcs))
+                {
+                    result.frames.append(loaded);
+                    break;
+                }
+                result.frames.append(loaded);
+            }
             return result;
         });
 
-        auto watcher = new QFutureWatcher<BlendResult>(this);
-        connect(watcher, &QFutureWatcher<BlendResult>::finished, this,
-                [this, watcher, outputSessionId, cancelFlag, blendRoot, wantPreview, blendInputIds]()
+        auto reloadWatcher = new QFutureWatcher<ReloadResult>(this);
+        connect(reloadWatcher, &QFutureWatcher<ReloadResult>::finished, this,
+                [this, reloadWatcher, outputSessionId, reloadCancelFlag, runBlend]()
         {
             m_BusyPostProcessSessions.remove(outputSessionId);
-            if (m_PostProcessCancelFlags.value(outputSessionId) == cancelFlag)
+            if (m_PostProcessCancelFlags.value(outputSessionId) == reloadCancelFlag)
                 m_PostProcessCancelFlags.remove(outputSessionId);
-            const BlendResult result = watcher->result();
-            watcher->deleteLater();
+            ReloadResult result = reloadWatcher->result();
+            reloadWatcher->deleteLater();
 
-            if (!result.ok)
+            if (result.cancelled)
             {
-                sendPostProcessState(QJsonObject
-                {
-                    {"state", result.cancelled ? "cancelled" : "error"},
-                    {"sessionId", outputSessionId}, {"message", result.error}
-                });
+                for (auto &loaded : result.frames)
+                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
+                sendPostProcessState(
+                QJsonObject{{"state", "cancelled"}, {"sessionId", outputSessionId}});
                 return;
             }
 
-            // Passing refWcs (deep-copied inside adopt()) lets the new session carry a
-            // WCS, same as a real plate-solved stack, so crop() keeps tracking it and
-            // postprocess_apply_color_calibration can use it.
-            QString adoptError;
-            auto outputSession = QSharedPointer<StackController>::create(this);
-            if (!outputSession->adopt(result.blended, adoptError, result.refWcs))
+            for (auto &loaded : result.frames)
             {
-                sendPostProcessState(
-                QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
-                return;
-            }
-            // A standalone completion preview, same "+P"/"+PS" convention build_master/
-            // stack already use — blend_channels previously sent none of its own, and the
-            // app had to fake one with a no-op postprocess_apply_bge(strength: 0) purely
-            // to trigger that command's +PB/+PA mechanism. "+PC" gives it a real preview
-            // slot instead — see "Preview images" in the pipeline README.
-            if (wantPreview)
-            {
-                QString previewError;
-                const QByteArray jpeg = outputSession->getPreviewJpegBytes(previewError);
-                if (!jpeg.isEmpty())
-                    Q_EMIT postProcessPreviewReady(jpeg, QStringLiteral("+PC"), buildPreviewMetadata(outputSession->imageData()));
-            }
-            // Without these, a later postprocess_redo_postprocess against this session
-            // would complete (or fail) with no way to tell the caller — nothing
-            // forwarded its stackReady/stackFailed/postProcessProgress to a response at
-            // all, unlike a postprocess_stack session's connections (see the
-            // POSTPROCESS_STACK handlers above).
-            connect(outputSession.data(), &StackController::stackReady, this, [this, outputSessionId](bool cancelled)
-            {
-                sendPostProcessState(
-                QJsonObject{{"state", cancelled ? "cancelled" : "ready"}, {"sessionId", outputSessionId}});
-            });
-            connect(outputSession.data(), &StackController::stackFailed, this,
-                    [this, outputSessionId](const QString & reason)
-            {
-                sendPostProcessState(
-                QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", reason}});
-            });
-            connect(outputSession.data(), &StackController::postProcessProgress, this,
-                    [this, outputSessionId](StackChannel channel, const QString & stage)
-            {
-                sendPostProcessState(QJsonObject
+                if (!loaded.error.isEmpty())
                 {
-                    {"state", "progress"}, {"sessionId", outputSessionId}, {"message", describePostProcessStage(channel, stage)}
-                });
-            });
-            m_PostProcessSessions[outputSessionId] = outputSession;
-
-            QJsonObject state
-            {
-                {"state", "blended"}, {"sessionId", outputSessionId}, {"outputSessionId", outputSessionId}
-            };
-            if (!blendRoot.isEmpty())
-            {
-                // Inherited from an input session above — carry it forward so a later
-                // postprocess_save (with no explicit outputPath) against this blend, or a
-                // further blend built from it, can keep using the same shared "Output"
-                // folder. Always uses outputSessionId as the identity (never suppressed
-                // the way postprocess_stack Mode B's internal default key is), since
-                // blend_channels' own default, "blended", is already meaningful.
-                m_PostProcessSessionRoots[outputSessionId] = blendRoot;
-                const QString outputPath = generateStackOutputPathForRoot(blendRoot, outputSessionId);
-                QString saveError;
-                if (outputSession->save(outputPath, saveError))
-                    state["outputPath"] = outputPath;
-                else
-                    state["saveError"] = saveError;
+                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
+                    sendPostProcessState(
+                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", loaded.error}});
+                    return;
+                }
+                auto session = m_PostProcessSessions.value(loaded.sessionId);
+                if (!session || !session->imageData())
+                {
+                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
+                    sendPostProcessState(
+                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId},
+                        {"message", QString("No post-processing session named '%1'").arg(loaded.sessionId)}});
+                    return;
+                }
+                QString adoptError;
+                const bool adopted = session->adopt(loaded.frame, adoptError, loaded.wcs);
+                // adopt() deep-copies the WCS into the session; free the one loadFrame()
+                // allocated for us.
+                MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
+                if (!adopted)
+                {
+                    sendPostProcessState(
+                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
+                    return;
+                }
             }
-            sendPostProcessState(state);
 
-            // The blend succeeded and the result is an independent image (blendRGB()'s
-            // cv::merge allocates a fresh buffer, so it shares nothing with the
-            // inputs), so the input sessions' pixel buffers are now pure overhead.
-            // Free them to keep the long post-processing run that follows inside a
-            // small controller's RAM budget. The sessions stay registered so their
-            // ids still resolve and postprocess_close stays a clean no-op; ops on
-            // them now fail with the normal "no stacked image" message, and a
-            // re-blend simply needs them re-stacked.
-            for (const QString &id : blendInputIds)
-            {
-                const auto input = m_PostProcessSessions.value(id);
-                if (input && input->imageData())
-                    input->imageData()->releaseStackedImage();
-            }
+            // Inputs are resident again — run the normal blend path on them.
+            runBlend();
         });
-        watcher->setFuture(future);
+        reloadWatcher->setFuture(reloadFuture);
     }
     else if (command == commands[POSTPROCESS_REDO_POSTPROCESS])
     {
@@ -4954,6 +5146,11 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             else if (command == commands[POSTPROCESS_SAVE])
             {
                 ok = session->save(saveOutputPath, error);
+                // Mark on success only — a failed save left no file to mark. See
+                // markPostProcessed() for why this matters to a later directory
+                // inspection (an edited save and a raw auto-saved stack share a path).
+                if (ok)
+                    markPostProcessed(saveOutputPath);
                 result.extra = {{"state", ok ? "saved" : "error"}, {"outputPath", saveOutputPath}};
             }
 

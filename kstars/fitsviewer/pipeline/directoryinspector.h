@@ -15,7 +15,8 @@ class QDir;
  * @class DirectoryInspector
  * @brief Reports what's actually in a folder of FITS subs, via header-only reads (no
  * pixel decoding) — EXPTIME, FILTER, binning, IMAGETYP for every file, plus how many
- * files share each distinct combination of those.
+ * files share each distinct combination of those, plus each file's on-disk mtime (so
+ * a caller can tell a stale output from a fresh one).
  *
  * Exists because callers building a master (MasterBuilder, with its matchExptime
  * filter) or starting a stack have no way to discover what exposure/filter/binning a
@@ -43,6 +44,19 @@ class DirectoryInspector
             QString binning;
             QString imagetyp;
             QString error; // non-empty if the file's header couldn't be read at all
+            // On-disk modification time, epoch seconds (0 if it couldn't be stat'ed).
+            // Recorded even when the FITS open below fails. Lets a caller judge
+            // whether an output (e.g. an auto-saved master or stacked light under
+            // Output/) is newer than the inputs it was built from, so a stale
+            // artifact isn't mistaken for a fresh one and silently re-adopted.
+            qint64 mtime { 0 };
+            // True when the file carries the POSTPROC marker written by
+            // postprocess_save (see Message::markPostProcessed). A raw auto-saved
+            // stack and an explicitly saved, fully edited image share one path per
+            // session identity, so this is the only on-disk way to tell them apart;
+            // re-adopting an edited file as if it were a raw stack would re-apply
+            // every edit on top of already-edited pixels.
+            bool postProcessed { false };
         };
 
         struct Group

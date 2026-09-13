@@ -34,6 +34,16 @@ void readOptionalInt(fitsfile *fptr, const char *key, int &outValue, bool &outFo
         outFound = true;
 }
 
+// Reads one logical keyword, tolerating a missing key (leaves outValue untouched) —
+// used for the POSTPROC marker, which only exists on explicitly saved files.
+void readOptionalBool(fitsfile *fptr, const char *key, bool &outValue)
+{
+    int value = 0;
+    int status = 0;
+    if (!fits_read_key(fptr, TLOGICAL, key, &value, nullptr, &status))
+        outValue = value != 0;
+}
+
 void sortGroups(QVector<DirectoryInspector::Group> &groups)
 {
     std::sort(groups.begin(), groups.end(), [](const DirectoryInspector::Group & a, const DirectoryInspector::Group & b)
@@ -98,7 +108,11 @@ void flattenFiles(const DirectoryInspector::DirectoryNode &node, QVector<Directo
 
 bool DirectoryInspector::readFileInfo(const QString &path, FileInfo &outInfo)
 {
-    outInfo.filename = QFileInfo(path).fileName();
+    const QFileInfo fileInfo(path);
+    outInfo.filename = fileInfo.fileName();
+    // Captured before the open below so an unreadable file still reports its
+    // timestamp — otherwise it would be indistinguishable from a missing one.
+    outInfo.mtime = fileInfo.lastModified().toSecsSinceEpoch();
 
     fitsfile *fptr = nullptr;
     int status = 0;
@@ -125,6 +139,9 @@ bool DirectoryInspector::readFileInfo(const QString &path, FileInfo &outInfo)
     readOptionalInt(fptr, "YBINNING", yBinning, haveY);
     if (haveX)
         outInfo.binning = QString("%1x%2").arg(xBinning).arg(haveY ? yBinning : xBinning);
+
+    // Only postprocess_save writes this; absent on raw subs and auto-saved stacks.
+    readOptionalBool(fptr, "POSTPROC", outInfo.postProcessed);
 
     status = 0;
     fits_close_file(fptr, &status);

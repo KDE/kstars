@@ -329,14 +329,28 @@ behavior before this feature existed, not a new failure mode.
 `m_PostProcessSessionRoots` is also what makes `postprocess_save`'s own
 fallback (above) work for a Mode A/B stack session, not just a blend.
 
-**This auto-save is for persistence/traceability, not a pipeline
-dependency.** `postprocess_blend_channels` resolves every named input
-purely from the live, in-memory `m_PostProcessSessions` map
-(`parseBlendInputs()` reads `session->imageData()->stackedImageMat()`
-directly) — it never reads from disk, so a multi-filter narrowband workflow
-(stack Ha, stack OIII, then blend) works identically whether or not either
-stack's auto-saved file is ever looked at, as long as neither session was
-closed (`postprocess_close`) first.
+**Normally the auto-save is for persistence/traceability, not a pipeline
+dependency.** `postprocess_blend_channels` resolves every named input from
+the live, in-memory `m_PostProcessSessions` map (`parseBlendInputs()` reads
+`session->imageData()->stackedImageMat()` directly), so a multi-filter
+narrowband workflow (stack Ha, stack OIII, then blend) works whether or not
+either stack's auto-saved file is ever looked at, as long as neither session
+was closed (`postprocess_close`) first.
+
+**One exception: re-blending after a successful blend.** A completed
+`postprocess_blend_channels` releases its input sessions' pixel buffers
+(`FITSData::releaseStackedImage()`) to keep a long post-processing run
+inside a small controller's RAM budget. A later re-blend — the normal "try
+different weights" iteration — therefore finds those inputs empty, so the
+handler reloads each one from its own auto-saved master
+(`Message::blendInputMasterPath()`: `light_master_<sessionId>.fits`, or
+`light_master.fits` for the internal default session key, under the
+session's tracked root) and re-adopts it into the existing session before
+blending. A session with no tracked root, or whose master file is gone,
+still fails with the normal "has no stacked image yet" message instead. Note
+that if a `postprocess_save` has since overwritten that master with a fully
+post-processed image, the reload picks up the edited pixels, not the raw
+stack — the same one-file-per-identity rule described above.
 
 ## Linear vs. non-linear pipeline stages
 
@@ -528,12 +542,23 @@ or `{"state": "error", "message": "<reason>"}` if the directory doesn't
 exist or has no FITS-loadable files.
 
 - `files[]` — one entry per file, in directory order:
-  `{"filename", "exptime", "filter", "binning", "imagetyp"}`, plus an
-  `"error"` field if that file's header couldn't be read at all (excluded
-  from `groups` in that case, but not fatal to the rest of the call — one
-  corrupt file doesn't hide what's in the rest of the folder). A missing
-  individual key (e.g. no `FILTER` on a bias frame) just leaves that field
-  empty/`-1`, not an error.
+  `{"filename", "directory", "exptime", "filter", "binning", "imagetyp"}`,
+  where `directory` is the file's folder relative to the inspected root (e.g.
+  `"Output"`, `"Lights/HA"`; empty for a file directly in the root), plus
+  `{"mtime", "postProcessed"}` for freshness: `mtime` is the file's last-write time
+  in epoch seconds, which lets a caller tell whether an auto-saved product under
+  `Output/` is still current with its inputs, instead of re-adopting a stale one.
+  `postProcessed` is `true` only
+  for a file written by an explicit `postprocess_save` — i.e. one that may already
+  have the full edit stack baked in, as opposed to the raw auto-saved stack that
+  shares its path (the "one file per session identity" rule above); a caller must
+  not re-adopt such a file as if it were raw, or every edit would be re-applied on
+  top of already-edited pixels. Also an `"error"` field if that
+  file's header couldn't be read at all (excluded from `groups` in that case, but
+  not fatal to the rest of the call — one corrupt file doesn't hide what's in the
+  rest of the folder; its `mtime` is still reported). A missing individual key
+  (e.g. no `FILTER` on a bias frame) just leaves that field empty/`-1`, not an
+  error.
 - `groups[]` — one entry per distinct `(exptime, filter, binning, imagetyp)`
   combination, sorted by `exptime` ascending:
   `{"exptime", "filter", "binning", "imagetyp", "count"}`. **This is what
@@ -608,7 +633,10 @@ average (two inputs at weight `1.0` each produce roughly double the
 brightness of either alone). A single input at weight `1.0` is an exact
 passthrough when `normalize` is off. Every named session must exist and
 already have a stacked image, or the call fails with a specific message
-identifying which one.
+identifying which one. The one exception: an input whose stacked image was
+released by a previous successful blend is transparently reloaded from its
+auto-saved master first — see "Where the blend result goes, and
+`m_PostProcessSessionRoots`" above.
 
 **Level matching (`normalize`, on by default).** Independently-stacked
 filters almost always sit at different sky backgrounds (different sky

@@ -321,6 +321,17 @@ class Message : public QObject
         // Same as generateStackOutputPath(), but from an already-resolved root — see
         // pipelineOutputDirForRoot().
         QString generateStackOutputPathForRoot(const QString &root, const QString &identity) const;
+        // Derives the auto-saved master path (see generateStackOutputPath()) for a session
+        // whose in-memory stacked image has since been released — e.g. a
+        // postprocess_blend_channels input after a previous successful blend called
+        // FITSData::releaseStackedImage() on it. postprocess_blend_channels uses this to
+        // transparently reload such an input from disk before blending again, instead of
+        // failing with "has no stacked image yet". Empty if the session has no tracked
+        // root in m_PostProcessSessionRoots. Filename follows the documented naming rule
+        // exactly: light_master_<sessionId>.fits, or plain light_master.fits for the
+        // internal default session key (the one case a Mode B stack auto-saves without an
+        // identity — see "Auto-generated output paths" in the pipeline README).
+        QString blendInputMasterPath(const QString &sessionId) const;
         // Records payload's "state" against its "sessionId" in m_LastPostProcessState
         // (for postprocess_get_state) before forwarding it as a normal
         // new_postprocess_state push — use for every postprocess_* response that
