@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 02:05+0000\n"
+"POT-Creation-Date: 2026-09-13 02:03+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -611,7 +611,7 @@ msgstr "취소"
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
 #: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
-#: skycomponents/imageoverlaycomponent.cpp:557
+#: skycomponents/imageoverlaycomponent.cpp:568
 #, kde-format
 msgid "Error"
 msgstr "오류"
@@ -631,109 +631,109 @@ msgstr "죄송합니다"
 msgid "Info"
 msgstr "정보"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:180
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "북"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:181
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "북북동"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "북동"
 
-#: auxiliary/ksutils.cpp:180
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "동북동"
 
-#: auxiliary/ksutils.cpp:181
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "동"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:185
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "동남동"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:186
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "남동"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "남남동"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "남"
 
-#: auxiliary/ksutils.cpp:186
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "남남서"
 
-#: auxiliary/ksutils.cpp:187
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "남서"
 
-#: auxiliary/ksutils.cpp:188
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "서남서"
 
-#: auxiliary/ksutils.cpp:189
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "서"
 
-#: auxiliary/ksutils.cpp:190
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "서북서"
 
-#: auxiliary/ksutils.cpp:191
+#: auxiliary/ksutils.cpp:194
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "북서"
 
-#: auxiliary/ksutils.cpp:192
+#: auxiliary/ksutils.cpp:195
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "북북서"
 
-#: auxiliary/ksutils.cpp:193
+#: auxiliary/ksutils.cpp:196
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1469
+#: auxiliary/ksutils.cpp:1472
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -744,36 +744,36 @@ msgstr ""
 " %1 \n"
 "이(가) 없습니다. 디렉터리를 만드시겠습니까?"
 
-#: auxiliary/ksutils.cpp:1472
+#: auxiliary/ksutils.cpp:1475
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "천문 색인 파일 디렉터리를 만드시겠습니까?"
 
-#: auxiliary/ksutils.cpp:1477
+#: auxiliary/ksutils.cpp:1480
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "기본 천문 색인 파일 위치를 만들었습니다."
 
-#: auxiliary/ksutils.cpp:1482
+#: auxiliary/ksutils.cpp:1485
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr "기본 천문 색인 파일 디렉터리가 존재하지 않으며 만들 수 없습니다."
 
-#: auxiliary/ksutils.cpp:1503 auxiliary/ksutils.cpp:1661
-#: auxiliary/ksutils.cpp:1726
+#: auxiliary/ksutils.cpp:1506 auxiliary/ksutils.cpp:1664
+#: auxiliary/ksutils.cpp:1729
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "천체 관측 설정 파일을 읽을 수 없습니다."
 
-#: auxiliary/ksutils.cpp:1517 auxiliary/ksutils.cpp:1704
-#: auxiliary/ksutils.cpp:1746
+#: auxiliary/ksutils.cpp:1520 auxiliary/ksutils.cpp:1707
+#: auxiliary/ksutils.cpp:1749
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "내부 천체 관측 설정 파일 쓰기 오류입니다."
 
-#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3856
+#: auxiliary/ksutils.cpp:1795 fitsviewer/fitsdata.cpp:3856
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -782,22 +782,22 @@ msgstr ""
 "dcraw 및 cjpeg를 찾을 수 없습니다. CR2/NEF를 JPEG로 변환하는 데 필요한 도구"
 "를 설치하십시오."
 
-#: auxiliary/ksutils.cpp:1803
+#: auxiliary/ksutils.cpp:1806
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "%1을(를) 열 수 없음: %2"
 
-#: auxiliary/ksutils.cpp:1811
+#: auxiliary/ksutils.cpp:1814
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1822
+#: auxiliary/ksutils.cpp:1825
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "%s에 쓸 수 없음: %1: %2"
 
-#: auxiliary/ksutils.cpp:1946 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1986 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -3315,7 +3315,7 @@ msgstr "편집(&E)"
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:472
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:228
 #: ekos/scheduler/scheduler.ui:606 fitsviewer/platesolve.ui:200
-#: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:67
+#: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "Right Ascension"
 #| msgid "RA"
@@ -6825,7 +6825,7 @@ msgstr ""
 #: ekos/guide/guide.ui:386 ekos/guide/guide.ui:1338
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:218
 #: ekos/scheduler/scheduler.ui:626 fitsviewer/platesolve.ui:245
-#: skycomponents/imageoverlaycomponent.cpp:67
+#: skycomponents/imageoverlaycomponent.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "Region/state in USA"
 #| msgid "DC"
@@ -10885,9 +10885,9 @@ msgstr "이미지 캡처"
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
-#: skycomponents/imageoverlaycomponent.cpp:354
-#: skycomponents/imageoverlaycomponent.cpp:748
-#: skycomponents/imageoverlaycomponent.cpp:828
+#: skycomponents/imageoverlaycomponent.cpp:355
+#: skycomponents/imageoverlaycomponent.cpp:759
+#: skycomponents/imageoverlaycomponent.cpp:839
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Solve"
@@ -10952,8 +10952,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
 #: ekos/focus/focusmodule.cpp:683 ekos/observatory/observatory.ui:550
-#: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
-#: skycomponents/imageoverlaycomponent.cpp:754
+#: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:635
+#: skycomponents/imageoverlaycomponent.cpp:765
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:358
 #, fuzzy, kde-format
 #| msgctxt "City in Manitoba Canada"
@@ -15955,7 +15955,7 @@ msgstr "초신성 잔해"
 #: ekos/mount/mount.ui:654 ekos/scheduler/scheduler.ui:1166
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:117
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
-#: skycomponents/imageoverlaycomponent.cpp:67
+#: skycomponents/imageoverlaycomponent.cpp:68
 #, kde-format
 msgid "Status"
 msgstr "상태"
@@ -24011,7 +24011,7 @@ msgid ""
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:4063
+#: ekos/guide/guide.cpp:4058
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -26582,7 +26582,7 @@ msgid "%1 is disconnected."
 msgstr "연결 끊기"
 
 #: ekos/manager.cpp:2047 ekos/manager.cpp:2056 ekos/manager.cpp:2089
-#: indi/indistd.cpp:739
+#: indi/indistd.cpp:833
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 은 온라인"
@@ -27156,17 +27156,17 @@ msgstr "전파망원경"
 msgid "Starting auto park..."
 msgstr "시작:"
 
-#: ekos/mount/mount.cpp:1879
+#: ekos/mount/mount.cpp:1884
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1900
+#: ekos/mount/mount.cpp:1905
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1908
+#: ekos/mount/mount.cpp:1913
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""
@@ -32982,7 +32982,7 @@ msgid "Expected Value:"
 msgstr "크기:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1016
-#: skycomponents/imageoverlaycomponent.cpp:557
+#: skycomponents/imageoverlaycomponent.cpp:568
 #, fuzzy, kde-format
 #| msgid "&OK"
 msgid "OK"
@@ -35544,7 +35544,7 @@ msgstr "별 선택"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
-#: skycomponents/imageoverlaycomponent.cpp:68
+#: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Width:"
 msgid "Width"
@@ -35552,7 +35552,7 @@ msgstr "너비:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
-#: skycomponents/imageoverlaycomponent.cpp:68
+#: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
@@ -38622,19 +38622,19 @@ msgstr ""
 msgid "Upload"
 msgstr "업로드"
 
-#: indi/indistd.cpp:416
+#: indi/indistd.cpp:478
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "위치 설정..."
 
-#: indi/indistd.cpp:418
+#: indi/indistd.cpp:480
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "위치 설정..."
 
-#: indi/indistd.cpp:678
+#: indi/indistd.cpp:772
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "%1(으)로 데이터 파일 저장함"
@@ -91811,7 +91811,7 @@ msgstr ""
 msgid "Creating horizon"
 msgstr "지평선 생성 중"
 
-#: skycomponents/imageoverlaycomponent.cpp:65
+#: skycomponents/imageoverlaycomponent.cpp:66
 #, fuzzy, kde-format
 #| msgid "File name:"
 msgid "Filename"
@@ -91819,187 +91819,187 @@ msgstr "파일명:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: skycomponents/imageoverlaycomponent.cpp:67 tools/modcalcsimple.ui:93
+#: skycomponents/imageoverlaycomponent.cpp:68 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
 #, fuzzy, kde-format
 msgid "Angle"
 msgstr "Englee"
 
-#: skycomponents/imageoverlaycomponent.cpp:67
+#: skycomponents/imageoverlaycomponent.cpp:68
 #, kde-format
 msgid "A-S/px"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:68
+#: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "EastRight"
 msgstr "하단 오른쪽"
 
-#: skycomponents/imageoverlaycomponent.cpp:168
+#: skycomponents/imageoverlaycomponent.cpp:169
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:182
+#: skycomponents/imageoverlaycomponent.cpp:183
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:195
+#: skycomponents/imageoverlaycomponent.cpp:196
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:206
+#: skycomponents/imageoverlaycomponent.cpp:207
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:236
+#: skycomponents/imageoverlaycomponent.cpp:237
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:247
+#: skycomponents/imageoverlaycomponent.cpp:248
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:258
+#: skycomponents/imageoverlaycomponent.cpp:259
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:269
+#: skycomponents/imageoverlaycomponent.cpp:270
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:299
+#: skycomponents/imageoverlaycomponent.cpp:300
 #, kde-format
 msgid "Stored OK status for %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:399
+#: skycomponents/imageoverlaycomponent.cpp:400
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:448
+#: skycomponents/imageoverlaycomponent.cpp:449
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:450
-#: skycomponents/imageoverlaycomponent.cpp:594
-#: skycomponents/imageoverlaycomponent.cpp:890
+#: skycomponents/imageoverlaycomponent.cpp:451
+#: skycomponents/imageoverlaycomponent.cpp:605
+#: skycomponents/imageoverlaycomponent.cpp:901
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:468
+#: skycomponents/imageoverlaycomponent.cpp:469
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Loading image files..."
 msgstr "이미지 불러오는 중..."
 
-#: skycomponents/imageoverlaycomponent.cpp:474
+#: skycomponents/imageoverlaycomponent.cpp:475
 #, kde-format
 msgid "%1 image files loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:557
+#: skycomponents/imageoverlaycomponent.cpp:568
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Unprocessed"
 msgstr "일괄작업 모드"
 
-#: skycomponents/imageoverlaycomponent.cpp:557
+#: skycomponents/imageoverlaycomponent.cpp:568
 #, fuzzy, kde-format
 #| msgid "&File"
 msgid "Bad File"
 msgstr "파일(&F)"
 
-#: skycomponents/imageoverlaycomponent.cpp:557
+#: skycomponents/imageoverlaycomponent.cpp:568
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solve Failed"
 msgstr "해결사 관측시야"
 
-#: skycomponents/imageoverlaycomponent.cpp:580
+#: skycomponents/imageoverlaycomponent.cpp:591
 #, fuzzy, kde-format
 #| msgid "Left/Right"
 msgid "West-Right"
 msgstr "왼쪽/오른쪽"
 
-#: skycomponents/imageoverlaycomponent.cpp:581
+#: skycomponents/imageoverlaycomponent.cpp:592
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "East-Right"
 msgstr "하단 오른쪽"
 
-#: skycomponents/imageoverlaycomponent.cpp:642
+#: skycomponents/imageoverlaycomponent.cpp:653
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Solving: %1. %2 in queue."
 msgstr "일괄작업 모드"
 
-#: skycomponents/imageoverlaycomponent.cpp:644
+#: skycomponents/imageoverlaycomponent.cpp:655
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Solving: %1."
 msgstr "일괄작업 모드"
 
-#: skycomponents/imageoverlaycomponent.cpp:709
+#: skycomponents/imageoverlaycomponent.cpp:720
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:714
+#: skycomponents/imageoverlaycomponent.cpp:725
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:747
+#: skycomponents/imageoverlaycomponent.cpp:758
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solving aborted."
 msgstr "별 읽어오는 중"
 
-#: skycomponents/imageoverlaycomponent.cpp:782
+#: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:801
+#: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:819
+#: skycomponents/imageoverlaycomponent.cpp:830
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:838
+#: skycomponents/imageoverlaycomponent.cpp:849
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out in %1s"
 msgstr "별 읽어오는 중"
 
-#: skycomponents/imageoverlaycomponent.cpp:844
+#: skycomponents/imageoverlaycomponent.cpp:855
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed in %1s"
 msgstr "해결사 관측시야"
 
-#: skycomponents/imageoverlaycomponent.cpp:857
+#: skycomponents/imageoverlaycomponent.cpp:868
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:889
+#: skycomponents/imageoverlaycomponent.cpp:900
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr ""
