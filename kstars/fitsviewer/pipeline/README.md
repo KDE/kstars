@@ -23,7 +23,7 @@ behavior below was read from the code, not assumed.
 | File | Responsibility |
 |---|---|
 | `stackcontroller.h/.cpp` | Thin per-session wrapper around one `FITSData` instance. Owns the headless plate-solve path (`runExtract`/`runSolve`/`handleExtractDone`/`handleSolveDone`, using `SolverUtils` directly — no `PlateSolve` QDialog), and relays `FITSData`'s stacking signals (`stackReady`, `stackFailed`, `stackUpdateStats`, ...) up to whoever owns the session (`message.cpp`). `adopt()` lets a session be seeded from an externally-computed image (used by channel blending) instead of a real directory stack. |
-| `masterbuilder.h/.cpp` | `MasterBuilder` — combines a folder of raw calibration subs (bias/dark/flat) into one master frame via sigma-clip. The "simplest case of stacking": no alignment, no debayer handling beyond what's already there. Supports `matchExptime` filtering for a shared calibration folder that mixes multiple exposure lengths, and bias/dark subtraction before combining (for building a proper master flat). |
+| `masterbuilder.h/.cpp` | `MasterBuilder` — combines a folder of raw calibration subs (bias/dark/flat) into one master frame via sigma-clip. The "simplest case of stacking": no alignment, no debayer handling beyond what's already there. Supports `matchExptime` filtering for a shared calibration folder that mixes multiple exposure lengths, and bias/dark subtraction before combining (for building a proper master flat). The combine itself is a memory-bounded two-pass sigma-clip — mean/stddev accumulated in one pass, then outlier rejection in a second, re-reading the folder from disk each time — rather than holding every decoded sub resident at once, so a build with dozens of full-resolution subs doesn't push a memory-constrained controller into swap (see `postprocess_build_master`'s progress note below). |
 | `directoryinspector.h/.cpp` | `DirectoryInspector` — header-only (no pixel decoding) survey of a folder: `EXPTIME`/`FILTER`/binning/`IMAGETYP` per file, plus a grouped summary. Exists so a caller can discover what's actually in a folder (and what to pass as `matchExptime`) without external tooling. |
 | `autostretch.h/.cpp` | `AutoStretch` — an XISF-spec MTF (midtones transfer function) stretch, baked permanently into the image (unlike the display-only `Stretch` class elsewhere in `fitsviewer/`). Supports `linked` (one shared curve across all channels) vs unlinked (independent per-channel curves). |
 | `cropoperation.h/.cpp` | `CropOperation` — crops the working image in place, adjusting the WCS reference pixel if one exists. |
@@ -513,14 +513,33 @@ subs into one master frame (`MasterBuilder::buildAndSave()`).
 | `exptimeTolerance` | double | `0.5` | Seconds of slack around `matchExptime` — real exposures rarely land exactly on a nominal value (auto-exposed flats, shutter-timing variance). |
 
 Response: immediately `{"state": "processing", "op": "postprocess_build_master", "sessionId": "build_master"}`
-(or `{"state": "busy", ...}` if one is already running), then on completion
-`{"state": "master_built", "sessionId": "build_master", "outputPath": "<path>"}`,
+(or `{"state": "busy", ...}` if one is already running); while running, a
+`{"state": "progress", "sessionId": "build_master", "current": N, "total": M,
+"message": "<Type> frame <file> N/M processed"}` push after each sub is
+loaded (`M` is the post-`matchExptime` count, same as `outUsedCount`); then on
+completion `{"state": "master_built", "sessionId": "build_master", "outputPath": "<path>"}`,
 or `{"state": "error", "sessionId": "build_master", "message": "<reason>"}`
 (empty folder, dimension mismatch between subs, `matchExptime` filtering
 leaving zero usable files, etc.) — see "Asynchronous commands" above. The
 preview is rendered directly from the just-built in-memory result and sent
 over the `+P` media channel, not embedded in this response — see "Preview
 images" above.
+
+**Progress and `current` resetting mid-build.** For 3 or more subs, the
+combine is a memory-bounded two-pass sigma-clip (see `masterbuilder.h/.cpp`
+above): a first pass streams through every sub to compute a per-pixel
+mean/stddev, then a second pass re-reads every sub again to reject outliers
+against that threshold and accumulate the result. `current`/`total` cover
+`1..total` on **each** pass, so a client will see `current` reach `total`
+and then count up from `1` again partway through a build — that's the
+rejection pass starting, not a stall or a restarted build. This trades one
+extra disk read per sub for keeping resident memory at a small, fixed
+number of full-frame buffers regardless of how many subs are combined —
+holding every decoded sub in memory at once (the previous implementation)
+could exceed a memory-constrained controller's RAM well before finishing a
+few dozen full-resolution subs, silently stalling (each remaining sub
+taking far longer as the system swaps) until a client-side timeout gave up
+waiting for the next progress push, with no master ever produced.
 
 ### `postprocess_inspect_directory`
 

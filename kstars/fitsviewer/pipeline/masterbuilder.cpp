@@ -142,56 +142,63 @@ bool MasterBuilder::readExptime(const QString &path, double &outExptime, QString
     return true;
 }
 
-cv::Mat MasterBuilder::combineSigmaClip(const std::vector<cv::Mat> &frames, double lowSigma, double highSigma)
+namespace
 {
-    const cv::Mat &first = frames.front();
-    cv::Mat sum = cv::Mat::zeros(first.size(), first.type());
-    cv::Mat sumSq = cv::Mat::zeros(first.size(), first.type());
+// Loads one sub and applies the same preprocessing every other sub in this build gets
+// (dimension check, optional bias/dark subtraction, FLAT median normalization) — factored
+// out so build()'s two combine passes below can each re-load a sub identically without
+// duplicating this logic. expectedSize.width == 0 means "no check yet" (first sub loaded).
+bool loadAndPrepare(const QString &dir, const QString &file, MasterBuilder::Type type,
+                    const cv::Mat &subtractFrame, const cv::Size &expectedSize, int expectedChannels,
+                    cv::Mat &outFrame, QString &error)
+{
+    double median = 0.0;
+    if (!MasterBuilder::loadFrame(file, outFrame, median, error))
+        return false;
 
-    for (const auto &frame : frames)
+    if (expectedSize.width > 0 && (outFrame.size() != expectedSize || outFrame.channels() != expectedChannels))
     {
-        cv::accumulate(frame, sum);
-        cv::accumulateSquare(frame, sumSq);
+        error = QString("%1 has different dimensions/channels than the rest of %2 — skipping folder")
+                .arg(file, dir);
+        return false;
     }
 
-    const double n = static_cast<double>(frames.size());
-    cv::Mat mean = sum / n;
-    cv::Mat variance = sumSq / n - mean.mul(mean);
-    cv::max(variance, 0.0, variance);
-    cv::Mat stddev;
-    cv::sqrt(variance, stddev);
-
-    if (frames.size() < 3)
-        return mean;
-
-    cv::Mat lowThresh = mean - lowSigma * stddev;
-    cv::Mat highThresh = mean + highSigma * stddev;
-
-    cv::Mat maskedSum = cv::Mat::zeros(first.size(), first.type());
-    cv::Mat maskedCount = cv::Mat::zeros(first.size(), first.type());
-
-    for (const auto &frame : frames)
+    if (!subtractFrame.empty())
     {
-        cv::Mat keep;
-        cv::bitwise_and(frame >= lowThresh, frame <= highThresh, keep);
-        cv::Mat keepF;
-        keep.convertTo(keepF, first.type(), 1.0 / 255.0);
-
-        cv::Mat contribution;
-        cv::multiply(frame, keepF, contribution);
-        maskedSum += contribution;
-        maskedCount += keepF;
+        if (outFrame.size() != subtractFrame.size() || outFrame.channels() != subtractFrame.channels())
+        {
+            error = QString("%1 has different dimensions/channels than the subtracted master — cannot subtract")
+                    .arg(file);
+            return false;
+        }
+        outFrame -= subtractFrame;
+        // Re-derive the central-tendency estimate post-subtraction for the FLAT
+        // normalization step below. Uses the mean rather than a true median here
+        // (loadFrame()'s median came from FITSData's stats, computed pre-subtraction
+        // and now stale) — a reasonable simplification for a flat's tightly-clustered,
+        // largely outlier-free histogram.
+        median = cv::mean(outFrame)[0];
     }
 
-    cv::Mat combined;
-    cv::divide(maskedSum, maskedCount, combined);
+    // Flats need per-frame normalization to correct for illumination drift between
+    // subs (e.g. sky brightness changing during a twilight flat sequence) — bias/dark
+    // subs don't move between exposures, so this is FLAT-only. FITSStack::addMaster's
+    // flat branch re-normalizes by median again anyway, so the exact output scale here
+    // doesn't matter downstream — only that inter-frame drift is corrected before the
+    // sigma-clip combine, which otherwise would misfire on real, illumination-driven
+    // per-frame differences rather than genuine per-pixel outliers.
+    if (type == MasterBuilder::Type::FLAT)
+    {
+        if (median <= 0.0)
+        {
+            error = QString("%1 has zero/negative median — cannot normalize as a flat").arg(file);
+            return false;
+        }
+        outFrame /= median;
+    }
 
-    // Where every frame got rejected at a pixel (maskedCount == 0, division above leaves
-    // NaN/inf), fall back to the unclipped mean rather than propagate garbage.
-    cv::Mat noSurvivors = (maskedCount == 0);
-    mean.copyTo(combined, noSurvivors);
-
-    return combined;
+    return true;
+}
 }
 
 bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QString &error,
@@ -273,13 +280,68 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
             return false;
     }
 
-    std::vector<cv::Mat> frames;
-    QVector<double> medians;
-    for (int i = 0; i < files.size(); i++)
+    const int total = files.size();
+
+    // Combined via a memory-bounded, two-pass sigma-clip rather than holding every sub
+    // resident at once: with a few dozen full-resolution subs, an O(N) in-memory vector
+    // of decoded frames can alone exceed a memory-constrained controller's RAM and drive
+    // it into swap, stalling the build (each remaining sub taking dramatically longer to
+    // load/decode) well before it completes — see the StellarMate 4GB-unit bias-master
+    // report this was written for: progress visibly stalling partway through a 50-sub
+    // build. Each pass below re-reads one sub at a time from disk, so resident memory
+    // stays at a small, fixed number of full-size accumulator Mats regardless of how many
+    // subs are being combined — at the cost of decoding every sub twice instead of once,
+    // a good trade against thrashing to swap. Fewer than 3 subs skips straight to a plain
+    // mean (not enough samples for a useful per-pixel stddev estimate), still one sub
+    // resident at a time.
+    if (total < 3)
+    {
+        cv::Mat sum;
+        cv::Size frameSize;
+        int frameChannels = 0;
+        for (int i = 0; i < total; i++)
+        {
+            if (isCancelled && isCancelled())
+            {
+                error = QString("Build cancelled after %1/%2 subs").arg(i).arg(total);
+                if (outCancelled)
+                    *outCancelled = true;
+                return false;
+            }
+
+            const QString &file = files.at(i);
+            cv::Mat frame;
+            if (!loadAndPrepare(dir, file, type, subtractFrame, frameSize, frameChannels, frame, error))
+                return false;
+
+            if (sum.empty())
+            {
+                frameSize = frame.size();
+                frameChannels = frame.channels();
+                sum = frame.clone();
+            }
+            else
+                sum += frame;
+
+            if (onProgress)
+                onProgress(i + 1, total, QFileInfo(file).fileName());
+        }
+
+        outMaster = sum / static_cast<double>(total);
+        return true;
+    }
+
+    // Pass 1: accumulate sum / sum-of-squares one sub at a time to derive the per-pixel
+    // mean/stddev the sigma-clip thresholds need.
+    cv::Mat sum, sumSq;
+    cv::Size frameSize;
+    int frameChannels = 0;
+    int frameType = -1;
+    for (int i = 0; i < total; i++)
     {
         if (isCancelled && isCancelled())
         {
-            error = QString("Build cancelled after %1/%2 subs").arg(i).arg(files.size());
+            error = QString("Build cancelled after %1/%2 subs").arg(i).arg(total);
             if (outCancelled)
                 *outCancelled = true;
             return false;
@@ -287,58 +349,83 @@ bool MasterBuilder::build(const QString &dir, Type type, cv::Mat &outMaster, QSt
 
         const QString &file = files.at(i);
         cv::Mat frame;
-        double median = 0.0;
-        if (!loadFrame(file, frame, median, error))
+        if (!loadAndPrepare(dir, file, type, subtractFrame, frameSize, frameChannels, frame, error))
             return false;
 
-        if (!frames.empty() && (frame.size() != frames.front().size() || frame.channels() != frames.front().channels()))
+        if (sum.empty())
         {
-            error = QString("%1 has different dimensions/channels than the rest of %2 — skipping folder").arg(file).arg(dir);
-            return false;
+            frameSize = frame.size();
+            frameChannels = frame.channels();
+            frameType = frame.type();
+            sum = cv::Mat::zeros(frameSize, frameType);
+            sumSq = cv::Mat::zeros(frameSize, frameType);
         }
 
-        if (!subtractFrame.empty())
-        {
-            if (frame.size() != subtractFrame.size() || frame.channels() != subtractFrame.channels())
-            {
-                error = QString("%1 has different dimensions/channels than %2 — cannot subtract")
-                        .arg(file).arg(subtractPath);
-                return false;
-            }
-            frame -= subtractFrame;
-            // Re-derive the central-tendency estimate post-subtraction for the FLAT
-            // normalization step below. Uses the mean rather than a true median here
-            // (loadFrame()'s median came from FITSData's stats, computed pre-subtraction
-            // and now stale) — a reasonable simplification for a flat's tightly-clustered,
-            // largely outlier-free histogram.
-            median = cv::mean(frame)[0];
-        }
-
-        // Flats need per-frame normalization to correct for illumination drift between
-        // subs (e.g. sky brightness changing during a twilight flat sequence) — bias/dark
-        // subs don't move between exposures, so this is FLAT-only. FITSStack::addMaster's
-        // flat branch re-normalizes by median again anyway, so the exact output scale here
-        // doesn't matter downstream — only that inter-frame drift is corrected before the
-        // sigma-clip combine below, which otherwise would misfire on real, illumination-
-        // driven per-frame differences rather than genuine per-pixel outliers.
-        if (type == Type::FLAT)
-        {
-            if (median <= 0.0)
-            {
-                error = QString("%1 has zero/negative median — cannot normalize as a flat").arg(file);
-                return false;
-            }
-            frame /= median;
-        }
-
-        frames.push_back(frame);
-        medians.push_back(median);
+        cv::accumulate(frame, sum);
+        cv::accumulateSquare(frame, sumSq);
 
         if (onProgress)
-            onProgress(i + 1, files.size(), QFileInfo(file).fileName());
+            onProgress(i + 1, total, QFileInfo(file).fileName());
     }
 
-    outMaster = combineSigmaClip(frames, lowSigma, highSigma);
+    const double n = static_cast<double>(total);
+    cv::Mat mean = sum / n;
+    cv::Mat variance = sumSq / n - mean.mul(mean);
+    cv::max(variance, 0.0, variance);
+    cv::Mat stddev;
+    cv::sqrt(variance, stddev);
+    sum.release();
+    sumSq.release();
+
+    cv::Mat lowThresh = mean - lowSigma * stddev;
+    cv::Mat highThresh = mean + highSigma * stddev;
+    stddev.release();
+
+    // Pass 2: re-read each sub once more, this time only accumulating the pixels that
+    // survive the thresholds derived above — again one sub resident at a time. Progress
+    // is reported over the same 1..total range as pass 1 (current/total keep the same
+    // meaning a caller already relies on), so a client sees the counter reach `total`,
+    // then count up through 1..total again for the rejection pass.
+    cv::Mat maskedSum = cv::Mat::zeros(frameSize, frameType);
+    cv::Mat maskedCount = cv::Mat::zeros(frameSize, frameType);
+    for (int i = 0; i < total; i++)
+    {
+        if (isCancelled && isCancelled())
+        {
+            error = QString("Build cancelled while rejecting outliers (%1/%2 subs)").arg(i).arg(total);
+            if (outCancelled)
+                *outCancelled = true;
+            return false;
+        }
+
+        const QString &file = files.at(i);
+        cv::Mat frame;
+        if (!loadAndPrepare(dir, file, type, subtractFrame, frameSize, frameChannels, frame, error))
+            return false;
+
+        cv::Mat keep;
+        cv::bitwise_and(frame >= lowThresh, frame <= highThresh, keep);
+        cv::Mat keepF;
+        keep.convertTo(keepF, frameType, 1.0 / 255.0);
+
+        cv::Mat contribution;
+        cv::multiply(frame, keepF, contribution);
+        maskedSum += contribution;
+        maskedCount += keepF;
+
+        if (onProgress)
+            onProgress(i + 1, total, QFileInfo(file).fileName());
+    }
+
+    cv::Mat combined;
+    cv::divide(maskedSum, maskedCount, combined);
+
+    // Where every frame got rejected at a pixel (maskedCount == 0, division above leaves
+    // NaN/inf), fall back to the unclipped mean rather than propagate garbage.
+    cv::Mat noSurvivors = (maskedCount == 0);
+    mean.copyTo(combined, noSurvivors);
+
+    outMaster = combined;
     return true;
 }
 

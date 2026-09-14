@@ -39,7 +39,10 @@ class MasterBuilder
         // Reported after each raw sub is loaded (and, for FLAT, normalized) — current is
         // 1-based, total is the frame count that will actually be combined (post
         // matchExptime filtering), filename is the sub just processed. Lets a caller
-        // surface e.g. "Bias frame foo.fits 1/20 processed" without polling.
+        // surface e.g. "Bias frame foo.fits 1/20 processed" without polling. For 3+ subs
+        // (the two-pass sigma-clip combine, see build()'s lowSigma/highSigma doc below),
+        // this fires over the same 1..total range twice — once per pass — so current can
+        // count back up from 1 partway through a build; it is not a sign of a stall.
         using ProgressCallback = std::function<void(int current, int total, const QString &filename)>;
         // Polled once per sub (and once per header check during matchExptime
         // filtering) — return true to abort the build as soon as possible. build()/
@@ -56,9 +59,12 @@ class MasterBuilder
          * combining (FLAT only) — see class comment for why BIAS/DARK don't need it
          * @param outMaster receives the combined master (CV_32F, 1 or 3 channels)
          * @param error receives a human-readable failure reason on failure
-         * @param lowSigma / highSigma single-pass sigma-clip rejection thresholds; frames
-         * with fewer than 3 usable subs fall back to a plain mean (not enough samples to
-         * estimate per-pixel stddev usefully)
+         * @param lowSigma / highSigma sigma-clip rejection thresholds; frames with fewer
+         * than 3 usable subs fall back to a plain mean (not enough samples to estimate
+         * per-pixel stddev usefully). The combine itself is two-pass and memory-bounded —
+         * only one decoded sub is ever resident at a time (each pass re-reads the folder
+         * from disk), rather than holding every sub in memory simultaneously, so this
+         * stays usable on a memory-constrained controller regardless of sub count/size.
          * @param subtractPath optional master bias (or matching-exposure dark) to
          * subtract from each raw sub immediately after loading, before any other
          * processing — this is FLAT's real use case: flats are usually taken at a much
@@ -151,7 +157,4 @@ class MasterBuilder
         // Header-only EXPTIME read via cfitsio directly (fits_read_key), not FITSData —
         // avoids decoding pixel data just to pre-filter a file list by exposure length.
         static bool readExptime(const QString &path, double &outExptime, QString &error);
-
-        // Single-pass per-pixel sigma-clip mean across same-sized/same-type frames.
-        static cv::Mat combineSigmaClip(const std::vector<cv::Mat> &frames, double lowSigma, double highSigma);
 };
