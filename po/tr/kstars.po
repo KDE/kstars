@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:03+0000\n"
+"POT-Creation-Date: 2026-09-14 02:07+0000\n"
 "PO-Revision-Date: 2026-09-09 08:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -18817,12 +18817,12 @@ msgstr "Çevrim içi"
 msgid "Offline"
 msgstr "Çevrim dışı"
 
-#: ekos/ekoslive/message.cpp:901
+#: ekos/ekoslive/message.cpp:928
 #, kde-format
 msgid "target"
 msgstr "hedef"
 
-#: ekos/ekoslive/message.cpp:1228
+#: ekos/ekoslive/message.cpp:1255
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaik içe aktarma başarısız."

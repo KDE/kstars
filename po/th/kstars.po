@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:03+0000\n"
+"POT-Creation-Date: 2026-09-14 02:07+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -18257,13 +18257,13 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:901
+#: ekos/ekoslive/message.cpp:928
 #, fuzzy, kde-format
 #| msgid "Next Target >"
 msgid "target"
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/ekoslive/message.cpp:1228
+#: ekos/ekoslive/message.cpp:1255
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:03+0000\n"
-"PO-Revision-Date: 2026-08-30 18:42+0200\n"
+"POT-Creation-Date: 2026-09-14 02:07+0000\n"
+"PO-Revision-Date: 2026-09-10 23:02+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5915,7 +5915,7 @@ msgstr "Imposta anche il campo di vista"
 #: dialogs/skyobjectsearchadapter.cpp:83
 #, kde-format
 msgid "Restrict search to an object category"
-msgstr ""
+msgstr "Restringi la ricerca a una categoria di oggetti"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -13126,7 +13126,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Clean Up Unused Devices"
-msgstr ""
+msgstr "Cancella i dispositivi non utilizzati"
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:32
 #, kde-format
@@ -13134,17 +13134,19 @@ msgid ""
 "These stored device names are not currently connected. Some may only be "
 "temporarily unavailable, so check before removing."
 msgstr ""
+"I nomi di questi dispositivi salvati non sono attualmente connessi. Alcuni "
+"potrebbero essere temporaneamente non disponibili, pertanto controllali "
+"prima di rimuoverli."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "All devices are successfully mapped."
+#, kde-format
 msgid "All stored devices are currently connected."
-msgstr "Tutti i dispositivi sono stati assegnati correttamente."
+msgstr "Tutti i dispositivi salvati sono attualmente connessi."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:83
 #, kde-format
 msgid "Remove this stored device reference"
-msgstr ""
+msgstr "Rimuovi il riferimento di questo dispositivo salvato"
 
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
@@ -13795,22 +13797,19 @@ msgstr ""
 "procedere oltre."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1416
-#, fuzzy, kde-format
-#| msgid "Filter wheel:"
+#, kde-format
 msgid "Filter wheel"
-msgstr "Ruota portafiltri:"
+msgstr "Ruota portafiltri"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1418
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust cap"
-msgstr "Parapolvere:"
+msgstr "Parapolvere"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Light box:"
+#, kde-format
 msgid "Light box"
-msgstr "Scatola luminosa:"
+msgstr "Scatola luminosa"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1420
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
@@ -14057,6 +14056,9 @@ msgid ""
 "connected. Some may only be temporarily unavailable, so check before "
 "removing.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Rimuovi i nomi di questi dispositivi salvati che non "
+"sono attualmente connessi. Alcuni potrebbero essere temporaneamente non "
+"disponibili, pertanto controllali prima di rimuoverli.</p></body></html>"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -15590,30 +15592,29 @@ msgstr "Y:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_temperature)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/camera.ui:836 ekos/capture/camera.ui:900
-#, fuzzy, kde-format
-#| msgid "Desired CCD temperature"
+#, kde-format
 msgid "Desired temperature"
-msgstr "Temperatura desiderata del CCD"
+msgstr "Temperatura desiderata"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_temperature)
 #: ekos/capture/camera.ui:842
-#, fuzzy, kde-format
-#| msgid "Temp:"
+#, kde-format
 msgid "Temp:"
 msgstr "Temp:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:866
-#, fuzzy, kde-format
-#| msgid "Current CCD temperature"
+#, kde-format
 msgid "Current camera temperature"
-msgstr "Temperatura attuale CCD"
+msgstr "Temperatura fotocamera attuale"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/camera.ui:931
 #, kde-format
 msgid "Set temperature now (does not affect the job's target temperature)"
 msgstr ""
+"Imposta la temperatura adesso (non riguarda la temperatura del bersaglio del "
+"processo)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/camera.ui:968
@@ -15927,89 +15928,7 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1861
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %f</span> or <span style=\" font-weight:704;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %D</span> or <span style=\" font-weight:704;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:704;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %T</span> or <span style=\" font-weight:704;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %e</span> or <span style=\" font-weight:704;\">%exposure</span>: The "
-#| "exposure duration in seconds, with '_secs' as suffix.</li><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %E</span> or "
-#| "<span style=\" font-weight:704;\">%exp</span>: The exposure duration in "
-#| "seconds as plain number, without any unit as suffix.</li></ul><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Placeholder<span style=\" font-"
-#| "weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
-#| "span>: The active filter name.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %t</span> or "
-#| "<span style=\" font-weight:704;\">%target</span>: The Target name.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder "
-#| "<span style=\" font-weight:600;\">%C</span> or <span style=\" font-"
-#| "weight:600;\">%temperature</span>: The camera temperature of capturing.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%B</"
-#| "span> or <span style=\" font-weight:600;\">%bin</span>: The binning "
-#| "configured for capturing.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder <span style=\" font-weight:600;\">%G</span> or "
-#| "<span style=\" font-weight:600;\">%gain</span>: The gain configured for "
-#| "capturing.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%O</span> or <span style="
-#| "\" font-weight:600;\">%offset</span>: The offset configured for capturing."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%I</"
-#| "span> or <span style=\" font-weight:600;\">%iso</span>: The ISO value "
-#| "(DSLRs only).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%P</span> or <span style="
-#| "\" font-weight:600;\">%pierside</span>: The current mount's pier side.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%H</"
-#| "span> or <span style=\" font-weight:600;\">%hostname</span>: The hostname "
-#| "running EKOS.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder<span style=\" font-weight:704;\"> %s*</span> or <span "
-#| "style=\" font-weight:704;\">%sequence</span>: The image sequence "
-#| "identifier where * is the number of digits used (1-9). <span style=\" "
-#| "font-weight:704;\">This tag is mandatory and must be the last element in "
-#| "the format.</span></li></ul><p>Arbitrary text may also be included within "
-#| "the Format string, <span style=\" font-weight:704;\">except the % and \\ "
-#| "characters.</span> The / path character can be used to define arbitrary "
-#| "directories.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Tags are case sensitive in both "
-#| "their short and long forms.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Only use the %Datetime tag in the filename portion of the "
-#| "format, not in the path definition.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -16163,24 +16082,35 @@ msgstr ""
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Segnaposto <span style=\" font-weight:600;\">%H</span> or "
 "<span style=\" font-weight:600;\">%hostname</span>: il nome dell'host in cui "
-"EKOS è in esecuzione.</li></ul><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Segnaposto<span style=\" font-weight:704;\"> %s*</span> o "
-"<span style=\" font-weight:704;\">%sequence</span>: l'identificatore di "
-"sequenza delle immagini, dove * è il numero delle cifre utilizzate (1-9). "
-"<span style=\" font-weight:704;\">Questo tag è obbligatorio e deve essere "
-"l'ultimo elemento nel formato.</span></li></ul><p>Può essere incluso anche "
-"del testo arbitrario all'interno della stringa del Formato, <span style=\" "
-"font-weight:704;\">ad eccezione dei caratteri % e \\.</span> Il carattere di "
-"percorso / può essere utilizzato per definire cartelle arbitrarie.</"
-"p><p>Note:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">i tag distinguono tra maiuscole e minuscole in entrambe "
-"le forme, abbreviate o estese.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Usare il tag %Datetime soltanto nella porzione del nome file "
-"del formato, non nella definizione del percorso.</li></ul></body></html>"
+"EKOS è in esecuzione.</li></ul><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Segnaposto<span style=\" font-weight:600;"
+"\">%c</span> o <span style=\" font-weight:600;\">%cameraname</span>: il nome "
+"della fotocamera attiva.</li></ul><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Segnaposto <span style=\" "
+"font-weight:600;\">%o</span> o <span style=\" font-weight:600;\">"
+"%opticaltrain</span>: il nome del gruppo ottico attivo.</li></ul><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\">Segnaposto<span style=\" font-"
+"weight:704;\"> %s*</span> o <span style=\" font-weight:704;\">%sequence</"
+"span>: l'identificatore di sequenza delle immagini, dove * è il numero delle "
+"cifre utilizzate (1-9). <span style=\" font-weight:704;\">Questo tag è "
+"obbligatorio e deve essere l'ultimo elemento nel formato.</span></li></"
+"ul><p>Può essere incluso anche del testo arbitrario all'interno della "
+"stringa del Formato, <span style=\" font-weight:704;\">ad eccezione dei "
+"caratteri % e \\.</span> Il carattere di percorso / può essere utilizzato "
+"per definire cartelle arbitrarie.</p><p>Note:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">i tag "
+"distinguono tra maiuscole e minuscole in entrambe le forme, abbreviate o "
+"estese.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Usare il tag "
+"%Datetime soltanto nella porzione del nome file del formato, non nella "
+"definizione del percorso.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1896
@@ -19123,12 +19053,12 @@ msgstr "In linea"
 msgid "Offline"
 msgstr "Non in linea"
 
-#: ekos/ekoslive/message.cpp:901
+#: ekos/ekoslive/message.cpp:928
 #, kde-format
 msgid "target"
 msgstr "destinazione"
 
-#: ekos/ekoslive/message.cpp:1228
+#: ekos/ekoslive/message.cpp:1255
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importazione del mosaico non riuscita."
@@ -22897,21 +22827,18 @@ msgid "View from behind camera"
 msgstr "Vista da dietro la fotocamera"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:152
-#, fuzzy, kde-format
-#| msgid "View from behind camera"
+#, kde-format
 msgid "View from behind · plate %1° %2"
-msgstr "Vista da dietro la fotocamera"
+msgstr "Vista da dietro · piastra %1° %2"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "&CW"
+#, kde-format
 msgctxt "clockwise"
 msgid "CW"
-msgstr "&O"
+msgstr "O"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:155
-#, fuzzy, kde-format
-#| msgid "CCW"
+#, kde-format
 msgctxt "counter-clockwise"
 msgid "CCW"
 msgstr "AO"
@@ -22922,60 +22849,52 @@ msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:290
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "screw position"
 msgid "right"
-msgstr "Destra"
+msgstr "a destra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 1 (upper-right)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-right"
-msgstr "Punto 1 (superiore destro)"
+msgstr "in alto a destra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgctxt "screw position"
 msgid "top"
-msgstr "Ferma"
+msgstr "in alto"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 3 (upper-left)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-left"
-msgstr "Punto 3 (superiore sinistro)"
+msgstr "in alto a sinistra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgctxt "screw position"
 msgid "left"
-msgstr "In alto a sinistra"
+msgstr "a sinistra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:300
 #, kde-format
 msgctxt "screw position"
 msgid "lower-left"
-msgstr ""
+msgstr "in basso a sinistra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:302
 #, kde-format
 msgctxt "screw position"
 msgid "bottom"
-msgstr ""
+msgstr "in basso"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:304
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgctxt "screw position"
 msgid "lower-right"
-msgstr "Angolo in basso a destra"
+msgstr "in basso a destra"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
@@ -23129,10 +23048,9 @@ msgstr ""
 "giri per le piastre manuali."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate angle:"
-msgstr "Risoluzione astrometrica"
+msgstr "Angolo della piastra:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
@@ -23145,6 +23063,17 @@ msgid ""
 "The suggested screw and amount are recomputed from the last focus run,\n"
 "so no new autofocus is needed after changing this."
 msgstr ""
+"Rotazione della piastra di inclinazione (anello a vite) relativa al "
+"sensore.\n"
+"Il sensore resta fissato (orizzontale); ruotano solo le viti per "
+"corrispondere\n"
+"alla tua piastra fisica — es. una piastra a tre punti imbullonata a 15°.\n"
+"Positiva = in senso orario osservata da dietro (guardando verso la piastra "
+"terminale della fotocamera).\n"
+"La vite suggerita e la quantità sono ricalcolati dall'ultima esecuzione di "
+"messa a fuoco,\n"
+"pertanto non è necessaria alcuna nuova messa a fuoco automatica dopo questa "
+"modifica."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
@@ -23276,26 +23205,22 @@ msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 mm (%4%5 giri)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:704
-#, fuzzy, kde-format
-#| msgid "Point 1: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (%1)"
-msgstr "Punto 1: —"
+msgstr "Punto 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 2 (bottom)"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (%1)"
-msgstr "Punto 2 (inferiore)"
+msgstr "Punto 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:708
-#, fuzzy, kde-format
-#| msgid "Point 3: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (%1)"
-msgstr "Punto 3: —"
+msgstr "Punto 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:713
 #: ekos/focus/tiltcorrectionwidget.cpp:806
@@ -23321,36 +23246,28 @@ msgstr ""
 "%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (%1)"
-msgstr "Vite 1 (alto-sinistra)"
+msgstr "Vite 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:793
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 2 (top-right)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (%1)"
-msgstr "Vite 2 (alto-destra)"
+msgstr "Vite 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 3 (bottom-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (%1)"
-msgstr "Vite 3 (basso-sinistra)"
+msgstr "Vite 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:797
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (%1)"
-msgstr "Vite 1 (alto-sinistra)"
+msgstr "Vite 4 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
@@ -29071,17 +28988,15 @@ msgid "Profile name already exists."
 msgstr "Il nome del profilo esiste già."
 
 #: ekos/profileeditor.cpp:350
-#, fuzzy, kde-format
-#| msgid ""
-#| "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
-#| "corresponding driver.<nobr/>"
+#, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
 "and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
-"<nobr>Disponibile come driver <b>remoto</b>. Per usarlo localmente, installa "
-"il driver corrispondente.<nobr/>"
+"<nobr>Disponibile solamente come driver <b>remoto</b>. Non è installato "
+"localmente e non può essere utilizzato in un profilo <b>Locale</b>. Per "
+"usarlo localmente, installa il driver corrispondente.<nobr/>"
 
 #: ekos/profileeditor.cpp:353
 #, kde-format
@@ -29104,6 +29019,9 @@ msgid ""
 "locally. It cannot be added to a Local profile. Switch to a Remote profile "
 "or install the driver locally."
 msgstr ""
+"<b>%1</b> è disponibile soltanto come driver <b>remoto</b> e non è "
+"installato localmente. Non può essere aggiunto al profilo Locale. Passa a un "
+"profilo Remoto o installa localmente il driver."
 
 #: ekos/profileeditor.cpp:785
 #, kde-format
