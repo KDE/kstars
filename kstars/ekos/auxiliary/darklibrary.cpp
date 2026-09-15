@@ -215,9 +215,21 @@ void DarkLibrary::refreshFromDB()
 bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
 {
     int rejectedCCD = 0, rejectedGain = 0, rejectedISO = 0, rejectedBinning = 0, rejectedTemp = 0;
+    // Candidates that carried no recorded value for the respective criterion.
+    int unknownGain = 0, unknownBinning = 0, unknownTemperature = 0;
     int binX = 1, binY = 1;
     m_TargetChip->getBinning(&binX, &binY);
-    int gain = getGain();
+
+    // The gain must be read from the camera that owns the target chip. DarkLibrary::getGain() reads it
+    // from m_Camera, which belongs to the optical train selected in the Dark Library dialog and is not
+    // necessarily the camera that owns this chip (e.g. a dedicated guide camera).
+    auto targetCCD = m_TargetChip->getCCD();
+    double gainValue = 0;
+    const bool hasGain = targetCCD && targetCCD->hasGain() && targetCCD->getGain(&gainValue);
+    // Truncate like QJsonValue::toInt() does on the write side: a fractional gain is stored as
+    // INVALID_GAIN (unknown) rather than as a truncated value, so whole gains match as before.
+    const int gain = hasGain ? static_cast<int>(gainValue) : INVALID_GAIN;
+
     QString isoValue;
     m_TargetChip->getISOValue(isoValue);
     double temperature = 0;
@@ -230,9 +242,13 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
         if (map["ccd"].toString() == m_TargetChip->getCCD()->getDeviceName() &&
                 map["chip"].toInt() == static_cast<int>(m_TargetChip->getType()))
         {
-            // Match Gain
-            int frameGain = map["gain"].toInt();
-            if (gain >= 0 && frameGain != gain)
+            // Match Gain. Frames stored without a recorded gain (NULL column or the sentinel written
+            // when the camera did not report a gain) are not gain-matched, just like the ISO check below.
+            const QVariant frameGainValue = map["gain"];
+            const bool frameGainKnown = !frameGainValue.isNull() && frameGainValue.toInt() != INVALID_GAIN;
+            if (!frameGainKnown)
+                unknownGain++;
+            else if (gain >= 0 && frameGainValue.toInt() != gain)
             {
                 rejectedGain++;
                 continue;
@@ -246,12 +262,17 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 continue;
             }
 
-            // Match binning
-            int frameBinX = map["binX"].toInt();
-            int frameBinY = map["binY"].toInt();
+            // Match binning. Frames stored without a recorded binning (NULL column or the sentinel)
+            // are not rejected on binning.
+            const QVariant frameBinXValue = map["binX"];
+            const QVariant frameBinYValue = map["binY"];
+            const bool frameBinningKnown = !frameBinXValue.isNull() && !frameBinYValue.isNull() &&
+                                           frameBinXValue.toInt() > INVALID_BINNING && frameBinYValue.toInt() > INVALID_BINNING;
 
             // Then check if binning is the same
-            if (frameBinX != binX || frameBinY != binY)
+            if (!frameBinningKnown)
+                unknownBinning++;
+            else if (frameBinXValue.toInt() != binX || frameBinYValue.toInt() != binY)
             {
                 rejectedBinning++;
                 continue;
@@ -260,10 +281,14 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
             // If camera has an active cooler, then we check temperature against the absolute threshold.
             if (m_TargetChip->getCCD()->hasCoolerControl())
             {
-                double darkTemperature = map["temperature"].toDouble();
+                const QVariant frameTemperatureValue = map["temperature"];
+                const double darkTemperature = frameTemperatureValue.toDouble();
+                // A NULL column reads back as 0.0 which is a valid temperature, so test for NULL first.
+                if (frameTemperatureValue.isNull() || darkTemperature == INVALID_VALUE)
+                    unknownTemperature++;
                 // If different is above threshold, it is completely rejected.
-                if (darkTemperature != INVALID_VALUE && hasTemp
-                        && std::abs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
+                else if (hasTemp
+                         && std::abs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
                 {
                     rejectedTemp++;
                     continue;
@@ -321,16 +346,28 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
             if (thisMapScore > bestCandidateScore)
                 bestCandidate = map;
         }
+        else
+            rejectedCCD++;
     }
 
     if (bestCandidate.isEmpty())
     {
-        qCWarning(KSTARS_EKOS) << "No suitable dark frame found. Rejection reasons:"
+        qCWarning(KSTARS_EKOS) << "No suitable dark frame found for"
+                               << m_TargetChip->getCCD()->getDeviceName()
+                               << "duration:" << duration << "s"
+                               << "binning:" << binX << "x" << binY
+                               << "gain:" << (hasGain ? QString::number(gain) : QStringLiteral("unknown"))
+                               << "iso:" << isoValue
+                               << "candidates:" << m_DarkFramesDatabaseList.size();
+        qCWarning(KSTARS_EKOS) << "Rejection reasons:"
                                << "CCD/Chip:" << rejectedCCD
                                << "Gain:" << rejectedGain
                                << "ISO:" << rejectedISO
                                << "Binning:" << rejectedBinning
-                               << "Temperature:" << rejectedTemp;
+                               << "Temperature:" << rejectedTemp
+                               << "| Unrecorded metadata:" << "Gain:" << unknownGain
+                               << "Binning:" << unknownBinning
+                               << "Temperature:" << unknownTemperature;
         return false;
     }
 
@@ -398,11 +435,14 @@ bool DarkLibrary::findDefectMap(ISD::CameraChip *m_TargetChip, double duration, 
         if (map["ccd"].toString() == m_TargetChip->getCCD()->getDeviceName() &&
                 map["chip"].toInt() == static_cast<int>(m_TargetChip->getType()))
         {
-            int frameBinX = map["binX"].toInt();
-            int frameBinY = map["binY"].toInt();
+            const QVariant frameBinXValue = map["binX"];
+            const QVariant frameBinYValue = map["binY"];
+            const bool frameBinningKnown = !frameBinXValue.isNull() && !frameBinYValue.isNull() &&
+                                           frameBinXValue.toInt() > INVALID_BINNING && frameBinYValue.toInt() > INVALID_BINNING;
 
-            // Then check if binning is the same
-            if (frameBinX == binX && frameBinY == binY)
+            // Then check if binning is the same. A frame without a recorded binning is accepted,
+            // consistent with findDarkFrame().
+            if (!frameBinningKnown || (frameBinXValue.toInt() == binX && frameBinYValue.toInt() == binY))
             {
                 if (bestCandidate.isEmpty())
                 {
@@ -535,9 +575,12 @@ void DarkLibrary::processNewImage(const QSharedPointer<SequenceJob> &job, const 
 
     if (job->getCompleted() == job->getCoreProperty(SequenceJob::SJ_Count).toInt())
     {
+        // The frame belongs to m_TargetChip, so the camera metadata must be read from the camera that
+        // owns that chip and not from m_Camera, which may belong to a different optical train.
+        auto ccd = m_TargetChip->getCCD();
         QJsonObject metadata
         {
-            {"camera", m_Camera->getDeviceName()},
+            {"camera", ccd->getDeviceName()},
             {"chip", m_TargetChip->getType()},
             {"binx", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()},
             {"biny", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y()},
@@ -546,11 +589,11 @@ void DarkLibrary::processNewImage(const QSharedPointer<SequenceJob> &job, const 
 
         // Record temperature
         double value = 0;
-        bool success = m_Camera->getTemperature(&value);
+        bool success = ccd->getTemperature(&value);
         if (success)
             metadata["temperature"] = value;
 
-        success = m_Camera->hasGain() && m_Camera->getGain(&value);
+        success = ccd->hasGain() && ccd->getGain(&value);
         if (success)
             metadata["gain"] = value;
 
@@ -1417,10 +1460,11 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
     QVariantMap map;
     map["ccd"]         = metadata["camera"].toString();
     map["chip"]        = metadata["chip"].toInt();
-    map["binX"]        = metadata["binx"].toInt();
-    map["binY"]        = metadata["biny"].toInt();
+    // A frame without a recorded binning is accepted, consistent with findDarkFrame().
+    map["binX"]        = metadata["binx"].toInt(INVALID_BINNING);
+    map["binY"]        = metadata["biny"].toInt(INVALID_BINNING);
     map["temperature"] = metadata["temperature"].toDouble(INVALID_VALUE);
-    map["gain"] = metadata["gain"].toInt(-1);
+    map["gain"] = metadata["gain"].toInt(INVALID_GAIN);
     map["iso"] = metadata["iso"].toString();
     map["duration"]    = metadata["duration"].toDouble();
     map["filename"]    = path;

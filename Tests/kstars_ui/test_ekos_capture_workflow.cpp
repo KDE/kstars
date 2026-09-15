@@ -17,7 +17,9 @@
 #include "ekos/capture/capturetypes.h"
 #include "ekos/capture/capture.h"
 #include "ekos/focus/focusmodule.h"
+#include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "fitsviewer/fitsdata.h"
 
 #define SHUTTER_UNKNOWN -1
 #define SHUTTER_NO       0
@@ -1075,6 +1077,39 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     QFileInfo destinationInfo(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation), "darks");
     QDir destination(destinationInfo.absoluteFilePath());
     QVERIFY(m_CaptureHelper->searchFITS(destination).size() == 1);
+
+    // The metadata of the generated master dark must survive the database round trip unchanged.
+    auto camera = capture->mainCamera()->activeCamera();
+    QVERIFY(camera != nullptr);
+    auto chip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    QVERIFY(chip != nullptr);
+
+    QList<QVariantMap> darkFrames;
+    QVERIFY(KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames));
+    QVariantMap masterDark;
+    for (const auto &oneFrame : darkFrames)
+    {
+        if (oneFrame["ccd"].toString() == camera->getDeviceName() &&
+                (masterDark.isEmpty() || oneFrame["id"].toInt() > masterDark["id"].toInt()))
+            masterDark = oneFrame;
+    }
+    QVERIFY2(!masterDark.isEmpty(), "The generated master dark was not recorded in the darkframe table");
+
+    // Binning, duration and temperature must be stored as values, not left to the column defaults.
+    QVERIFY(!masterDark["binX"].isNull());
+    QVERIFY(!masterDark["binY"].isNull());
+    QVERIFY(masterDark["binX"].toInt() > 0);
+    QCOMPARE(masterDark["binX"].toInt(), masterDark["binY"].toInt());
+    QVERIFY(qAbs(masterDark["duration"].toDouble() - 1.0) < 0.001);
+    QVERIFY(!masterDark["temperature"].isNull());
+    // Gain is only recorded for cameras that report it, but it must never be NULL: the sentinel
+    // is what tells findDarkFrame() that the gain is unknown instead of a mismatch.
+    QVERIFY(!masterDark["gain"].isNull());
+
+    // And the recorded dark must be found again for the same chip, duration and binning.
+    QSharedPointer<FITSData> darkData;
+    QVERIFY(Ekos::DarkLibrary::Instance()->findDarkFrame(chip, 1.0, darkData));
+    QVERIFY(!darkData.isNull());
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()

@@ -311,5 +311,15 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
 
         // Do not add to cache if system memory falls below 250MB.
         static constexpr uint16_t CACHE_MEMORY_LIMIT {250};
+
+        /**
+         * @brief Sentinels stored in the darkframe table when a property was not available at capture
+         * time, and read back as "unknown" when matching frames. They MUST be kept in sync with the
+         * KSUserDB darkframe schema and its migrations (see KSUserDB::createUserDBTables() and the
+         * v309 migration in ksuserdb.cpp: gain INTEGER DEFAULT -1). Unknown temperature uses
+         * Ekos::INVALID_VALUE, unknown ISO is an empty string.
+         */
+        static constexpr int INVALID_GAIN {-1};
+        static constexpr int INVALID_BINNING {0};
 };
 }
