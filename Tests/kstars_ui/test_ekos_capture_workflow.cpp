@@ -1110,6 +1110,45 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     QSharedPointer<FITSData> darkData;
     QVERIFY(Ekos::DarkLibrary::Instance()->findDarkFrame(chip, 1.0, darkData));
     QVERIFY(!darkData.isNull());
+
+    // An expired dark frame must be rejected with an explanation, not by a generic message.
+    const uint validityDays = Options::darkLibraryDuration();
+    QVERIFY(validityDays > 1);
+    QVariantMap expiredDark = masterDark;
+    expiredDark["timestamp"] = QDateTime::currentDateTime().addDays(-static_cast<int>(validityDays) - 1).toString(Qt::ISODate);
+    QVERIFY(KStarsData::Instance()->userdb()->UpdateDarkFrame(expiredDark));
+    Ekos::DarkLibrary::Instance()->refreshFromDB();
+
+    QString expiryReason;
+    QSharedPointer<FITSData> expiredData;
+    QVERIFY(!Ekos::DarkLibrary::Instance()->findDarkFrame(chip, 1.0, expiredData, &expiryReason));
+    QVERIFY2(!expiryReason.isEmpty(), "An expired dark frame must be rejected with an explanation");
+
+    // restore the recorded timestamp, so the library is left as it was generated
+    QVERIFY(KStarsData::Instance()->userdb()->UpdateDarkFrame(masterDark));
+    Ekos::DarkLibrary::Instance()->refreshFromDB();
+
+    // A lookup that cannot match must also fail *and* explain why, rather than silently returning nothing.
+    // The generated master dark is 1x1, so a 2x2 request must not be satisfied by it.
+    chip->setBinning(2, 2);
+    int chipBinX = 0, chipBinY = 0;
+    for (int i = 0; i < 20; i++)
+    {
+        chip->getBinning(&chipBinX, &chipBinY);
+        if (chipBinX == 2 && chipBinY == 2)
+            break;
+        QTest::qWait(100);
+    }
+    QCOMPARE(chipBinX, 2);
+    QCOMPARE(chipBinY, 2);
+
+    QString failureReason;
+    QSharedPointer<FITSData> unmatchedDark;
+    QVERIFY(!Ekos::DarkLibrary::Instance()->findDarkFrame(chip, 1.0, unmatchedDark, &failureReason));
+    QVERIFY2(!failureReason.isEmpty(), "A failed dark frame lookup must explain why it failed");
+
+    // restore the binning for the tests that run after this one
+    chip->setBinning(1, 1);
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()

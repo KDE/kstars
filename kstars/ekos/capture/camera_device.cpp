@@ -799,19 +799,22 @@ void Camera::syncCameraInfo()
     {
         cameraTemperatureN->setEnabled(true);
 
+        double min = -50, max = 50, step = 1;
+        activeCamera()->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
+
+        // Allow the possibility of no target temperature at all, also for cameras that only report a
+        // temperature but cannot regulate it (CCD_TEMPERATURE read-only, no CCD_COOLER). The field then
+        // shows "--", which means "ignore" and carries no target temperature.
+        TemperatureSpinSpecialValue = min - step;
+        cameraTemperatureN->setRange(TemperatureSpinSpecialValue, max);
+        cameraTemperatureN->setSpecialValueText(i18n("--"));
+        cameraTemperatureN->setSingleStep(1);
+
         if (activeCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
         {
-            double min, max, step;
             setTemperatureB->setEnabled(true);
             cameraTemperatureN->setReadOnly(false);
             temperatureRegulationB->setEnabled(true);
-            activeCamera()->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
-
-            // Allow the possibility of no target temperature at all.
-            TemperatureSpinSpecialValue = min - step;
-            cameraTemperatureN->setRange(TemperatureSpinSpecialValue, max);
-            cameraTemperatureN->setSpecialValueText(i18n("--"));
-            cameraTemperatureN->setSingleStep(1);
 
             // Save the camera's temperature parameters for the stand-alone editor.
             const QStringList temperatureList =
@@ -831,11 +834,12 @@ void Camera::syncCameraInfo()
 
         double temperature = 0;
         if (activeCamera()->getTemperature(&temperature))
-        {
             temperatureOUT->setText(QString("%L1º").arg(temperature, 0, 'f', 1));
-            if (cameraTemperatureN->cleanText().isEmpty())
-                cameraTemperatureN->setValue(TemperatureSpinSpecialValue);
-        }
+
+        // A read-only temperature field cannot be set by the user, and an empty one has no value yet:
+        // in both cases the target is "--" (ignore) instead of the widget's default 0°C.
+        if (cameraTemperatureN->isReadOnly() || cameraTemperatureN->cleanText().isEmpty())
+            cameraTemperatureN->setValue(TemperatureSpinSpecialValue);
     }
     else
     {

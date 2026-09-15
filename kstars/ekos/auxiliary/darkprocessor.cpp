@@ -264,6 +264,17 @@ bool DarkProcessor::denoiseSynchronous(int trainID, ISD::CameraChip *targetChip,
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkProcessor::denoiseInternal(bool useDefect)
 {
+    // Filled with the reason whenever nothing matched, so the user is told what to fix instead of
+    // getting a generic message.
+    QString darkFailureReason;
+    const auto emitNoDarkMessage = [&]()
+    {
+        Q_EMIT newLog(darkFailureReason.isEmpty()
+                      ? i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module.")
+                      : i18n("No suitable dark frames or defect maps found. %1 Please run the Dark Library wizard in Capture module.",
+                             darkFailureReason));
+    };
+
     // Check if we have preference for defect map
     // If yes, check if defect map exists
     // If not, we check if we have regular dark frame as backup.
@@ -284,7 +295,7 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
 
     // Check if we have valid dark data and then use it.
     QSharedPointer<FITSData> darkData;
-    if (DarkLibrary::Instance()->findDarkFrame(info.targetChip, info.duration, darkData))
+    if (DarkLibrary::Instance()->findDarkFrame(info.targetChip, info.duration, darkData, &darkFailureReason))
     {
         // Make sure it's the same dimension if there is no offset
         if (info.offsetX == 0 && info.offsetY == 0 &&
@@ -293,8 +304,11 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
             qCWarning(KSTARS_EKOS) << "Dark frame dimension mismatch: target"
                                    << info.targetData->width() << "x" << info.targetData->height()
                                    << "vs dark" << darkData->width() << "x" << darkData->height();
+            darkFailureReason = i18n("The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 pixels.",
+                                     darkData->width(), darkData->height(),
+                                     info.targetData->width(), info.targetData->height());
             darkData.clear();
-            Q_EMIT newLog(i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module."));
+            emitNoDarkMessage();
             return false;
         }
         subtractDarkData(darkData, info.targetData, info.offsetX, info.offsetY);
@@ -309,7 +323,8 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
                            << info.targetChip->getCCD()->getDeviceName()
                            << "duration:" << info.duration << "s"
                            << "binning:" << binX << "x" << binY;
-    Q_EMIT newLog(i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module."));
+    // Tell the user why nothing matched, e.g. that the recorded darks were taken at another gain.
+    emitNoDarkMessage();
     return false;
 }
 

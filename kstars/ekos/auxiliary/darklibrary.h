@@ -61,9 +61,12 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @param targetChip Camera chip pointer to lookup for relevant information (binning, ROI..etc).
          * @param duration Duration is second to match it against the database.
          * @param darkData If a frame is found, load it from disk and store it in a shared FITSData pointer.
+         * @param failureReason If not nullptr and no frame is found, receives a short user-facing
+         * explanation why no frame matched (e.g. the gain the available frames were recorded at).
          * @return True if a suitable frame was found the loaded successfully, false otherwise.
          */
-        bool findDarkFrame(ISD::CameraChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
+        bool findDarkFrame(ISD::CameraChip *targetChip, double duration, QSharedPointer<FITSData> &darkData,
+                           QString *failureReason = nullptr);
 
         /**
          * @brief findDefectMap Search for a defect map that matches the passed parameters.
@@ -284,6 +287,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         ISD::CameraChip *m_TargetChip {nullptr};
         bool m_UseGuideHead {false};
         double GainSpinSpecialValue { INVALID_VALUE };
+        // A temperature spin box showing "--" (value at this sentinel) means "no target temperature",
+        // the same convention Capture uses for CCD_TEMPERATURE.
+        double TemperatureSpinSpecialValue { INVALID_VALUE };
 
         Capture *m_CaptureModule {nullptr};
         QSqlTableModel *darkFramesModel = nullptr;

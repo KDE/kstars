@@ -545,13 +545,14 @@ void Camera::updateJobFromUI(const QSharedPointer<SequenceJob> &job, FilenamePre
     job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
     job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
-    if (cameraTemperatureN->isEnabled())
-    {
-        if (cameraTemperatureN->value() != TemperatureSpinSpecialValue)
-            job->setTargetTemperature(cameraTemperatureN->value());
-        else
-            job->setTargetTemperature(Ekos::INVALID_VALUE);
-    }
+    // Only a field the user can actually change carries a target temperature: a disabled field means
+    // the camera has no cooling support at all, and a read-only field means it only reports a sensor
+    // temperature. In both cases the target is "unset", so no temperature is sent to the device.
+    if (cameraTemperatureN->isEnabled() && !cameraTemperatureN->isReadOnly() &&
+            cameraTemperatureN->value() != TemperatureSpinSpecialValue)
+        job->setTargetTemperature(cameraTemperatureN->value());
+    else
+        job->setTargetTemperature(Ekos::INVALID_VALUE);
 
     job->setScripts(m_scriptsManager->getScripts());
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));

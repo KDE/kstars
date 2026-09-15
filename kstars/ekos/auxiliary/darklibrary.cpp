@@ -29,6 +29,48 @@
 
 namespace Ekos
 {
+namespace
+{
+/**
+ * @brief chipTypeName Human readable name of a chip type, used for diagnostics only.
+ */
+QString chipTypeName(int type)
+{
+    switch (type)
+    {
+        case ISD::CameraChip::GUIDE_CCD:
+            return QStringLiteral("guide");
+        case ISD::CameraChip::PRIMARY_CCD:
+            return QStringLiteral("primary");
+        default:
+            return QString::number(type);
+    }
+}
+
+/**
+ * @brief formatKeys Comma separated list of the distinct stored values, e.g. "100, 200".
+ */
+template <typename T> QString formatKeys(const QMap<T, int> &counts)
+{
+    QStringList list;
+    for (auto it = counts.cbegin(); it != counts.cend(); ++it)
+        list << QString("%1").arg(it.key());
+    return list.join(QStringLiteral(", "));
+}
+
+/**
+ * @brief formatCounts Comma separated list of the distinct stored values with the number of
+ * candidates holding them, e.g. "100 (x5), 200 (x2)".
+ */
+template <typename T> QString formatCounts(const QMap<T, int> &counts)
+{
+    QStringList list;
+    for (auto it = counts.cbegin(); it != counts.cend(); ++it)
+        list << QString("%1 (x%2)").arg(it.key()).arg(it.value());
+    return list.join(QStringLiteral(", "));
+}
+}
+
 DarkLibrary *DarkLibrary::_DarkLibrary = nullptr;
 
 DarkLibrary *DarkLibrary::Instance()
@@ -55,6 +97,11 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     writableDir.mkpath("darks");
     writableDir.mkpath("defectmaps");
+
+    // The temperature spin boxes show "--" when they are at this value, meaning "no target
+    // temperature": a dark frame is then captured without cooling and without a target temperature.
+    // Derived from the nominal UI range so that it stays stable while switching between devices.
+    TemperatureSpinSpecialValue = minTemperatureSpin->minimum() - minTemperatureSpin->singleStep();
 
     // Setup Debounce timer to limit over-activation of settings changes
     m_DebounceTimer.setInterval(500);
@@ -212,11 +259,16 @@ void DarkLibrary::refreshFromDB()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
+bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData,
+                                QString *failureReason)
 {
     int rejectedCCD = 0, rejectedGain = 0, rejectedISO = 0, rejectedBinning = 0, rejectedTemp = 0;
     // Candidates that carried no recorded value for the respective criterion.
     int unknownGain = 0, unknownBinning = 0, unknownTemperature = 0;
+    // The distinct recorded values behind the CCD/Chip and gain rejections, so that the log reports
+    // what is actually in the library and not only how many frames were rejected.
+    QMap<QString, int> rejectedCCDValues;
+    QMap<int, int> rejectedGainValues;
     int binX = 1, binY = 1;
     m_TargetChip->getBinning(&binX, &binY);
 
@@ -251,6 +303,7 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
             else if (gain >= 0 && frameGainValue.toInt() != gain)
             {
                 rejectedGain++;
+                rejectedGainValues[frameGainValue.toInt()]++;
                 continue;
             }
 
@@ -347,42 +400,92 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 bestCandidate = map;
         }
         else
+        {
             rejectedCCD++;
+            rejectedCCDValues[QString("%1/%2").arg(map["ccd"].toString(), chipTypeName(map["chip"].toInt()))]++;
+        }
     }
 
     if (bestCandidate.isEmpty())
     {
-        qCWarning(KSTARS_EKOS) << "No suitable dark frame found for"
-                               << m_TargetChip->getCCD()->getDeviceName()
-                               << "duration:" << duration << "s"
-                               << "binning:" << binX << "x" << binY
-                               << "gain:" << (hasGain ? QString::number(gain) : QStringLiteral("unknown"))
-                               << "iso:" << isoValue
-                               << "candidates:" << m_DarkFramesDatabaseList.size();
-        qCWarning(KSTARS_EKOS) << "Rejection reasons:"
-                               << "CCD/Chip:" << rejectedCCD
-                               << "Gain:" << rejectedGain
-                               << "ISO:" << rejectedISO
-                               << "Binning:" << rejectedBinning
-                               << "Temperature:" << rejectedTemp
-                               << "| Unrecorded metadata:" << "Gain:" << unknownGain
-                               << "Binning:" << unknownBinning
-                               << "Temperature:" << unknownTemperature;
+        // Report the request, and for every rejection criterion both the number of frames that failed
+        // it and the values those frames actually have, so the reason is clear without the database.
+        const QString ccdDetail = formatCounts(rejectedCCDValues);
+        const QString gainDetail = formatCounts(rejectedGainValues);
+        qCWarning(KSTARS_EKOS).noquote()
+                << "No suitable dark frame found for" << m_TargetChip->getCCD()->getDeviceName()
+                << "duration:" << QString("%1 s").arg(duration)
+                << "binning:" << QString("%1x%2").arg(binX).arg(binY)
+                << "gain:" << (hasGain ? QString::number(gain) : QStringLiteral("--"))
+                << "iso:" << (isoValue.isEmpty() ? QStringLiteral("--") : isoValue)
+                << "candidates:" << m_DarkFramesDatabaseList.size();
+        qCWarning(KSTARS_EKOS).noquote()
+                << "Rejections:"
+                << "CCD/Chip:" << QString("%1%2").arg(rejectedCCD)
+                .arg(ccdDetail.isEmpty() ? QString() : QString(" [%1]").arg(ccdDetail))
+                << "Gain:" << QString("%1%2").arg(rejectedGain)
+                .arg(gainDetail.isEmpty() ? QString() : QString(" [recorded %1]").arg(gainDetail))
+                << "ISO:" << rejectedISO
+                << "Binning:" << rejectedBinning
+                << "Temperature:" << rejectedTemp
+                << "no recorded metadata (gain/binning/temperature):"
+                << QString("%1/%2/%3").arg(unknownGain).arg(unknownBinning).arg(unknownTemperature);
+
+        if (failureReason)
+        {
+            QStringList reasons;
+            if (rejectedGain > 0)
+                reasons << (hasGain
+                            ? i18np("The %1 matching dark frame was recorded at gain %2, but gain %3 is in use.",
+                                    "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use.",
+                                    rejectedGain, formatKeys(rejectedGainValues), gain)
+                            : i18np("The %1 matching dark frame was recorded at a different gain.",
+                                    "The %1 matching dark frames were recorded at a different gain.",
+                                    rejectedGain));
+            if (rejectedBinning > 0)
+                reasons << i18np("The %1 matching dark frame was recorded at a different binning.",
+                                 "The %1 matching dark frames were recorded at a different binning.",
+                                 rejectedBinning);
+            if (rejectedTemp > 0)
+                reasons << i18np("The %1 matching dark frame was recorded outside the temperature threshold.",
+                                 "The %1 matching dark frames were recorded outside the temperature threshold.",
+                                 rejectedTemp);
+            if (rejectedCCD > 0)
+                reasons << i18np("%1 recorded dark frame belongs to a different camera or chip.",
+                                 "%1 recorded dark frames belong to other cameras or chips.",
+                                 rejectedCCD);
+            if (unknownGain > 0)
+                reasons << i18np("%1 matching dark frame has no recorded gain.",
+                                 "%1 matching dark frames have no recorded gain.", unknownGain);
+            if (unknownBinning > 0)
+                reasons << i18np("%1 matching dark frame has no recorded binning.",
+                                 "%1 matching dark frames have no recorded binning.", unknownBinning);
+
+            if (reasons.isEmpty())
+                reasons << i18n("No recorded dark frame matches the current duration and binning.");
+
+            *failureReason = reasons.join(QStringLiteral(" "));
+        }
         return false;
     }
 
     if (std::abs(bestCandidate["duration"].toDouble() - duration) > 3)
-        Q_EMIT i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %1 seconds exposure for more accurate results.",
-                    QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
-                    QString::number(duration, 'f', 1));
+        Q_EMIT newLog(i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %2 seconds exposure for more accurate results.",
+                           QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
+                           QString::number(duration, 'f', 1)));
 
     QString filename = bestCandidate["filename"].toString();
 
     // Finally check if the duration is acceptable
-    QDateTime frameTime = bestCandidate["timestamp"].toDateTime();
-    if (frameTime.daysTo(QDateTime::currentDateTime()) > Options::darkLibraryDuration())
+    const QDateTime frameTime = bestCandidate["timestamp"].toDateTime();
+    const qint64 frameAge = frameTime.daysTo(QDateTime::currentDateTime());
+    if (frameAge > Options::darkLibraryDuration())
     {
-        Q_EMIT i18n("Dark frame %s is expired. Please create new master dark.", filename);
+        const QString reason = i18n("The matching dark frame is %1 days old but the dark library is set to reuse dark frames for %2 days.",
+                                    frameAge, Options::darkLibraryDuration());
+        qCWarning(KSTARS_EKOS).noquote() << "Rejected expired dark frame" << filename << "-" << reason;
+        if (failureReason)
+            *failureReason = reason;
         return false;
     }
 
@@ -1085,6 +1188,29 @@ void DarkLibrary::checkCamera()
     if (!m_TargetChip || !m_TargetChip->getCCD() || m_TargetChip->isCapturing())
         return;
 
+    // Allow the possibility of no target temperature at all, like the Capture module does for
+    // CCD_TEMPERATURE: the spin boxes carry a "--" special value (one step below the minimum) and the
+    // wizard must not silently target 0°C on a camera that has no TEC or reports no temperature.
+    double minTemperature = minTemperatureSpin->minimum();
+    double maxTemperature = maxTemperatureSpin->maximum();
+    double stepTemperature = temperatureStepSpin->value();
+    if (m_Camera->hasCoolerControl() &&
+            m_Camera->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &minTemperature, &maxTemperature,
+                                    &stepTemperature))
+    {
+        // Use the temperature range reported by the camera.
+        TemperatureSpinSpecialValue = minTemperature - stepTemperature;
+    }
+    else
+    {
+        minTemperature = qMin(TemperatureSpinSpecialValue, minTemperature);
+    }
+
+    minTemperatureSpin->setRange(minTemperature, maxTemperature);
+    maxTemperatureSpin->setRange(minTemperature, maxTemperature);
+    minTemperatureSpin->setSpecialValueText(i18n("--"));
+    maxTemperatureSpin->setSpecialValueText(i18n("--"));
+
     if (m_Camera->hasCoolerControl())
     {
         temperatureLabel->setEnabled(true);
@@ -1094,18 +1220,21 @@ void DarkLibrary::checkCamera()
         minTemperatureSpin->setEnabled(true);
         maxTemperatureSpin->setEnabled(true);
 
-        // Get default temperature
-        double temperature = 0;
-        // Update if no setting was previously set
-        if (m_Camera->getTemperature(&temperature))
-        {
-            minTemperatureSpin->setValue(temperature);
-            maxTemperatureSpin->setValue(temperature);
-        }
+        // Never assume a target temperature from the current reading: a camera whose cooler is not
+        // regulating (or that reports 0°C because it has no TEC) must not be ordered to cool to 0°C,
+        // and a cooled camera that is left alone already captures at its current temperature. "--"
+        // means "no target temperature"; a range chosen earlier for this optical train is restored
+        // right after this call by setAllSettings().
+        minTemperatureSpin->setValue(TemperatureSpinSpecialValue);
+        maxTemperatureSpin->setValue(TemperatureSpinSpecialValue);
 
     }
     else
     {
+        // No TEC: no target temperature is possible, so show "--" rather than 0°C.
+        minTemperatureSpin->setValue(TemperatureSpinSpecialValue);
+        maxTemperatureSpin->setValue(TemperatureSpinSpecialValue);
+
         temperatureLabel->setEnabled(false);
         temperatureStepLabel->setEnabled(false);
         temperatureToLabel->setEnabled(false);
@@ -1169,7 +1298,10 @@ void DarkLibrary::checkCamera()
 void DarkLibrary::countDarkTotalTime()
 {
     double temperatureCount = 1;
-    if (m_Camera && m_Camera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
+    if (m_Camera && m_Camera->hasCoolerControl() &&
+            minTemperatureSpin->value() != TemperatureSpinSpecialValue &&
+            maxTemperatureSpin->value() != TemperatureSpinSpecialValue &&
+            std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
         temperatureCount = (std::abs((maxTemperatureSpin->value() - minTemperatureSpin->value())) / temperatureStepSpin->value()) +
                            1;
     int binnings = 0;
@@ -1211,17 +1343,20 @@ void DarkLibrary::generateDarkJobs()
     }
 
     QList<double> temperatures;
-    if (m_Camera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
+    // A camera without a TEC, or a "--" target temperature, means no cooling and no target
+    // temperature for the captured darks.
+    if (!m_Camera->hasCoolerControl() || minTemperatureSpin->value() == TemperatureSpinSpecialValue ||
+            maxTemperatureSpin->value() == TemperatureSpinSpecialValue)
+    {
+        temperatures << INVALID_VALUE;
+    }
+    else
     {
         for (double oneTemperature = minTemperatureSpin->value(); oneTemperature <= maxTemperatureSpin->value();
                 oneTemperature += temperatureStepSpin->value())
         {
             temperatures << oneTemperature;
         }
-    }
-    else
-    {
-        temperatures << INVALID_VALUE;
     }
 
     QList<uint8_t> bins;
@@ -2016,6 +2151,15 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     }
     else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
     {
+        // Never restore a target temperature on a camera that cannot regulate it: keep "--" so that
+        // the wizard does not capture darks at some stale value (0°C by default).
+        if ((pDSB == minTemperatureSpin || pDSB == maxTemperatureSpin) &&
+                (!m_Camera || !m_Camera->hasCoolerControl()))
+        {
+            pDSB->setValue(TemperatureSpinSpecialValue);
+            return true;
+        }
+
         const double value = settings[key].toDouble(&ok);
         if (ok)
         {
