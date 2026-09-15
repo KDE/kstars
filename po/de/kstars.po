@@ -11,20 +11,21 @@
 # SPDX-FileCopyrightText: 2012 Rene Landert <rene.landert@bluewin.ch>
 # SPDX-FileCopyrightText: 2025 Alois Spitzbart <spitz234@hotmail.com>
 # SPDX-FileCopyrightText: 2025 Daniel Kauser <danysahne333@yahoo.de>
+# SPDX-FileCopyrightText: 2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-14 02:07+0000\n"
-"PO-Revision-Date: 2025-12-03 10:56+0100\n"
-"Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
+"PO-Revision-Date: 2026-09-12 23:54+0200\n"
+"Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -339,12 +340,12 @@ msgstr "Herunterladen"
 #: auxiliary/filedownloader.cpp:164
 #, kde-format
 msgid "Downloading Data..."
-msgstr "Daten werden heruntergeladen ..."
+msgstr "Daten werden heruntergeladen …"
 
 #: auxiliary/filedownloader.cpp:204
 #, kde-format
 msgid "Awaiting response from server..."
-msgstr "Warten auf Antwort vom Server ..."
+msgstr "Warten auf Antwort vom Server …"
 
 #: auxiliary/fov.cpp:39 kstarslite/skyitems/fovitem.cpp:13
 #, kde-format
@@ -471,7 +472,7 @@ msgstr "Herunterladen"
 #: auxiliary/imageviewer.cpp:196
 #, kde-format
 msgid "Please wait while image is being downloaded..."
-msgstr "Bitte warten Sie, das Bild wird heruntergeladen ..."
+msgstr "Bitte warten Sie, das Bild wird heruntergeladen …"
 
 #: auxiliary/imageviewer.cpp:224
 #, kde-format
@@ -520,7 +521,7 @@ msgstr "DSS herunterladen"
 #: auxiliary/ksdssdownloader.cpp:209 auxiliary/ksdssdownloader.cpp:237
 #, kde-format
 msgid "Please wait while DSS image is being downloaded..."
-msgstr "Bitte warten Sie, das DSS-Bild wird heruntergeladen ..."
+msgstr "Bitte warten Sie, das DSS-Bild wird heruntergeladen …"
 
 #: auxiliary/ksfilereader.cpp:98 tools/modcalcdaylength.cpp:208
 #: tools/wutdialog.cpp:239
@@ -532,7 +533,7 @@ msgstr ""
 #: auxiliary/ksmessagebox.cpp:134
 #, kde-format
 msgid "Auto close in ..."
-msgstr "Automatische schließen in ..."
+msgstr "Automatisch schließen in …"
 
 #: auxiliary/ksmessagebox.cpp:257 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
@@ -960,7 +961,7 @@ msgstr "(ausgeschnittener Bereich wird auf 200×200 skaliert)"
 #: auxiliary/thumbnailpicker.cpp:138
 #, kde-format
 msgid "Loading images..."
-msgstr "Bilder werden geladen ..."
+msgstr "Bilder werden geladen …"
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #: auxiliary/thumbnailpicker.cpp:172 auxiliary/thumbnailpicker.ui:24
@@ -1070,7 +1071,7 @@ msgstr "Aktuelles Vorschaubild:"
 #: auxiliary/thumbnailpicker.ui:181
 #, kde-format
 msgid "Edit Ima&ge..."
-msgstr "Bild bearbei&ten ..."
+msgstr "Bild bearbei&ten …"
 
 #. i18n: ectx: property (text), widget (QPushButton, UnsetButton)
 #: auxiliary/thumbnailpicker.ui:188
@@ -2124,7 +2125,7 @@ msgstr "Inaktiv"
 #: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:476
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
-msgstr "Was ist interessant ..."
+msgstr "Interessantes …"
 
 #: data/qml/whatisinteresting/wiview.qml:127
 #, fuzzy, kde-kuit-format
@@ -2298,7 +2299,7 @@ msgstr "Zurück"
 #: data/qml/whatisinteresting/wiview.qml:1564
 #, kde-kuit-format
 msgid "Loading..."
-msgstr "Laden ..."
+msgstr "Wird geladen …"
 
 #: data/qml/whatisinteresting/wiview.qml:1595
 #, fuzzy, kde-kuit-format
@@ -2539,15 +2540,13 @@ msgstr "Lichtfluss"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/addcatalogobject.ui:212
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle (°):"
-msgstr "Positionswinkel"
+msgstr "Positionswinkel (°):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/addcatalogobject.ui:229
-#, fuzzy, kde-format
-#| msgid "Long Name:"
+#, kde-format
 msgid "Long name:"
 msgstr "Langer Name:"
 
@@ -2696,11 +2695,10 @@ msgid "Enter a name for the catalog"
 msgstr "Geben Sie einen Namen für den Katalog ein:"
 
 #: dialogs/addlinkdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Add Custom URL to %1"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom URL to %1"
-msgstr "Eigene URL zu %1 hinzufügen"
+msgstr "Benutzerdefinierte URL zu %1 hinzufügen"
 
 #: dialogs/addlinkdialog.cpp:46 dialogs/addlinkdialog.cpp:72
 #, kde-format
@@ -2821,10 +2819,9 @@ msgstr "Adresse überprüfen"
 
 #: dialogs/catalogcoloreditor.cpp:21 dialogs/catalogcoloreditor.cpp:138
 #: dialogs/catalogsdbui.cpp:292
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Critical error"
-msgstr "Senkrecht"
+msgstr "Kritischer Fehler"
 
 #: dialogs/catalogcoloreditor.cpp:22
 #, fuzzy, kde-format
@@ -2882,8 +2879,7 @@ msgid "Hours"
 msgstr "Stunden"
 
 #: dialogs/catalogcsvimport.cpp:106 dialogs/catalogsdbui.cpp:197
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgctxt "@title:window"
 msgid "Import Catalog"
 msgstr "Katalog importieren"
@@ -2896,10 +2892,9 @@ msgid "File"
 msgstr "Datei"
 
 #: dialogs/catalogcsvimport.cpp:108
-#, fuzzy, kde-format
-#| msgid "Conf. File"
+#, kde-format
 msgid "Any File"
-msgstr "Einrichtungsdatei"
+msgstr "Beliebige Datei"
 
 #: dialogs/catalogcsvimport.cpp:121
 #, fuzzy, kde-format
@@ -2914,15 +2909,14 @@ msgid "Ignore"
 msgstr "Ignorieren"
 
 #: dialogs/catalogcsvimport.cpp:183
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "%1 Object"
 msgid_plural "%1 Objects"
-msgstr[0] "Objekt"
-msgstr[1] "Objekt"
+msgstr[0] "%1 Objekt"
+msgstr[1] "%1 Objekte"
 
 #: dialogs/catalogcsvimport.cpp:189
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text"
 msgstr "Text"
 
@@ -2937,8 +2931,7 @@ msgid "Type"
 msgstr "Typ"
 
 #: dialogs/catalogcsvimport.cpp:193
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "default"
 msgstr "Standard"
 
@@ -2950,10 +2943,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/catalogcsvimport.ui:37
-#, fuzzy, kde-format
-#| msgid "Input:"
+#, kde-format
 msgid "Input"
-msgstr "Eingabe:"
+msgstr "Eingabe"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/catalogcsvimport.ui:50
@@ -2970,10 +2962,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/catalogcsvimport.ui:84
-#, fuzzy, kde-format
-#| msgid "Separation"
+#, kde-format
 msgid "Separator:"
-msgstr "Winkeldistanz"
+msgstr "Trennzeichen:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, comment_prefix)
 #: dialogs/catalogcsvimport.ui:109
@@ -3092,10 +3083,9 @@ msgstr "Katalogstern"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogdetails.ui:39 dialogs/catalogeditform.ui:22
-#, fuzzy, kde-format
-#| msgid "INDI"
+#, kde-format
 msgid "ID:"
-msgstr "INDI"
+msgstr "ID:"
 
 #. i18n: ectx: property (text), widget (QLabel, id)
 #: dialogs/catalogdetails.ui:46
@@ -3133,10 +3123,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/catalogdetails.ui:81 dialogs/catalogeditform.ui:53
-#, fuzzy, kde-format
-#| msgid "Source: "
+#, kde-format
 msgid "Source:"
-msgstr "Quelle: "
+msgstr "Quelle:"
 
 #. i18n: ectx: property (text), widget (QLabel, source)
 #: dialogs/catalogdetails.ui:88
@@ -3158,42 +3147,35 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/catalogdetails.ui:121
-#, fuzzy, kde-format
-#| msgid "Version"
+#, kde-format
 msgid "Version:"
-msgstr "Version"
+msgstr "Version:"
 
 #. i18n: ectx: property (text), widget (QLabel, version)
 #: dialogs/catalogdetails.ui:128
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Riverside"
+#, kde-format
 msgid "_vers"
-msgstr "Riverside"
+msgstr "_vers"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/catalogdetails.ui:135 dialogs/catalogeditform.ui:93
-#, fuzzy, kde-format
-#| msgid "Current Maintainer"
+#, kde-format
 msgid "Maintainer:"
-msgstr "Aktueller Betreuer"
+msgstr "Betreuer:"
 
 #. i18n: ectx: property (text), widget (QLabel, maintainer)
 #: dialogs/catalogdetails.ui:142
-#, fuzzy, kde-format
-#| msgctxt "City in Belgium"
-#| msgid "Humain"
+#, kde-format
 msgid "_maint"
-msgstr "Humain"
+msgstr "_maint"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/catalogdetails.ui:149 dialogs/catalogeditform.ui:103
-#, fuzzy, kde-format
-#| msgid "License: GPLv2"
+#, kde-format
 msgid "License:"
-msgstr "Lizenz: GPLv2"
+msgstr "Lizenz:"
 
 #. i18n: ectx: property (text), widget (QLabel, license)
 #: dialogs/catalogdetails.ui:156
@@ -3215,7 +3197,7 @@ msgstr "Objekt"
 #: dialogs/viewsdialog.ui:100
 #, kde-format
 msgid "Edit..."
-msgstr "Bearbeiten ..."
+msgstr "Bearbeiten …"
 
 #. i18n: ectx: property (text), widget (QPushButton, remove_object)
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
@@ -3245,24 +3227,21 @@ msgstr "Katalogstern"
 
 #. i18n: ectx: property (text), widget (QPushButton, add_object)
 #: dialogs/catalogdetails.ui:224
-#, fuzzy, kde-format
-#| msgid "Any Object"
+#, kde-format
 msgid "Add Object..."
-msgstr "Alle Objekte"
+msgstr "Objekt hinzufügen …"
 
 #. i18n: ectx: property (text), widget (QPushButton, import_csv)
 #: dialogs/catalogdetails.ui:234
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgid "Import CSV..."
-msgstr "Katalog importieren"
+msgstr "CSV-Datei importieren …"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, name_filter)
 #: dialogs/catalogdetails.ui:248
-#, fuzzy, kde-format
-#| msgid "Filter by name:"
+#, kde-format
 msgid "Filter by Name"
-msgstr "Nach Namen filtern:"
+msgstr "Nach Namen filtern"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogsUInewCatalog)
 #: dialogs/catalogeditform.ui:14
@@ -3333,10 +3312,9 @@ msgid "Name"
 msgstr "Name"
 
 #: dialogs/catalogobjectlistmodel.cpp:75
-#, fuzzy, kde-format
-#| msgid "Long Name:"
+#, kde-format
 msgid "Long Name"
-msgstr "Langer Name:"
+msgstr "Langer Name"
 
 #: dialogs/catalogobjectlistmodel.cpp:77
 #, kde-format
@@ -3367,17 +3345,14 @@ msgstr "Lichtfluss"
 #. i18n: ectx: property (text), widget (QCheckBox, hotPixelsEnabled)
 #: dialogs/catalogsdbui.cpp:27 ekos/auxiliary/darklibrary.ui:857
 #: ekos/auxiliary/darklibrary.ui:906
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Enabled"
+#, kde-format
 msgid "Enabled"
 msgstr "Aktiviert"
 
 #: dialogs/catalogsdbui.cpp:27
-#, fuzzy, kde-format
-#| msgid "INDI"
+#, kde-format
 msgid "ID"
-msgstr "INDI"
+msgstr "ID"
 
 #: dialogs/catalogsdbui.cpp:28
 #, fuzzy, kde-format
@@ -3387,10 +3362,9 @@ msgid "Precedence"
 msgstr "Providence"
 
 #: dialogs/catalogsdbui.cpp:28
-#, fuzzy, kde-format
-#| msgid "Author:"
+#, kde-format
 msgid "Author"
-msgstr "Autor:"
+msgstr "Autor"
 
 #: dialogs/catalogsdbui.cpp:28
 #, fuzzy, kde-format
@@ -3408,16 +3382,14 @@ msgid "Version"
 msgstr "Version"
 
 #: dialogs/catalogsdbui.cpp:29
-#, fuzzy, kde-format
-#| msgid "License: GPLv2"
+#, kde-format
 msgid "License"
-msgstr "Lizenz: GPLv2"
+msgstr "Lizenz"
 
 #: dialogs/catalogsdbui.cpp:29
-#, fuzzy, kde-format
-#| msgid "Current Maintainer"
+#, kde-format
 msgid "Maintainer"
-msgstr "Aktueller Betreuer"
+msgstr "Betreuer"
 
 #. i18n: ectx: property (text), widget (QPushButton, activateButton)
 #. i18n: ectx: property (text), widget (QPushButton, slavingEnableButton)
@@ -3442,19 +3414,17 @@ msgid "Could not enable/disable the catalog.<br>%1"
 msgstr "Datei kann nicht gelöscht werden: %1"
 
 #: dialogs/catalogsdbui.cpp:177
-#, fuzzy, kde-format
-#| msgid "Explore Catalogs"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Catalog"
-msgstr "Kataloge erkunden"
+msgstr "Katalog exportieren"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckCatalogButton)
 #: dialogs/catalogsdbui.cpp:178 dialogs/catalogsdbui.cpp:198
 #: tools/imagingplanner.ui:507
-#, fuzzy, kde-format
-#| msgid "Catalogs"
+#, kde-format
 msgid "Catalog"
-msgstr "Kataloge"
+msgstr "Katalog"
 
 #: dialogs/catalogsdbui.cpp:192
 #, fuzzy, kde-format
@@ -3496,31 +3466,27 @@ msgstr "Kataloge"
 #: dialogs/catalogsdbui.ui:43
 #, kde-format
 msgid "Import Catalog..."
-msgstr "Katalog importieren ..."
+msgstr "Katalog importieren …"
 
 #. i18n: ectx: property (text), widget (QPushButton, createButton)
 #: dialogs/catalogsdbui.ui:50
-#, fuzzy, kde-format
-#| msgid "Delete Catalog?"
+#, kde-format
 msgid "Create Catalog..."
-msgstr "Katalog löschen?"
+msgstr "Katalog erstellen …"
 
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
 #. i18n: ectx: property (text), widget (QPushButton, ExportButton)
 #: dialogs/catalogsdbui.ui:93 tools/conjunctions.ui:198
 #: tools/eclipsetool.ui:160
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgid "Export..."
-msgstr "Exportieren"
+msgstr "Exportieren …"
 
 #. i18n: ectx: property (text), widget (QPushButton, dublicateButton)
 #: dialogs/catalogsdbui.ui:103
-#, fuzzy, kde-format
-#| msgctxt "City in New York USA"
-#| msgid "Malone"
+#, kde-format
 msgid "Clone..."
-msgstr "Malone"
+msgstr "Klonen …"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
 #: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
@@ -3530,15 +3496,12 @@ msgstr "Farben"
 
 #. i18n: ectx: property (text), widget (QPushButton, moreButton)
 #: dialogs/catalogsdbui.ui:123
-#, fuzzy, kde-format
-#| msgctxt "City in Kentucky USA"
-#| msgid "Morehead"
+#, kde-format
 msgid "More..."
-msgstr "Morehead"
+msgstr "Mehr …"
 
 #: dialogs/detaildialog.cpp:58
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgctxt "@title:window"
 msgid "Object Details"
 msgstr "Objektdetails"
@@ -3851,8 +3814,7 @@ msgid "Record here observation logs and/or data on %1."
 msgstr "Nehmen Sie hier Beobachtungsprotokolle und/oder Daten zu %1 auf."
 
 #: dialogs/detaildialog.cpp:862
-#, fuzzy, kde-format
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit Link"
 msgstr "Verknüpfung bearbeiten"
@@ -4197,13 +4159,13 @@ msgstr "Ressource ansehen"
 #: dialogs/details_links.ui:150
 #, kde-format
 msgid "Add Link..."
-msgstr "Verknüpfung hinzufügen ..."
+msgstr "Verknüpfung hinzufügen …"
 
 #. i18n: ectx: property (text), widget (QPushButton, EditLinkButton)
 #: dialogs/details_links.ui:157
 #, kde-format
 msgid "Edit Link..."
-msgstr "Verknüpfung bearbeiten ..."
+msgstr "Verknüpfung bearbeiten …"
 
 #. i18n: ectx: property (text), widget (QPushButton, RemoveLinkButton)
 #: dialogs/details_links.ui:164
@@ -4400,8 +4362,7 @@ msgid "Preview image"
 msgstr "Vorschaubild"
 
 #: dialogs/exportimagedialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Export sky image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export sky image"
 msgstr "Himmelsbild exportieren"
@@ -4538,8 +4499,7 @@ msgid "Planetary Nebulae"
 msgstr "Planetarischer Nebel"
 
 #: dialogs/finddialog.cpp:73
-#, fuzzy, kde-format
-#| msgid "Find Object"
+#, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Objekt suchen"
@@ -4547,7 +4507,7 @@ msgstr "Objekt suchen"
 #: dialogs/finddialog.cpp:87
 #, kde-format
 msgid "Details..."
-msgstr "Details ..."
+msgstr "Details …"
 
 #: dialogs/finddialog.cpp:191
 #, kde-format
@@ -4576,11 +4536,10 @@ msgid "Search the Internet for %1"
 msgstr "oder im Internet nach %1 suchen"
 
 #: dialogs/finddialog.cpp:326
-#, fuzzy, kde-format
-#| msgid "nothing"
+#, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
-msgstr "Nichts"
+msgstr "(nichts)"
 
 #: dialogs/finddialog.cpp:491
 #, fuzzy, kde-format
@@ -4927,7 +4886,7 @@ msgstr ""
 #: dialogs/fovdialog.ui:60 dialogs/viewsdialog.ui:71
 #, kde-format
 msgid "New..."
-msgstr "Neu ..."
+msgstr "Neu …"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/fovdialog.ui:83
@@ -5996,11 +5955,10 @@ msgid "Set UTC Time"
 msgstr "Weltzeit einstellen"
 
 #: dialogs/timedialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Set Time"
+#, kde-format
 msgctxt "@title:window set clock to a new time"
 msgid "Set Time"
-msgstr "Zeit einstellen"
+msgstr "Zeit festlegen"
 
 #: dialogs/timedialog.cpp:58
 #, kde-format
@@ -6294,7 +6252,7 @@ msgstr ""
 #: dialogs/wizdownload.ui:128
 #, kde-format
 msgid "Download Extra Data..."
-msgstr "Extradaten herunterladen ..."
+msgstr "Extradaten herunterladen …"
 
 #. i18n: ectx: property (text), widget (QLabel, GeoTitle)
 #: dialogs/wizlocation.ui:61
@@ -37477,18 +37435,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, subscribersTable)
 #: fitsviewer/livestackwebcast.ui:362
-#, fuzzy, kde-format
-#| msgid "IP"
+#, kde-format
 msgid "IP"
-msgstr "IP-Adresse"
+msgstr "IP"
 
 #. i18n: ectx: property (text), widget (QTableWidget, subscribersTable)
 #: fitsviewer/livestackwebcast.ui:377
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Activate"
+#, kde-format
 msgid "Activity"
-msgstr "Aktivieren"
+msgstr "Aktivität"
 
 #: fitsviewer/opsfits.cpp:111
 #, fuzzy, kde-format
@@ -82547,11 +82502,9 @@ msgid "Xplanet"
 msgstr "Xplanet"
 
 #: kstarsactions.cpp:1193
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Penelope"
+#, kde-format
 msgid "Developer"
-msgstr "Penelope"
+msgstr "Entwickler"
 
 #: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
 #, fuzzy, kde-format
@@ -82915,8 +82868,7 @@ msgid "northwest"
 msgstr "Nordwest"
 
 #: kstarsdbus.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Print Sky"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Himmel drucken"
@@ -82932,10 +82884,9 @@ msgid "Downloads new data"
 msgstr "Lädt neue Daten herunter"
 
 #: kstarsinit.cpp:155
-#, fuzzy, kde-format
-#| msgid "Open Image..."
+#, kde-format
 msgid "Open Image(s)..."
-msgstr "Bild öffnen ..."
+msgstr "Bild(er) öffnen …"
 
 #: kstarsinit.cpp:171
 #, kde-format
@@ -82948,12 +82899,10 @@ msgid "&Run Script..."
 msgstr "Skript ausfüh&ren ..."
 
 #: kstarsinit.cpp:182
-#, fuzzy, kde-format
-#| msgctxt "start Printing Wizard"
-#| msgid "Printing &Wizard"
+#, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
-msgstr "&Druckassistent"
+msgstr "&Druckassistent …"
 
 #: kstarsinit.cpp:191
 #, kde-format
@@ -83161,10 +83110,9 @@ msgid "&FOV Symbols"
 msgstr "STF-&Symbole"
 
 #: kstarsinit.cpp:393
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "&Ansicht"
+msgstr "&Ansichten"
 
 #: kstarsinit.cpp:401
 #, fuzzy, kde-format
@@ -83455,11 +83403,10 @@ msgid "Toggle opaque ground"
 msgstr "Horizont ein-/ausblenden"
 
 #: kstarsinit.cpp:629
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr "Ortszeit"
+msgstr "Tagsüber"
 
 #: kstarsinit.cpp:631
 #, fuzzy, kde-format
@@ -98821,8 +98768,7 @@ msgid "24 Hours"
 msgstr "24 Stunden"
 
 #: tools/scriptbuilder.cpp:55
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "Options"
 msgstr "Einstellungen"
