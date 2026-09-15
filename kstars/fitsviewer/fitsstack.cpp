@@ -5,6 +5,7 @@
 */
 
 #include <QtConcurrent>
+#include <QThreadPool>
 
 #include "fitsstack.h"
 #include "fitsdata.h"
@@ -495,9 +496,54 @@ void FITSStack::addSubStatus(const bool ok)
         m_StackImageData.last().status = PLATESOLVE_FAILED;
 }
 
+namespace
+{
+// stack()/stackn() are themselves dispatched via QtConcurrent::run() (see
+// FITSData::nextStackAction()), so they already occupy one QThreadPool::globalInstance()
+// worker thread each — and both go on to make nested, blocking QtConcurrent calls of
+// their own (stackSubs()'s blockingMap() pixel-chunk combine, postProcessImage()'s
+// gradientCorrection()/deconvolution/ImageMM helpers), which need free worker threads to
+// actually run and block the calling thread until they do. With more than one channel
+// stacking concurrently (Mode A's "channels" — e.g. Ha + OIII stacked in the same
+// postprocess_stack call), each channel's outer stack()/stackn() call ties up one pool
+// thread for its entire duration; once the number of concurrently active channels (plus
+// whatever else is using the same global pool) reaches
+// QThreadPool::globalInstance()->maxThreadCount() — a real risk on a CPU-constrained
+// controller with few cores — every pool thread ends up blocked waiting on nested work
+// with none left to run it: a genuine deadlock, not just slowness, matching a report of
+// a channel's stack stalling partway through with no further progress ever.
+//
+// The fix is Qt's documented pattern for this "task inside a task" shape (the same one
+// QFutureInterfaceBase itself uses via its ThreadPoolThreadReleaser): while this thread
+// is blocked on nested work it must *give up* its pool slot, so the pool is free to start
+// a replacement worker for that nested work — releaseThread() on entry, reserveThread()
+// on exit. Doing it the other way round (reserving the slot while blocked) does the
+// opposite: it makes QThreadPoolPrivate::activeThreadCount() count the still-busy outer
+// thread twice, reaching areAllThreadsActive() sooner and refusing the very nested work
+// this thread is waiting for.
+//
+// Precondition: constructed on a worker thread of that pool. All three call sites are
+// dispatched with QtConcurrent::run() (FITSData::nextStackAction() and
+// FITSData::redoPostProcessStack()), so this always holds; calling it from a thread that
+// is not a pool worker would instead hand the pool a slot it never took.
+class ThreadPoolSlotRelinquisher
+{
+    public:
+        ThreadPoolSlotRelinquisher()
+        {
+            QThreadPool::globalInstance()->releaseThread();
+        }
+        ~ThreadPoolSlotRelinquisher()
+        {
+            QThreadPool::globalInstance()->reserveThread();
+        }
+};
+}
+
 // Perform the initial stack
 bool FITSStack::stack()
 {
+    ThreadPoolSlotRelinquisher threadPoolSlot;
     try
     {
         QElapsedTimer timer;
@@ -603,6 +649,7 @@ bool FITSStack::stack()
 // Add 'n' new images to pre-existing stack
 bool FITSStack::stackn()
 {
+    ThreadPoolSlotRelinquisher threadPoolSlot;
     try
     {
         QElapsedTimer timer;
@@ -2931,6 +2978,12 @@ cv::Mat FITSStack::wienerDeconvolution(const cv::Mat &image, const cv::Mat &psf)
 void FITSStack::redoPostProcessStack(const StackPPData &ppParams, const PostProcessProgressCallback &onProgress,
                                      const PostProcessCancelCallback &isCancelled)
 {
+    // Dispatched via QtConcurrent::run(), one call per channel, potentially several at
+    // once (see FITSData::redoPostProcessStack()) — same nested-blockingMap deadlock risk
+    // postProcessImage() carries in stack()/stackn() above, so the same "give up the pool
+    // slot while blocked" guard applies here.
+    ThreadPoolSlotRelinquisher threadPoolSlot;
+
     // Get the current user options for post processing
     m_StackData.postProcessing = ppParams;
 

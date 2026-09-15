@@ -430,6 +430,28 @@ Response: immediately `{"state": "started", "sessions": ["Ha", "OIII"]}`,
 then the same `progress`/`ready`/`cancelled`/error events Mode B produces
 per channel, each tagged `"sessionId": "<filter>"`.
 
+**All channels stack concurrently, on the same global `QThreadPool`.**
+`FITSStack::stack()`/`stackn()` (the actual per-batch combine, dispatched via
+`QtConcurrent::run()`) each occupy one pool thread for their entire duration
+and, internally, make their own nested `QtConcurrent::blockingMap()` calls
+(pixel-chunk combine, gradient/deconvolution) that need free worker threads
+to run — a well-known deadlock shape once enough outer tasks are in flight
+to exhaust the pool (a real risk with several channels stacking at once on a
+CPU-constrained controller with few cores): every thread ends up blocked on
+nested work with none left to actually do it, so a channel can stall
+indefinitely with no further progress, rather than merely running slowly.
+`stack()`/`stackn()`/`redoPostProcessStack()` each guard against this for their
+duration by *giving up* their pool slot while they are blocked on that nested
+work — `releaseThread()` on entry, `reserveThread()` on exit. That is Qt's own
+pattern for a pool task that itself makes nested blocking pool calls (the same
+one `QFutureInterfaceBase` uses internally): dropping the slot lets the pool
+start a replacement worker to actually run the nested work. The reverse
+(reserving the slot while blocked) does the opposite — the still-busy outer
+thread gets counted twice by `QThreadPoolPrivate::activeThreadCount()`, the
+pool reaches "all threads active" sooner, and it refuses the very nested work
+the caller is waiting for, so a configuration that previously completed can
+hang instead.
+
 **Mode B — `directory`/`directories`** (single session):
 
 | Field | Type | Default | Notes |
