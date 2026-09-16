@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-14 02:07+0000\n"
+"POT-Creation-Date: 2026-09-16 02:11+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -2055,7 +2055,7 @@ msgstr "Statuso:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:277
-#: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/darklibrary.cpp:89 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
@@ -3900,13 +3900,14 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align_devices.cpp:484
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1100
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1211
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/auxiliary/darklibrary.cpp:1272
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera_device.cpp:813 ekos/capture/camera_device.cpp:913
-#: ekos/capture/camera_device.cpp:955
+#: ekos/capture/camera_device.cpp:810 ekos/capture/camera_device.cpp:917
+#: ekos/capture/camera_device.cpp:959
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
@@ -6870,7 +6871,7 @@ msgstr "Nevalida FOV."
 msgid "Refresh is complete."
 msgstr "Refreŝigo estas kompleta."
 
-#: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1451
+#: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1630
 #: ekos/focus/focus.cpp:1714
 #, kde-format
 msgid "Capture aborted."
@@ -12469,99 +12470,163 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Adapti Fokuson"
 
-#: ekos/auxiliary/darklibrary.cpp:98
+#: ekos/auxiliary/darklibrary.cpp:145
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "Malsukcesis ŝargi %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:338
+#: ekos/auxiliary/darklibrary.cpp:439
 #, kde-format
 msgid ""
+"The %1 matching dark frame was recorded at gain %2, but gain %3 is in use."
+msgid_plural ""
+"The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:442
+#, kde-format
+msgid "The %1 matching dark frame was recorded at a different gain."
+msgid_plural "The %1 matching dark frames were recorded at a different gain."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:446
+#, kde-format
+msgid "The %1 matching dark frame was recorded at a different binning."
+msgid_plural ""
+"The %1 matching dark frames were recorded at a different binning."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:450
+#, kde-format
+msgid ""
+"The %1 matching dark frame was recorded outside the temperature threshold."
+msgid_plural ""
+"The %1 matching dark frames were recorded outside the temperature threshold."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:454
+#, kde-format
+msgid "%1 recorded dark frame belongs to a different camera or chip."
+msgid_plural "%1 recorded dark frames belong to other cameras or chips."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:458
+#, kde-format
+msgid "%1 matching dark frame has no recorded gain."
+msgid_plural "%1 matching dark frames have no recorded gain."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:461
+#, kde-format
+msgid "%1 matching dark frame has no recorded binning."
+msgid_plural "%1 matching dark frames have no recorded binning."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/auxiliary/darklibrary.cpp:465
+#, kde-format
+msgid "No recorded dark frame matches the current duration and binning."
+msgstr ""
+
+#: ekos/auxiliary/darklibrary.cpp:473
+#, fuzzy, kde-format
+#| msgid ""
+#| "Using available dark frame with %1 seconds exposure. Please take a dark "
+#| "frame with %1 seconds exposure for more accurate results."
+msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
-"frame with %1 seconds exposure for more accurate results."
+"frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Uzante disponeblan malhelan kadron kun %1 sekunda ekspozicio. Bonvolu preni "
 "malhelan kadron kun %1 sekunda ekspozicio por pli precizaj rezultoj."
 
-#: ekos/auxiliary/darklibrary.cpp:348
+#: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
-msgid "Dark frame %s is expired. Please create new master dark."
-msgstr "Malhela kadro %s eksvalidiĝis. Bonvolu krei novan majstron mallumo."
+msgid ""
+"The matching dark frame is %1 days old but the dark library is set to reuse "
+"dark frames for %2 days."
+msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:371
+#: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "Forigante malbonan malhelan kadran dosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:481
+#: ekos/auxiliary/darklibrary.cpp:624
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "Malsukcesis ŝargi difektan mapon %1"
 
-#: ekos/auxiliary/darklibrary.cpp:501
+#: ekos/auxiliary/darklibrary.cpp:644
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "Malsukcesis ŝargi difektan mapdosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:521
+#: ekos/auxiliary/darklibrary.cpp:664
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Malsukcesis ŝargi malhelan kadran dosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:582
+#: ekos/auxiliary/darklibrary.cpp:728
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "Malsukcesis prilabori malhelajn datumojn."
 
-#: ekos/auxiliary/darklibrary.cpp:588
+#: ekos/auxiliary/darklibrary.cpp:734
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Malsukcesis ŝargi malhelajn datumojn."
 
-#: ekos/auxiliary/darklibrary.cpp:598
+#: ekos/auxiliary/darklibrary.cpp:744
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Ricevis %1/%2 bildoj."
 
-#: ekos/auxiliary/darklibrary.cpp:715
+#: ekos/auxiliary/darklibrary.cpp:861
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Ĉu vi certas, ke vi volas forigi ĉiujn mallumajn kadrajn bildojn kaj "
 "datumojn?"
 
-#: ekos/auxiliary/darklibrary.cpp:1251 ekos/focus/focusadvisor.cpp:665
+#: ekos/auxiliary/darklibrary.cpp:1429 ekos/focus/focusadvisor.cpp:665
 #: ekos/focus/focusadvisor.cpp:979 ekos/focus/focusadvisor.cpp:1276
 #, kde-format
 msgid "In progress..."
 msgstr "En progreso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/auxiliary/darklibrary.cpp:1587
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Malsukcesis konservi majstran kadron: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1430
+#: ekos/auxiliary/darklibrary.cpp:1609
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Majstro Mallumo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1455
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Capture completed."
 msgstr "Kapto finiĝis."
 
-#: ekos/auxiliary/darklibrary.cpp:1482
+#: ekos/auxiliary/darklibrary.cpp:1661
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Difekta mapo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1502
+#: ekos/auxiliary/darklibrary.cpp:1681
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Malsukcesis konservi difektan mapon al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1677
+#: ekos/auxiliary/darklibrary.cpp:1856
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optika ilĉeno ne ekzistas por id %1"
@@ -12984,7 +13049,7 @@ msgstr "Clear Eksvalidiĝis"
 msgid "Double click to load dark frame"
 msgstr "Duoble alklaku por ŝargi malhelan kadron"
 
-#: ekos/auxiliary/darkprocessor.cpp:297 ekos/auxiliary/darkprocessor.cpp:312
+#: ekos/auxiliary/darkprocessor.cpp:273
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -12992,6 +13057,25 @@ msgid ""
 msgstr ""
 "Neniuj taŭgaj malhelaj kadroj aŭ difektaj mapoj trovitaj. Bonvolu ruli la "
 "Malhelan Bibliotekan sorĉiston en Capture-modulo."
+
+#: ekos/auxiliary/darkprocessor.cpp:274
+#, fuzzy, kde-format
+#| msgid ""
+#| "No suitable dark frames or defect maps found. Please run the Dark Library "
+#| "wizard in Capture module."
+msgid ""
+"No suitable dark frames or defect maps found. %1 Please run the Dark Library "
+"wizard in Capture module."
+msgstr ""
+"Neniuj taŭgaj malhelaj kadroj aŭ difektaj mapoj trovitaj. Bonvolu ruli la "
+"Malhelan Bibliotekan sorĉiston en Capture-modulo."
+
+#: ekos/auxiliary/darkprocessor.cpp:307
+#, kde-format
+msgid ""
+"The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
+"pixels."
+msgstr ""
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
@@ -16497,12 +16581,12 @@ msgstr "Konservi Ekos Sekvencovicon"
 msgid "Failed to save sequence queue"
 msgstr "Malsukcesis konservi la sekvencan vicon"
 
-#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:886
+#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:887
 #, kde-format
 msgid "Dark Flat"
 msgstr "Malhela Plata"
 
-#: ekos/capture/camera_jobs.cpp:924
+#: ekos/capture/camera_jobs.cpp:925
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -100277,6 +100361,9 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
+
+#~ msgid "Dark frame %s is expired. Please create new master dark."
+#~ msgstr "Malhela kadro %s eksvalidiĝis. Bonvolu krei novan majstron mallumo."
 
 #~ msgid "Reset train"
 #~ msgstr "Restarigi ĉenon"
