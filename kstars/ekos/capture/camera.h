@@ -399,6 +399,21 @@ class Camera : public QWidget, public Ui::Camera
          */
         void onStandAloneShow(QShowEvent* event);
 
+        /**
+         * @brief Set up the target temperature spinbox from the camera limits remembered
+         * for the stand-alone editor.
+         *
+         * syncCameraInfo() does this from the live device, but the stand-alone editor has no
+         * camera attached, so it has to establish the "--" special value (no target temperature)
+         * itself. Without it TemperatureSpinSpecialValue keeps its INVALID_VALUE initializer and
+         * never matches the spinbox, so a field showing "--" would still be stored as a target
+         * temperature equal to @p min.
+         *
+         * @param min lowest temperature the camera accepts
+         * @param max highest temperature the camera accepts
+         */
+        void setStandAloneTemperatureRange(double min, double max);
+
         bool m_standAlone {false};
         void setStandAloneGain(double value);
         void setStandAloneOffset(double value);

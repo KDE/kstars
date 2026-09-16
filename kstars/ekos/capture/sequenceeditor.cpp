@@ -177,9 +177,7 @@ void SequenceEditor::onStandAloneShow()
             maxTemp = temperatureList[1].toDouble();
         }
     }
-    m_camera->cameraTemperatureN->setMinimum(minTemp);
-    m_camera->cameraTemperatureN->setMaximum(maxTemp);
-    m_camera->cameraTemperatureN->setSpecialValueText(i18n("--"));
+    m_camera->setStandAloneTemperatureRange(minTemp, maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.

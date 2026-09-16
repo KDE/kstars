@@ -1286,6 +1286,19 @@ void Camera::onStandAloneShow(QShowEvent * event)
     });
 }
 
+void Camera::setStandAloneTemperatureRange(double min, double max)
+{
+    // Mirror syncCameraInfo(): the spinbox itself carries the "--" special value one step
+    // below the camera's minimum, so that minimum stays selectable as a real target.
+    TemperatureSpinSpecialValue = min - cameraTemperatureN->singleStep();
+    cameraTemperatureN->setRange(TemperatureSpinSpecialValue, max);
+    cameraTemperatureN->setSpecialValueText(i18n("--"));
+
+    // Start out with no target temperature, as gain and offset do above. Otherwise the
+    // spinbox would keep whatever value it happened to hold and silently enforce it.
+    cameraTemperatureN->setValue(TemperatureSpinSpecialValue);
+}
+
 void Camera::setStandAloneGain(double value)
 {
     QMap<QString, QMap<QString, QVariant> > propertyMap = m_customPropertiesDialog->getCustomProperties();
