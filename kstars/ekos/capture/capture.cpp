@@ -140,6 +140,21 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::newLocalPreview, this, &Capture::newLocalPreview);
     connect(newCamera.get(), &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
     connect(newCamera.get(), &Camera::trainChanged, this, &Capture::trainChanged);
+    connect(newCamera.get(), &Camera::trainChanged, this, [this]()
+    {
+        // Deliberately not capturing the QSharedPointer<Camera> here: doing
+        // so made this connection -- stored inside the Camera object's own
+        // connection list -- hold a strong reference back to itself, a cycle
+        // that outlives Qt's parent-child teardown of the tab widget and
+        // crashed in ~Camera()/~Focus() on shutdown. sender() is valid for
+        // the duration of this call regardless.
+        auto *cam = qobject_cast<Camera *>(sender());
+        if (!cam)
+            return;
+        const QString device = resolveCameraDevice(cam->opticalTrain());
+        if (!device.isEmpty())
+            emit cameraDeviceActive(device);
+    });
     connect(newCamera.get(), &Camera::settingsUpdated, this, &Capture::settingsUpdated);
     connect(newCamera.get(), &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);
     connect(newCamera.get(), &Camera::newFilterStatus, this, &Capture::newFilterStatus);
@@ -181,8 +196,25 @@ QSharedPointer<Camera> Capture::addCamera()
     moduleState()->addCamera(newCamera);
     // update the tab text
     updateCamera(tabIndex, true);
+    {
+        const QString device = resolveCameraDevice(newCamera->opticalTrain());
+        if (!device.isEmpty())
+            emit cameraDeviceActive(device);
+    }
 
     return newCamera;
+}
+
+QString Capture::resolveCameraDevice(const QString &train) const
+{
+    if (train.isEmpty() || train == "--")
+        return QString();
+    auto camera = OpticalTrainManager::Instance()->getCamera(train);
+    // No train-name fallback here (unlike Analyze's own resolveCameraDevice(),
+    // used once real data already exists for the device): this is called as
+    // soon as a tab appears, often before its camera has connected, and the
+    // train name is not a device name.
+    return camera ? camera->getDeviceName() : QString();
 }
 
 const QString Capture::findUnusedOpticalTrain()
@@ -470,6 +502,9 @@ void Ekos::Capture::closeCameraTab(int tabIndex)
     moduleState()->removeCamera(tabIndex);
     // select the next one on the left
     cameraTabs->setCurrentIndex(std::max(0, tabIndex - 1));
+    // Deliberately no cameraDeviceActive() update here: closing a tab
+    // shouldn't make its earlier events disappear from listeners like
+    // Analyze that only ever add devices, never remove them.
 }
 
 void Capture::checkCloseCameraTab(int tabIndex)

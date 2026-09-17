@@ -484,7 +484,10 @@ void Camera::initCamera()
     connect(m_cameraProcess.data(), &CameraProcess::stopCapture, this, &Camera::stop);
     connect(m_cameraProcess.data(), &CameraProcess::jobStarting, this, &Camera::jobStarting);
     connect(m_cameraProcess.data(), &CameraProcess::cameraReady, this, &Camera::ready);
-    connect(m_cameraProcess.data(), &CameraProcess::captureAborted, this, &Camera::captureAborted);
+    connect(m_cameraProcess.data(), &CameraProcess::captureAborted, this, [&](double exposureSeconds)
+    {
+        Q_EMIT captureAborted(exposureSeconds, opticalTrain());
+    });
     connect(m_cameraProcess.data(), &CameraProcess::captureRunning, this, &Camera::captureRunning);
     connect(m_cameraProcess.data(), &CameraProcess::captureImageStarted, this, &Camera::captureImageStarted);
     connect(m_cameraProcess.data(), &CameraProcess::jobExecutionPreparationStarted, this,

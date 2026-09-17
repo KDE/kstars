@@ -582,6 +582,34 @@ void FocusModule::initFocuser(QSharedPointer<Focus> newFocuser)
     connect(newFocuser.get(), &Focus::autofocusComplete,     this, &FocusModule::autofocusComplete);
     connect(newFocuser.get(), &Focus::autofocusAborted,      this, &FocusModule::autofocusAborted);
     connect(newFocuser.get(), &Focus::adaptiveFocusComplete, this, &FocusModule::adaptiveFocusComplete);
+
+    connect(newFocuser.get(), &Focus::trainChanged, this, [this]()
+    {
+        // Deliberately not capturing the QSharedPointer<Focus> here: doing so
+        // made this connection -- stored inside the Focus object's own
+        // connection list -- hold a strong reference back to itself, a cycle
+        // that outlives Qt's parent-child teardown of the tab widget and
+        // crashed in ~Focus() on shutdown. sender() is valid for the
+        // duration of this call regardless.
+        auto *focuser = qobject_cast<Focus *>(sender());
+        if (!focuser)
+            return;
+        const QString device = resolveFocuserDevice(focuser->opticalTrain());
+        if (!device.isEmpty())
+            emit focuserDeviceActive(device);
+    });
+}
+
+QString FocusModule::resolveFocuserDevice(const QString &train) const
+{
+    if (train.isEmpty() || train == "--")
+        return QString();
+    auto focuser = OpticalTrainManager::Instance()->getFocuser(train);
+    // No train-name fallback here (unlike Analyze's own resolveFocuserDevice(),
+    // used once real data already exists for the device): this is called as
+    // soon as a tab appears, often before its focuser has connected, and the
+    // train name is not a device name.
+    return focuser ? focuser->getDeviceName() : QString();
 }
 
 QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
@@ -613,6 +641,11 @@ QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
     // update the tab text
     updateFocuser(tabIndex, true);
     initFocuser(newFocuser);
+    {
+        const QString device = resolveFocuserDevice(newFocuser->opticalTrain());
+        if (!device.isEmpty())
+            emit focuserDeviceActive(device);
+    }
 
     return newFocuser;
 }
@@ -649,6 +682,9 @@ void FocusModule::closeFocuserTab(int tabIndex)
     focuser->disconnect(this);
     focuser->disconnectSyncSettings();
     m_Focusers.removeAt(tabIndex);
+    // Deliberately no focuserDeviceActive() update here: closing a tab
+    // shouldn't make its earlier events disappear from listeners like
+    // Analyze that only ever add devices, never remove them.
 }
 
 void FocusModule::showOptions()

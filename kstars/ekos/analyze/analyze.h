@@ -15,10 +15,12 @@
 #include "ui_analyze.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/focus/focusutils.h"
+#include "Options.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;
 class QCustomPlot;
+class QMenu;
 
 namespace Ekos
 {
@@ -56,6 +58,11 @@ class Analyze : public QWidget, public Ui::Analyze
                 QCPItemRect *rect;
                 QBrush temporaryBrush;
 
+                // Device name (camera or focuser) this session belongs to.
+                // Empty for sessions of subsystems that aren't per-device
+                // (Guide, Align, Mount, Flip, Scheduler).
+                QString device;
+
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
@@ -85,13 +92,19 @@ class Analyze : public QWidget, public Ui::Analyze
                 double duration;
                 QString filter;
                 double hfr;
+                // Row placement depends on which device this session belongs to
+                // (see Analyze::captureRow()), so offset is set by the caller
+                // after construction rather than baked in here.
                 CaptureSession(double start_, double end_, QCPItemRect *rect,
                                bool aborted_, const QString &filename_,
-                               double duration_, const QString &filter_)
-                    : Session(start_, end_, CAPTURE_Y, rect),
+                               double duration_, const QString &filter_, const QString &device_ = "")
+                    : Session(start_, end_, 0, rect),
                       aborted(aborted_), filename(filename_),
-                      duration(duration_), filter(filter_), hfr(0) {}
-                CaptureSession() : Session(0, 0, CAPTURE_Y, nullptr) {}
+                      duration(duration_), filter(filter_), hfr(0)
+                {
+                    device = device_;
+                }
+                CaptureSession() : Session(0, 0, 0, nullptr) {}
         };
         // Guide sessions collapse some of the possible guiding states.
         // SimpleGuideState are those collapsed states.
@@ -99,45 +112,50 @@ class Analyze : public QWidget, public Ui::Analyze
         {
             G_IDLE, G_GUIDING, G_CALIBRATING, G_SUSPENDED, G_DITHERING, G_IGNORE
         } SimpleGuideState;
+        // Guide/Align/Mount/Flip/Scheduler each occupy a single row, but that
+        // row's Y-value is a runtime value (it shifts depending on how many
+        // Capture/Focus device rows precede it), not a compile-time constant,
+        // so the caller sets offset explicitly after construction, same as
+        // CaptureSession/FocusSession.
         class GuideSession : public Session
         {
             public:
                 SimpleGuideState simpleState;
                 GuideSession(double start_, double end_, QCPItemRect *rect, SimpleGuideState state_)
-                    : Session(start_, end_, GUIDE_Y, rect), simpleState(state_) {}
-                GuideSession() : Session(0, 0, GUIDE_Y, nullptr) {}
+                    : Session(start_, end_, 0, rect), simpleState(state_) {}
+                GuideSession() : Session(0, 0, 0, nullptr) {}
         };
         class AlignSession : public Session
         {
             public:
                 AlignState state;
                 AlignSession(double start_, double end_, QCPItemRect *rect, AlignState state_)
-                    : Session(start_, end_, ALIGN_Y, rect), state(state_) {}
-                AlignSession() : Session(0, 0, ALIGN_Y, nullptr) {}
+                    : Session(start_, end_, 0, rect), state(state_) {}
+                AlignSession() : Session(0, 0, 0, nullptr) {}
         };
         class MountSession : public Session
         {
             public:
                 ISD::Mount::Status state;
                 MountSession(double start_, double end_, QCPItemRect *rect, ISD::Mount::Status state_)
-                    : Session(start_, end_, MOUNT_Y, rect), state(state_) {}
-                MountSession() : Session(0, 0, MOUNT_Y, nullptr) {}
+                    : Session(start_, end_, 0, rect), state(state_) {}
+                MountSession() : Session(0, 0, 0, nullptr) {}
         };
         class MountFlipSession : public Session
         {
             public:
                 MeridianFlipState::MeridianFlipMountState state;
                 MountFlipSession(double start_, double end_, QCPItemRect *rect, MeridianFlipState::MeridianFlipMountState state_)
-                    : Session(start_, end_, MERIDIAN_MOUNT_FLIP_Y, rect), state(state_) {}
-                MountFlipSession() : Session(0, 0, MERIDIAN_MOUNT_FLIP_Y, nullptr) {}
+                    : Session(start_, end_, 0, rect), state(state_) {}
+                MountFlipSession() : Session(0, 0, 0, nullptr) {}
         };
         class SchedulerJobSession : public Session
         {
             public:
                 SchedulerJobSession(double start_, double end_, QCPItemRect *rect,
                                     const QString &jobName_, const QString &reason_)
-                    : Session(start_, end_, SCHEDULER_Y, rect), jobName(jobName_), reason(reason_) {}
-                SchedulerJobSession() : Session(0, 0, SCHEDULER_Y, nullptr) {}
+                    : Session(start_, end_, 0, rect), jobName(jobName_), reason(reason_) {}
+                SchedulerJobSession() : Session(0, 0, 0, nullptr) {}
                 QString jobName;
                 QString reason;
         };
@@ -169,16 +187,22 @@ class Analyze : public QWidget, public Ui::Analyze
                 // false for adaptiveFocus.
                 bool standardSession = true;
 
-                FocusSession() : Session(0, 0, FOCUS_Y, nullptr) {}
+                // Row placement depends on which device this session belongs to
+                // (see Analyze::focusRow()), so offset is set by the caller
+                // after construction rather than baked in here.
+                FocusSession() : Session(0, 0, 0, nullptr) {}
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
-                             const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
+                             const QString &filter_, const QString &points_, const QString &curve_, const QString &title_,
+                             const QString &device_ = "");
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                              const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_,
                              const bool useWeights_,
-                             const QString &curve_, const QString &title_, const AutofocusFailReason failCode_, const QString failCodeInfo_);
+                             const QString &curve_, const QString &title_, const AutofocusFailReason failCode_, const QString failCodeInfo_,
+                             const QString &device_ = "");
                 FocusSession(double start_, double end_, QCPItemRect *rect,
                              const QString &filter_, double temperature_, double tempTicks_, double altitude_,
-                             double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_);
+                             double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_,
+                             const QString &device_ = "");
                 double focusPosition();
         };
 
@@ -202,9 +226,15 @@ class Analyze : public QWidget, public Ui::Analyze
         // used to gather data about those processes.
 
         // From Capture
-        void captureComplete(const QVariantMap &metadata);
-        void captureStarting(double exposureSeconds, const QString &filter);
-        void captureAborted(double exposureSeconds);
+        void captureComplete(const QVariantMap &metadata, const QString &trainname);
+        void captureStarting(double exposureSeconds, const QString &filter, const QString &trainname);
+        void captureAborted(double exposureSeconds, const QString &trainname);
+        // A camera tab was created or reassigned to this device (see
+        // Capture::cameraDeviceActive()). Adds it to the Timeline's live
+        // camera rows for this session; devices are never removed on this
+        // path (not even when their tab closes -- see the signal's doc),
+        // so earlier events stay visible.
+        void addActiveCamera(const QString &device);
 
         // From Guide
         void guideState(Ekos::GuideState status);
@@ -212,15 +242,19 @@ class Analyze : public QWidget, public Ui::Analyze
                         double snr, double skyBg, int numStars);
 
         // From Focus
-        void autofocusStarting(double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo);
+        void autofocusStarting(double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
+                               const QString &trainname);
         void autofocusComplete(const double temperature, const QString &filter, const QString &points, const bool useWeights,
-                               const QString &curve, const QString &title);
+                               const QString &curve, const QString &title, const QString &trainname);
         void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
                                    double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
-                                   int position, bool focuserMoved);
+                                   int position, bool focuserMoved, const QString &trainname);
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                              const AutofocusFailReason failCode, const QString failCodeInfo);
-        void newTemperature(double temperatureDelta, double temperature);
+                              const AutofocusFailReason failCode, const QString failCodeInfo, const QString &trainname);
+        void newTemperature(double temperatureDelta, double temperature, const QString &trainname);
+        // As addActiveCamera() above, but for focusers (see
+        // FocusModule::focuserDeviceActive()).
+        void addActiveFocuser(const QString &device);
 
         // From Align
         void alignState(Ekos::AlignState state);
@@ -254,26 +288,28 @@ class Analyze : public QWidget, public Ui::Analyze
         // to process their messages. Time is the offset in seconds from the start of the log.
         // BatchMode is true in the file reading path. It means don't call replot() as there may be
         // many more messages to come. The rest of the args are specific to the message type.
-        void processCaptureStarting(double time, double exposureSeconds, const QString &filter);
+        void processCaptureStarting(double time, double exposureSeconds, const QString &filter, const QString &device = "");
         void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
-                                    double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
-        void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
+                                    double hfr, int numStars, int median, double eccentricity, bool batchMode = false,
+                                    const QString &device = "");
+        void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false, const QString &device = "");
         void processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason,
-                                      const QString &reasonInfo);
+                                      const QString &reasonInfo, const QString &device = "");
         void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
                                       const QString &title, bool batchMode);
         void processAutofocusCompleteV2(double time, double temperature, const QString &filter, const AutofocusReason reason,
                                         const QString &reasonInfo,
-                                        const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode = false);
+                                        const QString &points, const bool useWeights, const QString &curve, const QString &title,
+                                        bool batchMode = false, const QString &device = "");
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode);
         void processAutofocusAbortedV2(double time, double temperature, const QString &filter, const AutofocusReason reason,
                                        const QString &reasonInfo,
                                        const QString &points, const bool useWeights, const AutofocusFailReason failCode, const QString failCodeInfo,
-                                       bool batchMode = false);
+                                       bool batchMode = false, const QString &device = "");
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
                                           double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
-                                          int position, bool focuserMoved, bool batchMode = false);
-        void processTemperature(double time, double temperature, bool batchMode = false);
+                                          int position, bool focuserMoved, bool batchMode = false, const QString &device = "");
+        void processTemperature(double time, double temperature, bool batchMode = false, const QString &device = "");
         void processGuideState(double time, const QString &state, bool batchMode = false);
         void processGuideStats(double time, double raError, double decError, int raPulse,
                                int decPulse, double snr, double skyBg, int numStars, bool batchMode = false);
@@ -315,8 +351,11 @@ class Analyze : public QWidget, public Ui::Analyze
         // will determine which segment on which line was clicked and then
         // call captureSessionClicked() or focusSessionClicked, etc.
         void processTimelineClick(QMouseEvent *event, bool doubleClick);
-        void captureSessionClicked(CaptureSession &c, bool doubleClick);
-        void focusSessionClicked(FocusSession &c, bool doubleClick);
+        // updateDeviceSelection is false when this is called from the "keep current"
+        // auto-follow path on live completion events, so the device combo selection
+        // (a user choice) isn't yanked around by unrelated devices' activity.
+        void captureSessionClicked(CaptureSession &c, bool doubleClick, bool updateDeviceSelection = true);
+        void focusSessionClicked(FocusSession &c, bool doubleClick, bool updateDeviceSelection = true);
         void guideSessionClicked(GuideSession &c, bool doubleClick);
         void mountSessionClicked(MountSession &c, bool doubleClick);
         void alignSessionClicked(AlignSession &c, bool doubleClick);
@@ -329,6 +368,10 @@ class Analyze : public QWidget, public Ui::Analyze
         void timelineMouseDoubleClick(QMouseEvent *event);
         // Calls zoomIn or zoomOut.
         void timelineMouseWheel(QWheelEvent *event);
+        // Shows the hovered row's full device name(s) as a tooltip, since
+        // the row label itself is now a short "Cam N"/"Foc N" form (see
+        // deviceShortLabel()).
+        void timelineMouseMove(QMouseEvent *event);
         // Sets the various displays visbile or not according to the checkboxes.
         void setVisibility();
 
@@ -350,6 +393,13 @@ class Analyze : public QWidget, public Ui::Analyze
         // These are assigned to various keystrokes.
         void nextTimelineItem();
         void previousTimelineItem();
+
+        // Resolve an optical train name to the device name of the camera/focuser
+        // currently assigned to it, so that renamed/reassigned trains don't
+        // change the meaning of historical .analyze logs. Falls back to the
+        // train name itself if no live device is found.
+        QString resolveCameraDevice(const QString &trainname);
+        QString resolveFocuserDevice(const QString &trainname);
 
         // logTime() returns the number of seconds between "now" or "time" and
         // the start of the log. They are useful for recording signal and storing
@@ -388,22 +438,32 @@ class Analyze : public QWidget, public Ui::Analyze
         void addMountCoords(double ra, double dec, double az, double alt, int pierSide,
                             double ha, double time);
         void addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
-                    const double time, double startTime);
-        void addTemperature(double temperature, const double time);
-        void addFocusPosition(double focusPosition, double time);
+                    const double time, double startTime, const QString &device = "");
+        void addTemperature(double temperature, const double time, const QString &device = "");
+        void addFocusPosition(double focusPosition, double time, const QString &device = "");
         void addTargetDistance(double targetDistance, const double time);
 
         // Initialize the graphs (axes, linestyle, pen, name, checkbox callbacks).
         // Returns the graph index.
         int initGraph(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle lineStyle,
                       const QColor &color, const QString &name);
+        // deviceGraphs, when given, receives this call's graph under the ""
+        // key (see deviceStatGraph()), and the checkbox this stat is tied to
+        // toggles every device's line for it together, not just this one.
         template <typename Func>
         int initGraphAndCB(QCustomPlot *plot, QCPAxis *yAxis, QCPGraph::LineStyle lineStyle,
                            const QColor &color, const QString &name, const QString &shortName,
-                           QCheckBox *cb, Func setCb, QLineEdit *out = nullptr);
+                           QCheckBox *cb, Func setCb, QLineEdit *out = nullptr,
+                           QMap<QString, int> *deviceGraphs = nullptr);
 
         // Make graphs visible/invisible & add/delete them from the legend.
         void toggleGraph(int graph_id, bool show);
+
+        // Returns device's line within a per-device stat (HFR, temperature,
+        // etc.), sharing baseGraph's axis/line style/checkbox visibility,
+        // creating a new line -- with a color variation so overlaid devices
+        // stay distinguishable -- on first use.
+        int deviceStatGraph(QMap<QString, int> &deviceGraphs, const QString &device, int baseGraph);
 
         // Initializes the main QCustomPlot windows.
         void initStatsPlot();
@@ -450,7 +510,11 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // Read and display an input .analyze file.
         double readDataFromFile(const QString &filename);
-        double processInputLine(const QString &line);
+        // If discoverDevicesOnly is true, this only registers each line's
+        // device (so the Timeline's rows can be fully laid out before
+        // anything is plotted) instead of actually processing the line; see
+        // readDataFromFile()'s two-pass read.
+        double processInputLine(const QString &line, bool discoverDevicesOnly = false);
 
         // Opens a FITS file for viewing.
         void displayFITS(const QString &filename);
@@ -483,6 +547,25 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // The y-axis values displayed to the left of the stat's graph.
         QCPAxis *activeYAxis { nullptr };
+
+        // Cached common left margin for the Timeline/Stats plots (see replot()).
+        // Only recomputed when m_marginsDirty is set, instead of on every
+        // replot() call, since re-measuring against the currently displayed
+        // (auto-scaled) tick labels made the axis visibly tremble as their
+        // digit count varied from one routine update to the next.
+        int m_statsLeftMargin { 0 };
+        bool m_marginsDirty { true };
+
+        // The Stats legend's items land in it in whatever order
+        // addToLegend() got called for them -- a per-device graph is only
+        // created (and added) once its first data point arrives, and
+        // re-checking a checkbox re-adds its entry at the end -- so the
+        // legend can end up in an arbitrary, shuffled order. sortStatsLegend()
+        // (called from replot() when this is set) puts every currently
+        // shown entry back in a fixed order matching how the stats are
+        // defined in initStatsPlot(), without changing which ones are shown.
+        bool m_legendDirty { true };
+        void sortStatsLegend();
 
         void startYAxisTool(QObject *key, const YAxisInfo &info);
 
@@ -557,26 +640,46 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // When a module's session is ongoing, we represent it as a "temporary session"
         // which will be replaced once the session is done.
-        CaptureSession temporaryCaptureSession;
-        FocusSession temporaryFocusSession;
+        // Capture and Focus support multiple concurrent devices (multiple camera/
+        // focuser tabs), so their in-flight state, including the temporary session,
+        // is tracked per device below instead of as a single shared instance.
         GuideSession temporaryGuideSession;
         AlignSession temporaryAlignSession;
         MountSession temporaryMountSession;
         MountFlipSession temporaryMountFlipSession;
         SchedulerJobSession temporarySchedulerJobSession;
 
-        // Capture state-machine variables.
-        double captureStartedTime { -1 };
+        // Per-device capture state-machine variables, keyed by resolved device
+        // name (see resolveCameraDevice()). A device with no entry is idle.
+        struct CaptureDeviceState
+        {
+            double startedTime { -1 };
+            QString startedFilter;
+            CaptureSession temporarySession;
+        };
+        QMap<QString, CaptureDeviceState> captureDeviceStates;
+        // True if any device currently has a capture in flight. Used by guiding,
+        // which isn't itself per-device, to decide whether to plot capture RMS.
+        bool anyCaptureInProgress() const;
+
+        // previousCaptureStartedTime/previousCaptureCompletedTime track the most
+        // recently completed capture across all devices (used to place the
+        // Scheduler-driven target-distance graph, which has no device of its own).
         double previousCaptureStartedTime { 1 };
         double previousCaptureCompletedTime { 1 };
-        QString captureStartedFilter { "" };
 
-        // Autofocus state-machine variables.
-        double autofocusStartedTime { -1 };
-        QString autofocusStartedFilter { "" };
-        double autofocusStartedTemperature { 0 };
-        AutofocusReason autofocusStartedReason { AutofocusReason::FOCUS_NONE};
-        QString autofocusStartedReasonInfo { "" };
+        // Per-device autofocus state-machine variables, keyed by resolved device
+        // name (see resolveFocuserDevice()). A device with no entry is idle.
+        struct FocusDeviceState
+        {
+            double startedTime { -1 };
+            QString startedFilter;
+            double startedTemperature { 0 };
+            AutofocusReason startedReason { AutofocusReason::FOCUS_NONE };
+            QString startedReasonInfo;
+            FocusSession temporarySession;
+        };
+        QMap<QString, FocusDeviceState> focusDeviceStates;
 
         // GuideState state-machine variables.
         SimpleGuideState lastGuideStateStarted { G_IDLE };
@@ -627,18 +730,161 @@ class Analyze : public QWidget, public Ui::Analyze
         void clearSelectedSession();
         Session m_selectedSession;
 
+        // The camera whose per-device Capture stats (HFR, #SubStars,
+        // median, eccentricity) are shown in the readout boxes, kept in
+        // sync both ways with captureDeviceCombo: selecting a device from
+        // the combo or clicking one of its Timeline sessions both call this.
+        // Empty with 0-1 cameras (captureDeviceCombo is hidden then; see
+        // buildDeviceRows()), in which case updateStatsValues() falls back
+        // to whatever Timeline session is currently selected, as before.
+        QString m_selectedCaptureDevice;
+        void selectCaptureDevice(const QString &device);
+
+        // As m_selectedCaptureDevice/selectCaptureDevice() above, but for
+        // the focuser whose temperature/focus-position stats are shown
+        // (focusDeviceCombo, kept in sync with clicking a Timeline Focus
+        // session).
+        QString m_selectedFocusDevice;
+        void selectFocusDevice(const QString &device);
+
         // Analyze log file info.
         QStringList m_LogText;
 
-        // Y-offsets for the timeline plot for the various modules.
-        static constexpr int CAPTURE_Y = 1;
-        static constexpr int FOCUS_Y = 2;
-        static constexpr int ALIGN_Y = 3;
-        static constexpr int GUIDE_Y = 4;
-        static constexpr int MERIDIAN_MOUNT_FLIP_Y = 5;
-        static constexpr int MOUNT_Y = 6;
-        static constexpr int SCHEDULER_Y = 7;
-        static constexpr int LAST_Y = 8;
+        // Y-offsets for the timeline plot, computed by buildDeviceRows()
+        // rather than fixed at compile time (see captureRowForDevice/
+        // focusRowForDevice below for the Capture/Focus rows).
+        int ALIGN_Y { 3 };
+        int GUIDE_Y { 4 };
+        int MERIDIAN_MOUNT_FLIP_Y { 5 };
+        int MOUNT_Y { 6 };
+        int SCHEDULER_Y { 7 };
+        int LAST_Y { 8 };
+
+        // Row assignment for Capture/Focus, keyed by resolved device name (see
+        // resolveCameraDevice()/resolveFocuserDevice()). Historical sessions
+        // with no recorded device (pre-2.0 .analyze files) use "" as their key,
+        // same as any other device.
+        QMap<QString, int> captureRowForDevice;
+        QMap<QString, int> focusRowForDevice;
+
+        // Every camera/focuser device that has had a tab in this session,
+        // grown by addActiveCamera()/addActiveFocuser() (see
+        // Capture::cameraDeviceActive()/FocusModule::focuserDeviceActive()).
+        // Never shrinks -- a closed tab's device stays, so its earlier events
+        // remain visible. Used by buildDeviceRows() to seed a live session's
+        // rows, instead of every device configured in the profile's optical
+        // trains whether or not it's actually captured/focused through.
+        QStringList m_liveCameraDevices;
+        QStringList m_liveFocuserDevices;
+
+        // Short, fixed-form label ("Cam 1", "Foc 2", ..., or "Camera"/
+        // "Focuser" when there's only one) for each known device, rebuilt by
+        // buildDeviceRows() whenever the device set changes (see there for
+        // the numbering rule). Used on the Timeline
+        // and in the Stats legend in place of the raw (often long) device
+        // name; the device-filter menu shows both, and the Timeline shows
+        // the full name as a tooltip (see timelineMouseMove()).
+        QMap<QString, QString> m_deviceShortLabel;
+        QString deviceShortLabel(const QString &device) const
+        {
+            return m_deviceShortLabel.value(device, device);
+        }
+
+        // Rebuilds the rows above -- from the live device lists above for a
+        // live session (see addActiveCamera()/addActiveFocuser()), plus any
+        // device already present in captureSessions/captureDeviceStates/
+        // focusSessions/focusDeviceStates (e.g. from a loaded .analyze file
+        // whose devices aren't part of the current profile) -- and rebuilds
+        // the Timeline's row labels/axis range to match. Called whenever the
+        // session resets (see reset()) and whenever a new device is seen for
+        // the first time (see captureRow()/focusRow()). Devices hidden via
+        // the device-filter menu (see
+        // isDeviceHidden()) are left out of the row assignment entirely, so
+        // shown devices stay packed with no gaps; rebuildDeviceFilterMenu()
+        // still gets the full, unfiltered device list so a hidden device
+        // remains available to bring back.
+        void buildDeviceRows();
+
+        // True for any device the user unchecked in the device-filter menu.
+        // "" (the pre-2.0-log/no-device bucket) is never filterable.
+        bool isDeviceHidden(const QString &device) const
+        {
+            return !device.isEmpty() && Options::analyzeHiddenDevices().contains(device);
+        }
+
+        // Persists the device's hidden state and redraws the Timeline/Stats
+        // plots to match (see reloadDisplay()).
+        void setDeviceHidden(const QString &device, bool hidden);
+
+        // (Re)populates deviceFilterButton's menu with one checkable action
+        // per known camera/focuser, reflecting the persisted hidden set.
+        // Called from buildDeviceRows() with its full, unfiltered device
+        // lists.
+        void rebuildDeviceFilterMenu(const QStringList &cameraDevices, const QStringList &focuserDevices);
+        QMenu *deviceFilterMenu { nullptr };
+
+        // Applies the current hidden-device set to every already-created
+        // per-device Stats graph (HFR_GRAPH, TEMPERATURE_GRAPH, etc.).
+        // Hiding a device only stops isDeviceHidden()'s process*() guards
+        // from feeding it *new* points -- it doesn't touch graphs already
+        // created (with a checkbox-derived visibility/legend state) from
+        // before it was hidden, so this re-applies that state to all of
+        // them. Called from buildDeviceRows(), since that's already the
+        // central place the device-filter set gets re-applied.
+        void applyDeviceStatVisibility();
+
+        // Forgets every per-device entry (keeping only the "" placeholder)
+        // in the six per-device Stats graph maps, hiding and removing each
+        // from the legend first. Called from reset(), so switching to a
+        // session/file with a different (or no) set of devices doesn't
+        // leave the previous one's now-stale entries sitting in the Stats
+        // legend -- applyDeviceStatVisibility() only re-applies visibility
+        // to whatever's still *in* these maps, it doesn't know a device is
+        // stale. The now-unused QCPGraph objects are left in the plot
+        // (invisible, dataless) rather than removed: QCustomPlot::
+        // removeGraph() shifts every later graph's stored index, which the
+        // many other XXX_GRAPH int members throughout this file assume
+        // stays fixed once assigned.
+        void clearDeviceStatGraphs();
+
+        // Redraws the Timeline/Stats plots from the log backing whatever is
+        // currently displayed (a loaded .analyze file, or the current live
+        // session's log) so a device-filter change takes effect immediately.
+        // A hidden device is skipped while replaying (see the process*()
+        // functions' isDeviceHidden() guards) rather than removed from the
+        // log itself, so showing it again later recovers its full history.
+        void reloadDisplay();
+
+        // Returns the row for this device, allocating one (and rebuilding all
+        // rows below it) on first use if the device hasn't been seen yet.
+        int captureRow(const QString &device)
+        {
+            auto it = captureRowForDevice.constFind(device);
+            if (it != captureRowForDevice.constEnd())
+                return it.value();
+            buildDeviceRows();
+            return captureRowForDevice.value(device, 1);
+        }
+        int focusRow(const QString &device)
+        {
+            auto it = focusRowForDevice.constFind(device);
+            if (it != focusRowForDevice.constEnd())
+                return it.value();
+            buildDeviceRows();
+            return focusRowForDevice.value(device, 1);
+        }
+        bool isCaptureRow(int row) const
+        {
+            return captureRowForDevice.values().contains(row);
+        }
+        bool isFocusRow(int row) const
+        {
+            return focusRowForDevice.values().contains(row);
+        }
+        // Which device(s) a Capture/Focus row corresponds to (normally just
+        // one, since every known device gets its own row).
+        QStringList captureDevicesForRow(int row) const;
+        QStringList focusDevicesForRow(int row) const;
 
         // Error bars used on the Focus graphs
         QCPErrorBars *errorBars = nullptr;

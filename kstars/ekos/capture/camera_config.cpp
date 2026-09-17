@@ -626,6 +626,12 @@ void Camera::initOpticalTrain()
         refreshOpticalTrain(id);
     }
     opticalTrainCombo->blockSignals(false);
+    // The selection above (construction-time default, or a profile/train
+    // list change) is made with signals blocked, so it never reaches
+    // currentIndexChanged's handler -- emit directly instead, so listeners
+    // (e.g. Analyze) see the train that's actually selected now, not only
+    // ones the user interactively picks from the combo.
+    Q_EMIT trainChanged();
 }
 
 void Camera::refreshOpticalTrain(const int id)

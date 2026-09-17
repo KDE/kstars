@@ -238,7 +238,7 @@ void AdaptiveFocus::adaptiveFocusAdmin(const int currentPosition, const bool suc
 
         Q_EMIT m_focus->adaptiveFocusComplete(m_focus->filter(), m_ThisAdaptiveFocusTemperature, m_ThisAdaptiveFocusTempTicks,
                                               m_ThisAdaptiveFocusAlt, m_ThisAdaptiveFocusAltTicks, m_LastAdaptiveFocusPosErrorReversal,
-                                              thisPosError, totalTicks, currentPosition, focuserMoved);
+                                              thisPosError, totalTicks, currentPosition, focuserMoved, m_focus->opticalTrain());
 
         // Check that totalTicks movement is above minimum
         if (totalTicks < m_focus->m_OpsFocusSettings->focusAdaptiveMinMove->value())

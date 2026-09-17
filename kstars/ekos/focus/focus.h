@@ -579,11 +579,12 @@ class Focus : public QWidget, public Ui::Focus
         void settingsUpdated(const QVariantMap &settings);
 
         // Signals for Analyze.
-        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo);
+        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo,
+                               const QString &trainname);
         void autofocusComplete(double temperature, const QString &filter, const QString &points, const bool useWeights,
-                               const QString &curve = "", const QString &title = "");
+                               const QString &curve, const QString &title, const QString &trainname);
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                              const AutofocusFailReason failCode, const QString &failCodeInfo);
+                              const AutofocusFailReason failCode, const QString &failCodeInfo, const QString &trainname);
 
         // Focus Advisor
         void newFocusAdvisorStage(int stage);
@@ -603,7 +604,8 @@ class Focus : public QWidget, public Ui::Focus
          * @param focuserMoved indicates whether totalTicks > minimum focuser movement
          */
         void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks, double altitude, double altTicks,
-                                   int prevPosError, int thisPosError, int totalTicks, int position, bool focuserMoved);
+                                   int prevPosError, int thisPosError, int totalTicks, int position, bool focuserMoved,
+                                   const QString &trainname);
 
         // HFR V curve plot events
         /**

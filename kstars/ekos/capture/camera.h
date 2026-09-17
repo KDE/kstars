@@ -465,8 +465,8 @@ class Camera : public QWidget, public Ui::Camera
         void newLog(const QString &text);
 
         // Signals for the Analyze tab.
-        void captureStarting(double exposureSeconds, const QString &filter);
-        void captureAborted(double exposureSeconds);
+        void captureStarting(double exposureSeconds, const QString &filter, const QString &trainname);
+        void captureAborted(double exposureSeconds, const QString &trainname);
 
         // communication with other modules
         void checkFocus(double, const QString &trainname);

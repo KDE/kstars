@@ -167,7 +167,7 @@ void Camera::processingFITSfinished(bool success)
 void Camera::captureRunning()
 {
     Q_EMIT captureStarting(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                           activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
+                           activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString(), opticalTrain());
     if (isActiveJobPreview())
         frameInfoLabel->setText("Expose (-/-):");
     else if (activeJob()->getFrameType() != FRAME_VIDEO)

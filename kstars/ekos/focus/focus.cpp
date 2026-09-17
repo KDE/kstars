@@ -1378,7 +1378,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
                                << " FWHM (θ):" << m_CFZUI->focusCFZSeeing->value();
 
     const double temperature = (currentTemperatureSourceElement) ? currentTemperatureSourceElement->value : INVALID_VALUE;
-    Q_EMIT autofocusStarting(temperature, filter(), m_AutofocusReason, m_AutofocusReasonInfo);
+    Q_EMIT autofocusStarting(temperature, filter(), m_AutofocusReason, m_AutofocusReasonInfo, opticalTrain());
 
     appendLogText(i18n("Autofocus starting..."));
 
@@ -2696,10 +2696,10 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
             if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && curveFitting != nullptr)
                 Q_EMIT autofocusComplete(m_LastSourceAutofocusTemperature, filter(), getAnalyzeData(),
                                          m_OpsFocusProcess->focusUseWeights->isChecked(),
-                                         curveFitting->serialize(), linearFocuser->getTextStatus(R2));
+                                         curveFitting->serialize(), linearFocuser->getTextStatus(R2), opticalTrain());
             else
                 Q_EMIT autofocusComplete(m_LastSourceAutofocusTemperature, filter(), getAnalyzeData(),
-                                         m_OpsFocusProcess->focusUseWeights->isChecked());
+                                         m_OpsFocusProcess->focusUseWeights->isChecked(), "", "", opticalTrain());
         }
         else
         {
@@ -2707,7 +2707,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
                 KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
                                       KSNotification::Focus, KSNotification::Alert);
             Q_EMIT autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode,
-                                    failCodeInfo);
+                                    failCodeInfo, opticalTrain());
         }
     }
 
@@ -2825,7 +2825,7 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
             if (retry_focusing)
             {
                 Q_EMIT autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode,
-                                        failCodeInfo);
+                                        failCodeInfo, opticalTrain());
                 return;
             }
             else
@@ -8098,6 +8098,12 @@ void Focus::initOpticalTrain()
     }
 
     opticalTrainCombo->blockSignals(false);
+    // The selection above (construction-time default, or a profile/train
+    // list change) is made with signals blocked, so it never reaches
+    // currentIndexChanged's handler -- emit directly instead, so listeners
+    // (e.g. Analyze) see the train that's actually selected now, not only
+    // ones the user interactively picks from the combo.
+    Q_EMIT trainChanged();
 }
 
 void Focus::refreshOpticalTrain(const int id)

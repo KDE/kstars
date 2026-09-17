@@ -8,17 +8,23 @@
 #include "qtcompat.h"
 
 #include <knotification.h>
+#include <limits>
+#include <QAction>
 #include <QDateTime>
+#include <QMenu>
 #include <QShortcut>
 #include <QtGlobal>
 #include <QColor>
 
 #include "auxiliary/kspaths.h"
 #include "dms.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/manager.h"
 #include "ekos/focus/curvefit.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsviewer.h"
+#include "indi/indicamera.h"
+#include "indi/indifocuser.h"
 #include "ksmessagebox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -77,14 +83,17 @@ constexpr int MAX_SCROLL_VALUE = 10000;
 // vertical widths are from y-halfTimelineHeight to y+halfTimelineHeight.
 constexpr double halfTimelineHeight = 0.35;
 
-// These are initialized in initStatsPlot when the graphs are added.
-// They index the graphs in statsPlot, e.g. statsPlot->graph(HFR_GRAPH)->addData(...)
-int HFR_GRAPH = -1;
-int TEMPERATURE_GRAPH = -1;
-int FOCUS_POSITION_GRAPH = -1;
-int NUM_CAPTURE_STARS_GRAPH = -1;
-int MEDIAN_GRAPH = -1;
-int ECCENTRICITY_GRAPH = -1;
+// HFR/temperature/etc. are split one line per camera/focuser device, so
+// these index the graphs in statsPlot keyed by device name, e.g.
+// statsPlot->graph(HFR_GRAPH[device])->addData(...). Populated by
+// initStatsPlot() (the "" entry, matching the stat's checkbox/Y-axis-tool
+// wiring) and grown by Analyze::deviceStatGraph() as new devices are seen.
+QMap<QString, int> HFR_GRAPH;
+QMap<QString, int> TEMPERATURE_GRAPH;
+QMap<QString, int> FOCUS_POSITION_GRAPH;
+QMap<QString, int> NUM_CAPTURE_STARS_GRAPH;
+QMap<QString, int> MEDIAN_GRAPH;
+QMap<QString, int> ECCENTRICITY_GRAPH;
 int NUMSTARS_GRAPH = -1;
 int SKYBG_GRAPH = -1;
 int SNR_GRAPH = -1;
@@ -124,6 +133,21 @@ const QBrush progress3Brush(Qt::cyan, Qt::SolidPattern);
 const QBrush progress4Brush(Qt::darkGreen, Qt::SolidPattern);
 const QBrush stoppedBrush(Qt::yellow, Qt::SolidPattern);
 const QBrush stopped2Brush(Qt::darkYellow, Qt::SolidPattern);
+
+// Varies a stat's base line color for the index'th additional device sharing
+// that stat's graph, so overlaid devices stay visually distinguishable.
+// index 0 returns the base color unchanged.
+QColor deviceLineColor(const QColor &base, int index)
+{
+    if (index <= 0)
+        return base;
+    int h, s, v, a;
+    base.getHsv(&h, &s, &v, &a);
+    h = (h + index * 47) % 360;
+    QColor color;
+    color.setHsv(h, qMax(s, 120), v, a);
+    return color;
+}
 
 // Utility to checks if a file exists and is not a directory.
 bool fileExists(const QString &path)
@@ -291,8 +315,49 @@ class IntervalFinder
         QList<T> intervals;
 };
 
-IntervalFinder<Ekos::Analyze::CaptureSession> captureSessions;
-IntervalFinder<Ekos::Analyze::FocusSession> focusSessions;
+// Like IntervalFinder, but keeps a separate list of intervals per device, so
+// that concurrent devices (multiple cameras/focusers) don't interleave their
+// sessions, and so a specific device's row on the Timeline can be searched
+// without pulling in every other device's sessions.
+template <class T>
+class PerDeviceIntervalFinder
+{
+    public:
+        void add(const QString &device, const T &value)
+        {
+            finders[device].add(value);
+        }
+        void clear()
+        {
+            finders.clear();
+        }
+        // All device keys that have at least one session, used to find which
+        // devices landed on a shared fallback row.
+        QStringList devices() const
+        {
+            return finders.keys();
+        }
+        QList<T> find(const QString &device, double t)
+        {
+            auto it = finders.find(device);
+            return it != finders.end() ? it->find(t) : QList<T>();
+        }
+        T *findNext(const QString &device, double t)
+        {
+            auto it = finders.find(device);
+            return it != finders.end() ? it->findNext(t) : nullptr;
+        }
+        T *findPrevious(const QString &device, double t)
+        {
+            auto it = finders.find(device);
+            return it != finders.end() ? it->findPrevious(t) : nullptr;
+        }
+    private:
+        QMap<QString, IntervalFinder<T>> finders;
+};
+
+PerDeviceIntervalFinder<Ekos::Analyze::CaptureSession> captureSessions;
+PerDeviceIntervalFinder<Ekos::Analyze::FocusSession> focusSessions;
 IntervalFinder<Ekos::Analyze::GuideSession> guideSessions;
 IntervalFinder<Ekos::Analyze::MountSession> mountSessions;
 IntervalFinder<Ekos::Analyze::AlignSession> alignSessions;
@@ -407,6 +472,7 @@ bool Analyze::eventFilter(QObject *obj, QEvent *ev)
                 m_ClickTimerInfo.checkBox->setChecked(true);
                 statsPlot->graph(m_ClickTimerInfo.graphIndex)->setVisible(true);
                 statsPlot->graph(m_ClickTimerInfo.graphIndex)->addToLegend();
+                m_legendDirty = true;
             }
             userSetLeftAxis(m_ClickTimerInfo.axis);
         });
@@ -424,6 +490,12 @@ Analyze::Analyze() : m_YAxisTool(this)
 
     initInputSelection();
     initTimelinePlot();
+
+    // Optical trains aren't necessarily fully configured yet when Analyze is
+    // constructed (e.g. no profile loaded, or devices not yet connected), and
+    // can change later (a new camera/focuser tab, a profile reload). Rebuild
+    // the Timeline's device rows whenever that happens.
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Analyze::buildDeviceRows);
 
     initStatsPlot();
     connect(&m_YAxisTool, &YAxisTool::axisChanged, this, &Analyze::userChangedYAxis);
@@ -472,11 +544,20 @@ Analyze::Analyze() : m_YAxisTool(this)
     connect(timelinePlot, &QCustomPlot::mousePress, this, &Analyze::timelineMousePress);
     connect(timelinePlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::timelineMouseDoubleClick);
     connect(timelinePlot, &QCustomPlot::mouseWheel, this, &Analyze::timelineMouseWheel);
+    connect(timelinePlot, &QCustomPlot::mouseMove, this, &Analyze::timelineMouseMove);
     connect(statsPlot, &QCustomPlot::mousePress, this, &Analyze::statsMousePress);
     connect(statsPlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::statsMouseDoubleClick);
     connect(statsPlot, &QCustomPlot::mouseMove, this, &Analyze::statsMouseMove);
     connect(analyzeSB, &QScrollBar::valueChanged, this, &Analyze::scroll);
     analyzeSB->setRange(0, MAX_SCROLL_VALUE);
+    connect(captureDeviceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index)
+    {
+        selectCaptureDevice(captureDeviceCombo->itemData(index).toString());
+    });
+    connect(focusDeviceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index)
+    {
+        selectFocusDevice(focusDeviceCombo->itemData(index).toString());
+    });
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(keepCurrentCB, &QCheckBox::checkStateChanged, this, &Analyze::keepCurrent);
 #else
@@ -606,12 +687,19 @@ void Analyze::displayFile(const QUrl &url, bool forceCurrentSession)
         // Input from current session
         inputCombo->setCurrentIndex(0);
         inputValue->setText("");
-        if (!runtimeDisplay)
+        const bool wasShowingLive = runtimeDisplay;
+        // Set before reset()/readDataFromFile() below, so buildDeviceRows()
+        // (called by both) includes m_liveCameraDevices/m_liveFocuserDevices.
+        // A camera/focuser that's live but hasn't recorded anything yet has
+        // nothing in the log file to rediscover it from, so with this still
+        // false during the reset it would stay missing until it produced
+        // its first message.
+        runtimeDisplay = true;
+        if (!wasShowingLive)
         {
             reset();
             maxXValue = readDataFromFile(logFilename);
         }
-        runtimeDisplay = true;
         fullWidthCB->setChecked(true);
         fullWidthCB->setVisible(true);
         fullWidthCB->setDisabled(false);
@@ -801,7 +889,7 @@ void Analyze::addGuideStats(double raDrift, double decDrift, int raPulse, int de
     addGuideStatsInternal(raDrift, decDrift, double(raPulse), double(decPulse), snr, numStars, skyBackground, drift, rms, time);
 
     // If capture is active, plot the capture RMS.
-    if (captureStartedTime >= 0)
+    if (anyCaptureInProgress())
     {
         // lastCaptureRmsTime is the last time we plotted a capture RMS value.
         // If we have plotted values previously, and there's a gap in guiding
@@ -847,17 +935,21 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
     statsPlot->graph(SKYBG_GRAPH)->addData(time, skyBackground);
 }
 
-void Analyze::addTemperature(double temperature, double time)
+void Analyze::addTemperature(double temperature, double time, const QString &device)
 {
     // The HFR corresponds to the last capture
     // If there is no temperature sensor, focus sends a large negative value.
     if (temperature > -200)
-        statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
+    {
+        const int graphId = deviceStatGraph(TEMPERATURE_GRAPH, device, TEMPERATURE_GRAPH[""]);
+        statsPlot->graph(graphId)->addData(time, temperature);
+    }
 }
 
-void Analyze::addFocusPosition(double focusPosition, double time)
+void Analyze::addFocusPosition(double focusPosition, double time, const QString &device)
 {
-    statsPlot->graph(FOCUS_POSITION_GRAPH)->addData(time, focusPosition);
+    const int graphId = deviceStatGraph(FOCUS_POSITION_GRAPH, device, FOCUS_POSITION_GRAPH[""]);
+    statsPlot->graph(graphId)->addData(time, focusPosition);
 }
 
 void Analyze::addTargetDistance(double targetDistance, double time)
@@ -876,28 +968,32 @@ void Analyze::addTargetDistance(double targetDistance, double time)
 
 // Add the HFR values to the Stats graph, as a constant value between startTime and time.
 void Analyze::addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
-                     double time, double startTime)
+                     double time, double startTime, const QString &device)
 {
     // The HFR corresponds to the last capture
-    statsPlot->graph(HFR_GRAPH)->addData(startTime - .0001, qQNaN());
-    statsPlot->graph(HFR_GRAPH)->addData(startTime, hfr);
-    statsPlot->graph(HFR_GRAPH)->addData(time, hfr);
-    statsPlot->graph(HFR_GRAPH)->addData(time + .0001, qQNaN());
+    int graphId = deviceStatGraph(HFR_GRAPH, device, HFR_GRAPH[""]);
+    statsPlot->graph(graphId)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(graphId)->addData(startTime, hfr);
+    statsPlot->graph(graphId)->addData(time, hfr);
+    statsPlot->graph(graphId)->addData(time + .0001, qQNaN());
 
-    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime - .0001, qQNaN());
-    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(startTime, numCaptureStars);
-    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time, numCaptureStars);
-    statsPlot->graph(NUM_CAPTURE_STARS_GRAPH)->addData(time + .0001, qQNaN());
+    graphId = deviceStatGraph(NUM_CAPTURE_STARS_GRAPH, device, NUM_CAPTURE_STARS_GRAPH[""]);
+    statsPlot->graph(graphId)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(graphId)->addData(startTime, numCaptureStars);
+    statsPlot->graph(graphId)->addData(time, numCaptureStars);
+    statsPlot->graph(graphId)->addData(time + .0001, qQNaN());
 
-    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime - .0001, qQNaN());
-    statsPlot->graph(MEDIAN_GRAPH)->addData(startTime, median);
-    statsPlot->graph(MEDIAN_GRAPH)->addData(time, median);
-    statsPlot->graph(MEDIAN_GRAPH)->addData(time + .0001, qQNaN());
+    graphId = deviceStatGraph(MEDIAN_GRAPH, device, MEDIAN_GRAPH[""]);
+    statsPlot->graph(graphId)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(graphId)->addData(startTime, median);
+    statsPlot->graph(graphId)->addData(time, median);
+    statsPlot->graph(graphId)->addData(time + .0001, qQNaN());
 
-    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime - .0001, qQNaN());
-    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(startTime, eccentricity);
-    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time, eccentricity);
-    statsPlot->graph(ECCENTRICITY_GRAPH)->addData(time + .0001, qQNaN());
+    graphId = deviceStatGraph(ECCENTRICITY_GRAPH, device, ECCENTRICITY_GRAPH[""]);
+    statsPlot->graph(graphId)->addData(startTime - .0001, qQNaN());
+    statsPlot->graph(graphId)->addData(startTime, eccentricity);
+    statsPlot->graph(graphId)->addData(time, eccentricity);
+    statsPlot->graph(graphId)->addData(time + .0001, qQNaN());
 
     medianMax = std::max(median, medianMax);
     numCaptureStarsMax = std::max(numCaptureStars, numCaptureStarsMax);
@@ -924,20 +1020,33 @@ double Analyze::readDataFromFile(const QString &filename)
     if (inputFile.open(QIODevice::ReadOnly))
     {
         QTextStream in(&inputFile);
+        QStringList lines;
         while (!in.atEnd())
+            lines << in.readLine();
+        inputFile.close();
+
+        // First pass: register every line's device so the Timeline's rows
+        // are fully laid out up front. Otherwise rows would grow (shifting
+        // the fixed Align/Guide/Mount/etc. rows below them) as new devices
+        // are discovered mid-parse, leaving already-plotted segments at the
+        // wrong row.
+        for (const QString &line : std::as_const(lines))
+            processInputLine(line, true);
+        buildDeviceRows();
+
+        // Second pass: actually process and plot, with rows already stable.
+        for (const QString &line : std::as_const(lines))
         {
-            QString line = in.readLine();
             double time = processInputLine(line);
             if (time > lastTime)
                 lastTime = time;
         }
-        inputFile.close();
     }
     return lastTime;
 }
 
 // Process an input line read from a .analyze file.
-double Analyze::processInputLine(const QString &line)
+double Analyze::processInputLine(const QString &line, bool discoverDevicesOnly)
 {
     bool ok;
     // Break the line into comma-separated components
@@ -967,15 +1076,22 @@ double Analyze::processInputLine(const QString &line)
     if (time < 0 || time > 3600 * 24 * 10)
         return 0;
 
-    if ((list[0] == "CaptureStarting") && (list.size() == 4))
+    if ((list[0] == "CaptureStarting") && (list.size() >= 4))
     {
         const double exposureSeconds = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
         const QString filter = list[3];
-        processCaptureStarting(time, exposureSeconds, filter);
+        // The device name is a newer, optional trailing field.
+        const QString device = list.size() > 4 ? list[4] : "";
+        if (discoverDevicesOnly)
+        {
+            captureDeviceStates[device];
+            return 0;
+        }
+        processCaptureStarting(time, exposureSeconds, filter, device);
     }
-    else if ((list[0] == "CaptureComplete") && (list.size() >= 6) && (list.size() <= 9))
+    else if ((list[0] == "CaptureComplete") && (list.size() >= 6))
     {
         const double exposureSeconds = QString(list[2]).toDouble(&ok);
         if (!ok)
@@ -994,14 +1110,26 @@ double Analyze::processInputLine(const QString &line)
         const double eccentricity = (list.size() > 8) ? QString(list[8]).toDouble(&ok) : 0;
         if (!ok)
             return 0;
-        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, numStars, median, eccentricity, true);
+        const QString device = list.size() > 9 ? list[9] : "";
+        if (discoverDevicesOnly)
+        {
+            captureDeviceStates[device];
+            return 0;
+        }
+        processCaptureComplete(time, filename, exposureSeconds, filter, hfr, numStars, median, eccentricity, true, device);
     }
-    else if ((list[0] == "CaptureAborted") && (list.size() == 3))
+    else if ((list[0] == "CaptureAborted") && (list.size() >= 3))
     {
         const double exposureSeconds = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
-        processCaptureAborted(time, exposureSeconds, true);
+        const QString device = list.size() > 3 ? list[3] : "";
+        if (discoverDevicesOnly)
+        {
+            captureDeviceStates[device];
+            return 0;
+        }
+        processCaptureAborted(time, exposureSeconds, true, device);
     }
     else if ((list[0] == "AutofocusStarting") && (list.size() >= 4))
     {
@@ -1023,7 +1151,13 @@ double Analyze::processInputLine(const QString &line)
                 return 0;
             reasonInfo = list[5];
         }
-        processAutofocusStarting(time, temperature, filter, reason, reasonInfo);
+        const QString device = list.size() > 6 ? list[6] : "";
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[device];
+            return 0;
+        }
+        processAutofocusStarting(time, temperature, filter, reason, reasonInfo, device);
     }
     else if ((list[0] == "AutofocusComplete") && (list.size() >= 8))
     {
@@ -1044,11 +1178,23 @@ double Analyze::processInputLine(const QString &line)
             return 0;
         const QString curve = list.size() > 8 ? list[8] : "";
         const QString title = list.size() > 9 ? list[9] : "";
-        processAutofocusCompleteV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, curve, title, true);
+        const QString device = list.size() > 10 ? list[10] : "";
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[device];
+            return 0;
+        }
+        processAutofocusCompleteV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, curve, title, true, device);
     }
     else if ((list[0] == "AutofocusComplete") && (list.size() >= 4))
     {
-        // Version 1
+        // Version 1 -- predates per-device tracking, so it uses the shared
+        // "" bucket.
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[""];
+            return 0;
+        }
         const QString filter = list[2];
         const QString samples = list[3];
         const QString curve = list.size() > 4 ? list[4] : "";
@@ -1077,20 +1223,30 @@ double Analyze::processInputLine(const QString &line)
         if (failCodeInt < 0 || failCodeInt >= AutofocusFailReason::FOCUS_FAIL_MAX_REASONS)
             return 0;
         failCode = static_cast<AutofocusFailReason>(failCodeInt);
-        if (!ok)
+        const QString failCodeInfo = list.size() > 9 ? list[9] : "";
+        const QString device = list.size() > 10 ? list[10] : "";
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[device];
             return 0;
-        QString failCodeInfo;
-        if (list.size() > 9)
-            failCodeInfo = QString(list[9]);
-        processAutofocusAbortedV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, failCode, failCodeInfo, true);
+        }
+        processAutofocusAbortedV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, failCode, failCodeInfo, true,
+                                  device);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() >= 4))
     {
+        // Version 1 -- predates per-device tracking, so it uses the shared
+        // "" bucket.
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[""];
+            return 0;
+        }
         QString filter = list[2];
         QString samples = list[3];
         processAutofocusAborted(time, filter, samples, true);
     }
-    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() == 12))
+    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() >= 12))
     {
         // This is the second version of the AdaptiveFocusComplete message
         const QString filter = list[2];
@@ -1103,13 +1259,25 @@ double Analyze::processInputLine(const QString &line)
         const int totalTicks = QString(list[9]).toInt(&ok);
         const int position = QString(list[10]).toInt(&ok);
         const bool focuserMoved = QString(list[11]).toInt(&ok) != 0;
+        const QString device = list.size() > 12 ? list[12] : "";
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[device];
+            return 0;
+        }
         processAdaptiveFocusComplete(time, filter, temperature, tempTicks, altitude, altTicks, prevPosError,
-                                     thisPosError, totalTicks, position, focuserMoved, true);
+                                     thisPosError, totalTicks, position, focuserMoved, true, device);
     }
     else if ((list[0] == "AdaptiveFocusComplete") && (list.size() >= 9))
     {
         // This is the first version of the AdaptiveFocusComplete message - retained os Analyze can process
-        // historical messages correctly
+        // historical messages correctly. Predates per-device tracking, so it
+        // uses the shared "" bucket.
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[""];
+            return 0;
+        }
         const QString filter = list[2];
         double temperature = QString(list[3]).toDouble(&ok);
         const int tempTicks = QString(list[4]).toInt(&ok);
@@ -1123,10 +1291,19 @@ double Analyze::processInputLine(const QString &line)
     }
     else if ((list[0] == "GuideState") && list.size() == 3)
     {
+        // Not per-device, so there's nothing for the discovery pass to
+        // register -- just skip it, rather than plotting it twice (once
+        // against the discovery pass's still-incomplete row layout, and
+        // again against the real one -- see the comment in
+        // readDataFromFile()).
+        if (discoverDevicesOnly)
+            return 0;
         processGuideState(time, list[2], true);
     }
     else if ((list[0] == "GuideStats") && list.size() == 9)
     {
+        if (discoverDevicesOnly)
+            return 0;
         const double ra = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
@@ -1150,15 +1327,23 @@ double Analyze::processInputLine(const QString &line)
             return 0;
         processGuideStats(time, ra, dec, raPulse, decPulse, snr, skyBg, numStars, true);
     }
-    else if ((list[0] == "Temperature") && list.size() == 3)
+    else if ((list[0] == "Temperature") && (list.size() >= 3))
     {
         const double temperature = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
-        processTemperature(time, temperature, true);
+        const QString device = list.size() > 3 ? list[3] : "";
+        if (discoverDevicesOnly)
+        {
+            focusDeviceStates[device];
+            return 0;
+        }
+        processTemperature(time, temperature, true, device);
     }
     else if ((list[0] == "TargetDistance") && list.size() == 3)
     {
+        if (discoverDevicesOnly)
+            return 0;
         const double targetDistance = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
@@ -1166,10 +1351,15 @@ double Analyze::processInputLine(const QString &line)
     }
     else if ((list[0] == "MountState") && list.size() == 3)
     {
+        // See the GuideState comment above.
+        if (discoverDevicesOnly)
+            return 0;
         processMountState(time, list[2], true);
     }
-    else if ((list[0] == "MountCoords") && (list.size() == 7 || list.size() == 8))
+    else if ((list[0] == "MountCoords") && (list.size() >= 7))
     {
+        if (discoverDevicesOnly)
+            return 0;
         const double ra = QString(list[2]).toDouble(&ok);
         if (!ok)
             return 0;
@@ -1192,19 +1382,28 @@ double Analyze::processInputLine(const QString &line)
     }
     else if ((list[0] == "AlignState") && list.size() == 3)
     {
+        // See the GuideState comment above.
+        if (discoverDevicesOnly)
+            return 0;
         processAlignState(time, list[2], true);
     }
     else if ((list[0] == "MeridianFlipState") && list.size() == 3)
     {
+        if (discoverDevicesOnly)
+            return 0;
         processMountFlipState(time, list[2], true);
     }
     else if ((list[0] == "SchedulerJobStart") && list.size() == 3)
     {
+        if (discoverDevicesOnly)
+            return 0;
         QString jobName = list[2];
         processSchedulerJobStarted(time, jobName);
     }
     else if ((list[0] == "SchedulerJobEnd") && list.size() == 4)
     {
+        if (discoverDevicesOnly)
+            return 0;
         QString jobName = list[2];
         QString reason = list[3];
         processSchedulerJobEnded(time, jobName, reason, true);
@@ -1323,11 +1522,12 @@ bool Analyze::Session::isTemporary() const
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                                     const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_,
                                     const bool useWeights_, const QString &curve_, const QString &title_, const AutofocusFailReason failCode_,
-                                    const QString failCodeInfo_)
-    : Session(start_, end_, FOCUS_Y, rect), success(ok), temperature(temperature_), filter(filter_), reason(reason_),
+                                    const QString failCodeInfo_, const QString &device_)
+    : Session(start_, end_, 0, rect), success(ok), temperature(temperature_), filter(filter_), reason(reason_),
       reasonInfo(reasonInfo_), points(points_), useWeights(useWeights_), curve(curve_), title(title_), failCode(failCode_),
       failCodeInfo(failCodeInfo_)
 {
+    device = device_;
     const QStringList list = points.split(QLatin1Char('|'));
     const int size = list.size();
     // Size can be 1 if points_ is an empty string.
@@ -1362,10 +1562,12 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
 // The focus session parses the "pipe-separate-values" list of positions
 // and HFRs given it, eventually to be used to plot the focus v-curve.
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
-                                    const QString &filter_, const QString &points_, const QString &curve_, const QString &title_)
-    : Session(start_, end_, FOCUS_Y, rect), success(ok),
+                                    const QString &filter_, const QString &points_, const QString &curve_, const QString &title_,
+                                    const QString &device_)
+    : Session(start_, end_, 0, rect), success(ok),
       temperature(temperature_), filter(filter_), points(points_), curve(curve_), title(title_)
 {
+    device = device_;
     // Set newer variables, not part of the original message, to default values
     reason = AutofocusReason::FOCUS_NONE;
     reasonInfo = "";
@@ -1403,11 +1605,13 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
 
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect,
                                     const QString &filter_, double temperature_, double tempTicks_, double altitude_,
-                                    double altTicks_, int prevPosError_, int thisPosError_, int totalTicks_, int position_)
-    : Session(start_, end_, FOCUS_Y, rect), temperature(temperature_), filter(filter_), tempTicks(tempTicks_),
+                                    double altTicks_, int prevPosError_, int thisPosError_, int totalTicks_, int position_,
+                                    const QString &device_)
+    : Session(start_, end_, 0, rect), temperature(temperature_), filter(filter_), tempTicks(tempTicks_),
       altitude(altitude_), altTicks(altTicks_), prevPosError(prevPosError_), thisPosError(thisPosError_),
       totalTicks(totalTicks_), adaptedPosition(position_)
 {
+    device = device_;
     standardSession = false;
 }
 
@@ -1433,9 +1637,11 @@ bool isTemporaryFile(const QString &filename)
 // When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
-void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
+void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick, bool updateDeviceSelection)
 {
     highlightTimelineItem(c);
+    if (updateDeviceSelection)
+        selectCaptureDevice(c.device);
 
     if (c.isTemporary())
         c.setupTable("Capture", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
@@ -1445,6 +1651,7 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
         c.setupTable("Capture", "successful", clockTime(c.start), clockTime(c.end), detailsTable);
 
     c.addRow("Filter", c.filter);
+    c.addRow("Device", c.device);
 
     double raRMS, decRMS, totalRMS;
     int numSamples;
@@ -1490,16 +1697,19 @@ QString signedIntString(int val)
 // a table is rendered in the details section, and the HFR/position plot
 // is displayed in the graphics plot. If focus is ongoing
 // the information for the graphics is not plotted as it is not yet available.
-void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
+void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick, bool updateDeviceSelection)
 {
     Q_UNUSED(doubleClick);
     highlightTimelineItem(c);
+    if (updateDeviceSelection)
+        selectFocusDevice(c.device);
 
     if (!c.standardSession)
     {
         // This is an adaptive focus session
         c.setupTable("Focus", "Adaptive", clockTime(c.end), clockTime(c.end), detailsTable);
         c.addRow("Filter", c.filter);
+        c.addRow("Device", c.device);
         addDetailsRow(detailsTable, "Temperature", Qt::yellow, QString("%1°").arg(c.temperature, 0, 'f', 1),
                       Qt::white, QString("%1").arg(c.tempTicks, 0, 'f', 1));
         addDetailsRow(detailsTable, "Altitude", Qt::yellow, QString("%1°").arg(c.altitude, 0, 'f', 1),
@@ -1535,6 +1745,7 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
                       Qt::white);
 
     c.addRow("Filter", c.filter);
+    c.addRow("Device", c.device);
     c.addRow("Temperature", (c.temperature == INVALID_VALUE) ? "N/A" : QString::number(c.temperature, 'f', 1));
 
     if (c.isTemporary())
@@ -1691,23 +1902,50 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
     unhighlightTimelineItem();
     double xval = timelinePlot->xAxis->pixelToCoord(QtCompat::mouseX(event));
     double yval = timelinePlot->yAxis->pixelToCoord(QtCompat::mouseY(event));
-    if (yval >= CAPTURE_Y - 0.5 && yval <= CAPTURE_Y + 0.5)
+    const int row = qRound(yval);
+    if (isCaptureRow(row))
     {
-        QList<CaptureSession> candidates = captureSessions.find(xval);
+        QList<CaptureSession> candidates;
+        for (const QString &device : captureDevicesForRow(row))
+            candidates.append(captureSessions.find(device, xval));
         if (candidates.size() > 0)
             captureSessionClicked(candidates[0], doubleClick);
-        else if ((temporaryCaptureSession.rect != nullptr) &&
-                 (xval > temporaryCaptureSession.start))
-            captureSessionClicked(temporaryCaptureSession, doubleClick);
+        else
+        {
+            // Check every device on this row's temporary session for the one
+            // under the click.
+            for (const QString &device : captureDevicesForRow(row))
+            {
+                auto it = captureDeviceStates.find(device);
+                if (it != captureDeviceStates.end() && it->temporarySession.rect != nullptr &&
+                        xval > it->temporarySession.start)
+                {
+                    captureSessionClicked(it->temporarySession, doubleClick);
+                    break;
+                }
+            }
+        }
     }
-    else if (yval >= FOCUS_Y - 0.5 && yval <= FOCUS_Y + 0.5)
+    else if (isFocusRow(row))
     {
-        QList<FocusSession> candidates = focusSessions.find(xval);
+        QList<FocusSession> candidates;
+        for (const QString &device : focusDevicesForRow(row))
+            candidates.append(focusSessions.find(device, xval));
         if (candidates.size() > 0)
             focusSessionClicked(candidates[0], doubleClick);
-        else if ((temporaryFocusSession.rect != nullptr) &&
-                 (xval > temporaryFocusSession.start))
-            focusSessionClicked(temporaryFocusSession, doubleClick);
+        else
+        {
+            for (const QString &device : focusDevicesForRow(row))
+            {
+                auto it = focusDeviceStates.find(device);
+                if (it != focusDeviceStates.end() && it->temporarySession.rect != nullptr &&
+                        xval > it->temporarySession.start)
+                {
+                    focusSessionClicked(it->temporarySession, doubleClick);
+                    break;
+                }
+            }
+        }
     }
     else if (yval >= GUIDE_Y - 0.5 && yval <= GUIDE_Y + 0.5)
     {
@@ -1771,84 +2009,80 @@ void Analyze::previousTimelineItem()
 void Analyze::changeTimelineItem(bool next)
 {
     if (m_selectedSession.start == 0 && m_selectedSession.end == 0) return;
-    switch(m_selectedSession.offset)
+    // Row offsets are runtime values, not compile-time constants, so this
+    // dispatches with if/else rather than a switch.
+    const int row = m_selectedSession.offset;
+    if (isCaptureRow(row))
     {
-        case CAPTURE_Y:
-        {
-            auto nextSession = next ? captureSessions.findNext(m_selectedSession.start)
-                               : captureSessions.findPrevious(m_selectedSession.start);
+        const QString &device = m_selectedSession.device;
+        auto nextSession = next ? captureSessions.findNext(device, m_selectedSession.start)
+                           : captureSessions.findPrevious(device, m_selectedSession.start);
 
-            // Since we're displaying the images, don't want to stop at an aborted capture.
-            // Continue searching until a good session (or no session) is found.
-            while (nextSession && nextSession->aborted)
-                nextSession = next ? captureSessions.findNext(nextSession->start)
-                              : captureSessions.findPrevious(nextSession->start);
+        // Since we're displaying the images, don't want to stop at an aborted capture.
+        // Continue searching until a good session (or no session) is found.
+        while (nextSession && nextSession->aborted)
+            nextSession = next ? captureSessions.findNext(device, nextSession->start)
+                          : captureSessions.findPrevious(device, nextSession->start);
 
-            if (nextSession)
-            {
-                // True because we want to display the image (so simulate a double-click on that session).
-                captureSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
-        }
-        case FOCUS_Y:
+        if (nextSession)
         {
-            auto nextSession = next ? focusSessions.findNext(m_selectedSession.start)
-                               : focusSessions.findPrevious(m_selectedSession.start);
-            if (nextSession)
-            {
-                focusSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
+            // True because we want to display the image (so simulate a double-click on that session).
+            captureSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
         }
-        case ALIGN_Y:
-        {
-            auto nextSession = next ? alignSessions.findNext(m_selectedSession.start)
-                               : alignSessions.findPrevious(m_selectedSession.start);
-            if (nextSession)
-            {
-                alignSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
-        }
-        case GUIDE_Y:
-        {
-            auto nextSession = next ? guideSessions.findNext(m_selectedSession.start)
-                               : guideSessions.findPrevious(m_selectedSession.start);
-            if (nextSession)
-            {
-                guideSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
-        }
-        case MOUNT_Y:
-        {
-            auto nextSession = next ? mountSessions.findNext(m_selectedSession.start)
-                               : mountSessions.findPrevious(m_selectedSession.start);
-            if (nextSession)
-            {
-                mountSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
-        }
-        case SCHEDULER_Y:
-        {
-            auto nextSession = next ? schedulerJobSessions.findNext(m_selectedSession.start)
-                               : schedulerJobSessions.findPrevious(m_selectedSession.start);
-            if (nextSession)
-            {
-                schedulerSessionClicked(*nextSession, true);
-                setStatsCursor((nextSession->end + nextSession->start) / 2);
-            }
-            break;
-        }
-            //case MERIDIAN_MOUNT_FLIP_Y:
     }
+    else if (isFocusRow(row))
+    {
+        const QString &device = m_selectedSession.device;
+        auto nextSession = next ? focusSessions.findNext(device, m_selectedSession.start)
+                           : focusSessions.findPrevious(device, m_selectedSession.start);
+        if (nextSession)
+        {
+            focusSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
+        }
+    }
+    else if (row == ALIGN_Y)
+    {
+        auto nextSession = next ? alignSessions.findNext(m_selectedSession.start)
+                           : alignSessions.findPrevious(m_selectedSession.start);
+        if (nextSession)
+        {
+            alignSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
+        }
+    }
+    else if (row == GUIDE_Y)
+    {
+        auto nextSession = next ? guideSessions.findNext(m_selectedSession.start)
+                           : guideSessions.findPrevious(m_selectedSession.start);
+        if (nextSession)
+        {
+            guideSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
+        }
+    }
+    else if (row == MOUNT_Y)
+    {
+        auto nextSession = next ? mountSessions.findNext(m_selectedSession.start)
+                           : mountSessions.findPrevious(m_selectedSession.start);
+        if (nextSession)
+        {
+            mountSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
+        }
+    }
+    else if (row == SCHEDULER_Y)
+    {
+        auto nextSession = next ? schedulerJobSessions.findNext(m_selectedSession.start)
+                           : schedulerJobSessions.findPrevious(m_selectedSession.start);
+        if (nextSession)
+        {
+            schedulerSessionClicked(*nextSession, true);
+            setStatsCursor((nextSession->end + nextSession->start) / 2);
+        }
+    }
+    //else if (row == MERIDIAN_MOUNT_FLIP_Y):
     if (!isVisible(m_selectedSession) && !isVisible(m_selectedSession))
         adjustView((m_selectedSession.start + m_selectedSession.end) / 2.0);
     replot();
@@ -1931,6 +2165,18 @@ void Analyze::timelineMousePress(QMouseEvent *event)
 void Analyze::timelineMouseDoubleClick(QMouseEvent *event)
 {
     processTimelineClick(event, true);
+}
+
+void Analyze::timelineMouseMove(QMouseEvent *event)
+{
+    const int row = qRound(timelinePlot->yAxis->pixelToCoord(QtCompat::mouseY(event)));
+    QStringList devices;
+    if (isCaptureRow(row))
+        devices = captureDevicesForRow(row);
+    else if (isFocusRow(row))
+        devices = focusDevicesForRow(row);
+    devices.removeAll("");
+    timelinePlot->setToolTip(devices.join(", "));
 }
 
 void Analyze::statsMousePress(QMouseEvent *event)
@@ -2051,19 +2297,49 @@ void Analyze::replot(bool adjustSlider)
     statsPlot->replot();
     graphicsPlot->replot();
 
-    if (activeYAxis != nullptr)
+    if (activeYAxis != nullptr && m_marginsDirty)
     {
-        // Adjust the statsPlot padding to align statsPlot and timelinePlot.
-        const int widthDiff = statsPlot->axisRect()->width() - timelinePlot->axisRect()->width();
-        const int paddingSize = activeYAxis->padding();
-        constexpr int maxPadding = 100;
-        // Don't quite following why a positive difference should INCREASE padding, but it works.
-        const int newPad = std::min(maxPadding, std::max(0, paddingSize + widthDiff));
-        if (newPad != paddingSize)
-        {
-            activeYAxis->setPadding(newPad);
-            statsPlot->replot();
-        }
+        // Keep the Timeline and Stats plots pixel-aligned on X by giving
+        // them the same left margin -- they're separate QCustomPlot
+        // widgets, so QCP's own margin-group mechanism (which only
+        // synchronizes axis rects within a single plot) doesn't apply
+        // across them. Re-enable full auto margins on both first so this
+        // measures what each currently, actually needs (a prior call here
+        // may have pinned one of them to an old fixed value), then pin both
+        // to the larger of the two plus a little breathing room, so
+        // whichever side's labels are wider doesn't end up flush against
+        // the axis line. Only done when m_marginsDirty is set (device rows
+        // or the active axis changed) -- the fixed left margin set below
+        // persists across ordinary replot() calls, so routine clicks and
+        // incoming signals don't repeat this measurement.
+        constexpr int extraLeftMargin = 10;
+        timelinePlot->axisRect()->setAutoMargins(QCP::msAll);
+        statsPlot->axisRect()->setAutoMargins(QCP::msAll);
+        timelinePlot->replot();
+        statsPlot->replot();
+        const int timelineNeeds = timelinePlot->axisRect()->margins().left();
+        const int statsNeeds = statsPlot->axisRect()->margins().left();
+        m_statsLeftMargin = std::max(timelineNeeds, statsNeeds) + extraLeftMargin;
+
+        QMargins timelineMargins = timelinePlot->axisRect()->margins();
+        timelineMargins.setLeft(m_statsLeftMargin);
+        timelinePlot->axisRect()->setAutoMargins(QCP::msTop | QCP::msRight | QCP::msBottom);
+        timelinePlot->axisRect()->setMargins(timelineMargins);
+
+        QMargins statsMargins = statsPlot->axisRect()->margins();
+        statsMargins.setLeft(m_statsLeftMargin);
+        statsPlot->axisRect()->setAutoMargins(QCP::msTop | QCP::msRight | QCP::msBottom);
+        statsPlot->axisRect()->setMargins(statsMargins);
+
+        timelinePlot->replot();
+        statsPlot->replot();
+        m_marginsDirty = false;
+    }
+    if (m_legendDirty)
+    {
+        sortStatsLegend();
+        statsPlot->replot();
+        m_legendDirty = false;
     }
     updateStatsValues();
 }
@@ -2171,6 +2447,49 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, co
     else valueBox->setDisabled(true);
 }
 
+// As above, but for a stat split one graph per device. When preferredDevice
+// names a device with its own line (i.e. the timeline session under the
+// cursor belongs to that device), that device's line is used exclusively,
+// showing its value as of the cursor time (its last point at or before it),
+// mirroring the single-graph overload above. Otherwise -- no specific device
+// is selected, e.g. the cursor was placed by clicking directly in the stats
+// plot -- falls back to whichever device's nearest data point is closest to
+// `time`, since there's only one readout box for the stat as a whole.
+template<typename Func>
+void updateStat(double time, QLineEdit *valueBox, QCustomPlot *plot, const QMap<QString, int> &deviceGraphs, Func func,
+                const std::map<QObject*, float> &fontMap, bool useLastRealVal = false, const QString &preferredDevice = QString())
+{
+    if (!preferredDevice.isEmpty())
+    {
+        auto it = deviceGraphs.constFind(preferredDevice);
+        if (it != deviceGraphs.constEnd())
+        {
+            updateStat(time, valueBox, plot->graph(it.value()), func, fontMap, useLastRealVal);
+            return;
+        }
+    }
+
+    QCPGraph *best = nullptr;
+    double bestDiff = std::numeric_limits<double>::max();
+    for (int graphId : deviceGraphs)
+    {
+        QCPGraph *graph = plot->graph(graphId);
+        auto begin = graph->data()->findBegin(time);
+        if (begin == graph->data()->constEnd())
+            continue;
+        const double diff = std::abs(begin->mainKey() - time);
+        if (diff < bestDiff)
+        {
+            bestDiff = diff;
+            best = graph;
+        }
+    }
+    if (best)
+        updateStat(time, valueBox, best, func, fontMap, useLastRealVal);
+    else
+        valueBox->setDisabled(true);
+}
+
 }  // namespace
 
 // This populates the output boxes below the stats plot with the correct statistics.
@@ -2178,12 +2497,32 @@ void Analyze::updateStatsValues()
 {
     const double time = statsCursorTime < 0 ? maxXValue : statsCursorTime;
 
+    // If the cursor was placed by clicking a capture/focus session on the
+    // Timeline, prefer that session's own device for the per-device stats
+    // below rather than whichever device happens to have the numerically
+    // closest data point (see updateStat() overload above). With 2+
+    // cameras, m_selectedCaptureDevice (captureDeviceCombo's selection,
+    // kept in sync both ways with clicking a Capture session -- see
+    // selectCaptureDevice()) is authoritative instead; with 0-1 it's empty
+    // and this falls back to the Timeline-selection behavior below, as
+    // before there was anything to choose between. Same deal for
+    // m_selectedFocusDevice/focusDeviceCombo/selectFocusDevice() below.
+    QString selectedCaptureDevice = m_selectedCaptureDevice;
+    QString selectedFocusDevice = m_selectedFocusDevice;
+    if (!m_selectedSession.device.isEmpty())
+    {
+        if (selectedCaptureDevice.isEmpty() && isCaptureRow(m_selectedSession.offset))
+            selectedCaptureDevice = m_selectedSession.device;
+        else if (selectedFocusDevice.isEmpty() && isFocusRow(m_selectedSession.offset))
+            selectedFocusDevice = m_selectedSession.device;
+    }
+
     auto d2Fcn = [](double d) -> QString { return QString::number(d, 'f', 2); };
     auto d1Fcn = [](double d) -> QString { return QString::number(d, 'f', 1); };
     // HFR, numCaptureStars, median & eccentricity are the only ones to use the last real value,
     // that is, it keeps those values from the last exposure.
-    updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, statsFontMap, true);
-    updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, statsFontMap, true);
+    updateStat(time, hfrOut, statsPlot, HFR_GRAPH, d2Fcn, statsFontMap, true, selectedCaptureDevice);
+    updateStat(time, eccentricityOut, statsPlot, ECCENTRICITY_GRAPH, d2Fcn, statsFontMap, true, selectedCaptureDevice);
     updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d1Fcn, statsFontMap);
     updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d1Fcn, statsFontMap);
     updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn, statsFontMap);
@@ -2193,7 +2532,7 @@ void Analyze::updateStatsValues()
     updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn, statsFontMap);
     updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d1Fcn, statsFontMap);
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn, statsFontMap);
-    updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, temperatureOut, statsPlot, TEMPERATURE_GRAPH, d2Fcn, statsFontMap, false, selectedFocusDevice);
 
     auto asFcn = [](double d) -> QString { return QString("%1\"").arg(d, 0, 'f', 0); };
     updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn, statsFontMap, true);
@@ -2228,9 +2567,9 @@ void Analyze::updateStatsValues()
     updateStat(time, numStarsOut, statsPlot->graph(NUMSTARS_GRAPH), intFcn, statsFontMap);
     updateStat(time, raPulseOut, statsPlot->graph(RA_PULSE_GRAPH), intFcn, statsFontMap);
     updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn, statsFontMap);
-    updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, statsFontMap, true);
-    updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, statsFontMap, true);
-    updateStat(time, focusPositionOut, statsPlot->graph(FOCUS_POSITION_GRAPH), intFcn, statsFontMap);
+    updateStat(time, numCaptureStarsOut, statsPlot, NUM_CAPTURE_STARS_GRAPH, intFcn, statsFontMap, true, selectedCaptureDevice);
+    updateStat(time, medianOut, statsPlot, MEDIAN_GRAPH, intFcn, statsFontMap, true, selectedCaptureDevice);
+    updateStat(time, focusPositionOut, statsPlot, FOCUS_POSITION_GRAPH, intFcn, statsFontMap, false, selectedFocusDevice);
 
     auto pierFcn = [](double d) -> QString
     {
@@ -2311,6 +2650,21 @@ void setupAxisDefaults(QCPAxis *axis)
     axis->setTickLabelColor(Qt::white);
     axis->setLabelColor(Qt::white);
     axis->grid()->setVisible(true);
+    // QCP defaults to 0 padding between tick labels and the axis itself
+    // (labels touch the tick marks) and 5px of axis padding.
+    axis->setTickLabelPadding(2);
+    axis->setPadding(2);
+    // QCP's default 'g' (general) format switches to scientific notation
+    // once a value needs more digits than the axis's number precision (6 by
+    // default) -- more precision than a compact stat readout needs, and the
+    // single biggest driver of how much space one active Y axis reserves on
+    // the left, since only it (not the many other per-stat axes stacked
+    // behind it) contributes to that margin. 'f' (fixed-point) never uses
+    // scientific notation regardless of magnitude, unlike 'g'; axes that
+    // display large plain integers (e.g. the Timeline's seconds axis)
+    // override the precision back to 0 individually.
+    axis->setNumberFormat("f");
+    axis->setNumberPrecision(2);
 }
 
 // Generic initialization of a plot, applied to all plots in this tab.
@@ -2326,31 +2680,478 @@ void initQCP(QCustomPlot *plot)
 void Analyze::initTimelinePlot()
 {
     initQCP(timelinePlot);
+    // This axis shows plain seconds-since-start as a large integer; override
+    // setupAxisDefaults()'s 2-decimal default so it reads e.g. "5000", not
+    // "5000.00".
+    timelinePlot->xAxis->setNumberPrecision(0);
 
-    // This places the labels on the left of the timeline.
-    QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-    textTicker->addTick(CAPTURE_Y, i18n("Capture"));
-    textTicker->addTick(FOCUS_Y, i18n("Focus"));
-    textTicker->addTick(ALIGN_Y, i18n("Align"));
-    textTicker->addTick(GUIDE_Y, i18n("Guide"));
-    textTicker->addTick(MERIDIAN_MOUNT_FLIP_Y, i18n("Flip"));
-    textTicker->addTick(MOUNT_Y, i18n("Mount"));
-    textTicker->addTick(SCHEDULER_Y, i18n("Job"));
-    timelinePlot->yAxis->setTicker(textTicker);
+    // Row labels/axis range are built by buildDeviceRows(), called from
+    // reset() (including once at the end of the constructor).
 
     ADAPTIVE_FOCUS_GRAPH = initGraph(timelinePlot, timelinePlot->yAxis, QCPGraph::lsNone, Qt::red, "adaptiveFocus");
     timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->setPen(QPen(Qt::red, 2));
     timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->setScatterStyle(QCPScatterStyle::ssDisc);
 }
 
+void Analyze::addActiveCamera(const QString &device)
+{
+    if (device.isEmpty() || m_liveCameraDevices.contains(device))
+        return;
+    m_liveCameraDevices << device;
+    // buildDeviceRows() numbers capture/focus rows by each device's current
+    // alphabetical position among known devices, so adding a device here can
+    // shift the row number of one already in use -- e.g. two frames already
+    // captured (and displayed) by one camera would otherwise stay pinned to
+    // their old row, which now belongs to the new device, making them look
+    // like they came from it. reloadDisplay() (also used when the device
+    // filter changes, for the same reason) replays the whole session so
+    // every session's row offset is recomputed consistently with the new
+    // device set.
+    reloadDisplay();
+}
+
+void Analyze::addActiveFocuser(const QString &device)
+{
+    if (device.isEmpty() || m_liveFocuserDevices.contains(device))
+        return;
+    m_liveFocuserDevices << device;
+    reloadDisplay();
+}
+
+// Assigns one Timeline row per camera and one per focuser: every device
+// present in the data itself (captureSessions/captureDeviceStates/
+// focusSessions/focusDeviceStates), plus -- only for a live session, not a
+// loaded .analyze file -- every device that has had a Capture/Focus tab this
+// session (see m_liveCameraDevices/m_liveFocuserDevices), so rows are ready
+// before the first live event, without pulling in devices that are merely
+// configured somewhere (e.g. a guide camera's own optical train) but never
+// actually captured/focused through. A loaded file is restricted to exactly
+// the devices it contains. A historical session with no recorded device at
+// all is folded in as the "" device, labeled generically. Rebuilds the row
+// labels/axis range to match.
+void Analyze::selectCaptureDevice(const QString &device)
+{
+    if (device.isEmpty() || device == m_selectedCaptureDevice)
+        return;
+    m_selectedCaptureDevice = device;
+    // No need to block signals: captureDeviceCombo's activated() (unlike
+    // currentIndexChanged()) only fires from user interaction, not from
+    // setCurrentIndex() here.
+    const int index = captureDeviceCombo->findData(device);
+    if (index >= 0 && captureDeviceCombo->currentIndex() != index)
+        captureDeviceCombo->setCurrentIndex(index);
+    // The combo's own tooltip (shown while closed) reflects whichever
+    // device is currently selected.
+    captureDeviceCombo->setToolTip(device);
+    replot();
+}
+
+void Analyze::selectFocusDevice(const QString &device)
+{
+    if (device.isEmpty() || device == m_selectedFocusDevice)
+        return;
+    m_selectedFocusDevice = device;
+    // No need to block signals: focusDeviceCombo's activated() (unlike
+    // currentIndexChanged()) only fires from user interaction, not from
+    // setCurrentIndex() here.
+    const int index = focusDeviceCombo->findData(device);
+    if (index >= 0 && focusDeviceCombo->currentIndex() != index)
+        focusDeviceCombo->setCurrentIndex(index);
+    // The combo's own tooltip (shown while closed) reflects whichever
+    // device is currently selected.
+    focusDeviceCombo->setToolTip(device);
+    replot();
+}
+
+void Analyze::buildDeviceRows()
+{
+    m_marginsDirty = true;
+    captureRowForDevice.clear();
+    focusRowForDevice.clear();
+
+    QStringList cameraDevices = runtimeDisplay ? m_liveCameraDevices : QStringList();
+    QStringList focuserDevices = runtimeDisplay ? m_liveFocuserDevices : QStringList();
+    for (const QString &device : captureSessions.devices())
+        if (!cameraDevices.contains(device))
+            cameraDevices << device;
+    for (auto it = captureDeviceStates.keyBegin(); it != captureDeviceStates.keyEnd(); ++it)
+        if (!cameraDevices.contains(*it))
+            cameraDevices << *it;
+    for (const QString &device : focusSessions.devices())
+        if (!focuserDevices.contains(device))
+            focuserDevices << device;
+    for (auto it = focusDeviceStates.keyBegin(); it != focusDeviceStates.keyEnd(); ++it)
+        if (!focuserDevices.contains(*it))
+            focuserDevices << *it;
+    cameraDevices.sort(Qt::CaseInsensitive);
+    focuserDevices.sort(Qt::CaseInsensitive);
+
+    // Short, fixed-form labels ("Cam 1", "Foc 2", ..., or just "Camera"/
+    // "Focuser" when there's only one -- see below) used in place of the raw
+    // device name on the Timeline and in the Stats legend, so a verbose INDI
+    // device name doesn't dictate how much horizontal space those need.
+    // Numbered by alphabetical position among *all* known devices of that
+    // kind (not just the currently-shown ones), so a device's number stays
+    // stable as others are hidden/shown via the device-filter menu. The full
+    // name remains visible in the device-filter menu and as a Timeline
+    // tooltip.
+    m_deviceShortLabel.clear();
+    QStringList realCameraDevices = cameraDevices;
+    realCameraDevices.removeAll("");
+    QStringList realFocuserDevices = focuserDevices;
+    realFocuserDevices.removeAll("");
+    // With just one camera/focuser, numbering it ("Cam 1") only implies a
+    // multiplicity that isn't there; use the plain generic name instead,
+    // matching how this looked before multi-device support existed.
+    if (realCameraDevices.size() == 1)
+        m_deviceShortLabel[realCameraDevices.first()] = i18n("Camera");
+    else
+    {
+        int camIndex = 1;
+        for (const QString &device : std::as_const(realCameraDevices))
+            m_deviceShortLabel[device] = i18nc("Short label for the Nth camera", "Cam %1", camIndex++);
+    }
+    if (realFocuserDevices.size() == 1)
+        m_deviceShortLabel[realFocuserDevices.first()] = i18n("Focuser");
+    else
+    {
+        int focIndex = 1;
+        for (const QString &device : std::as_const(realFocuserDevices))
+            m_deviceShortLabel[device] = i18nc("Short label for the Nth focuser", "Foc %1", focIndex++);
+    }
+
+    // The menu lists every known device, whether or not it's currently
+    // shown, so hiding one from the plots below doesn't also remove it from
+    // the menu used to bring it back.
+    rebuildDeviceFilterMenu(cameraDevices, focuserDevices);
+
+    QStringList shownCameraDevices, shownFocuserDevices;
+    for (const QString &device : std::as_const(cameraDevices))
+        if (!isDeviceHidden(device))
+            shownCameraDevices << device;
+    for (const QString &device : std::as_const(focuserDevices))
+        if (!isDeviceHidden(device))
+            shownFocuserDevices << device;
+
+    // With 2+ cameras, replace the plain "Capture:" label with a combo to
+    // choose which one's stats are shown below (see selectCaptureDevice());
+    // with 0-1, there's nothing to choose between, so keep the label and
+    // fall back to whatever Timeline session is selected (see
+    // updateStatsValues()).
+    const bool showCaptureDeviceCombo = shownCameraDevices.size() > 1;
+    label->setVisible(!showCaptureDeviceCombo);
+    captureDeviceCombo->setVisible(showCaptureDeviceCombo);
+    captureDeviceCombo->clear();
+    if (showCaptureDeviceCombo)
+    {
+        for (const QString &device : std::as_const(shownCameraDevices))
+        {
+            captureDeviceCombo->addItem(deviceShortLabel(device), device);
+            // The dropdown items only show the short label; the full device
+            // name shows as each item's own tooltip when the list is open.
+            captureDeviceCombo->setItemData(captureDeviceCombo->count() - 1, device, Qt::ToolTipRole);
+        }
+        int index = captureDeviceCombo->findData(m_selectedCaptureDevice);
+        if (index < 0)
+            index = 0;
+        captureDeviceCombo->setCurrentIndex(index);
+        m_selectedCaptureDevice = captureDeviceCombo->itemData(index).toString();
+        // And the combo's own tooltip (shown while closed) reflects
+        // whichever device is currently selected.
+        captureDeviceCombo->setToolTip(m_selectedCaptureDevice);
+    }
+    else
+        m_selectedCaptureDevice.clear();
+
+    // As above, but for the focuser combo -- with 0-1 focusers, there's no
+    // fallback label to show in its place (unlike Capture's row label,
+    // there was never a dedicated "Focus:" label here), so it's just
+    // hidden.
+    const bool showFocusDeviceCombo = shownFocuserDevices.size() > 1;
+    focusDeviceCombo->setVisible(showFocusDeviceCombo);
+    focusDeviceCombo->clear();
+    if (showFocusDeviceCombo)
+    {
+        for (const QString &device : std::as_const(shownFocuserDevices))
+        {
+            focusDeviceCombo->addItem(deviceShortLabel(device), device);
+            focusDeviceCombo->setItemData(focusDeviceCombo->count() - 1, device, Qt::ToolTipRole);
+        }
+        int index = focusDeviceCombo->findData(m_selectedFocusDevice);
+        if (index < 0)
+            index = 0;
+        focusDeviceCombo->setCurrentIndex(index);
+        m_selectedFocusDevice = focusDeviceCombo->itemData(index).toString();
+        focusDeviceCombo->setToolTip(m_selectedFocusDevice);
+    }
+    else
+        m_selectedFocusDevice.clear();
+
+    // The Y-axis increases upward, so rows are assigned in reverse
+    // alphabetical order: the alphabetically-first device gets the highest
+    // row number in its block, placing it at the top when read top-to-bottom.
+    QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+    int row = 1;
+    for (auto it = shownCameraDevices.crbegin(); it != shownCameraDevices.crend(); ++it)
+    {
+        captureRowForDevice[*it] = row;
+        textTicker->addTick(row, it->isEmpty() ? i18n("Capture") : deviceShortLabel(*it));
+        ++row;
+    }
+    for (auto it = shownFocuserDevices.crbegin(); it != shownFocuserDevices.crend(); ++it)
+    {
+        focusRowForDevice[*it] = row;
+        textTicker->addTick(row, it->isEmpty() ? i18n("Focus") : deviceShortLabel(*it));
+        ++row;
+    }
+
+    ALIGN_Y = row++;
+    GUIDE_Y = row++;
+    MERIDIAN_MOUNT_FLIP_Y = row++;
+    MOUNT_Y = row++;
+    SCHEDULER_Y = row++;
+    LAST_Y = row;
+
+    textTicker->addTick(ALIGN_Y, i18n("Align"));
+    textTicker->addTick(GUIDE_Y, i18n("Guide"));
+    textTicker->addTick(MERIDIAN_MOUNT_FLIP_Y, i18n("Flip"));
+    textTicker->addTick(MOUNT_Y, i18n("Mount"));
+    textTicker->addTick(SCHEDULER_Y, i18n("Job"));
+    timelinePlot->yAxis->setTicker(textTicker);
+    timelinePlot->yAxis->setRange(0, LAST_Y);
+
+    applyDeviceStatVisibility();
+}
+
+void Analyze::applyDeviceStatVisibility()
+{
+    const QList<QMap<QString, int> *> statMaps =
+    {
+        &HFR_GRAPH, &TEMPERATURE_GRAPH, &FOCUS_POSITION_GRAPH,
+        &NUM_CAPTURE_STARS_GRAPH, &MEDIAN_GRAPH, &ECCENTRICITY_GRAPH
+    };
+    for (auto *deviceGraphs : statMaps)
+    {
+        auto baseIt = deviceGraphs->constFind("");
+        if (baseIt == deviceGraphs->constEnd())
+            continue;
+        // The "" placeholder's own visibility already reflects just the
+        // stat's checkbox, which is what every device in this family should
+        // additionally be shown/hidden together with.
+        const bool familyChecked = statsPlot->graph(baseIt.value())->visible();
+        for (auto it = deviceGraphs->constBegin(); it != deviceGraphs->constEnd(); ++it)
+        {
+            if (it.key().isEmpty())
+                continue;
+            QCPGraph *graph = statsPlot->graph(it.value());
+            // Unlike the "" placeholder (see deviceStatGraph()), a real
+            // device legitimately gets data eventually, so legend membership
+            // isn't gated on already having some -- otherwise un-hiding a
+            // device via reloadDisplay() (which clears all graph data before
+            // replaying it) would leave its legend entry missing until
+            // something else happened to call this again.
+            const bool show = familyChecked && !isDeviceHidden(it.key());
+            graph->setVisible(show);
+            if (show)
+                graph->addToLegend();
+            else
+                graph->removeFromLegend();
+        }
+    }
+    m_legendDirty = true;
+}
+
+// Puts every plottable currently in the Stats legend back in a fixed order
+// -- matching how the stats are defined in initStatsPlot() -- without
+// changing which ones are shown (that's decided by the various
+// addToLegend()/removeFromLegend() call sites elsewhere; this only fixes up
+// the resulting order). See m_legendDirty in analyze.h for why this is
+// needed instead of just leaving items wherever addToLegend() put them.
+void Analyze::sortStatsLegend()
+{
+    struct Group
+    {
+        // Non-null for a per-device stat -- iterated in QMap key order,
+        // i.e. "" (if present) first, then real devices alphabetically,
+        // same as their "Cam N"/"Foc N" numbers.
+        const QMap<QString, int> *deviceGraphs;
+        // Used instead when deviceGraphs is null.
+        int singleGraph;
+    };
+    const QList<Group> order =
+    {
+        { &HFR_GRAPH, -1 },
+        { &NUM_CAPTURE_STARS_GRAPH, -1 },
+        { &MEDIAN_GRAPH, -1 },
+        { &ECCENTRICITY_GRAPH, -1 },
+        { nullptr, NUMSTARS_GRAPH },
+        { nullptr, SKYBG_GRAPH },
+        { &TEMPERATURE_GRAPH, -1 },
+        { &FOCUS_POSITION_GRAPH, -1 },
+        { nullptr, TARGET_DISTANCE_GRAPH },
+        { nullptr, SNR_GRAPH },
+        { nullptr, RA_GRAPH },
+        { nullptr, DEC_GRAPH },
+        { nullptr, RA_PULSE_GRAPH },
+        { nullptr, DEC_PULSE_GRAPH },
+        { nullptr, DRIFT_GRAPH },
+        { nullptr, RMS_GRAPH },
+        { nullptr, CAPTURE_RMS_GRAPH },
+        { nullptr, MOUNT_RA_GRAPH },
+        { nullptr, MOUNT_DEC_GRAPH },
+        { nullptr, MOUNT_HA_GRAPH },
+        { nullptr, AZ_GRAPH },
+        { nullptr, ALT_GRAPH },
+        { nullptr, PIER_SIDE_GRAPH },
+    };
+
+    QList<QCPAbstractPlottable *> inLegend;
+    for (int i = 0; i < statsPlot->legend->itemCount(); ++i)
+    {
+        auto *item = qobject_cast<QCPPlottableLegendItem *>(statsPlot->legend->item(i));
+        if (item)
+            inLegend.append(item->plottable());
+    }
+    statsPlot->legend->clearItems();
+
+    auto readd = [&](int graphIndex)
+    {
+        QCPAbstractPlottable *plottable = statsPlot->graph(graphIndex);
+        if (inLegend.contains(plottable))
+            plottable->addToLegend();
+    };
+    for (const Group &group : order)
+    {
+        if (group.deviceGraphs)
+            for (auto it = group.deviceGraphs->constBegin(); it != group.deviceGraphs->constEnd(); ++it)
+                readd(it.value());
+        else if (group.singleGraph >= 0)
+            readd(group.singleGraph);
+    }
+}
+
+void Analyze::clearDeviceStatGraphs()
+{
+    const QList<QMap<QString, int> *> statMaps =
+    {
+        &HFR_GRAPH, &TEMPERATURE_GRAPH, &FOCUS_POSITION_GRAPH,
+        &NUM_CAPTURE_STARS_GRAPH, &MEDIAN_GRAPH, &ECCENTRICITY_GRAPH
+    };
+    for (auto *deviceGraphs : statMaps)
+    {
+        for (auto it = deviceGraphs->constBegin(); it != deviceGraphs->constEnd(); ++it)
+        {
+            if (it.key().isEmpty())
+                continue;
+            QCPGraph *graph = statsPlot->graph(it.value());
+            graph->setVisible(false);
+            graph->removeFromLegend();
+        }
+        const int placeholder = deviceGraphs->value("", -1);
+        deviceGraphs->clear();
+        if (placeholder >= 0)
+            (*deviceGraphs)[""] = placeholder;
+    }
+}
+
+void Analyze::rebuildDeviceFilterMenu(const QStringList &cameraDevices, const QStringList &focuserDevices)
+{
+    if (deviceFilterMenu == nullptr)
+    {
+        deviceFilterMenu = new QMenu(deviceFilterButton);
+        deviceFilterButton->setMenu(deviceFilterMenu);
+    }
+    deviceFilterMenu->clear();
+
+    const QStringList hiddenDevices = Options::analyzeHiddenDevices();
+    auto addDeviceAction = [&](const QString & device)
+    {
+        if (device.isEmpty())
+            return;
+        QAction *action = deviceFilterMenu->addAction(QString("%1: %2").arg(deviceShortLabel(device), device));
+        action->setCheckable(true);
+        action->setChecked(!hiddenDevices.contains(device));
+        connect(action, &QAction::toggled, this, [this, device](bool shown)
+        {
+            setDeviceHidden(device, !shown);
+        });
+    };
+    for (const QString &device : cameraDevices)
+        addDeviceAction(device);
+    for (const QString &device : focuserDevices)
+        addDeviceAction(device);
+
+    deviceFilterButton->setEnabled(!deviceFilterMenu->isEmpty());
+}
+
+void Analyze::setDeviceHidden(const QString &device, bool hidden)
+{
+    QStringList hiddenDevices = Options::analyzeHiddenDevices();
+    if (hidden == hiddenDevices.contains(device))
+        return;
+    if (hidden)
+        hiddenDevices << device;
+    else
+        hiddenDevices.removeAll(device);
+    Options::setAnalyzeHiddenDevices(hiddenDevices);
+    reloadDisplay();
+}
+
+// Mirrors the reload logic in displayFile(), but -- unlike displayFile(),
+// which skips reloading a live session that's already current -- always
+// redraws, since a filter change needs to take effect even while runtime
+// display is already up to date.
+void Analyze::reloadDisplay()
+{
+    if (!displayedSession.isEmpty())
+    {
+        reset();
+        maxXValue = readDataFromFile(displayedSession.toLocalFile());
+        checkForMissingSchedulerJobEnd(maxXValue);
+        plotStart = 0;
+        plotWidth = maxXValue + 5;
+    }
+    else if (!logFilename.isEmpty())
+    {
+        reset();
+        maxXValue = readDataFromFile(logFilename);
+    }
+    else
+    {
+        // Nothing loaded yet -- just refresh the (now empty) row/menu state.
+        buildDeviceRows();
+        return;
+    }
+    replot();
+}
+
+// Which device(s) map to a given Capture row (normally just one, since every
+// known device gets its own row).
+QStringList Analyze::captureDevicesForRow(int row) const
+{
+    return captureRowForDevice.keys(row);
+}
+
+// As above, but for Focus rows.
+QStringList Analyze::focusDevicesForRow(int row) const
+{
+    return focusRowForDevice.keys(row);
+}
+
 // Turn on and off the various statistics, adding/removing them from the legend.
 void Analyze::toggleGraph(int graph_id, bool show)
 {
-    statsPlot->graph(graph_id)->setVisible(show);
-    if (show)
-        statsPlot->graph(graph_id)->addToLegend();
+    QCPGraph *graph = statsPlot->graph(graph_id);
+    graph->setVisible(show);
+    // A graph with no data yet (e.g. the "" fallback placeholder on a
+    // per-device stat, which normally never receives data -- see
+    // deviceStatGraph()) has nothing to show, so keep it out of the legend
+    // rather than cluttering it with an empty entry.
+    if (show && !graph->data()->isEmpty())
+        graph->addToLegend();
     else
-        statsPlot->graph(graph_id)->removeFromLegend();
+        graph->removeFromLegend();
+    m_legendDirty = true;
     replot();
 }
 
@@ -2368,6 +3169,7 @@ int Analyze::initGraph(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineStyle 
 void Analyze::updateYAxisMap(QObject * key, const YAxisInfo &axisInfo)
 {
     if (key == nullptr) return;
+    m_marginsDirty = true;
     auto axisEntry = yAxisMap.find(key);
     if (axisEntry == yAxisMap.end())
         yAxisMap.insert(std::make_pair(key, axisInfo));
@@ -2378,9 +3180,11 @@ void Analyze::updateYAxisMap(QObject * key, const YAxisInfo &axisInfo)
 template <typename Func>
 int Analyze::initGraphAndCB(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineStyle lineStyle,
                             const QColor &color, const QString &name, const QString &shortName,
-                            QCheckBox * cb, Func setCb, QLineEdit * out)
+                            QCheckBox * cb, Func setCb, QLineEdit * out, QMap<QString, int> *deviceGraphs)
 {
     const int num = initGraph(plot, yAxis, lineStyle, color, shortName);
+    if (deviceGraphs)
+        (*deviceGraphs)[""] = num;
     if (out != nullptr)
     {
         const bool autoAxis = YAxisInfo::isRescale(yAxis->range());
@@ -2390,9 +3194,12 @@ int Analyze::initGraphAndCB(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineS
     if (cb != nullptr)
     {
         // Don't call toggleGraph() here, as it's too early for replot().
+        // Also, deviceGraphs's "" placeholder starts out with no data (see
+        // deviceStatGraph()), so it's left out of the legend for now even if
+        // checked; deviceStatGraph() adds it once it actually gets a point.
         bool show = cb->isChecked();
         plot->graph(num)->setVisible(show);
-        if (show)
+        if (show && !deviceGraphs)
             plot->graph(num)->addToLegend();
         else
             plot->graph(num)->removeFromLegend();
@@ -2400,11 +3207,74 @@ int Analyze::initGraphAndCB(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineS
         connect(cb, &QCheckBox::toggled,
                 [ = ](bool show)
         {
-            this->toggleGraph(num, show);
+            // For a per-device stat, toggle every device's line for it
+            // together, not just the one created here.
+            if (deviceGraphs)
+            {
+                for (int graphId : std::as_const(*deviceGraphs))
+                    this->toggleGraph(graphId, show);
+            }
+            else
+                this->toggleGraph(num, show);
             setCb(show);
         });
     }
     return num;
+}
+
+// See analyze.h.
+int Analyze::deviceStatGraph(QMap<QString, int> &deviceGraphs, const QString &device, int baseGraph)
+{
+    auto it = deviceGraphs.constFind(device);
+    if (it != deviceGraphs.constEnd())
+    {
+        const int graphId = it.value();
+        // The "" placeholder normally never receives data (see the comment
+        // below), so it was kept out of the legend when created. The
+        // exception is a pre-2.0 log with no recorded device names, where ""
+        // is the only bucket and does get real points -- add it to the
+        // legend right before its first one.
+        if (device.isEmpty())
+        {
+            QCPGraph *graph = statsPlot->graph(graphId);
+            if (graph->visible() && graph->data()->isEmpty())
+            {
+                graph->addToLegend();
+                m_legendDirty = true;
+            }
+        }
+        return graphId;
+    }
+
+    // Don't count the "" placeholder graph (created up front by
+    // initGraphAndCB, before any device is known, and normally never used --
+    // resolveCameraDevice()/resolveFocuserDevice() only fall back to "" for
+    // pre-2.0 .analyze files with no recorded device) against the color
+    // index, so the first real device gets the stat's true base color.
+    int index = deviceGraphs.size();
+    if (deviceGraphs.contains(""))
+        --index;
+
+    QCPGraph *base = statsPlot->graph(baseGraph);
+    const QColor color = deviceLineColor(base->pen().color(), index);
+    const QString name = device.isEmpty() ? base->name() : QString("%1: %2").arg(base->name(), deviceShortLabel(device));
+    const int graphId = initGraph(statsPlot, base->valueAxis(), base->lineStyle(), color, name);
+    statsPlot->graph(graphId)->setVisible(base->visible());
+    // initGraph() -> QCustomPlot::addGraph() auto-adds every new graph to
+    // the legend (QCustomPlot::autoAddPlottableToLegend() defaults to true
+    // and is never changed here), so an explicit removeFromLegend() is
+    // needed in the hidden case -- unlike initGraphAndCB()'s base graphs,
+    // which already have this else branch, this one was missing it, so
+    // every per-device stat line stayed in the legend regardless of its
+    // checkbox.
+    if (base->visible())
+        statsPlot->graph(graphId)->addToLegend();
+    else
+        statsPlot->graph(graphId)->removeFromLegend();
+    m_legendDirty = true;
+
+    deviceGraphs[device] = graphId;
+    return graphId;
 }
 
 
@@ -2442,6 +3312,7 @@ void Analyze::setLeftAxis(QCPAxis *axis)
 {
     if (axis != nullptr && axis != activeYAxis)
     {
+        m_marginsDirty = true;
         for (const auto &pair : yAxisMap)
         {
             disconnect(pair.second.axis, QOverload<const QCPRange &>::of(&QCPAxis::rangeChanged), this,
@@ -2574,16 +3445,25 @@ void Analyze::initStatsPlot()
 
     // Setup the legend
     statsPlot->legend->setVisible(true);
-    statsPlot->legend->setFont(QFont("Helvetica", 6));
+    statsPlot->legend->setFont(QFont("Helvetica", 10));
     statsPlot->legend->setTextColor(Qt::white);
     // Legend background is transparent.
     statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 50)));
-    // Legend stacks vertically.
+    // Legend stacks vertically, wrapping into a new column instead of
+    // growing indefinitely taller once per-device stats add many rows.
     statsPlot->legend->setFillOrder(QCPLegend::foRowsFirst);
-    // Rows pretty tightly packed.
-    statsPlot->legend->setRowSpacing(-10);
+    statsPlot->legend->setWrap(10);
+    // Rows pretty tightly packed. This is tuned for the 10pt font set
+    // below -- a much more negative value (as if still for the old, much
+    // smaller font) crowds rows into visibly overlapping each other.
+    statsPlot->legend->setRowSpacing(-2);
+    // No internal padding, so the legend hugs the corner set below instead
+    // of starting partway down the plot.
+    statsPlot->legend->setMargins(QMargins(0, 0, 0, 0));
 
     statsPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
+    // A small left margin so the legend box doesn't sit flush against the y axis.
+    statsPlot->axisRect()->insetLayout()->setMargins(QMargins(6, 0, 0, 0));
     statsPlot->legend->setSelectableParts(QCPLegend::spLegendBox);
 
     // Make the lines part of the legend less long.
@@ -2597,12 +3477,12 @@ void Analyze::initStatsPlot()
         Q_UNUSED(legend);
         Q_UNUSED(item);
         Q_UNUSED(event);
-        if (statsPlot->legend->font().pointSize() < 6)
+        if (statsPlot->legend->font().pointSize() < 10)
         {
             // Restore the original legend.
-            statsPlot->legend->setRowSpacing(-10);
+            statsPlot->legend->setRowSpacing(-2);
             statsPlot->legend->setIconSize(10, 18);
-            statsPlot->legend->setFont(QFont("Helvetica", 6));
+            statsPlot->legend->setFont(QFont("Helvetica", 10));
             statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 50)));
         }
         else
@@ -2620,8 +3500,8 @@ void Analyze::initStatsPlot()
     // Add the graphs.
     QString shortName = "HFR";
     QCPAxis *hfrAxis = newStatsYAxis(shortName, -2, 6);
-    HFR_GRAPH = initGraphAndCB(statsPlot, hfrAxis, QCPGraph::lsStepRight, Qt::cyan, "Capture Image HFR", shortName, hfrCB,
-                               Options::setAnalyzeHFR, hfrOut);
+    initGraphAndCB(statsPlot, hfrAxis, QCPGraph::lsStepRight, Qt::cyan, "Capture Image HFR", shortName, hfrCB,
+                   Options::setAnalyzeHFR, hfrOut, &HFR_GRAPH);
     connect(hfrCB, &QCheckBox::clicked,
             [ = ](bool show)
     {
@@ -2635,9 +3515,9 @@ void Analyze::initStatsPlot()
 
     shortName = "#SubStars";
     QCPAxis *numCaptureStarsAxis = newStatsYAxis(shortName);
-    NUM_CAPTURE_STARS_GRAPH = initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen,
-                              "#Stars in Capture", shortName,
-                              numCaptureStarsCB, Options::setAnalyzeNumCaptureStars, numCaptureStarsOut);
+    initGraphAndCB(statsPlot, numCaptureStarsAxis, QCPGraph::lsStepRight, Qt::darkGreen,
+                   "#Stars in Capture", shortName,
+                   numCaptureStarsCB, Options::setAnalyzeNumCaptureStars, numCaptureStarsOut, &NUM_CAPTURE_STARS_GRAPH);
     connect(numCaptureStarsCB, &QCheckBox::clicked,
             [ = ](bool show)
     {
@@ -2651,13 +3531,13 @@ void Analyze::initStatsPlot()
 
     shortName = "median";
     QCPAxis *medianAxis = newStatsYAxis(shortName);
-    MEDIAN_GRAPH = initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "Median Pixel", shortName,
-                                  medianCB, Options::setAnalyzeMedian, medianOut);
+    initGraphAndCB(statsPlot, medianAxis, QCPGraph::lsStepRight, Qt::darkGray, "Median Pixel", shortName,
+                   medianCB, Options::setAnalyzeMedian, medianOut, &MEDIAN_GRAPH);
 
     shortName = "ecc";
     QCPAxis *eccAxis = newStatsYAxis(shortName, 0, 1.0);
-    ECCENTRICITY_GRAPH = initGraphAndCB(statsPlot, eccAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "Eccentricity",
-                                        shortName, eccentricityCB, Options::setAnalyzeEccentricity, eccentricityOut);
+    initGraphAndCB(statsPlot, eccAxis, QCPGraph::lsStepRight, Qt::darkMagenta, "Eccentricity",
+                   shortName, eccentricityCB, Options::setAnalyzeEccentricity, eccentricityOut, &ECCENTRICITY_GRAPH);
     shortName = "#Stars";
     QCPAxis *numStarsAxis = newStatsYAxis(shortName);
     NUMSTARS_GRAPH = initGraphAndCB(statsPlot, numStarsAxis, QCPGraph::lsStepRight, Qt::magenta, "#Stars in Guide Image",
@@ -2669,12 +3549,12 @@ void Analyze::initStatsPlot()
 
     shortName = "temp";
     QCPAxis *temperatureAxis = newStatsYAxis(shortName, -40, 40);
-    TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "Temperature", shortName,
-                                       temperatureCB, Options::setAnalyzeTemperature, temperatureOut);
-    shortName = "focus";
+    initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "Temperature", shortName,
+                   temperatureCB, Options::setAnalyzeTemperature, temperatureOut, &TEMPERATURE_GRAPH);
+    shortName = "pos";
     QCPAxis *focusPositionAxis = newStatsYAxis(shortName);
-    FOCUS_POSITION_GRAPH = initGraphAndCB(statsPlot, focusPositionAxis, QCPGraph::lsStepLeft, Qt::lightGray, "Focus", shortName,
-                                          focusPositionCB, Options::setFocusPosition, focusPositionOut);
+    initGraphAndCB(statsPlot, focusPositionAxis, QCPGraph::lsStepLeft, Qt::lightGray, "Focus", shortName,
+                   focusPositionCB, Options::setFocusPosition, focusPositionOut, &FOCUS_POSITION_GRAPH);
     shortName = "tDist";
     QCPAxis *targetDistanceAxis = newStatsYAxis(shortName, 0, 60);
     TARGET_DISTANCE_GRAPH = initGraphAndCB(statsPlot, targetDistanceAxis, QCPGraph::lsLine,
@@ -2821,6 +3701,21 @@ void Analyze::reset()
     resetMountCoords();
     resetMountFlipState();
     resetSchedulerJob();
+
+    // Drop stale per-device Stats legend entries from whatever was
+    // previously displayed, before buildDeviceRows() below (via
+    // applyDeviceStatVisibility()) re-applies visibility to only whatever's
+    // actually still relevant.
+    clearDeviceStatGraphs();
+
+    // Must run after the state resets above (not before, as it used to):
+    // it seeds rows from captureSessions/captureDeviceStates/focusSessions/
+    // focusDeviceStates, so calling it first left stale devices from
+    // whatever was previously displayed (e.g. a loaded file) once switching
+    // to a Current Session with no live data to repopulate them (readDataFromFile()
+    // silently does nothing for an empty logFilename, which is the case
+    // whenever Ekos hasn't been started yet).
+    buildDeviceRows();
 
     // Note: no replot().
 }
@@ -3034,6 +3929,11 @@ void Analyze::restart()
     reset();
     inputCombo->setCurrentIndex(0);
     inputValue->setText("");
+    // A previously-viewed file (see displayFile()) must not stay "the
+    // displayed session" -- otherwise reloadDisplay() (triggered e.g. by a
+    // newly connected camera/focuser) would reload that stale file instead
+    // of this fresh live session, merging the new live devices into it.
+    displayedSession = QUrl();
     maxXValue = readDataFromFile(logFilename);
     runtimeDisplay = true;
     fullWidthCB->setChecked(true);
@@ -3061,7 +3961,7 @@ void Analyze::startLog()
     // This must happen before the below appendToLog() call.
     logInitialized = true;
 
-    appendToLog(QString("#KStars version %1. Analyze log version 1.0.\n\n")
+    appendToLog(QString("#KStars version %1. Analyze log version 2.0.\n\n")
                 .arg(KSTARS_VERSION));
     appendToLog(QString("%1,%2,%3\n")
                 .arg("AnalyzeStartTime", analyzeStartTime.toString(timeFormat), analyzeStartTime.timeZoneAbbreviation()));
@@ -3099,9 +3999,11 @@ void Analyze::removeTemporarySession(Session * session)
 // Remove all temporary sessions (i.e. from all lines in the Timeline).
 void Analyze::removeTemporarySessions()
 {
-    removeTemporarySession(&temporaryCaptureSession);
+    for (auto &state : captureDeviceStates)
+        removeTemporarySession(&state.temporarySession);
     removeTemporarySession(&temporaryMountFlipSession);
-    removeTemporarySession(&temporaryFocusSession);
+    for (auto &state : focusDeviceStates)
+        removeTemporarySession(&state.temporarySession);
     removeTemporarySession(&temporaryGuideSession);
     removeTemporarySession(&temporaryMountSession);
     removeTemporarySession(&temporaryAlignSession);
@@ -3139,39 +4041,71 @@ void Analyze::adjustTemporarySession(Session * session)
 // Extend all temporary sessions.
 void Analyze::adjustTemporarySessions()
 {
-    adjustTemporarySession(&temporaryCaptureSession);
+    for (auto &state : captureDeviceStates)
+        adjustTemporarySession(&state.temporarySession);
     adjustTemporarySession(&temporaryMountFlipSession);
-    adjustTemporarySession(&temporaryFocusSession);
+    for (auto &state : focusDeviceStates)
+        adjustTemporarySession(&state.temporarySession);
     adjustTemporarySession(&temporaryGuideSession);
     adjustTemporarySession(&temporaryMountSession);
     adjustTemporarySession(&temporaryAlignSession);
     adjustTemporarySession(&temporarySchedulerJobSession);
 }
 
+// Resolve an optical train name to the device name of the camera currently
+// assigned to it. Falls back to the train name itself if the train has no
+// live camera (e.g. it got disconnected between starting and completing an
+// event), so events are never silently dropped.
+QString Analyze::resolveCameraDevice(const QString &trainname)
+{
+    auto camera = OpticalTrainManager::Instance()->getCamera(trainname);
+    return camera ? camera->getDeviceName() : trainname;
+}
+
+// As above, but for the focuser assigned to the optical train.
+QString Analyze::resolveFocuserDevice(const QString &trainname)
+{
+    auto focuser = OpticalTrainManager::Instance()->getFocuser(trainname);
+    return focuser ? focuser->getDeviceName() : trainname;
+}
+
+bool Analyze::anyCaptureInProgress() const
+{
+    for (const auto &state : captureDeviceStates)
+        if (state.startedTime >= 0)
+            return true;
+    return false;
+}
+
 // Called when the captureStarting slot receives a signal.
 // Saves the message to disk, and calls processCaptureStarting.
-void Analyze::captureStarting(double exposureSeconds, const QString &filter)
+void Analyze::captureStarting(double exposureSeconds, const QString &filter, const QString &trainname)
 {
+    const QString device = resolveCameraDevice(trainname);
     saveMessage("CaptureStarting",
-                QString("%1,%2").arg(QString::number(exposureSeconds, 'f', 3), filter));
-    processCaptureStarting(logTime(), exposureSeconds, filter);
+                QString("%1,%2,%3").arg(QString::number(exposureSeconds, 'f', 3), filter, device));
+    processCaptureStarting(logTime(), exposureSeconds, filter, device);
 }
 
 // Called by either the above (when live data is received), or reading from file.
 // BatchMode would be true when reading from file.
-void Analyze::processCaptureStarting(double time, double exposureSeconds, const QString &filter)
+void Analyze::processCaptureStarting(double time, double exposureSeconds, const QString &filter, const QString &device)
 {
-    captureStartedTime = time;
-    captureStartedFilter = filter;
+    if (isDeviceHidden(device))
+        return;
+    CaptureDeviceState &state = captureDeviceStates[device];
+    state.startedTime = time;
+    state.startedFilter = filter;
     updateMaxX(time);
 
-    addTemporarySession(&temporaryCaptureSession, time, 1, CAPTURE_Y, temporaryBrush);
-    temporaryCaptureSession.duration = exposureSeconds;
-    temporaryCaptureSession.filter = filter;
+    addTemporarySession(&state.temporarySession, time, 1, captureRow(device), temporaryBrush);
+    state.temporarySession.device = device;
+    state.temporarySession.duration = exposureSeconds;
+    state.temporarySession.filter = filter;
 }
 
 // Called when the captureComplete slot receives a signal.
-void Analyze::captureComplete(const QVariantMap &metadata)
+void Analyze::captureComplete(const QVariantMap &metadata, const QString &trainname)
 {
     auto filename = metadata["filename"].toString();
     auto exposure = metadata["exposure"].toDouble();
@@ -3180,76 +4114,88 @@ void Analyze::captureComplete(const QVariantMap &metadata)
     auto starCount = metadata["starCount"].toInt();
     auto median = metadata["median"].toDouble();
     auto eccentricity = metadata["eccentricity"].toDouble();
+    const QString device = resolveCameraDevice(trainname);
 
     saveMessage("CaptureComplete",
-                QString("%1,%2,%3,%4,%5,%6,%7")
+                QString("%1,%2,%3,%4,%5,%6,%7,%8")
                 .arg(QString::number(exposure, 'f', 3), filter, QString::number(hfr, 'f', 3), filename)
                 .arg(starCount)
                 .arg(median)
-                .arg(QString::number(eccentricity, 'f', 3)));
-    if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureComplete(logTime(), filename, exposure, filter, hfr, starCount, median, eccentricity);
+                .arg(QString::number(eccentricity, 'f', 3))
+                .arg(device));
+    if (runtimeDisplay && captureDeviceStates.value(device).startedTime >= 0)
+        processCaptureComplete(logTime(), filename, exposure, filter, hfr, starCount, median, eccentricity, false, device);
 }
 
 void Analyze::processCaptureComplete(double time, const QString &filename,
                                      double exposureSeconds, const QString &filter, double hfr,
-                                     int numStars, int median, double eccentricity, bool batchMode)
+                                     int numStars, int median, double eccentricity, bool batchMode,
+                                     const QString &device)
 {
-    removeTemporarySession(&temporaryCaptureSession);
+    if (isDeviceHidden(device))
+        return;
+    CaptureDeviceState &state = captureDeviceStates[device];
+    removeTemporarySession(&state.temporarySession);
     QBrush stripe;
-    if (captureStartedTime < 0)
+    if (state.startedTime < 0)
         return;
 
     if (filterStripeBrush(filter, &stripe))
-        addSession(captureStartedTime, time, CAPTURE_Y, successBrush, &stripe);
+        addSession(state.startedTime, time, captureRow(device), successBrush, &stripe);
     else
-        addSession(captureStartedTime, time, CAPTURE_Y, successBrush, nullptr);
-    auto session = CaptureSession(captureStartedTime, time, nullptr, false,
-                                  filename, exposureSeconds, filter);
-    captureSessions.add(session);
-    addHFR(hfr, numStars, median, eccentricity, time, captureStartedTime);
+        addSession(state.startedTime, time, captureRow(device), successBrush, nullptr);
+    auto session = CaptureSession(state.startedTime, time, nullptr, false,
+                                  filename, exposureSeconds, filter, device);
+    session.offset = captureRow(device);
+    captureSessions.add(session.device, session);
+    addHFR(hfr, numStars, median, eccentricity, time, state.startedTime, device);
     updateMaxX(time);
     if (!batchMode)
     {
         if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-            captureSessionClicked(session, false);
+            captureSessionClicked(session, false, false);
         replot();
     }
-    previousCaptureStartedTime = captureStartedTime;
+    previousCaptureStartedTime = state.startedTime;
     previousCaptureCompletedTime = time;
-    captureStartedTime = -1;
+    state.startedTime = -1;
 }
 
-void Analyze::captureAborted(double exposureSeconds)
+void Analyze::captureAborted(double exposureSeconds, const QString &trainname)
 {
+    const QString device = resolveCameraDevice(trainname);
     saveMessage("CaptureAborted",
-                QString("%1").arg(QString::number(exposureSeconds, 'f', 3)));
-    if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureAborted(logTime(), exposureSeconds);
+                QString("%1,%2").arg(QString::number(exposureSeconds, 'f', 3), device));
+    if (runtimeDisplay && captureDeviceStates.value(device).startedTime >= 0)
+        processCaptureAborted(logTime(), exposureSeconds, false, device);
 }
 
-void Analyze::processCaptureAborted(double time, double exposureSeconds, bool batchMode)
+void Analyze::processCaptureAborted(double time, double exposureSeconds, bool batchMode, const QString &device)
 {
-    removeTemporarySession(&temporaryCaptureSession);
-    double duration = time - captureStartedTime;
-    if (captureStartedTime >= 0 &&
+    if (isDeviceHidden(device))
+        return;
+    CaptureDeviceState &state = captureDeviceStates[device];
+    removeTemporarySession(&state.temporarySession);
+    double duration = time - state.startedTime;
+    if (state.startedTime >= 0 &&
             duration < (exposureSeconds + 30) &&
             duration < 3600)
     {
         // You can get a captureAborted without a captureStarting,
         // so make sure this associates with a real start.
-        addSession(captureStartedTime, time, CAPTURE_Y, failureBrush);
-        auto session = CaptureSession(captureStartedTime, time, nullptr, true, "",
-                                      exposureSeconds, captureStartedFilter);
-        captureSessions.add(session);
+        addSession(state.startedTime, time, captureRow(device), failureBrush);
+        auto session = CaptureSession(state.startedTime, time, nullptr, true, "",
+                                      exposureSeconds, state.startedFilter, device);
+        session.offset = captureRow(device);
+        captureSessions.add(session.device, session);
         updateMaxX(time);
         if (!batchMode)
         {
             if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-                captureSessionClicked(session, false);
+                captureSessionClicked(session, false, false);
             replot();
         }
-        captureStartedTime = -1;
+        state.startedTime = -1;
     }
     previousCaptureStartedTime = -1;
     previousCaptureCompletedTime = -1;
@@ -3257,8 +4203,7 @@ void Analyze::processCaptureAborted(double time, double exposureSeconds, bool ba
 
 void Analyze::resetCaptureState()
 {
-    captureStartedTime = -1;
-    captureStartedFilter = "";
+    captureDeviceStates.clear();
     medianMax = 1;
     numCaptureStarsMax = 1;
     previousCaptureStartedTime = -1;
@@ -3266,55 +4211,65 @@ void Analyze::resetCaptureState()
 }
 
 void Analyze::autofocusStarting(double temperature, const QString &filter, const AutofocusReason reason,
-                                const QString &reasonInfo)
+                                const QString &reasonInfo, const QString &trainname)
 {
+    const QString device = resolveFocuserDevice(trainname);
     saveMessage("AutofocusStarting",
-                QString("%1,%2,%3,%4")
+                QString("%1,%2,%3,%4,%5")
                 .arg(filter)
                 .arg(QString::number(temperature, 'f', 1))
                 .arg(QString::number(reason))
-                .arg(reasonInfo));
-    processAutofocusStarting(logTime(), temperature, filter, reason, reasonInfo);
+                .arg(reasonInfo)
+                .arg(device));
+    processAutofocusStarting(logTime(), temperature, filter, reason, reasonInfo, device);
 }
 
 void Analyze::processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason,
-                                       const QString &reasonInfo)
+                                       const QString &reasonInfo, const QString &device)
 {
-    autofocusStartedTime = time;
-    autofocusStartedFilter = filter;
-    autofocusStartedTemperature = temperature;
-    autofocusStartedReason = reason;
-    autofocusStartedReasonInfo = reasonInfo;
+    if (isDeviceHidden(device))
+        return;
+    FocusDeviceState &state = focusDeviceStates[device];
+    state.startedTime = time;
+    state.startedFilter = filter;
+    state.startedTemperature = temperature;
+    state.startedReason = reason;
+    state.startedReasonInfo = reasonInfo;
 
-    addTemperature(temperature, time);
+    addTemperature(temperature, time, device);
     updateMaxX(time);
 
-    addTemporarySession(&temporaryFocusSession, time, 1, FOCUS_Y, temporaryBrush);
-    temporaryFocusSession.temperature = temperature;
-    temporaryFocusSession.filter = filter;
-    temporaryFocusSession.reason = reason;
+    addTemporarySession(&state.temporarySession, time, 1, focusRow(device), temporaryBrush);
+    state.temporarySession.device = device;
+    state.temporarySession.temperature = temperature;
+    state.temporarySession.filter = filter;
+    state.temporarySession.reason = reason;
 }
 
 void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
                                     double altitude, double altTicks, int prevPosError, int thisPosError,
-                                    int totalTicks, int position, bool focuserMoved)
+                                    int totalTicks, int position, bool focuserMoved, const QString &trainname)
 {
-    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10").arg(filter).arg(temperature, 0, 'f', 2)
+    const QString device = resolveFocuserDevice(trainname);
+    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11").arg(filter).arg(temperature, 0, 'f', 2)
                 .arg(tempTicks, 0, 'f', 2).arg(altitude, 0, 'f', 2).arg(altTicks, 0, 'f', 2).arg(prevPosError)
-                .arg(thisPosError).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0));
+                .arg(thisPosError).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0).arg(device));
 
     if (runtimeDisplay)
         processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError,
-                                     totalTicks, position, focuserMoved);
+                                     totalTicks, position, focuserMoved, false, device);
 }
 
 void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
         double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks, int position,
-        bool focuserMoved, bool batchMode)
+        bool focuserMoved, bool batchMode, const QString &device)
 {
-    removeTemporarySession(&temporaryFocusSession);
+    if (isDeviceHidden(device))
+        return;
+    FocusDeviceState &state = focusDeviceStates[device];
+    removeTemporarySession(&state.temporarySession);
 
-    addFocusPosition(position, time);
+    addFocusPosition(position, time, device);
     updateMaxX(time);
 
     // In general if nothing happened we won't plot a value. This means there won't be lots of points with zeros in them.
@@ -3323,23 +4278,25 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
         return;
 
     // Add a dot on the timeline.
-    timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->addData(time, FOCUS_Y);
+    timelinePlot->graph(ADAPTIVE_FOCUS_GRAPH)->addData(time, focusRow(device));
 
     // Add mouse sensitivity on the timeline.
     constexpr int artificialInterval = 10;
     auto session = FocusSession(time - artificialInterval, time + artificialInterval, nullptr,
                                 filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError, totalTicks,
-                                position);
-    focusSessions.add(session);
+                                position, device);
+    session.offset = focusRow(device);
+    focusSessions.add(session.device, session);
 
     if (!batchMode)
         replot();
 
-    autofocusStartedTime = -1;
+    state.startedTime = -1;
 }
 
 void Analyze::autofocusComplete(const double temperature, const QString &filter, const QString &points,
-                                const bool useWeights, const QString &curve, const QString &rawTitle)
+                                const bool useWeights, const QString &curve, const QString &rawTitle,
+                                const QString &trainname)
 {
     // Remove commas from the title as they're used as separators in the .analyze file.
     QString title = rawTitle;
@@ -3353,154 +4310,168 @@ void Analyze::autofocusComplete(const double temperature, const QString &filter,
     else
         saveMessage("AutofocusComplete", QString("%1,%2,%3,%4").arg(filter, points, curve, title));*/
 
+    const QString device = resolveFocuserDevice(trainname);
+    const FocusDeviceState &state = focusDeviceStates[device];
     QString temp = QString::number(temperature, 'f', 1);
-    QVariant reasonV = autofocusStartedReason;
+    QVariant reasonV = state.startedReason;
     QString reason = reasonV.toString();
-    QString reasonInfo = autofocusStartedReasonInfo;
+    QString reasonInfo = state.startedReasonInfo;
     QString weights = QString::number(useWeights);
-    if (curve.size() == 0)
-        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6").arg(temp, reason, reasonInfo, filter, points, weights));
-    else if (title.size() == 0)
-        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7").arg(temp, reason, reasonInfo, filter, points, weights,
-                    curve));
-    else
-        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temp, reason, reasonInfo, filter, points, weights,
-                    curve, title));
+    // Curve/title are always written (possibly empty) from here on, so the
+    // device name at the end has a fixed, unambiguous position.
+    saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9").arg(temp, reason, reasonInfo, filter, points,
+                weights,
+                curve, title, device));
 
-    if (runtimeDisplay && autofocusStartedTime >= 0)
-        processAutofocusCompleteV2(logTime(), temperature, filter, autofocusStartedReason, reasonInfo, points, useWeights, curve,
-                                   title);
+    if (runtimeDisplay && state.startedTime >= 0)
+        processAutofocusCompleteV2(logTime(), temperature, filter, state.startedReason, reasonInfo, points, useWeights, curve,
+                                   title, false, device);
 }
 
 // Version 2 of processAutofocusComplete to process weights, outliers and reason codes.
 void Analyze::processAutofocusCompleteV2(double time, const double temperature, const QString &filter,
         const AutofocusReason reason, const QString &reasonInfo,
-        const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode)
+        const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode,
+        const QString &device)
 {
-    removeTemporarySession(&temporaryFocusSession);
+    if (isDeviceHidden(device))
+        return;
+    FocusDeviceState &state = focusDeviceStates[device];
+    removeTemporarySession(&state.temporarySession);
     updateMaxX(time);
-    if (autofocusStartedTime >= 0)
+    if (state.startedTime >= 0)
     {
         QBrush stripe;
         if (filterStripeBrush(filter, &stripe))
-            addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
+            addSession(state.startedTime, time, focusRow(device), successBrush, &stripe);
         else
-            addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
+            addSession(state.startedTime, time, focusRow(device), successBrush, nullptr);
         // Use the focus complete temperature (rather than focus start temperature) for consistency with Focus
-        auto session = FocusSession(autofocusStartedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
-                                    useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE, "");
-        focusSessions.add(session);
-        addFocusPosition(session.focusPosition(), autofocusStartedTime);
+        auto session = FocusSession(state.startedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
+                                    useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE, "", device);
+        session.offset = focusRow(device);
+        focusSessions.add(session.device, session);
+        addFocusPosition(session.focusPosition(), state.startedTime, device);
         if (!batchMode)
         {
             if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-                focusSessionClicked(session, false);
+                focusSessionClicked(session, false, false);
             replot();
         }
     }
-    autofocusStartedTime = -1;
+    state.startedTime = -1;
 }
 
 // Older version of processAutofocusComplete to process analyze files created before version 2.
+// Predates per-device tracking (no train/device info in these historical files),
+// so it uses the shared "" bucket.
 void Analyze::processAutofocusComplete(double time, const QString &filter, const QString &points,
                                        const QString &curve, const QString &title, bool batchMode)
 {
-    removeTemporarySession(&temporaryFocusSession);
-    if (autofocusStartedTime < 0)
+    FocusDeviceState &state = focusDeviceStates[""];
+    removeTemporarySession(&state.temporarySession);
+    if (state.startedTime < 0)
         return;
 
     QBrush stripe;
     if (filterStripeBrush(filter, &stripe))
-        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
+        addSession(state.startedTime, time, focusRow(""), successBrush, &stripe);
     else
-        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
-    auto session = FocusSession(autofocusStartedTime, time, nullptr, true,
-                                autofocusStartedTemperature, filter, points, curve, title);
-    focusSessions.add(session);
-    addFocusPosition(session.focusPosition(), autofocusStartedTime);
+        addSession(state.startedTime, time, focusRow(""), successBrush, nullptr);
+    auto session = FocusSession(state.startedTime, time, nullptr, true,
+                                state.startedTemperature, filter, points, curve, title);
+    session.offset = focusRow("");
+    focusSessions.add(session.device, session);
+    addFocusPosition(session.focusPosition(), state.startedTime);
     updateMaxX(time);
     if (!batchMode)
     {
         if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-            focusSessionClicked(session, false);
+            focusSessionClicked(session, false, false);
         replot();
     }
-    autofocusStartedTime = -1;
+    state.startedTime = -1;
 }
 
 void Analyze::autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                               const AutofocusFailReason failCode, const QString failCodeInfo)
+                               const AutofocusFailReason failCode, const QString failCodeInfo, const QString &trainname)
 {
-    QString temperature = QString::number(autofocusStartedTemperature, 'f', 1);
-    QVariant reasonV = autofocusStartedReason;
+    const QString device = resolveFocuserDevice(trainname);
+    const FocusDeviceState &state = focusDeviceStates[device];
+    QString temperature = QString::number(state.startedTemperature, 'f', 1);
+    QVariant reasonV = state.startedReason;
     QString reason = reasonV.toString();
-    QString reasonInfo = autofocusStartedReasonInfo;
+    QString reasonInfo = state.startedReasonInfo;
     QString weights = QString::number(useWeights);
     QVariant failReasonV = static_cast<int>(failCode);
     QString failReason = failReasonV.toString();
-    saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temperature, reason, reasonInfo, filter, points,
-                weights, failReason, failCodeInfo));
-    if (runtimeDisplay && autofocusStartedTime >= 0)
-        processAutofocusAbortedV2(logTime(), autofocusStartedTemperature, filter, autofocusStartedReason, reasonInfo, points,
-                                  useWeights, failCode, failCodeInfo);
+    saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9").arg(temperature, reason, reasonInfo, filter, points,
+                weights, failReason, failCodeInfo, device));
+    if (runtimeDisplay && state.startedTime >= 0)
+        processAutofocusAbortedV2(logTime(), state.startedTemperature, filter, state.startedReason, reasonInfo, points,
+                                  useWeights, failCode, failCodeInfo, false, device);
 }
 
 // Version 2 of processAutofocusAborted added weights, outliers and reason codes.
 void Analyze::processAutofocusAbortedV2(double time, double temperature, const QString &filter,
                                         const AutofocusReason reason, const QString &reasonInfo, const QString &points, const bool useWeights,
-                                        const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode)
+                                        const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode,
+                                        const QString &device)
 {
+    if (isDeviceHidden(device))
+        return;
     Q_UNUSED(temperature);
-    removeTemporarySession(&temporaryFocusSession);
-    double duration = time - autofocusStartedTime;
-    if (autofocusStartedTime >= 0 && duration < 1000)
+    FocusDeviceState &state = focusDeviceStates[device];
+    removeTemporarySession(&state.temporarySession);
+    double duration = time - state.startedTime;
+    if (state.startedTime >= 0 && duration < 1000)
     {
         // Just in case..
-        addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
-        auto session = FocusSession(autofocusStartedTime, time, nullptr, false, autofocusStartedTemperature, filter, reason,
-                                    reasonInfo, points, useWeights, "", "", failCode, failCodeInfo);
-        focusSessions.add(session);
+        addSession(state.startedTime, time, focusRow(device), failureBrush);
+        auto session = FocusSession(state.startedTime, time, nullptr, false, state.startedTemperature, filter, reason,
+                                    reasonInfo, points, useWeights, "", "", failCode, failCodeInfo, device);
+        session.offset = focusRow(device);
+        focusSessions.add(session.device, session);
         updateMaxX(time);
         if (!batchMode)
         {
             if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-                focusSessionClicked(session, false);
+                focusSessionClicked(session, false, false);
             replot();
         }
-        autofocusStartedTime = -1;
+        state.startedTime = -1;
     }
 }
 
-// Older version processAutofocusAborted to support processing analyze files created before V2
+// Older version processAutofocusAborted to support processing analyze files created before V2.
+// Predates per-device tracking, so it uses the shared "" bucket.
 void Analyze::processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode)
 {
-    removeTemporarySession(&temporaryFocusSession);
-    double duration = time - autofocusStartedTime;
-    if (autofocusStartedTime >= 0 && duration < 1000)
+    FocusDeviceState &state = focusDeviceStates[""];
+    removeTemporarySession(&state.temporarySession);
+    double duration = time - state.startedTime;
+    if (state.startedTime >= 0 && duration < 1000)
     {
         // Just in case..
-        addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
-        auto session = FocusSession(autofocusStartedTime, time, nullptr, false,
-                                    autofocusStartedTemperature, filter, points, "", "");
-        focusSessions.add(session);
+        addSession(state.startedTime, time, focusRow(""), failureBrush);
+        auto session = FocusSession(state.startedTime, time, nullptr, false,
+                                    state.startedTemperature, filter, points, "", "");
+        session.offset = focusRow("");
+        focusSessions.add(session.device, session);
         updateMaxX(time);
         if (!batchMode)
         {
             if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-                focusSessionClicked(session, false);
+                focusSessionClicked(session, false, false);
             replot();
         }
-        autofocusStartedTime = -1;
+        state.startedTime = -1;
     }
 }
 
 void Analyze::resetAutofocusState()
 {
-    autofocusStartedTime = -1;
-    autofocusStartedFilter = "";
-    autofocusStartedTemperature = 0;
-    autofocusStartedReason = AutofocusReason::FOCUS_NONE;
-    autofocusStartedReasonInfo = "";
+    focusDeviceStates.clear();
 }
 
 namespace
@@ -3658,21 +4629,24 @@ void Analyze::resetGuideState()
     guideStateStartedTime = -1;
 }
 
-void Analyze::newTemperature(double temperatureDelta, double temperature)
+void Analyze::newTemperature(double temperatureDelta, double temperature, const QString &trainname)
 {
     Q_UNUSED(temperatureDelta);
     if (temperature > -200 && temperature != lastTemperature)
     {
-        saveMessage("Temperature", QString("%1").arg(QString::number(temperature, 'f', 3)));
+        const QString device = resolveFocuserDevice(trainname);
+        saveMessage("Temperature", QString("%1,%2").arg(QString::number(temperature, 'f', 3), device));
         lastTemperature = temperature;
         if (runtimeDisplay)
-            processTemperature(logTime(), temperature);
+            processTemperature(logTime(), temperature, false, device);
     }
 }
 
-void Analyze::processTemperature(double time, double temperature, bool batchMode)
+void Analyze::processTemperature(double time, double temperature, bool batchMode, const QString &device)
 {
-    addTemperature(temperature, time);
+    if (isDeviceHidden(device))
+        return;
+    addTemperature(temperature, time, device);
     updateMaxX(time);
     if (!batchMode)
         replot();

@@ -3901,6 +3901,12 @@ void Manager::connectModules()
                     analyzeProcess.get(), &Ekos::Analyze::captureStarting, Qt::UniqueConnection);
             connect(captureModule(), &Ekos::Capture::captureAborted,
                     analyzeProcess.get(), &Ekos::Analyze::captureAborted, Qt::UniqueConnection);
+            connect(captureModule(), &Ekos::Capture::cameraDeviceActive,
+                    analyzeProcess.get(), &Ekos::Analyze::addActiveCamera, Qt::UniqueConnection);
+            // Prime Analyze with whatever camera tabs already exist -- the
+            // signal above only fires on the next tab creation/train change.
+            for (const auto &cam : captureModule()->cameras())
+                analyzeProcess->addActiveCamera(captureModule()->resolveCameraDevice(cam->opticalTrain()));
 #if 0
             // Meridian Flip
             connect(captureModule(), &Ekos::Capture::meridianFlipStarted,
@@ -3939,6 +3945,12 @@ void Manager::connectModules()
                 analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
         connect(focusModule(), &Ekos::FocusModule::newFocusTemperatureDelta,
                 analyzeProcess.get(), &Ekos::Analyze::newTemperature, Qt::UniqueConnection);
+        connect(focusModule(), &Ekos::FocusModule::focuserDeviceActive,
+                analyzeProcess.get(), &Ekos::Analyze::addActiveFocuser, Qt::UniqueConnection);
+        // Prime Analyze with whatever focuser tabs already exist -- the
+        // signal above only fires on the next tab creation/train change.
+        for (int i = 0; i < focusModule()->focuserCount(); ++i)
+            analyzeProcess->addActiveFocuser(focusModule()->resolveFocuserDevice(focusModule()->focuser(i)->opticalTrain()));
     }
 
     // Align <---> Analyze connections

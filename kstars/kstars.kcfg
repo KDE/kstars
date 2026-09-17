@@ -3698,6 +3698,9 @@
        <label>Alternative directory to use for searching for analyze image files.</label>
        <default code="true">QDir::homePath()</default>
     </entry>
+    <entry name="AnalyzeHiddenDevices" type="StringList">
+      <whatsthis>Cameras and focusers excluded from the Analyze Timeline and Statistics plots.</whatsthis>
+    </entry>
     <entry name="AnalyzeHFR" type="Bool">
       <whatsthis>Display HFR on the Analyze Statistics Plot.</whatsthis>
       <default>true</default>

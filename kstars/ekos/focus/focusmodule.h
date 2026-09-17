@@ -29,7 +29,24 @@ class FocusModule : public QWidget, public Ui::FocusManager
 
         QSharedPointer<Focus> &focuser(int i);
 
+        // Number of focuser tabs currently open (see focuser()), so callers
+        // outside this class (e.g. Analyze priming itself at startup, see
+        // resolveFocuserDevice()) can iterate them.
+        int focuserCount() const
+        {
+            return m_Focusers.count();
+        }
+
         QSharedPointer<Focus> mainFocuser();
+
+        /**
+         * @brief Resolves an optical train name to its assigned focuser's
+         * device name, or an empty string if the train has no focuser
+         * resolved yet (e.g. not connected). Public so listeners (e.g.
+         * Analyze) can prime themselves from focuserCount()/focuser() once
+         * at startup; see focuserDeviceActive().
+         */
+        QString resolveFocuserDevice(const QString &train) const;
 
         /**
          * @brief find the focuser using the given train
@@ -272,14 +289,21 @@ class FocusModule : public QWidget, public Ui::FocusManager
         // (which optical train) ran the autofocus. Without this forwarding,
         // only the main focuser (index 0) reaches Analyze, so scheduler-driven
         // refocus on a non-default train is silently lost from the .analyze log.
-        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo);
+        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo,
+                               const QString &trainname);
         void autofocusComplete(double temperature, const QString &filter, const QString &points, const bool useWeights,
-                               const QString &curve = "", const QString &title = "");
+                               const QString &curve, const QString &title, const QString &trainname);
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                              const AutofocusFailReason failCode, const QString &failCodeInfo);
+                              const AutofocusFailReason failCode, const QString &failCodeInfo, const QString &trainname);
         void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
                                    double altitude, double altTicks, int prevPosError, int thisPosError,
-                                   int totalTicks, int position, bool focuserMoved);
+                                   int totalTicks, int position, bool focuserMoved, const QString &trainname);
+
+        // Emitted with a tab's resolved device name whenever it's created or
+        // has its optical train reassigned (see resolveFocuserDevice()).
+        // Additive only -- nothing is emitted when a tab closes, since a
+        // closed tab's earlier events are still worth showing.
+        void focuserDeviceActive(const QString &device);
 
 
     private:

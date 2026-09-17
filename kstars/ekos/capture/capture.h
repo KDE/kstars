@@ -492,6 +492,15 @@ class Capture : public QWidget, public Ui::Capture
             return moduleState()->cameras();
         }
 
+        /**
+         * @brief Resolves an optical train name to its assigned camera's
+         * device name, or an empty string if the train has no camera
+         * resolved yet (e.g. not connected). Public so listeners (e.g.
+         * Analyze) can prime themselves from cameras() once at startup; see
+         * cameraDeviceActive().
+         */
+        QString resolveCameraDevice(const QString &train) const;
+
     public Q_SLOTS:
         // ////////////////////////////////////////////////////////////////////
         // Main capturing actions
@@ -760,13 +769,19 @@ class Capture : public QWidget, public Ui::Capture
         void driverTimedout(const QString &deviceName);
 
         // Signals for the Analyze tab.
-        void captureStarting(double exposureSeconds, const QString &filter);
-        void captureAborted(double exposureSeconds);
+        void captureStarting(double exposureSeconds, const QString &filter, const QString &trainname);
+        void captureAborted(double exposureSeconds, const QString &trainname);
 
         // Filter Manager
         void filterManagerUpdated(ISD::FilterWheel *device);
 
         void trainChanged();
+
+        // Emitted with a tab's resolved device name whenever it's created or
+        // has its optical train reassigned (see resolveCameraDevice()).
+        // Additive only -- nothing is emitted when a tab closes, since a
+        // closed tab's earlier events are still worth showing.
+        void cameraDeviceActive(const QString &device);
 
 
     private:
