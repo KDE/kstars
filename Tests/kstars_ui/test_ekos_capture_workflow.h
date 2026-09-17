@@ -197,6 +197,39 @@ class TestEkosCaptureWorkflow : public QObject
         void testGuidingDeviationAbortCapture();
 
         /**
+         * @brief Regression test for the bug where a dithering result restarts a
+         *        sequence that has been aborted in the meantime.
+         *
+         * CaptureModuleState::setGuideStatus() restarts every camera whose capture is
+         * stopped when dithering completes, not only those that it stopped for
+         * dithering itself. A sequence aborted while the dithering is still running is
+         * therefore resurrected, and continues exposing after the mount has already
+         * been slewed away or parked.
+         *
+         * Steps:
+         * 1. Start guiding and a three frame sequence with dithering after each frame.
+         * 2. Wait until dithering starts after the first frame.
+         * 3. Abort the sequence while the dithering is still in progress.
+         * 4. Wait for the dithering to complete successfully.
+         * 5. Assert that capturing does not resume.
+         */
+        void testAbortedSequenceNotRestartedAfterDithering();
+
+        /**
+         * @brief Companion to {@see testAbortedSequenceNotRestartedAfterDithering()} for
+         *        the failure branch. CaptureModuleState::setGuideStatus() handles
+         *        GUIDE_DITHERING_SUCCESS and GUIDE_DITHERING_ERROR alike, so an aborted
+         *        sequence has to stay aborted for both of them.
+         *
+         * Steps:
+         * 1. Capture the first frame of a three frame sequence.
+         * 2. Abort the sequence.
+         * 3. Report a failed dithering run to the capture module.
+         * 4. Assert that capturing does not resume.
+         */
+        void testAbortedSequenceNotRestartedAfterDitheringError();
+
+        /**
          * @brief Test if a guiding deviation beyond the configured limit blocks the start of
          * capturing until the guiding deviation is below the configured deviation threshold.
          */

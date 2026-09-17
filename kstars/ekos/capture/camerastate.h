@@ -844,6 +844,17 @@ class CameraState: public QObject
             return (m_CaptureState == CAPTURE_IDLE || m_CaptureState == CAPTURE_ABORTED || m_CaptureState == CAPTURE_SUSPENDED);
         }
 
+        /**
+         * @brief isCaptureSuspended Capturing has been stopped temporarily and is
+         *        expected to be resumed. In contrast to {@see #isCaptureStopped()}, this
+         *        excludes capturing that has been aborted, which must never be restarted
+         *        automatically.
+         */
+        bool isCaptureSuspended()
+        {
+            return (m_CaptureState == CAPTURE_SUSPENDED);
+        }
+
         bool isCapturePausing()
         {
             return (m_CaptureState == CAPTURE_PAUSE_PLANNED || m_CaptureState == CAPTURE_PAUSED);

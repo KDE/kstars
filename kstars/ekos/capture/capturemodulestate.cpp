@@ -86,8 +86,12 @@ void CaptureModuleState::setGuideStatus(GuideState newstate)
                 // dithering action finished
                 if (activeAction(cam->cameraId()) == CAPTURE_ACTION_DITHER)
                     setActiveAction(cam->cameraId(), CAPTURE_ACTION_NONE);
-                // restart all cameras that have been stopped for dithering
-                if (cam->state()->isCaptureStopped() || cam->state()->isCapturePausing())
+                // Restart all cameras that have been stopped for dithering. Those are
+                // suspended or pausing, since this is how they are stopped in
+                // prepareDitheringAction() and startDithering(). Aborted capturing must
+                // not be restarted, it has been stopped deliberately by the user or the
+                // scheduler, which may have slewed to another target in the meantime.
+                if (cam->state()->isCaptureSuspended() || cam->state()->isCapturePausing())
                     enqueueAction(cam->cameraId(), CAPTURE_ACTION_START);
             }
             break;
@@ -391,12 +395,15 @@ void CaptureModuleState::startDithering()
     if (found == false)
         return;
 
-    // abort all other running captures that do not requested a dither
+    // Suspend all other running captures that did not request a dither. This happens
+    // only if we are called from the dithering timeout, since checkReadyForDithering()
+    // waits until no other camera is capturing. Suspending (and not aborting) marks
+    // them as to be resumed as soon as the dithering has completed.
     for (auto cam : cameras())
         if (cam->state()->isCaptureRunning() && activeAction(cam->cameraId()) != CAPTURE_ACTION_DITHER)
         {
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Aborting capture of camera" << cam->cameraId() << "before dithering starts";
-            cam->abort();
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Suspending capture of camera" << cam->cameraId() << "before dithering starts";
+            cam->suspend();
         }
 
     // dither

@@ -409,6 +409,143 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0, "Capture has been restarted although aborted.");
 }
 
+void TestEkosCaptureWorkflow::testAbortedSequenceNotRestartedAfterDithering()
+{
+    // Regression test: CaptureModuleState::setGuideStatus() restarts every camera whose
+    // capture is stopped as soon as dithering completes - not only those that it stopped
+    // for dithering itself. A sequence that has been aborted while the dithering was
+    // still running is therefore resurrected, and keeps exposing after the mount has
+    // already been slewed away or parked. The resulting frames are useless.
+    //
+    // ── Test flow ─────────────────────────────────────────────────────────────
+    //   1. Start guiding and a 3 x 5s sequence that dithers after every frame. The
+    //      dithering settle time is stretched so that the dithering is still running
+    //      when the sequence gets aborted.
+    //   2. Wait until dithering starts after the first frame.
+    //   3. Abort the sequence, like the Scheduler does when it bumps a running job.
+    //   4. Wait for the dithering to complete successfully.
+    //   5. Assert that capturing does not resume.
+    //
+    // ── Pass/fail criterion ───────────────────────────────────────────────────
+    //   WITHOUT fix → the dithering result restarts the aborted sequence → TEST FAILS
+    //   WITH fix    → the sequence stays aborted                         → TEST PASSES
+
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // dither after every frame, with a settle time long enough to abort in between.
+    // Must be set after prepareTestCase(), the capture helper disables dithering in init().
+    Options::setDitherEnabled(true);
+    Options::setDitherNoGuiding(false);
+    Options::setDitherFrames(1);
+    Options::setDitherPixels(3.0);
+    Options::setDitherSettle(20);
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // the sequence job only dithers if the per job dithering is enabled
+    KTRY_SET_CHECKBOX(capture, enableDitherPerJob, true);
+
+    const QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_CAPTURE_ADD_LIGHT(5.0, 3, 0.0, "Luminance", "test", imagepath);
+
+    // ── Step 1: point the mount at the target and start guiding ──────────────
+    SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
+    QVERIFY(target != nullptr);
+    QVERIFY(m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
+
+    // clear calibration to ensure proper guiding
+    KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
+    QVERIFY(m_CaptureHelper->startGuiding(2.0));
+
+    // ── Step 2: capture until dithering starts after the first frame ─────────
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_DITHERING);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+
+    // ── Step 3: abort while the dithering is still in progress ───────────────
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
+
+    // from here on, capturing must not start again - watch out for it before
+    // the dithering reports its result
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PROGRESS);
+    const QString framePath = imagepath + "/test/Light/Luminance";
+    const int framesWhenAborted = QDir(framePath).entryList(QDir::Files).count();
+
+    // ── Step 4: wait for the dithering to succeed ────────────────────────────
+    m_CaptureHelper->expectedGuidingStates.append(Ekos::GUIDE_DITHERING_SUCCESS);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedGuidingStates, 60000);
+
+    // ── Step 5: the aborted sequence must not be restarted ───────────────────
+    QTest::qWait(20000);
+    QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0,
+             "Capture has been restarted by the dithering result although aborted.");
+    QCOMPARE(QDir(framePath).entryList(QDir::Files).count(), framesWhenAborted);
+}
+
+void TestEkosCaptureWorkflow::testAbortedSequenceNotRestartedAfterDitheringError()
+{
+    // Companion to testAbortedSequenceNotRestartedAfterDithering() for the failure
+    // branch: CaptureModuleState::setGuideStatus() handles GUIDE_DITHERING_SUCCESS and
+    // GUIDE_DITHERING_ERROR alike, so an aborted sequence has to stay aborted for both.
+    //
+    // The dithering result is reported directly instead of being provoked in the guider.
+    // InternalGuider::abortDither() emits GUIDE_DITHERING_ERROR only if
+    // ditherFailAbortsAutoGuide is set, and then immediately, without the settle delay
+    // that the success path has - there would be no window left to abort the sequence in.
+    // Without that option it settles and emits GUIDE_DITHERING_SUCCESS instead, which is
+    // what the companion test already covers. Ekos::Manager connects Guide::newStatus to
+    // Capture::setGuideStatus(), so calling it directly delivers to the capture module
+    // exactly what a failed dithering run would deliver.
+    //
+    // ── Test flow ─────────────────────────────────────────────────────────────
+    //   1. Capture the first frame of a 3 x 5s sequence.
+    //   2. Abort the sequence, like the Scheduler does when it bumps a running job.
+    //   3. Report a failed dithering run to the capture module.
+    //   4. Assert that capturing does not resume.
+    //
+    // ── Pass/fail criterion ───────────────────────────────────────────────────
+    //   WITHOUT fix → the dithering result restarts the aborted sequence → TEST FAILS
+    //   WITH fix    → the sequence stays aborted                         → TEST PASSES
+
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    const QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_CAPTURE_ADD_LIGHT(5.0, 3, 0.0, "Luminance", "test", imagepath);
+
+    // ── Step 1: capture the first frame ──────────────────────────────────────
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
+
+    // ── Step 2: abort the sequence ───────────────────────────────────────────
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
+
+    // from here on, capturing must not start again
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PROGRESS);
+    const QString framePath = imagepath + "/test/Light/Luminance";
+    const int framesWhenAborted = QDir(framePath).entryList(QDir::Files).count();
+
+    // ── Step 3: report a failed dithering run ────────────────────────────────
+    capture->setGuideStatus(Ekos::GUIDE_DITHERING_ERROR);
+
+    // ── Step 4: the aborted sequence must not be restarted ───────────────────
+    QTest::qWait(20000);
+    QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0,
+             "Capture has been restarted by the dithering result although aborted.");
+    QCOMPARE(QDir(framePath).entryList(QDir::Files).count(), framesWhenAborted);
+}
+
 void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
 {
     // default initialization
