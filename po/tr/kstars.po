@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-09 08:48+0300\n"
+"PO-Revision-Date: 2026-09-16 18:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12483,22 +12483,24 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"%2 kazançta %1 eşleşen karanlık kare kaydedildi; ancak kazanç %3 kullanımda."
 msgstr[1] ""
+"%2 kazançta %1 eşleşen karanlık kare kaydedildi; ancak kazanç %3 kullanımda."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 karanlık kare farklı bir kazançta kaydedildi."
+msgstr[1] "%1 karanlık kare farklı bir kazançta kaydedildi."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 karanlık kare farklı bir gruplama ile kaydedildi."
+msgstr[1] "%1 karanlık kare farklı bir gruplama ile kaydedildi."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12506,46 +12508,43 @@ msgid ""
 "The %1 matching dark frame was recorded outside the temperature threshold."
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 karanlık kare sıcaklık eşiğinin dışında kaydedildi."
+msgstr[1] "%1 karanlık kare sıcaklık eşiğinin dışında kaydedildi."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kaydedilen %1 karanlık kare farklı bir kameraya veya yongaya ait."
+msgstr[1] "Kaydedilen %1 karanlık kare farklı bir kameraya veya yongaya ait."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 eşleşen karanlık karede kaydedilmiş bir kazanç yok."
+msgstr[1] "%1 eşleşen karanlık karede kaydedilmiş bir kazanç yok."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 eşleşen karanlık karede kaydedilmiş bir gruplama yok."
+msgstr[1] "%1 eşleşen karanlık karede kaydedilmiş bir gruplama yok."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
-msgstr ""
+msgstr "Geçerli süre ve gruplama ile eşleşen kaydedilmiş karanlık kare yok."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "%1 saniyelik pozlamayla var olan karanlık kare kullanılıyor. Daha doğru "
-"sonuçlar için lütfen %1 saniyelik pozlamayla karanlık bir kare çekin."
+"sonuçlar için lütfen %2 saniyelik pozlamayla karanlık bir kare çekin."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12553,6 +12552,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Eşleşen karanlık kare %1 gün önce çekilmiş; ancak karanlık kitaplık, "
+"karanlık kareleri %2 gün kullanacak şekilde ayarlanmış."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13059,16 +13060,13 @@ msgstr ""
 "Karanlık Kitaplık sihirbazını çalıştırın."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Uygun karanlık kare veya kusur haritası bulunamadı. Lütfen çekim modülündeki "
-"Karanlık Kitaplık sihirbazını çalıştırın."
+"Uygun karanlık kare veya kusur haritası bulunamadı. %1 Lütfen çekim "
+"modülündeki Karanlık Kitaplık sihirbazını çalıştırın."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
 #, kde-format
@@ -13076,6 +13074,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Karanlık kare %1 × %2 piksel; ancak kalibre edilen kare ise %3 × %4 piksel "
+"olarak ayarlanmış."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format

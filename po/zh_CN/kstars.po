@@ -12116,14 +12116,11 @@ msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
-msgstr "使用可用的 %1 秒曝光暗场。请拍摄 %1 秒暗场以获取更准确的结果。"
+msgstr ""
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12621,14 +12618,11 @@ msgid ""
 msgstr "未发现合适的暗场或 defect map。请运行拍摄模块中的暗场库向导。"
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
-msgstr "未发现合适的暗场或 defect map。请运行拍摄模块中的暗场库向导。"
+msgstr ""
 
 #: ekos/auxiliary/darkprocessor.cpp:307
 #, kde-format
@@ -96699,6 +96693,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Dark frame %s is expired. Please create new master dark."
-#~ msgstr "暗场 %s 已过期，请新建主暗场。"

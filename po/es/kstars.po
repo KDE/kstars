@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-09 12:30+0100\n"
+"PO-Revision-Date: 2026-09-17 00:01+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -337,7 +337,7 @@ msgstr "Esperando respuesta del servidor…"
 #, kde-format
 msgctxt "use field-of-view for binoculars"
 msgid "7x35 Binoculars"
-msgstr "Prismáticos 7x35"
+msgstr "Prismáticos 7×35"
 
 #: auxiliary/fov.cpp:41 kstarslite/skyitems/fovitem.cpp:14
 #, kde-format
@@ -915,7 +915,7 @@ msgstr "Editar imagen en miniatura"
 #: auxiliary/thumbnaileditor.cpp:72
 #, kde-format
 msgid "Crop region: [%1,%2  %3x%4]"
-msgstr "Recortar zona: [%1,%2  %3x%4]"
+msgstr "Recortar zona: [%1,%2  %3×%4]"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ThumbnailEditor)
 #: auxiliary/thumbnaileditor.ui:13
@@ -933,7 +933,7 @@ msgstr "Recortar zona: [0,0  200 x 200]"
 #: auxiliary/thumbnaileditor.ui:59
 #, kde-format
 msgid "(crop region will be scaled to 200x200)"
-msgstr "(la zona recortada se escalará a 200x200)"
+msgstr "(la zona recortada se escalará a 200×200)"
 
 #: auxiliary/thumbnailpicker.cpp:138
 #, kde-format
@@ -12611,14 +12611,21 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"El fotograma oscuro coincidente se ha grabado con una ganancia de %2, pero "
+"se está usando una ganancia de %3."
 msgstr[1] ""
+"Los %1 fotogramas oscuros coincidentes se han grabado con una ganancia de "
+"%2, pero se está usando una ganancia de %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
 msgstr[0] ""
+"El fotograma oscuro coincidente se ha grabado con una ganancia distinta."
 msgstr[1] ""
+"Los %1 fotogramas oscuros coincidentes se han grabado con una ganancia "
+"distinta."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
@@ -12626,7 +12633,10 @@ msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
 msgstr[0] ""
+"El fotograma oscuro coincidente se ha grabado con un «binning»distinto."
 msgstr[1] ""
+"Los %1 fotogramas oscuros coincidentes se han grabado con un "
+"«binning»distinto."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12635,45 +12645,48 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
+"El fotograma oscuro coincidente se ha grabado fuera del umbral de "
+"temperatura."
 msgstr[1] ""
+"Los %1 fotogramas oscuros coincidentes se han grabado fuera del umbral de "
+"temperatura."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 fotograma oscuro grabado pertenece a otra cámara o chip."
+msgstr[1] "%1 fotogramas oscuros grabados pertenecen a otras cámaras o chips."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 fotograma oscuro coincidente no tiene ganancia grabada."
+msgstr[1] "%1 fotogramas oscuros coincidentes no tienen ganancia grabada."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 fotograma oscuro coincidente no tiene «binning» grabado."
+msgstr[1] "%1 fotogramas oscuros coincidentes no tienen «binning» grabado."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Ningún fotograma oscuro grabado coincide con la duración y el «binning» "
+"actuales."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Usando el fotograma oscuro disponible con %1 segundos de exposición. Obtenga "
-"un fotograma oscuro con %1 segundos de exposición para unos resultados más "
+"un fotograma oscuro con %2 segundos de exposición para unos resultados más "
 "precisos."
 
 #: ekos/auxiliary/darklibrary.cpp:484
@@ -12682,6 +12695,9 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"El fotograma oscuro coincidente tiene %1 días de antigüedad, pero la "
+"biblioteca oscura está configurada para reutilizar los fotogramas oscuros "
+"durante %2 días."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -12842,21 +12858,21 @@ msgstr ""
 #: ekos/auxiliary/darklibrary.ui:291
 #, kde-format
 msgid "1x1"
-msgstr "1x1"
+msgstr "1×1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: ekos/auxiliary/darklibrary.ui:304 fitsviewer/livestacking.ui:1213
 #, kde-format
 msgid "2x2"
-msgstr "2x2"
+msgstr "2×2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: ekos/auxiliary/darklibrary.ui:314 fitsviewer/livestacking.ui:1223
 #, kde-format
 msgid "4x4"
-msgstr "4x4"
+msgstr "4×4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
@@ -13198,15 +13214,12 @@ msgstr ""
 "Ejecute el asistente de la biblioteca oscura en el módulo de captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"No se han encontrado fotogramas oscuros ni mapas de defectos adecuados. "
+"No se han encontrado fotogramas oscuros ni mapas de defectos adecuados. %1 "
 "Ejecute el asistente de la biblioteca oscura en el módulo de captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -13215,6 +13228,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"El fotograma oscuro tiene %1×%2 píxeles, mientras que el fotograma que se "
+"está calibrando tiene %3×%4 píxeles."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
@@ -22720,7 +22735,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Máscara de estilo del inspector de aberración con un "
-"mosaico de 3x3 formado con cuadrículas del centro, las esquinas y los bordes."
+"mosaico de 3×3 formado con cuadrículas del centro, las esquinas y los bordes."
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
@@ -24366,7 +24381,7 @@ msgstr "El desvío se ha completado con éxito."
 #: ekos/guide/guide.cpp:2356
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
-msgstr "El binning de guiado %1x%1 no está permitido. El máximo es %2x%2."
+msgstr "El binning de guiado %1×%1 no está permitido. El máximo es %2×%2."
 
 #: ekos/guide/guide.cpp:2380
 #, kde-format
@@ -24664,7 +24679,7 @@ msgstr "Eje de declinación de guiado"
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
-"Binning de la cámara de guiado. Se recomienda definir el binning a 2x2 o a "
+"Binning de la cámara de guiado. Se recomienda definir el binning a 2×2 o a "
 "un valor mayor."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalDisconnectB)
@@ -33384,7 +33399,7 @@ msgstr ""
 #: ekos/scheduler/schedulerutils.cpp:544
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
-msgstr "Trabajo «%1» %2x%3\" %4"
+msgstr "Trabajo «%1» %2×%3\" %4"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:97
 #, kde-format
@@ -34538,7 +34553,7 @@ msgstr "La profundidad de %1 bits no está permitida."
 #: fitsviewer/fitsdata.cpp:2950
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
-msgstr "La imagen tiene dimensiones no válidas %1x%2"
+msgstr "La imagen tiene dimensiones no válidas de %1×%2"
 
 #: fitsviewer/fitsdata.cpp:3004
 #, kde-format
@@ -36677,9 +36692,9 @@ msgid ""
 "downscaled 4x4.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Reducir escala de imágenes:</p><p>- Ninguna: no se "
-"aplica ningún tipo de reducción de escala.</p><p>- 2x2: las copias y los "
-"originales se reducen a 2x2.</p><p>- 3x3: las copias y los originales se "
-"reducen a 3x3.</p><p>- 4x4: las copias y los originales se reducen a 4x4.</"
+"aplica ningún tipo de reducción de escala.</p><p>- 2×2: las copias y los "
+"originales se reducen a 2×2.</p><p>- 3×3: las copias y los originales se "
+"reducen a 3×3.</p><p>- 4×4: las copias y los originales se reducen a 4×4.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
@@ -36748,7 +36763,7 @@ msgstr "Actualización de PSF:"
 #: fitsviewer/livestacking.ui:1218
 #, kde-format
 msgid "3x3"
-msgstr "3x3"
+msgstr "3×3"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1243
@@ -100782,6 +100797,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Dark frame %s is expired. Please create new master dark."
-#~ msgstr "El fotograma oscuro %s ha expirado. Cree un nuevo patrón oscuro."

@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-09 08:15-0300\n"
+"PO-Revision-Date: 2026-09-16 07:05-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12570,14 +12570,21 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"O quadro escuro correspondente a %1 foi gravado com ganho %2, mas o ganho %3 "
+"está em uso."
 msgstr[1] ""
+"Os quadros escuros correspondentes a %1 foram gravados com ganho %2, mas o "
+"ganho %3 está em uso."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
 msgstr[0] ""
+"O quadro escuro correspondente a %1 foi registrado com um ganho diferente."
 msgstr[1] ""
+"Os quadros escuros correspondentes a %1 foram registrados com um ganho "
+"diferente."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
@@ -12585,7 +12592,10 @@ msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
 msgstr[0] ""
+"O quadro escuro correspondente a %1 foi registrado com um binning diferente."
 msgstr[1] ""
+"Os quadros escuros correspondentes a %1 foram registrados com um binning "
+"diferente."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12594,45 +12604,50 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
+"O quadro escuro correspondente a %1 foi registrado fora do limite de "
+"temperatura."
 msgstr[1] ""
+"Os quadros escuros correspondentes a %1 foram registrados fora do limite de "
+"temperatura."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
 msgstr[0] ""
+"O quadro escuro registrado %1 pertence a uma câmera ou chip diferente."
 msgstr[1] ""
+"Os quadros escuros registrados %1 pertencem a uma câmera ou chip diferente."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O quadro escuro correspondente %1 não possui ganho registrado."
+msgstr[1] "Os quadros escuros correspondentes %1 não possuem ganho registrado."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
+msgstr[0] "O quadro escuro correspondente %1 não possui binning registrado."
 msgstr[1] ""
+"Os quadros escuros correspondentes %1 não possuem binning registrado."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Nenhum quadro escuro registrado corresponde à duração e ao binning atuais."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Usando o quadro escuro disponível com exposição de %1 segundo. Tire um "
-"quadro escuro com exposição de %1 segundo para resultados mais precisos."
+"quadro escuro com exposição de %2 segundo para resultados mais precisos."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12640,6 +12655,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"O quadro escuro correspondente tem %1 dias, mas a biblioteca de escuros está "
+"configurada para reutilizar quadros escuros por %2 dias."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13156,15 +13173,12 @@ msgstr ""
 "assistente da Biblioteca escura no módulo Captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Nenhum quadro escuro adequado ou mapa de defeitos encontrado. Execute o "
+"Nenhum quadro escuro adequado ou mapa de defeitos encontrado. %1 Execute o "
 "assistente da Biblioteca escura no módulo Captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -13173,6 +13187,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"O quadro escuro tem %1x%2 pixels, enquanto o quadro sendo calibrado tem %3x"
+"%4 pixels."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format

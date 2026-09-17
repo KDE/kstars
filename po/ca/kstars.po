@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-12 22:17+0200\n"
+"PO-Revision-Date: 2026-09-16 13:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -12637,14 +12637,21 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"El fotograma fosc coincident %1 es va enregistrar amb el guany %2, però està "
+"en ús el guany %3."
 msgstr[1] ""
+"Els fotogrames foscos coincidents %1 es van enregistrar amb el guany %2, "
+"però està en ús el guany %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
 msgstr[0] ""
+"El fotograma fosc coincident %1 es va enregistrar amb un guany diferent."
 msgstr[1] ""
+"Els fotogrames foscos coincidents %1 es van enregistrar amb un guany "
+"diferent."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
@@ -12652,7 +12659,10 @@ msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
 msgstr[0] ""
+"El fotograma fosc coincident %1 es va enregistrar amb una agrupació diferent."
 msgstr[1] ""
+"Els fotogrames foscos coincidents %1 es van enregistrar amb una agrupació "
+"diferent."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12661,45 +12671,50 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
+"El fotograma fosc coincident %1 es va enregistrar fora del llindar de "
+"temperatura."
 msgstr[1] ""
+"Els fotogrames foscos coincidents %1 es van enregistrar fora del llindar de "
+"temperatura."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
+msgstr[0] "%1 fotograma fosc enregistrat pertany a una càmera o xip diferent."
 msgstr[1] ""
+"%1 fotogrames foscos enregistrats pertanyen a una càmera o xip diferent."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 fotograma fosc coincident no té cap guany enregistrat."
+msgstr[1] "%1 fotogrames foscos coincidents no tenen cap guany enregistrat."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
+msgstr[0] "%1 fotograma fosc coincident no té cap agrupació enregistrada."
 msgstr[1] ""
+"%1 fotogrames foscos coincidents no tenen cap agrupació enregistrada."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"No hi ha cap fotograma fosc registrat que coincideixi amb la durada i "
+"l'agrupament actuals."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "S'usa el fotograma fosc disponible amb %1 segons d'exposició. Preneu un "
-"fotograma fosc amb %1 segons d'exposició per a un resultat més precís."
+"fotograma fosc amb %2 segons d'exposició per a un resultat més precís."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12707,6 +12722,9 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"El fotograma fosc coincident té %1 dies d'antiguitat, però la biblioteca "
+"fosca està configurada per a reutilitzar els fotogrames foscos durant %2 "
+"dies."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13221,15 +13239,12 @@ msgstr ""
 "l'assistent de la biblioteca fosca del mòdul de captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"No s'ha trobat cap fotograma fosc ni mapa de defectes adequat. Executeu "
+"No s'ha trobat cap fotograma fosc ni mapa de defectes adequat. %1 Executeu "
 "l'assistent de la biblioteca fosca del mòdul de captura."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -13238,6 +13253,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"El fotograma fosc és de %1x%2 píxels mentre el fotograma que s'està "
+"calibrant és %3x%4 píxels."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
@@ -101036,244 +101053,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "Dark frame %s is expired. Please create new master dark."
-#~ msgstr ""
-#~ "El fotograma fosc %s ha vençut. Si us plau, creeu un fotograma fosc "
-#~ "mestre nou."
-
-#~ msgid "Reset train"
-#~ msgstr "Restableix el tren"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enforce temperature value before capturing an "
-#~ "image</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Força el valor de la temperatura abans de capturar "
-#~ "una imatge</p></body></html>"
-
-#~ msgid "Tº"
-#~ msgstr "Tº"
-
-#~ msgid "Set CCD temperature"
-#~ msgstr "Estableix la temperatura del CCD"
-
-#~ msgid "Camera top rotated %1°"
-#~ msgstr "Part superior de la càmera girada %1°"
-
-#~ msgid ""
-#~ "Camera rotation in optical train (0° = camera logo at top).\n"
-#~ "Positive values rotate the camera clockwise as seen from behind.\n"
-#~ "Diagram is adjusted so screw positions match what you physically see."
-#~ msgstr ""
-#~ "Gir de la càmera en el tren òptic (0° = logotip de la càmera a la part "
-#~ "superior).\n"
-#~ "Els valors positius giren la càmera en el sentit de les agulles del "
-#~ "rellotge vist des del darrere.\n"
-#~ "El diagrama s'ajusta perquè les posicions dels caragols coincideixin amb "
-#~ "el que es veu físicament."
-
-#~ msgctxt "4-point tilt plate screw"
-#~ msgid "Screw 4 (bottom-right)"
-#~ msgstr "Caragol 4 (inferior dret)"
-
-#~ msgid "Qt"
-#~ msgstr "Qt"
-
-#~ msgid "Primary Colors"
-#~ msgstr "Colors primaris"
-
-#~ msgid "Digia"
-#~ msgstr "Digia"
-
-#~ msgid "Stone Moss"
-#~ msgstr "Stone Moss"
-
-#~ msgid "Army Blue"
-#~ msgstr "Army Blue"
-
-#~ msgid "Retro"
-#~ msgstr "Retro"
-
-#~ msgid "Ebony"
-#~ msgstr "Ebony"
-
-#~ msgid "Isabelle"
-#~ msgstr "Isabelle"
-
-#~ msgid "Couldn't initialize the OpenGL context."
-#~ msgstr "No s'ha pogut inicialitzar el context OpenGL."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable streaming guide mode. When checked and the "
-#~ "camera supports video streaming, the guide module captures frames via a "
-#~ "continuous video stream instead of individual exposures. This "
-#~ "significantly reduces per-frame overhead and enables higher guiding "
-#~ "frequencies (e.g. 2–5 Hz) required by harmonic drives. Not compatible "
-#~ "with dark-frame subtraction.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Activa el flux de dades de guiatge. Quan està "
-#~ "activada i la càmera admet la transmissió de vídeo, el mòdul guia captura "
-#~ "fotogrames a través d'un flux de vídeo continu en lloc d'exposicions "
-#~ "individuals. Això redueix significativament la sobrecàrrega per fotograma "
-#~ "i permet freqüències de guiatge més altes (p. ex. 2–5 Hz) requerides per "
-#~ "unitats harmòniques. No és compatible amb la resta de fotogrames foscos.</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
-#~ "Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
-#~ "Free drift at each position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Protocol de "
-#~ "control directe (~20 mins):</span><br/>1. Orientació a altituds altes, "
-#~ "mitjanes i baixes: deriva lliure a cada posició.</p></body></html>"
-
-#~ msgid ""
-#~ "Settings that do not match the weights:\n"
-#~ "%1"
-#~ msgstr ""
-#~ "La configuració no coincideix amb les ponderacions:\n"
-#~ "%1"
-
-#~ msgid "Include Pulse Response Test in Data Collection Protocol"
-#~ msgstr ""
-#~ "Inclou la prova de resposta de polsos en el protocol de recollida de dades"
-
-#~ msgid ""
-#~ "Measures the mount's elastic response to guide pulses (harmonic drives). "
-#~ "Adds about 20 minutes to the protocol and has not produced measurable "
-#~ "results on rigs tested so far, so it is off by default."
-#~ msgstr ""
-#~ "Mesura la resposta elàstica de la muntura dels polsos de guiatge (unitats "
-#~ "harmòniques). Afegeix uns 20 minuts al protocol i no ha produït resultats "
-#~ "mesurables en els equips provats fins ara, de manera que està desactivat "
-#~ "de manera predeterminada."
-
-#~ msgid ""
-#~ "The pulse response test measures the mount's elastic response to guide "
-#~ "pulses (harmonic drives). It adds about 20 minutes to the protocol and "
-#~ "has not produced measurable results on rigs tested so far, so it is off "
-#~ "by default."
-#~ msgstr ""
-#~ "La prova de resposta de polsos mesura la resposta elàstica de la muntura "
-#~ "per guiar els polsos (unitats harmòniques). Afegeix uns 20 minuts al "
-#~ "protocol i no ha produït resultats mesurables en els equips provats fins "
-#~ "ara, de manera que està desactivat de manera predeterminada."
-
-#~ msgid ""
-#~ "Maximum number of seconds to wait before aborting the capture if "
-#~ "operations like filter wheel changes or meridian flips take too long"
-#~ msgstr ""
-#~ "Nombre màxim de segons a esperar abans d'interrompre la captura si les "
-#~ "operacions com els canvis a la roda de filtres o les inversions de "
-#~ "meridià triguen massa"
-
-#~ msgid "Capture timed out."
-#~ msgstr "La captura ha excedit el temps."
-
-#~ msgid "Capturing still running, Retrying in %1 seconds..."
-#~ msgstr ""
-#~ "Encara s'està executant la captura. Es tornarà a intentar d'aquí a %1 "
-#~ "segons..."
-
-#~ msgid "Andrew Stepanenko"
-#~ msgstr "Andrew Stepanenko"
-
-#~ msgid "Guiding code based on lin_guider"
-#~ msgstr "Codi de guiatge basat en el «lin_guider»"
-
-#~ msgid "Rotator Dialog improvements"
-#~ msgstr "Millores del diàleg del rotor"
-
-#~ msgctxt "Country name"
-#~ msgid "Ascension Island"
-#~ msgstr "Illa de l'Ascensió"
-
-#~ msgctxt "Country name"
-#~ msgid "Bénin"
-#~ msgstr "Benín"
-
-#~ msgctxt "Country name"
-#~ msgid "Congo"
-#~ msgstr "Congo"
-
-#~ msgctxt "Country name"
-#~ msgid "Dem rep of Congo"
-#~ msgstr "Rep. Democràtica del Congo"
-
-#~ msgctxt "Country name"
-#~ msgid "US Territory"
-#~ msgstr "Territori dels EUA"
-
-#~ msgctxt "Country name"
-#~ msgid "Yugoslavia"
-#~ msgstr "Iugoslàvia"
-
-#~ msgctxt "Country name"
-#~ msgid "Turkey"
-#~ msgstr "Turquia"
-
-#~ msgid ""
-#~ "Warning: A job with name '%1' already exists. Please use a unique name."
-#~ msgstr ""
-#~ "Avís: Ja existeix una tasca amb el nom «%1». Feu servir un nom únic."
-
-#~ msgid "Ekos job (%1) - Telescope synced"
-#~ msgstr "Tasca de l'Ekos (%1): S'ha sincronitzat el telescopi"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Select the type of objects/points added by the "
-#~ "wizard.</p><p><span style=\" font-weight:600;\">Note:</span> all of the "
-#~ "options except Fixed DEC start with a grid of RA/DEC points.</p>\n"
-#~ "<ul>\n"
-#~ "<li><b>Any Stars:</b> The wizard searches for the nearest star.</li>\n"
-#~ "<li><b>Any object:</b>  The wizard searches for the nearest object of any "
-#~ "type.</li>\n"
-#~ "<li><b>Named Stars</b> The wizard searches for the nearest star in the "
-#~ "currently visible star list. Note that the first named star might be "
-#~ "fairly far from the intended point and also sometimes the same star could "
-#~ "be the closest one for multiple points.</li>\n"
-#~ "<li><b>Fixed DEC:</b> The wizard generates all points at the chosen DEC.</"
-#~ "li>\n"
-#~ "<li><b>Fixed Grid:</b>  The wizard just uses the original grid without "
-#~ "trying to pair it with objects.</li>\n"
-#~ "</ul>\n"
-#~ "</body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Seleccioneu els tipus d'objectes/punts afegits per "
-#~ "l'assistent:</p><p><span style=\" font-weight:600;\">Nota:</span> Totes "
-#~ "les opcions excepte Dec fixa comencen amb una quadrícula de punts AR/Dec."
-#~ "</p>\n"
-#~ "<ul>\n"
-#~ "<li><b>Qualsevol estrella:</b> L'assistent cerca l'estrella més propera.</"
-#~ "li>\n"
-#~ "<li><b>Qualsevol objecte:</b> L'assistent cerca l'objecte més proper de "
-#~ "qualsevol classe.</li>\n"
-#~ "<li><b>Estrelles amb nom:</b> L'assistent cerca l'estrella més propera a "
-#~ "la llista d'estrelles visibles actualment. Cal tenir en compte que la "
-#~ "primera estrella amb nom pot estar força lluny del punt desitjat, i també "
-#~ "la mateixa estrella pot estar a prop de múltiples punts.</li>\n"
-#~ "<li><b>Dec fixa:</b> L'assistent genera tots els punts a la Dec triada.</"
-#~ "li>\n"
-#~ "<li><b>Quadrícula fixa:</b> L'assistent només usa la quadrícula original "
-#~ "sense intentar aparellar-la amb objectes.</li>\n"
-#~ "</ul>\n"
-#~ "</body></html>"
-
-#~ msgid "Delay this many seconds before executing pre driver script."
-#~ msgstr "Temps d'espera en segons abans d'executar l'script precontrolador."
-
-#~ msgid ""
-#~ "Delay this many seconds after executing stopping driver script before "
-#~ "stopping driver."
-#~ msgstr ""
-#~ "Retard en segons després d'executar l'script d'aturada del controlador "
-#~ "abans de l'aturada del controlador."
-
-#~ msgid ""
-#~ "Delay this many seconds after driver stopped before executing stopped "
-#~ "driver script."
-#~ msgstr ""
-#~ "Retard en segons després de l'aturada del controlador abans d'executar "
-#~ "l'script d'aturada del controlador."

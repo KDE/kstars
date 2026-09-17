@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-09 07:46+0200\n"
+"PO-Revision-Date: 2026-09-16 10:28+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -12487,18 +12487,27 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"%1 ustreznih temnih posnetkov je bilo posnetih pri ojačitvi %2, vendar je v "
+"uporabi ojačitev %3."
 msgstr[1] ""
+"%1 ustrezen temen posnetek je bil posnet pri ojačitvi %2, vendar je v "
+"uporabi ojačitev %3."
 msgstr[2] ""
+"%1 ustrezna temna posnetka sta bila posneta pri ojačitvi %2, vendar je v "
+"uporabi ojačitev %3."
 msgstr[3] ""
+"%1 ustrezni temni posnetki so bilo posneti pri ojačitvi %2, vendar je v "
+"uporabi ojačitev %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
 msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+"%1 ujemajočih temnih posnetkov je bilo posnetih pri drugačni ojačitvi."
+msgstr[1] "%1 ujemajoč temen posnetek je bil posnet pri drugačni ojačitvi."
+msgstr[2] "%1 ujemajoča temna posnetka sta bila posneta pri drugačni ojačitvi."
+msgstr[3] "%1 ujemajoči temni posnetki so bili posneti pri drugačni ojačitvi."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
@@ -12506,9 +12515,13 @@ msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
 msgstr[0] ""
+"Ujemajoči temni posnetki (%1) so bili posneti z drugačnim združevanjem."
 msgstr[1] ""
+"Ujemajoči temni posnetek (%1) je bil posnet z drugačnim združevanjem."
 msgstr[2] ""
+"Ujemajoča temna posnetka (%1) sta bila posneta z drugačnim združevanjem."
 msgstr[3] ""
+"Ujemajoči temni posnetki (%1) so bili posneti z drugačnim združevanjem."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12517,53 +12530,55 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
-msgstr[1] ""
+"%1 ustreznih temnih posnetkov je bilo posnetih izven temperaturne meje."
+msgstr[1] "%1 ustrezen temen posnetek je bil posnet izven temperaturne meje."
 msgstr[2] ""
-msgstr[3] ""
+"%1 ustrezna temna posnetka sta bila posneta izven temperaturne meje."
+msgstr[3] "%1 ustrezni temni posnetki so bili posneti izven temperaturne meje."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 posnetih temnih posnetkov pripada drugim kameram ali čipom."
+msgstr[1] "%1 posnet temen posnetek pripada drugim kameram ali čipom."
+msgstr[2] "%1 posneta temna posnetka pripadata drugim kameram ali čipom."
+msgstr[3] "%1 posneti temni posnetki pripadajo drugim kameram ali čipom."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 ujemajočih temnih posnetkov nima zabeleženega ojačanja."
+msgstr[1] "%1 ujemajoč temen posnetek nima zabeleženega ojačanja."
+msgstr[2] "%1 ujemajoča temna posnetka nimata zabeleženega ojačanja."
+msgstr[3] "%1 ujemajoči temni posnetki nimajo zabeleženega ojačanja."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 ujemajočih temnih posnetkov nima zabeleženega združevanja."
+msgstr[1] "%1 ujemajoči temni posnetek nima zabeleženega združevanja."
+msgstr[2] "%1 ujemajoča temna posnetka nimata zabeleženega združevanja."
+msgstr[3] "%1 ujemajoči temni posnetki nimajo zabeleženega združevanja."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Noben zabeležen temen posnetek ne ustreza trenutnemu času osvetlitve in "
+"združevanju."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
-"Uporablja se razpoložljivi posnetek teme z osvetlitvijo %1 s. Predlagamo, da "
-"zajamete posnetek teme z osvetlitvijo %1 s za natančnejše rezultate."
+"Uporablja se razpoložljivi temni posnetek z osvetlitvijo %1 sekund. "
+"Posnemite temni posnetek s časom osvetlitve %2 sekund za natančnejše "
+"rezultate."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12571,6 +12586,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Ujemajoči temni posnetek je star %1 dni, vendar je knjižnica temnih "
+"posnetkov nastavljena tako, da te posnetke ponovno uporablja %2 dni."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13076,16 +13093,13 @@ msgstr ""
 "knjižnico posnetkov teme v modulu Zajem."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Ni najdenih primernih posnetkov teme ali kart okvar. Zaženite čarovnika za "
-"knjižnico posnetkov teme v modulu Zajem."
+"Ni najdenih primernih temnih posnetkov ali kart okvar. %1 Zaženite čarovnika "
+"za knjižnico posnetkov teme v modulu Zajem."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
 #, kde-format
@@ -13093,6 +13107,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Temni posnetek meri %1×%2 pikslov, medtem ko posnetek, ki se kalibrira, meri "
+"%3×%4 pikslov."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format

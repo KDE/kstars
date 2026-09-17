@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 02:11+0000\n"
-"PO-Revision-Date: 2026-09-09 18:41+0300\n"
+"PO-Revision-Date: 2026-09-16 14:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12566,28 +12566,36 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"%1 відповідний темний кадр було записано з коефіцієнтом підсилення %2, але "
+"зараз використовується коефіцієнт %3."
 msgstr[1] ""
+"%1 відповідні темні кадри було записано з коефіцієнтом підсилення %2, але "
+"зараз використовується коефіцієнт %3."
 msgstr[2] ""
+"%1 відповідних темних кадрів було записано з коефіцієнтом підсилення %2, але "
+"зараз використовується коефіцієнт %3."
 msgstr[3] ""
+"Відповідний темний кадр було записано з коефіцієнтом підсилення %2, але "
+"зараз використовується коефіцієнт %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 відповідний темний кадр було записано з іншим підсиленням."
+msgstr[1] "%1 відповідних темних кадри було записано з іншим підсиленням."
+msgstr[2] "%1 відповідних темних кадрів було записано з іншим підсиленням."
+msgstr[3] "%1 відповідний темний кадр було записано з іншим підсиленням."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 відповідний темний кадр було записано з іншою градацією."
+msgstr[1] "%1 відповідних темних кадри було записано з іншою градацією."
+msgstr[2] "%1 відповідних темних кадрів було записано з іншою градацією."
+msgstr[3] "%1 відповідний темний кадр було записано з іншою градацією."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12596,53 +12604,56 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
+"%1 відповідний темний кадр було записано за межами порогової температури."
 msgstr[1] ""
+"%1 відповідних темних кадри було записано за межами порогової температури."
 msgstr[2] ""
+"%1 відповідних темних кадрів було записано за межами порогової температури."
 msgstr[3] ""
+"%1 відповідний темний кадр було записано за межами порогової температури."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 записаний темний кадр належить іншій камері або чипу."
+msgstr[1] "%1 записаних темних кадри належать іншій камері або чипу."
+msgstr[2] "%1 записаних темних кадрів належить іншій камері або чипу."
+msgstr[3] "%1 записаний темний кадр належить іншій камері або чипу."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 відповідний темний кадр не має записаного підсилення."
+msgstr[1] "%1 відповідних темних кадри не мають записаного підсилення."
+msgstr[2] "%1 відповідних темних кадрів не мають записаного підсилення."
+msgstr[3] "%1 відповідний темний кадр не має записаного підсилення."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 відповідний темний кадр не має записаної градації."
+msgstr[1] "%1 відповідні темні кадри не мають записаної градації."
+msgstr[2] "%1 відповідних темних кадрів не мають записаної градації."
+msgstr[3] "%1 відповідний темний кадр не має записаної градації."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Жоден з записаних темних кадрів не відповідає поточній тривалості та "
+"градації."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Використовуємо доступний темний кадр із %1-секундним експонуванням. Будь "
-"ласка, створіть темний кадр із %1-секундним експонуванням для отримання "
+"ласка, створіть темний кадр із %2-секундним експонуванням для отримання "
 "точніших результатів."
 
 #: ekos/auxiliary/darklibrary.cpp:484
@@ -12651,6 +12662,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Вік відповідного темного кадру становить %1 днів, але для бібліотеки темних "
+"кадрів встановлено термін повторного використання темних кадрів у %2 днів."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13162,16 +13175,13 @@ msgstr ""
 "майстер бібліотеки темних кадрів у модулі захоплення зображення."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Не виявлено придатних темних кадрів або карт дефектів. Будь ласка, запустіть "
-"майстер бібліотеки темних кадрів у модулі захоплення зображення."
+"Не виявлено придатних темних кадрів або карт дефектів. %1 Будь ласка, "
+"запустіть майстер бібліотеки темних кадрів у модулі захоплення зображення."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
 #, kde-format
@@ -13179,6 +13189,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Темний кадр має розміри %1x%2 пікселів а кадр, що калібрується, — %3x%4 "
+"пікселів."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
