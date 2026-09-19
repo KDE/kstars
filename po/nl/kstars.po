@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-18 02:07+0000\n"
-"PO-Revision-Date: 2026-09-17 15:36+0200\n"
+"PO-Revision-Date: 2026-09-18 10:09+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11203,7 +11203,7 @@ msgstr "Kan tijdelijk afbeeldingsbestand niet tonen: %1"
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Cam %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11218,7 +11218,7 @@ msgstr "Focuser"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Foc %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11390,25 +11390,19 @@ msgstr "Tijdlijn"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Indien mogelijk voorgaande (scroll naar links) of "
-"volgende (scroll naar rechts) secties tonen in de tijdlijn- en statistiek-"
-"plot.</p></body></html>"
+"<html><head/><body><p>Kies welke camera's en focusers worden weergegeven in "
+"de tijdlijn- en statistiekdiagrammen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "A&pparaten"
+msgstr "Apparaten"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11615,12 +11609,13 @@ msgstr "Opname:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
-msgstr "<html><head/><body><p>Basis van de lokale opnamemap</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kies van welke camera de opnamestatistieken hieronder "
+"worden weergegeven.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12209,16 +12204,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De oplossing voor de positie voor autofocus plotten.</"
-"p></body></html>"
+"<html><head/><body><p>Kies van welke focuser de temperatuur- en "
+"positiestatistieken hieronder worden weergegeven.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12231,10 +12223,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "psi"
+msgstr "pos"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -24117,6 +24108,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"De opstelling meldt een fout terwijl het volgen (guiding) actief is. "
+"Correcties bereiken de opstelling mogelijk niet."
 
 #: ekos/guide/guide.cpp:1952
 #, kde-format
@@ -24124,6 +24117,8 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"De opstelling is gestopt met volgen terwijl het volgen actief is. "
+"Volgcorrecties kunnen het wegvallen van het volgen niet compenseren."
 
 #: ekos/guide/guide.cpp:2045
 #, kde-format
@@ -47418,15 +47413,12 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Mediaan van sample-waarde tonen voor de opname op de plot voor statistische "
-"analyse."
+"Camera's en focusers zijn uitgesloten van de tijdlijn- en "
+"statistiekdiagrammen."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705

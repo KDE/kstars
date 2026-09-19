@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-18 02:07+0000\n"
-"PO-Revision-Date: 2026-09-16 14:58+0300\n"
+"PO-Revision-Date: 2026-09-18 08:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -11237,7 +11237,7 @@ msgstr "Не вдалося показати тимчасовий файл зо�
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Кам %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11252,7 +11252,7 @@ msgstr "Фокусування"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Фок %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11424,25 +11424,19 @@ msgstr "Шкала часу"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Якщо можна, показати попередній (гортати ліворуч) або "
-"майбутній (гортати праворуч) розділи на кресленні «Шкала часу» і "
-"«Статистика».</p></body></html>"
+"<html><head/><body><p>Виберіть камери і засоби фокусування, які буде "
+"показано на кресленнях розкладу та статистики.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Пристрої"
+msgstr "Пристрої"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11648,14 +11642,13 @@ msgstr "Захоплення:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Базовий каталог для локальних захоплених зображень</"
-"p></body></html>"
+"<html><head/><body><p>Виберіть, статистику знімків якої камери буде показано "
+"нижче.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12249,16 +12242,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити позицію розв'язку автоматичного фокусування."
-"</p></body></html>"
+"<html><head/><body><p>Виберіть, статистику температури та позиції якого "
+"засобу фокусування буде показано нижче.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12271,10 +12261,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "псі"
+msgstr "поз"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -24301,6 +24290,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"Лафетом повідомлень про помилку під час наведення. Виправлення наведення "
+"може бути не отримано лафетом."
 
 #: ekos/guide/guide.cpp:1952
 #, kde-format
@@ -24308,6 +24299,8 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"Лафет припинив стеження під час наведення. Виправлення наведення не зможуть "
+"компенсувати похибки, якщо втрачено стеження."
 
 #: ekos/guide/guide.cpp:2045
 #, kde-format
@@ -47805,15 +47798,12 @@ msgstr "Альтернативний каталог для пошуку файл
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Показувати середнє значення за вибіркою на захопленому зображенні на "
-"кресленні статистичних даних аналізу."
+"Камери і засоби фокусування, які буде виключено з креслень аналізу розкладу "
+"та статистики."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705

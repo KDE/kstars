@@ -11005,24 +11005,17 @@ msgstr "时间轴"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>如果可能显示时间轴和统计图中过去的部分(向左滚动) 或未来"
-"(向右滚动)的部分。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "设备(&D)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11220,12 +11213,11 @@ msgstr "拍摄："
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
-msgstr "<html><head/><body><p>Base local capture 目录</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -11760,14 +11752,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
-msgstr "<html><head/><body><p>画出自动对焦解出的位置</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -11778,10 +11767,9 @@ msgstr "<html><head/><body><p>画出自动对焦解出的位置</p></body></html
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "ψ"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -44940,13 +44928,10 @@ msgstr "搜索分析器图像文件的候选目录。"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
-msgstr "在分析统计图上显示拍摄时 median sample value。"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705
@@ -96771,6 +96756,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "focus"
-#~ msgstr "对焦"

@@ -10775,10 +10775,9 @@ msgstr "<html><head/><body><p>Přiblížit pro osu X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Zařízení"
+msgstr "Zařízení"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-18 02:07+0000\n"
-"PO-Revision-Date: 2026-09-16 13:44+0200\n"
+"PO-Revision-Date: 2026-09-18 12:32+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -11300,7 +11300,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Càm. %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11315,7 +11315,7 @@ msgstr "Enfocador"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Enf. %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11487,25 +11487,19 @@ msgstr "Línia de temps"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si és possible, mostra les seccions anterior "
-"(desplaçament a l'esquerra) o futura (desplaçament a la dreta) del traçat de "
-"la línia de temps o de les estadístiques.</p></body></html>"
+"<html><head/><body><p>Trieu quines càmeres i enfocadors es mostraran als "
+"traçats de la línia de temps i les estadístiques.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Dispositius"
+msgstr "Dispositius"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11716,13 +11710,13 @@ msgstr "Captura:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Directori base de captura local</p></body></html>"
+"<html><head/><body><p>Trieu les estadístiques de captura de la càmera que es "
+"mostraran a continuació.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12318,16 +12312,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça la posició de la solució d'enfocament automàtic."
-"</p></body></html>"
+"<html><head/><body><p>Trieu les estadístiques de temperatura/posició de "
+"l'enfocador que es mostraran a continuació.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12340,10 +12331,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "psi"
+msgstr "pos"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -24417,6 +24407,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"La muntura informa d'un error mentre el guiatge està actiu. És possible que "
+"les correccions de guiatge no arribin a la muntura."
 
 #: ekos/guide/guide.cpp:1952
 #, kde-format
@@ -24424,6 +24416,8 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"La muntura ha deixat de fer el seguiment mentre el guiatge està actiu. Les "
+"correccions del guiatge no poden compensar el seguiment perdut."
 
 #: ekos/guide/guide.cpp:2045
 #, kde-format
@@ -48123,15 +48117,12 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Mostra el valor de la mediana simple de la captura al traçat d'estadístiques "
-"de l'anàlisi."
+"Càmeres i enfocadors exclosos dels traçats de l'anàlisi de la línia de temps "
+"i de les estadístiques."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705

@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-18 02:07+0000\n"
-"PO-Revision-Date: 2026-09-09 17:18+0200\n"
+"PO-Revision-Date: 2026-09-18 21:53+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -11139,7 +11139,7 @@ msgstr "Kan inte visa temporär bildfil: %1"
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Kam %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11154,7 +11154,7 @@ msgstr "Fokuseringsenhet"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Fok %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11325,25 +11325,19 @@ msgstr "Tidslinje"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Om möjligt visa föregående ruta (rulla åt vänster) "
-"eller framtida ruta (rulla åt höger) av tidslinje- och statistikdiagrammen.</"
-"p></body></html>"
+"<html><head/><body><p>Välj vilka kameror och fokuseringsenheter som visas på "
+"diagrammen Tidslinje och Statistik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Enheter"
+msgstr "Enheter"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11545,16 +11539,17 @@ msgstr "Stativ:"
 #: ekos/analyze/analyze.ui:567
 #, kde-format
 msgid "Capture:"
-msgstr "Ta bild:"
+msgstr "Tagning:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
-msgstr "<html><head/><body><p>Lokal baskatalog för tagningar</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Välj vilken kameras tagningsstatistik som visas nedan."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12138,16 +12133,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rita upp den automatiska fokuseringslösningens "
-"position.</p></body></html>"
+"<html><head/><body><p>Välj vilken fokuseringsutrustnings temperatur- och "
+"positionsstatistik som visas nedan.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12160,10 +12152,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "psi"
+msgstr "pos"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -12521,22 +12512,25 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"%1 matchande mörk bild togs med förstärkning %2, men förstärkning %3 används."
 msgstr[1] ""
+"%1 matchande mörka bilder togs med förstärkning %2, men förstärkning %3 "
+"används."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 matchande mörk bild togs med en annan förstärkning."
+msgstr[1] "%1 matchande mörka bilder togs med en annan förstärkning."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 matchande mörk bild togs med en annan indelning."
+msgstr[1] "%1 matchande mörka bilder togs med en annan indelning."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12544,46 +12538,45 @@ msgid ""
 "The %1 matching dark frame was recorded outside the temperature threshold."
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 matchande mörk bild togs utanför temperaturtröskeln."
+msgstr[1] "%1 matchande mörka bilder togs utanför temperaturtröskeln."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
+msgstr[0] "%1 tagen mörk bild hör till en annan kamera eller en annan krets."
 msgstr[1] ""
+"%1 tagna mörka bilder hör till en annan kamera eller en annan krets."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 matchande mörk bild har ingen lagrad förstärkning."
+msgstr[1] "%1 matchande mörka bilder har ingen lagrad förstärkning."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 matchande mörk bild har ingen lagrad indelning."
+msgstr[1] "%1 matchande mörka bilder har ingen lagrad indelning."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Inga lagrade mörka bilder matchar den nuvarande längden och indelningen."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Använd tillgänglig mörk bildruta med %1 sekunders exponering. Ta en mörk "
-"bildruta med %1 sekunders exponering för noggrannare resultat."
+"bildruta med %2 sekunders exponering för noggrannare resultat."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12591,6 +12584,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Den motsvarande mörka bilden är %1 dagar gammal men bibliotek med mörka "
+"bilder är inställt att återanvända mörka bilder %2 dagar."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13098,15 +13093,12 @@ msgstr ""
 "Bibliotek med mörka bilder i tagningsmodulen."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Inga lämpliga mörka bilder eller defektbilder hittades. Använd guiden "
+"Inga lämpliga mörka bilder eller defektbilder hittades. %1 Använd guiden "
 "Bibliotek med mörka bilder i tagningsmodulen."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -13115,6 +13107,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Den mörka bilden är %1 x %2 bildpunkter medan bildrutan som kalibreras är %3 "
+"x %4 bildpunkter."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
@@ -23982,6 +23976,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"Stativet rapporterar ett fel medan guidning är aktiv. Guidningskorrigeringar "
+"kanske inte når stativet."
 
 #: ekos/guide/guide.cpp:1952
 #, kde-format
@@ -23989,6 +23985,8 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"Stativet har slutat följa medan guidning är aktiv. Guidningskorrigeringar "
+"kan inte kompensera för förlorad följning."
 
 #: ekos/guide/guide.cpp:2045
 #, kde-format
@@ -47047,14 +47045,12 @@ msgstr "Alternativ katalog att använda för att söka efter analysbildfiler."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Visa mediansamplingsvärdet för tagningen på analysens statistikdiagram."
+"Kameror och fokuseringsenheter uteslutna från diagrammen Analysera tidslinje "
+"och Statistik."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705
