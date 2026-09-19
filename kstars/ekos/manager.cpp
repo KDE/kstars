@@ -250,10 +250,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
     connect(this, &Ekos::Manager::ekosStatusChanged, this, [&](Ekos::CommunicationStatus status)
     {
         indiControlPanelB->setEnabled(status == Ekos::Success);
-        connectB->setEnabled(false);
-        disconnectB->setEnabled(false);
-        extensionB->setEnabled(false);
-        extensionCombo->setEnabled(false);
+        updateConnectionControls();
         profileGroup->setEnabled(status == Ekos::Idle || status == Ekos::Error);
         m_isStarted = (status == Ekos::Success || status == Ekos::Pending);
         if (status == Ekos::Success)
@@ -1111,10 +1108,7 @@ void Manager::reset()
     if (previousStatus != m_indiStatus)
         Q_EMIT indiStatusChanged(m_indiStatus);
 
-    connectB->setEnabled(false);
-    disconnectB->setEnabled(false);
-    extensionB->setEnabled(false);
-    extensionCombo->setEnabled(false);
+    updateConnectionControls();
     //controlPanelB->setEnabled(false);
     processINDIB->setEnabled(true);
 
@@ -1803,6 +1797,38 @@ bool Manager::isINDIReady()
     return false;
 }
 
+void Manager::updateConnectionControls()
+{
+    int total = 0, connected = 0;
+
+    for (auto &device : INDIListener::devices())
+    {
+        // Only devices belonging to the current profile determine the button states, matching
+        // the set that disconnectDevices() acts upon.
+        if (m_ProfileManagedDevices.contains(device->getDeviceName()) == false)
+            continue;
+
+        total++;
+        if (device->isConnected())
+            connected++;
+    }
+
+    // Nothing to operate on until Ekos is up and the profile owns at least one device.
+    const bool active = (m_ekosStatus == Ekos::Success && total > 0);
+
+    // While some devices are still disconnected there is something left to connect, and as long as
+    // at least one is connected there is something left to disconnect. Both are enabled in between.
+    connectB->setEnabled(active && connected < total);
+    disconnectB->setEnabled(active && connected > 0);
+
+    // While an extension is running its own state machine owns these two controls.
+    if (m_extensionStatus == EXTENSION_STOPPED)
+    {
+        extensionCombo->setEnabled(active && connected > 0);
+        extensionB->setEnabled(extensionCombo->isEnabled() && extensionCombo->currentText() != "");
+    }
+}
+
 void Manager::connectDevices()
 {
     if (isINDIReady())
@@ -1816,11 +1842,11 @@ void Manager::connectDevices()
         device->Connect();
     }
 
+    updateConnectionControls();
+    // Connect() is asynchronous, so no device reports as connected yet. Suppress the button until
+    // the first device reports in to avoid issuing a second round of connection requests; every
+    // subsequent connection state change recomputes it from the real state.
     connectB->setEnabled(false);
-    disconnectB->setEnabled(true);
-    extensionCombo->setEnabled(true);
-    if (extensionCombo->currentText() != "")
-        extensionB->setEnabled(true);
 
     appendLogText(i18n("Connecting INDI devices..."));
 }
@@ -1907,7 +1933,12 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     if (previousStatus != m_indiStatus)
         Q_EMIT indiStatusChanged(m_indiStatus);
 
-    m_DriverDevicesCount--;
+    // Counts down the devices still expected, so it stops at zero: a remote INDI server may publish
+    // more devices than the profile lists drivers, because a single driver binary can serve several
+    // devices. Letting it go negative only made "<= 0" and "== 0" tests disagree about the very same
+    // state.
+    if (m_DriverDevicesCount > 0)
+        m_DriverDevicesCount--;
 
     connect(device.get(), &ISD::GenericDevice::ready, this, &Ekos::Manager::setDeviceReady, Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::newMount, this, &Ekos::Manager::addMount, Qt::UniqueConnection);
@@ -1933,38 +1964,42 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage,
             Qt::UniqueConnection);
 
+    // A device that is already connected when Ekos attaches to the server never emits Connected(),
+    // since INDIListener replays the existing properties before handing the device over. Watching
+    // its DEBUG property is therefore never set up by deviceConnected(), and driver side logging
+    // stops following the log settings. Hook it up here instead.
+    if (device->isConnected())
+        connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::watchDebugProperty,
+                Qt::UniqueConnection);
+
     if (m_DriverDevicesCount <= 0)
     {
+        // All expected devices have arrived. Any further device is a genuine addition to an already
+        // started profile, so announce the start only on the transition.
+        const bool justStarted = (m_ekosStatus != Ekos::Success);
+
         m_ekosStatus = Ekos::Success;
-        Q_EMIT ekosStatusChanged(m_ekosStatus);
+        if (justStarted)
+            Q_EMIT ekosStatusChanged(m_ekosStatus);
 
-        connectB->setEnabled(true);
-        disconnectB->setEnabled(false);
-        extensionCombo->setEnabled(false);
-        extensionB->setEnabled(false);
-
-        if (m_LocalMode == false && m_DriverDevicesCount == 0)
+        if (justStarted && m_LocalMode == false)
         {
             if (m_CurrentProfile->autoConnect)
-            {
-                connectB->setEnabled(false);
-                disconnectB->setEnabled(true);
                 appendLogText(i18n("Remote devices established."));
-            }
             else
                 appendLogText(i18n("Remote devices established. Please connect devices."));
         }
+
+        // Derive the button states from the devices that actually arrived, since the number of
+        // devices still expected says nothing about how many the server will publish.
+        updateConnectionControls();
     }
 }
 
 void Manager::deviceConnected()
 {
-    connectB->setEnabled(false);
-    disconnectB->setEnabled(true);
+    updateConnectionControls();
     processINDIB->setEnabled(false);
-    extensionCombo->setEnabled(true);
-    if (extensionCombo->currentText() != "")
-        extensionB->setEnabled(true);
 
     auto device = qobject_cast<ISD::GenericDevice *>(sender());
 
@@ -2033,11 +2068,10 @@ void Manager::deviceDisconnected()
     if (previousStatus != m_indiStatus)
         Q_EMIT indiStatusChanged(m_indiStatus);
 
-    connectB->setEnabled(true);
-    disconnectB->setEnabled(false);
+    // A single device dropping out does not mean the profile is disconnected, so let the remaining
+    // devices decide whether Disconnect stays available.
+    updateConnectionControls();
     processINDIB->setEnabled(true);
-    extensionCombo->setEnabled(false);
-    extensionB->setEnabled(false);
 }
 
 void Manager::addMount(ISD::Mount *device)

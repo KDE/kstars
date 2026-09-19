@@ -587,6 +587,19 @@ class Manager : public QDialog, public Ui::Manager
          */
         bool isINDIReady();
 
+        /**
+         * @brief updateConnectionControls Derive the enabled state of the Connect/Disconnect buttons
+         *        and the extension controls from the actual connection state of the profile's devices.
+         *
+         * This is the single writer for those controls. It is idempotent, so it may be called from
+         * any point where either the Ekos status or a device's connection state may have changed,
+         * without the callers needing to know how many devices are still to arrive. In particular a
+         * remote INDI server may publish more devices than the profile lists drivers (a single driver
+         * binary can serve several devices), so the number of devices still expected is not a usable
+         * basis for the button states.
+         */
+        void updateConnectionControls();
+
         // Connect Signals/Slots of Ekos modules
         void connectModules();
 
