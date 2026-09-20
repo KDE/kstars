@@ -463,7 +463,7 @@ struct StackData
     // comet-like smear, not a dramatic full-length streak, so the useful threshold
     // sits much lower than intuition suggests.
     bool rejectTrailedSubs { true };
-    double maxStarElongation { 0.08 };
+    double maxStarElongation { 0.15 };
 
     // EkosLive integration: output directory for saved stacked images
     QString outputDirectory;      // If empty, don't save to disk (display only)

@@ -3806,7 +3806,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             // default since HFR/NUM_STARS weighting alone only down-weights a bad sub,
             // it never excludes it. See FITSData::detectStarTrailing().
             params.rejectTrailedSubs = payload["rejectTrailedSubs"].toBool(true);
-            params.maxStarElongation = payload["maxStarElongation"].toDouble(0.08);
+            params.maxStarElongation = payload["maxStarElongation"].toDouble(0.15);
             // Per-sub cosmetic correction (FITSStack::correctSub()) — replaces a pixel
             // that's a k-sigma outlier vs. its local 3x3 median with that median, before
             // the sub ever reaches alignment/stacking. Off by default: a genuinely
@@ -3943,7 +3943,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // default since HFR/NUM_STARS weighting alone only down-weights a bad sub,
         // it never excludes it. See FITSData::detectStarTrailing().
         params.rejectTrailedSubs = payload["rejectTrailedSubs"].toBool(true);
-        params.maxStarElongation = payload["maxStarElongation"].toDouble(0.08);
+        params.maxStarElongation = payload["maxStarElongation"].toDouble(0.15);
 
         // Per-sub cosmetic correction (FITSStack::correctSub()) — replaces a pixel
         // that's a k-sigma outlier vs. its local 3x3 median with that median, before
