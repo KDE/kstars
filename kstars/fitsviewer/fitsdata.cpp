@@ -1603,6 +1603,96 @@ bool FITSData::applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoin
     return true;
 }
 
+bool FITSData::applyStretch(const StretchRequest &params, float &appliedInputMin, float &appliedInputMax,
+                            QString &error)
+{
+    if (m_StackedImageMat.empty())
+    {
+        error = QStringLiteral("No stacked image to stretch — stack it first");
+        return false;
+    }
+
+    const bool haveSharedCurve = !params.points.isEmpty();
+    const bool haveChannelCurves = !params.channelPoints.isEmpty();
+    if (haveSharedCurve && haveChannelCurves)
+    {
+        error = QStringLiteral("applyStretch takes either a shared curve or per-channel curves, not both");
+        return false;
+    }
+    const bool haveCurve = haveSharedCurve || haveChannelCurves;
+
+    // Resolve the curve's input range *before* mutating anything, so an unusable request
+    // fails with the image untouched rather than half-processed. See StretchRequest for
+    // the resolution order; deriving from the image is only meaningful (and only needed)
+    // when the autostretch above isn't about to normalize it.
+    float inputMin = params.inputMin;
+    float inputMax = params.inputMax;
+    if (!params.haveInputRange)
+    {
+        if (params.autoStretch)
+        {
+            // AutoStretch::apply() normalizes to [0,1] by definition.
+            inputMin = 0.0f;
+            inputMax = 1.0f;
+        }
+        else
+        {
+            CurveOperation::deriveInputRange(m_StackedImageMat, inputMin, inputMax);
+        }
+    }
+    if (haveCurve && !(inputMax > inputMin))
+    {
+        error = QStringLiteral("Stretch curve needs a non-empty input range");
+        return false;
+    }
+
+    // One snapshot for the whole fused operation — this is the point of fusing, and it's
+    // also why a curve-stage failure has to roll the autostretch back rather than simply
+    // not applying (see below).
+    snapshotForUndo();
+
+    if (params.autoStretch)
+    {
+        if (!AutoStretch::apply(m_StackedImageMat, error, params.targetBackground, params.shadowsClipping,
+                                params.linked, params.neutralizeBackground))
+        {
+            // AutoStretch::apply() only fails on its up-front empty/depth checks, so
+            // nothing was written — drop the snapshot rather than leaving a failed
+            // operation looking undoable.
+            m_UndoStackedImageMat.release();
+            return false;
+        }
+    }
+
+    if (haveCurve)
+    {
+        const bool curveOk = haveSharedCurve
+                             ? CurveOperation::apply(m_StackedImageMat, params.points, inputMin, inputMax, error)
+                             : CurveOperation::applyPerChannel(m_StackedImageMat, params.channelPoints, inputMin,
+                                     inputMax, error);
+        if (!curveOk)
+        {
+            // All-or-nothing. The autostretch already rewrote the buffer, and the single
+            // undo snapshot can't express "stretched but not curved" — which is exactly
+            // the state a two-command caller would be left in. Restore and drop the
+            // snapshot so a rejected curve leaves the session exactly as it was.
+            m_StackedImageMat = m_UndoStackedImageMat.clone();
+            m_UndoStackedImageMat.release();
+            return false;
+        }
+    }
+
+    if (!convertMatToFITS(m_StackedImageMat))
+    {
+        error = QStringLiteral("Failed to re-encode the stretched image");
+        return false;
+    }
+
+    appliedInputMin = inputMin;
+    appliedInputMax = inputMax;
+    return true;
+}
+
 bool FITSData::saveStackedImage(const QString &path, QString &error)
 {
     if (isStackedImageEmpty())

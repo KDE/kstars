@@ -10,6 +10,8 @@
 #include <QDateTime>
 #include <QVariantMap>
 #include <QMetaEnum>
+#include <QPointF>
+#include <QVector>
 #include "dms.h"
 
 #include <ki18n_version.h>
@@ -422,6 +424,49 @@ struct StackPPData
     double sharpenAmt { 0.0 };
     int sharpenKernal { 3 };
     double sharpenSigma { 3.0 };
+};
+
+/**
+ * @brief One fused stretch request for FITSData::applyStretch(): an optional
+ * AutoStretch followed by an optional tone curve, applied as a single operation.
+ *
+ * Fusing the two stages is not just a convenience. Each stage on its own takes its own
+ * undo snapshot (a full-frame clone) and re-encodes the working buffer to FITS, so
+ * running them as two separate commands doubles both costs — and, because undo is
+ * single-level, leaves a caller able to revert only the curve half, landing on a
+ * stretched-but-not-curved image that the user never asked for. See
+ * FITSData::applyStretch().
+ */
+struct StretchRequest
+{
+    // Autostretch stage — the linear->non-linear boundary, and the only thing that
+    // converts an ADU-scale working image to [0,1]. Skipped entirely when false, in
+    // which case the curve below operates directly on whatever the working image is:
+    // that is how a curve is used *as* the stretch rather than as a refinement after it.
+    bool autoStretch { true };
+    double targetBackground { 0.25 };
+    double shadowsClipping { 2.8 };
+    bool linked { true };
+    bool neutralizeBackground { false };
+
+    // Curve stage — optional. `points` is one curve applied identically to every channel;
+    // `channelPoints` is the per-channel alternative (exactly one entry per image
+    // channel, in R/G/B order). Supplying both is an error; supplying neither makes this
+    // a pure autostretch.
+    QVector<QPointF> points;
+    QVector<QVector<QPointF>> channelPoints;
+
+    // The value range the curve's normalized x maps onto. Resolution order:
+    //   1. `haveInputRange` — use inputMin/inputMax as given.
+    //   2. otherwise, if `autoStretch` — [0,1], because the autostretch above has just
+    //      normalized the image by definition; probing it again would be wasted work.
+    //   3. otherwise — derived from the image via CurveOperation::deriveInputRange(),
+    //      which is what makes a curve against still-linear ADU data meaningful: the
+    //      image's own range *is* the domain.
+    // FITSData::applyStretch() reports back which range it actually used.
+    bool haveInputRange { false };
+    float inputMin { 0.0f };
+    float inputMax { 1.0f };
 };
 
 struct StackData

@@ -279,6 +279,7 @@ enum COMMANDS
     POSTPROCESS_APPLY_AUTOSTRETCH,
     POSTPROCESS_APPLY_CURVE,
     POSTPROCESS_APPLY_CURVE_PER_CHANNEL,
+    POSTPROCESS_APPLY_STRETCH,
     POSTPROCESS_APPLY_SATURATION,
     POSTPROCESS_APPLY_CONTRAST,
     POSTPROCESS_APPLY_DENOISE,
@@ -289,6 +290,8 @@ enum COMMANDS
     POSTPROCESS_REDO_POSTPROCESS,
     POSTPROCESS_SAVE,
     POSTPROCESS_GET_STATE,
+    POSTPROCESS_GET_HISTOGRAM,
+    POSTPROCESS_GET_STRETCH_CURVE,
     POSTPROCESS_UNDO,
     NEW_POSTPROCESS_STATE,
 
@@ -553,6 +556,7 @@ static QMap<COMMANDS, QString> const commands =
     {POSTPROCESS_APPLY_AUTOSTRETCH, "postprocess_apply_autostretch"},
     {POSTPROCESS_APPLY_CURVE, "postprocess_apply_curve"},
     {POSTPROCESS_APPLY_CURVE_PER_CHANNEL, "postprocess_apply_curve_per_channel"},
+    {POSTPROCESS_APPLY_STRETCH, "postprocess_apply_stretch"},
     {POSTPROCESS_APPLY_SATURATION, "postprocess_apply_saturation"},
     {POSTPROCESS_APPLY_CONTRAST, "postprocess_apply_contrast"},
     {POSTPROCESS_APPLY_DENOISE, "postprocess_apply_denoise"},
@@ -563,6 +567,8 @@ static QMap<COMMANDS, QString> const commands =
     {POSTPROCESS_REDO_POSTPROCESS, "postprocess_redo_postprocess"},
     {POSTPROCESS_SAVE, "postprocess_save"},
     {POSTPROCESS_GET_STATE, "postprocess_get_state"},
+    {POSTPROCESS_GET_HISTOGRAM, "postprocess_get_histogram"},
+    {POSTPROCESS_GET_STRETCH_CURVE, "postprocess_get_stretch_curve"},
     {POSTPROCESS_UNDO, "postprocess_undo"},
     {NEW_POSTPROCESS_STATE, "new_postprocess_state"},
 

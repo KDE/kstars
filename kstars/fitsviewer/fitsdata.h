@@ -971,6 +971,35 @@ class FITSData : public QObject
         bool applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoints, QString &error);
 
         /**
+         * @brief Bake a fused autostretch + tone curve into the current combined stacked
+         * image as a single operation — one undo snapshot, one FITS re-encode, and
+         * all-or-nothing on failure.
+         *
+         * This is the operation behind postprocess_apply_stretch, and the reason it
+         * exists rather than the caller simply issuing applyAutoStretch() followed by
+         * applyCurve(): each of those takes its own snapshot and re-encodes the buffer, so
+         * chaining them doubles both costs and leaves the single-level undo able to revert
+         * only the second half. See StretchRequest for the parameter semantics, including
+         * how the curve's input range is resolved.
+         *
+         * The autostretch stage is what makes this the *only* supported way to put a curve
+         * on still-linear data: AutoStretch::apply() converts the working image to [0,1],
+         * after which a curve's normalized x means what it says. With
+         * `autoStretch == false` the curve runs against the image's own value range
+         * instead (see StretchRequest::inputMin), which is how a curve is used as the
+         * stretch itself.
+         *
+         * @param params the fused request; see StretchRequest
+         * @param appliedInputMin,appliedInputMax receives the curve's input range as
+         * actually used — the caller reports this back so the UI can draw its histogram on
+         * the same axis the curve was evaluated against
+         * @param error receives a human-readable failure reason on failure
+         * @return success
+         */
+        bool applyStretch(const StretchRequest &params, float &appliedInputMin, float &appliedInputMax,
+                          QString &error);
+
+        /**
          * @brief Bake an HSV saturation scale into the current combined stacked image
          * (see SaturationOperation::apply()). Same placement reasoning as
          * applyAutoStretch()/cropStack() — not part of StackPPData, since saturation
@@ -1128,6 +1157,26 @@ class FITSData : public QObject
         LiveStackMetadata const &getLiveStackMetadata() const
         {
             return m_LiveStackMetadata;
+        }
+
+        /**
+         * @brief Adopt provenance metadata for a session that never ran a stacking pass.
+         *
+         * convertMatToFITS() writes OBJECT/EXPTIME/EXPOSURE/STACKCNT straight out of
+         * m_LiveStackMetadata, and that struct is only ever populated by a stacking run
+         * (initLiveStackMetadata, driven off the align master's own header). A session created
+         * by adopt()/setStackedImage() — a blend result, or a file loaded from disk — never
+         * goes through that, so its metadata stayed at its defaults and a saved file came out
+         * with EXPTIME and EXPOSURE of 0 and no OBJECT. Worse, saving a session adopted from an
+         * existing file overwrote that file's real exposure values with those zeros.
+         *
+         * A caller that knows better fills in what it can and sets it here: the blend combines
+         * its inputs' metadata, and postprocess_load_master reads the file it just loaded.
+         * Fields left at their defaults are written as zeros, same as before.
+         */
+        void setStackMetadata(const LiveStackMetadata &metadata)
+        {
+            m_LiveStackMetadata = metadata;
         }
 
     Q_SIGNALS:

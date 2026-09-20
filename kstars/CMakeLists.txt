@@ -497,6 +497,7 @@ if (CFITSIO_FOUND)
         fitsviewer/pipeline/cropoperation.cpp
         fitsviewer/pipeline/autostretch.cpp
         fitsviewer/pipeline/curveoperation.cpp
+        fitsviewer/pipeline/histogrambuilder.cpp
         fitsviewer/pipeline/saturationoperation.cpp
         fitsviewer/pipeline/contrastoperation.cpp
         fitsviewer/pipeline/channelblendoperation.cpp

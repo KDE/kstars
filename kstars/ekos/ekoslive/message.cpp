@@ -42,6 +42,9 @@
 #include "fitsviewer/pipeline/masterbuilder.h"
 #include "fitsviewer/pipeline/directoryinspector.h"
 #include "fitsviewer/pipeline/previewrenderer.h"
+#include "fitsviewer/pipeline/histogrambuilder.h"
+#include "fitsviewer/pipeline/autostretch.h"
+#include "fitsviewer/pipeline/curveoperation.h"
 // fits_open_diskfile/fits_update_key — used to stamp postprocess_save output (see
 // markPostProcessed below). fitsdata.h pulls this in too, but include it directly
 // since this file calls cfitsio itself.
@@ -83,6 +86,7 @@ int postProcessMemoryWeight(const QString &command)
     if (command == commands[POSTPROCESS_APPLY_AUTOSTRETCH]
             || command == commands[POSTPROCESS_APPLY_CURVE]
             || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
+            || command == commands[POSTPROCESS_APPLY_STRETCH]
             || command == commands[POSTPROCESS_APPLY_SATURATION]
             || command == commands[POSTPROCESS_APPLY_CONTRAST])   return 3;
     if (command == commands[POSTPROCESS_CROP])                    return 2;
@@ -132,6 +136,50 @@ void markPostProcessed(const QString &path)
     int postProcessed = 1;
     fits_update_key(fptr, TLOGICAL, "POSTPROC", &postProcessed,
                     (char *)"Image written by postprocess_save", &status);
+    status = 0;
+    fits_close_file(fptr, &status);
+}
+
+// Provenance read back off a FITS file's own header: OBJECT/EXPTIME/EXPOSURE/STACKCNT. Needed
+// because a session adopted from disk never runs a stacking pass, and those four are exactly
+// what FITSData::convertMatToFITS() writes from its LiveStackMetadata — which stays at its
+// defaults for such a session. Without reading them here, adopting a file and saving it again
+// silently replaced its real exposure with 0. Every key is optional (a hand-made master may
+// have none); anything absent is left untouched.
+void readProvenanceKeys(const QString &path, LiveStackMetadata &metadata)
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    const QByteArray pathBytes = path.toLocal8Bit();
+    if (fits_open_diskfile(&fptr, pathBytes.constData(), READONLY, &status))
+        return;
+
+    char objectBuffer[FLEN_VALUE] = {0};
+    status = 0;
+    if (!fits_read_key(fptr, TSTRING, "OBJECT", objectBuffer, nullptr, &status))
+    {
+        const QString object = QString::fromUtf8(objectBuffer).trimmed();
+        if (!object.isEmpty())
+            metadata.targetName = object;
+    }
+
+    // Read into locals and assign only on success — a failed fits_read_key leaves its output
+    // untouched, so writing straight into the struct would be relying on that.
+    double value = 0.0;
+    status = 0;
+    if (!fits_read_key(fptr, TDOUBLE, "EXPTIME", &value, nullptr, &status))
+        metadata.exposureTime = value > 0.0 ? value : 0.0;
+
+    value = 0.0;
+    status = 0;
+    if (!fits_read_key(fptr, TDOUBLE, "EXPOSURE", &value, nullptr, &status))
+        metadata.totalIntegration = value > 0.0 ? value : 0.0;
+
+    int count = 0;
+    status = 0;
+    if (!fits_read_key(fptr, TINT, "STACKCNT", &count, nullptr, &status))
+        metadata.subCount = count > 0 ? count : 0;
+
     status = 0;
     fits_close_file(fptr, &status);
 }
@@ -3591,8 +3639,27 @@ QVector<QPointF> Message::parseCurvePoints(const QJsonArray &points) const
     QVector<QPointF> result;
     for (const auto &value : points)
     {
-        const QJsonObject point = value.toObject();
-        result << QPointF(point["x"].toDouble(), point["y"].toDouble());
+        // The documented shape is {"x": .., "y": ..} (see the pipeline README's
+        // postprocess_apply_curve entry), but the app shipped the compact [x, y] pair
+        // instead for a while. Two things make that worth tolerating rather than just
+        // rejecting: QJsonValue::toObject() on an array yields an *empty* object instead of
+        // failing, so every such point used to silently become (0,0); and the caller then
+        // reported "control points must be sorted with strictly increasing x", which points
+        // at the values rather than at the shape that actually broke. Accept both, and drop
+        // anything that is neither — a short list then fails as "fewer than 2 control
+        // points", which is at least true.
+        if (value.isObject())
+        {
+            const QJsonObject point = value.toObject();
+            if (point["x"].isDouble() && point["y"].isDouble())
+                result << QPointF(point["x"].toDouble(), point["y"].toDouble());
+        }
+        else if (value.isArray())
+        {
+            const QJsonArray pair = value.toArray();
+            if (pair.size() >= 2 && pair.at(0).isDouble() && pair.at(1).isDouble())
+                result << QPointF(pair.at(0).toDouble(), pair.at(1).toDouble());
+        }
     }
     return result;
 }
@@ -4428,12 +4495,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             cv::Mat frame;
             struct wcsprm *wcs = nullptr;
             int nwcs = 0;
+            // The file's own OBJECT/EXPTIME/EXPOSURE/STACKCNT, read on this worker thread so
+            // the session keeps its provenance — see readProvenanceKeys().
+            LiveStackMetadata metadata;
         };
 
         auto future = QtConcurrent::run([path]() -> LoadMasterResult
         {
             LoadMasterResult result;
             double median = 0;
+            readProvenanceKeys(path, result.metadata);
             // FITS_NORMAL (not MasterBuilder's own FITS_CALIBRATE default) so
             // FITSData::loadImage() also loads the file's own WCS, if it has one — see
             // MasterBuilder::loadFrame()'s doc comment. A file with no WCS (or a solve
@@ -4445,7 +4516,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         });
 
         auto watcher = new QFutureWatcher<LoadMasterResult>(this);
-        connect(watcher, &QFutureWatcher<LoadMasterResult>::finished, this, [this, watcher, sessionId]()
+        connect(watcher, &QFutureWatcher<LoadMasterResult>::finished, this, [this, watcher, sessionId, path]()
         {
             m_BusyPostProcessSessions.remove(sessionId);
             LoadMasterResult result = watcher->result();
@@ -4493,6 +4564,32 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 });
             });
             m_PostProcessSessions[sessionId] = session;
+
+            // Keep the loaded file's own provenance (OBJECT/EXPTIME/EXPOSURE/STACKCNT) — see
+            // readProvenanceKeys() and FITSData::setStackMetadata(). An adopted session never
+            // runs a stacking pass, so without this its metadata stayed at its defaults and
+            // re-saving it wrote EXPTIME/EXPOSURE of 0 over the file's real values.
+            session->imageData()->setStackMetadata(result.metadata);
+
+            // A loaded master is a normal way for a session to come into existence — the
+            // Combine step's file inputs use exactly this — but unlike postprocess_stack /
+            // postprocess_blend_channels it used to record no session root. That was not
+            // merely a missing convenience: postprocess_blend_channels derives its *output*
+            // session's root from its inputs (findInheritedRoot), so a blend built from
+            // loaded masters came out rootless as well — which meant the blend result wasn't
+            // auto-saved, and a later postprocess_save with no explicit outputPath was
+            // refused with "outputPath is required — no auto-generated location available".
+            //
+            // Derive the root from the file instead: a master this pipeline wrote lives in
+            // its target's "Output" folder, so that folder's parent is the root. A file from
+            // anywhere else has no root to derive and keeps none, which is honest.
+            const QDir fileDir = QFileInfo(path).absoluteDir();
+            if (fileDir.dirName().compare(QStringLiteral("Output"), Qt::CaseInsensitive) == 0)
+            {
+                QDir rootDir = fileDir;
+                rootDir.cdUp();
+                m_PostProcessSessionRoots[sessionId] = rootDir.absolutePath();
+            }
 
             sendPostProcessState(QJsonObject{{"state", "loaded"}, {"sessionId", sessionId}});
         });
@@ -4718,6 +4815,37 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
                     return;
                 }
+
+                // Provenance for the saved blend. A blend session is created by adopt() and
+                // never runs a stacking pass, so m_LiveStackMetadata — which convertMatToFITS()
+                // writes as OBJCT/EXPTIME/EXPOSURE/STACKCNT — stayed at its defaults and the
+                // saved file came out with EXPTIME and EXPOSURE of 0 and no OBJECT. Combine
+                // what the inputs know instead: the totals are sums, since every input's light
+                // contributed to the composite, while the single-valued fields (the target, and
+                // the sub-exposure that all of one target's filters normally share) come from
+                // the first input that has them. Sorted so which input is "first" doesn't
+                // depend on QSet's unspecified iteration order.
+                LiveStackMetadata meta;
+                bool haveExposure = false;
+                QList<QString> inputIds = blendInputIds.values();
+                std::sort(inputIds.begin(), inputIds.end());
+                for (const QString &id : inputIds)
+                {
+                    const auto input = m_PostProcessSessions.value(id);
+                    if (!input || !input->imageData())
+                        continue;
+                    const LiveStackMetadata &in = input->imageData()->getLiveStackMetadata();
+                    if (meta.targetName.isEmpty() && !in.targetName.isEmpty())
+                        meta.targetName = in.targetName;
+                    if (!haveExposure && in.exposureTime > 0.0)
+                    {
+                        meta.exposureTime = in.exposureTime;
+                        haveExposure = true;
+                    }
+                    meta.totalIntegration += in.totalIntegration;
+                    meta.subCount += in.subCount;
+                }
+                outputSession->imageData()->setStackMetadata(meta);
                 // A standalone completion preview, same "+P"/"+PS" convention build_master/
                 // stack already use — blend_channels previously sent none of its own, and the
                 // app had to fake one with a no-op postprocess_apply_bge(strength: 0) purely
@@ -4948,6 +5076,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
              || command == commands[POSTPROCESS_APPLY_AUTOSTRETCH]
              || command == commands[POSTPROCESS_APPLY_CURVE]
              || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
+             || command == commands[POSTPROCESS_APPLY_STRETCH]
              || command == commands[POSTPROCESS_APPLY_SATURATION]
              || command == commands[POSTPROCESS_APPLY_CONTRAST]
              || command == commands[POSTPROCESS_APPLY_DENOISE]
@@ -5098,6 +5227,56 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 ok = session->applyCurvePerChannel(channelPoints, error);
                 result.extra = {{"state", ok ? "curve_applied" : "error"}};
             }
+            else if (command == commands[POSTPROCESS_APPLY_STRETCH])
+            {
+                // Fused autostretch + curve — see StretchRequest. One undo snapshot, one
+                // FITS re-encode, and all-or-nothing on failure, which is why a caller
+                // should send this rather than chaining postprocess_apply_autostretch with
+                // postprocess_apply_curve: two commands double both costs and leave the
+                // caller's single-level undo able to revert only the curve half.
+                StretchRequest stretch;
+                stretch.autoStretch = payload["autostretch"].toBool(true);
+                stretch.targetBackground = payload["targetBackground"].toDouble(0.25);
+                stretch.shadowsClipping = payload["shadowsClipping"].toDouble(2.8);
+                stretch.linked = payload["linked"].toBool(true);
+                stretch.neutralizeBackground = payload["neutralizeBackground"].toBool(false);
+
+                // A shared curve, per-channel curves, or (for a pure autostretch) neither.
+                // Both are optional and mutually exclusive — FITSData::applyStretch()
+                // rejects a request that supplies both.
+                if (payload["points"].isArray())
+                    stretch.points = parseCurvePoints(payload["points"].toArray());
+                if (payload["red"].isArray() || payload["green"].isArray() || payload["blue"].isArray())
+                {
+                    stretch.channelPoints =
+                    {
+                        parseCurvePoints(payload["red"].toArray()),
+                        parseCurvePoints(payload["green"].toArray()),
+                        parseCurvePoints(payload["blue"].toArray())
+                    };
+                }
+
+                // An explicit input range, when the caller already knows it (e.g.
+                // re-applying a curve against the range a previous application reported).
+                // Absent, the range is resolved by FITSData::applyStretch().
+                const QJsonArray range = payload["curveRange"].toArray();
+                if (range.size() == 2)
+                {
+                    stretch.haveInputRange = true;
+                    stretch.inputMin = static_cast<float>(range[0].toDouble(0.0));
+                    stretch.inputMax = static_cast<float>(range[1].toDouble(1.0));
+                }
+
+                float appliedMin = 0.0f, appliedMax = 1.0f;
+                ok = session->applyStretch(stretch, appliedMin, appliedMax, error);
+                result.extra =
+                {
+                    {"state", ok ? "stretched" : "error"},
+                    // Reported so the UI can draw its histogram on the same axis the curve
+                    // was just evaluated against, rather than guessing.
+                    {"curveRange", QJsonArray{static_cast<double>(appliedMin), static_cast<double>(appliedMax)}}
+                };
+            }
             else if (command == commands[POSTPROCESS_APPLY_SATURATION])
             {
                 ok = session->applySaturation(payload["amt"].toDouble(1.0), error);
@@ -5191,6 +5370,188 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
         sendResponse(commands[NEW_POSTPROCESS_STATE],
         m_LastPostProcessState.value(sessionId, QJsonObject{{"state", "unknown"}, {"sessionId", sessionId}}));
+    }
+    else if (command == commands[POSTPROCESS_GET_HISTOGRAM])
+    {
+        // Synchronous and cheap — see HistogramBuilder: downscale, optional stretch
+        // projection, one binning pass. No QtConcurrent dispatch or "processing" ack,
+        // because the caller is a curve editor redrawing as its sliders move and a second
+        // round trip would only add latency. Still gated on the busy set so it cannot read
+        // a buffer that an in-flight mutation is rewriting.
+        auto session = resolvePostProcessSession(payload);
+        if (!session || session->imageData()->isStackedImageEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "error"},
+                {"message", "No post-processing working image — call postprocess_stack first"}});
+            return;
+        }
+
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        if (m_BusyPostProcessSessions.contains(sessionId))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            return;
+        }
+
+        // A non-empty `stretch` means bin the data as it would look *after* that
+        // autostretch — which is what a curve running after it is actually evaluated
+        // against. Absent/empty means bin the working image as-is, which is the right axis
+        // for a curve being used as the stretch itself.
+        const QJsonObject stretch = payload["stretch"].toObject();
+        const bool projectStretch = !stretch.isEmpty();
+
+        // An explicit axis, when the caller has one (the range a curve application
+        // reported back). Absent, HistogramBuilder resolves it exactly the way
+        // FITSData::applyStretch() would for the same request, so the two agree.
+        float rangeMin = 0.0f, rangeMax = 1.0f;
+        const QJsonArray range = payload["curveRange"].toArray();
+        const bool haveRange = range.size() == 2;
+        if (haveRange)
+        {
+            rangeMin = static_cast<float>(range.at(0).toDouble(0.0));
+            rangeMax = static_cast<float>(range.at(1).toDouble(1.0));
+        }
+
+        HistogramBuilder::Result result;
+        QString histError;
+        const bool ok = HistogramBuilder::build(session->imageData()->stackedImageMat(),
+                                                payload["bins"].toInt(256),
+                                                haveRange, rangeMin, rangeMax,
+                                                projectStretch,
+                                                stretch["targetBackground"].toDouble(0.25),
+                                                stretch["shadowsClipping"].toDouble(2.8),
+                                                stretch["linked"].toBool(true),
+                                                stretch["neutralizeBackground"].toBool(false),
+                                                result, histError);
+
+        if (!ok)
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", histError}});
+            return;
+        }
+
+        const auto toJsonArray = [](const QVector<float> &values)
+        {
+            QJsonArray array;
+            for (const float value : values)
+                array.append(static_cast<double>(value));
+            return array;
+        };
+
+        QJsonObject response
+        {
+            {"state", "histogram"},
+            {"sessionId", sessionId},
+            {"bins", result.bins},
+            {"curveRange", QJsonArray{static_cast<double>(result.inputMin), static_cast<double>(result.inputMax)}},
+            {"luminance", toJsonArray(result.luminance)}
+        };
+        // Per-channel bins exist only for a 3-channel image. Leaving the keys out for mono
+        // lets the app tell "one curve" from "three curves" without asking for a channel
+        // count separately.
+        if (!result.red.isEmpty())
+        {
+            response["red"] = toJsonArray(result.red);
+            response["green"] = toJsonArray(result.green);
+            response["blue"] = toJsonArray(result.blue);
+        }
+        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
+    }
+    else if (command == commands[POSTPROCESS_GET_STRETCH_CURVE])
+    {
+        // The autostretch's transfer function as curve control points — so a curve editor
+        // can open on the autostretch's look rather than on an identity curve, which does
+        // no tone mapping at all and therefore leaves a still-linear image dark. Cheap
+        // enough to answer synchronously (AutoStretch::equivalentCurve: split, a couple of
+        // strided robust statistics, and `controlPoints` samples per channel), and gated on
+        // the busy set like the histogram so it can't read a half-written buffer.
+        auto session = resolvePostProcessSession(payload);
+        if (!session || session->imageData()->isStackedImageEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "error"},
+                {"message", "No post-processing working image — call postprocess_stack first"}});
+            return;
+        }
+
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        if (m_BusyPostProcessSessions.contains(sessionId))
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            return;
+        }
+
+        const cv::Mat &working = session->imageData()->stackedImageMat();
+
+        // The axis the returned points span — resolved exactly the way a curve applied to
+        // this image without an explicit curveRange would resolve it, so seeding a curve
+        // with these points reproduces the autostretch without the caller having to carry
+        // the range along.
+        float rangeMin = 0.0f, rangeMax = 1.0f;
+        const QJsonArray range = payload["curveRange"].toArray();
+        if (range.size() == 2)
+        {
+            rangeMin = static_cast<float>(range.at(0).toDouble(0.0));
+            rangeMax = static_cast<float>(range.at(1).toDouble(1.0));
+        }
+        else
+        {
+            CurveOperation::deriveInputRange(working, rangeMin, rangeMax);
+        }
+
+        QVector<QVector<QPointF>> curves;
+        QString curveError;
+        const bool ok = AutoStretch::equivalentCurve(working, rangeMin, rangeMax,
+                        payload["controlPoints"].toInt(9),
+                        payload["linked"].toBool(true),
+                        curves, curveError,
+                        payload["targetBackground"].toDouble(0.25),
+                        payload["shadowsClipping"].toDouble(2.8));
+
+        if (!ok || curves.isEmpty())
+        {
+            sendResponse(commands[NEW_POSTPROCESS_STATE],
+                         QJsonObject{{"state", "error"}, {"sessionId", sessionId},
+                {"message", ok ? QStringLiteral("No curve could be derived") : curveError}});
+            return;
+        }
+
+        const auto toJsonPoints = [](const QVector<QPointF> &points)
+        {
+            QJsonArray array;
+            for (const QPointF &point : points)
+                array.append(QJsonObject{{"x", point.x()}, {"y", point.y()}});
+            return array;
+        };
+
+        // One curve can stand in for all of them when every channel's came out the same —
+        // which is the linked case, and the one a single shared curve is meant for.
+        bool shared = true;
+        for (int i = 1; i < curves.size() && shared; i++)
+            shared = (curves[i] == curves[0]);
+
+        QJsonObject response
+        {
+            {"state", "stretch_curve"},
+            {"sessionId", sessionId},
+            {"curveRange", QJsonArray{static_cast<double>(rangeMin), static_cast<double>(rangeMax)}},
+            {"shared", shared}
+        };
+
+        if (shared || curves.size() != 3)
+            response["points"] = toJsonPoints(curves.first());
+        else
+        {
+            response["red"] = toJsonPoints(curves[0]);
+            response["green"] = toJsonPoints(curves[1]);
+            response["blue"] = toJsonPoints(curves[2]);
+        }
+
+        sendResponse(commands[NEW_POSTPROCESS_STATE], response);
     }
     else if (command == commands[POSTPROCESS_UNDO])
     {

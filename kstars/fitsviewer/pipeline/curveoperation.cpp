@@ -6,6 +6,9 @@
 
 #include "curveoperation.h"
 
+#include <algorithm>
+#include <cmath>
+
 bool CurveOperation::buildSegments(const QVector<QPointF> &controlPoints, std::vector<Segment> &segments,
                                    QString &error)
 {
@@ -85,20 +88,28 @@ float CurveOperation::evaluate(const std::vector<Segment> &segments, float x)
     return h00 * seg->y0 + h10 * h * seg->m0 + h01 * seg->y1 + h11 * h * seg->m1;
 }
 
-bool CurveOperation::applyToChannel(cv::Mat &channel, const QVector<QPointF> &controlPoints, QString &error)
+bool CurveOperation::applyToChannel(cv::Mat &channel, const QVector<QPointF> &controlPoints,
+                                    float inputMin, float invRange, QString &error)
 {
     std::vector<Segment> segments;
     if (!buildSegments(controlPoints, segments, error))
         return false;
 
-    channel.forEach<float>([&segments](float &pixel, const int *)
+    // Remap the pixel's value onto the curve's normalized x before evaluating, so the
+    // curve's own range is decoupled from the data's range. A pixel outside the range
+    // clamps to its end — see the domain-aware apply()'s doc comment for why that is the
+    // whole point here, rather than the accident it was on still-linear data. The
+    // normalized callers pass inputMin=0 / invRange=1, an exact identity, so they keep
+    // their original per-pixel behavior bit-for-bit.
+    channel.forEach<float>([&segments, inputMin, invRange](float &pixel, const int *)
     {
-        pixel = evaluate(segments, pixel);
+        const float normalized = std::clamp((pixel - inputMin) * invRange, 0.0f, 1.0f);
+        pixel = evaluate(segments, normalized);
     });
     return true;
 }
 
-bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints, QString &error)
+bool CurveOperation::checkImage(const cv::Mat &image, QString &error)
 {
     if (image.empty())
     {
@@ -110,13 +121,18 @@ bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints
         error = QStringLiteral("CurveOperation expects a CV_32F image");
         return false;
     }
+    return true;
+}
 
+bool CurveOperation::checkNormalized(const cv::Mat &image, QString &error)
+{
     // evaluate() clamps any x past the curve's last control point to that point's y —
     // on still-linear/un-stretched data (background in the hundreds-thousands,
     // saturation ~65535) every pixel sits past x1, so the whole image collapses to one
     // flat value (typically 1.0/solid white for an identity-anchored curve). Refuse
     // instead, matching SaturationOperation/ContrastOperation's guard for the same
-    // precondition.
+    // precondition. A caller that *wants* a curve against un-normalized data declares the
+    // range via the domain-aware overloads instead (see deriveInputRange()).
     double minVal, maxVal;
     cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
     if (maxVal > 1.5)
@@ -125,13 +141,52 @@ bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints
                         "AutoStretch) — got values up to %1").arg(maxVal);
         return false;
     }
+    return true;
+}
+
+bool CurveOperation::checkDomain(float inputMin, float inputMax, QString &error)
+{
+    if (!(inputMax > inputMin))
+    {
+        error = QString("CurveOperation needs a non-empty input range — got [%1, %2]")
+                .arg(static_cast<double>(inputMin)).arg(static_cast<double>(inputMax));
+        return false;
+    }
+    return true;
+}
+
+bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints, QString &error)
+{
+    if (!checkImage(image, error) || !checkNormalized(image, error))
+        return false;
 
     std::vector<cv::Mat> channels;
     cv::split(image, channels);
 
     for (auto &channel : channels)
     {
-        if (!applyToChannel(channel, controlPoints, error))
+        if (!applyToChannel(channel, controlPoints, 0.0f, 1.0f, error))
+            return false;
+    }
+
+    cv::merge(channels, image);
+    return true;
+}
+
+bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints,
+                           float inputMin, float inputMax, QString &error)
+{
+    if (!checkImage(image, error) || !checkDomain(inputMin, inputMax, error))
+        return false;
+
+    const float invRange = 1.0f / (inputMax - inputMin);
+
+    std::vector<cv::Mat> channels;
+    cv::split(image, channels);
+
+    for (auto &channel : channels)
+    {
+        if (!applyToChannel(channel, controlPoints, inputMin, invRange, error))
             return false;
     }
 
@@ -141,41 +196,113 @@ bool CurveOperation::apply(cv::Mat &image, const QVector<QPointF> &controlPoints
 
 bool CurveOperation::applyPerChannel(cv::Mat &image, const QVector<QVector<QPointF>> &channelPoints, QString &error)
 {
-    if (image.empty())
-    {
-        error = QStringLiteral("No image to apply curves to");
+    if (!checkImage(image, error))
         return false;
-    }
-    if (image.depth() != CV_32F)
-    {
-        error = QStringLiteral("CurveOperation expects a CV_32F image");
-        return false;
-    }
     if (channelPoints.size() != image.channels())
     {
         error = QString("Got %1 per-channel curves for a %2-channel image").arg(channelPoints.size()).arg(
                     image.channels());
         return false;
     }
-
-    double minVal, maxVal;
-    cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
-    if (maxVal > 1.5)
-    {
-        error = QString("CurveOperation expects a normalized [0,1] image (e.g. after "
-                        "AutoStretch) — got values up to %1").arg(maxVal);
+    if (!checkNormalized(image, error))
         return false;
-    }
 
     std::vector<cv::Mat> channels;
     cv::split(image, channels);
 
     for (int c = 0; c < static_cast<int>(channels.size()); c++)
     {
-        if (!applyToChannel(channels[c], channelPoints[c], error))
+        if (!applyToChannel(channels[c], channelPoints[c], 0.0f, 1.0f, error))
             return false;
     }
 
     cv::merge(channels, image);
     return true;
+}
+
+bool CurveOperation::applyPerChannel(cv::Mat &image, const QVector<QVector<QPointF>> &channelPoints,
+                                     float inputMin, float inputMax, QString &error)
+{
+    if (!checkImage(image, error))
+        return false;
+    if (channelPoints.size() != image.channels())
+    {
+        error = QString("Got %1 per-channel curves for a %2-channel image").arg(channelPoints.size()).arg(
+                    image.channels());
+        return false;
+    }
+    if (!checkDomain(inputMin, inputMax, error))
+        return false;
+
+    const float invRange = 1.0f / (inputMax - inputMin);
+
+    std::vector<cv::Mat> channels;
+    cv::split(image, channels);
+
+    for (int c = 0; c < static_cast<int>(channels.size()); c++)
+    {
+        if (!applyToChannel(channels[c], channelPoints[c], inputMin, invRange, error))
+            return false;
+    }
+
+    cv::merge(channels, image);
+    return true;
+}
+
+void CurveOperation::deriveInputRange(const cv::Mat &image, float &inputMin, float &inputMax)
+{
+    inputMin = 0.0f;
+    inputMax = 1.0f;
+    if (image.empty() || image.depth() != CV_32F || image.channels() > 3)
+        return;
+
+    // Strided sample to ~200k pixels: enough for a stable 0.1%/99.9% percentile,
+    // independent of frame resolution, and cheap even on a full-size frame — no
+    // full-resolution sort and no full-resolution copy. Same pattern as
+    // AutoStretch::robustBackground().
+    constexpr size_t targetSamples = 200000;
+    const int step = std::max(1, static_cast<int>(std::lround(
+                                  std::sqrt(static_cast<double>(image.total()) / targetSamples))));
+
+    std::vector<float> samples;
+    samples.reserve(targetSamples + 4);
+    for (int y = 0; y < image.rows; y += step)
+    {
+        for (int x = 0; x < image.cols; x += step)
+        {
+            const float *pixel = image.ptr<float>(y, x);
+            for (int c = 0; c < image.channels(); c++)
+                samples.push_back(pixel[c]);
+        }
+    }
+    if (samples.size() < 2)
+        return;
+
+    // 0.1% .. 99.9% rather than min/max: a handful of hot/cold pixels would otherwise
+    // define the axis and squash everything interesting into a sliver of it.
+    const size_t lowIndex = samples.size() / 1000;
+    const size_t highIndex = samples.size() - 1 - samples.size() / 1000;
+    std::nth_element(samples.begin(), samples.begin() + lowIndex, samples.end());
+    const float low = samples[lowIndex];
+    std::nth_element(samples.begin(), samples.begin() + highIndex, samples.end());
+    const float high = samples[highIndex];
+
+    if (high > low)
+    {
+        inputMin = low;
+        inputMax = high;
+        return;
+    }
+
+    // Percentiles collapsed (e.g. a synthetic flat frame) — fall back to the true
+    // extremes, and to [0,1] if even those collapse.
+    double minVal, maxVal;
+    cv::minMaxLoc(image.reshape(1), &minVal, &maxVal);
+    inputMin = static_cast<float>(minVal);
+    inputMax = static_cast<float>(maxVal);
+    if (!(inputMax > inputMin))
+    {
+        inputMin = 0.0f;
+        inputMax = 1.0f;
+    }
 }

@@ -114,6 +114,17 @@ bool StackController::applyCurvePerChannel(const QVector<QVector<QPointF>> &chan
     return m_ImageData->applyCurvePerChannel(channelPoints, error);
 }
 
+bool StackController::applyStretch(const StretchRequest &params, float &appliedInputMin, float &appliedInputMax,
+                                   QString &error)
+{
+    if (!m_ImageData)
+    {
+        error = QStringLiteral("No active session — call start() first");
+        return false;
+    }
+    return m_ImageData->applyStretch(params, appliedInputMin, appliedInputMax, error);
+}
+
 bool StackController::applySaturation(double amt, QString &error)
 {
     if (!m_ImageData)

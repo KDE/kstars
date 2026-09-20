@@ -110,6 +110,21 @@ class StackController : public QObject
         bool applyCurvePerChannel(const QVector<QVector<QPointF>> &channelPoints, QString &error);
 
         /**
+         * @brief Bake a fused autostretch + tone curve as a single operation — one undo
+         * snapshot and one FITS re-encode rather than one of each per stage, and
+         * all-or-nothing on failure. See FITSData::applyStretch() and StretchRequest.
+         *
+         * @param params the fused request; the curve may run after an autostretch (the
+         * image is then [0,1]) or directly against the image's own value range, which is
+         * how a curve is used as the stretch itself
+         * @param appliedInputMin,appliedInputMax receives the curve's input range as
+         * actually used, so the caller can report it back to the UI
+         * @param error receives a human-readable failure reason on failure
+         */
+        bool applyStretch(const StretchRequest &params, float &appliedInputMin, float &appliedInputMax,
+                          QString &error);
+
+        /**
          * @brief Bake an HSV saturation scale into the current combined result.
          * @param amt 1.0 = unchanged, 0.0 = grayscale, >1.0 = more saturated
          */

@@ -81,7 +81,8 @@ later push — check a command's own section for which applies.
 
 Every command that changes the working image — `postprocess_crop`,
 `postprocess_apply_autostretch`, `postprocess_apply_curve`,
-`postprocess_apply_curve_per_channel`, `postprocess_apply_saturation`,
+`postprocess_apply_curve_per_channel`, `postprocess_apply_stretch`,
+`postprocess_apply_saturation`,
 `postprocess_apply_contrast`, `postprocess_apply_denoise`,
 `postprocess_apply_bge`, `postprocess_apply_color_calibration`, and
 `postprocess_undo` — renders **two** JPEG previews: one of the working
@@ -317,8 +318,10 @@ session root from — its inputs are already-resolved named sessions, not raw
 folders. To still land in the same target's `Output/` folder as everything
 else, `Message` remembers each stack session's resolved root in
 `m_PostProcessSessionRoots` (keyed the same way `m_PostProcessSessions` is,
-set when `postprocess_stack` starts a session, cleared on
-`postprocess_close`) — a blend inherits its root from whichever of its
+set when `postprocess_stack` starts a session, when
+`postprocess_load_master` loads one from a pipeline `Output/` folder, and —
+below — for a blend's own output session; cleared on `postprocess_close`) —
+a blend inherits its root from whichever of its
 named `red`/`green`/`blue` inputs has one (checked in that order), and that
 inherited root is then recorded for the blend's own `outputSessionId` too,
 so a *further* blend built from it, or a later `postprocess_save` against
@@ -328,6 +331,26 @@ input chain), the blend result simply isn't auto-saved — exactly the
 behavior before this feature existed, not a new failure mode.
 `m_PostProcessSessionRoots` is also what makes `postprocess_save`'s own
 fallback (above) work for a Mode A/B stack session, not just a blend.
+
+**Provenance metadata (`OBJECT`/`EXPTIME`/`EXPOSURE`/`STACKCNT`).**
+`FITSData::convertMatToFITS()` writes those four keywords straight out of the
+session's `LiveStackMetadata`, and that struct is only ever populated by a
+stacking run — `initLiveStackMetadata()` fires off the *align master's* own
+header. A session that never stacks therefore had it at its defaults, so a
+saved file came out with `EXPTIME` and `EXPOSURE` of `0` and a blank
+`OBJECT`, and re-saving a session adopted from an existing file overwrote
+that file's real values with those zeros.
+
+Two callers now supply it through `FITSData::setStackMetadata()`:
+
+| Session kind | Filled from |
+|---|---|
+| `postprocess_blend_channels` output | its inputs' metadata — totals summed (`EXPOSURE`, `STACKCNT`), single-valued fields (`OBJECT`, `EXPTIME`) taken from the first input that has them |
+| `postprocess_load_master` | the file it just loaded, read on the worker thread |
+
+A plain `postprocess_stack` session needs none of this (its stacking pass
+populates the struct), and so is unchanged. Fields a caller can't supply stay
+at their defaults and are written as zeros, same as before.
 
 **Normally the auto-save is for persistence/traceability, not a pipeline
 dependency.** `postprocess_blend_channels` resolves every named input from
@@ -377,6 +400,15 @@ calibration, and noise reduction are all standard practice to run here,
 converts the image from linear (light-proportional) to non-linear
 (display-referred, tone-mapped) — this is the one command that changes
 which stage you're in.
+
+`postprocess_apply_stretch` does the same job when a curve is involved: it
+autostretches and then applies the curve to the already-normalized result, as
+one operation. Its `autostretch: false` mode is the one exception to the
+boundary — there the curve is applied directly to linear data, against the
+image's own value range rather than `[0,1]` (see its `curveRange`). That works
+only because the curve's input range is declared, and it deliberately produces
+a *non-linear* result: the curve is acting as the stretch, not as a finishing
+adjustment.
 
 **Non-linear stage** — pixel values now follow a display/tone curve, not
 raw captured-light proportion. Global "look"/finishing adjustments belong
@@ -636,13 +668,23 @@ with no WCS loads fine regardless; the session simply has none, same as an
 replaces it, same "current best result" semantics `postprocess_stack`
 already has for its own `sessionId`.
 
-No auto-save, no session root inherited/tracked (unlike
-`postprocess_stack`/`postprocess_blend_channels` — see "Auto-generated
-output paths" above): the file this session was loaded from is already
-sitting on disk under its own name, so there's nothing to write out
-automatically. A later `postprocess_save` against this session with no
-`outputPath` therefore fails with "outputPath is required", same as any
-other session with no known root.
+No auto-save: the file this session was loaded from is already sitting on
+disk under its own name, so there's nothing to write out automatically.
+
+A load **does** record a session root when the file sits in a pipeline
+`Output/` folder — that folder's parent, i.e. the same root its target's
+stack would have resolved to (see "Session root" above). This is not just a
+convenience for `postprocess_save`'s fallback: `postprocess_blend_channels`
+derives its *output* session's root from its inputs, so before this, a blend
+built from loaded masters came out rootless — the blend result wasn't
+auto-saved, and a later `postprocess_save` with no `outputPath` was refused
+with "outputPath is required". A file loaded from anywhere else has no root
+to derive and keeps none, so saving such a session still needs an explicit
+`outputPath`.
+
+A load also carries the file's own `OBJECT`/`EXPTIME`/`EXPOSURE`/`STACKCNT`
+into the session (see "Provenance metadata" below), so re-saving it doesn't
+overwrite those with zeros.
 
 ### `postprocess_blend_channels`
 
@@ -799,10 +841,105 @@ or an error.
 
 Response: `{"state": "stretched"}` (also sends `+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
 
+### `postprocess_apply_stretch`
+
+The fused stretch: an optional autostretch plus an optional tone curve, applied as one
+operation — one undo snapshot, one FITS re-encode, and all-or-nothing on failure. Prefer
+this over issuing `postprocess_apply_autostretch` followed by `postprocess_apply_curve`:
+that pair doubles both costs and, because undo is single-level, leaves a caller able to
+revert only the curve half.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `autostretch` | bool | `true` | The linear->non-linear boundary. `false` runs the curve directly against the working image instead — see `curveRange` below. |
+| `targetBackground` | double | `0.25` | See `postprocess_apply_autostretch`; ignored when `autostretch` is false. |
+| `shadowsClipping` | double | `2.8` | Idem. |
+| `linked` | bool | `true` | Idem. |
+| `neutralizeBackground` | bool | `false` | Idem. |
+| `points` | array | — | Optional shared curve. Mutually exclusive with `red`/`green`/`blue`. |
+| `red`, `green`, `blue` | array | — | Optional per-channel curves (one entry per image channel, R/G/B order). |
+| `curveRange` | `[min,max]` | derived | The value range the curve's normalized x maps onto. |
+
+Control points are `{"x": double, "y": double}` (see `postprocess_apply_curve` for the
+validation rules). A two-element `[x, y]` array is also accepted, for callers that were
+sending that shape before it was ever documented.
+
+`curveRange` resolution order: the value as given, else `[0,1]` when `autostretch` is true
+(the autostretch normalizes the image by definition), else derived from the image as its
+0.1%..99.9% percentile range. The reply reports the range actually used.
+
+Response: `{"state": "stretched", "sessionId": …, "curveRange": [min,max]}` (also sends
+`+PB`/`+PA` before/after previews — see "Preview images" above) or an error.
+
+Because the stretch is baked into the working image (like every `apply_*` command), a
+second application is **not** idempotent — it stretches an already-stretched image. That is
+worst in the `autostretch: false` case: the curve is applied on top of the previous run's
+result, and the derived `curveRange` is then taken from *that* result rather than from the
+original linear data, so the axis drifts between runs too. A client that lets the user
+iterate on a curve should undo the previous application (single-level, see
+`postprocess_undo`) before re-applying, rather than expecting the second run to replace the
+first.
+
+### `postprocess_get_histogram`
+
+A display histogram for a curve editor, binned over the same axis the curve is evaluated
+on. Answered synchronously (downscale, optional projection, one binning pass — see
+`HistogramBuilder`), with `{"state": "busy"}` if that session has an operation in flight.
+Does **not** update the session's last-state record, so `postprocess_get_state` keeps
+reporting the last real operation.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `bins` | int | `256` | |
+| `stretch` | object | — | When present, the autostretch to project before binning (`targetBackground`, `shadowsClipping`, `linked`, `neutralizeBackground`). A curve that runs *after* an autostretch is evaluated against the post-stretch data, so binning the pre-stretch distribution would put the curve on an axis it is never applied on. Absent, the working image is binned as-is. |
+| `curveRange` | `[min,max]` | derived | Same resolution as `postprocess_apply_stretch`. |
+
+Response: `{"state": "histogram", "bins", "curveRange", "luminance": [...]}`, plus `red`,
+`green` and `blue` for a 3-channel image. Every array holds `bins` values normalized to
+`[0,1]` against the largest bin.
+
+### `postprocess_get_stretch_curve`
+
+This image's autostretch, expressed as curve control points — so a curve editor can open on
+the autostretch's look instead of on an identity curve.
+
+An identity curve is a **no-op** stretch: `CurveOperation` maps x=0 to `inputMin` and x=1 to
+`inputMax` and applies no tone mapping in between, so a still-linear image comes out as dark
+as it went in. That is the correct outcome of "apply no stretch", but it makes a poor
+starting point — a caller offering a manual/curve-only stretch should seed its editor from
+here (see "Linear vs. non-linear pipeline stages" for the stage reasoning).
+
+`AutoStretch`'s transfer function is parametric (shadows/midtones/highlights), so this
+samples it at `controlPoints` points spanning `[inputMin, inputMax]`, where the range is
+resolved exactly as a curve applied against this image would resolve it. Applying the
+returned points with that same range reproduces the autostretch.
+
+Answered synchronously, and gated on the busy set like `postprocess_get_histogram`.
+
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `controlPoints` | int | `9` | Points per channel, endpoints inclusive; at least 2. Spaced logarithmically, not uniformly: on still-linear data the background sits a fraction of a percent up the derived axis, so a uniform spread samples the empty top of it and the curve comes out far darker than the autostretch it is supposed to reproduce. |
+| `linked` | bool | `true` | Matching `apply()`: pooled parameters (identical curves per channel) vs per-channel ones. |
+| `targetBackground` | double | `0.25` | See `postprocess_apply_autostretch`. |
+| `shadowsClipping` | double | `2.8` | Idem. |
+| `curveRange` | `[min,max]` | derived | Overrides the resolved range. |
+
+Response: `{"state": "stretch_curve", "sessionId", "curveRange", "shared", "points": [...]}`
+when `shared` is true (one curve stands in for every channel, so the caller can use the
+single shared-curve editor), otherwise `red`, `green` and `blue`. Each point is
+`{"x","y"}` with strictly increasing x in `[0,1]` and y in `[0,1]`.
+
+**Caveat:** this cannot reproduce a stretch that used `neutralizeBackground`. That offsets
+each channel by its own sky-background level *before* stretching, and a curve mapping input
+level to output level cannot express a per-channel input offset — so the shape is right but
+that level offset is not there. The same limitation is why `postprocess_apply_stretch` has
+no way to bake it through a curve.
+
 ### `postprocess_apply_curve`
 
 `{"points": [{"x","y"}, ...]}` — at least 2 points, strictly increasing
-`x`, each in `[0,1]×[0,1]`. One shared curve applied identically to every
+`x`, each in `[0,1]×[0,1]`. A two-element `[x, y]` array is also accepted per
+point. One shared curve applied identically to every
 channel. Fails if the current image isn't normalized to `[0,1]` yet
 (stretch/curve first) — same guard as `postprocess_apply_saturation`/
 `postprocess_apply_contrast`, added after a still-linear/un-stretched image
