@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 02:11+0000\n"
+"POT-Creation-Date: 2026-09-21 02:02+0000\n"
 "PO-Revision-Date: 2026-09-18 08:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -773,7 +773,7 @@ msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "Помилка під час записування файла налаштувань вбудованого засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1795 fitsviewer/fitsdata.cpp:3856
+#: auxiliary/ksutils.cpp:1795 fitsviewer/fitsdata.cpp:3946
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -19166,12 +19166,12 @@ msgstr "Інтернет"
 msgid "Offline"
 msgstr "Локальний"
 
-#: ekos/ekoslive/message.cpp:928
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "target"
 msgstr "ціль"
 
-#: ekos/ekoslive/message.cpp:1255
+#: ekos/ekoslive/message.cpp:1303
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Не вдалося імпортувати мозаїку."
@@ -34493,217 +34493,217 @@ msgstr "Опис типу об'єкта"
 msgid "Object Type Comments"
 msgstr "Коментарі до типу об'єкта"
 
-#: fitsviewer/fitsdata.cpp:2800
+#: fitsviewer/fitsdata.cpp:2890
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Помилка при читанні буфера fits: %1."
 
-#: fitsviewer/fitsdata.cpp:2809
+#: fitsviewer/fitsdata.cpp:2899
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Не вдалося розпакувати стиснений FITS"
 
-#: fitsviewer/fitsdata.cpp:2839
+#: fitsviewer/fitsdata.cpp:2929
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Помилка під час відкриття файла fits %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2854
+#: fitsviewer/fitsdata.cpp:2944
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Помилка під час читання буфера fits: %1"
 
-#: fitsviewer/fitsdata.cpp:2868
+#: fitsviewer/fitsdata.cpp:2958
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Не вдалося визначити місце HDU зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:2878
+#: fitsviewer/fitsdata.cpp:2968
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Помилка під час відкриття файла FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2892
+#: fitsviewer/fitsdata.cpp:2982
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Підтримки одновимірних зображень FITS у KStars не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2940 fitsviewer/fitsdata.cpp:3685
+#: fitsviewer/fitsdata.cpp:3030 fitsviewer/fitsdata.cpp:3775
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Підтримки бітової глибини %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:2950
+#: fitsviewer/fitsdata.cpp:3040
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Розміри зображення, %1⨯%2, є некоректними"
 
-#: fitsviewer/fitsdata.cpp:3004
+#: fitsviewer/fitsdata.cpp:3094
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Помилка під час спроби читання зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:3411 fitsviewer/fitsdata.cpp:3645
+#: fitsviewer/fitsdata.cpp:3501 fitsviewer/fitsdata.cpp:3735
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Помилка під час спроби відкрити файл XISF: "
 
-#: fitsviewer/fitsdata.cpp:3559
+#: fitsviewer/fitsdata.cpp:3649
 #, kde-format
 msgid "File contain no images"
 msgstr "У файлі не міститься зображень"
 
-#: fitsviewer/fitsdata.cpp:3588
+#: fitsviewer/fitsdata.cpp:3678
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Підтримки формату зразка %1 не передбачено."
 
-#: fitsviewer/fitsdata.cpp:3723
+#: fitsviewer/fitsdata.cpp:3813
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Помилка під час спроби зберегти зображення XISF"
 
-#: fitsviewer/fitsdata.cpp:3815 fitsviewer/fitsdata.cpp:3931
+#: fitsviewer/fitsdata.cpp:3905 fitsviewer/fitsdata.cpp:4021
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: недостатньо пам'яті для каналу image_buffer. Потрібно %1 байтів "
 
-#: fitsviewer/fitsdata.cpp:3870
+#: fitsviewer/fitsdata.cpp:3960
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Не вдалося відкрити файл %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3883
+#: fitsviewer/fitsdata.cpp:3973
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Не вдалося відкрити буфер: %1"
 
-#: fitsviewer/fitsdata.cpp:3894
+#: fitsviewer/fitsdata.cpp:3984
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Не вдалося виконати unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3901
+#: fitsviewer/fitsdata.cpp:3991
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Не вдалося dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3909
+#: fitsviewer/fitsdata.cpp:3999
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Не вдалося завантажити до пам'яті: %1"
 
-#: fitsviewer/fitsdata.cpp:4056
+#: fitsviewer/fitsdata.cpp:4146
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Підтримки збереження стиснених файлів не передбачено."
 
-#: fitsviewer/fitsdata.cpp:4120
+#: fitsviewer/fitsdata.cpp:4210
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Не вдалося створити файл: %1"
 
-#: fitsviewer/fitsdata.cpp:4142
+#: fitsviewer/fitsdata.cpp:4232
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Не вдалося створити зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:4151 fitsviewer/fitsdata.cpp:4158
+#: fitsviewer/fitsdata.cpp:4241 fitsviewer/fitsdata.cpp:4248
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Не вдалося оновити ключ: %1"
 
-#: fitsviewer/fitsdata.cpp:4291
+#: fitsviewer/fitsdata.cpp:4381
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Не вдалося оновити дату: %1"
 
-#: fitsviewer/fitsdata.cpp:4300
+#: fitsviewer/fitsdata.cpp:4390
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Не вдалося оновити журнал: %1"
 
-#: fitsviewer/fitsdata.cpp:4322
+#: fitsviewer/fitsdata.cpp:4412
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Не вдалося записати зображення: %1"
 
-#: fitsviewer/fitsdata.cpp:6158 fitsviewer/fitsdata.cpp:6184
-#: fitsviewer/fitsdata.cpp:6210 fitsviewer/fitsdata.cpp:6246
-#: fitsviewer/fitsdata.cpp:6380
+#: fitsviewer/fitsdata.cpp:6248 fitsviewer/fitsdata.cpp:6274
+#: fitsviewer/fitsdata.cpp:6300 fitsviewer/fitsdata.cpp:6336
+#: fitsviewer/fitsdata.cpp:6470
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Не знайдено світових координатних систем."
 
-#: fitsviewer/fitsdata.cpp:6630 fitsviewer/fitsdata.cpp:6736
+#: fitsviewer/fitsdata.cpp:6720 fitsviewer/fitsdata.cpp:6826
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Помилка під час опитування Simbad"
 
-#: fitsviewer/fitsdata.cpp:6645
+#: fitsviewer/fitsdata.cpp:6735
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Перевищено час очікування на дані щодо запиту Simbad"
 
-#: fitsviewer/fitsdata.cpp:7622 fitsviewer/fitsdata.cpp:7735
+#: fitsviewer/fitsdata.cpp:7712 fitsviewer/fitsdata.cpp:7825
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Передбачено підтримку лише 8- та 16-бітових зображень із мозаїчністю."
 
-#: fitsviewer/fitsdata.cpp:7630 fitsviewer/fitsdata.cpp:7741
+#: fitsviewer/fitsdata.cpp:7720 fitsviewer/fitsdata.cpp:7831
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Невідомий взірець мозаїчності %1."
 
-#: fitsviewer/fitsdata.cpp:7654 fitsviewer/fitsdata.cpp:7680
+#: fitsviewer/fitsdata.cpp:7744 fitsviewer/fitsdata.cpp:7770
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Непідтримуваний взірець мозаїчності %1"
 
-#: fitsviewer/fitsdata.cpp:7688
+#: fitsviewer/fitsdata.cpp:7778
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Непідтримувані зсуви мозаїчності %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7699 fitsviewer/fitsdata.cpp:7752
+#: fitsviewer/fitsdata.cpp:7789 fitsviewer/fitsdata.cpp:7842
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності dc1394."
 
-#: fitsviewer/fitsdata.cpp:7710 fitsviewer/fitsdata.cpp:7763
+#: fitsviewer/fitsdata.cpp:7800 fitsviewer/fitsdata.cpp:7853
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Некоректні параметри усування мозаїчності OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7719 fitsviewer/fitsdata.cpp:7772
+#: fitsviewer/fitsdata.cpp:7809 fitsviewer/fitsdata.cpp:7862
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Некоректний рушій усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:8026
+#: fitsviewer/fitsdata.cpp:8116
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit викликано з некоректними параметрами усування мозаїчності"
 
-#: fitsviewer/fitsdata.cpp:8042 fitsviewer/fitsdata.cpp:8088
-#: fitsviewer/fitsdata.cpp:8146 fitsviewer/fitsdata.cpp:8192
+#: fitsviewer/fitsdata.cpp:8132 fitsviewer/fitsdata.cpp:8178
+#: fitsviewer/fitsdata.cpp:8236 fitsviewer/fitsdata.cpp:8282
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк: %1"
 
-#: fitsviewer/fitsdata.cpp:8052 fitsviewer/fitsdata.cpp:8156
+#: fitsviewer/fitsdata.cpp:8142 fitsviewer/fitsdata.cpp:8246
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Не вдалося отримати область пам'яті для тимчасового буфера мозаїк."
 
-#: fitsviewer/fitsdata.cpp:8071 fitsviewer/fitsdata.cpp:8175
+#: fitsviewer/fitsdata.cpp:8161 fitsviewer/fitsdata.cpp:8265
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Помилка засобу усування мозаїчності (%1)"
 
-#: fitsviewer/fitsdata.cpp:8131
+#: fitsviewer/fitsdata.cpp:8221
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
