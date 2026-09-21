@@ -90,6 +90,8 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus settleStatus READ settleStatus NOTIFY settleStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveOnlineStatus READ ekosLiveOnlineStatus NOTIFY ekosLiveOnlineStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveOfflineStatus READ ekosLiveOfflineStatus NOTIFY ekosLiveOfflineStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(Ekos::ExtensionState extensionStatus READ extensionStatus NOTIFY extensionStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
@@ -373,6 +375,20 @@ class Manager : public QDialog, public Ui::Manager
 
         /**
          * DBUS interface function.
+         * @return True if the ONLINE (ekoslive.com) server is connected, false otherwise.
+         * Unlike ekosLiveStatus(), this is not affected by the offline server state, so callers
+         * can distinguish which EkosLive server is actually down.
+         */
+        Q_SCRIPTABLE bool ekosLiveOnlineStatus();
+
+        /**
+         * DBUS interface function.
+         * @return True if the OFFLINE (local) EkosLive server is connected, false otherwise.
+         */
+        Q_SCRIPTABLE bool ekosLiveOfflineStatus();
+
+        /**
+         * DBUS interface function.
          * @return Settle status (0 EXTENSION_START_REQUESTED, 1 EXTENSION_STARTED, 2 EXTENSION_STOP_REQUESTED, 3 EXTENSION_STOPPED)
          */
         Q_SCRIPTABLE Ekos::ExtensionState extensionStatus()
@@ -401,6 +417,14 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE void setEkosLiveUser(const QString &username, const QString &password);
 
         /**
+         * @brief reloadEkosLiveCredentials Re-read device_secret / enrollment_token from disk and
+         * re-authenticate only the EkosLive servers that are currently disconnected.
+         * Call this after the StellarMate App writes a freshly-issued enrollment token so a running
+         * KStars picks it up immediately, without a restart and without dropping healthy connections.
+         */
+        Q_SCRIPTABLE void reloadEkosLiveCredentials();
+
+        /**
          * @brief acceptPortSelection Accept current port selection settings in the Selector Dialog
          */
         Q_SCRIPTABLE void acceptPortSelection();
@@ -411,6 +435,8 @@ class Manager : public QDialog, public Ui::Manager
         void indiStatusChanged(Ekos::CommunicationStatus status);
         void settleStatusChanged(Ekos::CommunicationStatus status);
         void ekosLiveStatusChanged(bool status);
+        void ekosLiveOnlineStatusChanged(bool status);
+        void ekosLiveOfflineStatusChanged(bool status);
         void extensionStatusChanged(bool = true);
 
         void newLog(const QString &text);

@@ -175,6 +175,14 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
     {
         Q_EMIT ekosLiveStatusChanged(false);
     });
+    connect(ekosLiveClient.get(), &EkosLive::Client::onlineStatusChanged, this, [this](bool connected)
+    {
+        Q_EMIT ekosLiveOnlineStatusChanged(connected);
+    });
+    connect(ekosLiveClient.get(), &EkosLive::Client::offlineStatusChanged, this, [this](bool connected)
+    {
+        Q_EMIT ekosLiveOfflineStatusChanged(connected);
+    });
 
     // INDI Control Panel
     //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
@@ -4025,6 +4033,21 @@ void Manager::setEkosLiveUser(const QString &username, const QString &password)
 bool Manager::ekosLiveStatus()
 {
     return ekosLiveClient.get()->isConnected();
+}
+
+bool Manager::ekosLiveOnlineStatus()
+{
+    return ekosLiveClient.get()->isOnlineConnected();
+}
+
+bool Manager::ekosLiveOfflineStatus()
+{
+    return ekosLiveClient.get()->isOfflineConnected();
+}
+
+void Manager::reloadEkosLiveCredentials()
+{
+    ekosLiveClient.get()->reloadCredentialsAndReconnect();
 }
 
 bool Manager::checkUniqueBinaryDriver(const QSharedPointer<DriverInfo> &primaryDriver,

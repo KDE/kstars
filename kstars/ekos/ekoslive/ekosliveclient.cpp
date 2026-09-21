@@ -208,31 +208,7 @@ void Client::checkAndTriggerAuth(bool force)
     // (Phase B for device_secret, Phase C for enrollment_token). We must read them here,
     // not in onConnected(), because onConnected() is only called after a successful auth —
     // creating a deadlock when a freshly-written token has never been loaded into memory.
-    const QString enrollmentTokenPath = NodeManager::ekosLiveDataPath() + "/enrollment_token";
-    QFile enrollmentTokenFile(enrollmentTokenPath);
-    if (enrollmentTokenFile.exists() && enrollmentTokenFile.open(QIODevice::ReadOnly))
-    {
-        const QString enrollmentToken = QString::fromUtf8(enrollmentTokenFile.readAll().trimmed());
-        enrollmentTokenFile.close();
-        if (!enrollmentToken.isEmpty() && m_NodeManagers.size() > Online)
-        {
-            m_NodeManagers[Online]->setDeviceToken(enrollmentToken);
-            qCInfo(KSTARS_EKOS) << "checkAndTriggerAuth: Loaded enrollment_token from disk for online manager.";
-        }
-    }
-
-    const QString deviceSecretPath = NodeManager::ekosLiveDataPath() + "/device_secret";
-    QFile deviceSecretFile(deviceSecretPath);
-    if (deviceSecretFile.exists() && deviceSecretFile.open(QIODevice::ReadOnly))
-    {
-        const QString deviceSecret = QString::fromUtf8(deviceSecretFile.readAll().trimmed());
-        deviceSecretFile.close();
-        if (!deviceSecret.isEmpty() && m_NodeManagers.size() > Offline)
-        {
-            m_NodeManagers[Offline]->setDeviceToken(deviceSecret);
-            qCInfo(KSTARS_EKOS) << "checkAndTriggerAuth: Loaded device_secret from disk for offline manager.";
-        }
-    }
+    loadTokensFromDisk();
 
     bool needsReAuthForAllManagers = false;
     int managersAttemptingAuth = 0;
@@ -442,28 +418,88 @@ void Client::onConnected()
     // The enrollment_token file contains the enrollment JWT for the online server.
     // The device_secret file contains the device secret for the offline server.
     // These files are written by the SM App via the KStars HTTP API.
-    const QString tokenPath = NodeManager::ekosLiveDataPath() + "/enrollment_token";
-    QFile tokenFile(tokenPath);
-    if (tokenFile.exists())
-    {
-        if (tokenFile.open(QIODevice::ReadOnly))
-        {
-            QString enrollmentToken = QString::fromUtf8(tokenFile.readAll().trimmed());
-            tokenFile.close();
-            if (!enrollmentToken.isEmpty() && m_NodeManagers.size() > Online)
-                m_NodeManagers[Online]->setDeviceToken(enrollmentToken);
-        }
+    loadTokensFromDisk();
 
-        const QString secretPath = NodeManager::ekosLiveDataPath() + "/device_secret";
-        QFile secretFile(secretPath);
-        if (secretFile.exists() && secretFile.open(QIODevice::ReadOnly))
+    emitStatusChanges();
+}
+
+void Client::loadTokensFromDisk()
+{
+    const QString enrollmentTokenPath = NodeManager::ekosLiveDataPath() + "/enrollment_token";
+    QFile enrollmentTokenFile(enrollmentTokenPath);
+    if (enrollmentTokenFile.exists() && enrollmentTokenFile.open(QIODevice::ReadOnly))
+    {
+        const QString enrollmentToken = QString::fromUtf8(enrollmentTokenFile.readAll().trimmed());
+        enrollmentTokenFile.close();
+        if (!enrollmentToken.isEmpty() && m_NodeManagers.size() > Online)
         {
-            QString deviceSecret = QString::fromUtf8(secretFile.readAll().trimmed());
-            secretFile.close();
-            if (!deviceSecret.isEmpty() && m_NodeManagers.size() > Offline)
-                m_NodeManagers[Offline]->setDeviceToken(deviceSecret);
+            m_NodeManagers[Online]->setDeviceToken(enrollmentToken);
+            qCInfo(KSTARS_EKOS) << "loadTokensFromDisk: Loaded enrollment_token from disk for online manager.";
         }
     }
+
+    const QString deviceSecretPath = NodeManager::ekosLiveDataPath() + "/device_secret";
+    QFile deviceSecretFile(deviceSecretPath);
+    if (deviceSecretFile.exists() && deviceSecretFile.open(QIODevice::ReadOnly))
+    {
+        const QString deviceSecret = QString::fromUtf8(deviceSecretFile.readAll().trimmed());
+        deviceSecretFile.close();
+        if (!deviceSecret.isEmpty() && m_NodeManagers.size() > Offline)
+        {
+            m_NodeManagers[Offline]->setDeviceToken(deviceSecret);
+            qCInfo(KSTARS_EKOS) << "loadTokensFromDisk: Loaded device_secret from disk for offline manager.";
+        }
+    }
+}
+
+void Client::emitStatusChanges()
+{
+    const bool onlineConnected = isOnlineConnected();
+    const bool offlineConnected = isOfflineConnected();
+
+    if (onlineConnected != m_lastOnlineConnected)
+    {
+        m_lastOnlineConnected = onlineConnected;
+        Q_EMIT onlineStatusChanged(onlineConnected);
+    }
+
+    if (offlineConnected != m_lastOfflineConnected)
+    {
+        m_lastOfflineConnected = offlineConnected;
+        Q_EMIT offlineStatusChanged(offlineConnected);
+    }
+}
+
+void Client::reloadCredentialsAndReconnect()
+{
+    qCInfo(KSTARS_EKOS) <<
+                        "Client::reloadCredentialsAndReconnect: Reloading EkosLive device tokens from disk and reconnecting disconnected managers.";
+
+    // Pick up any freshly-written device_secret / enrollment_token without a KStars restart.
+    loadTokensFromDisk();
+
+    bool attemptedAuth = false;
+    for (auto &oneManager : m_NodeManagers)
+    {
+        // Only touch managers that are actually down; leave healthy connections (typically the
+        // offline server the App is using) untouched. clearAuthentication() clears the auth
+        // response/expiry only — it does NOT drop the device token loaded above.
+        if (oneManager->isConnected() || oneManager->isReauthenticating())
+        {
+            qCInfo(KSTARS_EKOS) << "Client::reloadCredentialsAndReconnect: NodeManager"
+                                << oneManager->property("serviceURL").toUrl().toDisplayString()
+                                << "is already connected or re-authenticating. Skipping.";
+            continue;
+        }
+
+        oneManager->clearAuthentication();
+        oneManager->setCredentials(username->text(), password->text());
+        oneManager->authenticate();
+        attemptedAuth = true;
+    }
+
+    if (attemptedAuth && pi && !pi->isAnimated())
+        pi->startAnimation();
 }
 
 void Client::onDisconnected()
@@ -540,6 +576,10 @@ void Client::onDisconnected()
         offlineLabel->setStyleSheet(m_NodeManagers[Offline]->isConnected() ? "color:white" : "color:gray");
         offlineIcon->setPixmap(m_NodeManagers[Offline]->isConnected() ? connectedIcon : disconnectedIcon);
     }
+
+    // Notify per-server status changes even when the overall m_isConnected state did not
+    // transition (e.g. the online server was never connected while offline stayed up).
+    emitStatusChanges();
 }
 
 void Client::setConnected(bool enabled)
