@@ -1432,7 +1432,9 @@ IF (NOT ANDROID)
     )
     if (NOT BUILD_WITH_QT6)
         target_link_libraries(KStarsLib
+            KF5::ConfigWidgets
             KF5::Crash
+            KF5::DBusAddons
             KF5::I18n
             KF5::NewStuff
             KF5::KIOFileWidgets
@@ -1443,6 +1445,8 @@ IF (NOT ANDROID)
     else()
         target_link_libraries(KStarsLib
             # KF6::Crash
+            KF6::ConfigWidgets
+            KF6::DBusAddons
             KF6::I18n
             KF6::XmlGui
             KF6::NewStuffWidgets
@@ -1776,6 +1780,11 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 ########### install files ###############
 if(NOT APPLE) # The desktop file is not needed on MacOS and the other two are bundled above
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+ecm_generate_dbus_service_file(
+    NAME org.kde.kstars
+    EXECUTABLE ${KDE_INSTALL_FULL_BINDIR}/kstars
+    DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR}
+)
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 IF(NOT BUILD_WITH_QT6)
   install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

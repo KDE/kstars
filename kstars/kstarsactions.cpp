@@ -102,6 +102,9 @@
 #include <KActionMenu>
 
 #include <KToggleAction>
+#include <KRecentFilesAction>
+#include <KSharedConfig>
+#include <KConfigGroup>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <KNSWidgets/dialog.h>
@@ -1320,6 +1323,25 @@ void KStars::slotOpenFITS()
 #endif
 }
 
+void KStars::slotOpenRecent(const QUrl &imageURL)
+{
+#ifdef HAVE_CFITSIO
+    openFITS(imageURL);
+#else
+    Q_UNUSED(imageURL);
+#endif
+}
+
+void KStars::addToRecentFiles(const QUrl &url)
+{
+#ifdef HAVE_CFITSIO
+    if (m_RecentFilesAction && url.isLocalFile())
+        m_RecentFilesAction->addUrl(url);
+#else
+    Q_UNUSED(url);
+#endif
+}
+
 void KStars::slotBlink()
 {
 #ifdef HAVE_CFITSIO
@@ -2198,6 +2220,12 @@ void KStars::slotAboutToQuit()
     }
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
+
+#ifdef HAVE_CFITSIO
+    // Persist the recently opened FITS files list.
+    if (m_RecentFilesAction)
+        m_RecentFilesAction->saveEntries(KSharedConfig::openConfig()->group(QStringLiteral("Recent Files")));
+#endif
 
     //synch the config file with the Config object
     writeConfig();

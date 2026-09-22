@@ -185,8 +185,10 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
 
     if (!liveStacker)
     {
+        // The "org.kde.kstars" service name is registered by KDBusService in main.cpp,
+        // which also provides single-instance behavior. Only the /KStars object is
+        // registered here so the D-Bus API remains reachable under that name.
         QDBusConnection::sessionBus().registerObject("/KStars", this);
-        QDBusConnection::sessionBus().registerService("org.kde.kstars");
     }
 
 #ifdef HAVE_CFITSIO
@@ -755,6 +757,7 @@ const QSharedPointer<FITSViewer> &KStars::createFITSViewer(const bool forceCreat
                 return viewer.get() == rawPointer;
             }));
         });
+        connect(newFITSViewer.get(), &FITSViewer::fileLoaded, this, &KStars::addToRecentFiles);
         return m_FITSViewers.constLast();
     }
 }
@@ -770,6 +773,7 @@ const QSharedPointer<FITSViewer> &KStars::genericFITSViewer()
             m_FITSViewers.removeOne(m_GenericFITSViewer);
             m_GenericFITSViewer.clear();
         });
+        connect(m_GenericFITSViewer.get(), &FITSViewer::fileLoaded, this, &KStars::addToRecentFiles);
         m_FITSViewers.append(m_GenericFITSViewer);
     }
 

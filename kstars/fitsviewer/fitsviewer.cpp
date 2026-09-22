@@ -669,7 +669,10 @@ void FITSViewer::loadFiles()
     connect(tab, &FITSTab::loaded, this, [ = ]()
     {
         if (addFITSCommon(m_Tabs.last(), imageName, FITS_NORMAL, ""))
+        {
             Q_EMIT loaded(fitsID++);
+            Q_EMIT fileLoaded(imageName);
+        }
         else
             m_Tabs.removeLast();
 
@@ -712,7 +715,10 @@ int FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter,
     connect(tab, &FITSTab::loaded, this, [ = ]()
     {
         if (addFITSCommon(m_Tabs.last(), imageName, mode, previewText))
+        {
             Q_EMIT loaded(fitsID++);
+            Q_EMIT fileLoaded(imageName);
+        }
         else
             m_Tabs.removeLast();
     });

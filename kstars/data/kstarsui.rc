@@ -7,6 +7,7 @@
                 <Action name="close_window" />
                 <Separator />
                 <Action name="open_file" />
+                <Action name="open_recent" />
                 <Action name="blink_directory" />
                 <Action name="live_stacker" />
                 <Action name="export_image" />

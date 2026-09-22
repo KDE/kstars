@@ -23,6 +23,7 @@
 
 #if !defined(KSTARS_LITE)
 #include <KAboutData>
+#include <KDBusService>
 #endif
 
 #include "config-kstars.h"
@@ -415,6 +416,56 @@ int main(int argc, char *argv[])
     QDir(KSPaths::writableLocation(QStandardPaths::TempLocation)).mkpath(qAppName());
 
 #ifndef KSTARS_LITE
+    // KDBusService derives the well-known D-Bus name (org.kde.kstars) from the
+    // organization domain and application name. Set the domain explicitly so it
+    // matches the name the desktop file advertises and that scripts already use.
+    QCoreApplication::setOrganizationDomain(QStringLiteral("kde.org"));
+
+    // Single-instance support: when KStars is launched again (e.g. "Open With" from
+    // a file manager), the already-running instance receives the request and opens the
+    // file(s), while this duplicate instance exits.
+    KDBusService dbusService(KDBusService::Unique);
+    if (!dbusService.isRegistered())
+        return 0;
+
+    // Opens the given FITS/image files and raises the main window.
+    const auto openRequestedFiles = [](const QList<QUrl> &fileUrls)
+    {
+        KStars *ks = KStars::Instance();
+        if (ks == nullptr)
+            return;
+
+        for (const QUrl &url : fileUrls)
+            ks->openFITS(url);
+
+        ks->show();
+        ks->raise();
+        ks->activateWindow();
+    };
+
+    QObject::connect(&dbusService, &KDBusService::activateRequested, &app,
+                     [openRequestedFiles](const QStringList &arguments, const QString &workingDirectory)
+    {
+        Q_UNUSED(workingDirectory);
+
+        QList<QUrl> fileUrls;
+        // arguments[0] is the executable name; the rest are the files/URLs to open.
+        for (int i = 1; i < arguments.size(); ++i)
+        {
+            const QString &argument = arguments.at(i);
+            if (argument.startsWith(QLatin1Char('-')))
+                continue;
+            fileUrls.append(QUrl::fromUserInput(argument, QDir::currentPath()));
+        }
+        openRequestedFiles(fileUrls);
+    });
+
+    QObject::connect(&dbusService, &KDBusService::openRequested, &app,
+                     [openRequestedFiles](const QList<QUrl> &uris)
+    {
+        openRequestedFiles(uris);
+    });
+
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 
     // no session.. just start up normally

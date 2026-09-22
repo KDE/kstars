@@ -26,6 +26,7 @@ class QDockWidget;
 class QPalette;
 class KActionMenu;
 class KConfigDialog;
+class KRecentFilesAction;
 
 class KStarsData;
 class SkyPoint;
@@ -834,6 +835,9 @@ class KStars : public KXmlGuiWindow
         void slotOpenFITS();
         void slotBlink();
 
+        /** Open a recently opened FITS image. */
+        void slotOpenRecent(const QUrl &imageURL);
+
         /** Open live stacking directory */
         void slotStack();
 
@@ -949,6 +953,9 @@ class KStars : public KXmlGuiWindow
         /** Load FOV information and repopulate menu. */
         void repopulateFOV();
 
+        /** Add a successfully opened FITS file to the recent files list. */
+        void addToRecentFiles(const QUrl &url);
+
         /**
          * @brief populateThemes Populate application themes
          */
@@ -1004,6 +1011,7 @@ class KStars : public KXmlGuiWindow
         KActionMenu *viewsActionMenu { nullptr };
         KActionMenu *hipsActionMenu { nullptr };
         KActionMenu *orientationActionMenu { nullptr };
+        KRecentFilesAction *m_RecentFilesAction { nullptr };
 
         KStarsData *m_KStarsData { nullptr };
         SkyMap *m_SkyMap { nullptr };

@@ -80,6 +80,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE
 include(ExternalProject)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
+include(ECMGenerateDBusServiceFile)
 if(NOT BUILD_WITH_QT6)
     include(KDEInstallDirs)
 else()
@@ -154,7 +155,9 @@ else(BUILD_KSTARS_LITE)
 
        find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
          Config
+         ConfigWidgets
          Crash
+         DBusAddons
          WidgetsAddons
          NewStuff
          I18n
@@ -171,7 +174,9 @@ else(BUILD_KSTARS_LITE)
 
         find_package(KF6 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
           Config
+          ConfigWidgets
           Crash
+          DBusAddons
           WidgetsAddons
           NewStuff
           I18n

@@ -32,6 +32,9 @@
 #include <KActionMenu>
 #include <KToggleAction>
 #include <KToolBar>
+#include <KRecentFilesAction>
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <QActionGroup>
 
 #include <QMenu>
@@ -154,6 +157,17 @@ void KStars::initActions()
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
             << i18n("Open Image(s)...") << QIcon::fromTheme("document-open")
             << QKeySequence(Qt::CTRL | Qt::Key_O);
+
+    // Recently opened FITS files, with a built-in "Clear List" action.
+    m_RecentFilesAction = new KRecentFilesAction(QIcon::fromTheme("document-open-recent"), i18n("Open &Recent"), this);
+    m_RecentFilesAction->setMaxItems(10);
+    actionCollection()->addAction("open_recent", m_RecentFilesAction);
+    connect(m_RecentFilesAction, &KRecentFilesAction::urlSelected, this, &KStars::slotOpenRecent);
+    connect(m_RecentFilesAction, &KRecentFilesAction::recentListCleared, this, [this]()
+    {
+        m_RecentFilesAction->saveEntries(KSharedConfig::openConfig()->group(QStringLiteral("Recent Files")));
+    });
+    m_RecentFilesAction->loadEntries(KSharedConfig::openConfig()->group(QStringLiteral("Recent Files")));
 
     actionCollection()->addAction("blink_directory", this, SLOT(slotBlink()))
             << i18n("Open/Blink Directory") << QIcon::fromTheme("folder-open")
