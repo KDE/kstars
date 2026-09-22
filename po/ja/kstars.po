@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 02:16+0000\n"
+"POT-Creation-Date: 2026-09-22 18:34+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -202,7 +202,7 @@ msgstr "ガリレオ衛星 (HST)"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1145
+#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1148
 #: kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
@@ -218,7 +218,7 @@ msgstr "衛星の軌道"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1148
+#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1151
 #: kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
@@ -517,14 +517,14 @@ msgid "Save Image"
 msgstr "すべての画像を保存"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1414
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "‘%1’ という名前のファイルは既に存在します。上書きしますか？"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1415
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
@@ -658,7 +658,7 @@ msgstr "キャンセル"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
+#: kstarsactions.cpp:510 kstarsactions.cpp:518 kstarsactions.cpp:528
 #: skycomponents/imageoverlaycomponent.cpp:568
 #, fuzzy, kde-format
 #| msgid "Write Error"
@@ -1935,21 +1935,21 @@ msgid "&Edit"
 msgstr "編集(&E)"
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:25 data/kstarsui.rc:44
+#: data/fitsviewerui.rc:25 data/kstarsui.rc:45
 #, kde-format
 msgid "&View"
 msgstr "表示(&V)"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:54 data/kstarsui.rc:147 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:54 data/kstarsui.rc:148 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:68 data/kstarsui.rc:161
+#: data/fitsviewerui.rc:68 data/kstarsui.rc:162
 #, kde-format
 msgid "Main Toolbar"
 msgstr "メインツールバー"
@@ -1961,94 +1961,94 @@ msgid "Process ToolBar"
 msgstr "プロセスツールバー"
 
 #. i18n: ectx: Menu (time)
-#: data/kstarsui.rc:21
+#: data/kstarsui.rc:22
 #, kde-format
 msgid "T&ime"
 msgstr "時刻(&I)"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:31
+#: data/kstarsui.rc:32
 #, kde-format
 msgid "&Pointing"
 msgstr "位置(&P)"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:59
+#: data/kstarsui.rc:60
 #, kde-format
 msgid "&Projection"
 msgstr "投影法(&P)"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Tools"
 msgstr "ツール(&T)"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:72
+#: data/kstarsui.rc:73
 #, kde-format
 msgid "&Devices"
 msgstr "デバイス(&D)"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, kde-format
 msgid "&Data"
 msgstr ""
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:101
+#: data/kstarsui.rc:102
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "&Updates"
 msgstr "更新"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:108
+#: data/kstarsui.rc:109
 #, kde-format
 msgid "&Observation"
 msgstr "観測(&O)"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Settings"
 msgstr "設定(&S)"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:116
+#: data/kstarsui.rc:117
 #, kde-format
 msgid "&Info Boxes"
 msgstr "情報ボックス(&I)"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:124
+#: data/kstarsui.rc:125
 #, kde-format
 msgid "&Statusbar"
 msgstr "ステータスバー(&S)"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:179
+#: data/kstarsui.rc:180
 #, kde-format
 msgid "View Toolbar"
 msgstr "ビューツールバー"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:198
+#: data/kstarsui.rc:199
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "INDI Toolbar"
 msgstr "ツールバー"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:208
+#: data/kstarsui.rc:209
 #, fuzzy, kde-format
 #| msgid "Telescope port:"
 msgid "Telescope Toolbar"
 msgstr "望遠鏡ポート:"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:219
+#: data/kstarsui.rc:220
 #, fuzzy, kde-format
 #| msgid "View Toolbar"
 msgid "Dome Toolbar"
@@ -2232,7 +2232,7 @@ msgstr "状態"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:476
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:490
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "What's up Tonight..."
 msgid "What's Interesting..."
@@ -3174,7 +3174,7 @@ msgstr ""
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
 #: ekos/capture/cameraprocess.cpp:2506 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
-#: fitsviewer/fitsviewer.cpp:839 fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Preview"
@@ -3666,7 +3666,7 @@ msgid "Clone..."
 msgstr "マローン"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
 #, kde-format
 msgid "Colors"
 msgstr "色"
@@ -3987,7 +3987,7 @@ msgstr "リンク"
 msgid "Could not add the link."
 msgstr "リモートファイルをダウンロードできませんでした。"
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
 #, kde-format
 msgid "Advanced"
 msgstr "詳細"
@@ -4044,7 +4044,7 @@ msgid "Could not update the user log."
 msgstr "ファイルを削除できませんでした: %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:326 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
@@ -4053,7 +4053,7 @@ msgid "No connected mounts found."
 msgstr "%1 という名前の天体が見つかりません。"
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
-#: kstarsactions.cpp:308 tools/observinglist.cpp:701
+#: kstarsactions.cpp:311 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
 #| msgid "Telescope %1 is offline. Please connect and retry again."
@@ -4697,7 +4697,7 @@ msgid "Any"
 msgstr "すべて"
 
 #: dialogs/finddialog.cpp:38 dialogs/skyobjectsearchadapter.cpp:97
-#: kstarsactions.cpp:1142 kstarsinit.cpp:508
+#: kstarsactions.cpp:1145 kstarsinit.cpp:522
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -7503,7 +7503,7 @@ msgstr "画像を保存できません: %1 "
 #: ekos/scheduler/schedulerprocess.cpp:3464
 #: ekos/scheduler/schedulerprocess.cpp:4605
 #: ekos/scheduler/schedulerprocess.cpp:4625 indi/drivermanager.cpp:1589
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1463 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -11182,7 +11182,7 @@ msgid "Stop the current plate solving run."
 msgstr "場所をセット"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
-#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:490
+#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:504
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Push-To Assistant"
@@ -13782,7 +13782,7 @@ msgid "Log INDI devices activity"
 msgstr "切断"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -13796,7 +13796,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1168
+#: kstarsactions.cpp:1171
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "FITS"
@@ -15291,7 +15291,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:889
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15892,7 +15892,7 @@ msgstr "ジブラルタル"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:170
+#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "City in Quebec Canada"
 #| msgid "Montreal"
@@ -17366,7 +17366,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1178 kstarsinit.cpp:486
+#: kstarsactions.cpp:1181 kstarsinit.cpp:500
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -27109,7 +27109,7 @@ msgid "Remove profile"
 msgstr "光跡を削除"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:548
+#: ekos/manager.ui:272 kstarsinit.cpp:562
 #, fuzzy, kde-format
 #| msgid "Set Location"
 msgid "Custom Drivers..."
@@ -27138,7 +27138,7 @@ msgstr "バッチモード"
 
 # ACCELERATOR added by translator
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:551
+#: ekos/manager.ui:420 kstarsinit.cpp:565
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "INDI コントロールパネル(&I)..."
@@ -34364,7 +34364,7 @@ msgstr "世界時補正:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:63 fitsviewer/fitsviewer.cpp:610
-#: fitsviewer/fitsviewer.cpp:1872
+#: fitsviewer/fitsviewer.cpp:1878
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Aladin"
@@ -35336,7 +35336,7 @@ msgstr "ラベル"
 msgid "Distance"
 msgstr "距離:"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1643
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1649
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
@@ -35579,14 +35579,14 @@ msgid "View Star Profile..."
 msgstr "arc ファイル"
 
 #: fitsviewer/fitsview.cpp:2954 fitsviewer/fitsviewer.cpp:262
-#: fitsviewer/fitsviewer.cpp:1560
+#: fitsviewer/fitsviewer.cpp:1566
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "赤道座標"
 
 #: fitsviewer/fitsview.cpp:2960 fitsviewer/fitsviewer.cpp:269
-#: fitsviewer/fitsviewer.cpp:1562
+#: fitsviewer/fitsviewer.cpp:1568
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -35665,13 +35665,13 @@ msgstr "地平座標"
 msgid "Flip Vertical"
 msgstr "可視光"
 
-#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:173
 #, fuzzy, kde-format
 #| msgid "Projection"
 msgid "Open/Blink Directory"
 msgstr "投影法"
 
-#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:167
+#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:181
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
@@ -35695,7 +35695,7 @@ msgstr "統計"
 msgid "Show Clipping"
 msgstr "印刷ダイアログを表示"
 
-#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1571
+#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1577
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -35746,19 +35746,19 @@ msgstr ""
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1845
+#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Mark Stars"
 msgstr "マーカー"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:946
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:1814
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1163 kstars.cpp:66
+#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1169 kstars.cpp:66
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgctxt "@title:window"
@@ -35802,53 +35802,53 @@ msgstr[0] "恒星"
 msgid "Right click to change tab title."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:791
+#: fitsviewer/fitsviewer.cpp:797
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:928
+#: fitsviewer/fitsviewer.cpp:934
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:929 fitsviewer/fitsviewer.cpp:1716
+#: fitsviewer/fitsviewer.cpp:935 fitsviewer/fitsviewer.cpp:1722
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "十字線"
 
-#: fitsviewer/fitsviewer.cpp:930 fitsviewer/fitsviewer.cpp:1730
+#: fitsviewer/fitsviewer.cpp:936 fitsviewer/fitsviewer.cpp:1736
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "フィリピン"
 
-#: fitsviewer/fitsviewer.cpp:931 fitsviewer/fitsviewer.cpp:1743
+#: fitsviewer/fitsviewer.cpp:937 fitsviewer/fitsviewer.cpp:1749
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "赤道座標"
 
-#: fitsviewer/fitsviewer.cpp:932 fitsviewer/fitsviewer.cpp:1782
+#: fitsviewer/fitsviewer.cpp:938 fitsviewer/fitsviewer.cpp:1788
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "天体を表示"
 
-#: fitsviewer/fitsviewer.cpp:933 fitsviewer/fitsviewer.cpp:1795
+#: fitsviewer/fitsviewer.cpp:939 fitsviewer/fitsviewer.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Pixel Gridlines"
 msgstr "星座線を表示しますか？"
 
-#: fitsviewer/fitsviewer.cpp:934 fitsviewer/fitsviewer.cpp:1756
+#: fitsviewer/fitsviewer.cpp:940 fitsviewer/fitsviewer.cpp:1762
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, fuzzy, kde-format
 #| msgid "Projection"
 msgctxt "@title:window"
@@ -35856,51 +35856,51 @@ msgid "Blink Top Directory"
 msgstr "投影法"
 
 # ACCELERATOR added by translator
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "FITS を開く(&O)..."
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Stacking..."
 msgstr "その他"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1229
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Stacking Failed"
 msgstr "エカル山"
 
-#: fitsviewer/fitsviewer.cpp:1241
+#: fitsviewer/fitsviewer.cpp:1247
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Stacking Complete"
 msgstr "完了"
 
-#: fitsviewer/fitsviewer.cpp:1253
+#: fitsviewer/fitsviewer.cpp:1259
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Stacking Stopped"
 msgstr "完了"
 
-#: fitsviewer/fitsviewer.cpp:1537
+#: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1542
+#: fitsviewer/fitsviewer.cpp:1548
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "表示"
 
-#: fitsviewer/fitsviewer.cpp:1566
+#: fitsviewer/fitsviewer.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -35908,14 +35908,14 @@ msgid ""
 "*Ready*"
 msgstr "望遠鏡の中心に"
 
-#: fitsviewer/fitsviewer.cpp:1578
+#: fitsviewer/fitsviewer.cpp:1584
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1580
+#: fitsviewer/fitsviewer.cpp:1586
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -35923,21 +35923,21 @@ msgid ""
 "*No WCS Info*"
 msgstr "望遠鏡の中心に"
 
-#: fitsviewer/fitsviewer.cpp:1582
+#: fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1614 fitsviewer/fitsviewer.cpp:1769
+#: fitsviewer/fitsviewer.cpp:1620 fitsviewer/fitsviewer.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selection Rectangle"
 msgstr "恒星を選択"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1657 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Width:"
@@ -35945,20 +35945,20 @@ msgid "Width"
 msgstr "幅:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1658 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
 msgstr "高さ:"
 
-#: fitsviewer/fitsviewer.cpp:1850
+#: fitsviewer/fitsviewer.cpp:1856
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Unmark Stars"
 msgstr "マーカー"
 
-#: fitsviewer/fitsviewer.cpp:1866
+#: fitsviewer/fitsviewer.cpp:1872
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Processing %1..."
@@ -39801,7 +39801,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "DSS 画像を表示"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1003
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1017
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:634
@@ -40020,35 +40020,35 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:300
+#: kstars.cpp:302
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Live Stacker"
 msgstr "KStars"
 
-#: kstars.cpp:301
+#: kstars.cpp:303
 #, fuzzy, kde-format
 #| msgid "(c) 2001-2009, The KStars Team"
 msgid "© 2025 KStars Team"
 msgstr "(c) 2001-2009, KStars 開発チーム"
 
-#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:464
+#: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "追尾を停止(&T)"
 
-#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:278
+#: kstars.cpp:438 kstarsactions.cpp:1847 kstarsinit.cpp:292
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "赤道座標"
 
-#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:279
+#: kstars.cpp:439 kstarsactions.cpp:1828 kstarsinit.cpp:293
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -82520,76 +82520,76 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "その他"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:223
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr ""
 
-#: kstarsactions.cpp:221
+#: kstarsactions.cpp:224
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr ""
 
-#: kstarsactions.cpp:508
+#: kstarsactions.cpp:511
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:516
+#: kstarsactions.cpp:519
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:529
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:583
+#: kstarsactions.cpp:586
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Light Pollution Settings"
 msgstr "現在の色設定"
 
-#: kstarsactions.cpp:585
+#: kstarsactions.cpp:588
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr ""
 
-#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
-#: kstarsactions.cpp:813
+#: kstarsactions.cpp:697 kstarsactions.cpp:734 kstarsactions.cpp:777
+#: kstarsactions.cpp:816
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
 
-#: kstarsactions.cpp:748
+#: kstarsactions.cpp:751
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:751
+#: kstarsactions.cpp:754
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "INDI Device Manager"
 msgstr "デバイスマネージャ"
 
-#: kstarsactions.cpp:1139
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Catalogs"
 msgstr "カタログ"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1154
 #, kde-format
 msgid "Guides"
 msgstr "ガイド線"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1157
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
@@ -82597,73 +82597,73 @@ msgid "Terrain"
 msgstr "テラッサ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Overlays"
 msgstr "画像の形式"
 
-#: kstarsactions.cpp:1187
+#: kstarsactions.cpp:1190
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1193
+#: kstarsactions.cpp:1196
 #, kde-format
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:302
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "テラッサ"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:303
 #, fuzzy, kde-format
 #| msgid "Show label"
 msgid "Show Terrain"
 msgstr "ラベルを表示する"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:307
 #, fuzzy, kde-format
 #| msgid "Save all Images"
 msgid "Hide Image Overlays"
 msgstr "すべての画像を保存"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:308
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Image Overlays"
 msgstr "星座線を表示しますか？"
 
-#: kstarsactions.cpp:1378
+#: kstarsactions.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Export"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "エクスポート"
 
-#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: kstarsactions.cpp:1446 tools/scriptbuilder.cpp:796
 #: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1454
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Executing remote scripts is not supported."
 msgstr "完了"
 
-#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1462 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "ファイル ‘%1’ を開けませんでした"
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1487
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -82676,27 +82676,27 @@ msgstr ""
 "能しないばかりか、悪意のあるコードを含んでいる可能性もあります。それでも実行"
 "しますか？"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "スクリプトの検証に失敗しました"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "とにかく実行"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1499
 #, kde-format
 msgid "Running script: %1"
 msgstr "実行中のスクリプト: %1"
 
-#: kstarsactions.cpp:1494
+#: kstarsactions.cpp:1516
 #, kde-format
 msgid "Script finished."
 msgstr "スクリプトの実行が完了しました。"
 
-#: kstarsactions.cpp:1506
+#: kstarsactions.cpp:1528
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -82707,77 +82707,77 @@ msgstr ""
 "とができます。印刷用の色スキームを星図に切り替えますか？|/|$[set-answers yes "
 "'星図に切り替える(&Y)' no '切り替えない(&N)' cancel 'キャンセル(&C)']"
 
-#: kstarsactions.cpp:1511
+#: kstarsactions.cpp:1533
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "星図の色に切り替えますか？"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "色スキームを切り替え"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Do Not Switch"
 msgstr "切り替えない"
 
-#: kstarsactions.cpp:1573
+#: kstarsactions.cpp:1595
 #, fuzzy, kde-format
 #| msgctxt "City in Michigan USA"
 #| msgid "Hancock"
 msgid "Stop running clock in realtime"
 msgstr "ハンコック"
 
-#: kstarsactions.cpp:1591 kstarsinit.cpp:206
+#: kstarsactions.cpp:1613 kstarsinit.cpp:220
 #, fuzzy, kde-format
 #| msgctxt "City in Michigan USA"
 #| msgid "Hancock"
 msgid "Run clock in realtime"
 msgstr "ハンコック"
 
-#: kstarsactions.cpp:1635 kstarsinit.cpp:251
+#: kstarsactions.cpp:1657 kstarsinit.cpp:265
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "追尾を開始(&T)"
 
-#: kstarsactions.cpp:1749
+#: kstarsactions.cpp:1771
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1754
+#: kstarsactions.cpp:1776
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1760
+#: kstarsactions.cpp:1782
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1777
+#: kstarsactions.cpp:1799
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "視野角を入力してください"
 
-#: kstarsactions.cpp:1778
+#: kstarsactions.cpp:1800
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "視野角を「度」で入力: "
 
-#: kstarsactions.cpp:1809 kstarsinit.cpp:752
+#: kstarsactions.cpp:1831 kstarsinit.cpp:766
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "北(&N)"
 
-#: kstarsactions.cpp:1812 kstarsinit.cpp:761
+#: kstarsactions.cpp:1834 kstarsinit.cpp:775
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -82785,14 +82785,14 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "ノートン"
 
-#: kstarsactions.cpp:1828 kstarsinit.cpp:752
+#: kstarsactions.cpp:1850 kstarsinit.cpp:766
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "天頂(&Z)"
 
-#: kstarsactions.cpp:1831 kstarsinit.cpp:761
+#: kstarsactions.cpp:1853 kstarsinit.cpp:775
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
@@ -82993,403 +82993,409 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "天空を印刷"
 
-#: kstarsinit.cpp:145
+#: kstarsinit.cpp:148
 #, kde-format
 msgid "Download New Data..."
 msgstr "新しいデータをダウンロード..."
 
-#: kstarsinit.cpp:148
+#: kstarsinit.cpp:151
 #, kde-format
 msgid "Downloads new data"
 msgstr "新しいデータをダウンロード"
 
 # ACCELERATOR added by translator
-#: kstarsinit.cpp:155
+#: kstarsinit.cpp:158
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgid "Open Image(s)..."
 msgstr "FITS を開く(&O)..."
 
-#: kstarsinit.cpp:171
+#: kstarsinit.cpp:162
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Open &Recent"
+msgstr "中心に"
+
+#: kstarsinit.cpp:185
 #, kde-format
 msgid "&Save Sky Image..."
 msgstr "天空の画像を保存(&S)..."
 
-#: kstarsinit.cpp:178
+#: kstarsinit.cpp:192
 #, kde-format
 msgid "&Run Script..."
 msgstr "スクリプトを実行(&R)..."
 
-#: kstarsinit.cpp:182
+#: kstarsinit.cpp:196
 #, fuzzy, kde-format
 #| msgid "Observing List Wizard"
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "観測リストウィザード"
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:205
 #, kde-format
 msgid "Set Time to &Now"
 msgstr "現在の時刻にセット(&N)"
 
-#: kstarsinit.cpp:195
+#: kstarsinit.cpp:209
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "時刻をセット(&S)..."
 
-#: kstarsinit.cpp:199
+#: kstarsinit.cpp:213
 #, kde-format
 msgid "Stop &Clock"
 msgstr "時計を停止(&C)"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, fuzzy, kde-format
 #| msgctxt "City in Michigan USA"
 #| msgid "Hancock"
 msgid "Resume Clock"
 msgstr "ハンコック"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, fuzzy, kde-format
 #| msgid "Stop &Clock"
 msgid "Stop Clock"
 msgstr "時計を停止(&C)"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:241
+#: kstarsinit.cpp:255
 #, kde-format
 msgid "&Zenith"
 msgstr "天頂(&Z)"
 
-#: kstarsinit.cpp:242
+#: kstarsinit.cpp:256
 #, kde-format
 msgid "&North"
 msgstr "北(&N)"
 
-#: kstarsinit.cpp:243
+#: kstarsinit.cpp:257
 #, kde-format
 msgid "&East"
 msgstr "東(&E)"
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:258
 #, kde-format
 msgid "&South"
 msgstr "南(&S)"
 
-#: kstarsinit.cpp:245
+#: kstarsinit.cpp:259
 #, kde-format
 msgid "&West"
 msgstr "西(&W)"
 
-#: kstarsinit.cpp:248
+#: kstarsinit.cpp:262
 #, kde-format
 msgid "&Find Object..."
 msgstr "天体を検索(&F)..."
 
-#: kstarsinit.cpp:255
+#: kstarsinit.cpp:269
 #, fuzzy, kde-format
 #| msgid "Set Focus &Manually..."
 msgid "Set Coordinates &Manually..."
 msgstr "フォーカスを手動でセット(&M)..."
 
-#: kstarsinit.cpp:267
+#: kstarsinit.cpp:281
 #, kde-format
 msgid "&Default Zoom"
 msgstr "標準の大きさ(&D)"
 
-#: kstarsinit.cpp:270
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "視野角に合わせてズーム(&Z)..."
 
-#: kstarsinit.cpp:284
+#: kstarsinit.cpp:298
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr ""
 
-#: kstarsinit.cpp:298
+#: kstarsinit.cpp:312
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "ランベルト正積方位図法(&L)"
 
-#: kstarsinit.cpp:301
+#: kstarsinit.cpp:315
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "正距方位図法(&A)"
 
-#: kstarsinit.cpp:304
+#: kstarsinit.cpp:318
 #, kde-format
 msgid "&Orthographic"
 msgstr "正射方位図法(&O)"
 
-#: kstarsinit.cpp:307
+#: kstarsinit.cpp:321
 #, kde-format
 msgid "&Equirectangular"
 msgstr "正距円筒図法(&E)"
 
-#: kstarsinit.cpp:310
+#: kstarsinit.cpp:324
 #, kde-format
 msgid "&Stereographic"
 msgstr "平射方位図法(&S)"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:327
 #, kde-format
 msgid "&Gnomonic"
 msgstr "心射方位図法(&G)"
 
-#: kstarsinit.cpp:319
+#: kstarsinit.cpp:333
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "情報ボックスを表示(&I)"
 
-#: kstarsinit.cpp:324
+#: kstarsinit.cpp:338
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "時間情報ボックス(&T)"
 
-#: kstarsinit.cpp:331
+#: kstarsinit.cpp:345
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "フォーカス情報ボックス(&F)"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:352
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "場所情報ボックス(&L)"
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:359
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "メインツールバーを表示"
 
-#: kstarsinit.cpp:347
+#: kstarsinit.cpp:361
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "ビューツールバーを表示"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:365
 #, kde-format
 msgid "Show Statusbar"
 msgstr "ステータスバーを表示"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:366
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "方位/高度フィールドを表示"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:367
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "赤経/赤緯フィールドを表示"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:368
 #, fuzzy, kde-format
 #| msgid "Show RA/Dec Field"
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "赤経/赤緯フィールドを表示"
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:375
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "色スキーム(&O)"
 
-#: kstarsinit.cpp:362
+#: kstarsinit.cpp:376
 #, kde-format
 msgid "&Classic"
 msgstr "クラシック(&C)"
 
-#: kstarsinit.cpp:363
+#: kstarsinit.cpp:377
 #, kde-format
 msgid "&Star Chart"
 msgstr "星図(&S)"
 
-#: kstarsinit.cpp:364
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&Night Vision"
 msgstr "夜間モード(&N)"
 
-#: kstarsinit.cpp:365
+#: kstarsinit.cpp:379
 #, kde-format
 msgid "&Moonless Night"
 msgstr "月なしモード(&M)"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:399
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "FOV 記号(&F)"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:407
 #, fuzzy, kde-format
 #| msgid "&View"
 msgid "&Views"
 msgstr "表示(&V)"
 
-#: kstarsinit.cpp:401
+#: kstarsinit.cpp:415
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr ""
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:422
 #, fuzzy, kde-format
 #| msgid "Skymap Options"
 msgid "Skymap Orientation"
 msgstr "天球図オプション"
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:428
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "地上の場所(&G)..."
 
 # ACCELERATOR added by translator
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:445
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "スタートアップウィザード(&W)..."
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:450
 #, fuzzy, kde-format
 #| msgid "Deep-Sky Catalogs"
 msgid "Manage DSO Catalogs"
 msgstr "深宇宙カタログ"
 
-#: kstarsinit.cpp:440
+#: kstarsinit.cpp:454
 #, fuzzy, kde-format
 #| msgid "Creating Earth satellites"
 msgid "Update Comets Orbital Elements"
 msgstr "人工衛星を作成中"
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:456
 #, fuzzy, kde-format
 #| msgid "Creating Earth satellites"
 msgid "Update Asteroids Orbital Elements"
 msgstr "人工衛星を作成中"
 
-#: kstarsinit.cpp:444
+#: kstarsinit.cpp:458
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr ""
 
-#: kstarsinit.cpp:446
+#: kstarsinit.cpp:460
 #, fuzzy, kde-format
 #| msgid "Creating Earth satellites"
 msgid "Update Satellites Orbital Elements"
 msgstr "人工衛星を作成中"
 
-#: kstarsinit.cpp:450
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "Calculator"
 msgstr "計算機"
 
-#: kstarsinit.cpp:460
+#: kstarsinit.cpp:474
 #, fuzzy, kde-format
 #| msgid "&Observation"
 msgid "Observation Planner"
 msgstr "観測(&O)"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:478
 #, fuzzy, kde-format
 #| msgid "&Observation"
 msgid "Imaging Planner"
 msgstr "観測(&O)"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:468 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:482 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "高度対時間"
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:485
 #, kde-format
 msgid "What's up Tonight"
 msgstr "今夜の星空"
 
-#: kstarsinit.cpp:480
+#: kstarsinit.cpp:494
 #, fuzzy, kde-format
 #| msgid "Solar System Viewer"
 msgid "XPlanet Solar System Simulator"
 msgstr "太陽系ビューア"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:482 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:496 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "天文カレンダー"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:518
 #, kde-format
 msgid "Script Builder"
 msgstr "スクリプトビルダー"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:526
 #, fuzzy, kde-format
 #| msgid "Jupiter Moons Tool"
 msgid "Jupiter's Moons"
 msgstr "木星の衛星のツール"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:515 options/opsguides.ui:284
+#: kstarsinit.cpp:529 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "フラグ"
 
-#: kstarsinit.cpp:518
+#: kstarsinit.cpp:532
 #, fuzzy, kde-format
 #| msgid "Define Equipment"
 msgid "List your &Equipment..."
 msgstr "機材を定義"
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:534
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observer..."
 msgstr "観測者"
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:538
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:528
+#: kstarsinit.cpp:542
 #, fuzzy, kde-format
 #| msgid "Execute the session Plan..."
 msgid "Execute the Session Plan..."
 msgstr "セッション計画を実行..."
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:546
 #, fuzzy, kde-format
 #| msgid "Hour angle:"
 msgid "Polaris Hour Angle..."
 msgstr "時角:"
 
 # ACCELERATOR added by translator
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:553
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "望遠鏡セットアップウィザード(&T)..."
 
 # ACCELERATOR added by translator
-#: kstarsinit.cpp:544
+#: kstarsinit.cpp:558
 #, kde-format
 msgid "Device Manager..."
 msgstr "デバイスの管理(&D)..."
 
-#: kstarsinit.cpp:567
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -83400,265 +83406,265 @@ msgid ""
 "of 'X'."
 msgstr ""
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:590
 #, kde-format
 msgid "Time step control"
 msgstr "タイムステップ (時間の経過速度) を調整"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:599
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "恒星"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:601
 #, kde-format
 msgid "Toggle stars"
 msgstr "恒星をオン/オフ"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:603
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "深宇宙"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:605
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "深宇宙の天体をオン/オフ"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:607
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "太陽系"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:609
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "太陽系の天体をオン/オフ"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:611
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "星座線"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:613
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "星座線をオン/オフ"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:615
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "星座名"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:617
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "星座名をオン/オフ"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:619
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "星座境界"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:621
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "星座境界をオン/オフ"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:623
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:625
 #, fuzzy, kde-kuit-format
 #| msgid "Toggle constellation names"
 msgid "Toggle constellation art (BETA)"
 msgstr "星座名をオン/オフ"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:627
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "天の川"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:629
 #, kde-format
 msgid "Toggle milky way"
 msgstr "天の川をオン/オフ"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:631
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "赤道座標"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:633
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Toggle equatorial coordinate grid"
 msgstr "座標グリッドをオン/オフ"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:635
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "地平座標"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:637
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Toggle horizontal coordinate grid"
 msgstr "座標グリッドをオン/オフ"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:639
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "地面"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:641
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "地面の不透明表示をオン/オフ"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:643
 #, fuzzy, kde-format
 #| msgid "Set time:"
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "入りの時刻:"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:645
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Toggle daytime simulation"
 msgstr "フラグをオン/オフ"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:647
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "フラグ"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:649
 #, kde-format
 msgid "Toggle flags"
 msgstr "フラグをオン/オフ"
 
-#: kstarsinit.cpp:637
+#: kstarsinit.cpp:651
 #, fuzzy, kde-format
 #| msgid "Satellite Track"
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "衛星の軌道"
 
-#: kstarsinit.cpp:639
+#: kstarsinit.cpp:653
 #, fuzzy, kde-format
 #| msgid "Toggle constellation lines"
 msgid "Toggle satellites"
 msgstr "星座線をオン/オフ"
 
-#: kstarsinit.cpp:641
+#: kstarsinit.cpp:655
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "超新星の残骸"
 
-#: kstarsinit.cpp:643
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 #| msgid "Toggle stars"
 msgid "Toggle supernovae"
 msgstr "恒星をオン/オフ"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:659
 #, fuzzy, kde-format
 #| msgid "What's up Tonight..."
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "今夜の星空..."
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:661
 #, fuzzy, kde-format
 #| msgid "What's up Tonight..."
 msgid "Toggle What's Interesting"
 msgstr "今夜の星空..."
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:666
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "バッチモード"
 
-#: kstarsinit.cpp:654
+#: kstarsinit.cpp:668
 #, fuzzy, kde-format
 #| msgid "Toggle stars"
 msgid "Toggle Ekos"
 msgstr "恒星をオン/オフ"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:670
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "INDI コントロールパネル"
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:672
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle INDI Control Panel"
 msgstr "INDI コントロールパネル"
 
-#: kstarsinit.cpp:661
+#: kstarsinit.cpp:675
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "KStars FITS ビューアへようこそ"
 
-#: kstarsinit.cpp:663
+#: kstarsinit.cpp:677
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Toggle FITS Viewer"
 msgstr "KStars FITS ビューアへようこそ"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:681
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "FOV 記号なし"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:683
 #, fuzzy, kde-format
 #| msgid "Toggle stars"
 msgid "Toggle Sensor FOV"
 msgstr "恒星をオン/オフ"
 
-#: kstarsinit.cpp:674
+#: kstarsinit.cpp:688
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr ""
 
-#: kstarsinit.cpp:676
+#: kstarsinit.cpp:690
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mosaic Panel"
 msgstr "INDI コントロールパネル"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:695
 #, fuzzy, kde-format
 #| msgctxt "City in Quebec Canada"
 #| msgid "Montreal"
@@ -83666,88 +83672,88 @@ msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "モントリオール"
 
-#: kstarsinit.cpp:683
+#: kstarsinit.cpp:697
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mount Control Panel"
 msgstr "INDI コントロールパネル"
 
-#: kstarsinit.cpp:687
+#: kstarsinit.cpp:701
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "望遠鏡の中心に"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:703
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Lock Telescope Center"
 msgstr "電波望遠鏡の直径:"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:707
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Telescope Tracking"
 msgstr "電波望遠鏡の直径:"
 
-#: kstarsinit.cpp:697
+#: kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "Select object..."
 msgid "Slew telescope to the focused object"
 msgstr "天体を選択..."
 
-#: kstarsinit.cpp:701
+#: kstarsinit.cpp:715
 #, fuzzy, kde-format
 #| msgid "Select object..."
 msgid "Sync telescope to the focused object"
 msgstr "天体を選択..."
 
-#: kstarsinit.cpp:705
+#: kstarsinit.cpp:719
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Abort telescope motions"
 msgstr "望遠鏡"
 
-#: kstarsinit.cpp:710
+#: kstarsinit.cpp:724
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Park telescope"
 msgstr "望遠鏡"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:728
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid "Unpark telescope"
 msgstr "望遠鏡の中心に"
 
-#: kstarsinit.cpp:720
+#: kstarsinit.cpp:734
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "天球図に望遠鏡の位置を表示"
 
-#: kstarsinit.cpp:723
+#: kstarsinit.cpp:737
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "天球図に望遠鏡の位置を表示"
 
-#: kstarsinit.cpp:730
+#: kstarsinit.cpp:744
 #, fuzzy, kde-format
 #| msgctxt "Show the selected object in the telescope"
 #| msgid "Scope"
 msgid "Park dome"
 msgstr "望遠鏡"
 
-#: kstarsinit.cpp:734
+#: kstarsinit.cpp:748
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
 #| msgid "Parkes"
 msgid "Unpark dome"
 msgstr "パークス"
 
-#: kstarsinit.cpp:756
+#: kstarsinit.cpp:770
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83757,7 +83763,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:779
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83767,7 +83773,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:770
+#: kstarsinit.cpp:784
 #, fuzzy, kde-format
 #| msgctxt "City in United Kingdom"
 #| msgid "Gibraltar"
@@ -83776,7 +83782,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "ジブラルタル"
 
-#: kstarsinit.cpp:774
+#: kstarsinit.cpp:788
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83785,7 +83791,7 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:781
+#: kstarsinit.cpp:795
 #, fuzzy, kde-format
 #| msgctxt "Map projection method"
 #| msgid "No projection"
@@ -83793,7 +83799,7 @@ msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "投影法なし"
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:799
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83801,7 +83807,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr ""
 
-#: kstarsinit.cpp:791
+#: kstarsinit.cpp:805
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -83810,7 +83816,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "方位または目標の天体"
 
-#: kstarsinit.cpp:795
+#: kstarsinit.cpp:809
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83822,7 +83828,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:801
+#: kstarsinit.cpp:815
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -83831,7 +83837,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "方位または目標の天体"
 
-#: kstarsinit.cpp:805
+#: kstarsinit.cpp:819
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83843,7 +83849,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:829
+#: kstarsinit.cpp:843
 #, fuzzy, kde-format
 #| msgctxt "City in United Kingdom"
 #| msgid "Gibraltar"
@@ -83851,40 +83857,40 @@ msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "ジブラルタル"
 
-#: kstarsinit.cpp:832
+#: kstarsinit.cpp:846
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Edit Views..."
 msgstr "リンクを編集..."
 
-#: kstarsinit.cpp:859
+#: kstarsinit.cpp:873
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "FOV 記号を編集..."
 
-#: kstarsinit.cpp:896
+#: kstarsinit.cpp:910
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "HiPS Settings..."
 msgstr "現在の色設定"
 
-#: kstarsinit.cpp:903
+#: kstarsinit.cpp:917
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " KStars へようこそ "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
+#: kstarsinit.cpp:1014 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
 msgstr "なし"
 
-#: kstarsinit.cpp:1055 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1069 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "初期位置が地平線より下です"
 
-#: kstarsinit.cpp:1057 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1071 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -83894,17 +83900,17 @@ msgstr ""
 "標準の位置にリセットしますか？|/|$[set-answers yes '位置をリセットする(&Y)' "
 "no 'リセットしない(&N)']"
 
-#: kstarsinit.cpp:1058
+#: kstarsinit.cpp:1072
 #, kde-format
 msgid "Reset Position"
 msgstr "位置をリセット"
 
-#: kstarsinit.cpp:1059
+#: kstarsinit.cpp:1073
 #, kde-format
 msgid "Do Not Reset"
 msgstr "リセットしない"
 
-#: kstarsinit.cpp:1124
+#: kstarsinit.cpp:1138
 #, kde-format
 msgid "&Themes"
 msgstr ""
@@ -88994,14 +89000,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:112
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:142
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -89009,7 +89015,7 @@ msgid ""
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -89020,420 +89026,420 @@ msgid ""
 "%3"
 msgstr ""
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Original Author"
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:152
+#: main.cpp:153
 #, fuzzy, kde-format
 #| msgctxt "Region/state in France"
 #| msgid "Charente-Maritime"
 msgid "Current Maintainer"
 msgstr "シャラント＝マリティーム県"
 
-#: main.cpp:156
+#: main.cpp:157
 #, kde-format
 msgid "Akarsh Simha"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:159
 #, fuzzy, kde-format
 #| msgctxt "City in New Hampshire USA"
 #| msgid "Lancaster"
 msgid "Robert Lancaster"
 msgstr "ランカスター"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:162
+#: main.cpp:163
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
 msgstr "観測リスト"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "観測リスト"
 
-#: main.cpp:166
+#: main.cpp:167
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
 msgstr "観測リスト"
 
-#: main.cpp:168
+#: main.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "City in Colorado USA"
 #| msgid "Mount Evans Obs."
 msgid "John Evans"
 msgstr "エヴァンズ山観測所"
 
-#: main.cpp:169
+#: main.cpp:170
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Focus algorithms & Livestacking"
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: main.cpp:170
+#: main.cpp:171
 #, kde-format
 msgid "Tony Schriber"
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:174
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:175
+#: main.cpp:176
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Lite"
 msgstr "KStars"
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:179
+#: main.cpp:180
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:181
+#: main.cpp:182
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:183
+#: main.cpp:184
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:184
+#: main.cpp:185
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:185
+#: main.cpp:186
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:187
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr ""
 
-#: main.cpp:188
+#: main.cpp:189
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:191
 #, kde-format
 msgid "Prakash Mohan"
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Victor Cărbune"
 msgstr ""
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Henry de Valence"
 msgstr ""
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr ""
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Andreas Ruthner"
 msgstr ""
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr ""
 
-#: main.cpp:200
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Kristiansand"
 msgid "Christian Kemper"
 msgstr "クリスティアンサン"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
 
-#: main.cpp:201
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgid "Thomas Kabelmann"
 msgid "Thomas Nemer"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Ekos MCP server and AI skills."
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr ""
 
-#: main.cpp:204
+#: main.cpp:205
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:206
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr ""
 
-#: main.cpp:206
+#: main.cpp:207
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:211
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:211
+#: main.cpp:212
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Daniel's Harbour"
 msgid "Daniel Holler"
 msgstr "ダニエルズハーバー"
 
-#: main.cpp:212
+#: main.cpp:213
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:214
+#: main.cpp:215
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "セントルシア"
 
-#: main.cpp:215
+#: main.cpp:216
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:216
+#: main.cpp:217
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:217
+#: main.cpp:218
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:219
+#: main.cpp:220
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Patrick Molenaar"
 msgstr "枚数:"
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr ""
 
-#: main.cpp:220
+#: main.cpp:221
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Supernovae daily updates"
 msgstr "超新星の残骸"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Joseph McGee"
 msgstr ""
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:222
+#: main.cpp:223
 #, fuzzy, kde-format
 #| msgid "Projection"
 msgid "Project Nayuki"
 msgstr "投影法"
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "QR Code generator library (MIT)"
 msgstr ""
 
-#: main.cpp:233
+#: main.cpp:234
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "天空画像をファイルに出力"
 
-#: main.cpp:234
+#: main.cpp:235
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "実行スクリプト"
 
-#: main.cpp:235
+#: main.cpp:236
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "天空画像の幅"
 
-#: main.cpp:236
+#: main.cpp:237
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "天空画像の高さ"
 
-#: main.cpp:237
+#: main.cpp:238
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "日付と時刻"
 
-#: main.cpp:238
+#: main.cpp:239
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "停止中の時計を再開"
 
-#: main.cpp:239
+#: main.cpp:240
 #, kde-format
 msgid "Run Live Stacker standalone mode"
 msgstr ""
 
-#: main.cpp:242
+#: main.cpp:243
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:288 printing/foveditordialog.cpp:176
+#: main.cpp:289 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "%1 の画像フォーマットを解析できませんでした: PNG と見なします。"
 
-#: main.cpp:346
+#: main.cpp:347
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "CPU の日付/時刻を使います。"
 
-#: main.cpp:377
+#: main.cpp:378
 #, kde-format
 msgid "Script executed."
 msgstr "スクリプトを実行しました。"
 
-#: main.cpp:381
+#: main.cpp:382
 #, kde-format
 msgid "Could not execute script."
 msgstr "スクリプトを実行できませんでした。"
 
-#: main.cpp:405
+#: main.cpp:406
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "CPU の日付/時刻を使います。"

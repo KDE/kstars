@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 02:16+0000\n"
+"POT-Creation-Date: 2026-09-22 18:34+0000\n"
 "PO-Revision-Date: 2026-09-18 08:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -187,7 +187,7 @@ msgstr "Видимі супутники"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1145
+#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1148
 #: kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
@@ -201,7 +201,7 @@ msgstr "Мітки супутників"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1148
+#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1151
 #: kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
@@ -478,14 +478,14 @@ msgid "Save Image"
 msgstr "Збереження зображення"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1414
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Файл з назвою «%1» вже існує. Перезаписати?"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1415
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
@@ -607,7 +607,7 @@ msgstr "Скасувати"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
+#: kstarsactions.cpp:510 kstarsactions.cpp:518 kstarsactions.cpp:528
 #: skycomponents/imageoverlaycomponent.cpp:568
 #, kde-format
 msgid "Error"
@@ -1797,21 +1797,21 @@ msgid "&Edit"
 msgstr "З&міни"
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:25 data/kstarsui.rc:44
+#: data/fitsviewerui.rc:25 data/kstarsui.rc:45
 #, kde-format
 msgid "&View"
 msgstr "П&ерегляд"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:54 data/kstarsui.rc:147 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:54 data/kstarsui.rc:148 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "&Довідка"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:68 data/kstarsui.rc:161
+#: data/fitsviewerui.rc:68 data/kstarsui.rc:162
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Головний пенал"
@@ -1823,91 +1823,91 @@ msgid "Process ToolBar"
 msgstr "Панель інструментів обробки"
 
 #. i18n: ectx: Menu (time)
-#: data/kstarsui.rc:21
+#: data/kstarsui.rc:22
 #, kde-format
 msgid "T&ime"
 msgstr "&Час"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:31
+#: data/kstarsui.rc:32
 #, kde-format
 msgid "&Pointing"
 msgstr "&Фокус"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:59
+#: data/kstarsui.rc:60
 #, kde-format
 msgid "&Projection"
 msgstr "&Проєкція"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Tools"
 msgstr "&Інструменти"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:72
+#: data/kstarsui.rc:73
 #, kde-format
 msgid "&Devices"
 msgstr "&Пристрої"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, kde-format
 msgid "&Data"
 msgstr "&Дані"
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:101
+#: data/kstarsui.rc:102
 #, kde-format
 msgid "&Updates"
 msgstr "&Оновлення"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:108
+#: data/kstarsui.rc:109
 #, kde-format
 msgid "&Observation"
 msgstr "&Спостереження"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Settings"
 msgstr "П&араметри"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:116
+#: data/kstarsui.rc:117
 #, kde-format
 msgid "&Info Boxes"
 msgstr "&Інформація"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:124
+#: data/kstarsui.rc:125
 #, kde-format
 msgid "&Statusbar"
 msgstr "С&мужка стану"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:179
+#: data/kstarsui.rc:180
 #, kde-format
 msgid "View Toolbar"
 msgstr "Панель перегляду"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:198
+#: data/kstarsui.rc:199
 #, kde-format
 msgid "INDI Toolbar"
 msgstr "Панель інструментів INDI"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:208
+#: data/kstarsui.rc:209
 #, kde-format
 msgid "Telescope Toolbar"
 msgstr "Панель телескопа"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:219
+#: data/kstarsui.rc:220
 #, kde-format
 msgid "Dome Toolbar"
 msgstr "Панель купола"
@@ -2078,7 +2078,7 @@ msgstr "Стан:"
 msgid "Idle"
 msgstr "Бездіяльність"
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:476
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:490
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "Цікаві об'єкти…"
@@ -3008,7 +3008,7 @@ msgstr "Прив'язка типу"
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
 #: ekos/capture/cameraprocess.cpp:2506 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
-#: fitsviewer/fitsviewer.cpp:839 fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, kde-format
 msgid "Preview"
 msgstr "Переглянути"
@@ -3445,7 +3445,7 @@ msgid "Clone..."
 msgstr "Клонувати…"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
 #, kde-format
 msgid "Colors"
 msgstr "Кольори"
@@ -3745,7 +3745,7 @@ msgstr "Посилання"
 msgid "Could not add the link."
 msgstr "Не вдалося додати посилання."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
 #, kde-format
 msgid "Advanced"
 msgstr "Додаткові"
@@ -3798,7 +3798,7 @@ msgid "Could not update the user log."
 msgstr "Не вдалося оновити журнал користувача."
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:326 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
@@ -3806,7 +3806,7 @@ msgid "No connected mounts found."
 msgstr "Не знайдено з'єднаних лафетів."
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
-#: kstarsactions.cpp:308 tools/observinglist.cpp:701
+#: kstarsactions.cpp:311 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4412,7 +4412,7 @@ msgid "Any"
 msgstr "Будь-які"
 
 #: dialogs/finddialog.cpp:38 dialogs/skyobjectsearchadapter.cpp:97
-#: kstarsactions.cpp:1142 kstarsinit.cpp:508
+#: kstarsactions.cpp:1145 kstarsinit.cpp:522
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -7147,7 +7147,7 @@ msgstr "Не вдалося виконати запис до файла %1"
 #: ekos/scheduler/schedulerprocess.cpp:3464
 #: ekos/scheduler/schedulerprocess.cpp:4605
 #: ekos/scheduler/schedulerprocess.cpp:4625 indi/drivermanager.cpp:1589
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1463 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -11003,7 +11003,7 @@ msgid "Stop the current plate solving run."
 msgstr "Зупинити поточне розв'язування знімка."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
-#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:490
+#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:504
 #, kde-format
 msgid "Push-To Assistant"
 msgstr "Помічник виштовхування"
@@ -13657,7 +13657,7 @@ msgid "Log INDI devices activity"
 msgstr "Записувати до журналу дії із пристроями INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -13671,7 +13671,7 @@ msgstr "Записувати до журналу дії з обробки FITS"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1168
+#: kstarsactions.cpp:1171
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -15201,7 +15201,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:889
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15780,7 +15780,7 @@ msgstr "Бібл. т. кадрів"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:170
+#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:171
 #, kde-format
 msgid "Rotator Control"
 msgstr "Керування обертанням"
@@ -17319,7 +17319,7 @@ msgstr "Загалом"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1178 kstarsinit.cpp:486
+#: kstarsactions.cpp:1181 kstarsinit.cpp:500
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -27513,7 +27513,7 @@ msgid "Remove profile"
 msgstr "Вилучити профіль"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:548
+#: ekos/manager.ui:272 kstarsinit.cpp:562
 #, kde-format
 msgid "Custom Drivers..."
 msgstr "Нетипові драйвери…"
@@ -27537,7 +27537,7 @@ msgid "Ekos Live..."
 msgstr "Ekos Live…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:551
+#: ekos/manager.ui:420 kstarsinit.cpp:565
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Панель керування INDI…"
@@ -34744,7 +34744,7 @@ msgstr "Зсув за Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:63 fitsviewer/fitsviewer.cpp:610
-#: fitsviewer/fitsviewer.cpp:1872
+#: fitsviewer/fitsviewer.cpp:1878
 #, kde-format
 msgid "Ready."
 msgstr "Готово."
@@ -35669,7 +35669,7 @@ msgstr "Мітка типу"
 msgid "Distance"
 msgstr "Відстань"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1643
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1649
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -35892,13 +35892,13 @@ msgid "View Star Profile..."
 msgstr "Переглянути профіль зірки…"
 
 #: fitsviewer/fitsview.cpp:2954 fitsviewer/fitsviewer.cpp:262
-#: fitsviewer/fitsviewer.cpp:1560
+#: fitsviewer/fitsviewer.cpp:1566
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Показувати екваторіальні лінії сітки"
 
 #: fitsviewer/fitsview.cpp:2960 fitsviewer/fitsviewer.cpp:269
-#: fitsviewer/fitsviewer.cpp:1562
+#: fitsviewer/fitsviewer.cpp:1568
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Показувати об'єкти на зображенні"
@@ -35964,12 +35964,12 @@ msgstr "Віддзеркалити горизонтально"
 msgid "Flip Vertical"
 msgstr "Віддзеркалити вертикально"
 
-#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:173
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Відкрити/Переглянути каталог"
 
-#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:167
+#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:181
 #, kde-format
 msgid "Live Stacker..."
 msgstr "Інтерактивне стосування…"
@@ -35989,7 +35989,7 @@ msgstr "С&татистика позначеного"
 msgid "Show Clipping"
 msgstr "Показати зрізання"
 
-#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1571
+#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1577
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -36038,18 +36038,18 @@ msgstr "Збільшити на усіх вкладках"
 msgid "Zoom all tabs out"
 msgstr "Зменшити на усіх вкладках"
 
-#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1845
+#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1851
 #, kde-format
 msgid "Mark Stars"
 msgstr "Позначити зірки"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:946
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:1814
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Переглянути просторовий графік"
 
-#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1163 kstars.cpp:66
+#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1169 kstars.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
@@ -36094,89 +36094,89 @@ msgstr[3] "РПП:%2, %1 зірка."
 msgid "Right click to change tab title."
 msgstr "Клацніть правою кнопкою миші, щоб змінити заголовок вкладки."
 
-#: fitsviewer/fitsviewer.cpp:791
+#: fitsviewer/fitsviewer.cpp:797
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "Не вдалося знайти вкладку із UID %1 у засобі перегляду FITS"
 
-#: fitsviewer/fitsviewer.cpp:928
+#: fitsviewer/fitsviewer.cpp:934
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Просторовий графік поточного перегляду"
 
-#: fitsviewer/fitsviewer.cpp:929 fitsviewer/fitsviewer.cpp:1716
+#: fitsviewer/fitsviewer.cpp:935 fitsviewer/fitsviewer.cpp:1722
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Перехрестя"
 
-#: fitsviewer/fitsviewer.cpp:930 fitsviewer/fitsviewer.cpp:1730
+#: fitsviewer/fitsviewer.cpp:936 fitsviewer/fitsviewer.cpp:1736
 #, kde-format
 msgid "Clipping"
 msgstr "Зрізання"
 
-#: fitsviewer/fitsviewer.cpp:931 fitsviewer/fitsviewer.cpp:1743
+#: fitsviewer/fitsviewer.cpp:937 fitsviewer/fitsviewer.cpp:1749
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Екваторіальні лінії сітки"
 
-#: fitsviewer/fitsviewer.cpp:932 fitsviewer/fitsviewer.cpp:1782
+#: fitsviewer/fitsviewer.cpp:938 fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Objects in Image"
 msgstr "Об'єкти на зображенні"
 
-#: fitsviewer/fitsviewer.cpp:933 fitsviewer/fitsviewer.cpp:1795
+#: fitsviewer/fitsviewer.cpp:939 fitsviewer/fitsviewer.cpp:1801
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Піксельні лінії сітки"
 
-#: fitsviewer/fitsviewer.cpp:934 fitsviewer/fitsviewer.cpp:1756
+#: fitsviewer/fitsviewer.cpp:940 fitsviewer/fitsviewer.cpp:1762
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Накладка HiPS"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Перегляд верхнього каталогу"
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1141
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Відкрити зображення"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, kde-format
 msgid "Stacking..."
 msgstr "Стосування…"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1229
 #, kde-format
 msgid "Stacking Failed"
 msgstr "Невдале стосування"
 
-#: fitsviewer/fitsviewer.cpp:1241
+#: fitsviewer/fitsviewer.cpp:1247
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Стосування завершено"
 
-#: fitsviewer/fitsviewer.cpp:1253
+#: fitsviewer/fitsviewer.cpp:1259
 #, kde-format
 msgid "Stacking Stopped"
 msgstr "Стосування зупинено"
 
-#: fitsviewer/fitsviewer.cpp:1537
+#: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Hide %1"
 msgstr "Приховати %1"
 
-#: fitsviewer/fitsviewer.cpp:1542
+#: fitsviewer/fitsviewer.cpp:1548
 #, kde-format
 msgid "Show %1"
 msgstr "Показати %1"
 
-#: fitsviewer/fitsviewer.cpp:1566
+#: fitsviewer/fitsviewer.cpp:1572
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -36185,7 +36185,7 @@ msgstr ""
 "Центрування телескопа\n"
 "*Готовність*"
 
-#: fitsviewer/fitsviewer.cpp:1578
+#: fitsviewer/fitsviewer.cpp:1584
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -36194,7 +36194,7 @@ msgstr ""
 "Показ екваторіальної сітки\n"
 "*Немає даних WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1580
+#: fitsviewer/fitsviewer.cpp:1586
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -36203,7 +36203,7 @@ msgstr ""
 "Центрування телескопа\n"
 "*Немає даних WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1582
+#: fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -36212,31 +36212,31 @@ msgstr ""
 "Показ об'єктів на зображенні\n"
 "*Немає даних WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1614 fitsviewer/fitsviewer.cpp:1769
+#: fitsviewer/fitsviewer.cpp:1620 fitsviewer/fitsviewer.cpp:1775
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Прямокутник позначення"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1657 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, kde-format
 msgid "Width"
 msgstr "Ширина"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1658 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, kde-format
 msgid "Height"
 msgstr "Висота"
 
-#: fitsviewer/fitsviewer.cpp:1850
+#: fitsviewer/fitsviewer.cpp:1856
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Зняти позначення з зірок"
 
-#: fitsviewer/fitsviewer.cpp:1866
+#: fitsviewer/fitsviewer.cpp:1872
 #, kde-format
 msgid "Processing %1..."
 msgstr "Обробляємо %1…"
@@ -40001,7 +40001,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Показати знімок DSS"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1003
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1017
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:634
@@ -40198,32 +40198,32 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:300
+#: kstars.cpp:302
 #, kde-format
 msgid "KStars Live Stacker"
 msgstr "Інтерактивний стосувальник KStars"
 
-#: kstars.cpp:301
+#: kstars.cpp:303
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr "© Команда KStars, 2025"
 
-#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:464
+#: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Зупинити стеження"
 
-#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:278
+#: kstars.cpp:438 kstarsactions.cpp:1847 kstarsinit.cpp:292
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Перегляд небесного глобуса (&екваторіальні координати)"
 
-#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:279
+#: kstars.cpp:439 kstarsactions.cpp:1828 kstarsinit.cpp:293
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Горизонтальний перегляд (горизонтальні &координати)"
@@ -81938,12 +81938,12 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Інше"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:223
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "Ефекти рефракції вимкнено"
 
-#: kstarsactions.cpp:221
+#: kstarsactions.cpp:224
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
@@ -81951,34 +81951,34 @@ msgid ""
 msgstr ""
 "У разі вимикання показу горизонту ефекти рефракції буде тимчасово вимкнено."
 
-#: kstarsactions.cpp:508
+#: kstarsactions.cpp:511
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "Дані каталогу «%1» пошкоджено."
 
-#: kstarsactions.cpp:516
+#: kstarsactions.cpp:519
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 "Дані каталогу «%1» пошкоджено.<br>Мало бути отримано id=%2, маємо id=%3"
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:529
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "Не вдалося імпортувати каталог «%1»<br>%2"
 
-#: kstarsactions.cpp:583
+#: kstarsactions.cpp:586
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Параметри світлового забруднення"
 
-#: kstarsactions.cpp:585
+#: kstarsactions.cpp:588
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Параметри обладнання — тип і характеристики обладнання"
 
-#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
-#: kstarsactions.cpp:813
+#: kstarsactions.cpp:697 kstarsactions.cpp:734 kstarsactions.cpp:777
+#: kstarsactions.cpp:816
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -81987,7 +81987,7 @@ msgstr ""
 "Не вдалося знайти сервер INDI. Будь ласка, переконайтеся, що встановлено "
 "пакунок, який містить виконуваний файл «indiserver»."
 
-#: kstarsactions.cpp:748
+#: kstarsactions.cpp:751
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -81997,86 +81997,86 @@ msgstr ""
 "певний технічний досвід. Ним не можна користуватися у поєднанні із Ekos. Ви "
 "хочете відкрити вікно засобу керування пристроями INDI попри це?"
 
-#: kstarsactions.cpp:751
+#: kstarsactions.cpp:754
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "Керування пристроями INDI"
 
-#: kstarsactions.cpp:1139
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Catalogs"
 msgstr "Каталоги"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1154
 #, kde-format
 msgid "Guides"
 msgstr "Підказки"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1157
 #, kde-format
 msgid "Terrain"
 msgstr "Ландшафт"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
 #, kde-format
 msgid "Image Overlays"
 msgstr "Зображення-накладки"
 
-#: kstarsactions.cpp:1187
+#: kstarsactions.cpp:1190
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1193
+#: kstarsactions.cpp:1196
 #, kde-format
 msgid "Developer"
 msgstr "Розробник"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:302
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Приховати ландшафт"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:303
 #, kde-format
 msgid "Show Terrain"
 msgstr "Показати ландшафт"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:307
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Приховати зображення-накладки"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:308
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Показати зображення-накладки"
 
-#: kstarsactions.cpp:1378
+#: kstarsactions.cpp:1400
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Експортування зображення"
 
-#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: kstarsactions.cpp:1446 tools/scriptbuilder.cpp:796
 #: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "скрипти KStars (*.kstars)"
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1454
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Підтримки віддаленого виконання скриптів не передбачено."
 
-#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1462 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Не вдалося відкрити файл %1"
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1487
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -82089,27 +82089,27 @@ msgstr ""
 "сценарій, можливо, не функціонуватиме належним чином, а може навіть містить "
 "шкідливий код. Все ж бажаєте його виконати?"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Помилка перевірки сценарію"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Запуск у будь-якому випадку"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1499
 #, kde-format
 msgid "Running script: %1"
 msgstr "Виконання сценарію: %1"
 
-#: kstarsactions.cpp:1494
+#: kstarsactions.cpp:1516
 #, kde-format
 msgid "Script finished."
 msgstr "Сценарій виконано."
 
-#: kstarsactions.cpp:1506
+#: kstarsactions.cpp:1528
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -82120,84 +82120,84 @@ msgstr ""
 "«Зоряна карта», що має біле тло. Чи бажаєте ви тимчасово перемкнутися на "
 "схему кольорів «Зоряна карта» для друку?"
 
-#: kstarsactions.cpp:1511
+#: kstarsactions.cpp:1533
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Перемикнутися на кольори «Зоряної карти»?"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Перемикач схему кольорів"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Не перемикатися"
 
-#: kstarsactions.cpp:1573
+#: kstarsactions.cpp:1595
 #, kde-format
 msgid "Stop running clock in realtime"
 msgstr "Зупинити відлік у режимі реального часу"
 
-#: kstarsactions.cpp:1591 kstarsinit.cpp:206
+#: kstarsactions.cpp:1613 kstarsinit.cpp:220
 #, kde-format
 msgid "Run clock in realtime"
 msgstr "Відлік у режимі реального часу"
 
-#: kstarsactions.cpp:1635 kstarsinit.cpp:251
+#: kstarsactions.cpp:1657 kstarsinit.cpp:265
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&Почати стеження"
 
-#: kstarsactions.cpp:1749
+#: kstarsactions.cpp:1771
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Приблизне поле зору: %1°"
 
-#: kstarsactions.cpp:1754
+#: kstarsactions.cpp:1776
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Приблизне поле зору: %1'"
 
-#: kstarsactions.cpp:1760
+#: kstarsactions.cpp:1782
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Приблизне поле зору: %1\""
 
-#: kstarsactions.cpp:1777
+#: kstarsactions.cpp:1799
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Введіть бажаний кутовий розмір поля зору"
 
-#: kstarsactions.cpp:1778
+#: kstarsactions.cpp:1800
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Введіть кутовий розмір поля зору у градусах:"
 
-#: kstarsactions.cpp:1809 kstarsinit.cpp:752
+#: kstarsactions.cpp:1831 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Північ з&гори"
 
-#: kstarsactions.cpp:1812 kstarsinit.cpp:761
+#: kstarsactions.cpp:1834 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Північ в&низу"
 
-#: kstarsactions.cpp:1828 kstarsinit.cpp:752
+#: kstarsactions.cpp:1850 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Зеніт з&гори"
 
-#: kstarsactions.cpp:1831 kstarsinit.cpp:761
+#: kstarsactions.cpp:1853 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -82392,378 +82392,384 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Друк картини неба"
 
-#: kstarsinit.cpp:145
+#: kstarsinit.cpp:148
 #, kde-format
 msgid "Download New Data..."
 msgstr "Отримати нові дані…"
 
-#: kstarsinit.cpp:148
+#: kstarsinit.cpp:151
 #, kde-format
 msgid "Downloads new data"
 msgstr "Отримує нові дані"
 
-#: kstarsinit.cpp:155
+#: kstarsinit.cpp:158
 #, kde-format
 msgid "Open Image(s)..."
 msgstr "Відкрити зображення…"
 
-#: kstarsinit.cpp:171
+#: kstarsinit.cpp:162
+#, fuzzy, kde-format
+#| msgid "Recenter"
+msgid "Open &Recent"
+msgstr "Переобчислити центр"
+
+#: kstarsinit.cpp:185
 #, kde-format
 msgid "&Save Sky Image..."
 msgstr "&Зберегти зображення неба…"
 
-#: kstarsinit.cpp:178
+#: kstarsinit.cpp:192
 #, kde-format
 msgid "&Run Script..."
 msgstr "З&апустити сценарій…"
 
-#: kstarsinit.cpp:182
+#: kstarsinit.cpp:196
 #, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "&Майстер друку…"
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:205
 #, kde-format
 msgid "Set Time to &Now"
 msgstr "Встановити &поточний час"
 
-#: kstarsinit.cpp:195
+#: kstarsinit.cpp:209
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "&Встановити час…"
 
-#: kstarsinit.cpp:199
+#: kstarsinit.cpp:213
 #, kde-format
 msgid "Stop &Clock"
 msgstr "&Зупинити годинник"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, kde-format
 msgid "Resume Clock"
 msgstr "Відновити відлік"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, kde-format
 msgid "Stop Clock"
 msgstr "Зупинити відлік"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr "Зробити один крок вперед часовою шкалою"
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr "Зробити один крок назад часовою шкалою"
 
-#: kstarsinit.cpp:241
+#: kstarsinit.cpp:255
 #, kde-format
 msgid "&Zenith"
 msgstr "&Зеніт"
 
-#: kstarsinit.cpp:242
+#: kstarsinit.cpp:256
 #, kde-format
 msgid "&North"
 msgstr "&Північ"
 
-#: kstarsinit.cpp:243
+#: kstarsinit.cpp:257
 #, kde-format
 msgid "&East"
 msgstr "&Схід"
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:258
 #, kde-format
 msgid "&South"
 msgstr "&Південь"
 
-#: kstarsinit.cpp:245
+#: kstarsinit.cpp:259
 #, kde-format
 msgid "&West"
 msgstr "&Захід"
 
-#: kstarsinit.cpp:248
+#: kstarsinit.cpp:262
 #, kde-format
 msgid "&Find Object..."
 msgstr "З&найти об'єкт…"
 
-#: kstarsinit.cpp:255
+#: kstarsinit.cpp:269
 #, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "Вказати координати в&ручну…"
 
-#: kstarsinit.cpp:267
+#: kstarsinit.cpp:281
 #, kde-format
 msgid "&Default Zoom"
 msgstr "&Типовий масштаб"
 
-#: kstarsinit.cpp:270
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "&Встановити кут видимості…"
 
-#: kstarsinit.cpp:284
+#: kstarsinit.cpp:298
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr "Віддзеркалений перегляд"
 
-#: kstarsinit.cpp:298
+#: kstarsinit.cpp:312
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "Азимутальна &Ламберта з рівними площами"
 
-#: kstarsinit.cpp:301
+#: kstarsinit.cpp:315
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "&Азимутальна рівнодистантна"
 
-#: kstarsinit.cpp:304
+#: kstarsinit.cpp:318
 #, kde-format
 msgid "&Orthographic"
 msgstr "&Ортографічна"
 
-#: kstarsinit.cpp:307
+#: kstarsinit.cpp:321
 #, kde-format
 msgid "&Equirectangular"
 msgstr "&Циліндрична"
 
-#: kstarsinit.cpp:310
+#: kstarsinit.cpp:324
 #, kde-format
 msgid "&Stereographic"
 msgstr "&Стереографічна"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:327
 #, kde-format
 msgid "&Gnomonic"
 msgstr "&Гномонічна"
 
-#: kstarsinit.cpp:319
+#: kstarsinit.cpp:333
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Показувати &інформаційні написи"
 
-#: kstarsinit.cpp:324
+#: kstarsinit.cpp:338
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Показати панель &часу"
 
-#: kstarsinit.cpp:331
+#: kstarsinit.cpp:345
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "Показати панель &фокуса"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:352
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Показати панель &розташування"
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:359
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "Показати головну панель інструментів"
 
-#: kstarsinit.cpp:347
+#: kstarsinit.cpp:361
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "Панель інструментів перегляду"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:365
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Показати смужку стану"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:366
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "Показати азимут/висоту"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:367
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "Показати поле прямого сходження/схилення"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:368
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "Показати поле прямого сходження/схилення для J2000.0"
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:375
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "С&хеми кольорів"
 
-#: kstarsinit.cpp:362
+#: kstarsinit.cpp:376
 #, kde-format
 msgid "&Classic"
 msgstr "&Класичний"
 
-#: kstarsinit.cpp:363
+#: kstarsinit.cpp:377
 #, kde-format
 msgid "&Star Chart"
 msgstr "&Зоряна карта"
 
-#: kstarsinit.cpp:364
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&Night Vision"
 msgstr "Ні&чне небо"
 
-#: kstarsinit.cpp:365
+#: kstarsinit.cpp:379
 #, kde-format
 msgid "&Moonless Night"
 msgstr "&Безмісячна ніч"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:399
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "Рамки &поля зору"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:407
 #, kde-format
 msgid "&Views"
 msgstr "П&ерегляди"
 
-#: kstarsinit.cpp:401
+#: kstarsinit.cpp:415
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr "Накладка HiPS на усе небо"
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:422
 #, kde-format
 msgid "Skymap Orientation"
 msgstr "Орієнтація карти неба"
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:428
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "&Географічне…"
 
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:445
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "Майстер запуску…"
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:450
 #, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "Керування каталогами віддалених об'єктів"
 
-#: kstarsinit.cpp:440
+#: kstarsinit.cpp:454
 #, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "Оновити параметри орбіт комет"
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:456
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "Оновити параметри орбіт астероїдів"
 
-#: kstarsinit.cpp:444
+#: kstarsinit.cpp:458
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr "Оновити дані щодо наднових"
 
-#: kstarsinit.cpp:446
+#: kstarsinit.cpp:460
 #, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "Оновити параметри орбіт супутників"
 
-#: kstarsinit.cpp:450
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "Calculator"
 msgstr "Калькулятор"
 
-#: kstarsinit.cpp:460
+#: kstarsinit.cpp:474
 #, kde-format
 msgid "Observation Planner"
 msgstr "Планування спостереження"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:478
 #, kde-format
 msgid "Imaging Planner"
 msgstr "Планувальник зйомки"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:468 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:482 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Висота/час"
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:485
 #, kde-format
 msgid "What's up Tonight"
 msgstr "Вечірні події"
 
-#: kstarsinit.cpp:480
+#: kstarsinit.cpp:494
 #, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "Імітатор Сонячної системи XPlanet"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:482 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:496 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "Небесний календар"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:518
 #, kde-format
 msgid "Script Builder"
 msgstr "Створення сценаріїв"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:526
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "Місяці Юпітера"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:515 options/opsguides.ui:284
+#: kstarsinit.cpp:529 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "Прапорці"
 
-#: kstarsinit.cpp:518
+#: kstarsinit.cpp:532
 #, kde-format
 msgid "List your &Equipment..."
 msgstr "Створити список &обладнання…"
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:534
 #, kde-format
 msgid "Manage Observer..."
 msgstr "Керування спостерігачами…"
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:538
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr "Штучний горизонт…"
 
-#: kstarsinit.cpp:528
+#: kstarsinit.cpp:542
 #, kde-format
 msgid "Execute the Session Plan..."
 msgstr "Виконати план сеансу…"
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:546
 #, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "Годинний кут Полярної…"
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:553
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "Майстер налаштування телескопа…"
 
-#: kstarsinit.cpp:544
+#: kstarsinit.cpp:558
 #, kde-format
 msgid "Device Manager..."
 msgstr "Керування пристроями…"
 
-#: kstarsinit.cpp:567
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -82779,315 +82785,315 @@ msgstr ""
 "Якщо буде вказано часовий крок більший за 10 хвилин, зображення кадрів "
 "формуватиметься з інтервалом «X»."
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:590
 #, kde-format
 msgid "Time step control"
 msgstr "Керування часовим кроком"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:599
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Зірки"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:601
 #, kde-format
 msgid "Toggle stars"
 msgstr "Перемикач зірок"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:603
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "Далекі об'єкти"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:605
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "Перемикач віддалених об'єктів"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:607
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "Сонячна система"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:609
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "Перемикач об'єктів Сонячної системи"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:611
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "Лінії сузір'їв"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:613
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "Перемикач ліній сузір'їв"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:615
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Назви сузір'їв"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:617
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "Перемикач назв сузір'їв"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:619
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "Контури сузір'їв"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:621
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "Перемикач контурів сузір'їв"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:623
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr "Зображення сузір'їв (BETA)"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:625
 #, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "Перемикач зображень сузір'їв (BETA)"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:627
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "Чумацький Шлях"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:629
 #, kde-format
 msgid "Toggle milky way"
 msgstr "Перемикач Чумацького Шляху"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:631
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Сітка екваторіальних коорд."
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:633
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "Перемикач екваторіальної координатної сітки"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:635
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Сітка горизонтальних коорд."
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:637
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "Увімкнути або вимкнути показ горизонтальної координатної сітки"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:639
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Поверхня"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:641
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "Перемикач прозорості поверхні Землі"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:643
 #, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "День"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:645
 #, kde-format
 msgid "Toggle daytime simulation"
 msgstr "Увімкнути або вимкнути імітацію дня"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:647
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Прапорці"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:649
 #, kde-format
 msgid "Toggle flags"
 msgstr "Перемикач прапорців"
 
-#: kstarsinit.cpp:637
+#: kstarsinit.cpp:651
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Супутники"
 
-#: kstarsinit.cpp:639
+#: kstarsinit.cpp:653
 #, kde-format
 msgid "Toggle satellites"
 msgstr "Перемикач супутників"
 
-#: kstarsinit.cpp:641
+#: kstarsinit.cpp:655
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Наднові зірки"
 
-#: kstarsinit.cpp:643
+#: kstarsinit.cpp:657
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "Перемикач наднових"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:659
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "Цікаві об'єкти"
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:661
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr "Увімкнути або вимкнути показ списку «Цікаві об'єкти»"
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:666
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:654
+#: kstarsinit.cpp:668
 #, kde-format
 msgid "Toggle Ekos"
 msgstr "Увімкнути або вимкнути Ekos"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:670
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "Панель керування INDI"
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:672
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr "Перемикання панелі керування INDI"
 
-#: kstarsinit.cpp:661
+#: kstarsinit.cpp:675
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "Переглядач FITS"
 
-#: kstarsinit.cpp:663
+#: kstarsinit.cpp:677
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "Перемикання переглядача FITS"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:681
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "Поле зору датчика"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:683
 #, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "Перемикач поля зору датчика"
 
-#: kstarsinit.cpp:674
+#: kstarsinit.cpp:688
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "Панель мозаїки"
 
-#: kstarsinit.cpp:676
+#: kstarsinit.cpp:690
 #, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "Перемикання панелі мозаїки"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:695
 #, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Керування лафетом"
 
-#: kstarsinit.cpp:683
+#: kstarsinit.cpp:697
 #, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "Перемикання панелі керування лафетом"
 
-#: kstarsinit.cpp:687
+#: kstarsinit.cpp:701
 #, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Центрувати телескоп"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:703
 #, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "Увімкнути/Вимкнути центральне фіксування фокуса телескопа"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:707
 #, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "Увімкнути/Вимкнути стеження телескопом"
 
-#: kstarsinit.cpp:697
+#: kstarsinit.cpp:711
 #, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "Навести телескоп на об'єкт у фокусі"
 
-#: kstarsinit.cpp:701
+#: kstarsinit.cpp:715
 #, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "Синхронізувати телескоп із об'єктом у фокусі"
 
-#: kstarsinit.cpp:705
+#: kstarsinit.cpp:719
 #, kde-format
 msgid "Abort telescope motions"
 msgstr "Перервати рухи телескопа"
 
-#: kstarsinit.cpp:710
+#: kstarsinit.cpp:724
 #, kde-format
 msgid "Park telescope"
 msgstr "Паркувати телескоп"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:728
 #, kde-format
 msgid "Unpark telescope"
 msgstr "Зняти з паркування телескоп"
 
-#: kstarsinit.cpp:720
+#: kstarsinit.cpp:734
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Навести телескоп на позицію вказівника миші"
 
-#: kstarsinit.cpp:723
+#: kstarsinit.cpp:737
 #, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Синхронізувати телескоп із позицією вказівника миші"
 
-#: kstarsinit.cpp:730
+#: kstarsinit.cpp:744
 #, kde-format
 msgid "Park dome"
 msgstr "Запаркувати купол"
 
-#: kstarsinit.cpp:734
+#: kstarsinit.cpp:748
 #, kde-format
 msgid "Unpark dome"
 msgstr "Зняти з паркування купол"
 
-#: kstarsinit.cpp:756
+#: kstarsinit.cpp:770
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83101,7 +83107,7 @@ msgstr ""
 "координат) розташовано вертикально вгору. Це природній вибір для "
 "прямовисного телескопа пошуку або спостереження неозброєним оком."
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:779
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83116,14 +83122,14 @@ msgstr ""
 "інвертованого зображення у телескопі пошуку, рефракторі або телескопі "
 "Кассегрена без випрямної призми або добсоніанівському телескопі."
 
-#: kstarsinit.cpp:770
+#: kstarsinit.cpp:784
 #, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
 msgstr "Довільна"
 
-#: kstarsinit.cpp:774
+#: kstarsinit.cpp:788
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83135,13 +83141,13 @@ msgstr ""
 "за допомогою комбінації Shift + перетягування вказівника миші, з метою "
 "інформування вас про те, що орієнтація є довільною"
 
-#: kstarsinit.cpp:781
+#: kstarsinit.cpp:795
 #, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "Без виправлення"
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:799
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83151,7 +83157,7 @@ msgstr ""
 "Позначте цей пункт, якщо ви використовуєте камеру на телескопі або маєте "
 "змонтовану карту неба на вашому телескопі"
 
-#: kstarsinit.cpp:791
+#: kstarsinit.cpp:805
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -83159,7 +83165,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "Виправлення на висоту спостерігача, ліворуч"
 
-#: kstarsinit.cpp:795
+#: kstarsinit.cpp:809
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83178,7 +83184,7 @@ msgstr ""
 "разом із телескопом, око спостерігача цього не робить. Типово, має сенс у "
 "поєднанні із орієнтацією із нижнім розташуванням зеніту."
 
-#: kstarsinit.cpp:801
+#: kstarsinit.cpp:815
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -83186,7 +83192,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "Виправлення на висоту спостерігача, праворуч"
 
-#: kstarsinit.cpp:805
+#: kstarsinit.cpp:819
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -83205,44 +83211,44 @@ msgstr ""
 "разом із телескопом, око спостерігача цього не робить. Типово, має сенс у "
 "поєднанні із орієнтацією із нижнім розташуванням зеніту."
 
-#: kstarsinit.cpp:829
+#: kstarsinit.cpp:843
 #, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Довільний"
 
-#: kstarsinit.cpp:832
+#: kstarsinit.cpp:846
 #, kde-format
 msgid "Edit Views..."
 msgstr "Редагувати перегляди…"
 
-#: kstarsinit.cpp:859
+#: kstarsinit.cpp:873
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "Редагувати рамки поля зору…"
 
-#: kstarsinit.cpp:896
+#: kstarsinit.cpp:910
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "Параметри HiPS…"
 
-#: kstarsinit.cpp:903
+#: kstarsinit.cpp:917
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Ласкаво просимо до KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
+#: kstarsinit.cpp:1014 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
 msgstr "без назви"
 
-#: kstarsinit.cpp:1055 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1069 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "Початкова позиція знаходиться нижче горизонту"
 
-#: kstarsinit.cpp:1057 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1071 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -83251,17 +83257,17 @@ msgstr ""
 "Початкова позиція розташована нижче горизонту.\n"
 "Чи бажаєте ви повернутися до типової позиції?"
 
-#: kstarsinit.cpp:1058
+#: kstarsinit.cpp:1072
 #, kde-format
 msgid "Reset Position"
 msgstr "Очистити позицію"
 
-#: kstarsinit.cpp:1059
+#: kstarsinit.cpp:1073
 #, kde-format
 msgid "Do Not Reset"
 msgstr "Не очищувати"
 
-#: kstarsinit.cpp:1124
+#: kstarsinit.cpp:1138
 #, kde-format
 msgid "&Themes"
 msgstr "&Теми"
@@ -87682,7 +87688,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "тепло"
 
-#: main.cpp:111
+#: main.cpp:112
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
@@ -87691,7 +87697,7 @@ msgstr ""
 "Вибачте, без каталогу даних KStars програма не зможе працювати. Зараз "
 "програма завершує роботу."
 
-#: main.cpp:141
+#: main.cpp:142
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -87703,7 +87709,7 @@ msgstr ""
 "Алгоритм наведення за процесом Гауса: © Товариство імені Макса Планка, 2014–"
 "2017"
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -87719,401 +87725,401 @@ msgstr ""
 "\n"
 "%3"
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Jason Harris"
 msgstr "Джейсон Гарріс"
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Original Author"
 msgstr "Початковий автор"
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Хасем Мутлак"
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Current Maintainer"
 msgstr "Поточний супровідник"
 
-#: main.cpp:156
+#: main.cpp:157
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Акарш Сімха"
 
-#: main.cpp:158
+#: main.cpp:159
 #, kde-format
 msgid "Robert Lancaster"
 msgstr "Роберт Ланкастер"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr "Поліпшення FITSViewer та Ekos. Портування KStars на OS X"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Ерік Дежоуханет"
 
-#: main.cpp:162
+#: main.cpp:163
 #, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
 msgstr "Конвеєр CI/CD та поліпшення у планувальнику Ekos"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Поліпшення у планувальнику Ekos та керуванні обсерваторією"
 
-#: main.cpp:166
+#: main.cpp:167
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
 msgstr ""
 "Модуль аналізу, FITS, фокусування, удосконалення засобів наведення та "
 "планувальника"
 
-#: main.cpp:168
+#: main.cpp:169
 #, kde-format
 msgid "John Evans"
 msgstr "John Evans"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Focus algorithms & Livestacking"
 msgstr "Алгоритми фокусування та інтерактивне стосування"
 
-#: main.cpp:170
+#: main.cpp:171
 #, kde-format
 msgid "Tony Schriber"
 msgstr "Tony Schriber"
 
-#: main.cpp:173
+#: main.cpp:174
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Ксаба Кертеш"
 
-#: main.cpp:175
+#: main.cpp:176
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr "Двійковий список астероїдів, база даних віддалених об'єктів і каталоги"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Артем Федоскін"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "James Bowlin"
 msgstr "Джемс Боулін"
 
-#: main.cpp:179
+#: main.cpp:180
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Пабло де Вісенте"
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Томас Кабельман"
 
-#: main.cpp:181
+#: main.cpp:182
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Хайко Еверманн"
 
-#: main.cpp:183
+#: main.cpp:184
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Карстен Ніегаус"
 
-#: main.cpp:184
+#: main.cpp:185
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Марк Голомон"
 
-#: main.cpp:185
+#: main.cpp:186
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Алєксєй Худяков"
 
-#: main.cpp:186
+#: main.cpp:187
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "Медерік Бокен"
 
-#: main.cpp:188
+#: main.cpp:189
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "Жером Сонрьє"
 
-#: main.cpp:190
+#: main.cpp:191
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Пракаш Мохан"
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Віктор Карбуне"
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Анрі де Валенсе"
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Самікшан Байраг'я"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Рафаль Куляга"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Рішаб Арора"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Andreas Ruthner"
 msgstr "Andreas Ruthner"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr ""
 "Численні виправлення у наведенні, потоковому передаванні даних та "
 "планувальнику."
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Christian Kemper"
 msgstr "Christian Kemper"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr "Удосконалення майстра моделей лафетів. Перепланування бази даних міст."
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Thomas Nemer"
 msgstr "Thomas Nemer"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Ekos MCP server and AI skills."
 msgstr "Сервер MCP Ekos та можливості ШІ."
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Валєрій Харітонов"
 
-#: main.cpp:204
+#: main.cpp:205
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr "Перетворення міток з технічними термінами у посилання у документації"
 
-#: main.cpp:205
+#: main.cpp:206
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ана-Марія Константін"
 
-#: main.cpp:206
+#: main.cpp:207
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Технічна документація з астрономії та KStars"
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Нуно Пінейро"
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Artwork"
 msgstr "Графічні роботи"
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Уткарш Сімха"
 
-#: main.cpp:210
+#: main.cpp:211
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr "Покращення у виконанні плану спостережень, перехід між зірками тощо"
 
-#: main.cpp:211
+#: main.cpp:212
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Даніель Голлер"
 
-#: main.cpp:212
+#: main.cpp:213
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Ретельне тестування та пропозиції щодо Ekos/INDI."
 
-#: main.cpp:214
+#: main.cpp:215
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Стефан Лука"
 
-#: main.cpp:215
+#: main.cpp:216
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Ретельне тестування та пропозиції щодо засобу планування Ekos. Портування "
 "KStars на OS X."
 
-#: main.cpp:216
+#: main.cpp:217
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Юрій Фабіровський"
 
-#: main.cpp:217
+#: main.cpp:218
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Вікно вітання для звичайного KStars і KStars Lite."
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Джеймі Сміт"
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Портування KStars на OS X."
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Патрік Моленаар"
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Помічник фокусування за Бахтіновим."
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr "Philipp Auersperg-Castell"
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "Щоденні оновлення даних наднових"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Joseph McGee"
 msgstr "Joseph McGee"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 "Калькулятор підекспозиції на основі роботи д-ра Робіна Ґловера (Robin Glover)"
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "Project Nayuki"
 msgstr "Проєкт Nayuki"
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "QR Code generator library (MIT)"
 msgstr "Бібліотека для створення QR-кодів (MIT)"
 
-#: main.cpp:233
+#: main.cpp:234
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Зберегти зображення неба до файла."
 
-#: main.cpp:234
+#: main.cpp:235
 #, kde-format
 msgid "Script to execute."
 msgstr "Виконати сценарій."
 
-#: main.cpp:235
+#: main.cpp:236
 #, kde-format
 msgid "Width of sky image."
 msgstr "Ширина зображення неба."
 
-#: main.cpp:236
+#: main.cpp:237
 #, kde-format
 msgid "Height of sky image."
 msgstr "Висота зображення неба."
 
-#: main.cpp:237
+#: main.cpp:238
 #, kde-format
 msgid "Date and time."
 msgstr "Дата та час."
 
-#: main.cpp:238
+#: main.cpp:239
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Зупинити годинник після запуску."
 
-#: main.cpp:239
+#: main.cpp:240
 #, kde-format
 msgid "Run Live Stacker standalone mode"
 msgstr "Запускати автономний режим інтерактивного стосування"
 
-#: main.cpp:242
+#: main.cpp:243
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Файли FITS, які слід відкрити."
 
-#: main.cpp:288 printing/foveditordialog.cpp:176
+#: main.cpp:289 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Неможливо визначити формат зображення %1; припускається PNG."
 
-#: main.cpp:346
+#: main.cpp:347
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "Наданий рядок дати є некоректним: %1. Використовуємо замість нього системну "
 "дату та час."
 
-#: main.cpp:377
+#: main.cpp:378
 #, kde-format
 msgid "Script executed."
 msgstr "Сценарій виконано."
 
-#: main.cpp:381
+#: main.cpp:382
 #, kde-format
 msgid "Could not execute script."
 msgstr "Не вдається виконати сценарій."
 
-#: main.cpp:405
+#: main.cpp:406
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Використовувати системну дату та час."

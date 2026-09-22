@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 02:16+0000\n"
+"POT-Creation-Date: 2026-09-22 18:34+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -183,7 +183,7 @@ msgstr "可见卫星"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1145
+#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1148
 #: kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
@@ -197,7 +197,7 @@ msgstr "卫星标签"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1148
+#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1151
 #: kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
@@ -471,14 +471,14 @@ msgid "Save Image"
 msgstr "保存图像"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1414
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "名为“%1”的文件已经存在。覆盖吗？"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1415
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
@@ -600,7 +600,7 @@ msgstr "取消"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
+#: kstarsactions.cpp:510 kstarsactions.cpp:518 kstarsactions.cpp:528
 #: skycomponents/imageoverlaycomponent.cpp:568
 #, kde-format
 msgid "Error"
@@ -1769,21 +1769,21 @@ msgid "&Edit"
 msgstr "编辑(&E)"
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:25 data/kstarsui.rc:44
+#: data/fitsviewerui.rc:25 data/kstarsui.rc:45
 #, kde-format
 msgid "&View"
 msgstr "视图(&V)"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:54 data/kstarsui.rc:147 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:54 data/kstarsui.rc:148 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "帮助(&H)"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:68 data/kstarsui.rc:161
+#: data/fitsviewerui.rc:68 data/kstarsui.rc:162
 #, kde-format
 msgid "Main Toolbar"
 msgstr "主工具栏"
@@ -1795,91 +1795,91 @@ msgid "Process ToolBar"
 msgstr "进度工具栏"
 
 #. i18n: ectx: Menu (time)
-#: data/kstarsui.rc:21
+#: data/kstarsui.rc:22
 #, kde-format
 msgid "T&ime"
 msgstr "时间(&I)"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:31
+#: data/kstarsui.rc:32
 #, kde-format
 msgid "&Pointing"
 msgstr "指向(&P)"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:59
+#: data/kstarsui.rc:60
 #, kde-format
 msgid "&Projection"
 msgstr "投影(&P)"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Tools"
 msgstr "工具(&T)"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:72
+#: data/kstarsui.rc:73
 #, kde-format
 msgid "&Devices"
 msgstr "设备(&D)"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, kde-format
 msgid "&Data"
 msgstr "数据(&D)"
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:101
+#: data/kstarsui.rc:102
 #, kde-format
 msgid "&Updates"
 msgstr "更新(&U)"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:108
+#: data/kstarsui.rc:109
 #, kde-format
 msgid "&Observation"
 msgstr "观测(&O)"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Settings"
 msgstr "设置(&S)"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:116
+#: data/kstarsui.rc:117
 #, kde-format
 msgid "&Info Boxes"
 msgstr "信息框(&I)"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:124
+#: data/kstarsui.rc:125
 #, kde-format
 msgid "&Statusbar"
 msgstr "状态栏(&S)"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:179
+#: data/kstarsui.rc:180
 #, kde-format
 msgid "View Toolbar"
 msgstr "查看工具栏"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:198
+#: data/kstarsui.rc:199
 #, kde-format
 msgid "INDI Toolbar"
 msgstr "INDI 工具栏"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:208
+#: data/kstarsui.rc:209
 #, kde-format
 msgid "Telescope Toolbar"
 msgstr "望远镜工具栏"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:219
+#: data/kstarsui.rc:220
 #, kde-format
 msgid "Dome Toolbar"
 msgstr "圆顶工具栏"
@@ -2050,7 +2050,7 @@ msgstr "状态："
 msgid "Idle"
 msgstr "空闲"
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:476
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:490
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "有趣天体..."
@@ -2951,7 +2951,7 @@ msgstr "类型映射"
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
 #: ekos/capture/cameraprocess.cpp:2506 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
-#: fitsviewer/fitsviewer.cpp:839 fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, kde-format
 msgid "Preview"
 msgstr "预览"
@@ -3386,7 +3386,7 @@ msgid "Clone..."
 msgstr "复制..."
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
 #, kde-format
 msgid "Colors"
 msgstr "颜色"
@@ -3686,7 +3686,7 @@ msgstr "链接"
 msgid "Could not add the link."
 msgstr "未能添加该链接。"
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
 #, kde-format
 msgid "Advanced"
 msgstr "高级"
@@ -3739,7 +3739,7 @@ msgid "Could not update the user log."
 msgstr "未能更新用户日志。"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:326 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
@@ -3747,7 +3747,7 @@ msgid "No connected mounts found."
 msgstr "未找到已连接的支架。"
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
-#: kstarsactions.cpp:308 tools/observinglist.cpp:701
+#: kstarsactions.cpp:311 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4351,7 +4351,7 @@ msgid "Any"
 msgstr "任意"
 
 #: dialogs/finddialog.cpp:38 dialogs/skyobjectsearchadapter.cpp:97
-#: kstarsactions.cpp:1142 kstarsinit.cpp:508
+#: kstarsactions.cpp:1145 kstarsinit.cpp:522
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -6991,7 +6991,7 @@ msgstr "无法写入到文件 %1"
 #: ekos/scheduler/schedulerprocess.cpp:3464
 #: ekos/scheduler/schedulerprocess.cpp:4605
 #: ekos/scheduler/schedulerprocess.cpp:4625 indi/drivermanager.cpp:1589
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1463 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -10596,7 +10596,7 @@ msgid "Stop the current plate solving run."
 msgstr "停止当前平面解析。"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
-#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:490
+#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:504
 #, kde-format
 msgid "Push-To Assistant"
 msgstr "手动指向助手"
@@ -13068,7 +13068,7 @@ msgid "Log INDI devices activity"
 msgstr "记录 INDI 设备活动"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -13082,7 +13082,7 @@ msgstr "记录 FITS 处理的活动"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1168
+#: kstarsactions.cpp:1171
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -14513,7 +14513,7 @@ msgstr "在可能的多核心上运行多线程以快速解析的算法"
 #: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:889
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15065,7 +15065,7 @@ msgstr "暗场库"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:170
+#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:171
 #, kde-format
 msgid "Rotator Control"
 msgstr "场旋器控制"
@@ -16426,7 +16426,7 @@ msgstr "全部"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1178 kstarsinit.cpp:486
+#: kstarsactions.cpp:1181 kstarsinit.cpp:500
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -25864,7 +25864,7 @@ msgid "Remove profile"
 msgstr "删除配置文件"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:548
+#: ekos/manager.ui:272 kstarsinit.cpp:562
 #, kde-format
 msgid "Custom Drivers..."
 msgstr "自定义设备..."
@@ -25888,7 +25888,7 @@ msgid "Ekos Live..."
 msgstr "Ekos Live..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:551
+#: ekos/manager.ui:420 kstarsinit.cpp:565
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "INDI 控制面板..."
@@ -32692,7 +32692,7 @@ msgstr "Y 偏移量："
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:63 fitsviewer/fitsviewer.cpp:610
-#: fitsviewer/fitsviewer.cpp:1872
+#: fitsviewer/fitsviewer.cpp:1878
 #, kde-format
 msgid "Ready."
 msgstr "就绪。"
@@ -33613,7 +33613,7 @@ msgstr "类型标签"
 msgid "Distance"
 msgstr "距离"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1643
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1649
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -33830,13 +33830,13 @@ msgid "View Star Profile..."
 msgstr "查看星点资料..."
 
 #: fitsviewer/fitsview.cpp:2954 fitsviewer/fitsviewer.cpp:262
-#: fitsviewer/fitsviewer.cpp:1560
+#: fitsviewer/fitsviewer.cpp:1566
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "显示赤道网格线"
 
 #: fitsviewer/fitsview.cpp:2960 fitsviewer/fitsviewer.cpp:269
-#: fitsviewer/fitsviewer.cpp:1562
+#: fitsviewer/fitsviewer.cpp:1568
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "使用图像来显示对象"
@@ -33902,12 +33902,12 @@ msgstr "翻转 (水平)"
 msgid "Flip Vertical"
 msgstr "翻转 (垂直)"
 
-#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:173
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Open/Blink 目录"
 
-#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:167
+#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:181
 #, kde-format
 msgid "Live Stacker..."
 msgstr "实时堆叠器..."
@@ -33927,7 +33927,7 @@ msgstr "&选区统计"
 msgid "Show Clipping"
 msgstr "显示裁剪"
 
-#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1571
+#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1577
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -33976,18 +33976,18 @@ msgstr " 放大所有标签"
 msgid "Zoom all tabs out"
 msgstr "缩小所有标签"
 
-#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1845
+#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1851
 #, kde-format
 msgid "Mark Stars"
 msgstr "标记星点"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:946
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:1814
 #, kde-format
 msgid "View 3D Graph"
 msgstr "查看 3D 图像"
 
-#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1163 kstars.cpp:66
+#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1169 kstars.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
@@ -34026,89 +34026,89 @@ msgstr[0] "HFR:%2, %1 星。"
 msgid "Right click to change tab title."
 msgstr "右键单击更改标签标题。"
 
-#: fitsviewer/fitsviewer.cpp:791
+#: fitsviewer/fitsviewer.cpp:797
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "FITS 查看器中找不到 UID 为%1 的标签"
 
-#: fitsviewer/fitsviewer.cpp:928
+#: fitsviewer/fitsviewer.cpp:934
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "当前视图的 3D 图形"
 
-#: fitsviewer/fitsviewer.cpp:929 fitsviewer/fitsviewer.cpp:1716
+#: fitsviewer/fitsviewer.cpp:935 fitsviewer/fitsviewer.cpp:1722
 #, kde-format
 msgid "Cross Hairs"
 msgstr "交叉线"
 
-#: fitsviewer/fitsviewer.cpp:930 fitsviewer/fitsviewer.cpp:1730
+#: fitsviewer/fitsviewer.cpp:936 fitsviewer/fitsviewer.cpp:1736
 #, kde-format
 msgid "Clipping"
 msgstr "裁剪"
 
-#: fitsviewer/fitsviewer.cpp:931 fitsviewer/fitsviewer.cpp:1743
+#: fitsviewer/fitsviewer.cpp:937 fitsviewer/fitsviewer.cpp:1749
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "赤道网格线"
 
-#: fitsviewer/fitsviewer.cpp:932 fitsviewer/fitsviewer.cpp:1782
+#: fitsviewer/fitsviewer.cpp:938 fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Objects in Image"
 msgstr "图像中的天体"
 
-#: fitsviewer/fitsviewer.cpp:933 fitsviewer/fitsviewer.cpp:1795
+#: fitsviewer/fitsviewer.cpp:939 fitsviewer/fitsviewer.cpp:1801
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "像素网格线"
 
-#: fitsviewer/fitsviewer.cpp:934 fitsviewer/fitsviewer.cpp:1756
+#: fitsviewer/fitsviewer.cpp:940 fitsviewer/fitsviewer.cpp:1762
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HiPS 图层"
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Blink 顶部目录"
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1141
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "打开图像"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, kde-format
 msgid "Stacking..."
 msgstr "堆叠中..."
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1229
 #, kde-format
 msgid "Stacking Failed"
 msgstr "堆叠失败"
 
-#: fitsviewer/fitsviewer.cpp:1241
+#: fitsviewer/fitsviewer.cpp:1247
 #, kde-format
 msgid "Stacking Complete"
 msgstr "堆叠完成"
 
-#: fitsviewer/fitsviewer.cpp:1253
+#: fitsviewer/fitsviewer.cpp:1259
 #, kde-format
 msgid "Stacking Stopped"
 msgstr "堆叠暂停"
 
-#: fitsviewer/fitsviewer.cpp:1537
+#: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Hide %1"
 msgstr "隐藏 %1"
 
-#: fitsviewer/fitsviewer.cpp:1542
+#: fitsviewer/fitsviewer.cpp:1548
 #, kde-format
 msgid "Show %1"
 msgstr "显示%1"
 
-#: fitsviewer/fitsviewer.cpp:1566
+#: fitsviewer/fitsviewer.cpp:1572
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -34117,7 +34117,7 @@ msgstr ""
 "居中望远镜\n"
 "* 就绪 *"
 
-#: fitsviewer/fitsviewer.cpp:1578
+#: fitsviewer/fitsviewer.cpp:1584
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -34126,7 +34126,7 @@ msgstr ""
 "显示网格线赤道\n"
 "* 没有 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1580
+#: fitsviewer/fitsviewer.cpp:1586
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -34135,7 +34135,7 @@ msgstr ""
 "居中望远镜\n"
 "* 无 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1582
+#: fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -34144,31 +34144,31 @@ msgstr ""
 "使用图像显示对象\n"
 "* 没有 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1614 fitsviewer/fitsviewer.cpp:1769
+#: fitsviewer/fitsviewer.cpp:1620 fitsviewer/fitsviewer.cpp:1775
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "选区矩形"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1657 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, kde-format
 msgid "Width"
 msgstr "宽"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1658 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, kde-format
 msgid "Height"
 msgstr "高"
 
-#: fitsviewer/fitsviewer.cpp:1850
+#: fitsviewer/fitsviewer.cpp:1856
 #, kde-format
 msgid "Unmark Stars"
 msgstr "取消标记星点"
 
-#: fitsviewer/fitsviewer.cpp:1866
+#: fitsviewer/fitsviewer.cpp:1872
 #, kde-format
 msgid "Processing %1..."
 msgstr "正在处理 %1..."
@@ -37750,7 +37750,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "显示数字巡天(DSS)图像"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1003
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1017
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:634
@@ -37947,32 +37947,32 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:300
+#: kstars.cpp:302
 #, kde-format
 msgid "KStars Live Stacker"
 msgstr "KStars 实时堆叠器"
 
-#: kstars.cpp:301
+#: kstars.cpp:303
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr "© 2025 KStars Team"
 
-#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:464
+#: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "停止跟踪(&T)"
 
-#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:278
+#: kstars.cpp:438 kstarsactions.cpp:1847 kstarsinit.cpp:292
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
-#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:279
+#: kstars.cpp:439 kstarsactions.cpp:1828 kstarsinit.cpp:293
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "切换至水平视角（地平坐标）(&C)"
@@ -79029,45 +79029,45 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "其他"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:223
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "禁止折射效果"
 
-#: kstarsactions.cpp:221
+#: kstarsactions.cpp:224
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr "当关闭地平线的时候，折射效应将临时不可用。"
 
-#: kstarsactions.cpp:508
+#: kstarsactions.cpp:511
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "星表 \"%1\" 已损坏。"
 
-#: kstarsactions.cpp:516
+#: kstarsactions.cpp:519
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr "目录\"%1\" 已损坏。<br>期望 id=%2 但得到 id=%3"
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:529
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "无法导入星表 \"%1\"<br>%2"
 
-#: kstarsactions.cpp:583
+#: kstarsactions.cpp:586
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "光污染设置"
 
-#: kstarsactions.cpp:585
+#: kstarsactions.cpp:588
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "仪器设置 - 仪器类型与参数"
 
-#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
-#: kstarsactions.cpp:813
+#: kstarsactions.cpp:697 kstarsactions.cpp:734 kstarsactions.cpp:777
+#: kstarsactions.cpp:816
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -79075,7 +79075,7 @@ msgid ""
 msgstr ""
 "无法找到 INDI 服务器。请确认提供“indiserver”可执行文件的软件包已正确安装。"
 
-#: kstarsactions.cpp:748
+#: kstarsactions.cpp:751
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -79084,86 +79084,86 @@ msgstr ""
 "INDI 设备管理器只能被高级技术用户使用。 它不能与 Ekos一起使用。您仍然想打开 "
 "INDI 设备管理器吗？"
 
-#: kstarsactions.cpp:751
+#: kstarsactions.cpp:754
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "INDI 设备管理器"
 
-#: kstarsactions.cpp:1139
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Catalogs"
 msgstr "星表"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1154
 #, kde-format
 msgid "Guides"
 msgstr "指南"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1157
 #, kde-format
 msgid "Terrain"
 msgstr "地景"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
 #, kde-format
 msgid "Image Overlays"
 msgstr " 图像叠层"
 
-#: kstarsactions.cpp:1187
+#: kstarsactions.cpp:1190
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1193
+#: kstarsactions.cpp:1196
 #, kde-format
 msgid "Developer"
 msgstr "开发者"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:302
 #, kde-format
 msgid "Hide Terrain"
 msgstr "隐藏地景"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:303
 #, kde-format
 msgid "Show Terrain"
 msgstr "显示地景"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:307
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "隐藏图像图层"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:308
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "叠加图像图层"
 
-#: kstarsactions.cpp:1378
+#: kstarsactions.cpp:1400
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "导出图像"
 
-#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: kstarsactions.cpp:1446 tools/scriptbuilder.cpp:796
 #: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars 脚本 (*.kstars)"
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1454
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "不支持执行远程脚本。"
 
-#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1462 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "无法打开文件 %1"
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1487
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -79174,27 +79174,27 @@ msgstr ""
 "您选择的脚本还有难以识别的代码，这表明它不是使用 KStars 脚本编辑器编写的。这"
 "个脚本可能无法工作，甚至含有恶意代码。您是否坚决强制执行它？"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "脚本验证失败"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "强制执行"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1499
 #, kde-format
 msgid "Running script: %1"
 msgstr "正运行脚本：%1"
 
-#: kstarsactions.cpp:1494
+#: kstarsactions.cpp:1516
 #, kde-format
 msgid "Script finished."
 msgstr "脚本完成。"
 
-#: kstarsactions.cpp:1506
+#: kstarsactions.cpp:1528
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -79204,84 +79204,84 @@ msgstr ""
 "您可以指定[星图]配色方案，以便使用白色背景节约打印机用墨。您想临时切换到[星"
 "图]配色方案打印吗？"
 
-#: kstarsactions.cpp:1511
+#: kstarsactions.cpp:1533
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "切换到恒星图配色吗？"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "切换配色方案"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Do Not Switch"
 msgstr "不切换"
 
-#: kstarsactions.cpp:1573
+#: kstarsactions.cpp:1595
 #, kde-format
 msgid "Stop running clock in realtime"
 msgstr "实时停止运行中的时钟"
 
-#: kstarsactions.cpp:1591 kstarsinit.cpp:206
+#: kstarsactions.cpp:1613 kstarsinit.cpp:220
 #, kde-format
 msgid "Run clock in realtime"
 msgstr "实时运行时钟"
 
-#: kstarsactions.cpp:1635 kstarsinit.cpp:251
+#: kstarsactions.cpp:1657 kstarsinit.cpp:265
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "启动跟踪(&T)"
 
-#: kstarsactions.cpp:1749
+#: kstarsactions.cpp:1771
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "表观视场：%1 度"
 
-#: kstarsactions.cpp:1754
+#: kstarsactions.cpp:1776
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "表观视场：%1 角分"
 
-#: kstarsactions.cpp:1760
+#: kstarsactions.cpp:1782
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "表观视场：%1 角秒"
 
-#: kstarsactions.cpp:1777
+#: kstarsactions.cpp:1799
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "输入希望的视场角度"
 
-#: kstarsactions.cpp:1778
+#: kstarsactions.cpp:1800
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "输入视场角度（单位：度）： "
 
-#: kstarsactions.cpp:1809 kstarsinit.cpp:752
+#: kstarsactions.cpp:1831 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "北方向上"
 
-#: kstarsactions.cpp:1812 kstarsinit.cpp:761
+#: kstarsactions.cpp:1834 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "北方向下"
 
-#: kstarsactions.cpp:1828 kstarsinit.cpp:752
+#: kstarsactions.cpp:1850 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "天顶向上"
 
-#: kstarsactions.cpp:1831 kstarsinit.cpp:761
+#: kstarsactions.cpp:1853 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -79471,378 +79471,384 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "打印天空"
 
-#: kstarsinit.cpp:145
+#: kstarsinit.cpp:148
 #, kde-format
 msgid "Download New Data..."
 msgstr "下载新数据..."
 
-#: kstarsinit.cpp:148
+#: kstarsinit.cpp:151
 #, kde-format
 msgid "Downloads new data"
 msgstr "下载新数据"
 
-#: kstarsinit.cpp:155
+#: kstarsinit.cpp:158
 #, kde-format
 msgid "Open Image(s)..."
 msgstr "打开图像..."
 
-#: kstarsinit.cpp:171
+#: kstarsinit.cpp:162
+#, fuzzy, kde-format
+#| msgid "Recenter"
+msgid "Open &Recent"
+msgstr "重新置中"
+
+#: kstarsinit.cpp:185
 #, kde-format
 msgid "&Save Sky Image..."
 msgstr "保存天空图像(&S)..."
 
-#: kstarsinit.cpp:178
+#: kstarsinit.cpp:192
 #, kde-format
 msgid "&Run Script..."
 msgstr "运行脚本(&R)..."
 
-#: kstarsinit.cpp:182
+#: kstarsinit.cpp:196
 #, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "打印向导(&W)"
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:205
 #, kde-format
 msgid "Set Time to &Now"
 msgstr "将时间设为现在(&N)"
 
-#: kstarsinit.cpp:195
+#: kstarsinit.cpp:209
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "设置时间(&S)..."
 
-#: kstarsinit.cpp:199
+#: kstarsinit.cpp:213
 #, kde-format
 msgid "Stop &Clock"
 msgstr "停止时钟(&C)"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, kde-format
 msgid "Resume Clock"
 msgstr "恢复时钟"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, kde-format
 msgid "Stop Clock"
 msgstr "停止时钟"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr "时间向前一步"
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr "时间向退一步"
 
-#: kstarsinit.cpp:241
+#: kstarsinit.cpp:255
 #, kde-format
 msgid "&Zenith"
 msgstr "天顶(&Z)"
 
-#: kstarsinit.cpp:242
+#: kstarsinit.cpp:256
 #, kde-format
 msgid "&North"
 msgstr "北方(&N)"
 
-#: kstarsinit.cpp:243
+#: kstarsinit.cpp:257
 #, kde-format
 msgid "&East"
 msgstr "东方(&E)"
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:258
 #, kde-format
 msgid "&South"
 msgstr "南方(&S)"
 
-#: kstarsinit.cpp:245
+#: kstarsinit.cpp:259
 #, kde-format
 msgid "&West"
 msgstr "西方(&W)"
 
-#: kstarsinit.cpp:248
+#: kstarsinit.cpp:262
 #, kde-format
 msgid "&Find Object..."
 msgstr "查找天体(&F)..."
 
-#: kstarsinit.cpp:255
+#: kstarsinit.cpp:269
 #, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "手动设置坐标(&M)..."
 
-#: kstarsinit.cpp:267
+#: kstarsinit.cpp:281
 #, kde-format
 msgid "&Default Zoom"
 msgstr "默认缩放(&D)"
 
-#: kstarsinit.cpp:270
+#: kstarsinit.cpp:284
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "缩放到角度(&Z)..."
 
-#: kstarsinit.cpp:284
+#: kstarsinit.cpp:298
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr "镜像视图"
 
-#: kstarsinit.cpp:298
+#: kstarsinit.cpp:312
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "兰勃托圆锥等面积投影(&L)"
 
-#: kstarsinit.cpp:301
+#: kstarsinit.cpp:315
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "圆锥等距投影(&A)"
 
-#: kstarsinit.cpp:304
+#: kstarsinit.cpp:318
 #, kde-format
 msgid "&Orthographic"
 msgstr "正交投影(&O)"
 
-#: kstarsinit.cpp:307
+#: kstarsinit.cpp:321
 #, kde-format
 msgid "&Equirectangular"
 msgstr "等距圆柱投影(&E)"
 
-#: kstarsinit.cpp:310
+#: kstarsinit.cpp:324
 #, kde-format
 msgid "&Stereographic"
 msgstr "立体投影(&S)"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:327
 #, kde-format
 msgid "&Gnomonic"
 msgstr "黄道投影(&G)"
 
-#: kstarsinit.cpp:319
+#: kstarsinit.cpp:333
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "显示信息框(&I)"
 
-#: kstarsinit.cpp:324
+#: kstarsinit.cpp:338
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "显示时间框(&T)"
 
-#: kstarsinit.cpp:331
+#: kstarsinit.cpp:345
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "显示焦点框(&F)"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:352
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "显示位置框(&L)"
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:359
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "显示主工具栏"
 
-#: kstarsinit.cpp:347
+#: kstarsinit.cpp:361
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "显示查看工具栏"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:365
 #, kde-format
 msgid "Show Statusbar"
 msgstr "显示状态栏"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:366
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "显示 方位/高度"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:367
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "显示 赤经/赤纬"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:368
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "显示 J2000.0 赤经/赤纬"
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:375
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "配色方案(&O)"
 
-#: kstarsinit.cpp:362
+#: kstarsinit.cpp:376
 #, kde-format
 msgid "&Classic"
 msgstr "经典(&C)"
 
-#: kstarsinit.cpp:363
+#: kstarsinit.cpp:377
 #, kde-format
 msgid "&Star Chart"
 msgstr "恒星图(&S)"
 
-#: kstarsinit.cpp:364
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&Night Vision"
 msgstr "夜间模式(&N)"
 
-#: kstarsinit.cpp:365
+#: kstarsinit.cpp:379
 #, kde-format
 msgid "&Moonless Night"
 msgstr "无月夜(&M)"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:399
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "视场符号(&F)"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:407
 #, kde-format
 msgid "&Views"
 msgstr "视野(&V)"
 
-#: kstarsinit.cpp:401
+#: kstarsinit.cpp:415
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr "HiPS 全天覆盖"
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:422
 #, kde-format
 msgid "Skymap Orientation"
 msgstr "天图方向"
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:428
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "地理信息(&G)…"
 
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:445
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "启动向导..."
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:450
 #, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "管理深空天体星表"
 
-#: kstarsinit.cpp:440
+#: kstarsinit.cpp:454
 #, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "更新彗星轨道"
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:456
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "更新小行星轨道"
 
-#: kstarsinit.cpp:444
+#: kstarsinit.cpp:458
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr "更新最近的超新星数据"
 
-#: kstarsinit.cpp:446
+#: kstarsinit.cpp:460
 #, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "更新卫星轨道"
 
-#: kstarsinit.cpp:450
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "Calculator"
 msgstr "计算器"
 
-#: kstarsinit.cpp:460
+#: kstarsinit.cpp:474
 #, kde-format
 msgid "Observation Planner"
 msgstr "观测计划"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:478
 #, kde-format
 msgid "Imaging Planner"
 msgstr "计划拍摄"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:468 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:482 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "高度角 vs. 时间"
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:485
 #, kde-format
 msgid "What's up Tonight"
 msgstr "今夜天象"
 
-#: kstarsinit.cpp:480
+#: kstarsinit.cpp:494
 #, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "XPlanet 太阳系模拟器"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:482 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:496 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "星历表"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:518
 #, kde-format
 msgid "Script Builder"
 msgstr "脚本创建器"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:526
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "木星卫星"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:515 options/opsguides.ui:284
+#: kstarsinit.cpp:529 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "标记"
 
-#: kstarsinit.cpp:518
+#: kstarsinit.cpp:532
 #, kde-format
 msgid "List your &Equipment..."
 msgstr "列出您的设备(&E)..."
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:534
 #, kde-format
 msgid "Manage Observer..."
 msgstr "管理观测员..."
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:538
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr "人工地平..."
 
-#: kstarsinit.cpp:528
+#: kstarsinit.cpp:542
 #, kde-format
 msgid "Execute the Session Plan..."
 msgstr "执行会话计划..."
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:546
 #, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "北极星时角..."
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:553
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "望远镜向导..."
 
-#: kstarsinit.cpp:544
+#: kstarsinit.cpp:558
 #, kde-format
 msgid "Device Manager..."
 msgstr "设备管理器..."
 
-#: kstarsinit.cpp:567
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -79856,315 +79862,315 @@ msgstr ""
 "如果时间步长 “X” 不到 10 分钟，时间以每秒 “X” 的速度流逝。\n"
 "如果时间步长大于10分钟，帧以“X”的间隔显示。"
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:590
 #, kde-format
 msgid "Time step control"
 msgstr "时间步长控制"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:599
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "恒星"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:601
 #, kde-format
 msgid "Toggle stars"
 msgstr "切换恒星"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:603
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "深空天体"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:605
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "切换深空天体"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:607
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "太阳系"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:609
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "切换太阳系天体"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:611
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "星座线"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:613
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "切换星座线"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:615
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "星座名称"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:617
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "切换星座名称"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:619
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "星座边界"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:621
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "切换星座边界"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:623
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr "C. Art (BETA)"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:625
 #, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "切换星座艺术 （BETA）"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:627
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "银河"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:629
 #, kde-format
 msgid "Toggle milky way"
 msgstr "切换银河"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:631
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "赤道坐标网格"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:633
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "切换赤道坐标网格"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:635
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "地平坐标网格"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:637
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "切换地平坐标网格"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:639
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "地平圈"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:641
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "切换不透明地面显示"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:643
 #, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "白天"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:645
 #, kde-format
 msgid "Toggle daytime simulation"
 msgstr "切换日间模拟"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:647
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "标记"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:649
 #, kde-format
 msgid "Toggle flags"
 msgstr "切换标记"
 
-#: kstarsinit.cpp:637
+#: kstarsinit.cpp:651
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "卫星"
 
-#: kstarsinit.cpp:639
+#: kstarsinit.cpp:653
 #, kde-format
 msgid "Toggle satellites"
 msgstr "切换卫星"
 
-#: kstarsinit.cpp:641
+#: kstarsinit.cpp:655
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "超新星"
 
-#: kstarsinit.cpp:643
+#: kstarsinit.cpp:657
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "切换超新星"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:659
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "有趣天体"
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:661
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr "切换到“有趣天体”"
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:666
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:654
+#: kstarsinit.cpp:668
 #, kde-format
 msgid "Toggle Ekos"
 msgstr "切换 Ekos"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:670
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "INDI 控制面板"
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:672
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr "切换 INDI 控制面板"
 
-#: kstarsinit.cpp:661
+#: kstarsinit.cpp:675
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "FITS 查看器"
 
-#: kstarsinit.cpp:663
+#: kstarsinit.cpp:677
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "切换 FITS 查看器"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:681
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "传感器视场"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:683
 #, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "切换传感器视场"
 
-#: kstarsinit.cpp:674
+#: kstarsinit.cpp:688
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "马赛克面板"
 
-#: kstarsinit.cpp:676
+#: kstarsinit.cpp:690
 #, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "开关马赛克面板"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:695
 #, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "赤道仪控制"
 
-#: kstarsinit.cpp:683
+#: kstarsinit.cpp:697
 #, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "切换支架控制面板"
 
-#: kstarsinit.cpp:687
+#: kstarsinit.cpp:701
 #, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "居中望远镜"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:703
 #, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "切换锁定望远镜中心"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:707
 #, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "切换望远镜跟踪"
 
-#: kstarsinit.cpp:697
+#: kstarsinit.cpp:711
 #, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "旋转望远镜至聚焦天体"
 
-#: kstarsinit.cpp:701
+#: kstarsinit.cpp:715
 #, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "同步望远镜至聚焦天体"
 
-#: kstarsinit.cpp:705
+#: kstarsinit.cpp:719
 #, kde-format
 msgid "Abort telescope motions"
 msgstr "中止望远镜运动"
 
-#: kstarsinit.cpp:710
+#: kstarsinit.cpp:724
 #, kde-format
 msgid "Park telescope"
 msgstr "归位望远镜"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:728
 #, kde-format
 msgid "Unpark telescope"
 msgstr "启动望远镜"
 
-#: kstarsinit.cpp:720
+#: kstarsinit.cpp:734
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "旋转望远镜至鼠标指针所在位置"
 
-#: kstarsinit.cpp:723
+#: kstarsinit.cpp:737
 #, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "同步望远镜至鼠标指针所在位置"
 
-#: kstarsinit.cpp:730
+#: kstarsinit.cpp:744
 #, kde-format
 msgid "Park dome"
 msgstr "归位圆顶"
 
-#: kstarsinit.cpp:734
+#: kstarsinit.cpp:748
 #, kde-format
 msgid "Unpark dome"
 msgstr "启动圆顶"
 
-#: kstarsinit.cpp:756
+#: kstarsinit.cpp:770
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80176,7 +80182,7 @@ msgstr ""
 "选择此项启用星图正立显示：赤道坐标系下北向上，地平坐标系下天顶向上，适用于正"
 "像寻星镜或目视观测。"
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:779
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80188,14 +80194,14 @@ msgstr ""
 "选择此项启用星图倒立显示：赤道坐标系下北向下，地平坐标系下天顶向下，适用于倒"
 "像寻星镜、无正像棱镜的折射 / 卡塞格林望远镜或道布森望远镜。"
 
-#: kstarsinit.cpp:770
+#: kstarsinit.cpp:784
 #, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
 msgstr "任意"
 
-#: kstarsinit.cpp:774
+#: kstarsinit.cpp:788
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80206,13 +80212,13 @@ msgstr ""
 "当你通过 Shift + 鼠标拖拽操作手动旋转星图时，系统会自动选中此模式，以提示当前"
 "星图方位为任意状态。"
 
-#: kstarsinit.cpp:781
+#: kstarsinit.cpp:795
 #, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "无修正"
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:799
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80220,7 +80226,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr "若望远镜搭载相机或星图显示器安装于望远镜，选择此项"
 
-#: kstarsinit.cpp:791
+#: kstarsinit.cpp:805
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -80228,7 +80234,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "正立观察者校正 (左旋)"
 
-#: kstarsinit.cpp:795
+#: kstarsinit.cpp:809
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80244,7 +80250,7 @@ msgstr ""
 "状态，这与随望远镜同步旋转的相机成像逻辑不同。此选项通常建议与天顶向下方位模"
 "式搭配使用。"
 
-#: kstarsinit.cpp:801
+#: kstarsinit.cpp:815
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -80252,7 +80258,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "正立观察者校正 (右旋)"
 
-#: kstarsinit.cpp:805
+#: kstarsinit.cpp:819
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -80268,44 +80274,44 @@ msgstr ""
 "状态，这与随望远镜同步旋转的相机成像逻辑不同。此选项通常建议与天顶向下方位模"
 "式搭配使用。"
 
-#: kstarsinit.cpp:829
+#: kstarsinit.cpp:843
 #, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "任意"
 
-#: kstarsinit.cpp:832
+#: kstarsinit.cpp:846
 #, kde-format
 msgid "Edit Views..."
 msgstr "编辑视野"
 
-#: kstarsinit.cpp:859
+#: kstarsinit.cpp:873
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "编辑视场符号..."
 
-#: kstarsinit.cpp:896
+#: kstarsinit.cpp:910
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "HiPS 设置..."
 
-#: kstarsinit.cpp:903
+#: kstarsinit.cpp:917
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " 欢迎使用 KStars "
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
+#: kstarsinit.cpp:1014 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
 msgstr "无"
 
-#: kstarsinit.cpp:1055 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1069 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "初始位置位于地平线下"
 
-#: kstarsinit.cpp:1057 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1071 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -80314,17 +80320,17 @@ msgstr ""
 "初始位置低于地平线。\n"
 "您要重置为默认位置吗？"
 
-#: kstarsinit.cpp:1058
+#: kstarsinit.cpp:1072
 #, kde-format
 msgid "Reset Position"
 msgstr "重置位置"
 
-#: kstarsinit.cpp:1059
+#: kstarsinit.cpp:1073
 #, kde-format
 msgid "Do Not Reset"
 msgstr "不重置"
 
-#: kstarsinit.cpp:1124
+#: kstarsinit.cpp:1138
 #, kde-format
 msgid "&Themes"
 msgstr "主题(&T)"
@@ -84725,14 +84731,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "暖"
 
-#: main.cpp:111
+#: main.cpp:112
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr "对不起，没有 KStars 数据目录，KStars 将无法操作。现在正在退出程序。"
 
-#: main.cpp:141
+#: main.cpp:142
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -84743,7 +84749,7 @@ msgstr ""
 "\n"
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -84759,392 +84765,392 @@ msgstr ""
 "\n"
 "%3"
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Original Author"
 msgstr "最初作者"
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Current Maintainer"
 msgstr "当前维护者"
 
-#: main.cpp:156
+#: main.cpp:157
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:158
+#: main.cpp:159
 #, kde-format
 msgid "Robert Lancaster"
 msgstr "Robert Lancaster"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr "FITS 查看器 & Ekos 改进。KStars OSX 移植"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
-#: main.cpp:162
+#: main.cpp:163
 #, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
 msgstr ""
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Ekos 调度器 & 观测台改进"
 
-#: main.cpp:166
+#: main.cpp:167
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
 msgstr ""
 
-#: main.cpp:168
+#: main.cpp:169
 #, kde-format
 msgid "John Evans"
 msgstr "John Evans"
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgid "Focus algorithms & Livestacking"
 msgstr ""
 
-#: main.cpp:170
+#: main.cpp:171
 #, kde-format
 msgid "Tony Schriber"
 msgstr "Tony Schriber"
 
-#: main.cpp:173
+#: main.cpp:174
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Csaba Kertesz"
 
-#: main.cpp:175
+#: main.cpp:176
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr "双小行星列表，深空天体数据库和星表"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:179
+#: main.cpp:180
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:181
+#: main.cpp:182
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:183
+#: main.cpp:184
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:184
+#: main.cpp:185
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:185
+#: main.cpp:186
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:186
+#: main.cpp:187
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:188
+#: main.cpp:189
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:190
+#: main.cpp:191
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Andreas Ruthner"
 msgstr ""
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr ""
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Christian Kemper"
 msgstr ""
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Thomas Nemer"
 msgstr ""
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Ekos MCP server and AI skills."
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:204
+#: main.cpp:205
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr "已将包含技术术语的界面标签全部转换为可跳转至对应说明文档的超链接"
 
-#: main.cpp:205
+#: main.cpp:206
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:206
+#: main.cpp:207
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "天文及 KStars 技术文档"
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Artwork"
 msgstr "美工"
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:210
+#: main.cpp:211
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr "完成对观测计划执行流程、逐星导览功能等模块的改进优化"
 
-#: main.cpp:211
+#: main.cpp:212
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:212
+#: main.cpp:213
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "为 Ekos/INDI 广泛测试和建议。"
 
-#: main.cpp:214
+#: main.cpp:215
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:215
+#: main.cpp:216
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr "为 Ekos Scheduler 广泛测试和建议。KStars OSX 移植"
 
-#: main.cpp:216
+#: main.cpp:217
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:217
+#: main.cpp:218
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "普通的 KStars 和 KStars Lite的欢迎屏幕。"
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "KStars OSX 移植。"
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "鱼骨板对焦助手"
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr "Philipp Auersperg-Castell"
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "超新星数据每日更新"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Joseph McGee"
 msgstr "Joseph McGee"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr "基于 Robin Glover 博士研究的子曝光计算器"
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "Project Nayuki"
 msgstr "Project Nayuki"
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "QR Code generator library (MIT)"
 msgstr "QR Code generator library (MIT)"
 
-#: main.cpp:233
+#: main.cpp:234
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "转储天空图像至文件。"
 
-#: main.cpp:234
+#: main.cpp:235
 #, kde-format
 msgid "Script to execute."
 msgstr "要执行的脚本。"
 
-#: main.cpp:235
+#: main.cpp:236
 #, kde-format
 msgid "Width of sky image."
 msgstr "天空图像的宽度。"
 
-#: main.cpp:236
+#: main.cpp:237
 #, kde-format
 msgid "Height of sky image."
 msgstr "天空图像的高度。"
 
-#: main.cpp:237
+#: main.cpp:238
 #, kde-format
 msgid "Date and time."
 msgstr "日期和时间。"
 
-#: main.cpp:238
+#: main.cpp:239
 #, kde-format
 msgid "Start with clock paused."
 msgstr "启动时暂停时钟。"
 
-#: main.cpp:239
+#: main.cpp:240
 #, kde-format
 msgid "Run Live Stacker standalone mode"
 msgstr "运行实时堆叠器独立模式"
 
-#: main.cpp:242
+#: main.cpp:243
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "要打开的 FITS 文件。"
 
-#: main.cpp:288 printing/foveditordialog.cpp:176
+#: main.cpp:289 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "无法识别图像格式 %1；假设为PNG格式。"
 
-#: main.cpp:346
+#: main.cpp:347
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "提供的日期字符串无效： %1。使用 CPU 的日期时间代替。"
 
-#: main.cpp:377
+#: main.cpp:378
 #, kde-format
 msgid "Script executed."
 msgstr "脚本已执行。"
 
-#: main.cpp:381
+#: main.cpp:382
 #, kde-format
 msgid "Could not execute script."
 msgstr "无法执行脚本。"
 
-#: main.cpp:405
+#: main.cpp:406
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "使用 CPU 日期/时间。"

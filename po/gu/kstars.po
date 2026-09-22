@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 02:16+0000\n"
+"POT-Creation-Date: 2026-09-22 18:34+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -188,7 +188,7 @@ msgstr "નેશવિલે"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1145
+#: dialogs/skyobjectsearchadapter.cpp:107 kstarsactions.cpp:1148
 #: kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
@@ -206,7 +206,7 @@ msgstr "નેશવિલે"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1148
+#: dialogs/skyobjectsearchadapter.cpp:106 kstarsactions.cpp:1151
 #: kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
@@ -489,14 +489,14 @@ msgid "Save Image"
 msgstr "ચિત્ર આ રીતે સંગ્રહો..."
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1414
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr ""
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1415
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
@@ -631,7 +631,7 @@ msgstr "રદ કરો"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
+#: kstarsactions.cpp:510 kstarsactions.cpp:518 kstarsactions.cpp:528
 #: skycomponents/imageoverlaycomponent.cpp:568
 #, kde-format
 msgid "Error"
@@ -1881,21 +1881,21 @@ msgid "&Edit"
 msgstr "ફેરફાર (&E)"
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:25 data/kstarsui.rc:44
+#: data/fitsviewerui.rc:25 data/kstarsui.rc:45
 #, kde-format
 msgid "&View"
 msgstr "દેખાવ (&V)"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:54 data/kstarsui.rc:147 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:54 data/kstarsui.rc:148 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "મદદ (&H)"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:68 data/kstarsui.rc:161
+#: data/fitsviewerui.rc:68 data/kstarsui.rc:162
 #, kde-format
 msgid "Main Toolbar"
 msgstr "મુખ્ય સાધનપટ્ટી"
@@ -1907,92 +1907,92 @@ msgid "Process ToolBar"
 msgstr ""
 
 #. i18n: ectx: Menu (time)
-#: data/kstarsui.rc:21
+#: data/kstarsui.rc:22
 #, kde-format
 msgid "T&ime"
 msgstr "સમય (&i)"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:31
+#: data/kstarsui.rc:32
 #, kde-format
 msgid "&Pointing"
 msgstr ""
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:59
+#: data/kstarsui.rc:60
 #, kde-format
 msgid "&Projection"
 msgstr ""
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Tools"
 msgstr "સાધનો (&T)"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:72
+#: data/kstarsui.rc:73
 #, kde-format
 msgid "&Devices"
 msgstr ""
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, kde-format
 msgid "&Data"
 msgstr ""
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:101
+#: data/kstarsui.rc:102
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "&Updates"
 msgstr "સુધારો"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:108
+#: data/kstarsui.rc:109
 #, fuzzy, kde-format
 msgid "&Observation"
 msgstr "સૂચન યાદી"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:115
+#: data/kstarsui.rc:116
 #, kde-format
 msgid "&Settings"
 msgstr "ગોઠવણીઓ (&S)"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:116
+#: data/kstarsui.rc:117
 #, kde-format
 msgid "&Info Boxes"
 msgstr ""
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:124
+#: data/kstarsui.rc:125
 #, kde-format
 msgid "&Statusbar"
 msgstr "સ્થિતિપટ્ટી (&S)"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:179
+#: data/kstarsui.rc:180
 #, kde-format
 msgid "View Toolbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:198
+#: data/kstarsui.rc:199
 #, fuzzy, kde-format
 msgid "INDI Toolbar"
 msgstr "સાધનપટ્ટીઓ"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:208
+#: data/kstarsui.rc:209
 #, fuzzy, kde-format
 msgid "Telescope Toolbar"
 msgstr "પોર્ટ ચકાસનાર"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:219
+#: data/kstarsui.rc:220
 #, fuzzy, kde-format
 msgid "Dome Toolbar"
 msgstr "સાધનપટ્ટીઓ"
@@ -2167,7 +2167,7 @@ msgstr "સ્થિતિ"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:476
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:490
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr ""
@@ -3068,7 +3068,7 @@ msgstr ""
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
 #: ekos/capture/cameraprocess.cpp:2506 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
-#: fitsviewer/fitsviewer.cpp:839 fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "પૂર્વદર્શન"
@@ -3539,7 +3539,7 @@ msgid "Clone..."
 msgstr "માલે"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
 #, kde-format
 msgid "Colors"
 msgstr "રંગો"
@@ -3861,7 +3861,7 @@ msgstr "કડીઓ"
 msgid "Could not add the link."
 msgstr "ફાઇલ ડાઉનલોડ કરી શકાતી નથી."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
 #, kde-format
 msgid "Advanced"
 msgstr "ઉચ્ચ"
@@ -3918,7 +3918,7 @@ msgid "Could not update the user log."
 msgstr "ફાઇલ ખોલી શકાતી નથી: %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:326 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
@@ -3927,7 +3927,7 @@ msgid "No connected mounts found."
 msgstr "જોડાઓ"
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:495
-#: kstarsactions.cpp:308 tools/observinglist.cpp:701
+#: kstarsactions.cpp:311 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4544,7 +4544,7 @@ msgid "Any"
 msgstr "કોઈપણ"
 
 #: dialogs/finddialog.cpp:38 dialogs/skyobjectsearchadapter.cpp:97
-#: kstarsactions.cpp:1142 kstarsinit.cpp:508
+#: kstarsactions.cpp:1145 kstarsinit.cpp:522
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -7160,7 +7160,7 @@ msgstr "ચિત્ર લાવવામાં અસક્ષમ"
 #: ekos/scheduler/schedulerprocess.cpp:3464
 #: ekos/scheduler/schedulerprocess.cpp:4605
 #: ekos/scheduler/schedulerprocess.cpp:4625 indi/drivermanager.cpp:1589
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1463 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -10700,7 +10700,7 @@ msgid "Stop the current plate solving run."
 msgstr "જગ્યા ફેરફાર કરો"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
-#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:490
+#: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:504
 #, fuzzy, kde-format
 msgid "Push-To Assistant"
 msgstr "બચાવ સ્થિતિ"
@@ -13203,7 +13203,7 @@ msgid "Log INDI devices activity"
 msgstr "જોડાઓ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
 #, fuzzy, kde-format
 #| msgid "Mode"
 msgid "INDI"
@@ -13218,7 +13218,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1168
+#: kstarsactions.cpp:1171
 #, fuzzy, kde-format
 msgid "FITS"
 msgstr "અંદર આવવું"
@@ -14664,7 +14664,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1381 indi/indidriver.cpp:735 kstarsinit.cpp:889
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15227,7 +15227,7 @@ msgstr "જીબ્રાલ્ટર"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:170
+#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -16631,7 +16631,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1178 kstarsinit.cpp:486
+#: kstarsactions.cpp:1181 kstarsinit.cpp:500
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -25970,7 +25970,7 @@ msgid "Remove profile"
 msgstr "બધી કૂકીઓ દૂર કરો"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:548
+#: ekos/manager.ui:272 kstarsinit.cpp:562
 #, fuzzy, kde-format
 msgid "Custom Drivers..."
 msgstr "ગુણધર્મો જુઓ"
@@ -25995,7 +25995,7 @@ msgid "Ekos Live..."
 msgstr "બચાવ સ્થિતિ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:551
+#: ekos/manager.ui:420 kstarsinit.cpp:565
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr ""
@@ -32864,7 +32864,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:63 fitsviewer/fitsviewer.cpp:610
-#: fitsviewer/fitsviewer.cpp:1872
+#: fitsviewer/fitsviewer.cpp:1878
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Reading"
@@ -33787,7 +33787,7 @@ msgstr "લેબલ"
 msgid "Distance"
 msgstr "અંતર:"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1643
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1649
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
@@ -34017,13 +34017,13 @@ msgid "View Star Profile..."
 msgstr "રેસિફે"
 
 #: fitsviewer/fitsview.cpp:2954 fitsviewer/fitsviewer.cpp:262
-#: fitsviewer/fitsviewer.cpp:1560
+#: fitsviewer/fitsviewer.cpp:1566
 #, fuzzy, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
 #: fitsviewer/fitsview.cpp:2960 fitsviewer/fitsviewer.cpp:269
-#: fitsviewer/fitsviewer.cpp:1562
+#: fitsviewer/fitsviewer.cpp:1568
 #, fuzzy, kde-format
 msgid "Show Objects in Image"
 msgstr "ઘણી વસ્તુઓ"
@@ -34093,12 +34093,12 @@ msgstr "આડું"
 msgid "Flip Vertical"
 msgstr "ઓપ્ટિકલ કેરેક્ટર રેકોગ્નાઇઝેશન"
 
-#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:141 kstarsinit.cpp:173
 #, fuzzy, kde-format
 msgid "Open/Blink Directory"
 msgstr "શરૂઆત ડિરેક્ટરી પસંદ કરો"
 
-#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:167
+#: fitsviewer/fitsviewer.cpp:153 kstarsinit.cpp:181
 #, fuzzy, kde-format
 msgid "Live Stacker..."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
@@ -34119,7 +34119,7 @@ msgstr "આંકડાઓ"
 msgid "Show Clipping"
 msgstr "આ સમર્થન સંવાદને બતાવો"
 
-#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1571
+#: fitsviewer/fitsviewer.cpp:283 fitsviewer/fitsviewer.cpp:1577
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -34167,19 +34167,19 @@ msgstr ""
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1845
+#: fitsviewer/fitsviewer.cpp:342 fitsviewer/fitsviewer.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Mark Stars"
 msgstr "તારાઓ"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:946
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:952
+#: fitsviewer/fitsviewer.cpp:1814
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1163 kstars.cpp:66
+#: fitsviewer/fitsviewer.cpp:370 fitsviewer/fitsviewer.cpp:1169 kstars.cpp:66
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgctxt "@title:window"
@@ -34224,131 +34224,131 @@ msgstr[1] "તારો"
 msgid "Right click to change tab title."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:791
+#: fitsviewer/fitsviewer.cpp:797
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:928
+#: fitsviewer/fitsviewer.cpp:934
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:929 fitsviewer/fitsviewer.cpp:1716
+#: fitsviewer/fitsviewer.cpp:935 fitsviewer/fitsviewer.cpp:1722
 #, kde-format
 msgid "Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:930 fitsviewer/fitsviewer.cpp:1730
+#: fitsviewer/fitsviewer.cpp:936 fitsviewer/fitsviewer.cpp:1736
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "ફિલિપાઇન્સ"
 
-#: fitsviewer/fitsviewer.cpp:931 fitsviewer/fitsviewer.cpp:1743
+#: fitsviewer/fitsviewer.cpp:937 fitsviewer/fitsviewer.cpp:1749
 #, fuzzy, kde-format
 msgid "Equatorial Gridlines"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: fitsviewer/fitsviewer.cpp:932 fitsviewer/fitsviewer.cpp:1782
+#: fitsviewer/fitsviewer.cpp:938 fitsviewer/fitsviewer.cpp:1788
 #, fuzzy, kde-format
 msgid "Objects in Image"
 msgstr "ઘણી વસ્તુઓ"
 
-#: fitsviewer/fitsviewer.cpp:933 fitsviewer/fitsviewer.cpp:1795
+#: fitsviewer/fitsviewer.cpp:939 fitsviewer/fitsviewer.cpp:1801
 #, fuzzy, kde-format
 msgid "Pixel Gridlines"
 msgstr "લીટીઓની ચોક્કસ સંખ્યા: "
 
-#: fitsviewer/fitsviewer.cpp:934 fitsviewer/fitsviewer.cpp:1756
+#: fitsviewer/fitsviewer.cpp:940 fitsviewer/fitsviewer.cpp:1762
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:986
+#: fitsviewer/fitsviewer.cpp:992
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "શરૂઆત ડિરેક્ટરી પસંદ કરો"
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1141
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "ડિરેક્ટરી ખોલો"
 
-#: fitsviewer/fitsviewer.cpp:1215
+#: fitsviewer/fitsviewer.cpp:1221
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Stacking..."
 msgstr "બીજા"
 
-#: fitsviewer/fitsviewer.cpp:1223
+#: fitsviewer/fitsviewer.cpp:1229
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Stacking Failed"
 msgstr "બીજા"
 
-#: fitsviewer/fitsviewer.cpp:1241
+#: fitsviewer/fitsviewer.cpp:1247
 #, fuzzy, kde-format
 msgid "Stacking Complete"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: fitsviewer/fitsviewer.cpp:1253
+#: fitsviewer/fitsviewer.cpp:1259
 #, fuzzy, kde-format
 msgid "Stacking Stopped"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: fitsviewer/fitsviewer.cpp:1537
+#: fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1542
+#: fitsviewer/fitsviewer.cpp:1548
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "બતાવો"
 
-#: fitsviewer/fitsviewer.cpp:1566
+#: fitsviewer/fitsviewer.cpp:1572
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr "IPv4-માં-IPv6"
 
-#: fitsviewer/fitsviewer.cpp:1578
+#: fitsviewer/fitsviewer.cpp:1584
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1580
+#: fitsviewer/fitsviewer.cpp:1586
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr "IPv4-માં-IPv6"
 
-#: fitsviewer/fitsviewer.cpp:1582
+#: fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1614 fitsviewer/fitsviewer.cpp:1769
+#: fitsviewer/fitsviewer.cpp:1620 fitsviewer/fitsviewer.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selection Rectangle"
 msgstr "તારો પસંદ કરો"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1651 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1657 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Width:"
@@ -34356,20 +34356,20 @@ msgid "Width"
 msgstr "પહોળાઇ:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1652 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1658 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Height"
 msgstr "ઉંચાઇ:"
 
-#: fitsviewer/fitsviewer.cpp:1850
+#: fitsviewer/fitsviewer.cpp:1856
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Unmark Stars"
 msgstr "તારાઓ"
 
-#: fitsviewer/fitsviewer.cpp:1866
+#: fitsviewer/fitsviewer.cpp:1872
 #, fuzzy, kde-format
 msgid "Processing %1..."
 msgstr "બચાવ સ્થિતિ"
@@ -37985,7 +37985,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "ચિત્ર બનાવનાર કાર્યક્રમ"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1003
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1017
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:634
@@ -38191,34 +38191,34 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "તારાઓ"
 
-#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Stars"
 msgid "KStars"
 msgstr "તારાઓ"
 
-#: kstars.cpp:300
+#: kstars.cpp:302
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "KStars Live Stacker"
 msgstr "તારાઓ"
 
-#: kstars.cpp:301
+#: kstars.cpp:303
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr ""
 
-#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:464
+#: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
 #, fuzzy, kde-format
 msgid "Stop &Tracking"
 msgstr "ઘડિયાળ રૂપરેખાંકિત કરો"
 
-#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:278
+#: kstars.cpp:438 kstarsactions.cpp:1847 kstarsinit.cpp:292
 #, fuzzy, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:279
+#: kstars.cpp:439 kstarsactions.cpp:1828 kstarsinit.cpp:293
 #, fuzzy, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "આડાં ઢોળાવો"
@@ -84564,74 +84564,74 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "બીજા"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:223
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr ""
 
-#: kstarsactions.cpp:221
+#: kstarsactions.cpp:224
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr ""
 
-#: kstarsactions.cpp:508
+#: kstarsactions.cpp:511
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:516
+#: kstarsactions.cpp:519
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:529
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:583
+#: kstarsactions.cpp:586
 #, fuzzy, kde-format
 msgid "Light Pollution Settings"
 msgstr "હાલની રંગ પધ્ધતિ સંગ્રહ કરો"
 
-#: kstarsactions.cpp:585
+#: kstarsactions.cpp:588
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr ""
 
-#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
-#: kstarsactions.cpp:813
+#: kstarsactions.cpp:697 kstarsactions.cpp:734 kstarsactions.cpp:777
+#: kstarsactions.cpp:816
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
 
-#: kstarsactions.cpp:748
+#: kstarsactions.cpp:751
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:751
+#: kstarsactions.cpp:754
 #, fuzzy, kde-format
 msgid "INDI Device Manager"
 msgstr "ફાઇલ વ્યવસ્થાપક"
 
-#: kstarsactions.cpp:1139
+#: kstarsactions.cpp:1142
 #, fuzzy, kde-format
 msgid "Catalogs"
 msgstr "અલોર સ્ટાર"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1154
 #, fuzzy, kde-format
 msgid "Guides"
 msgstr "વાક્ય"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1157
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
@@ -84639,70 +84639,70 @@ msgid "Terrain"
 msgstr "ટેર્રેસા"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 msgid "Image Overlays"
 msgstr "પાર્ટિશન ફોર્મેટ કરો:"
 
-#: kstarsactions.cpp:1187
+#: kstarsactions.cpp:1190
 #, fuzzy, kde-format
 #| msgid "planet"
 msgid "Xplanet"
 msgstr "ગ્રહ"
 
-#: kstarsactions.cpp:1193
+#: kstarsactions.cpp:1196
 #, kde-format
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:302
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "ટેર્રેસા"
 
-#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:303
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Show Terrain"
 msgstr "વિગતો"
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:307
 #, fuzzy, kde-format
 msgid "Hide Image Overlays"
 msgstr "ચિત્ર આ રીતે સંગ્રહો..."
 
-#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:308
 #, fuzzy, kde-format
 msgid "Show Image Overlays"
 msgstr "લીટીઓની ચોક્કસ સંખ્યા: "
 
-#: kstarsactions.cpp:1378
+#: kstarsactions.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Equator"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "વિષુવવૃત્ત"
 
-#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: kstarsactions.cpp:1446 tools/scriptbuilder.cpp:796
 #: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1432
+#: kstarsactions.cpp:1454
 #, fuzzy, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1462 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "ફાઇલ %1 ખોલી શકાતી નથી"
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1487
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -84711,28 +84711,28 @@ msgid ""
 "it anyway?"
 msgstr ""
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, fuzzy, kde-format
 #| msgid "Script finished."
 msgid "Script Validation Failed"
 msgstr "સ્ક્રિપ્ટ પૂર્ણ."
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid "Run Nevertheless"
 msgstr ""
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1499
 #, fuzzy, kde-format
 msgid "Running script: %1"
 msgstr "ચલાવો (&R)"
 
-#: kstarsactions.cpp:1494
+#: kstarsactions.cpp:1516
 #, kde-format
 msgid "Script finished."
 msgstr "સ્ક્રિપ્ટ પૂર્ણ."
 
-#: kstarsactions.cpp:1506
+#: kstarsactions.cpp:1528
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -84740,91 +84740,91 @@ msgid ""
 "Chart color scheme for printing?"
 msgstr ""
 
-#: kstarsactions.cpp:1511
+#: kstarsactions.cpp:1533
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr ""
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "રંગ પધ્ધતિ બદલો"
 
-#: kstarsactions.cpp:1512
+#: kstarsactions.cpp:1534
 #, kde-format
 msgid "Do Not Switch"
 msgstr "બદલો નહીં"
 
-#: kstarsactions.cpp:1573
+#: kstarsactions.cpp:1595
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Peacock"
 msgid "Stop running clock in realtime"
 msgstr "મોર"
 
-#: kstarsactions.cpp:1591 kstarsinit.cpp:206
+#: kstarsactions.cpp:1613 kstarsinit.cpp:220
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Peacock"
 msgid "Run clock in realtime"
 msgstr "મોર"
 
-#: kstarsactions.cpp:1635 kstarsinit.cpp:251
+#: kstarsactions.cpp:1657 kstarsinit.cpp:265
 #, fuzzy, kde-format
 msgid "Engage &Tracking"
 msgstr "અવાજો ચાલુ/બંધ કરો."
 
-#: kstarsactions.cpp:1749
+#: kstarsactions.cpp:1771
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1754
+#: kstarsactions.cpp:1776
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1760
+#: kstarsactions.cpp:1782
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1777
+#: kstarsactions.cpp:1799
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr ""
 
-#: kstarsactions.cpp:1778
+#: kstarsactions.cpp:1800
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr ""
 
-#: kstarsactions.cpp:1809 kstarsinit.cpp:752
+#: kstarsactions.cpp:1831 kstarsinit.cpp:766
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "ઉત્તર (&N)"
 
-#: kstarsactions.cpp:1812 kstarsinit.cpp:761
+#: kstarsactions.cpp:1834 kstarsinit.cpp:775
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "ઉત્તર (&N)"
 
-#: kstarsactions.cpp:1828 kstarsinit.cpp:752
+#: kstarsactions.cpp:1850 kstarsinit.cpp:766
 #, fuzzy, kde-format
 #| msgid "zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "ધ્રુવ"
 
-#: kstarsactions.cpp:1831 kstarsinit.cpp:761
+#: kstarsactions.cpp:1853 kstarsinit.cpp:775
 #, fuzzy, kde-format
 #| msgid "zenith"
 msgctxt "Orientation of the sky map"
@@ -85002,390 +85002,396 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "છાપો (&P)..."
 
-#: kstarsinit.cpp:145
+#: kstarsinit.cpp:148
 #, fuzzy, kde-format
 msgid "Download New Data..."
 msgstr "નવી માહિતી ડાઉનલોડ કરો..."
 
-#: kstarsinit.cpp:148
+#: kstarsinit.cpp:151
 #, fuzzy, kde-format
 msgid "Downloads new data"
 msgstr "નવી માહિતી ડાઉનલોડ કરો..."
 
-#: kstarsinit.cpp:155
+#: kstarsinit.cpp:158
 #, fuzzy, kde-format
 msgid "Open Image(s)..."
 msgstr "ડિરેક્ટરી ખોલો"
 
-#: kstarsinit.cpp:171
+#: kstarsinit.cpp:162
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Open &Recent"
+msgstr "કેન્દ્ર"
+
+#: kstarsinit.cpp:185
 #, fuzzy, kde-format
 msgid "&Save Sky Image..."
 msgstr "ચિત્ર આ રીતે સંગ્રહો..."
 
-#: kstarsinit.cpp:178
+#: kstarsinit.cpp:192
 #, fuzzy, kde-format
 msgid "&Run Script..."
 msgstr "સ્ક્રિપ્ટ ચલાવો..."
 
-#: kstarsinit.cpp:182
+#: kstarsinit.cpp:196
 #, fuzzy, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "નેટવર્ક ફોલ્ડર વિઝાર્ડ"
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:205
 #, fuzzy, kde-format
 msgid "Set Time to &Now"
 msgstr "૨ અક્ષરો વચ્ચે સમય ગોઠવો."
 
-#: kstarsinit.cpp:195
+#: kstarsinit.cpp:209
 #, fuzzy, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "૨ અક્ષરો વચ્ચે સમય ગોઠવો."
 
-#: kstarsinit.cpp:199
+#: kstarsinit.cpp:213
 #, fuzzy, kde-format
 msgid "Stop &Clock"
 msgstr "ઘડિયાળ રૂપરેખાંકિત કરો"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Peacock"
 msgid "Resume Clock"
 msgstr "મોર"
 
-#: kstarsinit.cpp:226
+#: kstarsinit.cpp:240
 #, fuzzy, kde-format
 msgid "Stop Clock"
 msgstr "ઘડિયાળ રૂપરેખાંકિત કરો"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:241
+#: kstarsinit.cpp:255
 #, fuzzy, kde-format
 #| msgid "zenith"
 msgid "&Zenith"
 msgstr "ધ્રુવ"
 
-#: kstarsinit.cpp:242
+#: kstarsinit.cpp:256
 #, kde-format
 msgid "&North"
 msgstr "ઉત્તર (&N)"
 
-#: kstarsinit.cpp:243
+#: kstarsinit.cpp:257
 #, kde-format
 msgid "&East"
 msgstr "પૂર્વ ((&E)"
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:258
 #, kde-format
 msgid "&South"
 msgstr "દક્ષિણ (&S)"
 
-#: kstarsinit.cpp:245
+#: kstarsinit.cpp:259
 #, kde-format
 msgid "&West"
 msgstr "પશ્ચિમ (&W)"
 
-#: kstarsinit.cpp:248
+#: kstarsinit.cpp:262
 #, fuzzy, kde-format
 msgid "&Find Object..."
 msgstr "<કોઇ વસ્તુ નહી>"
 
-#: kstarsinit.cpp:255
+#: kstarsinit.cpp:269
 #, fuzzy, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "નેટવર્ક જાતે રૂપરેખાંકિત કરો"
 
-#: kstarsinit.cpp:267
+#: kstarsinit.cpp:281
 #, fuzzy, kde-format
 msgid "&Default Zoom"
 msgstr "મોટું કરો"
 
-#: kstarsinit.cpp:270
+#: kstarsinit.cpp:284
 #, fuzzy, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "ફોન્ટ છાપવા માટેની માપ અનુક્રમણિકા"
 
-#: kstarsinit.cpp:284
+#: kstarsinit.cpp:298
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr ""
 
-#: kstarsinit.cpp:298
+#: kstarsinit.cpp:312
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr ""
 
-#: kstarsinit.cpp:301
+#: kstarsinit.cpp:315
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr ""
 
-#: kstarsinit.cpp:304
+#: kstarsinit.cpp:318
 #, kde-format
 msgid "&Orthographic"
 msgstr ""
 
-#: kstarsinit.cpp:307
+#: kstarsinit.cpp:321
 #, fuzzy, kde-format
 msgid "&Equirectangular"
 msgstr "દેશ/વિસ્તાર & ભાષાઓ"
 
-#: kstarsinit.cpp:310
+#: kstarsinit.cpp:324
 #, kde-format
 msgid "&Stereographic"
 msgstr ""
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:327
 #, kde-format
 msgid "&Gnomonic"
 msgstr ""
 
-#: kstarsinit.cpp:319
+#: kstarsinit.cpp:333
 #, fuzzy, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "હાર્ડવેર માહિતી બતાવો"
 
-#: kstarsinit.cpp:324
+#: kstarsinit.cpp:338
 #, fuzzy, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "સમયવિસ્તાર બતાવો (&t)"
 
-#: kstarsinit.cpp:331
+#: kstarsinit.cpp:345
 #, fuzzy, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "'દિલગીર હોવુ' સંદેશ બોક્સ"
 
-#: kstarsinit.cpp:338
+#: kstarsinit.cpp:352
 #, fuzzy, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "'દિલગીર હોવુ' સંદેશ બોક્સ"
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:359
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"
 msgid "Show Main Toolbar"
 msgstr "મુખ્ય સાધનપટ્ટી"
 
-#: kstarsinit.cpp:347
+#: kstarsinit.cpp:361
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"
 msgid "Show View Toolbar"
 msgstr "મુખ્ય સાધનપટ્ટી"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:365
 #, kde-format
 msgid "Show Statusbar"
 msgstr "સ્થિતિપટ્ટી બતાવો"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:366
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr ""
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:367
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:368
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr ""
 
-#: kstarsinit.cpp:361
+#: kstarsinit.cpp:375
 #, fuzzy, kde-format
 #| msgid "New Color Scheme"
 msgid "C&olor Schemes"
 msgstr "નવી રંગ પધ્ધતિ"
 
-#: kstarsinit.cpp:362
+#: kstarsinit.cpp:376
 #, fuzzy, kde-format
 msgid "&Classic"
 msgstr "મે પેન"
 
-#: kstarsinit.cpp:363
+#: kstarsinit.cpp:377
 #, fuzzy, kde-format
 #| msgctxt "use 'star chart' color scheme"
 #| msgid "Star Chart"
 msgid "&Star Chart"
 msgstr "તારા નકશો"
 
-#: kstarsinit.cpp:364
+#: kstarsinit.cpp:378
 #, fuzzy, kde-format
 #| msgctxt "use 'night vision' color scheme"
 #| msgid "Night Vision"
 msgid "&Night Vision"
 msgstr "રાત્રિ દર્શન"
 
-#: kstarsinit.cpp:365
+#: kstarsinit.cpp:379
 #, fuzzy, kde-format
 msgid "&Moonless Night"
 msgstr "પૃથ્વી રાતનાં સમયે"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:399
 #, fuzzy, kde-format
 msgid "&FOV Symbols"
 msgstr "અક્ષરો-સંજ્ઞાઓ જેવા"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:407
 #, fuzzy, kde-format
 #| msgid "&View"
 msgid "&Views"
 msgstr "દેખાવ (&V)"
 
-#: kstarsinit.cpp:401
+#: kstarsinit.cpp:415
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr ""
 
-#: kstarsinit.cpp:408
+#: kstarsinit.cpp:422
 #, fuzzy, kde-format
 msgid "Skymap Orientation"
 msgstr "માઉન્ટ વિકલ્પો:"
 
-#: kstarsinit.cpp:414
+#: kstarsinit.cpp:428
 #, fuzzy, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "જગ્યા ફેરફાર કરો"
 
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:445
 #, kde-format
 msgid "Startup Wizard..."
 msgstr ""
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:450
 #, fuzzy, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "વોયેજર-૨ ઉંડા અવકાશનું યાન."
 
-#: kstarsinit.cpp:440
+#: kstarsinit.cpp:454
 #, fuzzy, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "પૃથ્વી. આપણો ગ્રહ!"
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:456
 #, fuzzy, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "પૃથ્વી. આપણો ગ્રહ!"
 
-#: kstarsinit.cpp:444
+#: kstarsinit.cpp:458
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr ""
 
-#: kstarsinit.cpp:446
+#: kstarsinit.cpp:460
 #, fuzzy, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "પૃથ્વી. આપણો ગ્રહ!"
 
-#: kstarsinit.cpp:450
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "Calculator"
 msgstr "કેલ્ક્યુલેટર"
 
-#: kstarsinit.cpp:460
+#: kstarsinit.cpp:474
 #, fuzzy, kde-format
 msgid "Observation Planner"
 msgstr "સૂચન યાદી"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:478
 #, fuzzy, kde-format
 msgid "Imaging Planner"
 msgstr "સૂચન યાદી"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:468 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:482 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr ""
 
-#: kstarsinit.cpp:471
+#: kstarsinit.cpp:485
 #, fuzzy, kde-format
 msgid "What's up Tonight"
 msgstr "પાર્ટિશનર ચાલુ કરે છે"
 
-#: kstarsinit.cpp:480
+#: kstarsinit.cpp:494
 #, fuzzy, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "સિસ્ટમ લૉગ દર્શક"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:482 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:496 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, fuzzy, kde-format
 msgid "Sky Calendar"
 msgstr "અંગત કેલેન્ડર"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:518
 #, fuzzy, kde-format
 msgid "Script Builder"
 msgstr "${SCRIPT} ચલાવે છે..."
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:526
 #, fuzzy, kde-format
 msgid "Jupiter's Moons"
 msgstr "જેક માસ્ટરીંગ સાધન"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:515 options/opsguides.ui:284
+#: kstarsinit.cpp:529 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "ધ્વજો"
 
-#: kstarsinit.cpp:518
+#: kstarsinit.cpp:532
 #, fuzzy, kde-format
 msgid "List your &Equipment..."
 msgstr "માઉસની નીચેની વસ્તુઓ:"
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:534
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observer..."
 msgstr "સર્વર"
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:538
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:528
+#: kstarsinit.cpp:542
 #, fuzzy, kde-format
 msgid "Execute the Session Plan..."
 msgstr "ઉપકરણ યાદી આનાં પર લાગુ પાડો..."
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:546
 #, fuzzy, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "૨૪-કલાકની ઘડિયાળ"
 
-#: kstarsinit.cpp:539
+#: kstarsinit.cpp:553
 #, fuzzy, kde-format
 msgid "Telescope Wizard..."
 msgstr "સાયફર વિઝાર્ડ"
 
-#: kstarsinit.cpp:544
+#: kstarsinit.cpp:558
 #, fuzzy, kde-format
 msgid "Device Manager..."
 msgstr "ફાઇલ વ્યવસ્થાપક"
 
-#: kstarsinit.cpp:567
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -85396,127 +85402,127 @@ msgid ""
 "of 'X'."
 msgstr ""
 
-#: kstarsinit.cpp:576
+#: kstarsinit.cpp:590
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Time step control"
 msgstr "મોન્ટ્રીઅલ"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:599
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "તારાઓ"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:601
 #, fuzzy, kde-format
 msgid "Toggle stars"
 msgstr "રૂપરેખાંકન વિગતો દર્શાવો"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:603
 #, fuzzy, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "આકાશી વાદળી!"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:605
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Toggle deep sky objects"
 msgstr "આકાશી વસ્તુઓ લાવે છે"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:607
 #, fuzzy, kde-format
 #| msgid "Solar System"
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "સૂર્ય માળા"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:609
 #, fuzzy, kde-format
 msgid "Toggle Solar system objects"
 msgstr "વસ્તુઓ બનાવતી વખતે ટીપ્પણીઓ બતાવો"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:611
 #, fuzzy, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "લીટીઓની સંખ્યાં:"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:613
 #, fuzzy, kde-format
 msgid "Toggle constellation lines"
 msgstr "લીટીઓની ચોક્કસ સંખ્યા: "
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:615
 #, fuzzy, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "કાર્તિક મિસ્ત્રી"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:617
 #, fuzzy, kde-format
 msgid "Toggle constellation names"
 msgstr "અવાજ નામો લાવતી વખતે ક્ષતિ આવી."
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:619
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr ""
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:621
 #, fuzzy, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "વધારાનાં ભાગો લાવે છે"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:623
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:625
 #, fuzzy, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "અવાજ નામો લાવતી વખતે ક્ષતિ આવી."
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:627
 #, fuzzy, kde-format
 #| msgid "Milky Way"
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "દૂધ ગંગા"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:629
 #, fuzzy, kde-format
 msgid "Toggle milky way"
 msgstr "રૂપરેખાંકન વિગતો દર્શાવો"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:631
 #, fuzzy, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:633
 #, fuzzy, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:635
 #, fuzzy, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "આડાં ઢોળાવો"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:637
 #, fuzzy, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "આડાં ઢોળાવો"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:639
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gerona"
@@ -85524,36 +85530,36 @@ msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "જેરાના"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:641
 #, fuzzy, kde-format
 msgid "Toggle opaque ground"
 msgstr "સંવાદો માટે અર્ધપારદર્શક ચિત્રો"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:643
 #, fuzzy, kde-format
 #| msgid "Local Time"
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "સ્થાનિક સમય"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:645
 #, fuzzy, kde-format
 msgid "Toggle daytime simulation"
 msgstr "ચિત્ર આ સમયાંતરે બદલો (&C):"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:647
 #, fuzzy, kde-format
 #| msgid "Flags"
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "ધ્વજો"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:649
 #, fuzzy, kde-format
 msgid "Toggle flags"
 msgstr "ચિત્ર આ સમયાંતરે બદલો (&C):"
 
-#: kstarsinit.cpp:637
+#: kstarsinit.cpp:651
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Nashville"
@@ -85561,12 +85567,12 @@ msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "નેશવિલે"
 
-#: kstarsinit.cpp:639
+#: kstarsinit.cpp:653
 #, fuzzy, kde-format
 msgid "Toggle satellites"
 msgstr "લીટીઓની ચોક્કસ સંખ્યા: "
 
-#: kstarsinit.cpp:641
+#: kstarsinit.cpp:655
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Superior"
@@ -85574,82 +85580,82 @@ msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "સુપિરીઅર"
 
-#: kstarsinit.cpp:643
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 msgid "Toggle supernovae"
 msgstr "પૃથ્વી. આપણો ગ્રહ!"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:659
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr ""
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:661
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr ""
 
-#: kstarsinit.cpp:652
+#: kstarsinit.cpp:666
 #, fuzzy, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "બચાવ સ્થિતિ"
 
-#: kstarsinit.cpp:654
+#: kstarsinit.cpp:668
 #, fuzzy, kde-format
 msgid "Toggle Ekos"
 msgstr "રૂપરેખાંકન વિગતો દર્શાવો"
 
-#: kstarsinit.cpp:656
+#: kstarsinit.cpp:670
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:672
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr ""
 
-#: kstarsinit.cpp:661
+#: kstarsinit.cpp:675
 #, fuzzy, kde-format
 #| msgid "KStars image viewer"
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "KStars ચિત્ર દર્શક"
 
-#: kstarsinit.cpp:663
+#: kstarsinit.cpp:677
 #, fuzzy, kde-format
 #| msgid "KStars image viewer"
 msgid "Toggle FITS Viewer"
 msgstr "KStars ચિત્ર દર્શક"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:681
 #, fuzzy, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "ભરી નાંખો"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:683
 #, fuzzy, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "રૂપરેખાંકન વિગતો દર્શાવો"
 
-#: kstarsinit.cpp:674
+#: kstarsinit.cpp:688
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr ""
 
-#: kstarsinit.cpp:676
+#: kstarsinit.cpp:690
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Toggle Mosaic Panel"
 msgstr "મોન્ટ્રીઅલ"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:695
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -85657,81 +85663,81 @@ msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "મોન્ટ્રીઅલ"
 
-#: kstarsinit.cpp:683
+#: kstarsinit.cpp:697
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Toggle Mount Control Panel"
 msgstr "મોન્ટ્રીઅલ"
 
-#: kstarsinit.cpp:687
+#: kstarsinit.cpp:701
 #, fuzzy, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "IPv4-માં-IPv6"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:703
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Lock Telescope Center"
 msgstr "રેડિઓટેલિસ્કોપ ત્રિજ્યા:"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:707
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Telescope Tracking"
 msgstr "રેડિઓટેલિસ્કોપ ત્રિજ્યા:"
 
-#: kstarsinit.cpp:697
+#: kstarsinit.cpp:711
 #, fuzzy, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "<કોઇ વસ્તુ નહી>"
 
-#: kstarsinit.cpp:701
+#: kstarsinit.cpp:715
 #, fuzzy, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "<કોઇ વસ્તુ નહી>"
 
-#: kstarsinit.cpp:705
+#: kstarsinit.cpp:719
 #, fuzzy, kde-format
 msgid "Abort telescope motions"
 msgstr "પોર્ટ ચકાસનાર"
 
-#: kstarsinit.cpp:710
+#: kstarsinit.cpp:724
 #, fuzzy, kde-format
 #| msgctxt "Show the selected object in the telescope"
 #| msgid "Scope"
 msgid "Park telescope"
 msgstr "પહોંચ"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:728
 #, fuzzy, kde-format
 msgid "Unpark telescope"
 msgstr "IPv4-માં-IPv6"
 
-#: kstarsinit.cpp:720
+#: kstarsinit.cpp:734
 #, fuzzy, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "ચિત્ર લાવવામાં અસક્ષમ"
 
-#: kstarsinit.cpp:723
+#: kstarsinit.cpp:737
 #, fuzzy, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "ચિત્ર લાવવામાં અસક્ષમ"
 
-#: kstarsinit.cpp:730
+#: kstarsinit.cpp:744
 #, fuzzy, kde-format
 msgid "Park dome"
 msgstr "${SCRIPT} ચલાવે છે..."
 
-#: kstarsinit.cpp:734
+#: kstarsinit.cpp:748
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Paris"
 msgid "Unpark dome"
 msgstr "પેરિસ"
 
-#: kstarsinit.cpp:756
+#: kstarsinit.cpp:770
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85741,7 +85747,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:779
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85751,7 +85757,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:770
+#: kstarsinit.cpp:784
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -85760,7 +85766,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "જીબ્રાલ્ટર"
 
-#: kstarsinit.cpp:774
+#: kstarsinit.cpp:788
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85769,13 +85775,13 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:781
+#: kstarsinit.cpp:795
 #, fuzzy, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "કીબોર્ડનો પ્રકાર:"
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:799
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85783,7 +85789,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr ""
 
-#: kstarsinit.cpp:791
+#: kstarsinit.cpp:805
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -85791,7 +85797,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr ""
 
-#: kstarsinit.cpp:795
+#: kstarsinit.cpp:809
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85803,7 +85809,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:801
+#: kstarsinit.cpp:815
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -85811,7 +85817,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr ""
 
-#: kstarsinit.cpp:805
+#: kstarsinit.cpp:819
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -85823,7 +85829,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:829
+#: kstarsinit.cpp:843
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -85831,56 +85837,56 @@ msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "જીબ્રાલ્ટર"
 
-#: kstarsinit.cpp:832
+#: kstarsinit.cpp:846
 #, fuzzy, kde-format
 msgid "Edit Views..."
 msgstr "કડી દૂર કરો"
 
-#: kstarsinit.cpp:859
+#: kstarsinit.cpp:873
 #, fuzzy, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "અક્ષરો-સંજ્ઞાઓ જેવા"
 
-#: kstarsinit.cpp:896
+#: kstarsinit.cpp:910
 #, fuzzy, kde-format
 msgid "HiPS Settings..."
 msgstr "હાલની રંગ પધ્ધતિ સંગ્રહ કરો"
 
-#: kstarsinit.cpp:903
+#: kstarsinit.cpp:917
 #, fuzzy, kde-format
 msgid " Welcome to KStars "
 msgstr "KDE માં તમારૂં સ્વાગત છે"
 
-#: kstarsinit.cpp:1000 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
+#: kstarsinit.cpp:1014 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
 #, kde-format
 msgid "nothing"
 msgstr "કંઇ નહીં"
 
-#: kstarsinit.cpp:1055 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1069 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr ""
 
-#: kstarsinit.cpp:1057 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1071 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
 "Would you like to reset to the default position?"
 msgstr ""
 
-#: kstarsinit.cpp:1058
+#: kstarsinit.cpp:1072
 #, fuzzy, kde-format
 msgid "Reset Position"
 msgstr "સહીની જગ્યા:"
 
-#: kstarsinit.cpp:1059
+#: kstarsinit.cpp:1073
 #, fuzzy, kde-format
 #| msgid "Do Not Switch"
 msgid "Do Not Reset"
 msgstr "બદલો નહીં"
 
-#: kstarsinit.cpp:1124
+#: kstarsinit.cpp:1138
 #, kde-format
 msgid "&Themes"
 msgstr ""
@@ -90657,14 +90663,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:112
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:142
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -90672,7 +90678,7 @@ msgid ""
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -90683,405 +90689,405 @@ msgid ""
 "%3"
 msgstr ""
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Jason Harris"
 msgstr ""
 
-#: main.cpp:150
+#: main.cpp:151
 #, kde-format
 msgid "Original Author"
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, fuzzy, kde-format
 msgid "Current Maintainer"
 msgstr "હાઉટ્સ-ડી-સેઇને"
 
-#: main.cpp:156
+#: main.cpp:157
 #, kde-format
 msgid "Akarsh Simha"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:159
 #, fuzzy, kde-format
 msgid "Robert Lancaster"
 msgstr "લા પાઝ"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:162
+#: main.cpp:163
 #, fuzzy, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
 msgstr "સૂચન યાદી"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "સૂચન યાદી"
 
-#: main.cpp:166
+#: main.cpp:167
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
 msgstr "સૂચન યાદી"
 
-#: main.cpp:168
+#: main.cpp:169
 #, fuzzy, kde-format
 msgid "John Evans"
 msgstr "અયોગ્ય માઉન્ટ બિંદુ"
 
-#: main.cpp:169
+#: main.cpp:170
 #, fuzzy, kde-format
 msgid "Focus algorithms & Livestacking"
 msgstr "પરિણામો ફાઇલમાં સંગ્રહાઇ ગયા\n"
 
-#: main.cpp:170
+#: main.cpp:171
 #, kde-format
 msgid "Tony Schriber"
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:174
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:175
+#: main.cpp:176
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "KStars Lite"
 msgstr "તારાઓ"
 
-#: main.cpp:178
+#: main.cpp:179
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Jamestown"
 msgid "James Bowlin"
 msgstr "જેમ્સટાઉન"
 
-#: main.cpp:179
+#: main.cpp:180
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:181
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr ""
 
-#: main.cpp:181
+#: main.cpp:182
 #, kde-format
 msgid "Heiko Evermann"
 msgstr ""
 
-#: main.cpp:183
+#: main.cpp:184
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "કાર્સ્ટેન નિહાઉસ"
 
-#: main.cpp:184
+#: main.cpp:185
 #, kde-format
 msgid "Mark Hollomon"
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:186
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:187
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr ""
 
-#: main.cpp:188
+#: main.cpp:189
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:191
 #, kde-format
 msgid "Prakash Mohan"
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Victor Cărbune"
 msgstr ""
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Henry de Valence"
 msgstr ""
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr ""
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Andreas Ruthner"
 msgstr ""
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr ""
 
-#: main.cpp:200
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgctxt "Sky Culture"
 #| msgid "Chinese"
 msgid "Christian Kemper"
 msgstr "ચાઇનિઝ"
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
 
-#: main.cpp:201
+#: main.cpp:202
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Nashville"
 msgid "Thomas Nemer"
 msgstr "નેશવિલે"
 
-#: main.cpp:201
+#: main.cpp:202
 #, kde-format
 msgid "Ekos MCP server and AI skills."
 msgstr ""
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr ""
 
-#: main.cpp:204
+#: main.cpp:205
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:206
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr ""
 
-#: main.cpp:206
+#: main.cpp:207
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:207
+#: main.cpp:208
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:211
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:211
+#: main.cpp:212
 #, fuzzy, kde-format
 msgid "Daniel Holler"
 msgstr "ડેનિઅલ મોલ્કેન્ટિન"
 
-#: main.cpp:212
+#: main.cpp:213
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:214
+#: main.cpp:215
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "સેન્ટ લુસિઆ"
 
-#: main.cpp:215
+#: main.cpp:216
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:216
+#: main.cpp:217
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:217
+#: main.cpp:218
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:218
+#: main.cpp:219
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:219
+#: main.cpp:220
 #, fuzzy, kde-format
 msgid "Patrick Molenaar"
 msgstr "અણુઓની સંખ્યા:"
 
-#: main.cpp:219
+#: main.cpp:220
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:220
+#: main.cpp:221
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr ""
 
-#: main.cpp:220
+#: main.cpp:221
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Superior"
 msgid "Supernovae daily updates"
 msgstr "સુપિરીઅર"
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Joseph McGee"
 msgstr ""
 
-#: main.cpp:221
+#: main.cpp:222
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "Project Nayuki"
 msgstr ""
 
-#: main.cpp:222
+#: main.cpp:223
 #, kde-format
 msgid "QR Code generator library (MIT)"
 msgstr ""
 
-#: main.cpp:233
+#: main.cpp:234
 #, fuzzy, kde-format
 msgid "Dump sky image to file."
 msgstr "ચિત્ર બનાવનાર કાર્યક્રમ"
 
-#: main.cpp:234
+#: main.cpp:235
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "ચલાવવા માટેની સ્ક્રિપ્ટ"
 
-#: main.cpp:235
+#: main.cpp:236
 #, fuzzy, kde-format
 msgid "Width of sky image."
 msgstr "ચિત્ર આ રીતે સંગ્રહો..."
 
-#: main.cpp:236
+#: main.cpp:237
 #, fuzzy, kde-format
 msgid "Height of sky image."
 msgstr "ચિત્ર બનાવનાર કાર્યક્રમ"
 
-#: main.cpp:237
+#: main.cpp:238
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "તારીખ અને સમય"
 
-#: main.cpp:238
+#: main.cpp:239
 #, kde-format
 msgid "Start with clock paused."
 msgstr ""
 
-#: main.cpp:239
+#: main.cpp:240
 #, fuzzy, kde-format
 msgid "Run Live Stacker standalone mode"
 msgstr "%B, %Y પર પહેલાં"
 
-#: main.cpp:242
+#: main.cpp:243
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:288 printing/foveditordialog.cpp:176
+#: main.cpp:289 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr ""
 
-#: main.cpp:346
+#: main.cpp:347
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 
-#: main.cpp:377
+#: main.cpp:378
 #, fuzzy, kde-format
 msgid "Script executed."
 msgstr "${SCRIPT} ચલાવે છે..."
 
-#: main.cpp:381
+#: main.cpp:382
 #, fuzzy, kde-format
 msgid "Could not execute script."
 msgstr "'ફોર્ચયુન' કાર્યક્રમ ચલાવી શકયા નથી"
 
-#: main.cpp:405
+#: main.cpp:406
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr ""
