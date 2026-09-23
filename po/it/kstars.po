@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 18:34+0000\n"
+"POT-Creation-Date: 2026-09-23 05:41+0000\n"
 "PO-Revision-Date: 2026-09-10 23:02+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -2086,7 +2086,7 @@ msgstr "Stato:"
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:4483 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:89 ekos/auxiliary/ledstatuswidget.cpp:19
-#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
+#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
@@ -7324,7 +7324,7 @@ msgstr ""
 msgid "Capturing image..."
 msgstr "Acquisizione immagine..."
 
-#: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:74
 #: ekos/focus/focus.cpp:3185
 #, kde-format
 msgid "Image received."
@@ -11347,7 +11347,7 @@ msgstr ""
 "delle immagini catturate. Una volta impostata, per le immagini di nuova "
 "cattura saranno rilevate le stelle."
 
-#: ekos/analyze/analyze.cpp:4485 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:4485 ekos/auxiliary/ledstatuswidget.cpp:81
 #: ekos/capture/sequencejob.cpp:36 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1851
@@ -11366,7 +11366,7 @@ msgstr "Connesso"
 msgid "Disconnected"
 msgstr "Disconnesso"
 
-#: ekos/analyze/analyze.cpp:4491 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:4491 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2502
 #, kde-format
 msgid "Capturing"
@@ -11414,7 +11414,7 @@ msgstr "Calibrato"
 msgid "Guiding"
 msgstr "Sistema di guida"
 
-#: ekos/analyze/analyze.cpp:4509 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:4509 ekos/auxiliary/ledstatuswidget.cpp:36
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
@@ -13491,63 +13491,63 @@ msgstr ""
 msgid "Capture flats at the same focus as lights"
 msgstr "Acquisisci i flat alla stessa messa a fuoco delle luci"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:199
+#: ekos/auxiliary/ledstatuswidget.cpp:33 ekos/ekos.h:71 ekos/ekos.h:199
 #, kde-format
 msgid "Paused"
 msgstr "In pausa"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:36
+#: ekos/auxiliary/ledstatuswidget.cpp:39
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:649
 #, kde-format
 msgid "Completed"
 msgstr "Completata"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:40
+#: ekos/auxiliary/ledstatuswidget.cpp:43
 #, kde-format
 msgid "Preparing..."
 msgstr "In preparazione..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:43
+#: ekos/auxiliary/ledstatuswidget.cpp:46
 #, kde-format
 msgid "Waiting..."
 msgstr "Attendi..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:406
+#: ekos/auxiliary/ledstatuswidget.cpp:49 ekos/capture/camerastate.cpp:406
 #, kde-format
 msgid "Dithering requested..."
 msgstr "Dithering richiesto..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:49
+#: ekos/auxiliary/ledstatuswidget.cpp:52
 #, kde-format
 msgid "Focusing..."
 msgstr "Messa a fuoco..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:52 ekos/auxiliary/ledstatuswidget.cpp:55
+#: ekos/auxiliary/ledstatuswidget.cpp:55 ekos/auxiliary/ledstatuswidget.cpp:58
 #, kde-format
 msgid "Filter change..."
 msgstr "Cambio di filtro..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:58
+#: ekos/auxiliary/ledstatuswidget.cpp:61
 #, kde-format
 msgid "Aligning..."
 msgstr "Allineamento..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:216
+#: ekos/auxiliary/ledstatuswidget.cpp:64 ekos/capture/camera_actions.cpp:216
 #, kde-format
 msgid "Calibrating..."
 msgstr "Calibrazione..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:64
+#: ekos/auxiliary/ledstatuswidget.cpp:67
 #, kde-format
 msgid "Meridian flip..."
 msgstr "Inversione del meridiano..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:74
+#: ekos/auxiliary/ledstatuswidget.cpp:77
 #, kde-format
 msgid "Pause planned..."
 msgstr "Pausa pianificata..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:145
+#: ekos/auxiliary/ledstatuswidget.cpp:148
 #, kde-format
 msgid "Filter selected."
 msgstr "Filtro selezionato."

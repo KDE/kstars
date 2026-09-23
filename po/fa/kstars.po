@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 18:34+0000\n"
+"POT-Creation-Date: 2026-09-23 05:41+0000\n"
 "PO-Revision-Date: 2024-08-14 00:39+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
@@ -2375,7 +2375,7 @@ msgstr "وضعیت"
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:4483 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:89 ekos/auxiliary/ledstatuswidget.cpp:19
-#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
+#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
@@ -7783,7 +7783,7 @@ msgstr "تنظیم دمای تراشه CCD هدف‌."
 msgid "Capturing image..."
 msgstr "در حال بارگذاری تصاویر..."
 
-#: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:74
 #: ekos/focus/focus.cpp:3185
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -11575,7 +11575,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:4485 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:4485 ekos/auxiliary/ledstatuswidget.cpp:81
 #: ekos/capture/sequencejob.cpp:36 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1851
@@ -11598,7 +11598,7 @@ msgstr "اتصال"
 msgid "Disconnected"
 msgstr "قطع ارتباط"
 
-#: ekos/analyze/analyze.cpp:4491 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:4491 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -11654,7 +11654,7 @@ msgstr "کارخواه"
 msgid "Guiding"
 msgstr "راهنماییها"
 
-#: ekos/analyze/analyze.cpp:4509 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:4509 ekos/auxiliary/ledstatuswidget.cpp:36
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
@@ -13599,78 +13599,78 @@ msgstr ""
 msgid "Capture flats at the same focus as lights"
 msgstr ""
 
-#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:199
+#: ekos/auxiliary/ledstatuswidget.cpp:33 ekos/ekos.h:71 ekos/ekos.h:199
 #, fuzzy, kde-format
 #| msgid "Play/Pause"
 msgid "Paused"
 msgstr "پخش/مکث"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:36
+#: ekos/auxiliary/ledstatuswidget.cpp:39
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:649
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Completed"
 msgstr "تکمیل"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:40
+#: ekos/auxiliary/ledstatuswidget.cpp:43
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Framingham"
 msgid "Preparing..."
 msgstr "فرامینگهام"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:43
+#: ekos/auxiliary/ledstatuswidget.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Waiting..."
 msgstr "دیگر"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:406
+#: ekos/auxiliary/ledstatuswidget.cpp:49 ekos/capture/camerastate.cpp:406
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering requested..."
 msgstr "دیگر"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:49
+#: ekos/auxiliary/ledstatuswidget.cpp:52
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing..."
 msgstr "تمرکز بر: "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:52 ekos/auxiliary/ledstatuswidget.cpp:55
+#: ekos/auxiliary/ledstatuswidget.cpp:55 ekos/auxiliary/ledstatuswidget.cpp:58
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Filter change..."
 msgstr "تکمیل"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:58
+#: ekos/auxiliary/ledstatuswidget.cpp:61
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Aligning..."
 msgstr "تمرکز بر: "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:216
+#: ekos/auxiliary/ledstatuswidget.cpp:64 ekos/capture/camera_actions.cpp:216
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibrating..."
 msgstr "کارخواه"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:64
+#: ekos/auxiliary/ledstatuswidget.cpp:67
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip..."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:74
+#: ekos/auxiliary/ledstatuswidget.cpp:77
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lausanne"
 msgid "Pause planned..."
 msgstr "لوزان"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:145
+#: ekos/auxiliary/ledstatuswidget.cpp:148
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Filter selected."
