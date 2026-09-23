@@ -189,6 +189,51 @@ void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
 }
 
 
+void TestEkosCaptureWorkflow::testCaptureRefocusAfterPause()
+{
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    Ekos::Manager *manager = Ekos::Manager::Instance();
+    Ekos::Capture *capture = manager->captureModule();
+    // select temperature threshold
+    double deltaT = 2.0;
+    QVERIFY(prepareCapture(0, 0, deltaT));
+    // set the focuser temperature
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", 0);
+    // select the focuser as temperature source
+    KTRY_SET_COMBO(manager->focusModule(), defaultFocusTemperatureSource, m_CaptureHelper->m_FocuserDevice);
+
+    QVERIFY(m_CaptureHelper->executeFocusing());
+
+    // start capturing
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
+
+    // pause and suspend the sequence, like it happens for a follower camera while
+    // the lead camera is dithering
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PAUSED);
+    KTRY_CLICK(capture, pauseB);
+    capture->suspend();
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
+
+    // change the temperature so that re-focusing is due when the sequence continues
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", -2 * deltaT);
+
+    // resume the sequence, re-focusing is expected to be triggered
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 60000);
+    // capturing must continue after re-focusing has completed
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
+                                     30000 + 1000 * capture->mainCamera()->captureExposureN->value());
+}
+
 void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
 {
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
@@ -1614,6 +1659,11 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR_data()
 }
 
 void TestEkosCaptureWorkflow::testCaptureRefocusTemperature_data()
+{
+    prepareTestData(10.0, {"Luminance:6"});
+}
+
+void TestEkosCaptureWorkflow::testCaptureRefocusAfterPause_data()
 {
     prepareTestData(10.0, {"Luminance:6"});
 }

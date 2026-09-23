@@ -172,6 +172,18 @@ class TestEkosCaptureWorkflow : public QObject
         /** @brief Test data for @see testCaptureRefocusTemperature() */
         void testCaptureRefocusTemperature_data();
 
+        /**
+         * @brief Test if capturing continues when re-focusing is triggered while the
+         *        sequence is resumed from a pause.
+         *
+         * This is the situation of a follower camera that has been paused and suspended
+         * while the lead camera dithers and that needs to re-focus when it continues.
+         */
+        void testCaptureRefocusAfterPause();
+
+        /** @brief Test data for @see testCaptureRefocusAfterPause() */
+        void testCaptureRefocusAfterPause_data();
+
         /** @brief Test if re-focusing is aborted if capture is aborted. */
         void testCaptureRefocusAbort();
 

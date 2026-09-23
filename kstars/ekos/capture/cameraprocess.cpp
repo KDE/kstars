@@ -270,7 +270,10 @@ void CameraProcess::toggleSequence()
                 resumeSequence();
                 break;
             case CAPTURE_CONTINUE_ACTION_NEXT_EXPOSURE:
-                startNextExposure();
+                // use checkNextExposure() so that actions that are still pending when the
+                // sequence resumes (like a re-focus) are retried instead of stalling the sequence
+                m_CaptureOperationsTimer.invalidate();
+                checkNextExposure();
                 break;
             default:
                 break;
