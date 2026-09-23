@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-22 18:34+0000\n"
-"PO-Revision-Date: 2026-09-18 15:03+0100\n"
+"PO-Revision-Date: 2026-09-22 23:26+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -82597,10 +82597,9 @@ msgid "Open Image(s)..."
 msgstr "Abrir imágenes…"
 
 #: kstarsinit.cpp:162
-#, fuzzy, kde-format
-#| msgid "Recenter"
+#, kde-format
 msgid "Open &Recent"
-msgstr "Volver a centrar"
+msgstr "Ab&rir reciente"
 
 #: kstarsinit.cpp:185
 #, kde-format
