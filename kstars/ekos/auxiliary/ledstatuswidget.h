@@ -65,6 +65,7 @@ class LedStatusWidget : public QWidget, Ui::LedStatusWidget
         KLed *statusLed {nullptr};
 
         FilterState lastFilterState = FILTER_IDLE;
+        CaptureState lastCaptureState = CAPTURE_IDLE;
 };
 
 } // namespace

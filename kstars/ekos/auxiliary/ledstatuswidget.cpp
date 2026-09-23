@@ -21,6 +21,9 @@ LedStatusWidget::LedStatusWidget(QWidget * parent) : QWidget(parent)
 
 void LedStatusWidget::setCaptureState(CaptureState status)
 {
+    // remember the capture state, it is the fallback when a filter operation completes
+    lastCaptureState = status;
+
     switch (status)
     {
         case CAPTURE_IDLE:
@@ -143,6 +146,9 @@ void LedStatusWidget::setFilterState(FilterState status)
         case FILTER_IDLE:
             if (lastFilterState == FILTER_CHANGE)
                 setStatus(i18n("Filter selected."), Qt::darkGreen);
+            else if (lastFilterState == FILTER_OFFSET || lastFilterState == FILTER_AUTOFOCUS)
+                // the filter operation is over, fall back to the capture state
+                setCaptureState(lastCaptureState);
             break;
         default:
             // do nothing
