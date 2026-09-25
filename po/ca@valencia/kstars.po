@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-24 02:15+0000\n"
-"PO-Revision-Date: 2026-09-22 18:52+0200\n"
+"PO-Revision-Date: 2026-09-24 15:10+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7441,13 +7441,12 @@ msgstr "S'està resolent amb un llindar dinàmic cec…"
 #: ekos/align/align_solver.cpp:633
 #, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr ""
-"La imatge carregada no conté la informació del costat del pilar («PierSide»)"
+msgstr "La imatge carregada no conté la informació del costat del pilar"
 
 #: ekos/align/align_solver.cpp:638
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr "La imatge carregada es va prendre al costat del pilar («PierSide») %1"
+msgstr "La imatge carregada es va prendre al costat del pilar %1"
 
 #: ekos/align/align_solver.cpp:704
 #, kde-format
@@ -11588,7 +11587,7 @@ msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Trieu quines càmeres i enfocadors es mostren als "
+"<html><head/><body><p>Trieu quines càmeres i enfocadors es mostren en els "
 "gràfics «Línia de temps» i «Estadístiques».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
@@ -12845,10 +12844,9 @@ msgstr[1] "Els fotogrames foscos de coincidència %1 no tenen cap guany gravat."
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-"El fotograma fosc de coincidència %1 no té cap agrupació enregistrada."
+msgstr[0] "El fotograma fosc de coincidència %1 no té cap agrupació gravada."
 msgstr[1] ""
-"Els fotogrames foscos de coincidència %1 no tenen cap agrupació enregistrada."
+"Els fotogrames foscos de coincidència %1 no tenen cap agrupació gravada."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
@@ -18674,7 +18672,7 @@ msgid ""
 "starting capture."
 msgstr ""
 "Nombre màxim de segons que s'esperarà abans d'interrompre la captura si les "
-"operacions com els canvis a la roda de filtres o les inversions de meridià "
+"operacions com els canvis en la roda de filtres o les inversions de meridià "
 "tarden massa. També limitarà el temps que el programador dedica a establir "
 "el guiatge (calibració i bloqueig) abans d'iniciar la captura."
 
@@ -18839,7 +18837,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.ui:233
 #, kde-format
 msgid "Current Pierside"
-msgstr "Costat del pilar «PierSide» actual"
+msgstr "Costat del pilar actual"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:257
@@ -25317,7 +25315,7 @@ msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic AR en el traçat «Gràfics de la "
+"<html><head/><body><p>Mostra el gràfic AR en el gràfic «Gràfics de la "
 "deriva».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
@@ -25333,7 +25331,7 @@ msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
 "plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic de correccions AR en el traçat "
+"<html><head/><body><p>Mostra el gràfic de correccions AR en el gràfic "
 "«Gràfics de la deriva».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
@@ -25350,7 +25348,7 @@ msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic Dec en el traçat «Gràfics de la "
+"<html><head/><body><p>Mostra el gràfic Dec en el gràfic «Gràfics de la "
 "deriva».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
@@ -25360,7 +25358,7 @@ msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
 "Graphics plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic de correccions Dec en el traçat "
+"<html><head/><body><p>Mostra el gràfic de correccions Dec en el gràfic "
 "«Gràfics de la deriva».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
@@ -25370,7 +25368,7 @@ msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic SNR en el traçat «Gràfics de la "
+"<html><head/><body><p>Mostra el gràfic SNR en el gràfic «Gràfics de la "
 "deriva».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
@@ -25386,7 +25384,7 @@ msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el gràfic RMS en el traçat «Gràfics de la "
+"<html><head/><body><p>Mostra el gràfic RMS en el gràfic «Gràfics de la "
 "deriva».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
@@ -26252,7 +26250,7 @@ msgstr ""
 "<html><head/><body><p>Quan es marca, s'assumirà que l'angle de l'eix de la "
 "Dec es troba exactament a 90° respecte a l'angle mesurat de l'AR, en lloc de "
 "mesurar-se de manera independent. Açò ajudarà quan un error periòdic o el "
-"joc mecànic provoquen punts de dades erràtics al calibratge de la Dec. La "
+"joc mecànic provoquen punts de dades erràtics en el calibratge de la Dec. La "
 "freqüència dels impulsos de la Dec (velocitat) es continuarà mesurant amb "
 "normalitat.</p></body></html>"
 
@@ -26868,8 +26866,8 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-list-indent:\n"
 "          1;\"><li style=\"margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0;\n"
-"          text-indent:0px;\">Impuls a la cadena d'engranatges,</li><li style="
-"\"margin-top:12px; margin-bottom:12px;\n"
+"          text-indent:0px;\">Impuls en la cadena d'engranatges,</li><li "
+"style=\"margin-top:12px; margin-bottom:12px;\n"
 "          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\">Ràfegues de vent,</li><li style=\"\n"
 "          margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
@@ -36082,7 +36080,7 @@ msgstr "S'està parant…"
 #: fitsviewer/fitstab.cpp:72
 #, kde-format
 msgid "Save Changes to FITS?"
-msgstr "Voleu que es guarden els canvis a FITS?"
+msgstr "Voleu que es guarden els canvis en FITS?"
 
 #: fitsviewer/fitstab.cpp:73
 #, kde-format
@@ -48661,7 +48659,7 @@ msgstr ""
 #: kstars.kcfg:3705
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
-msgstr "Mostra HFR en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra HFR en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
 #: kstars.kcfg:3709
@@ -48670,7 +48668,7 @@ msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
 "Plot."
 msgstr ""
-"Mostra el nombre d'estreles de la captura en el traçat «Estadístiques de "
+"Mostra el nombre d'estreles de la captura en el gràfic «Estadístiques de "
 "l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
@@ -48679,7 +48677,7 @@ msgstr ""
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
 msgstr ""
-"Mostra el valor de la mediana simple de la captura en el traçat "
+"Mostra el valor de la mediana simple de la captura en el gràfic "
 "«Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
@@ -48697,7 +48695,7 @@ msgstr ""
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr ""
-"Mostra la temperatura de l'ambient en el traçat «Estadístiques de l'anàlisi»."
+"Mostra la temperatura de l'ambient en el gràfic «Estadístiques de l'anàlisi»."
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
@@ -48710,59 +48708,56 @@ msgstr "Mostra la posició de la solució d'enfocament automàtic."
 #: kstars.kcfg:3729
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
-msgstr ""
-"Mostra el nombre d'estreles («NumStars») en el traçat «Estadístiques de "
-"l'anàlisi»."
+msgstr "Mostra el nombre d'estreles en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
 #: kstars.kcfg:3733
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
-msgstr ""
-"Mostra el fons del cel («SkyBackground») en el traçat «Estadístiques de "
-"l'anàlisi»."
+msgstr "Mostra el fons del cel en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
 #: kstars.kcfg:3737
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
-msgstr "Mostra l'SNR en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'SNR en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
 #: kstars.kcfg:3741
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
-msgstr "Mostra l'AR en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'AR en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
 #: kstars.kcfg:3745
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
-msgstr "Mostra la Dec en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra la Dec en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
 #: kstars.kcfg:3749
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
-msgstr "Mostra els impulsos de l'AR al gràfic «Estadístiques de l'anàlisi»."
+msgstr "Mostra els impulsos de l'AR en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
 #: kstars.kcfg:3753
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
-msgstr "Mostra els impulsos de la Dec al gràfic «Estadístiques de l'anàlisi»."
+msgstr ""
+"Mostra els impulsos de la Dec en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
 #: kstars.kcfg:3757
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
-msgstr "Mostra la deriva en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra la deriva en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
 #: kstars.kcfg:3761
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
-msgstr "Mostra l'error RMS en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'error RMS en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
 #: kstars.kcfg:3765
@@ -48772,55 +48767,53 @@ msgid ""
 "solved captured image on the Analyze plot."
 msgstr ""
 "Mostra la distància en segons d'arc entre la posició de l'objectiu i la "
-"imatge capturada de la placa resolta en el traçat «Anàlisi»."
+"imatge capturada de la placa resolta en el gràfic «Anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
 #: kstars.kcfg:3769
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
-"Mostra l'error RMS (durant la captura) en el traçat «Estadístiques de "
+"Mostra l'error RMS (durant la captura) en el gràfic «Estadístiques de "
 "l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
 #: kstars.kcfg:3773
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
-msgstr "Mostra l'AR de la muntura en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'AR de la muntura en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
 #: kstars.kcfg:3777
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
-msgstr "Mostra la Dec de la muntura en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra la Dec de la muntura en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
 #: kstars.kcfg:3781
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
-"Mostra l'angle horari de la muntura en el traçat «Estadístiques de "
+"Mostra l'angle horari de la muntura en el gràfic «Estadístiques de "
 "l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
 #: kstars.kcfg:3785
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
-msgstr "Mostra l'azimut en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'azimut al gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
 #: kstars.kcfg:3789
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
-msgstr "Mostra l'altitud en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra l'altitud en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
 #: kstars.kcfg:3793
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
-msgstr ""
-"Mostra el costat del pilar («PierSide») al traçat «Estadístiques de "
-"l'anàlisi»."
+msgstr "Mostra el costat del pilar en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:3797
@@ -83345,10 +83338,9 @@ msgid "Open Image(s)..."
 msgstr "Obri algunes imatges…"
 
 #: kstarsinit.cpp:162
-#, fuzzy, kde-format
-#| msgid "Recenter"
+#, kde-format
 msgid "Open &Recent"
-msgstr "Torna a centrar"
+msgstr "Obri'n un de &recent"
 
 #: kstarsinit.cpp:185
 #, kde-format
@@ -99969,7 +99961,7 @@ msgstr "S'ha produït un error de baixada"
 #: tools/scriptbuilder.cpp:947
 #, kde-format
 msgid "Save Changes to Script?"
-msgstr "Voleu que es guarden els canvis a l'script?"
+msgstr "Voleu que es guarden els canvis en l'script?"
 
 #: tools/scriptbuilder.cpp:948
 #, kde-format
