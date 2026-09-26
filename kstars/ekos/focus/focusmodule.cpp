@@ -635,7 +635,7 @@ QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
     // set the weather sources
     newFocuser->updateTemperatureSources(m_TemperatureSources);
     // set the optical train
-    if (trainname != "" && newFocuser->opticalTrainCombo->findText(trainname))
+    if (trainname != "" && newFocuser->opticalTrainCombo->findText(trainname) >= 0)
         newFocuser->opticalTrainCombo->setCurrentText(trainname);
 
     // update the tab text

@@ -16,7 +16,11 @@
 #include "test_ekos_mount.h"
 #include "ekos/focus/focusmodule.h"
 #include "ekos/focus/focusutils.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "Options.h"
+
+#include <QJsonObject>
+#include <QScopeGuard>
 
 namespace
 {
@@ -621,6 +625,69 @@ void TestEkosFocus::testFocusFailure()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 240000);
     QVERIFY(!autofocus.started);
+}
+
+void TestEkosFocus::testCanAutoFocusWithoutFocuser()
+{
+    KTRY_FOCUS_SHOW();
+    Ekos::FocusModule *focusModule = Ekos::Manager::Instance()->focusModule();
+    Ekos::OpticalTrainManager *otm = Ekos::OpticalTrainManager::Instance();
+    QSharedPointer<Ekos::Focus> mainFocuser = focusModule->mainFocuser();
+    const QString primaryTrain = mainFocuser->opticalTrain();
+    const QString noFocuserTrain = "No Focuser Train";
+
+    KTELL("Precondition: the main focuser train has a focuser capable of autofocus.");
+    QVERIFY(mainFocuser->canAutoFocus());
+    QVERIFY(focusModule->canAutoFocus(primaryTrain));
+
+    KTELL("Create an optical train without focuser.");
+    QVariantMap train;
+    train["name"] = noFocuserTrain;
+    train["mount"] = "Telescope Simulator";
+    train["camera"] = "CCD Simulator";
+    train["filterwheel"] = "-";
+    train["focuser"] = "-";
+    otm->addOpticalTrain(QJsonObject::fromVariantMap(train));
+    QTRY_VERIFY_WITH_TIMEOUT(otm->id(noFocuserTrain) >= 0, 5000);
+
+    // restore the main focuser train and remove the extra train, even if the test fails
+    auto restore = qScopeGuard([&]()
+    {
+        mainFocuser->opticalTrainCombo->setCurrentText(primaryTrain);
+        const int id = focusModule->findFocuser(noFocuserTrain, false);
+        if (id > 0)
+            Q_EMIT focusModule->focusTabs->tabCloseRequested(id);
+        otm->removeOpticalTrain(noFocuserTrain);
+    });
+
+    QTRY_COMPARE_WITH_TIMEOUT(mainFocuser->opticalTrain(), primaryTrain, 5000);
+
+    KTELL("Query autofocus capability by train name, as the Scheduler does.\n"
+          "Expect a new focuser tab and no autofocus capability.");
+    const int count = focusModule->focuserCount();
+    QVERIFY(!focusModule->canAutoFocus(noFocuserTrain));
+    QCOMPARE(focusModule->focuserCount(), count + 1);
+    const int newId = focusModule->findFocuser(noFocuserTrain, false);
+    QVERIFY(newId > 0);
+    QCOMPARE(focusModule->focuser(newId)->opticalTrain(), noFocuserTrain);
+    QVERIFY(!focusModule->canAutoFocus(noFocuserTrain));
+    QCOMPARE(focusModule->focuserCount(), count + 1);
+
+    KTELL("Close the additional focuser tab.");
+    Q_EMIT focusModule->focusTabs->tabCloseRequested(newId);
+    QTRY_COMPARE_WITH_TIMEOUT(focusModule->focuserCount(), count, 5000);
+
+    KTELL("Switch the main focuser to the train without focuser.\nExpect no autofocus capability.");
+    {
+        KTRY_SET_COMBO(mainFocuser.get(), opticalTrainCombo, noFocuserTrain);
+    }
+    QVERIFY(!mainFocuser->canAutoFocus());
+
+    KTELL("Switch back to the primary train.\nExpect autofocus capability again.");
+    {
+        KTRY_SET_COMBO(mainFocuser.get(), opticalTrainCombo, primaryTrain);
+    }
+    QTRY_VERIFY_WITH_TIMEOUT(mainFocuser->canAutoFocus(), 5000);
 }
 
 void TestEkosFocus::testStarDetection_data()

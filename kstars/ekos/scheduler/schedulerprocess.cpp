@@ -1098,7 +1098,8 @@ void SchedulerProcess::startFocusing(SchedulerJob *job)
 
     if (boolReply.value() == false)
     {
-        appendLogText(i18n("Warning: job '%1' is unable to proceed with autofocus, not supported.", job->getName()));
+        appendLogText(i18n("Warning: job '%1' is unable to proceed with autofocus on train '%2', not supported.",
+                           job->getName(), job->getOpticalTrain()));
         job->setStepPipeline(
             static_cast<SchedulerJob::StepPipeline>(job->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
         moduleState()->setAutofocusCompleted(job->getOpticalTrain(), true);
@@ -1108,6 +1109,11 @@ void SchedulerProcess::startFocusing(SchedulerJob *job)
             getNextAction();
             return;
         }
+
+        // Other trains are still focusing: wait for them, but never start autofocus on this train
+        moduleState()->updateJobStage(SCHEDSTAGE_FOCUSING);
+        moduleState()->startCurrentOperationTimer();
+        return;
     }
 
     QDBusMessage reply;

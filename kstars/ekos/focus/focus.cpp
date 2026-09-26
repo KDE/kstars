@@ -790,6 +790,10 @@ void Focus::checkFocuser()
                                        .arg(__FUNCTION__);
         }
         canAbsMove = canRelMove = canTimerMove = false;
+        // Reset the focus type too, otherwise canAutoFocus() keeps reporting the capability
+        // of a previously selected focuser (e.g. after switching to a train without focuser)
+        m_FocusType = FOCUS_MANUAL;
+        profilePlot->setFocusAuto(false);
         resetButtons();
         setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
         return;
