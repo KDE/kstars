@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-24 02:15+0000\n"
-"PO-Revision-Date: 2026-09-10 23:02+0200\n"
+"PO-Revision-Date: 2026-09-24 10:16+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11272,7 +11272,7 @@ msgstr "Impossibile visualizzare il file immagine temporaneo: %1"
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Fotocam %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11287,7 +11287,7 @@ msgstr "Focheggiatore"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Foc %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11459,25 +11459,20 @@ msgstr "Linea temporale"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Visualizza, se possibile, le sezioni precedenti "
-"(scorre verso sinistra) o future (scorre verso destra) della linea temporale "
-"e del grafico delle statistiche.</p></body></html>"
+"<html><head/><body><p>Scegli quali fotocamere e focheggiatori vengono "
+"mostrati nei grafici della Linea temporale e delle Statistiche.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Dispositivi"
+msgstr "Dispositivi"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11688,13 +11683,13 @@ msgstr "Acquisisci:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cartella di cattura locale di base</p></body></html>"
+"<html><head/><body><p>Scegli quali statistiche di acquisizione della "
+"fotocamera devono essere mostrate sotto.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12286,16 +12281,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traccia la posizione della soluzione della messa a "
-"fuoco automatica.</p></body></html>"
+"<html><head/><body><p>Scegli quali statistiche di temperatura/posizione del "
+"focheggiatore devono essere mostrate sotto.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12308,10 +12300,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "psi"
+msgstr "pos"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -12672,14 +12663,22 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"Il dark frame corrispondente %1 è stato registrato con guadagno %2, ma è in "
+"uso il guadagno %3."
 msgstr[1] ""
+"I dark frame corrispondenti %1 sono stati registrati con guadagno %2, ma è "
+"in uso il guadagno %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
 msgstr[0] ""
+"Il dark frame corrispondente %1 è stato registrato con un guadagno "
+"differente."
 msgstr[1] ""
+"I dark frame corrispondenti %1 sono stati registrati con un guadagno "
+"differente."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
@@ -12687,7 +12686,10 @@ msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
 msgstr[0] ""
+"Il dark frame corrispondente %1 è stato registrato con un binning differente."
 msgstr[1] ""
+"I dark frame corrispondenti %1 sono stati registrati con un binning "
+"differente."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12696,45 +12698,52 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
 msgstr[0] ""
+"Il dark frame corrispondente %1 è stato registrato al di fuori della soglia "
+"di temperatura."
 msgstr[1] ""
+"I dark frame corrispondenti %1 sono stati registrati al di fuori della "
+"soglia di temperatura."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
 msgstr[0] ""
+"Il dark frame %1 registrato appartiene a una fotocamera o un chip diverso."
 msgstr[1] ""
+"I dark frame %1 registrati appartengono a fotocamere o chip diversi."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
 msgstr[0] ""
+"Il dark frame corrispondente %1 non contiene un guadagno registrato."
 msgstr[1] ""
+"I dark frame corrispondenti %1 non contengono un guadagno registrato."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
+msgstr[0] "Il dark frame corrispondente %1 non contiene un binning registrato."
 msgstr[1] ""
+"I dark frame corrispondenti %1 non contengono un binning registrato."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Nessun dark frame registrato corrisponde alle attuali durata e binning."
 
 #: ekos/auxiliary/darklibrary.cpp:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Uso del dark frame disponibile con %1 secondi di esposizione. Scatta un dark "
-"frame con %1 secondi di esposizione per risultati più accurati."
+"frame con %2 secondi di esposizione per risultati più accurati."
 
 #: ekos/auxiliary/darklibrary.cpp:484
 #, kde-format
@@ -12742,6 +12751,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Il dark frame corrispondente è vecchio di %1 giorni ma la libreria dei dark "
+"è impostata a riutilizzare i dark frame per %2 giorni."
 
 #: ekos/auxiliary/darklibrary.cpp:511
 #, kde-format
@@ -13255,15 +13266,12 @@ msgstr ""
 "guidata Libreria dark nel modulo Acquisisci."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Non sono stati trovati dark frame o mappe dei difetti. Avvia la procedura "
+"Non sono stati trovati dark frame o mappe dei difetti. %1 Avvia la procedura "
 "guidata Libreria dark nel modulo Acquisisci."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -13272,6 +13280,8 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Il dark frame è %1x%2 pixel mentre il frame che viene calibrato è %3x%4 "
+"pixel."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
@@ -24345,6 +24355,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"La montatura segnala un errore mentre il sistema di guida è attivo. Le "
+"correzioni di guida potrebbero non raggiungere la montatura."
 
 #: ekos/guide/guide.cpp:1952
 #, kde-format
@@ -24352,6 +24364,9 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"La montatura ha interrotto l'inseguimento mentre il sistema di guida è "
+"attivo. Le correzioni di guida non riescono a compensare l'inseguimento "
+"perso."
 
 #: ekos/guide/guide.cpp:2045
 #, kde-format
@@ -28884,7 +28899,8 @@ msgstr "Devi riavviare KStars affinché queste modifiche abbiano effetto."
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr ""
-"Imposta una cartella di base alternativa per le immagini acquisite di Analyze"
+"Imposta una cartella di base alternativa per le immagini acquisite di "
+"Analizza"
 
 #: ekos/opsekos.cpp:132 ekos/opsekos.cpp:155
 #, kde-format
@@ -29020,7 +29036,7 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se Analyze è in esecuzione ed Ekos è scollegato e poi "
+"<html><head/><body><p>Se Analizza è in esecuzione ed Ekos è scollegato e poi "
 "ricollegato, verrà creato e scritto un nuovo file .analyze, mentre il "
 "grafico in Analyze mostrerà solo la nuova sessione.</p></body></html>"
 
@@ -29028,7 +29044,7 @@ msgstr ""
 #: ekos/opsekos.ui:204
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr "Riavvia Analyze quando si riavvia Ekos"
+msgstr "Riavvia Analizza quando si riavvia Ekos"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:228
@@ -47966,15 +47982,12 @@ msgstr "Cartella alternativa da usare per la ricerca di file immagine analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Visualizza il valore di campionamento medio per l'acquisizione nel grafico "
-"Analisi delle statistiche."
+"Le fotocamere e i focheggiatori esclusi dai grafici di Analisi della linea "
+"temporale e delle statistiche."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705
@@ -48088,7 +48101,7 @@ msgid ""
 msgstr ""
 "Visualizza la distanza in secondi d'arco tra la posizione del bersaglio e "
 "l'immagine catturata risolta tramite risoluzione del campo nel grafico "
-"Analyze."
+"Analizza."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
 #: kstars.kcfg:3769
@@ -82591,10 +82604,9 @@ msgid "Open Image(s)..."
 msgstr "Apri immagine/i..."
 
 #: kstarsinit.cpp:162
-#, fuzzy, kde-format
-#| msgid "Recenter"
+#, kde-format
 msgid "Open &Recent"
-msgstr "Ricentra"
+msgstr "Apri &recenti"
 
 #: kstarsinit.cpp:185
 #, kde-format
