@@ -7,6 +7,7 @@ target_sources(KStarsLib PRIVATE
     tools/catalogtools.cpp
     tools/mounttools.cpp
     tools/devicelookup.cpp
+    tools/pathpolicy.cpp
     tools/focusertools.cpp
     tools/imagetools.cpp
     tools/aligntools.cpp

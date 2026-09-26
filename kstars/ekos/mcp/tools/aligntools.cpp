@@ -5,6 +5,7 @@
 */
 
 #include "aligntools.h"
+#include "pathpolicy.h"
 #include "../mcptoolregistry.h"
 
 #include "ekos/manager.h"
@@ -343,7 +344,8 @@ void initAlignTools(ToolRegistry *registry, Ekos::Manager *manager)
     registry->registerTool(
     {
         "align_load_and_slew",
-        "Loads a FITS file, plate-solves it, and slews the mount to the solved coordinates.",
+        "Loads a FITS file, plate-solves it, and slews the mount to the solved coordinates. "
+        "The file must reside under the configured MCP file access root.",
         {
             { "path", "string", "Absolute path to the FITS file to load and solve.", true }
         },
@@ -361,7 +363,16 @@ void initAlignTools(ToolRegistry *registry, Ekos::Manager *manager)
                 error = "path must not be empty";
                 return {};
             }
-            align->loadAndSlew(path);
+            path = validatedPath(path, error, /*requireExistingFile*/true);
+            if (path.isEmpty())
+                return {};
+            // The empty-path guard above must stay: loadAndSlew() with an
+            // empty string opens a modal file dialog on the host UI.
+            if (!align->loadAndSlew(path))
+            {
+                error = QStringLiteral("Failed to load and solve file: %1").arg(path);
+                return {};
+            }
             return QJsonObject{{"success", true}};
         }
     });
@@ -388,7 +399,7 @@ void initAlignTools(ToolRegistry *registry, Ekos::Manager *manager)
     registry->classify(QStringLiteral("align_status"),            /*ro*/true,  /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("align_solve"),             /*ro*/false, /*destr*/false, /*idemp*/false);
     registry->classify(QStringLiteral("align_result"),            /*ro*/true,  /*destr*/false, /*idemp*/true);
-    registry->classify(QStringLiteral("align_load_and_slew"),     /*ro*/false, /*destr*/false, /*idemp*/false);
+    registry->classify(QStringLiteral("align_load_and_slew"),     /*ro*/false, /*destr*/false, /*idemp*/false, /*open*/true);
     registry->classify(QStringLiteral("align_abort"),             /*ro*/false, /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("align_get_solver_action"), /*ro*/true,  /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("align_set_solver_action"), /*ro*/false, /*destr*/false, /*idemp*/true);

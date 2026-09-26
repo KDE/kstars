@@ -37,7 +37,12 @@ struct ToolDefinition
     bool readOnly    { false };       // readOnlyHint: tool only observes, never mutates
     bool destructive { false };       // destructiveHint: mutation is hard to undo
     bool idempotent  { false };       // idempotentHint: safe to call multiple times
-    bool openWorld   { false };       // openWorldHint: reaches network/disk beyond the rig
+    // openWorldHint: reaches network/disk beyond the rig. Deliberately broader
+    // than the spec's letter (external entities, e.g. web search): tools that
+    // ingest user-nameable files are flagged so clients can key confirmation
+    // prompts off the untrusted-input/injection surface, even though the file
+    // access root bounds where those files may live.
+    bool openWorld   { false };
 };
 
 class ToolRegistry : public QObject

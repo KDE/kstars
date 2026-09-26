@@ -6,6 +6,7 @@
 
 #include "capturetools.h"
 
+#include "pathpolicy.h"
 #include "../mcptoolregistry.h"
 #include "ekos/manager.h"
 #include "ekos/capture/capture.h"
@@ -259,9 +260,10 @@ void initCaptureTools(MCP::ToolRegistry *registry, Ekos::Manager *manager)
     {
         QStringLiteral("capture_load_sequence"),
         QStringLiteral("Loads an Ekos Sequence Queue (.esq) file from the given path. "
-                       "Acts on the lead camera train only."),
+                       "Acts on the lead camera train only. The file must reside under "
+                       "the configured MCP file access root."),
         {
-            { QStringLiteral("path"), QStringLiteral("string"), QStringLiteral("Full path to the .esq sequence file to load."), true }
+            { QStringLiteral("path"), QStringLiteral("string"), QStringLiteral("Absolute path to the .esq sequence file to load."), true }
         },
         [manager](const QJsonObject & args, QString & error) -> QJsonValue
         {
@@ -271,14 +273,21 @@ void initCaptureTools(MCP::ToolRegistry *registry, Ekos::Manager *manager)
                 error = "Capture module not available";
                 return {};
             }
-            const QString path = args[QStringLiteral("path")].toString();
+            QString path = args[QStringLiteral("path")].toString();
             if (path.isEmpty())
             {
                 error = "Parameter 'path' is required";
                 return {};
             }
-            const bool ok = capture->loadSequenceQueue(path);
-            return QJsonObject { { QStringLiteral("success"), ok } };
+            path = validatedPath(path, error, /*requireExistingFile*/true);
+            if (path.isEmpty())
+                return {};
+            if (!capture->loadSequenceQueue(path))
+            {
+                error = QStringLiteral("Failed to load sequence file: %1").arg(path);
+                return {};
+            }
+            return QJsonObject { { QStringLiteral("success"), true } };
         }
     });
 
@@ -318,7 +327,7 @@ void initCaptureTools(MCP::ToolRegistry *registry, Ekos::Manager *manager)
     registry->classify(QStringLiteral("capture_suspend"),       /*ro*/false, /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("capture_pause"),         /*ro*/false, /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("capture_resume"),        /*ro*/false, /*destr*/false, /*idemp*/false);
-    registry->classify(QStringLiteral("capture_load_sequence"), /*ro*/false, /*destr*/true,  /*idemp*/false);
+    registry->classify(QStringLiteral("capture_load_sequence"), /*ro*/false, /*destr*/true,  /*idemp*/false, /*open*/true);
     registry->classify(QStringLiteral("capture_set_target"),    /*ro*/false, /*destr*/false, /*idemp*/true);
 }
 

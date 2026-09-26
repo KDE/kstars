@@ -60,6 +60,19 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     connect(kcfg_MCPEnabled, &QCheckBox::toggled, kcfg_MCPPort, &QSpinBox::setEnabled);
     kcfg_MCPPort->setEnabled(kcfg_MCPEnabled->isChecked());
 
+    // MCP: browse for the file access root; the option is read at call time,
+    // so no server restart is needed
+    connect(mcpFileAccessRootB, &QPushButton::clicked, [this] ()
+    {
+        const QString current = kcfg_MCPFileAccessRoot->text();
+        auto dir = QFileDialog::getExistingDirectory(
+                       this, i18n("Select the root directory MCP tools may access"),
+                       current.isEmpty() ? QDir::homePath() : current,
+                       QFileDialog::ShowDirsOnly);
+        if (!dir.isEmpty())
+            kcfg_MCPFileAccessRoot->setText(dir);
+    });
+
     // Live enable/disable the MCP server when the checkbox is toggled in the dialog
     connect(kcfg_MCPEnabled, &QCheckBox::toggled, this, [this](bool enabled)
     {

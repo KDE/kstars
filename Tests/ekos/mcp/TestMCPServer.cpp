@@ -8,18 +8,30 @@
 #include "MCPTestClient.h"
 #include "ekos/mcp/mcpserver.h"
 #include "ekos/mcp/mcptoolregistry.h"
+#include "ekos/mcp/tools/pathpolicy.h"
 #include "Options.h"
 
+#include <QFile>
+#include <QFileInfo>
 #include <QHostAddress>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QStandardPaths>
 #include <QTcpSocket>
+#include <QTemporaryDir>
 #include <QTest>
 
 QTEST_MAIN(TestMCPServer)
 
 void TestMCPServer::initTestCase()
 {
+    // Redirect QStandardPaths (and therefore the KConfig backing Options) to
+    // per-test locations. Without this, Options setters in these tests write
+    // to the developer's real kstarsrc — and a mid-test failure would skip
+    // the restore, e.g. leaving MCPFileAccessRoot pointing at a deleted
+    // temporary directory (denying all MCP file access in the live app).
+    QStandardPaths::setTestModeEnabled(true);
+
     // Critical: the tests call setToken/regenerateToken/start, all of which
     // persist to the shared "kstars" keychain service used by the live app.
     // Without this, running the suite overwrites the user's real MCP tokens
@@ -251,6 +263,14 @@ void TestMCPServer::testAnnotationsEmitted()
     });
     server.registry()->classify("annotated_tool", /*ro*/true, /*destr*/false, /*idemp*/true);
 
+    server.registry()->registerTool(
+    {
+        "open_world_tool", "A tool reaching beyond the rig", {}, [](const QJsonObject &, QString &) -> QJsonValue {
+            return QJsonObject{};
+        }
+    });
+    server.registry()->classify("open_world_tool", /*ro*/false, /*destr*/false, /*idemp*/false, /*open*/true);
+
     const quint16 port = startServer(server);
     MCPTestClient client(port, server.token());
     QJsonObject req{ {"jsonrpc", "2.0"}, {"id", 1}, {"method", "tools/list"} };
@@ -276,6 +296,19 @@ void TestMCPServer::testAnnotationsEmitted()
     QCOMPARE(ann["destructiveHint"].toBool(), false);
     QCOMPARE(ann["idempotentHint"].toBool(),  true);
     QCOMPARE(ann["openWorldHint"].toBool(),   false);
+
+    // openWorld classification must surface as openWorldHint: true
+    QJsonObject openFound;
+    for (const auto &t : tools)
+    {
+        if (t.toObject()["name"].toString() == "open_world_tool")
+        {
+            openFound = t.toObject();
+            break;
+        }
+    }
+    QVERIFY2(!openFound.isEmpty(), "open_world_tool not found in tools/list");
+    QCOMPARE(openFound["annotations"].toObject()["openWorldHint"].toBool(), true);
 }
 
 void TestMCPServer::testReadOnlyModeBlocks()
@@ -423,5 +456,108 @@ void TestMCPServer::testDisabledTools()
     QVERIFY(callTool("fam_b").contains("result"));
 
     Options::setMCPDisabledTools(QStringList());
+}
+
+void TestMCPServer::testPathPolicy()
+{
+    const QString oldRoot = Options::mCPFileAccessRoot();
+
+    QTemporaryDir rootDir;
+    QVERIFY(rootDir.isValid());
+    QTemporaryDir outsideDir;
+    QVERIFY(outsideDir.isValid());
+
+    // Fixture: root/sub/inside.esl + an outside file + a symlink escaping root
+    QVERIFY(QDir(rootDir.path()).mkdir("sub"));
+    const QString insidePath = rootDir.path() + "/sub/inside.esl";
+    {
+        QFile f(insidePath);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("x");
+    }
+    const QString outsidePath = outsideDir.path() + "/outside.esl";
+    {
+        QFile f(outsidePath);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("x");
+    }
+    const QString linkPath = rootDir.path() + "/link.esl";
+    QVERIFY(QFile::link(outsidePath, linkPath));
+
+    Options::setMCPFileAccessRoot(rootDir.path());
+    // canonicalFilePath resolves platform symlinks in the temp path itself
+    // (e.g. /tmp), so expectations are built the same way as the helper's.
+    const QString canonicalRoot = QFileInfo(rootDir.path()).canonicalFilePath();
+    QString error;
+
+    // Inside path passes and comes back canonicalized
+    error.clear();
+    QCOMPARE(MCP::Tools::validatedPath(insidePath, error),
+             QFileInfo(insidePath).canonicalFilePath());
+    QVERIFY(error.isEmpty());
+
+    // The root itself passes
+    error.clear();
+    QCOMPARE(MCP::Tools::validatedPath(rootDir.path(), error), canonicalRoot);
+
+    // Nonexistent file under root passes via parent canonicalization
+    error.clear();
+    QCOMPARE(MCP::Tools::validatedPath(rootDir.path() + "/new.esq", error),
+             canonicalRoot + "/new.esq");
+    QVERIFY(error.isEmpty());
+
+    // Outside path rejected — with the same message whether the target
+    // exists or not, so the error can't probe the filesystem beyond the root
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(outsidePath, error).isEmpty());
+    QVERIFY(error.contains("outside"));
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(outsideDir.path() + "/nonexistent/x.esl", error).isEmpty());
+    QVERIFY(error.contains("outside"));
+
+    // "../" traversal escaping the root rejected
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(rootDir.path() + "/sub/../../escape.esl", error).isEmpty());
+    QVERIFY(!error.isEmpty());
+
+    // Symlink inside the root pointing outside rejected; the error names the
+    // resolved target so symlinked data dirs are self-diagnosable
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(linkPath, error).isEmpty());
+    QVERIFY(error.contains(QFileInfo(outsidePath).canonicalFilePath()));
+
+    // Relative paths rejected (documented contract is absolute paths)
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath("relative/file.esl", error).isEmpty());
+    QVERIFY(error.contains("absolute"));
+
+    // requireExistingFile: existing file passes, directory and nonexistent
+    // target are rejected
+    error.clear();
+    QCOMPARE(MCP::Tools::validatedPath(insidePath, error, true),
+             QFileInfo(insidePath).canonicalFilePath());
+    QVERIFY(error.isEmpty());
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(rootDir.path(), error, true).isEmpty());
+    QVERIFY(error.contains("not an existing file"));
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(rootDir.path() + "/new.esq", error, true).isEmpty());
+    QVERIFY(error.contains("not an existing file"));
+
+    // Root "/" means "whole filesystem", not total denial (boundary
+    // regression: a naive prefix check would test against "//")
+    Options::setMCPFileAccessRoot(QStringLiteral("/"));
+    error.clear();
+    QCOMPARE(MCP::Tools::validatedPath(outsidePath, error),
+             QFileInfo(outsidePath).canonicalFilePath());
+    QVERIFY(error.isEmpty());
+
+    // Empty root denies all file access
+    Options::setMCPFileAccessRoot(QString());
+    error.clear();
+    QVERIFY(MCP::Tools::validatedPath(insidePath, error).isEmpty());
+    QVERIFY(error.contains("disabled"));
+
+    Options::setMCPFileAccessRoot(oldRoot);
 }
 

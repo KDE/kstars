@@ -5,6 +5,7 @@
 */
 
 #include "schedulertools.h"
+#include "pathpolicy.h"
 #include "../mcptoolregistry.h"
 
 #include "ekos/manager.h"
@@ -183,7 +184,8 @@ void initSchedulerTools(ToolRegistry *registry, Ekos::Manager *manager)
     {
         QStringLiteral("scheduler_load"),
         QStringLiteral("Loads a scheduler list file (.esl) from the specified path. "
-                       "Replaces the entire current job queue with the jobs from the file."),
+                       "Replaces the entire current job queue with the jobs from the file. "
+                       "The file must reside under the configured MCP file access root."),
         {
             { QStringLiteral("path"), QStringLiteral("string"), QStringLiteral("Absolute path to the scheduler list file (.esl) to load."), true }
         },
@@ -207,6 +209,9 @@ void initSchedulerTools(ToolRegistry *registry, Ekos::Manager *manager)
                 error = "path must not be empty";
                 return {};
             }
+            path = validatedPath(path, error, /*requireExistingFile*/true);
+            if (path.isEmpty())
+                return {};
             const bool ok = process->loadScheduler(path);
             if (!ok)
             {
@@ -222,7 +227,7 @@ void initSchedulerTools(ToolRegistry *registry, Ekos::Manager *manager)
     registry->classify(QStringLiteral("scheduler_current_job"), /*ro*/true,  /*destr*/false, /*idemp*/true);
     registry->classify(QStringLiteral("scheduler_start"),       /*ro*/false, /*destr*/false, /*idemp*/false);
     registry->classify(QStringLiteral("scheduler_stop"),        /*ro*/false, /*destr*/false, /*idemp*/true);
-    registry->classify(QStringLiteral("scheduler_load"),        /*ro*/false, /*destr*/true,  /*idemp*/false);
+    registry->classify(QStringLiteral("scheduler_load"),        /*ro*/false, /*destr*/true,  /*idemp*/false, /*open*/true);
 }
 
 } // namespace Tools
