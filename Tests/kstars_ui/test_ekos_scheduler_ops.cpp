@@ -1612,14 +1612,15 @@ void TestEkosSchedulerOps::testGreedy()
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
-    // Use the geo's fixed UTC offset so the test is timezone-independent.
-    const QTimeZone geoTZ = QTimeZone(static_cast<int>(geo.TZ() * 3600));
     ArtificialHorizon shutdownHorizon;
     addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
     Ekos::SchedulerJob::setHorizon(&shutdownHorizon);
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), QTimeZone::utc());
     initTimeGeo(geo, startUTime);
+    // Local times below use the scheduler's UTC offset for this date, which includes DST.
+    // (geo.TZ() of the GeoLocation above is the standard-time offset, an hour off in June.)
+    const QTimeZone geoTZ(static_cast<int>(KStarsData::Instance()->geo()->TZ() * 3600));
 
     auto schedJob200x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {200, 60, "Red", "."});
     auto schedJob400x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {400, 60, "Red", "."});
@@ -1833,14 +1834,15 @@ void TestEkosSchedulerOps::testGreedyStartAt()
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
-    // Use the geo's fixed UTC offset so the test is timezone-independent.
-    const QTimeZone geoTZ = QTimeZone(static_cast<int>(geo.TZ() * 3600));
     ArtificialHorizon shutdownHorizon;
     addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
 
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), QTimeZone::utc());
     initTimeGeo(geo, startUTime);
+    // Local times below use the scheduler's UTC offset for this date, which includes DST.
+    // (geo.TZ() of the GeoLocation above is the standard-time offset, an hour off in June.)
+    const QTimeZone geoTZ(static_cast<int>(KStarsData::Instance()->geo()->TZ() * 3600));
 
     auto schedJob60x10 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {60, 30, "Red", "."});
     auto schedJob30x16 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {30, 40, "Red", "."});
