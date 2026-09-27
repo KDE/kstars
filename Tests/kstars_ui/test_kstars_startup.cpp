@@ -17,6 +17,7 @@
 #endif
 
 #include <QDialogButtonBox>
+#include <QDBusConnection>
 #include <QtConcurrent>
 
 #include "Options.h"
@@ -126,14 +127,23 @@ void TestKStarsStartup::createInstanceTest()
     // Initialize our instance and wait for the test to finish
     KStars::createInstance(true, m_InitialConditions.clockRunning, m_InitialConditions.dateTime.toString());
     QVERIFY(KStars::Instance() != nullptr);
+
+    // The application registers the "org.kde.kstars" service name through KDBusService in
+    // main.cpp, which tests do not run. Register it here so the D-Bus interfaces that Ekos
+    // modules and the scheduler create against that name reach this test instance.
+    if (!QDBusConnection::sessionBus().registerService("org.kde.kstars"))
+        QWARN("Could not register org.kde.kstars on the session bus, is another KStars running?");
     QTRY_VERIFY_WITH_TIMEOUT(installWizardDone, 10000);
 
     // With our instance created, initialize our location
     // FIXME: do this via UI in the Startup Wizard
     KStarsData * const d = KStars::Instance()->data();
     QVERIFY(d != nullptr);
-    GeoLocation * const g = d->locationNamed("Greenwich");
+    // The city database also has a Greenwich in Connecticut, with US daylight saving rules,
+    // which a lookup by name may return. Tests expect Greenwich, UK, and its EU rules.
+    GeoLocation * const g = d->nearestLocation(0.0, dms(51, 28, 6).Degrees());
     QVERIFY(g != nullptr);
+    QCOMPARE(g->name(), QString("Greenwich"));
     d->setLocation(*g);
 
     // Verify our location is properly selected
