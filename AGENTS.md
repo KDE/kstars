@@ -78,7 +78,9 @@ ninja -C build -j"$JOBS" testfocus  # a single test binary
   is a sensible default. Go lower on machines with limited RAM (roughly 2 GB per job). If the maintainer or the
   local agent memory/config gives a specific cap for this machine, use that instead.
 - If `BUILD_TESTING` is `OFF` in `build/CMakeCache.txt`, reconfigure with `-DBUILD_TESTING=ON` before
-  building tests: `cmake -B build -DBUILD_TESTING=ON`.
+  building tests: `cmake -B build -DBUILD_TESTING=ON`. An IDE sharing `build/` may reconfigure it with
+  tests off whenever a `CMakeLists.txt` changes, even mid-build. After editing CMake files, re-check the
+  cache, and if a test binary fails to execute, check that it is a valid executable before debugging it.
 - For a fast check of one file, compile it with `-fsyntax-only`, using its command from
   `build/compile_commands.json`.
 - A change must build with **no new warnings** in the files you touched.
@@ -104,6 +106,11 @@ work counts as done.** "It compiles" is not validation.
 
 Put pure logic (calculations, parsers, state transitions, sequence/job handling) somewhere it can be tested
 without a KStars window or an INDI connection. That usually makes the test much easier to write.
+
+For scheduler behaviour over time (weather alerts, dawn, end-at times, wakeups), prefer the mock-module
+tests in `Tests/kstars_ui/test_ekos_scheduler_ops`: they drive a simulated clock, so hours of scheduler time
+run in seconds. Tests with the real INDI simulators run in real time and cannot wait for long timers.
+`Tests/ekos/scheduler/README.md` documents the scheduler state machines.
 
 ### 4.2 Where tests go
 
@@ -179,6 +186,22 @@ Before calling a change done:
    can't run them, say so.
 5. Your final report lists the exact commands you ran and their pass/fail results.
 
+**Before blaming or fixing a failure:** confirm it is caused by your change. Temporarily restore the `HEAD`
+versions of the files you changed, rebuild, and run the failing function; if it fails the same way, it is
+pre-existing. Report it rather than fixing it silently.
+
+**Test pitfalls learned the hard way:**
+- Run test binaries from their own build directory (e.g. `build/Tests/kstars_ui`). Some tests find their
+  fixtures by relative path and otherwise skip.
+- Ekos startup in UI tests kills any running `indiserver`. If a real one is running on the machine, run UI
+  tests in an isolated environment (separate PID/network namespace or container), never against it.
+- Starting Ekos locks the KStars clock to real time, and `SimClock::setUTC()` is ignored in that mode. This
+  state leaks between test functions in the same process: keep INDI-simulator tests separate from
+  simulated-clock tests, and register one CTest entry per function when simulator tests interfere.
+- Time zones: the scheduler honours the UTC offset in ISO timestamps. Build local times with the offset
+  the running scheduler uses (`KStarsData::Instance()->geo()->TZ()` after the test sets its location, which
+  includes DST), not `GeoLocation::TZ()` of a freshly constructed object (standard time only).
+
 **Troubleshooting:** UI tests need a display and a D-Bus session. Under `QT_QPA_PLATFORM=offscreen`, some
 KWidgetsAddons versions crash in `KColorButton`/`KColorMimeData` on a null clipboard `QMimeData` during
 KStars startup. If every `kstars_ui` test SIGSEGVs in `TestKStarsStartup::createInstanceTest()`, suspect that
@@ -215,7 +238,9 @@ library bug, not your change.
   `qtskipemptyparts.h`, etc. shims, not raw version checks scattered through the code.
 - **Hardware safety**: code that moves or powers equipment (mount, dome, dust cap, flat panel, rotator,
   focuser, cooler) must handle failure, abort, and timeout paths explicitly. Never make it less safe by
-  default.
+  default. In the scheduler, any recovery path (after a weather/safety alert, a sleep or an error) must
+  re-evaluate the jobs before running startup tasks that unpark or open equipment, and must still shut
+  down when no job can run.
 
 ---
 
