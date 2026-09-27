@@ -762,6 +762,62 @@ void TestPlaceholderPath::testGetCompletedFileIds()
 #endif
 }
 
+void TestPlaceholderPath::testGetCompletedFilesWithDottedTargetName()
+{
+    // Regression test for a Scheduler bug: two optical trains captured the same target
+    // into the same target/type/filter directory, differentiated only by a literal camera
+    // token baked into each job's PlaceholderFormat (e.g. "..._asi6200_..." vs
+    // "..._asi294_..."). PlaceholderPath::getCompletedFiles(QString, dirCache) used to derive
+    // its match pattern via QFileInfo::completeBaseName(), which strips everything from the
+    // *last* '.' onward, assuming it is a file extension. The signature string never has one,
+    // so a target name that itself contains a dot (e.g. a real designation like
+    // "SNR_G108.2-0.6") got truncated right after that dot, discarding the camera token and
+    // everything after it. Both jobs ended up scanning with the same over-generic pattern and
+    // each reported the combined count of both cameras' files instead of just its own.
+    const QString targetName = "SNR_G108.2-0.6";
+    const QString dir = "/tmp/kstars";
+
+    XMLEle *rootA = buildXML("360", "H_Alpha", "Light", "prefix", targetName, "1", "1", "1", "",
+                             dir + "/%t/%T/%F/%t_asi6200_%T_%F_%e_%D", "3");
+    Ekos::SequenceJob jobA(rootA, targetName);
+    Ekos::PlaceholderPath().processJobInfo(&jobA);
+    delXMLEle(rootA);
+
+    XMLEle *rootB = buildXML("360", "H_Alpha", "Light", "prefix", targetName, "1", "1", "1", "",
+                             dir + "/%t/%T/%F/%t_asi294_%T_%F_%e_%D", "3");
+    Ekos::SequenceJob jobB(rootB, targetName);
+    Ekos::PlaceholderPath().processJobInfo(&jobB);
+    delXMLEle(rootB);
+
+    // Sanity check: the two jobs must have distinct signatures - each has its own camera token.
+    QVERIFY(jobA.getSignature() != jobB.getSignature());
+
+    // Create the captured files that would actually exist on disk: 3 for camera A, 2 for camera B,
+    // all sharing the same target/type/filter directory.
+    QDir targetDir;
+    targetDir.mkpath(dir + "/" + targetName + "/Light/H_Alpha");
+    const QStringList cameraAFiles =
+    {
+        targetName + "_asi6200_Light_H_Alpha_360_secs_2024-01-01T00-00-00_001.fits",
+        targetName + "_asi6200_Light_H_Alpha_360_secs_2024-01-01T00-06-00_002.fits",
+        targetName + "_asi6200_Light_H_Alpha_360_secs_2024-01-01T00-12-00_003.fits",
+    };
+    const QStringList cameraBFiles =
+    {
+        targetName + "_asi294_Light_H_Alpha_360_secs_2024-01-01T00-00-00_001.fits",
+        targetName + "_asi294_Light_H_Alpha_360_secs_2024-01-01T00-06-00_002.fits",
+    };
+    for (const QString &filename : cameraAFiles + cameraBFiles)
+    {
+        QFile file(dir + "/" + targetName + "/Light/H_Alpha/" + filename);
+        (void)file.open(QIODevice::WriteOnly);
+    }
+
+    QHash<QString, QStringList> dirCache;
+    QCOMPARE(Ekos::PlaceholderPath::getCompletedFiles(jobA.getSignature(), dirCache), cameraAFiles.size());
+    QCOMPARE(Ekos::PlaceholderPath::getCompletedFiles(jobB.getSignature(), dirCache), cameraBFiles.size());
+}
+
 void TestPlaceholderPath::cleanupTestCase()
 {
     QDir("/tmp/kstars").removeRecursively();

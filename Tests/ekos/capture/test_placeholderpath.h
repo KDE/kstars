@@ -56,6 +56,8 @@ class TestPlaceholderPath : public QObject
         void testGetCompletedFileIds_data();
         void testGetCompletedFileIds();
 
+        void testGetCompletedFilesWithDottedTargetName();
+
         void cleanupTestCase();
 };
 

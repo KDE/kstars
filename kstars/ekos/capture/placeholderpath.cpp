@@ -663,19 +663,21 @@ int PlaceholderPath::getCompletedFiles(const QString &path, QHash<QString, QStri
     {
         sig_file = path;
     }
-    // remove extension
-    index = sig_file.lastIndexOf('.');
-    if (0 <= index)
-    {
-        // found '.', then remove extension
-        sig_file = sig_file.left(index);
-    }
+    // Note: no extension to strip here - the signature is built without one (see
+    // generateFilenameInternal's gettingSignature branch). Stripping at the last '.'
+    // would wrongly truncate signatures for targets whose name contains a dot
+    // (e.g. "SNR_G108.2-0.6"), discarding everything after it - filter, camera, date, etc.
     qCDebug(KSTARS_EKOS_CAPTURE) << "Scheduler::PlaceholderPath path:" << path << " sig_dir:" << sig_dir << " sig_file:" <<
                                  sig_file;
 #else
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
-    QString const sig_file(path_info.completeBaseName());
+    // Note: fileName(), not completeBaseName() - the signature is built without an
+    // extension (see generateFilenameInternal's gettingSignature branch), so there is
+    // nothing to strip. completeBaseName() would wrongly truncate at the last '.' in the
+    // filename, which can land inside the target name itself (e.g. "SNR_G108.2-0.6"),
+    // discarding everything after it - filter, camera, date, etc.
+    QString const sig_file(path_info.fileName());
 #endif
 
     if (sig_dir.contains(PierSideStr))
