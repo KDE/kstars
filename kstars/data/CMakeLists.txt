@@ -26,10 +26,10 @@ add_custom_command(
 add_custom_target(generate_citydb ALL DEPENDS ${CITYDB_SQLITE})
 
 if(BUILD_TESTING)
+    # Run the test script directly: "unittest discover" cannot import a module whose name
+    # contains a hyphen, so it would find no tests (and fail with "NO TESTS RAN").
     add_test(NAME generate_citydb_tests
-        COMMAND ${Python3_EXECUTABLE} -m unittest discover
-                -s ${CMAKE_CURRENT_SOURCE_DIR}/tools
-                -p "test-*.py"
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/test-generate-citydb.py
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools)
     set_tests_properties(generate_citydb_tests PROPERTIES LABELS "stable")
 endif()
