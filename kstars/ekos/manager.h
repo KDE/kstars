@@ -109,6 +109,11 @@ class Manager : public QDialog, public Ui::Manager
         };
     public:
         static Manager *Instance();
+        /** @return true if the Ekos Manager exists, without creating it as Instance() would. */
+        static bool hasInstance()
+        {
+            return _Manager != nullptr;
+        }
         static void release();
 
         // No OP

@@ -364,9 +364,11 @@ QSharedPointer<SequenceJob> SchedulerUtils::processSequenceJobInfo(XMLEle * root
 
         // Retrieve the optical train name from the scheduler job or from the Capture module via DBus
         opticalTrain = schedJob->getOpticalTrain(); // Get the optical train name from the scheduler job
-        if (opticalTrain.isEmpty())
+        // If the optical train is not set in the scheduler job, try to retrieve it from the SchedulerProcess.
+        // Only ask an existing Ekos Manager: creating it here, e.g. while evaluating jobs before Ekos was
+        // opened, builds the whole Ekos window, and without Ekos there is no capture module to ask anyway.
+        if (opticalTrain.isEmpty() && Ekos::Manager::hasInstance())
         {
-            // If the optical train is not set in the scheduler job, try to retrieve it from the SchedulerProcess
             auto process = Ekos::Manager::Instance()->schedulerModule()->process();
 
             opticalTrain = process->getOpticalTranName();

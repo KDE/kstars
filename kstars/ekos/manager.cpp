@@ -102,6 +102,7 @@ void Manager::release()
     RotatorUtils::release();
     PushToAssistant::release();
     delete _Manager;
+    _Manager = nullptr;
 }
 
 Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
