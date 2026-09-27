@@ -155,20 +155,23 @@ checkStartupState() transitions
 |----------|-----------|--------|
 | `start()` | State is ERROR or intermediate | Reset to `STARTUP_IDLE` |
 | `start()` | State is `STARTUP_COMPLETE` | **Preserve** (don't re-run startup) |
-| `wakeUpScheduler()` | State is `STARTUP_POST_DEVICES` | Run post-startup queue, then reset to `STARTUP_IDLE` after queue starts (see note) |
+| `wakeUpScheduler()` | State is `STARTUP_POST_DEVICES` (weather recovery) | **Preserve**; release the job and re-evaluate via `RUN_SCHEDULER` (see note) |
 | `wakeUpScheduler()` | Any other non-IDLE state | Reset to `STARTUP_IDLE` |
 | `stop()` (normal) | State is `STARTUP_COMPLETE` | Reset to `STARTUP_IDLE` |
 
 > **Note — weather recovery in `wakeUpScheduler()`:**
-> When returning from a weather soft-shutdown, `queueExecutionCompleted()` sets
+> When returning from a weather soft-shutdown, `queueExecutionCompleted()` has set
 > `startupState = STARTUP_POST_DEVICES` as a signal that only the post-startup
-> phase (unpark dome/mount) needs to run.  `wakeUpScheduler()` **must** read this
-> value *before* resetting states to IDLE.  It captures it in a local bool
-> `needsPostStartupRecovery` first, resets `startupState` and `shutdownState` to
-> IDLE, and *then* (if `needsPostStartupRecovery == true`) starts the post-startup
-> queue.  This is critical: both wakeup code paths (timer-based and event-driven)
-> clear `weatherGracePeriodActive` *before* `wakeUpScheduler()` reaches the
-> recovery check, so `weatherGracePeriodActive()` cannot be used as the trigger.
+> phase (unpark dome/mount) needs to run.  `wakeUpScheduler()` does **not** run the
+> post-startup queue itself: the job may no longer be allowed to run (its end-at
+> time, twilight or altitude limit may have passed during the alert).  It keeps
+> `STARTUP_POST_DEVICES`, releases the active job, resets `shutdownState` and
+> schedules `RUN_SCHEDULER`.  `checkStatus()` then re-evaluates the jobs: if one can
+> run now, `checkStartupState(STARTUP_POST_DEVICES)` runs the post-startup queue
+> before it starts; if none can, the normal shutdown path runs (or the scheduler
+> sleeps until the next job) without opening the observatory.
+> `weatherGracePeriodActive` is already cleared on both wakeup paths, so
+> `startupState` is the indicator of this recovery.
 
 ---
 
@@ -217,6 +220,7 @@ checkShutdownState() / completeShutdown() transitions
 | Function | Condition | Reset to SHUTDOWN_IDLE? |
 |----------|-----------|-------------------------|
 | `wakeUpScheduler()` | Any non-IDLE state | YES (critical for weather recovery) |
+| Indefinite weather monitoring starts | Always | YES (`checkStatus()` must be able to start a shutdown) |
 | `stop()` | Always | YES |
 
 ---
@@ -231,6 +235,8 @@ setWeatherStatus(WEATHER_ALERT)
 │
 └── startShutdownDueToWeather()
       ├── stopCurrentJobAction()  →  abort current capture/guiding
+      ├── release the active job (SCHEDJOB_IDLE, activeJob = nullptr)
+      │     so it is re-evaluated before it can restart
       ├── setWeatherGracePeriodActive(true)
       ├── enablePreemptiveShutdown(gracePeriodExpiry)
       ├── setupNextIteration(RUN_WAKEUP, gracePeriodMs)  ← timer for Path A
@@ -251,37 +257,49 @@ setWeatherStatus(WEATHER_ALERT)
             │       └── weatherGracePeriodActive == true
             │             weatherStatus == WEATHER_OK
             │             → setWeatherGracePeriodActive(false)   ← cleared HERE
-            │             → falls through (no return)
-            │             → needsPostStartupRecovery captured BEFORE reset
-            │             → startupState reset to STARTUP_IDLE
-            │             → shutdownState reset to SHUTDOWN_IDLE
-            │             → needsPostStartupRecovery? run post-startup queue
-            │             → resume current job
+            │             → falls through to the recovery below
             │
             ├── Path B — weather improves event-driven before timer:
             │     setWeatherStatus(WEATHER_OK)
             │       ├── setWeatherGracePeriodActive(false)   ← cleared HERE
-            │       └── setupNextIteration(RUN_WAKEUP, 10ms)
+            │       ├── setWeatherShutdownMonitoring(false)
+            │       └── setupNextIteration(RUN_WAKEUP, 10ms)  ← the only wakeup trigger
             │     wakeUpScheduler() fires (10ms later)
-            │       └── weatherGracePeriodActive == false  (already cleared)
-            │             preemptiveShutdown == true
-            │             → skips inner weatherGracePeriodActive block entirely
-            │             → needsPostStartupRecovery captured BEFORE reset
-            │             → startupState reset to STARTUP_IDLE
-            │             → shutdownState reset to SHUTDOWN_IDLE
-            │             → needsPostStartupRecovery? run post-startup queue
-            │             → resume current job
+            │       ├── preemptiveShutdown == true  (grace period > 0):
+            │       │     → recovery below
+            │       └── preemptiveShutdown == false (indefinite wait, monitoring mode):
+            │             → "Scheduler is awake..." → RUN_SCHEDULER
+            │
+            │   Recovery (startupState == STARTUP_POST_DEVICES):
+            │     → keep STARTUP_POST_DEVICES, release the job, SHUTDOWN_IDLE
+            │     → setupNextIteration(RUN_SCHEDULER), no post-startup queue here
+            │     checkStatus() → evaluateJobs()
+            │       ├── job can run now → checkStartupState() runs post-startup → job starts
+            │       ├── job later       → sleep until it is due (observatory stays closed)
+            │       └── no job left     → checkShutdownState() → full shutdown
             │
             └── Path C — grace period expires with weather still bad:
                   wakeUpScheduler() fires (timer)
                     └── weatherGracePeriodActive == true
                           weatherStatus != WEATHER_OK
                           ├── gracePeriod == 0 (indefinite wait):
+                          │     → pre-shutdown queue still running (fires 1 s after the
+                          │       soft shutdown starts)? → retry in 1 s, change nothing, so
+                          │       its completion still sets STARTUP_POST_DEVICES
                           │     → setWeatherGracePeriodActive(false)
                           │     → disablePreemptiveShutdown()
                           │     → setWeatherShutdownMonitoring(true)
-                          │     → setupNextIteration(RUN_WAKEUP, 5min safety-net)
-                          │     → recovery event-driven via setWeatherStatus(WEATHER_OK)
+                          │     → shutdownState = SHUTDOWN_IDLE, startupState stays POST_DEVICES
+                          │     → setupNextIteration(RUN_WAKEUP, 5min)
+                          │     Every 5 minutes: wakeUpScheduler() → RUN_SCHEDULER (quietly)
+                          │       checkStatus() → evaluateJobs()
+                          │         ├── a job is still pending → sleep 5 more minutes,
+                          │         │     no job is started, nothing is unparked
+                          │         └── no job left (end-at, twilight... passed)
+                          │               → setWeatherShutdownMonitoring(false)
+                          │               → checkShutdownState() → full shutdown,
+                          │                 whatever the weather
+                          │     recovery event-driven via setWeatherStatus(WEATHER_OK)
                           └── gracePeriod > 0 (hard deadline exceeded):
                                 → setStartupState(STARTUP_IDLE)
                                 → setWeatherGracePeriodActive(false)
@@ -290,44 +308,40 @@ setWeatherStatus(WEATHER_ALERT)
                                 → checkShutdownState()  →  full shutdown
 ```
 
-**Critical invariant in `wakeUpScheduler()`:**
+**Invariants while the weather holds the observatory in soft shutdown:**
 
-In both Path A and Path B, `weatherGracePeriodActive()` is **already `false`** by
-the time `wakeUpScheduler()` reaches its recovery logic.  The post-startup queue
-cannot be triggered by checking `weatherGracePeriodActive()`.  The correct
-indicator is `startupState == STARTUP_POST_DEVICES`, which was set by
-`queueExecutionCompleted()` when the pre-shutdown queue finished.  The
-implementation captures this in a local bool:
+- There is no active job. It was released by `startShutdownDueToWeather()`, so a
+  wakeup can never continue a stale `ABORTED` or `BUSY` job, and `checkJobStage()`
+  is not running.
+- Nothing runs the post-startup queue, starts a job or slews the mount until
+  safety is OK again *and* a job is allowed to run at that time.
+- `checkJobStageEpilogue()` returns right after `checkStatus()` if that started a
+  weather soft-shutdown (no active job, or grace period active), so it does not go on
+  to start the next job step (e.g. a slew).
+- When no job is left, the scheduler shuts down even if the alert is still active.
 
-```cpp
-// Read BEFORE the reset loop clears it.
-const bool needsPostStartupRecovery =
-    (moduleState()->startupState() == STARTUP_POST_DEVICES ||
-     moduleState()->startupState() == STARTUP_POST_DEVICES_RUNNING);
-
-// Reset states to IDLE.
-if (moduleState()->startupState() != STARTUP_IDLE)
-    moduleState()->setStartupState(STARTUP_IDLE);
-if (moduleState()->shutdownState() != SHUTDOWN_IDLE)
-    moduleState()->setShutdownState(SHUTDOWN_IDLE);
-
-// NOW check the saved flag.
-if (needsPostStartupRecovery && Options::schedulerStartupEnabled() && ...)
-{
-    moduleState()->setStartupState(STARTUP_POST_DEVICES_RUNNING);
-    m_queueExecutor->start();
-    return; // queueExecutionCompleted() → STARTUP_COMPLETE → execute()
-}
-execute();
-```
-
-**Corresponding integration tests** (in `Tests/kstars_ui/test_ekos_scheduler_ops`):
+**Corresponding integration tests** (in `Tests/kstars_ui/test_ekos_scheduler_weather`, with the INDI
+simulators). Each one must run in a process of its own, so CMake registers one CTest entry per function;
+run them one at a time when invoking the binary directly
+(`./build/Tests/kstars_ui/test_ekos_scheduler_weather testWeatherSoftShutdownSimulator`):
 
 | Test | What it covers |
 |------|----------------|
 | `testWeatherSoftShutdownSimulator` | Full simulator path: startup → capture → weather alert → soft shutdown verified (Ekos/INDI still running, mount parks, `STARTUP_POST_DEVICES` set) → WEATHER_OK → post-startup queue runs (mount unparks) → job resumes |
 | `testWeatherHardShutdownSimulator` | Full simulator path: startup → capture → weather alert → soft shutdown → grace period expires → hard shutdown verified (Ekos/INDI stop, mount parked, scheduler stops completely) |
 | `testWeatherMonitoringModeSimulator` | Full simulator path: startup → capture → weather alert → soft shutdown → indefinite grace period (0) → weather monitoring mode verified (Ekos/INDI stay running, scheduler waits in RUN_WAKEUP) → WEATHER_OK → job resumes |
+| `testWeatherRecoveryAfterDawnRunsShutdown` | Full simulator path: alert → soft shutdown → clock moved past dawn → WEATHER_OK → scheduler sleeps until the job's next window, post-startup queue not run, mount still parked |
+
+Mock-module tests in `Tests/kstars_ui/test_ekos_scheduler_ops`, with a simulated clock so the
+5-minute monitoring wakeups take milliseconds:
+
+| Test | What it covers |
+|------|----------------|
+| `testWeatherMonitoringWakeupDuringAlert` | Alert lasts through several monitoring wakeups: no post-startup, slew or job start; WEATHER_OK then resumes the job, waking up once |
+| `testWeatherAlertOutlastsJobEndTime` | Alert still active when the job's end-at time passes: full shutdown at the next check, without restarting the job |
+| `testWeatherClearsAfterJobEndTime` | Grace period > 0, weather clears after the end-at time: recovery shuts down instead of running post-startup and restarting the job |
+| `testWeatherAlertThroughDawn` | Alert lasts past dawn, clears in daylight: no post-startup; sleeps until the next night and starts up then |
+| `testWeatherAlertBeforeFirstJobCheck` | Alert caught by a job's first stage check: soft shutdown without slewing |
 
 ---
 

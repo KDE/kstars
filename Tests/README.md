@@ -107,6 +107,10 @@ ctest --test-dir build/Tests -LE ui --output-on-failure
 
 # Run a single function in the scheduler ops (UI) suite:
 ./build/Tests/kstars_ui/test_ekos_scheduler_ops testSimpleJob -v2
+
+# Scheduler weather tests with the INDI simulators: run one function per process
+# (CTest registers each function as its own test):
+./build/Tests/kstars_ui/test_ekos_scheduler_weather testWeatherSoftShutdownSimulator -v2
 ```
 
 Per-test VS Code launch configurations are available in `.vscode/launch.json`.

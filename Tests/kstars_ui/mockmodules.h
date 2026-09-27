@@ -149,6 +149,7 @@ class MockMount : public QObject
         {
             fprintf(stderr, "%d @@@MockMount::slew(%f,%f)\n", __LINE__, RaHours, DecDegrees);
             setStatus(ISD::Mount::MOUNT_SLEWING);
+            slewCount++;
             lastRaHoursSlew = RaHours;
             lastDecDegreesSlew = DecDegrees;
             return true;
@@ -195,6 +196,7 @@ class MockMount : public QObject
             Q_EMIT newParkStatus(parkStatus);
         }
 
+        int slewCount = 0;
         double lastRaHoursSlew = 0;
         double lastDecDegreesSlew = 0;
         static const QString mockPath;

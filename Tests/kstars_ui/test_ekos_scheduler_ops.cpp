@@ -119,6 +119,14 @@ void TestEkosSchedulerOps::init()
     guider.reset(new Ekos::MockGuide);
     ekos.reset(new Ekos::MockEkos);
 
+    // Weather tests enable this after the scheduler exists. Keeping it off during
+    // construction stops SchedulerProcess from connecting to a standalone safety
+    // monitor configured in the user's settings.
+    Options::setSchedulerWeather(false);
+    m_schedulerLog.clear();
+    m_weatherSlewBaseline = 0;
+    m_weatherHoldViolation.clear();
+
     scheduler.reset(new Scheduler("/MockKStars/MockEkos/Scheduler", "org.kde.mockkstars",
                                   Ekos::MockEkos::mockPath, "org.kde.mockkstars.MockEkos"));
     // These org.kde.* interface strings are set up in the various .xml files.
@@ -1092,6 +1100,289 @@ void TestEkosSchedulerOps::testPreemptiveShutdownTimerSwitchOnQueueComplete()
              "reached stop() via checkShutdownState→completeShutdown. Without the "
              "fix wakeUpScheduler() is called instead and the scheduler remains "
              "SCHEDULER_RUNNING, keeping Ekos alive throughout the sleep period.");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Weather soft-shutdown tests (mock modules, simulated clock)
+//
+// These cover the scheduler's behaviour while a weather/safety alert holds the
+// observatory in soft shutdown (pre-shutdown tasks done, Ekos/INDI still running).
+// Unlike the simulator tests below, the clock here advances by whatever the
+// scheduler asks to sleep, so the 5-minute monitoring wakeups of the "indefinite
+// wait" grace period take milliseconds.
+//
+// No startup/shutdown task queues are configured (see init()), so "the post-startup
+// phase ran" is observed as startupState reaching STARTUP_COMPLETE, and "the job
+// restarted" as a mount slew or the job going BUSY.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Start a single Altair job at 3:10am local in Silicon Valley (2021-06-14) with weather
+// monitoring enabled, and run it until it is capturing. Astronomical dawn is at about
+// 10:53 UTC; the job starts at about 10:13 UTC (see testDawnShutdown).
+void TestEkosSchedulerOps::startWeatherTestJob(int gracePeriodMinutes,
+        const TestEkosSchedulerHelper::CompletionCondition &completion,
+        KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir)
+{
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject *> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+
+    Options::setSchedulerWeather(true);
+    Options::setSchedulerWeatherGracePeriod(gracePeriodMinutes);
+    Options::setSchedulerWeatherShutdownDelay(0);
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    m_completionCondition = completion;
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    capture->setStatus(Ekos::CAPTURE_CAPTURING);
+    QCOMPARE(scheduler->moduleState()->startupState(), Ekos::STARTUP_COMPLETE);
+}
+
+// Deliver a weather status change the way a weather device or safety monitor does.
+void TestEkosSchedulerOps::injectWeather(ISD::Weather::Status status)
+{
+    QVERIFY(QMetaObject::invokeMethod(scheduler->process().data(), "setWeatherStatus", Qt::DirectConnection,
+                                      Q_ARG(ISD::Weather::Status, status), Q_ARG(bool, false)));
+    QCOMPARE(scheduler->moduleState()->weatherStatus(), status);
+}
+
+// Iterate the scheduler while it must hold the observatory closed, until done() is true.
+// Fails (and records why in m_weatherHoldViolation) if in the meantime the scheduler runs
+// the post-startup phase, starts the job or slews the mount.
+bool TestEkosSchedulerOps::iterateDuringWeatherHold(const QString &label, int iterations, int &sleepMs,
+        KStarsDateTime &currentUTime, std::function<bool ()> done)
+{
+    m_weatherHoldViolation.clear();
+    const bool finished = iterateScheduler(label, iterations, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        const QString now = KStarsData::Instance()->ut().toString("hh:mm:ss");
+        if (scheduler->moduleState()->startupState() == Ekos::STARTUP_COMPLETE ||
+                scheduler->moduleState()->startupState() == Ekos::STARTUP_POST_DEVICES_RUNNING)
+            m_weatherHoldViolation = QString("post-startup phase ran at %1 UT").arg(now);
+        else if (mount->slewCount != m_weatherSlewBaseline)
+            m_weatherHoldViolation = QString("mount slewed at %1 UT").arg(now);
+        else if (scheduler->activeJob() != nullptr && scheduler->activeJob()->getState() == Ekos::SCHEDJOB_BUSY)
+            m_weatherHoldViolation = QString("job was started at %1 UT").arg(now);
+        return !m_weatherHoldViolation.isEmpty() || done();
+    });
+    return finished && m_weatherHoldViolation.isEmpty();
+}
+
+// An alert that lasts longer than the 5-minute monitoring interval of the indefinite
+// grace period. Each monitoring wakeup must keep the observatory closed; once safety
+// is OK again the job resumes normally.
+void TestEkosSchedulerOps::testWeatherMonitoringWakeupDuringAlert()
+{
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    TestEkosSchedulerHelper::CompletionCondition loop;
+    loop.type = Ekos::FINISH_LOOP;
+    startWeatherTestJob(0, loop, currentUTime, sleepMs, dir);
+
+    m_weatherSlewBaseline = mount->slewCount;
+    injectWeather(ISD::Weather::WEATHER_ALERT);
+    QVERIFY(iterateScheduler("Wait for weather monitoring", 20, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->weatherShutdownMonitoring();
+    }));
+    m_schedulerLog.clear();
+
+    // Hold for 25 minutes of simulated time: several monitoring wakeups, well before dawn.
+    const KStarsDateTime holdUntil = currentUTime.addSecs(25 * 60);
+    QVERIFY2(iterateDuringWeatherHold("Hold during alert", 200, sleepMs, currentUTime, [&]() -> bool
+    {
+        return KStarsData::Instance()->ut() >= holdUntil;
+    }), qPrintable(m_weatherHoldViolation));
+    QCOMPARE(scheduler->moduleState()->schedulerState(), Ekos::SCHEDULER_RUNNING);
+    QVERIFY(scheduler->moduleState()->weatherShutdownMonitoring());
+    QVERIFY2(m_schedulerLog.filter("Scheduler is awake").isEmpty(),
+             "Monitoring wakeups during an alert must not report the scheduler as awake");
+
+    // Safety improves: the scheduler resumes the job, and reports waking up once.
+    m_schedulerLog.clear();
+    injectWeather(ISD::Weather::WEATHER_OK);
+    QVERIFY(iterateScheduler("Wait for job restart", 50, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->timerState() == Ekos::RUN_JOBCHECK &&
+        mount->slewCount > m_weatherSlewBaseline;
+    }));
+    QCOMPARE(scheduler->moduleState()->startupState(), Ekos::STARTUP_COMPLETE);
+    QVERIFY(!scheduler->moduleState()->weatherShutdownMonitoring());
+    QVERIFY2(m_schedulerLog.filter("Scheduler is awake").size() <= 1,
+             qPrintable(QString("Recovery woke the scheduler %1 times").arg(m_schedulerLog.filter("Scheduler is awake").size())));
+}
+
+// The reporter's scenario: an alert starts during a job with an end-at time and is still
+// active when that time passes. The scheduler must run the full shutdown sequence without
+// waiting for safety to improve, and without restarting the job first.
+void TestEkosSchedulerOps::testWeatherAlertOutlastsJobEndTime()
+{
+    // End at 3:30am local. The scheduler reads the clock time of this value and local time
+    // on this date is PDT (UTC-7), so that is 10:30 UT.
+    const QDateTime endAtUTime(QDate(2021, 6, 14), QTime(10, 30, 0), QTimeZone::utc());
+    TestEkosSchedulerHelper::CompletionCondition endAt;
+    endAt.type = Ekos::FINISH_AT;
+    endAt.atLocalDateTime = endAtUTime.toTimeZone(QTimeZone(-7 * 3600));
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startWeatherTestJob(0, endAt, currentUTime, sleepMs, dir);
+    QVERIFY(KStarsData::Instance()->ut() < endAtUTime);
+
+    m_weatherSlewBaseline = mount->slewCount;
+    injectWeather(ISD::Weather::WEATHER_ALERT);
+    QVERIFY(iterateScheduler("Wait for weather monitoring", 20, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->weatherShutdownMonitoring();
+    }));
+
+    m_schedulerLog.clear();
+    QVERIFY2(iterateDuringWeatherHold("Hold until shutdown", 300, sleepMs, currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->schedulerState() == Ekos::SCHEDULER_IDLE;
+    }), qPrintable(m_weatherHoldViolation.isEmpty() ? QString("scheduler never shut down") : m_weatherHoldViolation));
+
+    // It shut down at the first monitoring check after the end time, while still in alert.
+    QCOMPARE(scheduler->moduleState()->weatherStatus(), ISD::Weather::WEATHER_ALERT);
+    QVERIFY(KStarsData::Instance()->ut() >= endAtUTime);
+    QVERIFY2(endAtUTime.secsTo(KStarsData::Instance()->ut()) < 10 * 60,
+             qPrintable(QString("Shutdown only at %1 UT").arg(KStarsData::Instance()->ut().toString("hh:mm:ss"))));
+    QVERIFY2(!m_schedulerLog.filter("proceeding to stop Ekos/INDI").isEmpty(), "Full shutdown sequence did not run");
+    QCOMPARE(ekos->ekosStatus(), Ekos::Idle);
+    QCOMPARE(scheduler->moduleState()->jobs()[0]->getState(), Ekos::SCHEDJOB_COMPLETE);
+}
+
+// An alert that clears after the job's end-at time, while still inside a (non-zero) grace
+// period. Recovery must see that the job has expired and shut down, instead of running
+// the post-startup phase and restarting the job for a few seconds.
+void TestEkosSchedulerOps::testWeatherClearsAfterJobEndTime()
+{
+    // End at 3:30am local. The scheduler reads the clock time of this value and local time
+    // on this date is PDT (UTC-7), so that is 10:30 UT.
+    const QDateTime endAtUTime(QDate(2021, 6, 14), QTime(10, 30, 0), QTimeZone::utc());
+    TestEkosSchedulerHelper::CompletionCondition endAt;
+    endAt.type = Ekos::FINISH_AT;
+    endAt.atLocalDateTime = endAtUTime.toTimeZone(QTimeZone(-7 * 3600));
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startWeatherTestJob(60, endAt, currentUTime, sleepMs, dir);
+
+    m_weatherSlewBaseline = mount->slewCount;
+    injectWeather(ISD::Weather::WEATHER_ALERT);
+    // Only the event loop here: iterateScheduler() would run the grace period wakeup
+    // immediately instead of an hour later.
+    QTRY_VERIFY_WITH_TIMEOUT(scheduler->moduleState()->weatherGracePeriodActive() &&
+                             scheduler->moduleState()->shutdownState() == Ekos::SHUTDOWN_COMPLETE, 5000);
+    QCOMPARE(scheduler->moduleState()->timerState(), Ekos::RUN_WAKEUP);
+
+    // Safety improves at 10:35 UT, after the end time but before the grace period expires.
+    currentUTime = KStarsDateTime(QDateTime(QDate(2021, 6, 14), QTime(10, 35, 0), QTimeZone::utc()));
+    KStarsData::Instance()->changeDateTime(currentUTime);
+    sleepMs = 0;
+    injectWeather(ISD::Weather::WEATHER_OK);
+
+    QVERIFY2(iterateDuringWeatherHold("Recover after end time", 100, sleepMs, currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->schedulerState() == Ekos::SCHEDULER_IDLE;
+    }), qPrintable(m_weatherHoldViolation.isEmpty() ? QString("scheduler never shut down") : m_weatherHoldViolation));
+    QCOMPARE(ekos->ekosStatus(), Ekos::Idle);
+    QCOMPARE(scheduler->moduleState()->jobs()[0]->getState(), Ekos::SCHEDJOB_COMPLETE);
+}
+
+// The overnight incident: an alert starts during the night and lasts past dawn. The
+// observatory must stay closed through dawn, and when safety improves in daylight the
+// scheduler must not run the post-startup phase. It sleeps until the job's next window,
+// and only then starts up again.
+void TestEkosSchedulerOps::testWeatherAlertThroughDawn()
+{
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    TestEkosSchedulerHelper::CompletionCondition loop;
+    loop.type = Ekos::FINISH_LOOP;
+    startWeatherTestJob(0, loop, currentUTime, sleepMs, dir);
+
+    m_weatherSlewBaseline = mount->slewCount;
+    injectWeather(ISD::Weather::WEATHER_ALERT);
+
+    // Alert lasts until 13:00 UT (6am local), two hours after dawn.
+    const QDateTime clearUTime(QDate(2021, 6, 14), QTime(13, 0, 0), QTimeZone::utc());
+    QVERIFY2(iterateDuringWeatherHold("Hold through dawn", 300, sleepMs, currentUTime, [&]() -> bool
+    {
+        return KStarsData::Instance()->ut() >= clearUTime;
+    }), qPrintable(m_weatherHoldViolation));
+    QCOMPARE(scheduler->moduleState()->schedulerState(), Ekos::SCHEDULER_RUNNING);
+
+    injectWeather(ISD::Weather::WEATHER_OK);
+    QVERIFY2(iterateDuringWeatherHold("Wait for sleep until next night", 50, sleepMs, currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP &&
+        !scheduler->moduleState()->weatherShutdownMonitoring();
+    }), qPrintable(m_weatherHoldViolation.isEmpty() ? QString("scheduler did not go to sleep") : m_weatherHoldViolation));
+
+    // Next window: Altair above 30 degrees at about 06:31 UT on 2021-06-15 (see testDawnShutdown).
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(6, 31, 0), QTimeZone::utc());
+    QVERIFY(iterateScheduler("Wait for job restart next night", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->timerState() == Ekos::RUN_JOBCHECK;
+    }));
+    QVERIFY2(std::abs(KStarsData::Instance()->ut().secsTo(restartTime)) < timeTolerance(DEFAULT_TOLERANCE),
+             qPrintable(QString("Job restarted at %1 UT").arg(KStarsData::Instance()->ut().toString())));
+    QCOMPARE(scheduler->moduleState()->startupState(), Ekos::STARTUP_COMPLETE);
+}
+
+// An alert already present when a freshly started job gets its first job-stage check
+// (e.g. the scheduler started the job just as the alert came in). The scheduler must start
+// the soft shutdown and not go on to slew the mount for the job.
+void TestEkosSchedulerOps::testWeatherAlertBeforeFirstJobCheck()
+{
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition,
+               m_completionCondition, {true, true, true, true}, true, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+
+    WithInterval interval(1000, scheduler);
+    QVERIFY(iterateScheduler("Wait for job start", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->moduleState()->timerState() == Ekos::RUN_JOBCHECK;
+    }));
+    QCOMPARE(scheduler->activeJob()->getStage(), Ekos::SCHEDSTAGE_IDLE);
+
+    // The alert is already in the module state, with no transition left for setWeatherStatus()
+    // to react to, so the first job-stage check is the one that has to catch it.
+    Options::setSchedulerWeather(true);
+    Options::setSchedulerWeatherGracePeriod(0);
+    scheduler->moduleState()->setWeatherStatus(ISD::Weather::WEATHER_ALERT);
+    const int slews = mount->slewCount;
+
+    QVERIFY(iterateScheduler("First job check", 3, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return false;
+    }) == false);
+    QCOMPARE(mount->slewCount, slews);
+    QVERIFY(scheduler->moduleState()->weatherGracePeriodActive() ||
+            scheduler->moduleState()->weatherShutdownMonitoring());
 }
 
 // Expect the job to start running at startJobUTime.
@@ -2570,548 +2861,6 @@ void TestEkosSchedulerOps::testRememberJobProgress_data()
     QTest::newRow("{Red:3, Green:1, Red:2}, 3x, scheduled=false") << "Red:3, Green:1, Red:2" << "Red:15, Green:3" << 3 << false;
 
 #endif
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// testWeatherSoftShutdownFullCycle
-//
-// Full end-to-end regression test for the weather soft-shutdown → recovery path.
-//
-// Bug summary (fixed in wakeUpScheduler()):
-//   After a weather alert the pre-shutdown queue runs (parking dome/mount), the
-//   scheduler enters a grace-period sleep (Ekos/INDI remain running), and
-//   startupState is set to STARTUP_POST_DEVICES as a signal that on wakeup only
-//   the post-startup phase (unpark) needs to run.
-//
-//   The bug: wakeUpScheduler() read weatherGracePeriodActive() to decide whether
-//   to trigger the post-startup queue.  But weatherGracePeriodActive() is cleared
-//   BEFORE wakeUpScheduler() reaches that check (either by the inner timer-path
-//   block, or by setWeatherStatus() in the event-driven path).  The condition was
-//   therefore always false — dead code — and startupState was reset to STARTUP_IDLE,
-//   discarding the STARTUP_POST_DEVICES signal.  The post-startup queue (unpark)
-//   never ran, leaving the observatory parked.
-//
-//   The fix: capture startupState == STARTUP_POST_DEVICES in a local bool
-//   (needsPostStartupRecovery) BEFORE resetting the state, then use that bool to
-//   decide whether to run the post-startup queue.
-//
-// Test flow:
-//   1. Full Ekos/INDI mock startup + job running (startup() + startModules()).
-//      No startup/shutdown queue procedures during this phase — init() leaves
-//      schedulerStartupEnabled = false so checkStartupState(STARTUP_POST_DEVICES)
-//      goes directly to STARTUP_COMPLETE without trying to run a queue.
-//   2. AFTER the job is capturing, write delay-task queue JSON files to the
-//      temp directory and enable startup/shutdown procedures.
-//      Using a DELAY task (supported_interfaces = []) means QueueExecutor::start()
-//      bypasses the Ekos::Manager::Instance()->indiStatus() check that would
-//      otherwise fail in the mock environment (mock modules ≠ real Ekos Manager).
-//   3. Weather alert injected → pre-shutdown queue fires (1-second delay task).
-//      queueExecutionCompleted() sets shutdownState=SHUTDOWN_COMPLETE and
-//      startupState=STARTUP_POST_DEVICES.
-//   4. Weather OK injected (event-driven Path B recovery).
-//   5. wakeUpScheduler() fires → detects needsPostStartupRecovery=true →
-//      post-startup queue runs (1-second delay task) → STARTUP_COMPLETE.
-//
-// Important: phases 3-5 use QTest::qWait() rather than iterateScheduler()
-// because iterateScheduler() would call runSchedulerIteration() every 10 ms,
-// which dispatches to wakeUpScheduler() on every tick while timerState=RUN_WAKEUP.
-// ─────────────────────────────────────────────────────────────────────────────
-void TestEkosSchedulerOps::testWeatherSoftShutdownSimulator()
-{
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
-
-    TestEkosHelper helper;
-    helper.m_MountDevice = "Telescope Simulator";
-    helper.m_CCDDevice = "CCD Simulator";
-    helper.m_FocuserDevice = "Focuser Simulator";
-    helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
-    QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
-
-    KTRY_EKOS_START_PROFILE("Simulators+Weather");
-    KHACK_RESET_EKOS_TIME();
-
-    Ekos::Scheduler* realScheduler = Ekos::Manager::Instance()->schedulerModule();
-    QSharedPointer<Ekos::Scheduler> realSchedulerPtr(realScheduler, [](Ekos::Scheduler*) {});
-
-    // Configure default observatory queues
-    QString shutdownFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_shutdown.json");
-    QString startupFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_startup.json");
-
-    QVERIFY2(!shutdownFile.isEmpty(), "observatory_shutdown.json not found in KStars data directory");
-    QVERIFY2(!startupFile.isEmpty(), "observatory_startup.json not found in KStars data directory");
-
-    realScheduler->process()->moduleState()->setPreShutdownScriptURL(QUrl::fromLocalFile(shutdownFile));
-    realScheduler->process()->moduleState()->setPostStartupScriptURL(QUrl::fromLocalFile(startupFile));
-
-    Options::setSchedulerStartupEnabled(true);
-    Options::setSchedulerShutdownEnabled(true);
-
-    Options::setSchedulerWeather(true);
-    Options::setSchedulerWeatherGracePeriod(30);
-    Options::setSchedulerWeatherShutdownDelay(0);
-
-    GeoLocation geo(dms(47, 58), dms(29, 20), "Kuwait", "", "Kuwait", 3);
-    KStarsData::Instance()->geo()->setLat(*(geo.lat()));
-    KStarsData::Instance()->geo()->setLong(*(geo.lng()));
-    KStarsData::Instance()->geo()->setTZ0(geo.TZ0());
-
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
-    TestEkosSchedulerHelper::StartupCondition startupCond;
-    startupCond.type = Ekos::START_ASAP;
-    TestEkosSchedulerHelper::CompletionCondition completionCond;
-    completionCond.type = Ekos::FINISH_LOOP;
-
-    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
-    auto schedJob = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {2, 2, "Luminance", "."});
-    QString schedulerXML = TestEkosSchedulerHelper::getSchedulerFile(
-                               targetObject, startupCond, completionCond, {true, false, false, false}, false, false, 0);
-
-    QString esqFilename = dir.filePath("test.esq");
-    QString eslFilename = dir.filePath("test.esl");
-    TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerXML, eslFilename,
-            TestEkosSchedulerHelper::getEsqContent(schedJob), esqFilename);
-
-    realScheduler->load(true, eslFilename);
-    realScheduler->moduleState()->jobs()[0]->setSequenceFile(QUrl(QString("file://%1").arg(esqFilename)));
-
-    helper.prepareOpticalTrains();
-    helper.prepareCaptureModule();
-
-    // Start scheduler and wait for full startup sequence:
-    KTRY_CLICK(realScheduler, startB);
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 120000);
-
-    // Weather alert injection
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(true, realSchedulerPtr), "Weather alert not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT, 10000);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() == ISD::PARK_PARKED, 20000);
-
-    QVERIFY2(realScheduler->process()->moduleState()->ekosState() == Ekos::EKOS_READY, "Ekos must remain running");
-    QVERIFY2(realScheduler->process()->moduleState()->indiState() == Ekos::INDI_READY, "INDI must remain connected");
-    QVERIFY2(realScheduler->process()->moduleState()->shutdownState() == Ekos::SHUTDOWN_COMPLETE,
-             "shutdownState must be complete");
-    QVERIFY2(realScheduler->process()->moduleState()->startupState() == Ekos::STARTUP_POST_DEVICES,
-             "startupState must be POST_DEVICES");
-    QVERIFY2(realScheduler->process()->moduleState()->preemptiveShutdown() == true, "preemptiveShutdown must be true");
-    QVERIFY2(realScheduler->process()->moduleState()->weatherGracePeriodActive() == true,
-             "weatherGracePeriodActive must be true");
-
-    // Weather OK injection
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(false, realSchedulerPtr), "Weather OK not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK, 10000);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() == ISD::PARK_UNPARKED, 15000);
-
-    QVERIFY2(realScheduler->process()->moduleState()->preemptiveShutdown() == false, "preemptiveShutdown must be false");
-    QVERIFY2(realScheduler->process()->moduleState()->shutdownState() == Ekos::SHUTDOWN_IDLE, "shutdownState must be IDLE");
-    QVERIFY2(realScheduler->process()->moduleState()->startupState() == Ekos::STARTUP_COMPLETE,
-             "startupState must be complete");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 30000);
-
-    KTRY_EKOS_STOP_SIMULATORS();
-    KTRY_CLOSE_EKOS();
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// testWeatherHardShutdownSimulator
-//
-// This test exercises the scenario where a weather alert is injected, the
-// scheduler enters a grace period (weather soft-shutdown), but the weather
-// remains bad until the grace period expires.  The expected behavior is that
-// the scheduler initiates a full hard shutdown (stopping Ekos and disconnecting INDI),
-// and stops itself.
-// ─────────────────────────────────────────────────────────────────────────────
-void TestEkosSchedulerOps::testWeatherHardShutdownSimulator()
-{
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
-
-    TestEkosHelper helper;
-    helper.m_MountDevice = "Telescope Simulator";
-    helper.m_CCDDevice = "CCD Simulator";
-    helper.m_FocuserDevice = "Focuser Simulator";
-    helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
-    QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
-
-    KTRY_EKOS_START_PROFILE("Simulators+Weather");
-    KHACK_RESET_EKOS_TIME();
-
-    Ekos::Scheduler* realScheduler = Ekos::Manager::Instance()->schedulerModule();
-    QSharedPointer<Ekos::Scheduler> realSchedulerPtr(realScheduler, [](Ekos::Scheduler*) {});
-
-    // Configure default observatory queues
-    QString shutdownFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_shutdown.json");
-    QString startupFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_startup.json");
-
-    QVERIFY2(!shutdownFile.isEmpty(), "observatory_shutdown.json not found in KStars data directory");
-    QVERIFY2(!startupFile.isEmpty(), "observatory_startup.json not found in KStars data directory");
-
-    realScheduler->process()->moduleState()->setPreShutdownScriptURL(QUrl::fromLocalFile(shutdownFile));
-    realScheduler->process()->moduleState()->setPostStartupScriptURL(QUrl::fromLocalFile(startupFile));
-
-    Options::setSchedulerStartupEnabled(true);
-    Options::setSchedulerShutdownEnabled(true);
-
-    Options::setSchedulerWeather(true);
-    // Use a very short grace period (1 minute) so we can wait it out in the test
-    Options::setSchedulerWeatherGracePeriod(1);
-    Options::setSchedulerWeatherShutdownDelay(0);
-
-    GeoLocation geo(dms(47, 58), dms(29, 20), "Kuwait", "", "Kuwait", 3);
-    KStarsData::Instance()->geo()->setLat(*(geo.lat()));
-    KStarsData::Instance()->geo()->setLong(*(geo.lng()));
-    KStarsData::Instance()->geo()->setTZ0(geo.TZ0());
-
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
-    TestEkosSchedulerHelper::StartupCondition startupCond;
-    startupCond.type = Ekos::START_ASAP;
-    TestEkosSchedulerHelper::CompletionCondition completionCond;
-    completionCond.type = Ekos::FINISH_LOOP;
-
-    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
-    auto schedJob = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {2, 2, "Luminance", "."});
-    QString schedulerXML = TestEkosSchedulerHelper::getSchedulerFile(
-                               targetObject, startupCond, completionCond, {true, false, false, false}, false, false, 0);
-
-    QString esqFilename = dir.filePath("test.esq");
-    QString eslFilename = dir.filePath("test.esl");
-    TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerXML, eslFilename,
-            TestEkosSchedulerHelper::getEsqContent(schedJob), esqFilename);
-
-    realScheduler->load(true, eslFilename);
-    realScheduler->moduleState()->jobs()[0]->setSequenceFile(QUrl(QString("file://%1").arg(esqFilename)));
-
-    helper.prepareOpticalTrains();
-    helper.prepareCaptureModule();
-
-    // Start scheduler and wait for full startup sequence:
-    KTRY_CLICK(realScheduler, startB);
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 120000);
-
-    // Weather alert injection
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(true, realSchedulerPtr), "Weather alert not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT, 10000);
-    // The mount should park as part of the soft-shutdown / pre-shutdown queue
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() == ISD::PARK_PARKED, 20000);
-
-    // At this point we are in the grace period. Ekos/INDI are still ready.
-    QVERIFY2(realScheduler->process()->moduleState()->ekosState() == Ekos::EKOS_READY,
-             "Ekos must remain running during grace period");
-    QVERIFY2(realScheduler->process()->moduleState()->indiState() == Ekos::INDI_READY,
-             "INDI must remain connected during grace period");
-
-    // Now we wait for the 1 minute grace period to expire. We do not inject WEATHER_OK.
-    // The scheduler should detect the expiration, initiate hard shutdown.
-    // Because KStars runs time fast we use 90s timeout.
-
-    // Wait until Ekos stops and INDI disconnects
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->ekosState() == Ekos::EKOS_IDLE, 90000);
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->indiState() == Ekos::INDI_IDLE, 30000);
-
-    // Check that scheduler transitions to ABORTED or IDLE state due to weather hard shutdown
-    QTRY_VERIFY_WITH_TIMEOUT(
-        realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_ABORTED ||
-        realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_IDLE ||
-        realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_RUNNING,
-        10000);
-
-    // Weather monitoring mode should be enabled after hard shutdown
-    QVERIFY2(realScheduler->process()->moduleState()->weatherShutdownMonitoring() == true,
-             "weatherShutdownMonitoring must be true after hard shutdown");
-
-    KTRY_CLOSE_EKOS();
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// testWeatherMonitoringModeSimulator
-//
-// This test exercises the scenario where a weather alert is injected, the
-// scheduler enters a grace period of 0 (wait indefinitely). The expected
-// behavior is that the scheduler enters weather monitoring mode, keeps itself
-// running, and waits for the weather to improve without fully shutting down.
-// ─────────────────────────────────────────────────────────────────────────────
-void TestEkosSchedulerOps::testWeatherMonitoringModeSimulator()
-{
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
-
-    TestEkosHelper helper;
-    helper.m_MountDevice = "Telescope Simulator";
-    helper.m_CCDDevice = "CCD Simulator";
-    helper.m_FocuserDevice = "Focuser Simulator";
-    helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
-    QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
-
-    KTRY_EKOS_START_PROFILE("Simulators+Weather");
-    KHACK_RESET_EKOS_TIME();
-
-    Ekos::Scheduler* realScheduler = Ekos::Manager::Instance()->schedulerModule();
-    QSharedPointer<Ekos::Scheduler> realSchedulerPtr(realScheduler, [](Ekos::Scheduler*) {});
-
-    // Configure default observatory queues
-    QString shutdownFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_shutdown.json");
-    QString startupFile = KSPaths::locate(QStandardPaths::AppDataLocation, "taskqueue/collections/observatory_startup.json");
-
-    QVERIFY2(!shutdownFile.isEmpty(), "observatory_shutdown.json not found in KStars data directory");
-    QVERIFY2(!startupFile.isEmpty(), "observatory_startup.json not found in KStars data directory");
-
-    realScheduler->process()->moduleState()->setPreShutdownScriptURL(QUrl::fromLocalFile(shutdownFile));
-    realScheduler->process()->moduleState()->setPostStartupScriptURL(QUrl::fromLocalFile(startupFile));
-
-    Options::setSchedulerStartupEnabled(true);
-    Options::setSchedulerShutdownEnabled(true);
-
-    Options::setSchedulerWeather(true);
-    // Use grace period 0 (indefinite wait)
-    Options::setSchedulerWeatherGracePeriod(0);
-    Options::setSchedulerWeatherShutdownDelay(0);
-
-    GeoLocation geo(dms(47, 58), dms(29, 20), "Kuwait", "", "Kuwait", 3);
-    KStarsData::Instance()->geo()->setLat(*(geo.lat()));
-    KStarsData::Instance()->geo()->setLong(*(geo.lng()));
-    KStarsData::Instance()->geo()->setTZ0(geo.TZ0());
-
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
-    TestEkosSchedulerHelper::StartupCondition startupCond;
-    startupCond.type = Ekos::START_ASAP;
-    TestEkosSchedulerHelper::CompletionCondition completionCond;
-    completionCond.type = Ekos::FINISH_LOOP;
-
-    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
-    auto schedJob = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {2, 2, "Luminance", "."});
-    QString schedulerXML = TestEkosSchedulerHelper::getSchedulerFile(
-                               targetObject, startupCond, completionCond, {true, false, false, false}, false, false, 0);
-
-    QString esqFilename = dir.filePath("test.esq");
-    QString eslFilename = dir.filePath("test.esl");
-    TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerXML, eslFilename,
-            TestEkosSchedulerHelper::getEsqContent(schedJob), esqFilename);
-
-    realScheduler->load(true, eslFilename);
-    realScheduler->moduleState()->jobs()[0]->setSequenceFile(QUrl(QString("file://%1").arg(esqFilename)));
-
-    helper.prepareOpticalTrains();
-    helper.prepareCaptureModule();
-
-    // Start scheduler and wait for full startup sequence:
-    KTRY_CLICK(realScheduler, startB);
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 120000);
-
-    // Weather alert injection
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(true, realSchedulerPtr), "Weather alert not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT, 10000);
-    // The mount should park as part of the soft-shutdown / pre-shutdown queue
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() == ISD::PARK_PARKED, 20000);
-
-    // With grace period 0, it should transition to RUN_WAKEUP and weather monitoring mode immediately.
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->timerState() == Ekos::RUN_WAKEUP, 20000);
-    QVERIFY2(realScheduler->process()->moduleState()->weatherShutdownMonitoring() == true,
-             "weatherShutdownMonitoring must be true for grace period 0");
-    QVERIFY2(realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_RUNNING,
-             "schedulerState must remain RUNNING for grace period 0");
-
-    // Ekos and INDI should remain ready
-    QVERIFY2(realScheduler->process()->moduleState()->ekosState() == Ekos::EKOS_READY, "Ekos must remain running");
-    QVERIFY2(realScheduler->process()->moduleState()->indiState() == Ekos::INDI_READY, "INDI must remain connected");
-
-    // Weather OK injection to recover
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(false, realSchedulerPtr), "Weather OK not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK, 10000);
-    // Mount should unpark
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() == ISD::PARK_UNPARKED, 15000);
-
-    QVERIFY2(realScheduler->process()->moduleState()->weatherShutdownMonitoring() == false,
-             "weatherShutdownMonitoring must be false after recovery");
-    QVERIFY2(realScheduler->process()->moduleState()->shutdownState() == Ekos::SHUTDOWN_IDLE, "shutdownState must be IDLE");
-    QVERIFY2(realScheduler->process()->moduleState()->startupState() == Ekos::STARTUP_COMPLETE,
-             "startupState must be complete");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 30000);
-
-    KTRY_EKOS_STOP_SIMULATORS();
-    KTRY_CLOSE_EKOS();
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// testWeatherRecoveryAfterDawnRunsShutdown
-//
-// Regression test for the bug where the post-startup queue runs (opening the
-// dome/unparking the mount) after weather clears past dawn, but the scheduler
-// never proceeds to evaluate jobs and run the pre-shutdown queue — leaving the
-// observatory open indefinitely.
-//
-// Scenario (mirrors the real incident from 2026-04-20):
-//   1. Scheduler is running, job is capturing.
-//   2. Weather alert fires mid-session → pre-shutdown queue runs (parks mount,
-//      closes dome).  Scheduler enters indefinite-wait monitoring mode
-//      (grace period = 0).
-//   3. Weather clears AFTER dawn.  wakeUpScheduler() fires, runs the
-//      post-startup queue (unparks mount, opens dome).
-//   4. BUG: schedulerState is already SCHEDULER_RUNNING, so execute() is a
-//      no-op.  checkStatus() is never called.  No jobs are schedulable (past
-//      dawn), so the pre-shutdown queue never runs.  Observatory stays open.
-//   5. FIX: queueExecutionCompleted() now calls setupNextIteration(RUN_SCHEDULER)
-//      when schedulerState == SCHEDULER_RUNNING, forcing checkStatus() to run,
-//      find no schedulable jobs, and call checkShutdownState() → pre-shutdown
-//      queue → mount parked again.
-//
-// Test flow:
-//   1. Full Ekos/INDI simulator startup + job capturing.
-//   2. Weather alert injected → pre-shutdown queue runs → mount parked.
-//      Scheduler enters indefinite-wait monitoring mode (grace period = 0).
-//   3. Advance simulated time past dawn so no jobs are schedulable.
-//   4. Weather OK injected → post-startup queue runs → mount unparked.
-//   5. REGRESSION CHECK: mount must be parked again (pre-shutdown queue ran).
-// ─────────────────────────────────────────────────────────────────────────────
-void TestEkosSchedulerOps::testWeatherRecoveryAfterDawnRunsShutdown()
-{
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
-
-    TestEkosHelper helper;
-    helper.m_MountDevice = "Telescope Simulator";
-    helper.m_CCDDevice = "CCD Simulator";
-    helper.m_FocuserDevice = "Focuser Simulator";
-    helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
-    QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
-
-    KTRY_EKOS_START_PROFILE("Simulators+Weather");
-    KHACK_RESET_EKOS_TIME();
-
-    Ekos::Scheduler *realScheduler = Ekos::Manager::Instance()->schedulerModule();
-    QSharedPointer<Ekos::Scheduler> realSchedulerPtr(realScheduler, [](Ekos::Scheduler *) {});
-
-    // Configure observatory queues (pre-shutdown parks mount/dome, post-startup unparks)
-    QString shutdownFile = KSPaths::locate(QStandardPaths::AppDataLocation,
-                                           "taskqueue/collections/observatory_shutdown.json");
-    QString startupFile  = KSPaths::locate(QStandardPaths::AppDataLocation,
-                                           "taskqueue/collections/observatory_startup.json");
-    QVERIFY2(!shutdownFile.isEmpty(), "observatory_shutdown.json not found");
-    QVERIFY2(!startupFile.isEmpty(),  "observatory_startup.json not found");
-
-    realScheduler->process()->moduleState()->setPreShutdownScriptURL(QUrl::fromLocalFile(shutdownFile));
-    realScheduler->process()->moduleState()->setPostStartupScriptURL(QUrl::fromLocalFile(startupFile));
-
-    Options::setSchedulerStartupEnabled(true);
-    Options::setSchedulerShutdownEnabled(true);
-    Options::setSchedulerWeather(true);
-    // Grace period = 0 → indefinite wait (the scenario from the bug report)
-    Options::setSchedulerWeatherGracePeriod(0);
-    Options::setSchedulerWeatherShutdownDelay(0);
-
-    // Use a location and target that is only visible at night so that after we
-    // advance the clock past dawn the GreedyScheduler finds no schedulable jobs.
-    GeoLocation geo(dms(47, 58), dms(29, 20), "Kuwait", "", "Kuwait", 3);
-    KStarsData::Instance()->geo()->setLat(*(geo.lat()));
-    KStarsData::Instance()->geo()->setLong(*(geo.lng()));
-    KStarsData::Instance()->geo()->setTZ0(geo.TZ0());
-
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
-    QVERIFY2(targetObject != nullptr, "Kocab not found in sky catalog");
-
-    TestEkosSchedulerHelper::StartupCondition startupCond;
-    startupCond.type = Ekos::START_ASAP;
-    TestEkosSchedulerHelper::CompletionCondition completionCond;
-    completionCond.type = Ekos::FINISH_LOOP;
-
-    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
-    auto schedJob = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {2, 2, "Luminance", "."});
-    // enforceTwilight = true so the job is constrained to nighttime only
-    QString schedulerXML = TestEkosSchedulerHelper::getSchedulerFile(
-                               targetObject, startupCond, completionCond,
-    {true, false, false, false}, /*enforceTwilight=*/true, false, 0);
-
-    QString esqFilename = dir.filePath("test.esq");
-    QString eslFilename = dir.filePath("test.esl");
-    TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerXML, eslFilename,
-            TestEkosSchedulerHelper::getEsqContent(schedJob), esqFilename);
-
-    realScheduler->load(true, eslFilename);
-    realScheduler->moduleState()->jobs()[0]->setSequenceFile(QUrl(QString("file://%1").arg(esqFilename)));
-
-    helper.prepareOpticalTrains();
-    helper.prepareCaptureModule();
-
-    // ── Phase 1: Start scheduler and wait until the job is capturing ──────────
-    KTRY_CLICK(realScheduler, startB);
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->activeJob() != nullptr
-                             && realScheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING, 120000);
-
-    // ── Phase 2: Inject weather alert ─────────────────────────────────────────
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(true, realSchedulerPtr), "Weather alert not set");
-
-    // Wait for the pre-shutdown queue to complete: mount must be parked
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() ==
-                             ISD::Weather::WEATHER_ALERT, 10000);
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() ==
-                             ISD::PARK_PARKED, 30000);
-
-    // Scheduler must be in indefinite-wait monitoring mode (grace period = 0)
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherShutdownMonitoring() == true, 10000);
-    QVERIFY2(realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_RUNNING,
-             "schedulerState must remain RUNNING in monitoring mode");
-    // Ekos/INDI must stay up (soft shutdown only)
-    QVERIFY2(realScheduler->process()->moduleState()->ekosState() == Ekos::EKOS_READY,
-             "Ekos must remain running during soft shutdown");
-    QVERIFY2(realScheduler->process()->moduleState()->indiState() == Ekos::INDI_READY,
-             "INDI must remain connected during soft shutdown");
-
-    // ── Phase 3: Advance simulated clock past dawn so no jobs are schedulable ─
-    // Move time to 10:00 local (well past dawn) so the twilight-constrained job
-    // has no valid window when the scheduler evaluates after weather recovery.
-    KStarsDateTime dawn = KStarsDateTime(KStarsData::Instance()->lt().date().addDays(0),
-                                         QTime(10, 0, 0));
-    KStarsData::Instance()->changeDateTime(KStarsDateTime(dawn.djd()));
-    // Let the scheduler process the time change
-    QTest::qWait(500);
-
-    // ── Phase 4: Inject weather OK ────────────────────────────────────────────
-    QVERIFY2(TestEkosHelper::setSimulatedWeather(false, realSchedulerPtr), "Weather OK not set");
-
-    QTRY_VERIFY_WITH_TIMEOUT(realScheduler->process()->moduleState()->weatherStatus() ==
-                             ISD::Weather::WEATHER_OK, 10000);
-
-    // The post-startup queue must run: mount unparks first
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() ==
-                             ISD::PARK_UNPARKED, 30000);
-
-    // ── Phase 5: Regression check ─────────────────────────────────────────────
-    // After the post-startup queue completes, checkStatus() must be called.
-    // It finds no schedulable jobs (past dawn, twilight constraint), so it calls
-    // checkShutdownState() which runs the pre-shutdown queue → mount parked again.
-    //
-    // WITHOUT the fix: the scheduler is stuck after the post-startup queue because
-    // execute() is a no-op when schedulerState == SCHEDULER_RUNNING.  The mount
-    // stays unparked and the dome stays open indefinitely.
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->parkStatus() ==
-                             ISD::PARK_PARKED, 60000);
-
-    // Scheduler should have stopped cleanly after the pre-shutdown queue
-    QTRY_VERIFY_WITH_TIMEOUT(
-        realScheduler->process()->moduleState()->schedulerState() == Ekos::SCHEDULER_IDLE ||
-        realScheduler->process()->moduleState()->shutdownState() == Ekos::SHUTDOWN_COMPLETE,
-        30000);
-
-    KTRY_EKOS_STOP_SIMULATORS();
-    KTRY_CLOSE_EKOS();
 }
 
 QTEST_KSTARS_MAIN(TestEkosSchedulerOps)

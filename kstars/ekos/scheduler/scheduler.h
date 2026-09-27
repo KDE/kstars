@@ -37,6 +37,7 @@ class KConfigDialog;
 class TestSchedulerUnit;
 class SolverUtils;
 class TestEkosSchedulerOps;
+class TestEkosSchedulerWeather;
 
 namespace Ekos
 {
@@ -622,6 +623,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void syncGreedyParams();
 
         friend TestEkosSchedulerOps;
+        friend TestEkosSchedulerWeather;
 
         QSharedPointer<SequenceEditor> m_SequenceEditor;
 

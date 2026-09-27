@@ -20,6 +20,8 @@
 #include <QSpinBox>
 #include <QCheckBox>
 
+#include "indi/indiweather.h"
+
 #include <QtGlobal>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtTest/QTest>
@@ -60,19 +62,16 @@ class TestEkosSchedulerOps : public QObject
         void testDawnShutdown();
         void testPreemptiveShutdown();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
-        void testWeatherRecoveryAfterDawnRunsShutdown();
 
-        // Weather soft-shutdown → recovery state-machine tests.
-        // testWeatherSoftShutdownSimulator goes through the full Ekos/INDI simulator
-        // startup, injects a weather alert, verifies the soft-shutdown state, then
-        // injects WEATHER_OK and verifies the post-startup queue runs (the fix).
-        void testWeatherSoftShutdownSimulator();
-        // testWeatherHardShutdownSimulator tests the scenario where weather remains
-        // bad and the grace period expires, leading to a full hard shutdown.
-        void testWeatherHardShutdownSimulator();
-        // testWeatherMonitoringModeSimulator tests the scenario where weather remains
-        // bad and the grace period is 0 (wait indefinitely), entering monitoring mode.
-        void testWeatherMonitoringModeSimulator();
+        // Weather soft-shutdown tests driven through the mock modules and a simulated
+        // clock, so the scheduler's 5-minute monitoring wakeups run in milliseconds.
+        void testWeatherMonitoringWakeupDuringAlert();
+        void testWeatherAlertOutlastsJobEndTime();
+        void testWeatherClearsAfterJobEndTime();
+        void testWeatherAlertThroughDawn();
+        void testWeatherAlertBeforeFirstJobCheck();
+
+        // Weather tests with the INDI simulators are in test_ekos_scheduler_weather.
 
         void testTwilightStartup();
         void testTwilightStartup_data();
@@ -103,6 +102,11 @@ class TestEkosSchedulerOps : public QObject
                         KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label = "",
                         const QDateTime &captureCompleteUTime = QDateTime());
         void parkAndSleep(KStarsDateTime &testUTime, int &sleepMs);
+        void startWeatherTestJob(int gracePeriodMinutes, const TestEkosSchedulerHelper::CompletionCondition &completion,
+                                 KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir);
+        void injectWeather(ISD::Weather::Status status);
+        bool iterateDuringWeatherHold(const QString &label, int iterations, int &sleepMs, KStarsDateTime &currentUTime,
+                                      std::function<bool ()> done);
         void wakeupAndRestart(const QDateTime &restartTime, KStarsDateTime &testUTime, int &sleepMs);
 
 
@@ -158,6 +162,13 @@ class TestEkosSchedulerOps : public QObject
         TestEkosSchedulerHelper::StartupCondition m_startupCondition;
         TestEkosSchedulerHelper::CompletionCondition m_completionCondition;
         QElapsedTimer testTimer;
+
+        // Scheduler log lines received since the last weather test job started.
+        QStringList m_schedulerLog;
+        // Mount slews issued before a weather alert, and whether iterateDuringWeatherHold()
+        // saw the scheduler run a job, the post-startup phase or a slew while it should hold.
+        int m_weatherSlewBaseline { 0 };
+        QString m_weatherHoldViolation;
 };
 
 #endif // HAVE_INDI

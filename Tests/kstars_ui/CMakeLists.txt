@@ -149,6 +149,21 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
 ADD_TEST(NAME TestEkosSchedulerOps COMMAND test_ekos_scheduler_ops)
 SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "stable;ui" TIMEOUT 200 )
 
+# Weather tests with the INDI simulators. Each test function must run in a process of its own.
+ADD_EXECUTABLE(test_ekos_scheduler_weather ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_scheduler_helper.cpp test_ekos_scheduler_weather.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_scheduler_weather ${KSTARS_UI_EKOS_LIBS})
+SET(SCHEDULER_WEATHER_TESTS
+    testWeatherSoftShutdownSimulator
+    testWeatherHardShutdownSimulator
+    testWeatherMonitoringModeSimulator
+    testWeatherRecoveryAfterDawnRunsShutdown)
+SET(SCHEDULER_WEATHER_TEST_NAMES)
+FOREACH(weather_test ${SCHEDULER_WEATHER_TESTS})
+    ADD_TEST(NAME TestEkosSchedulerWeather_${weather_test} COMMAND test_ekos_scheduler_weather ${weather_test})
+    SET_TESTS_PROPERTIES( TestEkosSchedulerWeather_${weather_test} PROPERTIES LABELS "stable;ui" TIMEOUT 400 )
+    LIST(APPEND SCHEDULER_WEATHER_TEST_NAMES TestEkosSchedulerWeather_${weather_test})
+ENDFOREACH()
+
 ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_horizon.cpp)
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestArtificialHorizon COMMAND test_artificial_horizon)
@@ -187,6 +202,7 @@ set_tests_properties(
     TestEkosMeridianFlipState
     TestEkosScheduler
     TestEkosSchedulerOps
+    ${SCHEDULER_WEATHER_TEST_NAMES}
     TestArtificialHorizon
     TestEkosMount
     TestCatalogDownload
