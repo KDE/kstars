@@ -1008,6 +1008,18 @@ void Focus::processTemperatureSource(INDI::Property prop)
     }
 }
 
+QJsonObject Focus::temperatureState() const
+{
+    if (!currentTemperatureSourceElement)
+        return QJsonObject();
+
+    const double temperature = currentTemperatureSourceElement->value;
+    QJsonObject state = {{"absoluteTemperature", temperature}};
+    if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
+        state["signedDeltaTemperature"] = temperature - m_LastSourceAutofocusTemperature;
+    return state;
+}
+
 void Focus::setLastFocusTemperature()
 {
     m_LastSourceAutofocusTemperature = currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE;

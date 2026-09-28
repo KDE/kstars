@@ -214,6 +214,14 @@ class Focus : public QWidget, public Ui::Focus
         /** @}*/
 
         /**
+         * @brief temperatureState Reading of the selected temperature source and its signed change
+         * since the last autofocus (or since the source was selected), as reported to EkosLive clients.
+         * @return JSON object with absoluteTemperature and signedDeltaTemperature, or an empty object
+         * if no temperature source is available.
+         */
+        QJsonObject temperatureState() const;
+
+        /**
              * @brief Add CCD to the list of available CCD.
              * @param newCCD pointer to CCD device.
              * @return True if added successfully, false if duplicate or failed to add.

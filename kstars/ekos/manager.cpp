@@ -2687,6 +2687,12 @@ void Manager::initFocus()
             {"deltaTemperature", delta}
         };
 
+        // deltaTemperature is the magnitude (used for refocus thresholds), so send the signed
+        // value too for clients that display it the way the Focus module does (e.g. +5.00 °C).
+        const QJsonObject temperatureState = focusModule()->mainFocuser()->temperatureState();
+        if (temperatureState.contains("signedDeltaTemperature"))
+            cStatus["signedDeltaTemperature"] = temperatureState["signedDeltaTemperature"];
+
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusAdvisorMessage, this, [this](const QString & message)

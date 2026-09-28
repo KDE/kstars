@@ -2886,7 +2886,11 @@ void Message::sendStates()
 
     if (m_Manager->focusModule())
     {
-        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->mainFocuser()->status(), false)}};
+        auto focuser = m_Manager->focusModule()->mainFocuser();
+        QJsonObject focusState = {{ "status", getFocusStatusString(focuser->status(), false)}};
+        const QJsonObject temperatureState = focuser->temperatureState();
+        for (auto it = temperatureState.constBegin(); it != temperatureState.constEnd(); ++it)
+            focusState.insert(it.key(), it.value());
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
 
@@ -3128,7 +3132,11 @@ void Message::sendModuleState(const QString &name)
     }
     else if (name == "Focus")
     {
-        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->mainFocuser()->status(), false)}};
+        auto focuser = m_Manager->focusModule()->mainFocuser();
+        QJsonObject focusState = {{ "status", getFocusStatusString(focuser->status(), false)}};
+        const QJsonObject temperatureState = focuser->temperatureState();
+        for (auto it = temperatureState.constBegin(); it != temperatureState.constEnd(); ++it)
+            focusState.insert(it.key(), it.value());
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
     else if (name == "Guide")
