@@ -75,6 +75,11 @@ TARGET_LINK_LIBRARIES( testrectangleoverlap ${TEST_LIBRARIES})
 ADD_TEST( NAME TestRectangleOverlap COMMAND testrectangleoverlap )
 SET_TESTS_PROPERTIES( TestRectangleOverlap PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( testksnotification testksnotification.cpp )
+TARGET_LINK_LIBRARIES( testksnotification ${TEST_LIBRARIES})
+ADD_TEST( NAME TestKSNotification COMMAND testksnotification )
+SET_TESTS_PROPERTIES( TestKSNotification PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( testksalmanac testksalmanac.cpp )
 TARGET_LINK_LIBRARIES( testksalmanac ${TEST_LIBRARIES})
 ADD_TEST( NAME TestKSAlmanac COMMAND testksalmanac )

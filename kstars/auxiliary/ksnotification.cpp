@@ -77,14 +77,16 @@ void transient(const QString &message, const QString &title)
 #endif
 }
 
-QSharedPointer<QMessageBox> closeableMessage(const QString &message, const QString &title)
+QPointer<QMessageBox> closeableMessage(const QString &message, const QString &title)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(title);
     KStarsLite::Instance()->notificationMessage(message);
-    return QSharedPointer<QMessageBox>();
+    return QPointer<QMessageBox>();
 #else
-    QSharedPointer<QMessageBox> msgBox(new QMessageBox());
+    // The box owns itself (deleted on close). Hand out a QPointer rather than an owning pointer, so the
+    // caller's handle becomes null when the user closes the box first instead of dangling.
+    QPointer<QMessageBox> msgBox(new QMessageBox());
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setWindowTitle(title);
     msgBox->setText(message);

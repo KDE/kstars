@@ -489,9 +489,11 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
     if (!selObj && resolve)
     {
         QString message = i18n("Searching the internet for \"%1\"", ui->SearchBox->text());
-        QSharedPointer<QMessageBox> popup = KSNotification::closeableMessage(message, "");
+        // The user may close the popup while the online lookup runs; the QPointer is then null.
+        QPointer<QMessageBox> popup = KSNotification::closeableMessage(message, "");
         selObj = resolveAndAdd(m_dbManager, processSearchText());
-        if (popup) popup->close();
+        if (popup)
+            popup->close();
     }
     m_targetObject = selObj;
     if (selObj == nullptr)

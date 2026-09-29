@@ -7,6 +7,7 @@
 #pragma once
 
 #include <KLocalizedString>
+#include <QPointer>
 #include <QString>
 
 /**
@@ -44,7 +45,14 @@ typedef enum
 void error(const QString &message, const QString &title = i18n("Error"), uint32_t timeout = 0);
 void sorry(const QString &message, const QString &title = i18n("Sorry"), uint32_t timeout = 0);
 void info(const QString &message, const QString &title = i18n("Info"), uint32_t timeout = 0);
-QSharedPointer<QMessageBox> closeableMessage(const QString &message, const QString &title);
+/**
+ * @brief Non-modal message box that the caller can close later, e.g. while a long operation runs.
+ * The box deletes itself when it is closed, including when the user closes it first. The returned
+ * QPointer then becomes null, so always check it before use. Returns a null pointer in KStars Lite.
+ * @param message message content
+ * @param title message title
+ */
+QPointer<QMessageBox> closeableMessage(const QString &message, const QString &title);
 
 /**
  * @brief transient Non modal message box that gets deleted on close.
