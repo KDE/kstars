@@ -113,6 +113,11 @@ bool InternalGuider::guide()
     m_GuideFrame->disconnect(this);
 
     pmath->start();
+    // A fresh guiding session must never inherit a suspension. The scheduler restarts guiding with
+    // connectGuider() + guide() while guiding is suspended (e.g. after a block of flats), and Connect()
+    // resets the state to IDLE without clearing it, so cgmath silently skipped every frame: no
+    // corrections and no guide stats for the rest of the session (bug 526397).
+    pmath->suspend(false);
 
     // AI algorithm selected but the AI guider could not be loaded (no/invalid weights): abort the
     // session rather than silently guiding with the standard algorithm. cgmath has already logged

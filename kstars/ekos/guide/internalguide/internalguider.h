@@ -116,6 +116,11 @@ class InternalGuider : public GuideInterface
         bool start();
 
         bool isGuiding(void) const;
+        /** @return true if guide frames are currently being skipped because guiding is suspended. */
+        bool isProcessingSuspended() const
+        {
+            return pmath && pmath->isSuspended();
+        }
         void setInterface(void);
 
         void setSubFramed(bool enable)
