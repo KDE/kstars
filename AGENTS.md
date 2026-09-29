@@ -193,6 +193,13 @@ pre-existing. Report it rather than fixing it silently.
 **Test pitfalls learned the hard way:**
 - Run test binaries from their own build directory (e.g. `build/Tests/kstars_ui`). Some tests find their
   fixtures by relative path and otherwise skip.
+- Tests that create widgets (`QTEST_MAIN`) abort with "Authorization required, but no authorization protocol
+  specified" when `DISPLAY` is set but the shell has no X authorization, which is common in agent and sandboxed
+  shells. `Tests/testhelpers.h` only switches to offscreen when `DISPLAY` is empty, so set it explicitly for
+  non-UI binaries: `QT_QPA_PLATFORM=offscreen ./testfoo`. (Full `kstars_ui` tests need a real display; see
+  Troubleshooting below.)
+- Check the test binary's own exit code. `./testfoo | tail` reports `tail`'s status, so an aborted test looks
+  like a pass. Redirect to a log file, then check `$?` and the `Totals:` line.
 - Ekos startup in UI tests kills any running `indiserver`. If a real one is running on the machine, run UI
   tests in an isolated environment (separate PID/network namespace or container), never against it.
 - Starting Ekos locks the KStars clock to real time, and `SimClock::setUTC()` is ignored in that mode. This
@@ -262,6 +269,63 @@ library bug, not your change.
 - The project is hosted at <https://invent.kde.org/education/kstars> (GitLab). MR descriptions should include
   a summary, the changes per file, notes, and **how to test**, including the automated tests you added or ran.
 - Again: **don't open an MR until the maintainer confirms local testing passed.**
+
+### KDE Bugzilla
+
+Bugs are tracked at <https://bugs.kde.org> (product `kstars`). Public bugs can be read through the REST API
+without a key:
+
+```bash
+curl -s https://bugs.kde.org/rest/bug/<id>              # bug fields
+curl -s https://bugs.kde.org/rest/bug/<id>/comment      # comments
+curl -s https://bugs.kde.org/rest/bug/<id>/attachment   # attachments (base64 in "data")
+```
+
+Commenting, changing status, or attaching files needs an API key (Bugzilla → Preferences → API Keys). Keep it
+in a private file outside the repository, never in the tree, commits, or agent memory:
+
+```bash
+mkdir -p ~/.config/bugzilla && chmod 700 ~/.config/bugzilla
+printf '%s' 'YOUR_KEY' > ~/.config/bugzilla/kde-api-key && chmod 600 ~/.config/bugzilla/kde-api-key
+```
+
+bugs.kde.org runs Bugzilla 5.0, which ignores the `X-BUGZILLA-API-KEY` header (and has no `/rest/whoami`).
+Pass the key as the `api_key` parameter instead. Let curl read it from the file so it never appears on the command
+line or in shell history. For example, to check that the key works:
+
+```bash
+curl -sG --data-urlencode "api_key@$HOME/.config/bugzilla/kde-api-key" \
+     --data-urlencode "login=<your-bugzilla-email>" https://bugs.kde.org/rest/valid_login   # {"result":true}
+```
+
+For `POST`/`PUT` requests, put `api_key` in the JSON body instead.
+
+Anything written to Bugzilla is public. Agents must get the maintainer's approval of the exact text before
+posting a comment or changing a bug.
+
+### KDE Webcrash (Sentry)
+
+Crash reports from DrKonqi land in KDE's self-hosted Sentry at <https://crash-reports.kde.org> (organization
+`kde`, project `kstars`). Bugzilla bugs can link to a Sentry issue through their `cf_sentryurl` field. The API needs
+an auth token (User settings → Personal Tokens). Read-only scopes (`org:read`, `project:read`, `event:read`) are
+enough to find crashes and read stack traces. Store it like the Bugzilla key:
+
+```bash
+mkdir -p ~/.config/sentry && chmod 700 ~/.config/sentry
+printf '%s' 'YOUR_TOKEN' > ~/.config/sentry/kde-auth-token && chmod 600 ~/.config/sentry/kde-auth-token
+```
+
+Sentry takes the token as a bearer header. Feed the header to curl from a file so it stays off the command line:
+
+```bash
+H() { printf 'Authorization: Bearer %s' "$(cat ~/.config/sentry/kde-auth-token)"; }
+curl -s -H @<(H) https://crash-reports.kde.org/api/0/                        # "auth" shows the token's scopes
+curl -s -H @<(H) "https://crash-reports.kde.org/api/0/projects/kde/kstars/issues/?query=is:unresolved&statsPeriod=14d"
+curl -s -H @<(H) https://crash-reports.kde.org/api/0/issues/<issue-id>/events/latest/   # stack trace
+```
+
+Crash events can contain users' paths, hostnames and device names. Don't copy them into commits, MRs or public
+bug comments. Changing an issue (resolve, assign, merge) needs the maintainer's approval, like Bugzilla edits.
 
 ---
 
