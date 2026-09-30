@@ -43,9 +43,9 @@
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
             <version>1.27</version>
         </device>
-        <device label="UMi" manufacturer="ProxiSky">
-            <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.27</version>
+        <device label="UMi" manufacturer="Proxisky">
+            <driver name="Proxisky UMi">indi_lx200_proxisky</driver>
+            <version>1.0</version>
         </device>
         <device label="EM31Pro" manufacturer="Emcan Astro">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
@@ -102,6 +102,10 @@
         <device label="AstroPhysics GTOCP2" manufacturer="Astrophysics">
             <driver name="AstroPhysics GTOCP2">indi_lx200ap_legacy</driver>
             <version>1.1</version>
+        </device>
+        <device label="Pegasus NYX-88" manufacturer="Pegasus Astro">
+            <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
+            <version>2.2</version>
         </device>
         <device label="Pegasus NYX-101" manufacturer="Pegasus Astro">
             <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
@@ -459,6 +463,10 @@
         </device>
     </devGroup>
     <devGroup group="Focusers">
+        <device label="IKun Focuser" manufacturer="IKun">
+            <driver name="IKun Focuser">indi_ikun_focuser</driver>
+            <version>1.0</version>
+        </device>
         <device label="Alpaca Focuser" manufacturer="Alpaca">
             <driver name="Alpaca Focuser">indi_alpaca_focuser</driver>
             <version>1.0</version>
@@ -569,7 +577,7 @@
         </device>
         <device label="Pegasus FocusCube3" manufacturer="Pegasus Astro">
             <driver name="Pegasus FocusCube3">indi_pegasus_focuscube3</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Pegasus ProdigyMF" manufacturer="Pegasus Astro">
             <driver name="Pegasus MMC-7000AH">indi_pegasus_prodigyMF</driver>
@@ -665,7 +673,7 @@
         </device>
         <device label="ActiveFocuser" manufacturer="Optique Unterlinden">
             <driver name="ActiveFocuser">indi_activefocuser_focus</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Alluna TCS2" manufacturer="Alluna Optics">
             <driver name="Alluna TCS2">indi_alluna_tcs2</driver>
@@ -813,6 +821,10 @@
             <driver name="RASA FilterCube Filter Wheel">indi_rasa_filtercube_wheel</driver>
             <version>1.0</version>
         </device>
+        <device label="Wheelly" manufacturer="DIY">
+            <driver name="Wheelly">indi_wheelly_wheel</driver>
+            <version>0.1</version>
+        </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="Astrometry" manufacturer="Others">
@@ -903,9 +915,13 @@
             <driver name="Avalon UPAS">indi_avalon_upas</driver>
             <version>1.0</version>
         </device>
+        <device label="OAPA" manufacturer="MBAstro">
+            <driver name="OAPA">indi_oapa</driver>
+            <version>3.0</version>
+        </device>
         <device label="MLAstro RPA" manufacturer="MLAstro">
             <driver name="MLAstro RPA">indi_mlastro_rpa</driver>
-            <version>1.0</version>
+            <version>1.3</version>
         </device>
         <device label="Arduino ST4" manufacturer="DIY">
             <driver name="Arduino ST4">indi_arduinost4</driver>
@@ -1035,7 +1051,11 @@
         </device>
         <device label="NexDome Beaver" manufacturer="Lunatico">
             <driver name="NexDome Beaver">indi_nexdome_beaver</driver>
-            <version>1.0</version>
+            <version>1.1</version>
+        </device>
+        <device label="Caterpillar Dome" manufacturer="Lunatico">
+            <driver name="NexDome Beaver">indi_nexdome_beaver</driver>
+            <version>1.1</version>
         </device>
         <device label="Hakos Roll Off Roof" manufacturer="Hakos Astrofarm">
             <driver name="Hakos Roll Off Roof">indi_hakos_roof</driver>
@@ -1173,15 +1193,19 @@
         </device>
         <device label="Celestron Smart DewHeater and Power Controller 4X" manufacturer="Celestron">
             <driver name="Celestron Dew Power">indi_celestron_dewpower</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Celestron Smart DewHeater Controller 2X" manufacturer="Celestron">
             <driver name="Celestron Dew Power">indi_celestron_dewpower</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="SVBONY SV241 Pro" manufacturer="SVBONY">
             <driver name="SVBONY SV241 Pro">indi_svbony_powerbox</driver>
             <version>1.2</version>
+        </device>
+        <device label="Gemini Power Box Hub Advanced v3" manufacturer="Gemini">
+            <driver name="Gemini Power Box Hub Advanced v3">indi_gemini_pbh</driver>
+            <version>0.9.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1347,14 +1371,6 @@
     <devGroup group="Focusers">
         <device label="Bee Focuser" manufacturer="DIY">
             <driver name="Bee Focuser">indi_beefocus</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Detectors">
-        <device label="BNO08X IMU" manufacturer="Bosch Sensortec">
-            <driver name="BNO08X IMU">indi_bno08x_imu</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -1658,14 +1674,6 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="CCDs">
-        <device label="LibCamera" manufacturer="Raspberry PI">
-            <driver name="LibCamera">indi_libcamera_ccd</driver>
-            <version>1.1</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
     <devGroup group="Receivers">
         <device label="LIME-SDR Receivers">
             <driver name="LIME-SDR Receiver">indi_limesdr_receiver</driver>
@@ -1822,6 +1830,14 @@
     </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="Weather">
+        <device label="NUTMonitor" manufacturer="Others">
+            <driver name="NUTMonitor">indi_nut</driver>
+            <version>0.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="Domes">
         <device label="OCS" manufacturer="Other">
             <driver name="OCS">indi_ocs</driver>
@@ -1897,25 +1913,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.22</version>
+            <version>1.24</version>
         </device>
         <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.22</version>
+            <version>1.24</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.22</version>
+            <version>1.24</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.22</version>
+            <version>1.24</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.22</version>
+            <version>1.24</version>
         </device>
     </devGroup>
 </driversList>
@@ -1970,6 +1986,14 @@
         <device label="SBIG ST-I" manufacturer="Diffraction Limited">
             <driver name="SBIG CCD">indi_sbig_ccd</driver>
             <version>2.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Focusers">
+        <device label="ScopeLink" manufacturer="Astrolabs">
+            <driver name="ScopeLink">indi_scopelink</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -2151,18 +2175,32 @@
 </driversList>
 <driversList>
     <devGroup group="Auxiliary">
+        <device label="GPIO" manufacturer="Others">
+            <driver name="GPIO">indi_gpio</driver>
+            <version>0.2</version>
+        </device>
         <device label="AstroLink 4">
             <driver name="AstroLink 4">indi_astrolink4</driver>
             <version>0.7</version>
         </device>
     </devGroup>
     <devGroup group="CCDs">
+        <device label="LibCamera" manufacturer="Raspberry PI">
+            <driver name="LibCamera">indi_libcamera_ccd</driver>
+            <version>1.1</version>
+        </device>
         <device label="Generic CCD" mdpd="true">
             <driver name="Generic CCD">indi_generic_ccd</driver>
             <version>1.0</version>
         </device>
         <device label="Cam90 CCD" mdpd="true">
             <driver name="Cam90 CCD">indi_cam90_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+    <devGroup group="Detectors">
+        <device label="BNO08X IMU" manufacturer="Bosch Sensortec">
+            <driver name="BNO08X IMU">indi_bno08x_imu</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -2182,10 +2220,10 @@
             <version>1.0</version>
         </device>
     </devGroup>
-    <devGroup group="Weather">
-        <device label="NUTMonitor" manufacturer="Others">
-            <driver name="NUTMonitor">indi_nut</driver>
-            <version>0.1</version>
+    <devGroup group="Telescopes">
+        <device label="UMi" manufacturer="ProxiSky">
+            <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
+            <version>1.27</version>
         </device>
     </devGroup>
 </driversList>
