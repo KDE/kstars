@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:19+0000\n"
-"PO-Revision-Date: 2026-09-24 10:16+0200\n"
+"POT-Creation-Date: 2026-09-30 02:10+0000\n"
+"PO-Revision-Date: 2026-09-29 20:04+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -592,7 +592,7 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #: ekos/align/opsastrometryindexfiles.cpp:187
 #: ekos/align/opsastrometryindexfiles.cpp:193
@@ -623,7 +623,7 @@ msgstr "Annulla"
 msgid "Error"
 msgstr "Errore"
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:46
 #: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
@@ -632,7 +632,7 @@ msgstr "Spiacente"
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:47
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4522,12 +4522,12 @@ msgstr "(niente)"
 msgid "Searching the internet for \"%1\""
 msgstr "Ricerca in Internet di «%1»"
 
-#: dialogs/finddialog.cpp:499
+#: dialogs/finddialog.cpp:501
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Nessun oggetto chiamato %1 è stato trovato."
 
-#: dialogs/finddialog.cpp:500
+#: dialogs/finddialog.cpp:502
 #, kde-format
 msgid "Bad object name"
 msgstr "Nome oggetto non valido"
@@ -25455,7 +25455,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Impulso lungo limitato da %1ms a %2ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:554
+#: ekos/guide/internalguide/internalguider.cpp:559
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -25464,29 +25464,29 @@ msgstr ""
 "Attenzione: dithering non riuscito. La guida automatica continuerà come "
 "impostato nelle opzioni in caso di dithering non riuscito."
 
-#: ekos/guide/internalguide/internalguider.cpp:624
+#: ekos/guide/internalguide/internalguider.cpp:629
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Attenzione: dithering manuale non riuscito."
 
-#: ekos/guide/internalguide/internalguider.cpp:701
+#: ekos/guide/internalguide/internalguider.cpp:706
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Non ci sono informazioni su %1. Scegli i valori dal pannello di controllo "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, kde-format
 msgid "Missing Information"
 msgstr "Informazioni mancanti"
 
-#: ekos/guide/internalguide/internalguider.cpp:728
+#: ekos/guide/internalguide/internalguider.cpp:733
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Calibrazione della guida ripristinata"
 
-#: ekos/guide/internalguide/internalguider.cpp:790
+#: ekos/guide/internalguide/internalguider.cpp:795
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
@@ -25495,33 +25495,33 @@ msgstr ""
 "Traccia della stella guida persa. Prova ad aumentare la dimensione del "
 "quadrato o a ridurre la durata dell'impulso."
 
-#: ekos/guide/internalguide/internalguider.cpp:794
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Stella guida persa."
 
-#: ekos/guide/internalguide/internalguider.cpp:836
+#: ekos/guide/internalguide/internalguider.cpp:841
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Calibrazione della guida non riuscita"
 
-#: ekos/guide/internalguide/internalguider.cpp:843
+#: ekos/guide/internalguide/internalguider.cpp:848
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Calibrazione della guida completata correttamente"
 
-#: ekos/guide/internalguide/internalguider.cpp:1216
+#: ekos/guide/internalguide/internalguider.cpp:1221
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Inseguimento della stella guida perso. Ricerca di stelle guida..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1218
+#: ekos/guide/internalguide/internalguider.cpp:1223
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Differenza del valore di soglia RMS in eccesso. Ricerca di stelle guida..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1402
+#: ekos/guide/internalguide/internalguider.cpp:1407
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Impossibile trovare una stella guida adatta. Interruzione..."
@@ -28906,7 +28906,7 @@ msgstr ""
 #: ekos/opsekos.cpp:69 ekos/opsekos.ui:551
 #, kde-format
 msgid "Select the root directory MCP tools may access"
-msgstr ""
+msgstr "Seleziona la cartella di root cui possono accedere gli strumenti MCP"
 
 #: ekos/opsekos.cpp:145 ekos/opsekos.cpp:168
 #, kde-format
@@ -29141,7 +29141,7 @@ msgstr "Token di sola lettura:"
 #: ekos/opsekos.ui:532
 #, kde-format
 msgid "File access root:"
-msgstr ""
+msgstr "Root di accesso ai file:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_MCPFileAccessRoot)
 #: ekos/opsekos.ui:570
@@ -29151,6 +29151,11 @@ msgid ""
 "this directory and its subfolders. Empty denies all file access. Governs "
 "tool inputs only; tools may still report paths of files the rig itself wrote."
 msgstr ""
+"Gli strumenti che ricevono un percorso del filesystem accettano soltanto "
+"percorsi assoluti ai file all'interno di questa cartella e delle sue "
+"sottocartelle. Un valore vuoto nega qualsiasi accesso ai file. Controlla "
+"solo gli input degli strumenti; gli strumenti potrebbero comunque segnalare "
+"i percorsi di file scritti dalla stessa attrezzatura."
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:585
@@ -32627,15 +32632,13 @@ msgid "Job '%1' is slewing to target."
 msgstr "Il processo «%1» sta ruotando verso il soggetto."
 
 #: ekos/scheduler/schedulerprocess.cpp:1090
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' is unable to proceed with autofocus, not supported."
+#, kde-format
 msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
 msgstr ""
 "Attenzione: il processo «%1» non è in grado di avanzare senza la messa a "
-"fuoco automatica, che non è supportata."
+"fuoco automatica sul gruppo «%2», che non è supportata."
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
 #, kde-format
@@ -32930,6 +32933,8 @@ msgstr "Nessun processo pianificato."
 #, kde-format
 msgid "No jobs left to run while waiting for safety to improve."
 msgstr ""
+"Nessun processo rimasto da eseguire durante l'attesa del miglioramento delle "
+"condizioni di sicurezza."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -48607,7 +48612,7 @@ msgstr ""
 #: kstars.kcfg:4049
 #, kde-format
 msgid "Root directory MCP tools may access"
-msgstr ""
+msgstr "Cartella di root cui possono accedere gli strumenti MCP"
 
 #. i18n: ectx: whatsthis, entry (MCPFileAccessRoot), group (MCP)
 #: kstars.kcfg:4050
@@ -48619,6 +48624,13 @@ msgid ""
 "tool inputs only; tools may still report paths of files the rig itself wrote "
 "(e.g. image_last_info)."
 msgstr ""
+"Gli strumenti che ricevono un percorso del filesystem  (per es. "
+"scheduler_load, align_load_and_slew, capture_load_sequence) accettano "
+"soltanto percorsi assoluti ai file all'interno di questa cartella e delle "
+"sue sottocartelle. Un valore vuoto nega qualsiasi accesso ai file. Controlla "
+"solo gli input degli strumenti; gli strumenti potrebbero comunque segnalare "
+"i percorsi di file scritti dalla stessa attrezzatura (per es. "
+"image_last_info)."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:19+0000\n"
-"PO-Revision-Date: 2026-09-28 09:24+0200\n"
+"POT-Creation-Date: 2026-09-30 02:10+0000\n"
+"PO-Revision-Date: 2026-09-29 12:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -592,7 +592,7 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #: ekos/align/opsastrometryindexfiles.cpp:187
 #: ekos/align/opsastrometryindexfiles.cpp:193
@@ -623,7 +623,7 @@ msgstr "Cancel·la"
 msgid "Error"
 msgstr "Error"
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:46
 #: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
@@ -632,7 +632,7 @@ msgstr "Ho sento"
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:47
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4526,12 +4526,12 @@ msgstr "(res)"
 msgid "Searching the internet for \"%1\""
 msgstr "Cerca «%1» a Internet"
 
-#: dialogs/finddialog.cpp:499
+#: dialogs/finddialog.cpp:501
 #, kde-format
 msgid "No object named %1 found."
 msgstr "No s'ha trobat cap objecte anomenat %1."
 
-#: dialogs/finddialog.cpp:500
+#: dialogs/finddialog.cpp:502
 #, kde-format
 msgid "Bad object name"
 msgstr "Nom incorrecte de l'objecte"
@@ -6861,18 +6861,17 @@ msgstr "El solucionador remot ha excedit el temps límit."
 #, kde-format
 msgid "Dustcap unparked. Resuming capture and solve."
 msgstr ""
-"La tapa per la pols està desaparcada. Es reprèn la captura i la solució."
+"La tapa de la pols està desaparcada. Es reprèn la captura i la solució."
 
 #: ekos/align/align_devices.cpp:293
 #, kde-format
 msgid "Dustcap error detected. Aborting alignment."
-msgstr ""
-"S'ha detectat un error de la tapa per la pols. S'interromp l'alineació."
+msgstr "S'ha detectat un error de la tapa de la pols. S'interromp l'alineació."
 
 #: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5918
 #, kde-format
 msgid "Dustcap device %1 removed."
-msgstr "S'ha extret la tapa per la pols del dispositiu %1."
+msgstr "S'ha extret la tapa de la pols del dispositiu %1."
 
 #: ekos/align/align_devices.cpp:384
 #, kde-format
@@ -7292,14 +7291,14 @@ msgstr ""
 #, kde-format
 msgid "Dustcap is parked. Unparking before capture and solve..."
 msgstr ""
-"La tapa per la pols està aparcada. Es desaparcarà abans de la captura i la "
+"La tapa de la pols està aparcada. Es desaparcarà abans de la captura i la "
 "solució..."
 
 #: ekos/align/align_solver.cpp:152
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
 msgstr ""
-"La tapa per la pols no està a punt (estat: %1). S'esperarà abans de la "
+"La tapa de la pols no està a punt (estat: %1). S'esperarà abans de la "
 "captura i la solució..."
 
 #: ekos/align/align_solver.cpp:164
@@ -13983,7 +13982,7 @@ msgstr "Roda de filtres"
 #: ekos/auxiliary/opticaltrainmanager.cpp:1418
 #, kde-format
 msgid "Dust cap"
-msgstr "Tapa per la pols"
+msgstr "Tapa de la pols"
 
 # skip-rule: kct-box
 #: ekos/auxiliary/opticaltrainmanager.cpp:1419
@@ -14094,13 +14093,13 @@ msgstr ""
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
-"Seleccioneu una tapa mecanitzada per la pols, si n'hi ha (p. ex. FlipFlat)."
+"Seleccioneu una tapa de la pols mecanitzada, si n'hi ha (p. ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
 #, kde-format
 msgid "Dust cap:"
-msgstr "Tapa per la pols:"
+msgstr "Tapa de la pols:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:229
@@ -17173,17 +17172,17 @@ msgstr "Avís: Ha fallat el tramat."
 #: ekos/capture/camerastate.cpp:292
 #, kde-format
 msgid "Dust cap error."
-msgstr "Error de la tapa per la pols."
+msgstr "Error de la tapa de la pols."
 
 #: ekos/capture/camerastate.cpp:295
 #, kde-format
 msgid "Dust cap parked."
-msgstr "La tapa per la pols està aparcada."
+msgstr "La tapa de la pols està aparcada."
 
 #: ekos/capture/camerastate.cpp:298
 #, kde-format
 msgid "Dust cap unparked."
-msgstr "La tapa per la pols està desaparcada."
+msgstr "La tapa de la pols està desaparcada."
 
 #: ekos/capture/camerastate.cpp:497
 #, kde-format
@@ -18892,12 +18891,12 @@ msgstr "Cobreix el telescopi per tal de prendre una exposició fosca."
 #: ekos/capture/sequencejobstate.cpp:583 ekos/capture/sequencejobstate.cpp:792
 #, kde-format
 msgid "Unparking dust cap..."
-msgstr "S'està desaparcant la tapa per la pols..."
+msgstr "S'està desaparcant la tapa de la pols..."
 
 #: ekos/capture/sequencejobstate.cpp:583
 #, kde-format
 msgid "Parking dust cap..."
-msgstr "S'està aparcant la tapa per la pols..."
+msgstr "S'està aparcant la tapa de la pols..."
 
 # skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
@@ -18991,32 +18990,32 @@ msgstr "Error de la caixa de llum."
 #: ekos/capture/sequencejobstate.cpp:1081
 #, kde-format
 msgid "Dust cap error occurred."
-msgstr "Hi ha hagut un error a la tapa per la pols."
+msgstr "Hi ha hagut un error a la tapa de la pols."
 
 #: ekos/capture/sequencejobstate.cpp:1087
 #, kde-format
 msgid "Dust cap is idle."
-msgstr "La tapa per la pols està en espera."
+msgstr "La tapa de la pols està en espera."
 
 #: ekos/capture/sequencejobstate.cpp:1090
 #, kde-format
 msgid "Dust cap is parked."
-msgstr "La tapa per la pols està aparcada."
+msgstr "La tapa de la pols està aparcada."
 
 #: ekos/capture/sequencejobstate.cpp:1093
 #, kde-format
 msgid "Dust cap is parking..."
-msgstr "La tapa per la pols s'està aparcant..."
+msgstr "La tapa de la pols s'està aparcant..."
 
 #: ekos/capture/sequencejobstate.cpp:1096
 #, kde-format
 msgid "Dust cap is unparking..."
-msgstr "La tapa per la pols s'està desaparcant..."
+msgstr "La tapa de la pols s'està desaparcant..."
 
 #: ekos/capture/sequencejobstate.cpp:1099
 #, kde-format
 msgid "Dust cap status unknown."
-msgstr "Estat desconegut de la tapa per la pols."
+msgstr "Estat desconegut de la tapa de la pols."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -20232,13 +20231,13 @@ msgstr "Mecànica de l'enfocament"
 #: ekos/focus/focus.cpp:574
 #, kde-format
 msgid "Dustcap unparked. Resuming capture."
-msgstr "La tapa per la pols està desaparcada. Es reprèn la captura."
+msgstr "La tapa de la pols està desaparcada. Es reprèn la captura."
 
 #: ekos/focus/focus.cpp:580
 #, kde-format
 msgid "Dustcap error detected. Aborting focus."
 msgstr ""
-"S'ha detectat un error de la tapa per la pols. S'interromp l'enfocament."
+"S'ha detectat un error de la tapa de la pols. S'interromp l'enfocament."
 
 #: ekos/focus/focus.cpp:982
 #, kde-format
@@ -20374,13 +20373,13 @@ msgstr "Error: S'ha perdut la connexió amb la càmera."
 #, kde-format
 msgid "Dustcap is parked. Unparking before capture..."
 msgstr ""
-"La tapa per la pols està aparcada. Es desaparcarà abans de la captura..."
+"La tapa de la pols està aparcada. Es desaparcarà abans de la captura..."
 
 #: ekos/focus/focus.cpp:1929
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
 msgstr ""
-"La tapa per la pols no està a punt (estat: %1). S'esperarà abans de la "
+"La tapa de la pols no està a punt (estat: %1). S'esperarà abans de la "
 "captura..."
 
 #: ekos/focus/focus.cpp:1953
@@ -25511,7 +25510,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pols llarg limitat de %1 ms a %2 ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:554
+#: ekos/guide/internalguide/internalguider.cpp:559
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -25520,29 +25519,29 @@ msgstr ""
 "Avís: Ha fallat el tramat. El guiatge automàtic continuarà tal com s'ha "
 "establert en les opcions en cas de fallar el tramat."
 
-#: ekos/guide/internalguide/internalguider.cpp:624
+#: ekos/guide/internalguide/internalguider.cpp:629
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Avís: Ha fallat el tramat manual."
 
-#: ekos/guide/internalguide/internalguider.cpp:701
+#: ekos/guide/internalguide/internalguider.cpp:706
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Manca la informació de %1. Establiu els valors al tauler de control de "
 "l'INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, kde-format
 msgid "Missing Information"
 msgstr "Manca informació"
 
-#: ekos/guide/internalguide/internalguider.cpp:728
+#: ekos/guide/internalguide/internalguider.cpp:733
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "S'ha restaurat el calibratge del guiatge"
 
-#: ekos/guide/internalguide/internalguider.cpp:790
+#: ekos/guide/internalguide/internalguider.cpp:795
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
@@ -25551,35 +25550,35 @@ msgstr ""
 "S'ha perdut la traça de l'estrella guia. Proveu d'augmentar l'agrupament, la "
 "mida del quadrat o de reduir la durada del pols."
 
-#: ekos/guide/internalguide/internalguider.cpp:794
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
 msgid "Guide Star lost."
 msgstr "S'ha perdut l'estrella guia."
 
-#: ekos/guide/internalguide/internalguider.cpp:836
+#: ekos/guide/internalguide/internalguider.cpp:841
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Ha fallat el calibratge del guiatge"
 
-#: ekos/guide/internalguide/internalguider.cpp:843
+#: ekos/guide/internalguide/internalguider.cpp:848
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "El calibratge del guiatge s'ha completat correctament"
 
-#: ekos/guide/internalguide/internalguider.cpp:1216
+#: ekos/guide/internalguide/internalguider.cpp:1221
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 "S'ha perdut la traça de l'estrella guia. Se cerquen les estrelles guia..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1218
+#: ekos/guide/internalguide/internalguider.cpp:1223
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "S'ha excedit el valor del llindar de la delta del RMS. Se cerquen les "
 "estrelles guia..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1402
+#: ekos/guide/internalguide/internalguider.cpp:1407
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ha fallat en trobar qualsevol estrella guia adequada. S'interromp..."
@@ -27520,7 +27519,7 @@ msgstr "El PAC %1 està en línia."
 #: ekos/manager.cpp:2162
 #, kde-format
 msgid "%1 Dust cap is online."
-msgstr "La tapa per la pols %1 està en línia."
+msgstr "La tapa de la pols %1 està en línia."
 
 # skip-rule: kct-box
 #: ekos/manager.cpp:2169
@@ -33631,7 +33630,7 @@ msgstr "Estació meteorològica"
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
 #, kde-format
 msgid "Dust Cap"
-msgstr "Tapa per la pols"
+msgstr "Tapa de la pols"
 
 # skip-rule: kct-box
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
@@ -39233,22 +39232,22 @@ msgstr "Modifica la màquina"
 #: indi/indidustcap.cpp:59
 #, kde-format
 msgid "Dust Cap is parked"
-msgstr "La tapa per la pols està aparcada"
+msgstr "La tapa de la pols està aparcada"
 
 #: indi/indidustcap.cpp:67
 #, kde-format
 msgid "Dust Cap is unparked"
-msgstr "La tapa per la pols està desaparcada"
+msgstr "La tapa de la pols està desaparcada"
 
 #: indi/indidustcap.cpp:78
 #, kde-format
 msgid "Dust Cap is parking"
-msgstr "La tapa per la pols s'està aparcant"
+msgstr "La tapa de la pols s'està aparcant"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
 #, kde-format
 msgid "Dust Cap is unparking"
-msgstr "La tapa per la pols s'està desaparcant"
+msgstr "La tapa de la pols s'està desaparcant"
 
 #: indi/indielement.cpp:351
 #, kde-format

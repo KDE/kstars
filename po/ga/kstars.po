@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:19+0000\n"
+"POT-Creation-Date: 2026-09-30 02:10+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -614,7 +614,7 @@ msgid "Cancel"
 msgstr "Cealaigh"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #: ekos/align/opsastrometryindexfiles.cpp:187
 #: ekos/align/opsastrometryindexfiles.cpp:193
@@ -645,7 +645,7 @@ msgstr "Cealaigh"
 msgid "Error"
 msgstr "Earráid"
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:46
 #: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
@@ -654,7 +654,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:47
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4705,12 +4705,12 @@ msgstr "neamhní"
 msgid "Searching the internet for \"%1\""
 msgstr "Léigh ó inchomhad"
 
-#: dialogs/finddialog.cpp:499
+#: dialogs/finddialog.cpp:501
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Níor aimsíodh réad darb ainm %1."
 
-#: dialogs/finddialog.cpp:500
+#: dialogs/finddialog.cpp:502
 #, kde-format
 msgid "Bad object name"
 msgstr "Drochainm Réada"
@@ -24980,73 +24980,73 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:554
+#: ekos/guide/internalguide/internalguider.cpp:559
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:624
+#: ekos/guide/internalguide/internalguider.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "Eile"
 
-#: ekos/guide/internalguide/internalguider.cpp:701
+#: ekos/guide/internalguide/internalguider.cpp:706
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "Eolas"
 
-#: ekos/guide/internalguide/internalguider.cpp:728
+#: ekos/guide/internalguide/internalguider.cpp:733
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Guiding calibration restored"
 msgstr "Cumraíocht"
 
-#: ekos/guide/internalguide/internalguider.cpp:790
+#: ekos/guide/internalguide/internalguider.cpp:795
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
 "reducing pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:794
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "Treoirleabhair"
 
-#: ekos/guide/internalguide/internalguider.cpp:836
+#: ekos/guide/internalguide/internalguider.cpp:841
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Guiding calibration failed"
 msgstr "Cumraíocht"
 
-#: ekos/guide/internalguide/internalguider.cpp:843
+#: ekos/guide/internalguide/internalguider.cpp:848
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Guiding calibration completed successfully"
 msgstr "Críochnaithe"
 
-#: ekos/guide/internalguide/internalguider.cpp:1216
+#: ekos/guide/internalguide/internalguider.cpp:1221
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1218
+#: ekos/guide/internalguide/internalguider.cpp:1223
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1402
+#: ekos/guide/internalguide/internalguider.cpp:1407
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to find any suitable guide stars. Aborting..."

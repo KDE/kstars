@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:19+0000\n"
+"POT-Creation-Date: 2026-09-30 02:10+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -575,7 +575,7 @@ msgid "Cancel"
 msgstr "បោះបង់"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #: ekos/align/opsastrometryindexfiles.cpp:187
 #: ekos/align/opsastrometryindexfiles.cpp:193
@@ -606,7 +606,7 @@ msgstr "បោះបង់"
 msgid "Error"
 msgstr ""
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:46
 #: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
@@ -615,7 +615,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:47
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4434,12 +4434,12 @@ msgstr "​ព្រះ​អាទិត្យ"
 msgid "Searching the internet for \"%1\""
 msgstr "អាន"
 
-#: dialogs/finddialog.cpp:499
+#: dialogs/finddialog.cpp:501
 #, kde-format
 msgid "No object named %1 found."
 msgstr ""
 
-#: dialogs/finddialog.cpp:500
+#: dialogs/finddialog.cpp:502
 #, fuzzy, kde-format
 msgid "Bad object name"
 msgstr "គ្មាន​ឈ្មោះ"
@@ -23082,66 +23082,66 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:554
+#: ekos/guide/internalguide/internalguider.cpp:559
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:624
+#: ekos/guide/internalguide/internalguider.cpp:629
 #, fuzzy, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "ផ្សេងៗ"
 
-#: ekos/guide/internalguide/internalguider.cpp:701
+#: ekos/guide/internalguide/internalguider.cpp:706
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, fuzzy, kde-format
 msgid "Missing Information"
 msgstr "ព័ត៌មាន"
 
-#: ekos/guide/internalguide/internalguider.cpp:728
+#: ekos/guide/internalguide/internalguider.cpp:733
 #, fuzzy, kde-format
 msgid "Guiding calibration restored"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/guide/internalguide/internalguider.cpp:790
+#: ekos/guide/internalguide/internalguider.cpp:795
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
 "reducing pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:794
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, fuzzy, kde-format
 msgid "Guide Star lost."
 msgstr "ណែនាំ"
 
-#: ekos/guide/internalguide/internalguider.cpp:836
+#: ekos/guide/internalguide/internalguider.cpp:841
 #, fuzzy, kde-format
 msgid "Guiding calibration failed"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/guide/internalguide/internalguider.cpp:843
+#: ekos/guide/internalguide/internalguider.cpp:848
 #, fuzzy, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/guide/internalguide/internalguider.cpp:1216
+#: ekos/guide/internalguide/internalguider.cpp:1221
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1218
+#: ekos/guide/internalguide/internalguider.cpp:1223
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1402
+#: ekos/guide/internalguide/internalguider.cpp:1407
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"

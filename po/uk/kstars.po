@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:19+0000\n"
+"POT-Creation-Date: 2026-09-30 02:10+0000\n"
 "PO-Revision-Date: 2026-09-28 12:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -582,7 +582,7 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #: ekos/align/opsastrometryindexfiles.cpp:187
 #: ekos/align/opsastrometryindexfiles.cpp:193
@@ -613,7 +613,7 @@ msgstr "Скасувати"
 msgid "Error"
 msgstr "Помилка"
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:46
 #: ekos/align/opsastrometryindexfiles.cpp:662
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
@@ -622,7 +622,7 @@ msgstr "Вибачте"
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:47
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4491,12 +4491,12 @@ msgstr "(нічого)"
 msgid "Searching the internet for \"%1\""
 msgstr "Шукаємо в інтернеті «%1»"
 
-#: dialogs/finddialog.cpp:499
+#: dialogs/finddialog.cpp:501
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Не знайдено жодного об'єкта з назвою %1."
 
-#: dialogs/finddialog.cpp:500
+#: dialogs/finddialog.cpp:502
 #, kde-format
 msgid "Bad object name"
 msgstr "Неправильна назва об'єкта"
@@ -25403,7 +25403,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Обмежено довгу пульсацію у %1 мс до %2 мс"
 
-#: ekos/guide/internalguide/internalguider.cpp:554
+#: ekos/guide/internalguide/internalguider.cpp:559
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -25412,29 +25412,29 @@ msgstr ""
 "Попередження: спроба малого руху невдачі. Автоматичне наведення буде "
 "продовжено так, як це вказано у параметрах, якщо малий рух зазнав невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:624
+#: ekos/guide/internalguide/internalguider.cpp:629
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Попередження: спроба малого руху вручну зазнала невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:701
+#: ekos/guide/internalguide/internalguider.cpp:706
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Немає даних щодо %1. Будь ласка, встановіть значення на панелі керування "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, kde-format
 msgid "Missing Information"
 msgstr "Недостатньо інформації"
 
-#: ekos/guide/internalguide/internalguider.cpp:728
+#: ekos/guide/internalguide/internalguider.cpp:733
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Відновлено калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:790
+#: ekos/guide/internalguide/internalguider.cpp:795
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
@@ -25443,33 +25443,33 @@ msgstr ""
 "Втрачено зірку для наведення. Спробуйте збільшити розмір поділки, розмір "
 "квадрата або зменшити тривалість пульсації."
 
-#: ekos/guide/internalguide/internalguider.cpp:794
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Втрачено напрямну зірку."
 
-#: ekos/guide/internalguide/internalguider.cpp:836
+#: ekos/guide/internalguide/internalguider.cpp:841
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Не вдалося виконати калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:843
+#: ekos/guide/internalguide/internalguider.cpp:848
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Калібрування наведення успішно виконано"
 
-#: ekos/guide/internalguide/internalguider.cpp:1216
+#: ekos/guide/internalguide/internalguider.cpp:1221
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Втрачено зірку для наведення. Шукаємо інші зірки для наведення…."
 
-#: ekos/guide/internalguide/internalguider.cpp:1218
+#: ekos/guide/internalguide/internalguider.cpp:1223
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Перевищено порогове значення для різниці СКВ. Шукаємо зірки для наведення…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1402
+#: ekos/guide/internalguide/internalguider.cpp:1407
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Не вдалося знайти прийнятні напрямні зірки. Перериваємо завдання."
