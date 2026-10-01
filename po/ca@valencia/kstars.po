@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-30 02:10+0000\n"
-"PO-Revision-Date: 2026-09-24 15:10+0200\n"
+"POT-Creation-Date: 2026-10-01 19:41+0000\n"
+"PO-Revision-Date: 2026-10-01 00:32+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -641,109 +641,109 @@ msgstr "Ho sentim"
 msgid "Info"
 msgstr "Informació"
 
-#: auxiliary/ksutils.cpp:180
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:181
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNE"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NE"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:185
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ENE"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:186
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "E"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ESE"
 
-#: auxiliary/ksutils.cpp:186
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "SE"
 
-#: auxiliary/ksutils.cpp:187
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "SSE"
 
-#: auxiliary/ksutils.cpp:188
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "S"
 
-#: auxiliary/ksutils.cpp:189
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "SSO"
 
-#: auxiliary/ksutils.cpp:190
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "SO"
 
-#: auxiliary/ksutils.cpp:191
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "OSO"
 
-#: auxiliary/ksutils.cpp:192
+#: auxiliary/ksutils.cpp:194
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:193
+#: auxiliary/ksutils.cpp:195
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:194
+#: auxiliary/ksutils.cpp:196
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:195
+#: auxiliary/ksutils.cpp:197
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:196
+#: auxiliary/ksutils.cpp:198
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1472
+#: auxiliary/ksutils.cpp:1474
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -754,19 +754,19 @@ msgstr ""
 " %1 \n"
 " no existix. Voleu crear la carpeta?"
 
-#: auxiliary/ksutils.cpp:1475
+#: auxiliary/ksutils.cpp:1477
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Voleu crear la carpeta per als fitxers d'índex de l'astrometria?"
 
-#: auxiliary/ksutils.cpp:1480
+#: auxiliary/ksutils.cpp:1482
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr ""
 "S'ha creat la ubicació predeterminada per als fitxers d'índex de "
 "l'astrometria."
 
-#: auxiliary/ksutils.cpp:1485
+#: auxiliary/ksutils.cpp:1487
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -775,22 +775,22 @@ msgstr ""
 "La carpeta predeterminada per als fitxers d'índex de l'astrometria no "
 "existix i no s'ha pogut crear."
 
-#: auxiliary/ksutils.cpp:1506 auxiliary/ksutils.cpp:1664
-#: auxiliary/ksutils.cpp:1729
+#: auxiliary/ksutils.cpp:1508 auxiliary/ksutils.cpp:1666
+#: auxiliary/ksutils.cpp:1731
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr ""
 "S'ha produït un error de lectura del fitxer de configuració de l'astrometria."
 
-#: auxiliary/ksutils.cpp:1520 auxiliary/ksutils.cpp:1707
-#: auxiliary/ksutils.cpp:1749
+#: auxiliary/ksutils.cpp:1522 auxiliary/ksutils.cpp:1709
+#: auxiliary/ksutils.cpp:1751
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "S'ha produït un error mentre s'escrivia en el fitxer de configuració intern "
 "de l'astrometria."
 
-#: auxiliary/ksutils.cpp:1795 fitsviewer/fitsdata.cpp:3946
+#: auxiliary/ksutils.cpp:1797 fitsviewer/fitsdata.cpp:4042
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -799,22 +799,22 @@ msgstr ""
 "No s'ha pogut trobar ni «dcraw» ni «cjpeg». Instal·leu les eines requerides "
 "per a convertir des de CR2/NEF cap a JPEG."
 
-#: auxiliary/ksutils.cpp:1806
+#: auxiliary/ksutils.cpp:1808
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "No s'ha pogut obrir %1: %2"
 
-#: auxiliary/ksutils.cpp:1814
+#: auxiliary/ksutils.cpp:1816
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "No s'ha pogut fer «unpack_thumb» de %1: %2"
 
-#: auxiliary/ksutils.cpp:1825
+#: auxiliary/ksutils.cpp:1827
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "No s'ha pogut escriure %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1986 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:2052 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -1101,7 +1101,7 @@ msgstr "Simulador del sistema solar Xplanet: %1"
 #: skymapdrawabstract.cpp:444 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:435 skyqpainter.cpp:524 skyqpainter.cpp:548
+#: skyobjects/skypoint.cpp:436 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:300
 #: tools/imagingplanner.cpp:1543 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:266
@@ -13389,7 +13389,7 @@ msgid ""
 "wizard in Capture module."
 msgstr ""
 "No s'ha trobat cap fotograma fosc ni mapa de defectes adequat. Executeu "
-"l'Assistent de la biblioteca fosca del mòdul «Captura»."
+"l'assistent «Biblioteca fosca» del mòdul «Captura»."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
 #, kde-format
@@ -19462,12 +19462,12 @@ msgstr "Connectat"
 msgid "Offline"
 msgstr "Desconnectat"
 
-#: ekos/ekoslive/message.cpp:976
+#: ekos/ekoslive/message.cpp:979
 #, kde-format
 msgid "target"
 msgstr "Objectiu"
 
-#: ekos/ekoslive/message.cpp:1303
+#: ekos/ekoslive/message.cpp:1306
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
@@ -29274,7 +29274,7 @@ msgstr ""
 #: ekos/opsekos.cpp:69 ekos/opsekos.ui:551
 #, kde-format
 msgid "Select the root directory MCP tools may access"
-msgstr ""
+msgstr "Es tria la carpeta arrel a la qual poden accedir les eines MCP."
 
 #: ekos/opsekos.cpp:145 ekos/opsekos.cpp:168
 #, kde-format
@@ -29513,7 +29513,7 @@ msgstr "Testimoni de només lectura:"
 #: ekos/opsekos.ui:532
 #, kde-format
 msgid "File access root:"
-msgstr ""
+msgstr "Carpeta arrel d'accés als fitxers:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_MCPFileAccessRoot)
 #: ekos/opsekos.ui:570
@@ -29523,6 +29523,11 @@ msgid ""
 "this directory and its subfolders. Empty denies all file access. Governs "
 "tool inputs only; tools may still report paths of files the rig itself wrote."
 msgstr ""
+"Les eines que requerixen un camí del sistema de fitxers només accepten "
+"camins absoluts cap a fitxers d'esta carpeta i de les seues subcarpetes. Si "
+"es deixa buit, es denegarà qualsevol accés als fitxers. Açò només afectarà a "
+"les entrades de les eines. Les eines encara podran informar dels camins dels "
+"fitxers escrits pel propi equip."
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:585
@@ -33025,15 +33030,13 @@ msgid "Job '%1' is slewing to target."
 msgstr "La tasca «%1» està orientant cap a l'objectiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:1090
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' is unable to proceed with autofocus, not supported."
+#, kde-format
 msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
 msgstr ""
-"Avís: la tasca «%1» no pot continuar amb l'enfocament automàtic, no està "
-"implementat."
+"Avís: la tasca «%1» no pot continuar amb l'enfocament automàtic al tren "
+"«%2», no està implementat."
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
 #, kde-format
@@ -33327,6 +33330,8 @@ msgstr "No hi ha cap tasca programada."
 #, kde-format
 msgid "No jobs left to run while waiting for safety to improve."
 msgstr ""
+"No queda cap tasca per a executar mentre s'espera que milloren les "
+"condicions de seguretat."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -34989,81 +34994,81 @@ msgstr "Descripció del tipus d'objecte"
 msgid "Object Type Comments"
 msgstr "Comentaris del tipus d'objecte"
 
-#: fitsviewer/fitsdata.cpp:2890
+#: fitsviewer/fitsdata.cpp:2986
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr ""
 "S'ha produït un error mentre es llegia la memòria intermèdia de FITS: %1."
 
-#: fitsviewer/fitsdata.cpp:2899
+#: fitsviewer/fitsdata.cpp:2995
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Ha fallat mentre es desempaquetava la FITS comprimida"
 
-#: fitsviewer/fitsdata.cpp:2929
+#: fitsviewer/fitsdata.cpp:3025
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "S'ha produït un error mentre s'obria el fitxer FITS %1: %2"
 
-#: fitsviewer/fitsdata.cpp:2944
+#: fitsviewer/fitsdata.cpp:3040
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr ""
 "S'ha produït un error mentre es llegia la memòria intermèdia de FITS: %1"
 
-#: fitsviewer/fitsdata.cpp:2958
+#: fitsviewer/fitsdata.cpp:3054
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "No s'ha pogut localitzar la imatge HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2968
+#: fitsviewer/fitsdata.cpp:3064
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr ""
 "S'ha produït un error mentre s'obria el fitxer FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2982
+#: fitsviewer/fitsdata.cpp:3078
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "KStars no admet les imatges FITS en 1D."
 
-#: fitsviewer/fitsdata.cpp:3030 fitsviewer/fitsdata.cpp:3775
+#: fitsviewer/fitsdata.cpp:3126 fitsviewer/fitsdata.cpp:3871
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "La profunditat de bits %1 no està admesa."
 
-#: fitsviewer/fitsdata.cpp:3040
+#: fitsviewer/fitsdata.cpp:3136
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "La imatge té dimensions no vàlides %1x%2"
 
-#: fitsviewer/fitsdata.cpp:3094
+#: fitsviewer/fitsdata.cpp:3190
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "S'ha produït un error mentre es llegia la imatge: %1"
 
 # skip-rule: k-Alt-1
-#: fitsviewer/fitsdata.cpp:3501 fitsviewer/fitsdata.cpp:3735
+#: fitsviewer/fitsdata.cpp:3597 fitsviewer/fitsdata.cpp:3831
 #, kde-format
 msgid "XISF file open error: "
 msgstr "S'ha produït un error mentre s'obria el fitxer XISF: "
 
-#: fitsviewer/fitsdata.cpp:3649
+#: fitsviewer/fitsdata.cpp:3745
 #, kde-format
 msgid "File contain no images"
 msgstr "El fitxer no conté cap imatge"
 
-#: fitsviewer/fitsdata.cpp:3678
+#: fitsviewer/fitsdata.cpp:3774
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "El format de mostra %1 no està admés."
 
-#: fitsviewer/fitsdata.cpp:3813
+#: fitsviewer/fitsdata.cpp:3909
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "S'ha produït un error mentre es guardava la imatge XISF"
 
-#: fitsviewer/fitsdata.cpp:3905 fitsviewer/fitsdata.cpp:4021
+#: fitsviewer/fitsdata.cpp:4001 fitsviewer/fitsdata.cpp:4117
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
@@ -35071,148 +35076,148 @@ msgstr ""
 "FITSData: No hi ha prou memòria per al canal «image_buffer». Es requerixen: "
 "%1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:4056
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "No s'ha pogut obrir el fitxer %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3973
+#: fitsviewer/fitsdata.cpp:4069
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "No s'ha pogut la memòria intermèdia: %1"
 
-#: fitsviewer/fitsdata.cpp:3984
+#: fitsviewer/fitsdata.cpp:4080
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "No s'ha pogut fer «unpack_thumb»: %1"
 
-#: fitsviewer/fitsdata.cpp:3991
+#: fitsviewer/fitsdata.cpp:4087
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "No s'ha pogut fer «dcraw_process»: %1"
 
-#: fitsviewer/fitsdata.cpp:3999
+#: fitsviewer/fitsdata.cpp:4095
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "No s'ha pogut carregar a la memòria: %1"
 
-#: fitsviewer/fitsdata.cpp:4146
+#: fitsviewer/fitsdata.cpp:4242
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "No s'admet la guardada de fitxers comprimits."
 
-#: fitsviewer/fitsdata.cpp:4210
+#: fitsviewer/fitsdata.cpp:4306
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Ha fallat mentre es creava el fitxer: %1"
 
-#: fitsviewer/fitsdata.cpp:4232
+#: fitsviewer/fitsdata.cpp:4328
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Ha fallat mentre es creava la imatge: %1"
 
-#: fitsviewer/fitsdata.cpp:4241 fitsviewer/fitsdata.cpp:4248
+#: fitsviewer/fitsdata.cpp:4337 fitsviewer/fitsdata.cpp:4344
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Ha fallat mentre s'actualitzava la clau: %1"
 
-#: fitsviewer/fitsdata.cpp:4381
+#: fitsviewer/fitsdata.cpp:4477
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Ha fallat mentre s'actualitzava la data: %1"
 
-#: fitsviewer/fitsdata.cpp:4390
+#: fitsviewer/fitsdata.cpp:4486
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Ha fallat mentre s'actualitzava l'historial: %1"
 
-#: fitsviewer/fitsdata.cpp:4412
+#: fitsviewer/fitsdata.cpp:4508
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Ha fallat mentre s'escrivia la imatge: %1"
 
-#: fitsviewer/fitsdata.cpp:6248 fitsviewer/fitsdata.cpp:6274
-#: fitsviewer/fitsdata.cpp:6300 fitsviewer/fitsdata.cpp:6336
-#: fitsviewer/fitsdata.cpp:6470
+#: fitsviewer/fitsdata.cpp:6344 fitsviewer/fitsdata.cpp:6370
+#: fitsviewer/fitsdata.cpp:6396 fitsviewer/fitsdata.cpp:6432
+#: fitsviewer/fitsdata.cpp:6566
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No s'ha trobat cap sistema de coordenades mundial."
 
-#: fitsviewer/fitsdata.cpp:6720 fitsviewer/fitsdata.cpp:6826
+#: fitsviewer/fitsdata.cpp:6816 fitsviewer/fitsdata.cpp:6922
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "S'ha produït un error mentre es consultava Simbad"
 
-#: fitsviewer/fitsdata.cpp:6735
+#: fitsviewer/fitsdata.cpp:6831
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "La consulta de Simbad ha excedit el temps"
 
-#: fitsviewer/fitsdata.cpp:7712 fitsviewer/fitsdata.cpp:7825
+#: fitsviewer/fitsdata.cpp:7808 fitsviewer/fitsdata.cpp:7921
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 "Només es permeten imatges de 8 i 16 bits construïdes amb el filtre mosaic de "
 "Bayer."
 
-#: fitsviewer/fitsdata.cpp:7720 fitsviewer/fitsdata.cpp:7831
+#: fitsviewer/fitsdata.cpp:7816 fitsviewer/fitsdata.cpp:7927
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Patró de Bayer desconegut %1"
 
-#: fitsviewer/fitsdata.cpp:7744 fitsviewer/fitsdata.cpp:7770
+#: fitsviewer/fitsdata.cpp:7840 fitsviewer/fitsdata.cpp:7866
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Patró de Bayer no implementat %1."
 
-#: fitsviewer/fitsdata.cpp:7778
+#: fitsviewer/fitsdata.cpp:7874
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Desplaçaments del filtre mosaic de Bayer no implementats %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7789 fitsviewer/fitsdata.cpp:7842
+#: fitsviewer/fitsdata.cpp:7885 fitsviewer/fitsdata.cpp:7938
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Paràmetres no vàlids de la reconstrucció de Bayer de dc1394."
 
-#: fitsviewer/fitsdata.cpp:7800 fitsviewer/fitsdata.cpp:7853
+#: fitsviewer/fitsdata.cpp:7896 fitsviewer/fitsdata.cpp:7949
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Paràmetres no vàlids de la reconstrucció de Bayer de l'OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7809 fitsviewer/fitsdata.cpp:7862
+#: fitsviewer/fitsdata.cpp:7905 fitsviewer/fitsdata.cpp:7958
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Motor no vàlid per a la reconstrucció de Bayer"
 
-#: fitsviewer/fitsdata.cpp:8116
+#: fitsviewer/fitsdata.cpp:8212
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 "Reconstrucció de 8 bits invocada amb paràmetres no vàlids de la "
 "reconstrucció de Bayer"
 
-#: fitsviewer/fitsdata.cpp:8132 fitsviewer/fitsdata.cpp:8178
-#: fitsviewer/fitsdata.cpp:8236 fitsviewer/fitsdata.cpp:8282
+#: fitsviewer/fitsdata.cpp:8228 fitsviewer/fitsdata.cpp:8274
+#: fitsviewer/fitsdata.cpp:8332 fitsviewer/fitsdata.cpp:8378
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:8142 fitsviewer/fitsdata.cpp:8246
+#: fitsviewer/fitsdata.cpp:8238 fitsviewer/fitsdata.cpp:8342
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer."
 
-#: fitsviewer/fitsdata.cpp:8161 fitsviewer/fitsdata.cpp:8265
+#: fitsviewer/fitsdata.cpp:8257 fitsviewer/fitsdata.cpp:8361
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "La reconstrucció des de Bayer ha fallat (%1)"
 
-#: fitsviewer/fitsdata.cpp:8221
+#: fitsviewer/fitsdata.cpp:8317
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -49273,7 +49278,7 @@ msgstr ""
 #: kstars.kcfg:4049
 #, kde-format
 msgid "Root directory MCP tools may access"
-msgstr ""
+msgstr "Carpeta arrel a la qual poden accedir les eines MCP"
 
 #. i18n: ectx: whatsthis, entry (MCPFileAccessRoot), group (MCP)
 #: kstars.kcfg:4050
@@ -49285,6 +49290,12 @@ msgid ""
 "tool inputs only; tools may still report paths of files the rig itself wrote "
 "(e.g. image_last_info)."
 msgstr ""
+"Les eines que requerixen un camí del sistema de fitxers (p. ex., "
+"«scheduler_load», «align_load_and_slew» i «capture_load_sequence») només "
+"accepten camins absoluts cap a fitxers d'esta carpeta i de les seues "
+"subcarpetes. Si es deixa buit, es denegarà qualsevol accés als fitxers. Açò "
+"només afectarà a les entrades de les eines. Les eines encara podran informar "
+"dels camins dels fitxers escrits pel propi equip (p. ex., «image_last_info»)."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -93465,7 +93476,7 @@ msgstr ""
 msgid "Show"
 msgstr "Mostra"
 
-#: skyobjects/skypoint.cpp:643
+#: skyobjects/skypoint.cpp:644
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr ""
@@ -101882,13 +101893,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Executing post-startup tasks from %1 after safety recovery..."
-#~ msgstr ""
-#~ "S'estan executant les tasques posteriors a l'inici de %1 després de la "
-#~ "recuperació de seguretat…"
-
-#~ msgid "Post-startup queue empty or unloadable after safety recovery."
-#~ msgstr ""
-#~ "La cua posterior a l'inici està buida o no es pot carregar després de la "
-#~ "recuperació de seguretat."

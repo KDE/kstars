@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-30 02:10+0000\n"
+"POT-Creation-Date: 2026-10-01 19:41+0000\n"
 "PO-Revision-Date: 2026-09-28 11:09+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -634,109 +634,109 @@ msgstr "Sorry"
 msgid "Info"
 msgstr "Informatie"
 
-#: auxiliary/ksutils.cpp:180
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:181
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:185
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:186
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "OZO"
 
-#: auxiliary/ksutils.cpp:186
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "ZO"
 
-#: auxiliary/ksutils.cpp:187
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "ZZO"
 
-#: auxiliary/ksutils.cpp:188
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "Z"
 
-#: auxiliary/ksutils.cpp:189
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "ZZW"
 
-#: auxiliary/ksutils.cpp:190
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "ZW"
 
-#: auxiliary/ksutils.cpp:191
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "WZW"
 
-#: auxiliary/ksutils.cpp:192
+#: auxiliary/ksutils.cpp:194
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "W"
 
-#: auxiliary/ksutils.cpp:193
+#: auxiliary/ksutils.cpp:195
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "WNW"
 
-#: auxiliary/ksutils.cpp:194
+#: auxiliary/ksutils.cpp:196
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NW"
 
-#: auxiliary/ksutils.cpp:195
+#: auxiliary/ksutils.cpp:197
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNW"
 
-#: auxiliary/ksutils.cpp:196
+#: auxiliary/ksutils.cpp:198
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1472
+#: auxiliary/ksutils.cpp:1474
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -747,17 +747,17 @@ msgstr ""
 "%1\n"
 "bestaat niet. Wilt u die map aanmaken?"
 
-#: auxiliary/ksutils.cpp:1475
+#: auxiliary/ksutils.cpp:1477
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Astrometry Index-bestand aanmaken?"
 
-#: auxiliary/ksutils.cpp:1480
+#: auxiliary/ksutils.cpp:1482
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "De standaard map voor het indexbestand voor Astrometry is aangemaakt."
 
-#: auxiliary/ksutils.cpp:1485
+#: auxiliary/ksutils.cpp:1487
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -766,19 +766,19 @@ msgstr ""
 "De standaard map voor het indexbestand voor Astrometry bestaat niet en het "
 "lukt niet die aan te maken."
 
-#: auxiliary/ksutils.cpp:1506 auxiliary/ksutils.cpp:1664
-#: auxiliary/ksutils.cpp:1729
+#: auxiliary/ksutils.cpp:1508 auxiliary/ksutils.cpp:1666
+#: auxiliary/ksutils.cpp:1731
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Leesfout instellingenbestand Astrometry."
 
-#: auxiliary/ksutils.cpp:1520 auxiliary/ksutils.cpp:1707
-#: auxiliary/ksutils.cpp:1749
+#: auxiliary/ksutils.cpp:1522 auxiliary/ksutils.cpp:1709
+#: auxiliary/ksutils.cpp:1751
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Schrijffout intern instellingenbestand voor Astrometry."
 
-#: auxiliary/ksutils.cpp:1795 fitsviewer/fitsdata.cpp:3946
+#: auxiliary/ksutils.cpp:1797 fitsviewer/fitsdata.cpp:4042
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -787,22 +787,22 @@ msgstr ""
 "Kan dcraw en cjpeg niet vinden.  Installeer aub. de nodige hulpmiddelen voor "
 "het omzetten van CR2 naar JPEG."
 
-#: auxiliary/ksutils.cpp:1806
+#: auxiliary/ksutils.cpp:1808
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Kan %1 niet openen: %2"
 
-#: auxiliary/ksutils.cpp:1814
+#: auxiliary/ksutils.cpp:1816
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Unpack_thumb %1: %2 lukt niet"
 
-#: auxiliary/ksutils.cpp:1825
+#: auxiliary/ksutils.cpp:1827
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Kan %s %1: %2 niet schrijven"
 
-#: auxiliary/ksutils.cpp:1986 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:2052 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -1086,7 +1086,7 @@ msgstr "Simulator zonnestelsel XPlanet: %1"
 #: skymapdrawabstract.cpp:444 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:435 skyqpainter.cpp:524 skyqpainter.cpp:548
+#: skyobjects/skypoint.cpp:436 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:300
 #: tools/imagingplanner.cpp:1543 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:266
@@ -19025,12 +19025,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:976
+#: ekos/ekoslive/message.cpp:979
 #, kde-format
 msgid "target"
 msgstr "doel"
 
-#: ekos/ekoslive/message.cpp:1303
+#: ekos/ekoslive/message.cpp:1306
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."
@@ -34222,217 +34222,217 @@ msgstr "Beschrijving van objecttype"
 msgid "Object Type Comments"
 msgstr "Commentaar bij objecttype"
 
-#: fitsviewer/fitsdata.cpp:2890
+#: fitsviewer/fitsdata.cpp:2986
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Fout bij lezen fits-buffer: %1."
 
-#: fitsviewer/fitsdata.cpp:2899
+#: fitsviewer/fitsdata.cpp:2995
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Uitpakken ingepakte aanpassingen is mislukt"
 
-#: fitsviewer/fitsdata.cpp:2929
+#: fitsviewer/fitsdata.cpp:3025
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Fout bij openen fits-bestand %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2944
+#: fitsviewer/fitsdata.cpp:3040
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Fout bij lezen fits-buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:2958
+#: fitsviewer/fitsdata.cpp:3054
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Kon afbeelding HDU niet vinden: %1"
 
-#: fitsviewer/fitsdata.cpp:2968
+#: fitsviewer/fitsdata.cpp:3064
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Fout bij openen FITS-bestand (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2982
+#: fitsviewer/fitsdata.cpp:3078
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS-afbeeldingen worden in KStars niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:3030 fitsviewer/fitsdata.cpp:3775
+#: fitsviewer/fitsdata.cpp:3126 fitsviewer/fitsdata.cpp:3871
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitdiepte %1 wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:3040
+#: fitsviewer/fitsdata.cpp:3136
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Afbeelding heeft onjuiste afmetingen %1x%2"
 
-#: fitsviewer/fitsdata.cpp:3094
+#: fitsviewer/fitsdata.cpp:3190
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Fout bij inlezen afbeelding: %1"
 
-#: fitsviewer/fitsdata.cpp:3501 fitsviewer/fitsdata.cpp:3735
+#: fitsviewer/fitsdata.cpp:3597 fitsviewer/fitsdata.cpp:3831
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Fout bij openen van XISF-bestand: "
 
-#: fitsviewer/fitsdata.cpp:3649
+#: fitsviewer/fitsdata.cpp:3745
 #, kde-format
 msgid "File contain no images"
 msgstr "Bestand bevat geen afbeeldingen"
 
-#: fitsviewer/fitsdata.cpp:3678
+#: fitsviewer/fitsdata.cpp:3774
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Sampleformaat %1 wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:3813
+#: fitsviewer/fitsdata.cpp:3909
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Fout bij opslaan van XISF-afbeelding."
 
-#: fitsviewer/fitsdata.cpp:3905 fitsviewer/fitsdata.cpp:4021
+#: fitsviewer/fitsdata.cpp:4001 fitsviewer/fitsdata.cpp:4117
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: niet genoeg geheugen voor image_buffer-kanaal. Gevraagd: %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3960
+#: fitsviewer/fitsdata.cpp:4056
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Kan bestand %1 niet openen: %2"
 
-#: fitsviewer/fitsdata.cpp:3973
+#: fitsviewer/fitsdata.cpp:4069
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Kan buffer %1 niet openen:"
 
-#: fitsviewer/fitsdata.cpp:3984
+#: fitsviewer/fitsdata.cpp:4080
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Kan niet unpack_ thumb %1"
 
-#: fitsviewer/fitsdata.cpp:3991
+#: fitsviewer/fitsdata.cpp:4087
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Kan niet dc_rawproces: %1"
 
-#: fitsviewer/fitsdata.cpp:3999
+#: fitsviewer/fitsdata.cpp:4095
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Kan niet in geheugen inlezen: %1"
 
-#: fitsviewer/fitsdata.cpp:4146
+#: fitsviewer/fitsdata.cpp:4242
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Opslaan gecomprimeerde bestanden wordt niet ondersteund."
 
-#: fitsviewer/fitsdata.cpp:4210
+#: fitsviewer/fitsdata.cpp:4306
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Bestand aanmaken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:4232
+#: fitsviewer/fitsdata.cpp:4328
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Afbeelding maken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:4241 fitsviewer/fitsdata.cpp:4248
+#: fitsviewer/fitsdata.cpp:4337 fitsviewer/fitsdata.cpp:4344
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Sleutel bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:4381
+#: fitsviewer/fitsdata.cpp:4477
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Datum bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:4390
+#: fitsviewer/fitsdata.cpp:4486
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Geschiedenis bijwerken is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:4412
+#: fitsviewer/fitsdata.cpp:4508
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Afbeelding schrijven is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:6248 fitsviewer/fitsdata.cpp:6274
-#: fitsviewer/fitsdata.cpp:6300 fitsviewer/fitsdata.cpp:6336
-#: fitsviewer/fitsdata.cpp:6470
+#: fitsviewer/fitsdata.cpp:6344 fitsviewer/fitsdata.cpp:6370
+#: fitsviewer/fitsdata.cpp:6396 fitsviewer/fitsdata.cpp:6432
+#: fitsviewer/fitsdata.cpp:6566
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Geen wereld coördinatensystemen gevonden."
 
-#: fitsviewer/fitsdata.cpp:6720 fitsviewer/fitsdata.cpp:6826
+#: fitsviewer/fitsdata.cpp:6816 fitsviewer/fitsdata.cpp:6922
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Fout bij afvragen van Simbad"
 
-#: fitsviewer/fitsdata.cpp:6735
+#: fitsviewer/fitsdata.cpp:6831
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Tijdslimiet van opvragen bij Simbad"
 
-#: fitsviewer/fitsdata.cpp:7712 fitsviewer/fitsdata.cpp:7825
+#: fitsviewer/fitsdata.cpp:7808 fitsviewer/fitsdata.cpp:7921
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Alleen 8 en 16 bits bayer-afbeeldingen worden ondersteund."
 
-#: fitsviewer/fitsdata.cpp:7720 fitsviewer/fitsdata.cpp:7831
+#: fitsviewer/fitsdata.cpp:7816 fitsviewer/fitsdata.cpp:7927
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Onbekend bayer-patroon %1"
 
-#: fitsviewer/fitsdata.cpp:7744 fitsviewer/fitsdata.cpp:7770
+#: fitsviewer/fitsdata.cpp:7840 fitsviewer/fitsdata.cpp:7866
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Niet ondersteund bayer-patroon %1"
 
-#: fitsviewer/fitsdata.cpp:7778
+#: fitsviewer/fitsdata.cpp:7874
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Niet ondersteunde bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7789 fitsviewer/fitsdata.cpp:7842
+#: fitsviewer/fitsdata.cpp:7885 fitsviewer/fitsdata.cpp:7938
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Ongeldige dc1394 debayer-parameters"
 
-#: fitsviewer/fitsdata.cpp:7800 fitsviewer/fitsdata.cpp:7853
+#: fitsviewer/fitsdata.cpp:7896 fitsviewer/fitsdata.cpp:7949
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Ongeldige OpenCV debayer-parameters"
 
-#: fitsviewer/fitsdata.cpp:7809 fitsviewer/fitsdata.cpp:7862
+#: fitsviewer/fitsdata.cpp:7905 fitsviewer/fitsdata.cpp:7958
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Ongeldige debayer-engine"
 
-#: fitsviewer/fitsdata.cpp:8116
+#: fitsviewer/fitsdata.cpp:8212
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit aangeroepen met ongeldige debayer-parameters"
 
-#: fitsviewer/fitsdata.cpp:8132 fitsviewer/fitsdata.cpp:8178
-#: fitsviewer/fitsdata.cpp:8236 fitsviewer/fitsdata.cpp:8282
+#: fitsviewer/fitsdata.cpp:8228 fitsviewer/fitsdata.cpp:8274
+#: fitsviewer/fitsdata.cpp:8332 fitsviewer/fitsdata.cpp:8378
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:8142 fitsviewer/fitsdata.cpp:8246
+#: fitsviewer/fitsdata.cpp:8238 fitsviewer/fitsdata.cpp:8342
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer."
 
-#: fitsviewer/fitsdata.cpp:8161 fitsviewer/fitsdata.cpp:8265
+#: fitsviewer/fitsdata.cpp:8257 fitsviewer/fitsdata.cpp:8361
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Ontbayeren mislukt (%1)"
 
-#: fitsviewer/fitsdata.cpp:8221
+#: fitsviewer/fitsdata.cpp:8317
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr "debayer_16bit aangeroepen met ongeldige debayer-parameters"
@@ -92025,7 +92025,7 @@ msgstr ""
 msgid "Show"
 msgstr "Tonen"
 
-#: skyobjects/skypoint.cpp:643
+#: skyobjects/skypoint.cpp:644
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr ""
