@@ -483,6 +483,9 @@ struct StackData
     QString alignMaster;
     StackAlignMethod alignMethod {};
     int numInMem { 5 };
+    // A finite set of files stacked once (the EkosLive pipeline), rather than a live
+    // folder that keeps receiving subs — see FITSData::setStackBatchMode().
+    bool batchMode { false };
     StackDownscale downscale {};
     StackFrameWeighting weighting {};
     StackNormalization normalization {};

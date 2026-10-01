@@ -36,6 +36,7 @@ behavior below was read from the code, not assumed.
 | `channelblendoperation.h/.cpp` | `ChannelBlendOperation` — the narrowband "pixel math": arbitrary weighted sums of any named, already-stacked mono session into each output R/G/B channel. This is what makes HOO/SHO/bicolor composites possible without forcing data through the engine's fixed positional RGB/RGBL slot assignment. |
 | `photometriccalibration.h/.cpp` | `PhotometricCalibrationOperation` — detects star-like blobs and nudges each one's local color toward a caller-supplied target, blending overlapping corrections rather than compounding them. Deliberately has no WCS/catalog awareness of its own (a plain `cv::Mat` in, `cv::Mat` out contract, like every other operation here) — `FITSData::applyPhotometricCalibration()` is what supplies real targets, by cross-matching each detected star's sky position against KStars' own star catalog (and optionally a supplementary one, see `photometriccatalog.h/.cpp`) and converting its B-V color index to an expected color via `colorFromBVIndex()`. |
 | `photometriccatalog.h/.cpp` | `PhotometricCatalog` — optional, supplementary `(RA, Dec, V, B-V)` lookup consulted only when KStars' own bundled star catalog has no usable photometry for a given match (a real, common gap on installs carrying just the stock `unnamedstars.dat`/`deepstars.dat` files). Loads a flat sorted binary file; see "Photometric color calibration" below for the format and how the shipped catalog was built. |
+| `stackmemoryestimator.h/.cpp` | `StackMemoryEstimator` — the memory model for batch stacking, as plain arithmetic so it is unit-testable (`Tests/fitsviewer/teststackmemoryestimator.cpp`): what a stack at each downscale factor would need, how many subs fit in a batch, and which finished sessions to evict first. Used by `FITSData`'s batch sizing, the `postprocess_stack` pre-flight and `postprocess_inspect_directory`'s `memory` estimate. See "Memory" below. |
 
 The actual stacking/calibration engine (`FITSStack`, `FITSData`) lives one
 level up, in `kstars/fitsviewer/`. This directory's classes are consumed by
@@ -76,6 +77,79 @@ validation or "missing required field" error except where noted below. Several
 commands (see "Asynchronous commands" below) reply immediately with
 `{"state": "processing", ...}` and deliver their real result as a second,
 later push — check a command's own section for which applies.
+
+## Memory
+
+The pipeline is meant to run on 4 GB controllers, where a full-resolution
+narrowband set does not fit if nothing is ever given back (on a 26 MP mono SHO
+set, each finished filter session used to keep ~1.7 GB). Four mechanisms keep it
+inside the budget without changing the result when memory is plentiful:
+
+1. **A pipeline stack is a batch, not a live stack.** `StackController` puts its
+   `FITSData` in batch mode (`FITSData::setStackBatchMode()`): the folder is
+   stacked as it is when the command arrives (new files are ignored), the result
+   is combined once after the last batch — so `"ready"` is sent exactly once per
+   stack — and then everything the engine only needed to fold further subs in is
+   freed: sigma-clip state, resident subs, calibration masters, the ImageMM latent
+   and the post-processed copy. The result and the linear stack stay, so
+   `postprocess_redo_postprocess` still recomputes from the linear data.
+2. **Batch size follows the memory.** With `numInMem` left automatic, every
+   batch is sized from what is free right then (`StackMemoryEstimator::fitBatch()`):
+   the whole folder at once when it fits — the same single pass as a machine with
+   unlimited memory — otherwise the largest batch that does. The first batch is
+   never smaller than `kMinRejectionBatch` (5) for `SIGMA`/`WINDSOR`, because the
+   clip bounds every later batch is judged against come from it.
+3. **Finished sessions are evicted before anything is refused or shrunk.** A
+   session whose image is identical to a file on disk — its auto-saved stack, a
+   loaded master, or its last `postprocess_save` — can be evicted (image, FITS
+   buffer and linear stack freed) when a stack, blend or edit step needs the
+   memory. Least recently used goes first; a session that is busy, still stacking,
+   has an undo snapshot or was edited since its file was written is never
+   evicted. Any later command on an evicted session (a re-blend included) first
+   reloads it from that file, with its WCS; the reload is exact (32-bit float).
+   A successful blend evicts its inputs this way. Nothing is evicted while memory
+   is sufficient.
+4. **No automatic downscaling.** Resolution is the caller's decision. The
+   `postprocess_stack` pre-flight refuses a stack whose smallest acceptable first
+   batch doesn't fit even after eviction, with the estimate and the downscale
+   that would fit; `postprocess_inspect_directory` reports the same estimate up
+   front so a client can choose before starting.
+
+The estimate (`memory` in `"inspected"`, and in `postprocess_stack`'s `"started"`
+and pre-flight `"error"`) looks like:
+
+```json
+"memory": {
+  "availableBytes": 3100000000, "reclaimableBytes": 0, "budgetBytes": 2480000000,
+  "width": 6252, "height": 4176, "channels": 1, "fileCount": 30,
+  "recommendedDownscale": 0, "quality": "reduced_batch",
+  "options": [
+    {"downscale": 0, "width": 6252, "height": 4176, "quality": "reduced_batch", "batchSize": 10,
+     "peakBytes": 4490000000, "minPeakBytes": 1880000000},
+    {"downscale": 1, "width": 3126, "height": 2088, "quality": "full", "batchSize": 30,
+     "peakBytes": 1120000000, "minPeakBytes": 470000000}
+  ]
+}
+```
+
+- `availableBytes` is free memory plus what evicting finished sessions would give
+  back (`reclaimableBytes`); `budgetBytes` is the 80% of it a stack plans to use.
+- `quality` per option: `"full"` (every sub in one batch), `"reduced_batch"` (fits
+  in several batches; SIGMA/WINDSOR reject against the first batch's bounds — the
+  first `batchSize` subs), or `"insufficient"`. `peakBytes`/`minPeakBytes` are the
+  estimated peaks with every sub in one batch and with the smallest first batch.
+- `recommendedDownscale` is the finest factor that isn't `"insufficient"` (`0` =
+  full resolution), and top-level `quality` is that option's. Downscale factors are
+  `0`=none, `1`=1/2, `2`=1/3, `3`=1/4.
+- `postprocess_stack` adds `downscale` (the requested factor) and
+  `requestedQuality` (its option's quality).
+
+Free memory comes from `KSUtils::getAvailableRAM()`, which on Linux reads
+`MemAvailable` and applies the tightest cgroup v2 limit up the hierarchy
+(`memory.max` or `memory.high`, counting page cache as available) — so a container
+or a systemd `MemoryHigh=` limit is respected. That also makes it easy to check
+this on a large machine: `systemd-run --user --scope -p MemoryHigh=3G kstars`
+behaves like a 3 GB device, and exceeding the limit throttles instead of killing.
 
 ## Preview images
 
@@ -360,20 +434,13 @@ narrowband workflow (stack Ha, stack OIII, then blend) works whether or not
 either stack's auto-saved file is ever looked at, as long as neither session
 was closed (`postprocess_close`) first.
 
-**One exception: re-blending after a successful blend.** A completed
-`postprocess_blend_channels` releases its input sessions' pixel buffers
-(`FITSData::releaseStackedImage()`) to keep a long post-processing run
-inside a small controller's RAM budget. A later re-blend — the normal "try
-different weights" iteration — therefore finds those inputs empty, so the
-handler reloads each one from its own auto-saved master
-(`Message::blendInputMasterPath()`: `light_master_<sessionId>.fits`, or
-`light_master.fits` for the internal default session key, under the
-session's tracked root) and re-adopts it into the existing session before
-blending. A session with no tracked root, or whose master file is gone,
-still fails with the normal "has no stacked image yet" message instead. Note
-that if a `postprocess_save` has since overwritten that master with a fully
-post-processed image, the reload picks up the edited pixels, not the raw
-stack — the same one-file-per-identity rule described above.
+**One exception: evicted sessions.** A completed `postprocess_blend_channels`
+evicts its input sessions, and a stack, blend or edit step short on memory
+evicts finished sessions (see "Memory" above) — but only sessions whose image is
+identical to a file on disk. Any later command on one, the normal "try different
+weights" re-blend included, first reloads it from that file and re-adopts it into
+the existing session. If the file has changed or gone since, the command fails
+with a message saying so rather than loading something else.
 
 ## Linear vs. non-linear pipeline stages
 
@@ -496,7 +563,7 @@ hang instead.
 | `alignMaster` | string | *(none)* | Explicitly picks which frame every sub aligns against, instead of auto-selecting the first sub found — pass the path to a previously-generated master (or any other reference frame) to align a new batch against it rather than whatever sub happens to be discovered first. With `alignMethod` PLATE_SOLVE, pointing this at an already-stacked/processed image (rather than a raw camera sub) has a known failure mode: star extraction on the derived image can come back empty, leaving the batch with no align master at all. Use `alignMethod` NONE for that case instead, after confirming the two images already share a consistent pixel grid. |
 | `stackingMethod` | int | `0` | `0`=MEAN, `1`=SIGMA, `2`=WINDSOR, `3`=IMAGEMM. **`MEAN` performs no outlier rejection at all** — every pixel from every sub is averaged in at full weight, so a satellite trail or cosmic-ray hit in even one frame survives into the final stack. `SIGMA` (per-pixel median ± `lowSigma`/`highSigma`·σ) or `WINDSOR` (clamp instead of exclude — more robust at low sub counts) actually reject outliers. **Not defaulted to `SIGMA`/`WINDSOR`** — left as an explicit choice — but any real batch of more than a couple of subs should set one. |
 | `downscale` | int | `0` | `0`=NONE, `1`=X2, `2`=X3, `3`=X4 |
-| `numInMem` | int | `0` (auto) | Subs held in RAM at once while stacking. `0` (or negative) lets KStars size it automatically from free RAM and the actual sub dimensions (a header-only read of the first sub), keeping a margin for the combine and post-processing — the recommended setting, and what the StellarMate app relies on (it sends no value). A positive value pins it. Does **not** change how many frames get stacked — every file in the directory is processed regardless. |
+| `numInMem` | int | `0` (auto) | Subs held in RAM at once while stacking. `0` (or negative) lets KStars size every batch from free memory and the sub's in-engine size (a header-only read; a CFA sub counts as the three channels it becomes) — every file at once when that fits, never fewer than 5 in the first batch for SIGMA/WINDSOR (see "Memory"). This is the recommended setting, and what the StellarMate app relies on (it sends no value). A positive value pins it, and the pre-flight then warns but doesn't refuse. Does **not** change how many frames get stacked — every file in the directory is processed regardless. |
 | `weighting` | int | `0` | `0`=EQUAL, `1`=HFR, `2`=NUM_STARS — **soft down-weighting only**, not rejection. See `rejectTrailedSubs` for hard rejection. |
 | `lowSigma` | double | `2.0` | |
 | `highSigma` | double | `3.0` | |
@@ -520,10 +587,16 @@ hang instead.
 | `sharpenSigma` | double | `3.0` | Unsharp-mask Gaussian blur sigma |
 | `preview` | bool | `true` | Opt-out for the completion preview below, same convention as `build_master`/`crop`/`apply_*`. |
 
-Responses over the session's lifetime: immediately `{"state": "started"}`
-(or a directory/validation error); per-sub during stacking
+Responses over the session's lifetime: immediately `{"state": "started"}`, with
+the `memory` estimate for this stack when the subs' headers could be read (see
+"Memory" above), or a directory/validation error, or — when even the smallest
+acceptable first batch doesn't fit at the requested `downscale` after evicting
+what can be evicted — `{"state": "error", "message": "...", "memory": {...}}`,
+whose `memory.recommendedDownscale` would fit; per-sub during stacking
 (`{"state": "progress", "ok": bool, "sub": int, "total": int, "meanSNR"/"minSNR"/"maxSNR": double}`);
-on completion, `{"state": "ready", "outputPath": "<path>"}` (or `{"state": "cancelled"}` if
+on completion — once, after the last batch — `{"state": "ready", "outputPath": "<path>", "batches": N, "firstBatchSize": M}`
+(`batches` > 1 means the stack ran in several batches, SIGMA/WINDSOR rejecting
+against the first batch's `firstBatchSize` subs), or `{"state": "cancelled"}` if
 `postprocess_stop` was called mid-stack, or `{"state": "error", "message": "..."}`
 if the stack finished but produced nothing usable — e.g. every sub failed
 calibration/alignment/plate-solving). On a non-cancelled `"ready"`, also sends
@@ -546,9 +619,10 @@ in-flight stack if one is running — safe no-op otherwise. Always responds
 
 ### `postprocess_close`
 
-`{"sessionId": ...}`. Removes the named session from the session map. With
-multiple concurrent sessions, each must be closed individually. Always
-responds `{"state": "closed"}`, even if no session existed under that id.
+`{"sessionId": ...}`. Removes the named session from the session map and frees
+its memory; a stack still in progress is cancelled first. With multiple
+concurrent sessions, each must be closed individually. Always responds
+`{"state": "closed"}`, even if no session existed under that id.
 
 ### `postprocess_build_master`
 
@@ -609,13 +683,16 @@ can have a stray wrong-filter or wrong-exposure file mixed in by mistake.
 | Field | Type | Notes |
 |---|---|---|
 | `directory` | string | **Required.** |
+| `stackingMethod` | int | Optional hint for the `memory` estimate, as in `postprocess_stack`. Default `1` (SIGMA). |
+| `masterDark` / `masterFlat` | bool | Optional hints: whether the stack will be calibrated with a master dark / flat. Default `true`. |
 
-Response: `{"state": "inspected", "directory": "<dir>", "fileCount": N, "files": [...], "groups": [...]}`,
+Response: `{"state": "inspected", "directory": "<dir>", "fileCount": N, "files": [...], "groups": [...], "memory": {...}}`,
 or `{"state": "error", "message": "<reason>"}` if the directory doesn't
 exist or has no FITS-loadable files.
 
 - `files[]` — one entry per file, in directory order:
-  `{"filename", "directory", "exptime", "filter", "binning", "imagetyp"}`,
+  `{"filename", "directory", "exptime", "filter", "binning", "imagetyp", "width", "height", "channels"}`
+  (`channels` as the stacking engine sees it: 3 for a CFA sub it debayers),
   where `directory` is the file's folder relative to the inspected root (e.g.
   `"Output"`, `"Lights/HA"`; empty for a file directly in the root), plus
   `{"mtime", "postProcessed"}` for freshness: `mtime` is the file's last-write time
@@ -637,6 +714,10 @@ exist or has no FITS-loadable files.
   `{"exptime", "filter", "binning", "imagetyp", "count"}`. **This is what
   you actually scan** to decide what `matchExptime` to use for each master
   you need.
+- `memory` — present when the folder holds light frames (`IMAGETYP` containing
+  "light", or none): the "Memory" estimate above for stacking the most demanding
+  folder of them, counting what evicting finished sessions would give back as
+  available.
 
 ### `postprocess_load_master`
 
@@ -716,10 +797,9 @@ average (two inputs at weight `1.0` each produce roughly double the
 brightness of either alone). A single input at weight `1.0` is an exact
 passthrough when `normalize` is off. Every named session must exist and
 already have a stacked image, or the call fails with a specific message
-identifying which one. The one exception: an input whose stacked image was
-released by a previous successful blend is transparently reloaded from its
-auto-saved master first — see "Where the blend result goes, and
-`m_PostProcessSessionRoots`" above.
+identifying which one. The one exception: an evicted input (see "Memory") is
+reloaded from its file first — which is what happens on every re-blend, since a
+successful blend evicts its inputs.
 
 **Level matching (`normalize`, on by default).** Independently-stacked
 filters almost always sit at different sky backgrounds (different sky

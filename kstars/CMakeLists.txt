@@ -503,6 +503,7 @@ if (CFITSIO_FOUND)
         fitsviewer/pipeline/channelblendoperation.cpp
         fitsviewer/pipeline/photometriccalibration.cpp
         fitsviewer/pipeline/photometriccatalog.cpp
+        fitsviewer/pipeline/stackmemoryestimator.cpp
         )
 
     if (Qt6Graphs_FOUND AND Qt6GraphsWidgets_FOUND)

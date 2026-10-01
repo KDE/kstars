@@ -9,6 +9,7 @@
 #pragma once
 
 #include <QtWebSockets/QWebSocket>
+#include <functional>
 #include <memory>
 
 #include "ekos/ekos.h"
@@ -19,6 +20,7 @@
 #include "nodemanager.h"
 #include "fitsviewer/pipeline/stackcontroller.h"
 #include "fitsviewer/pipeline/channelblendoperation.h"
+#include "fitsviewer/pipeline/stackmemoryestimator.h"
 #include <QQueue>
 #include <QPointF>
 #include <QVector>
@@ -343,6 +345,36 @@ class Message : public QObject
         // redundant noise.
         QString describePostProcessStage(StackChannel channel, const QString &stage) const;
 
+        // Session memory (see "Memory" in the pipeline README). A session whose image
+        // matches a file on disk — its auto-saved stack, a loaded master, or its last
+        // postprocess_save — can be evicted when memory is short and is reloaded
+        // from that file the next time a command needs it.
+        void recordPostProcessBacking(const QString &sessionId, const QString &path);
+        bool hasValidPostProcessBacking(const QString &sessionId) const;
+        void touchPostProcessSession(const QString &sessionId);
+        // Evict least recently used candidates until availability reaches needBytes (or
+        // nothing evictable is left); sessions in keep are never evicted.
+        void ensurePostProcessHeadroom(double needBytes, const QSet<QString> &keep);
+        // Finished, unmodified sessions outside keep whose image can be reloaded from disk
+        QVector<StackMemoryEstimator::EvictionCandidate> postProcessEvictionCandidates(const QSet<QString> &keep) const;
+        // Memory the sessions outside keep would give back if evicted
+        double evictablePostProcessBytes(const QSet<QString> &keep) const;
+        void evictPostProcessSession(const QString &sessionId);
+        // Reload evicted sessions from their backing files on a worker thread, then run
+        // onReady on the GUI thread. Reports errors against busyKey.
+        void reloadPostProcessSessions(const QVector<QPair<QString, QString>> &sessions, const QString &busyKey,
+                                       const QString &command, const std::function<void()> &onReady);
+        // Drop a session. One that is still stacking is cancelled first and kept alive
+        // until its worker threads are done.
+        void retirePostProcessSession(const QString &sessionId);
+        // Stack pre-flight: evicts what's needed and returns the memory estimate for the
+        // response, or an empty object (and has sent the error) when the stack can't fit.
+        // channelStacks: channel stacks one session holds at once (positional RGB/RGBL);
+        // concurrentSessions: sessions this request starts at once (filter-tagged mode),
+        // which share the memory.
+        QJsonObject preflightPostProcessStack(const QString &sessionId, const QStringList &directories,
+                                              const StackData &params, int channelStacks, int concurrentSessions, bool &ok);
+
         // Filter Offset Builder commands
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
         void sendFilterOffsetSettings(const QVariantMap &settings);
@@ -431,6 +463,22 @@ class Message : public QObject
         // target would have used, without needing the original directory again. A blend's
         // outputSessionId inherits its root from whichever input session has one.
         QHash < QString, QString > m_PostProcessSessionRoots;
+        // The file each session's image is identical to, if any (see
+        // recordPostProcessBacking()). Cleared by anything that changes the image.
+        struct PostProcessBacking
+        {
+            QString path;
+            QDateTime modified;
+            qint64 size { 0 };
+        };
+        QHash < QString, PostProcessBacking > m_PostProcessBacking;
+        // Sessions whose image was evicted and must be reloaded before use
+        QSet < QString > m_EvictedPostProcessSessions;
+        // Last use of each session, for evicting the least recently used first
+        QHash < QString, qint64 > m_PostProcessLastUsed;
+        qint64 m_PostProcessUseCounter { 0 };
+        // Sessions dropped while still stacking, kept alive until their cancel completes
+        QList < QSharedPointer < StackController >> m_RetiredPostProcessSessions;
         // crop/apply_*/save/build_master run on a worker thread (QtConcurrent) so they
         // don't block the GUI thread or the caller. A session id present here has an
         // operation in flight; a new command against it is rejected with "state":"busy"

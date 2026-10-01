@@ -15,6 +15,7 @@
 #include "kstars.h"
 #include "../auxiliary/robuststatistics.h"
 #include "pipeline/denoiseoperation.h"
+#include "pipeline/stackmemoryestimator.h"
 
 #include <wcshdr.h>
 #include <fitsio.h>
@@ -623,7 +624,14 @@ bool FITSStack::stack()
         cv::Mat hitMap;
         stackSubs(true, totalWeight, hitMap, m_StackedImage32F);
 
-        if (m_StackData.numInMem <= m_StackImageData.size())
+        // A live stack waits for a full numInMem of good subs. A batch has a fixed set of
+        // files, so a rejected sub shouldn't make it hold every sub of the next batch as
+        // well — enough good subs for sigma bounds completes the initial stack.
+        int initialStackSize = m_StackData.numInMem;
+        if (m_StackData.batchMode)
+            initialStackSize = std::min(initialStackSize,
+                                        StackMemoryEstimator::minFirstBatch(m_StackData.stackingMethod, m_StackData.numInMem));
+        if (m_StackImageData.size() > 0 && initialStackSize <= m_StackImageData.size())
         {
             // We've completed the initial stack so perform post processing such as sharpening / denoising
             cv::Mat finalImage = postProcessImage(m_StackedImage32F);
@@ -1364,15 +1372,15 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
         float *finalImagePtr;
 
         // Setup structure for each channel for future sigma clipping
-        m_SigmaClip32FC4.clear();
-        m_SigmaClip32FC4.resize(m_Channels);
+        m_SigmaClip32FC3.clear();
+        m_SigmaClip32FC3.resize(m_Channels);
         for (int ch = 0; ch < m_Channels; ch++)
-            m_SigmaClip32FC4[ch] = cv::Mat::zeros(rows, cols, CV_32FC4);
-        QVector<cv::Vec4f *> sigmaClipPtr(m_Channels);
+            m_SigmaClip32FC3[ch] = cv::Mat::zeros(rows, cols, CV_32FC3);
+        QVector<cv::Vec3f *> sigmaClipPtr(m_Channels);
 
         // If all subs are continuous so we can treat as 1D arrays to speed things up
         bool continuous = finalImage.isContinuous() &&
-                          std::all_of(m_SigmaClip32FC4.begin(), m_SigmaClip32FC4.end(),
+                          std::all_of(m_SigmaClip32FC3.begin(), m_SigmaClip32FC3.end(),
                                       [](const cv::Mat & mat)
         {
             return mat.isContinuous();
@@ -1407,9 +1415,9 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
                 imagesPtrs[i] = m_StackImageData[i].image.ptr<float>(0);
 
             float * finalImagePtr = finalImage.ptr<float>(0);
-            QVector<cv::Vec4f *> sigmaClipPtr(m_Channels);
+            QVector<cv::Vec3f *> sigmaClipPtr(m_Channels);
             for (int ch = 0; ch < m_Channels; ch++)
-                sigmaClipPtr[ch] = m_SigmaClip32FC4[ch].ptr<cv::Vec4f>(0);
+                sigmaClipPtr[ch] = m_SigmaClip32FC3[ch].ptr<cv::Vec3f>(0);
 
             // Setup the function for parallel processing to handle a chunk of pixels
             auto processPixelChunk = [&](const QPair<int, int> &chunk)
@@ -1443,7 +1451,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
                 finalImagePtr = finalImage.ptr<float>(y);
                 for (int ch = 0; ch < m_Channels; ch++)
-                    sigmaClipPtr[ch] = m_SigmaClip32FC4[ch].ptr<cv::Vec4f>(y);
+                    sigmaClipPtr[ch] = m_SigmaClip32FC3[ch].ptr<cv::Vec3f>(y);
 
                 for (int x = 0; x < cols; x++)
                 {
@@ -1484,8 +1492,14 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
                         float sum = 0.0, weightSum = 0.0, lower = -1.0, upper = -1.0;
                         if (values.size() <= 3)
-                            // For small samples just use median
+                        {
+                            // For small samples just use median, seeding the running
+                            // weight so a later incremental batch doesn't drop this one
                             pixelValue = median;
+                            for (unsigned int i = 0; i < values.size(); i++)
+                                weightSum += weights[i];
+                            sum = pixelValue * weightSum;
+                        }
                         else
                         {
                             // Sigma clipping
@@ -1511,11 +1525,10 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
                                 pixelValue = median;
                         }
                         // Store intermediate calcs from this process, necessary for processing new subs
-                        cv::Vec4f sigmaClip;
+                        cv::Vec3f sigmaClip;
                         sigmaClip[0] = lower;
                         sigmaClip[1] = upper;
-                        sigmaClip[2] = sum;
-                        sigmaClip[3] = weightSum;
+                        sigmaClip[2] = weightSum;
                         sigmaClipPtr[ch][x] = sigmaClip;
 
                         // Update the pixel/channel with the calculated value
@@ -1537,7 +1550,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
 // This function does the pixel level sigma clipping and Winsorization
 void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &imagesPtrs, float* finalImagePtr,
-                                    const QVector<cv::Vec4f *> &sigmaClipPtr, const QVector<float> &weights)
+                                    const QVector<cv::Vec3f *> &sigmaClipPtr, const QVector<float> &weights)
 {
     int numImages = imagesPtrs.size();
 
@@ -1562,7 +1575,7 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
         if (validValues.empty())
         {
             finalImagePtr[x * m_Channels + ch] = 0.0f;
-            sigmaClipPtr[ch][x] = cv::Vec4f(0, 0, 0, 0);
+            sigmaClipPtr[ch][x] = cv::Vec3f(0, 0, 0);
             continue;
         }
 
@@ -1592,7 +1605,15 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
         float sum = 0.0, weightSum = 0.0, lower = -1.0, upper = -1.0;
 
         if (validValues.size() <= 3)
+        {
+            // Too few samples for clip bounds, so use the median. Still record the
+            // weight it represents: stacknSubsSigmaClipping() resumes from it, and a
+            // zero weight would drop this whole batch once the next one arrives.
             pixelValue = median;
+            for (size_t i = 0; i < validWeights.size(); i++)
+                weightSum += validWeights[i];
+            sum = pixelValue * weightSum;
+        }
         else
         {
             auto const stddev = std::sqrt(Mathematics::RobustStatistics::ComputeScale(
@@ -1617,12 +1638,12 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
                 pixelValue = median;
         }
 
-        // Store intermediate results for incremental stacking (stacknSubs)
-        cv::Vec4f sigmaClip;
+        // Store intermediate results for incremental stacking (stacknSubs). The weighted
+        // sum isn't stored: it equals the stacked value times weightSum.
+        cv::Vec3f sigmaClip;
         sigmaClip[0] = lower;
         sigmaClip[1] = upper;
-        sigmaClip[2] = sum;
-        sigmaClip[3] = weightSum;
+        sigmaClip[2] = weightSum;
         sigmaClipPtr[ch][x] = sigmaClip;
 
         // Store the result in our 32-bit float buffer
@@ -1640,7 +1661,7 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
         int numImages = m_StackImageData.size();
         cv::Mat finalImage = m_StackedImage32F;
         float *finalImagePtr;
-        QVector<cv::Vec4f *> sigmaClipPtr(m_Channels);
+        QVector<cv::Vec3f *> sigmaClipPtr(m_Channels);
 
         if (m_StackImageData.size() != weights.size())
         {
@@ -1648,9 +1669,19 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
             return finalImage;
         }
 
+        // No per-pixel state from the initial stack (e.g. already released) - keep the
+        // stack as it is rather than index out of bounds.
+        if (m_SigmaClip32FC3.size() != m_Channels)
+        {
+            qCWarning(KSTARS_FITS) << QString("%1: sigma-clip state is %2 channel(s), expected %3 - skipping this "
+                                              "batch instead of aborting").arg(__FUNCTION__)
+                                   .arg(m_SigmaClip32FC3.size()).arg(m_Channels);
+            return finalImage;
+        }
+
         // If all images are continuous so we can treat as 1D arrays to speed things up
         bool continuous = finalImage.isContinuous() &&
-                          std::all_of(m_SigmaClip32FC4.begin(), m_SigmaClip32FC4.end(),
+                          std::all_of(m_SigmaClip32FC3.begin(), m_SigmaClip32FC3.end(),
                                       [](const cv::Mat & mat)
         {
             return mat.isContinuous();
@@ -1676,18 +1707,19 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
 
             finalImagePtr = finalImage.ptr<float>(y);
             for (int ch = 0; ch < m_Channels; ch++)
-                sigmaClipPtr[ch] = m_SigmaClip32FC4[ch].ptr<cv::Vec4f>(y);
+                sigmaClipPtr[ch] = m_SigmaClip32FC3[ch].ptr<cv::Vec3f>(y);
 
             for (int x = 0; x < cols; x++)
             {
                 for (int ch = 0; ch < m_Channels; ch++)
                 {
                     // Get the sigma clip data from the current pixel/channel
-                    cv::Vec4f sigmaClip = sigmaClipPtr[ch][x];
+                    cv::Vec3f sigmaClip = sigmaClipPtr[ch][x];
                     float lower = sigmaClip[0];
                     float upper = sigmaClip[1];
-                    float sum = sigmaClip[2];
-                    float weightSum = sigmaClip[3];
+                    float weightSum = sigmaClip[2];
+                    // finalImage holds sum / weightSum from the previous pass
+                    float sum = finalImagePtr[x * m_Channels + ch] * weightSum;
 
                     // Process each image
                     for (int image = 0; image < numImages; image++)
@@ -1709,8 +1741,7 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
                         finalImagePtr[x * m_Channels + ch] = sum / weightSum;
 
                         // Save the new intermediate results for next time
-                        sigmaClip[2] = sum;
-                        sigmaClip[3] = weightSum;
+                        sigmaClip[2] = weightSum;
                         sigmaClipPtr[ch][x] = sigmaClip;
                     }
                     else
@@ -3016,15 +3047,15 @@ void FITSStack::setupRunningStack(const int numSubs, const float totalWeight, co
     if (m_StackData.normalization == StackNormalization::LINEAR && !hitMap.empty())
         m_RunningStackImageData.hitMap = hitMap.clone();
 
-    // Initialize latent for incremental ImageMM
-    if (!m_StackedImage32F.empty())
-        m_RunningStackImageData.imageMMState.latent = m_StackedImage32F.clone();
-    else
-        m_RunningStackImageData.imageMMState.latent = cv::Mat::zeros(
-                m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
-
     if (m_StackData.stackingMethod == StackingMethod::IMAGEMM)
     {
+        // Initialize latent for incremental ImageMM (only ImageMM reads it)
+        if (!m_StackedImage32F.empty())
+            m_RunningStackImageData.imageMMState.latent = m_StackedImage32F.clone();
+        else
+            m_RunningStackImageData.imageMMState.latent = cv::Mat::zeros(
+                    m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
+
         // Copy subs to running buffer for ImageMM
         m_RunningStackImageData.runningSubs.clear();
         for (int i = 0; i < numSubs; ++i)
@@ -3106,6 +3137,27 @@ void FITSStack::tidyUpInitalStack()
         m_StackImageData[i].psfKernel.release();
     }
     m_StackImageData.clear();
+}
+
+// Free everything only needed to fold further subs in — see the header for when that
+// is safe. m_StackedImage32F stays so redoPostProcessStack() keeps working.
+void FITSStack::releaseBatchState()
+{
+    tidyUpInitalStack();
+    tidyUpRunningStack();
+    m_RunningStackImageData.runningSubs.clear();
+    m_SigmaClip32FC3.clear();
+    m_StackedImageFinal.release();
+    m_ImageMMMean32F.release();
+    m_ImageMMVar32F.release();
+    m_MasterDark.release();
+    m_MasterFlatInv.release();
+}
+
+void FITSStack::releaseLinearStack()
+{
+    releaseBatchState();
+    m_StackedImage32F.release();
 }
 
 // Release FITS and openCV memory used in the running stack

@@ -6,6 +6,7 @@
 
 #include "directoryinspector.h"
 #include "fitsviewer/fitsdata.h"
+#include "fitsviewer/bayerparameters.h"
 
 #include <fitsio.h>
 
@@ -142,6 +143,22 @@ bool DirectoryInspector::readFileInfo(const QString &path, FileInfo &outInfo)
 
     // Only postprocess_save writes this; absent on raw subs and auto-saved stacks.
     readOptionalBool(fptr, "POSTPROC", outInfo.postProcessed);
+
+    int naxis = 0;
+    long naxes[3] = { 0, 0, 1 };
+    status = 0;
+    if (fits_get_img_dim(fptr, &naxis, &status) == 0 && naxis >= 2
+            && fits_get_img_size(fptr, std::min(naxis, 3), naxes, &status) == 0 && naxes[0] > 0 && naxes[1] > 0)
+    {
+        outInfo.width = static_cast<int>(naxes[0]);
+        outInfo.height = static_cast<int>(naxes[1]);
+        QString bayerPattern;
+        readOptionalString(fptr, "BAYERPAT", bayerPattern);
+        if (naxis >= 3 && naxes[2] > 1)
+            outInfo.channels = static_cast<int>(naxes[2]);
+        else
+            outInfo.channels = BayerUtils::bayerPatternValid(bayerPattern.trimmed()) ? 3 : 1;
+    }
 
     status = 0;
     fits_close_file(fptr, &status);

@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QTemporaryDir>
 #include "testfitsdata.h"
+#include "kstars_test_macros.h"
 #include "Options.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
@@ -900,6 +901,110 @@ void TestFitsData::testStackController()
 
     // Should be a safe no-op after the stack has already completed.
     controller.cancel();
+}
+
+// Stacks a fixed set of files through StackController (batch mode) with SIGMA and returns
+// the combined image. Eight flat frames at 1000, 1100 ... 1700 ADU, so every pixel's
+// correct stack is their mean.
+static bool stackFlatFrames(const QString &dir, int numInMem, cv::Mat &result, int &readyCount,
+                            int &batches, int &firstBatch)
+{
+    for (int i = 0; i < 8; i++)
+        KVERIFY_SUB(writeSyntheticFrame(QDir(dir).filePath(QString("sub%1.fits").arg(i)), 16, 16, 1000 + 100 * i));
+
+    StackController controller;
+    QSignalSpy readySpy(&controller, &StackController::stackReady);
+    StackData params {};
+    params.calcSNR = false;
+    params.alignMethod = StackAlignMethod::NONE;
+    params.numInMem = numInMem;
+    params.stackingMethod = StackingMethod::SIGMA;
+    params.lowSigma = 2.0;
+    params.highSigma = 3.0;
+    params.rejectTrailedSubs = false;
+    params.postProcessing.postProcess = false;
+    controller.start(QStringList { dir }, params);
+
+    KVERIFY_SUB(readySpy.wait(60000));
+    KVERIFY_SUB(!controller.imageData()->isStackingActive());
+    readyCount = readySpy.count();
+    batches = controller.imageData()->stackBatchCount();
+    firstBatch = controller.imageData()->stackFirstBatchSize();
+    result = controller.imageData()->stackedImageMat().clone();
+    return !result.empty();
+}
+
+// A SIGMA stack run in small batches must give the same result as one big batch. With 3
+// or fewer subs in the first batch there are no clip bounds, and that batch used to be
+// dropped as soon as the next one was folded in. The pipeline also used to report the
+// session ready after the first batch, with a partial stack.
+void TestFitsData::testBatchStackSmallFirstBatch()
+{
+    QTemporaryDir fullDir, batchedDir;
+    QVERIFY(fullDir.isValid() && batchedDir.isValid());
+
+    cv::Mat full, batched;
+    int readyCount = 0, batches = 0, firstBatch = 0;
+    QVERIFY(stackFlatFrames(fullDir.path(), 8, full, readyCount, batches, firstBatch));
+    QCOMPARE(batches, 1);
+
+    QVERIFY(stackFlatFrames(batchedDir.path(), 2, batched, readyCount, batches, firstBatch));
+    QCOMPARE(readyCount, 1);
+    QCOMPARE(batches, 4);
+    QCOMPARE(firstBatch, 2);
+
+    const double fullMean = cv::mean(full)[0];
+    const double batchedMean = cv::mean(batched)[0];
+    QVERIFY2(std::abs(batchedMean - fullMean) <= fullMean * 1e-4,
+             qPrintable(QString("full-batch mean %1, 2-sub batches mean %2").arg(fullMean).arg(batchedMean)));
+}
+
+// A finished batch session frees its stacking state but keeps the linear stack, so
+// redo_postprocess still works; eviction frees everything, and an adopted image
+// brings the session back.
+void TestFitsData::testBatchStackEviction()
+{
+    QTemporaryDir stackDir;
+    QVERIFY(stackDir.isValid());
+    for (int i = 0; i < 6; i++)
+        QVERIFY(writeSyntheticFrame(stackDir.filePath(QString("sub%1.fits").arg(i)), 16, 16, 1000 + 100 * i));
+
+    StackController controller;
+    QSignalSpy readySpy(&controller, &StackController::stackReady);
+    StackData params {};
+    params.calcSNR = false;
+    params.alignMethod = StackAlignMethod::NONE;
+    params.numInMem = 0;
+    params.stackingMethod = StackingMethod::SIGMA;
+    params.rejectTrailedSubs = false;
+    params.postProcessing.postProcess = false;
+    controller.start(QStringList { stackDir.path() }, params);
+    QVERIFY(readySpy.wait(60000));
+
+    const auto data = controller.imageData();
+    const double frameBytes = 16.0 * 16.0 * sizeof(float);
+    const cv::Mat stacked = data->stackedImageMat().clone();
+    QVERIFY(!stacked.empty());
+    // Result, its FITS buffer (a little more than a frame, with the header) and the linear stack
+    QVERIFY(data->residentStackBytes() >= 3 * frameBytes);
+    QVERIFY(data->residentStackBytes() < 3 * frameBytes + 64 * 1024);
+
+    StackPPData pp = params.postProcessing;
+    pp.postProcess = true;
+    pp.sharpenAmt = 0.1;
+    readySpy.clear();
+    controller.redoPostProcess(pp);
+    QVERIFY(readySpy.wait(60000));
+    QVERIFY(!data->isStackedImageEmpty());
+
+    data->evictStackedImage();
+    QVERIFY(data->stackedImageMat().empty());
+    QVERIFY(data->isStackedImageEmpty());
+    QCOMPARE(data->residentStackBytes(), 0.0);
+
+    QString error;
+    QVERIFY2(controller.adopt(stacked, error), qPrintable(error));
+    QCOMPARE(cv::norm(data->stackedImageMat(), stacked, cv::NORM_INF), 0.0);
 }
 
 // Exercises MasterBuilder against synthetic calibration

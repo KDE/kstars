@@ -57,6 +57,11 @@ class DirectoryInspector
             // re-adopting an edited file as if it were a raw stack would re-apply
             // every edit on top of already-edited pixels.
             bool postProcessed { false };
+            // Image size, and channels as the stacking engine will see them (3 for a
+            // CFA sub it debayers). 0 if the header has no usable image.
+            int width { 0 };
+            int height { 0 };
+            int channels { 0 };
         };
 
         struct Group

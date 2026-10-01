@@ -793,6 +793,19 @@ class FITSData : public QObject
         void incrementalStack();
 
         /**
+         * @brief Pick numInMem for the next batch when the caller left it to KStars
+         * (see StackMemoryEstimator::fitBatch())
+         * @param sampleSub a sub to read the frame geometry from (header only)
+         * @param fileCount subs available to this batch; the result never exceeds it
+         */
+        int autoSizeStackBatch(const QString &sampleSub, int fileCount);
+
+        /**
+         * @brief Free a finished batch session's engine state — see setStackBatchMode()
+         */
+        void releaseStackBatchState();
+
+        /**
          * @brief Load WCS for a FITS file sub loaded during Live Stacking
          * @return success
          */
@@ -1083,6 +1096,55 @@ class FITSData : public QObject
          * The session object and its metadata/WCS are left untouched.
          */
         void releaseStackedImage();
+
+        /**
+         * @brief Stack a fixed set of files once instead of live-stacking a folder. Set
+         * before loadStack(). The folder isn't watched for new subs, stackReady() is
+         * emitted once when the last batch is done (not after every batch), and at that
+         * point everything the engine only needed to fold in further subs is freed —
+         * the stacked result and the linear stack (for redoPostProcessStack()) stay.
+         */
+        void setStackBatchMode(bool enabled)
+        {
+            m_StackBatchMode = enabled;
+        }
+
+        /**
+         * @brief Whether subs are still queued, being stacked or combined, or a
+         * redoPostProcessStack() is still running
+         */
+        bool isStackingActive() const;
+
+        bool isRedoInFlight() const
+        {
+            return m_StackRedosInFlight > 0;
+        }
+
+        /**
+         * @brief Free the stacked image, its FITS buffer, the undo snapshot and the
+         * linear stack, e.g. to hand memory back while the result is safely on disk.
+         * The session can then only be used again after adopting an image (setStackedImage()).
+         */
+        void evictStackedImage();
+
+        /**
+         * @brief Bytes held by the stacked image, its FITS buffer, the undo snapshot and
+         * the linear stack — what evictStackedImage() gives back
+         */
+        double residentStackBytes() const;
+
+        /**
+         * @brief Batches the last batch-mode stack ran in, and the size of its first
+         * batch (the one SIGMA/WINDSOR take their clip bounds from)
+         */
+        int stackBatchCount() const
+        {
+            return m_StackBatchCount;
+        }
+        int stackFirstBatchSize() const
+        {
+            return m_StackFirstBatchSize;
+        }
 
         /**
          * @brief Revert the most recent post-combine step (cropStack() through
@@ -1808,6 +1870,14 @@ class FITSData : public QObject
         double m_StackSNR { 0.0 };
 
         StackData m_LiveStackData;
+        // See setStackBatchMode()
+        bool m_StackBatchMode { false };
+        // The caller left numInMem to KStars, so it is re-derived before every batch
+        bool m_StackNumInMemAuto { false };
+        int m_StackBatchCount { 0 };
+        // redoPostProcessStack() calls whose worker threads are still running
+        int m_StackRedosInFlight { 0 };
+        int m_StackFirstBatchSize { 0 };
         QSharedPointer < FITSDirWatcher > m_StackDirWatcher;
         QQueue < LiveStackFile > m_StackQ;
         bool m_AlignMasterChosen { false };

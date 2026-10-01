@@ -24,6 +24,11 @@ ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
 ADD_TEST( NAME FitsDataTest COMMAND testfitsdata )
 SET_TESTS_PROPERTIES( FitsDataTest PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( teststackmemoryestimator teststackmemoryestimator.cpp )
+TARGET_LINK_LIBRARIES( teststackmemoryestimator ${TEST_LIBRARIES})
+ADD_TEST( NAME StackMemoryEstimatorTest COMMAND teststackmemoryestimator )
+SET_TESTS_PROPERTIES( StackMemoryEstimatorTest PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( testsolverbenchmark testsolverbenchmark.cpp )
 TARGET_LINK_LIBRARIES( testsolverbenchmark ${TEST_LIBRARIES})
 ADD_TEST( NAME SolverBenchmarkTest COMMAND testsolverbenchmark )

@@ -59,6 +59,8 @@ class TestFitsData : public QObject
         void testParallelSolversMultiDepths();
 
         void testStackController();
+        void testBatchStackSmallFirstBatch();
+        void testBatchStackEviction();
         void testMasterBuilder();
         void testCropOperation();
         void testAutoStretch();

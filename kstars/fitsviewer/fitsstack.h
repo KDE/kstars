@@ -270,6 +270,37 @@ class FITSStack : public QObject
         }
 
         /**
+         * @brief Free everything this stack only needs to fold further subs in: the
+         * sigma-clip state, resident and running subs, the ImageMM latent, the
+         * calibration masters and the post-processed copy. The linear stack
+         * (m_StackedImage32F) is kept, so redoPostProcessStack() still works exactly.
+         *
+         * Only for a stack that will receive no more subs (a finished batch session,
+         * see FITSData::setStackBatchMode()). The combined result the caller goes on to
+         * use lives in FITSData's own m_StackedImageMat, not here.
+         */
+        void releaseBatchState();
+
+        /**
+         * @brief Also free the linear stack kept by releaseBatchState(). After this,
+         * redoPostProcessStack() has nothing to recompute from (see hasLinearStack()).
+         */
+        void releaseLinearStack();
+
+        /**
+         * @brief Whether the linear stack redoPostProcessStack() recomputes from is still held
+         */
+        bool hasLinearStack() const
+        {
+            return !m_StackedImage32F.empty();
+        }
+
+        double linearStackBytes() const
+        {
+            return static_cast<double>(m_StackedImage32F.total()) * m_StackedImage32F.elemSize();
+        }
+
+        /**
          * @brief Post process the passed in stack. Public (rather than alongside the
          * other stacking internals below) so a caller with no per-channel FITSStack
          * session at all — e.g. FITSData::redoPostProcessStack() on an "adopted" image
@@ -463,7 +494,7 @@ class FITSStack : public QObject
          * @param weights to apply to sigma clipping
          */
         void stackSigmaClipPixel(int x, const std::vector<const float *> &imagesPtrs, float* finalImagePtr,
-                                 const QVector<cv::Vec4f *> &sigmaClipPtr, const QVector<float> &weights);
+                                 const QVector<cv::Vec3f *> &sigmaClipPtr, const QVector<float> &weights);
 
         /**
          * @brief Stack the passed in vector of subs to an existing stack using Sigma Clipping
@@ -743,7 +774,9 @@ class FITSStack : public QObject
 
         // Stacking
         cv::Mat m_StackedImage32F;
-        QVector < cv::Mat > m_SigmaClip32FC4;
+        // Per-pixel sigma-clip state: (lower bound, upper bound, accumulated weight). The
+        // weighted sum is recovered from the stacked image (see stacknSubsSigmaClipping()).
+        QVector < cv::Mat > m_SigmaClip32FC3;
         cv::Mat m_StackedImageFinal;
         double m_ImageMMLastSigma = -1.0;
         float m_ImageMMTotalWeight = 0.0f;

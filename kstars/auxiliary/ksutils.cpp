@@ -31,6 +31,7 @@
 #elif defined(_WIN32)
 #include "windows.h"
 #else //Linux
+#include <QFile>
 #include <QProcess>
 #endif
 
@@ -43,6 +44,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <thread>
+#include <algorithm>
 
 #ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
@@ -1843,14 +1845,78 @@ double getAvailableRAM()
     //Until I can figure out how to get free RAM on Mac
     return RAMcheck;
 #elif defined(Q_OS_LINUX)
-    QProcess p;
-    p.start("awk", QStringList() << "/MemAvailable/ { print $2 }"
-            << "/proc/meminfo");
-    p.waitForFinished();
-    QString memory = p.readAllStandardOutput();
-    p.close();
-    //kB to bytes
-    return (memory.toLong() * 1024.0);
+    double available = 0;
+    QFile meminfo(QStringLiteral("/proc/meminfo"));
+    if (meminfo.open(QIODevice::ReadOnly))
+    {
+        for (const QByteArray &line : meminfo.readAll().split('\n'))
+        {
+            if (line.startsWith("MemAvailable:"))
+            {
+                // kB to bytes
+                available = line.mid(13).trimmed().split(' ').first().toDouble() * 1024.0;
+                break;
+            }
+        }
+    }
+
+    // A cgroup limit (a container, or a systemd MemoryMax=/MemoryHigh=) can leave far
+    // less than the machine has free. Apply the tightest one on the way up the
+    // hierarchy, counting page cache as available the same way MemAvailable does.
+    QFile cgroupFile(QStringLiteral("/proc/self/cgroup"));
+    if (available > 0 && cgroupFile.open(QIODevice::ReadOnly))
+    {
+        QString cgroup;
+        for (const QByteArray &line : cgroupFile.readAll().split('\n'))
+            if (line.startsWith("0::"))
+                cgroup = QString::fromUtf8(line.mid(3)).trimmed();
+
+        auto readValue = [](const QString & path) -> double
+        {
+            QFile file(path);
+            if (!file.open(QIODevice::ReadOnly))
+                return -1;
+            bool ok = false;
+            const double value = file.readAll().trimmed().toDouble(&ok);
+            return ok ? value : -1; // "max" means no limit
+        };
+
+        // Every level up to and including the root, which is where a container's own
+        // limit shows up (its cgroup namespace makes it "/")
+        QStringList levels;
+        for (QString dir = cgroup; !cgroup.isEmpty(); dir = dir.section('/', 0, -2))
+        {
+            if (dir == QLatin1String("/"))
+                dir.clear();
+            levels << dir;
+            if (dir.isEmpty())
+                break;
+        }
+
+        for (const QString &dir : levels)
+        {
+            const QString base = QStringLiteral("/sys/fs/cgroup") + dir;
+            double limit = readValue(base + "/memory.max");
+            const double high = readValue(base + "/memory.high");
+            if (high > 0 && (limit < 0 || high < limit))
+                limit = high;
+            if (limit < 0)
+                continue;
+
+            double pageCache = 0;
+            QFile stat(base + "/memory.stat");
+            if (stat.open(QIODevice::ReadOnly))
+            {
+                for (const QByteArray &line : stat.readAll().split('\n'))
+                    if (line.startsWith("file "))
+                        pageCache = line.mid(5).trimmed().toDouble();
+            }
+            const double current = readValue(base + "/memory.current");
+            if (current >= 0)
+                available = std::min(available, std::max(0.0, limit - current + pageCache));
+        }
+    }
+    return available;
 #elif defined(Q_OS_WIN32)
     MEMORYSTATUSEX memory_status;
     ZeroMemory(&memory_status, sizeof(MEMORYSTATUSEX));

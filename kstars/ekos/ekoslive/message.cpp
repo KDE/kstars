@@ -41,6 +41,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/pipeline/masterbuilder.h"
 #include "fitsviewer/pipeline/directoryinspector.h"
+#include "fitsviewer/pipeline/stackmemoryestimator.h"
 #include "fitsviewer/pipeline/previewrenderer.h"
 #include "fitsviewer/pipeline/histogrambuilder.h"
 #include "fitsviewer/pipeline/autostretch.h"
@@ -57,6 +58,8 @@
 #include "version.h"
 
 #include <QtConcurrentRun>
+#include <QDir>
+#include <QFileInfo>
 #include <QFutureWatcher>
 
 #include <KActionCollection>
@@ -3801,6 +3804,327 @@ QString Message::blendInputMasterPath(const QString &sessionId) const
     return generateStackOutputPathForRoot(root, identity);
 }
 
+namespace
+{
+// The stackable files directly inside a folder (postprocess_stack doesn't recurse)
+QStringList stackableFiles(const QString &directory)
+{
+    QStringList files;
+    for (const QFileInfo &info : QDir(directory).entryInfoList(QDir::Files, QDir::Name))
+        if (FITSData::readableFilename(info.absoluteFilePath()))
+            files << info.absoluteFilePath();
+    return files;
+}
+
+// The memory estimate as sent to clients, in inspect_directory's "inspected" state and
+// postprocess_stack's "started"/"error" states. See "Memory" in the pipeline README.
+QJsonObject memoryToJson(const StackMemoryEstimator::Estimate &estimate, double reclaimableBytes,
+                         const StackMemoryEstimator::FrameGeometry &geometry, int fileCount)
+{
+    QJsonArray options;
+    QString recommendedQuality;
+    for (const auto &option : estimate.options)
+    {
+        options << QJsonObject
+        {
+            {"downscale", static_cast<int>(option.downscale)}, {"width", option.width}, {"height", option.height},
+            {"quality", StackMemoryEstimator::qualityName(option.quality)}, {"batchSize", option.batchSize},
+            {"peakBytes", option.fullBatchBytes}, {"minPeakBytes", option.minBatchBytes}
+        };
+        if (option.downscale == estimate.recommended)
+            recommendedQuality = StackMemoryEstimator::qualityName(option.quality);
+    }
+    return QJsonObject
+    {
+        {"availableBytes", estimate.availableBytes}, {"reclaimableBytes", reclaimableBytes},
+        {"budgetBytes", estimate.budgetBytes}, {"width", geometry.width}, {"height", geometry.height},
+        {"channels", geometry.channels}, {"fileCount", fileCount},
+        {"recommendedDownscale", static_cast<int>(estimate.recommended)}, {"quality", recommendedQuality},
+        {"options", options}
+    };
+}
+}
+
+void Message::recordPostProcessBacking(const QString &sessionId, const QString &path)
+{
+    const QFileInfo info(path);
+    if (path.isEmpty() || !info.exists())
+    {
+        m_PostProcessBacking.remove(sessionId);
+        return;
+    }
+    m_PostProcessBacking[sessionId] = { info.absoluteFilePath(), info.lastModified(), info.size() };
+}
+
+bool Message::hasValidPostProcessBacking(const QString &sessionId) const
+{
+    const auto it = m_PostProcessBacking.constFind(sessionId);
+    if (it == m_PostProcessBacking.constEnd())
+        return false;
+    // Still the file that was written — not since overwritten, e.g. by another save
+    const QFileInfo info(it->path);
+    return info.exists() && info.lastModified() == it->modified && info.size() == it->size;
+}
+
+void Message::touchPostProcessSession(const QString &sessionId)
+{
+    m_PostProcessLastUsed[sessionId] = ++m_PostProcessUseCounter;
+}
+
+QVector<StackMemoryEstimator::EvictionCandidate> Message::postProcessEvictionCandidates(const QSet<QString> &keep) const
+{
+    QVector<StackMemoryEstimator::EvictionCandidate> candidates;
+    for (auto it = m_PostProcessSessions.constBegin(); it != m_PostProcessSessions.constEnd(); ++it)
+    {
+        const QString &id = it.key();
+        const auto &session = it.value();
+        if (keep.contains(id) || m_BusyPostProcessSessions.contains(id) || m_EvictedPostProcessSessions.contains(id))
+            continue;
+        if (!session || !session->imageData())
+            continue;
+        const auto &data = session->imageData();
+        // Only what can come back exactly as it was: finished, reloadable, and with no
+        // undo snapshot that the file couldn't restore.
+        if (data->isStackingActive() || data->stackedImageMat().empty() || data->hasUndo()
+                || !hasValidPostProcessBacking(id))
+            continue;
+        candidates.append({ id, data->residentStackBytes(), m_PostProcessLastUsed.value(id, 0) });
+    }
+    return candidates;
+}
+
+double Message::evictablePostProcessBytes(const QSet<QString> &keep) const
+{
+    double bytes = 0;
+    for (const auto &candidate : postProcessEvictionCandidates(keep))
+        bytes += candidate.bytes;
+    return bytes;
+}
+
+void Message::ensurePostProcessHeadroom(double needBytes, const QSet<QString> &keep)
+{
+    const double availBytes = KSUtils::getAvailableRAM();
+    if (!(availBytes > 0.0) || availBytes >= needBytes)
+        return;
+    for (const QString &id : StackMemoryEstimator::chooseEvictions(postProcessEvictionCandidates(keep), availBytes,
+            needBytes))
+        evictPostProcessSession(id);
+}
+
+void Message::evictPostProcessSession(const QString &sessionId)
+{
+    const auto session = m_PostProcessSessions.value(sessionId);
+    if (!session || !session->imageData())
+        return;
+    qCInfo(KSTARS_EKOS) << QString("Post-processing: evicting session %1 (%2 MB) - reloads from %3 when next used")
+                        .arg(sessionId).arg(session->imageData()->residentStackBytes() / 1e6, 0, 'f', 0)
+                        .arg(m_PostProcessBacking.value(sessionId).path);
+    session->imageData()->evictStackedImage();
+    m_EvictedPostProcessSessions.insert(sessionId);
+}
+
+void Message::reloadPostProcessSessions(const QVector<QPair<QString, QString>> &sessions, const QString &busyKey,
+                                        const QString &command, const std::function<void()> &onReady)
+{
+    // Reserved under busyKey so a second command for the same session (or blend output)
+    // is rejected as busy while the files load.
+    m_BusyPostProcessSessions.insert(busyKey);
+    sendPostProcessState(QJsonObject
+    {
+        {"state", "processing"}, {"op", command}, {"sessionId", busyKey},
+        {"message", QStringLiteral("Reloading released image(s)")}
+    });
+
+    struct ReloadedFrame
+    {
+        QString sessionId;
+        QString path;
+        cv::Mat frame;
+        struct wcsprm *wcs = nullptr;
+        int nwcs = 0;
+        QString error;
+    };
+    struct ReloadResult
+    {
+        QVector<ReloadedFrame> frames;
+        bool cancelled = false;
+    };
+
+    auto cancelFlag = QSharedPointer<QAtomicInt>::create(0);
+    m_PostProcessCancelFlags[busyKey] = cancelFlag;
+
+    auto future = QtConcurrent::run([sessions, cancelFlag]() -> ReloadResult
+    {
+        ReloadResult result;
+        for (const auto &entry : sessions)
+        {
+            if (cancelFlag->loadAcquire() != 0)
+            {
+                result.cancelled = true;
+                break;
+            }
+            ReloadedFrame loaded;
+            loaded.sessionId = entry.first;
+            loaded.path = entry.second;
+            double median = 0;
+            // FITS_NORMAL (not MasterBuilder's FITS_CALIBRATE default) so the file's own
+            // WCS comes along, exactly like postprocess_load_master — that's what keeps
+            // cross-channel registration and color calibration working afterwards.
+            const bool ok = MasterBuilder::loadFrame(entry.second, loaded.frame, median, loaded.error, FITS_NORMAL,
+                            &loaded.wcs, &loaded.nwcs);
+            result.frames.append(loaded);
+            if (!ok)
+                break;
+        }
+        return result;
+    });
+
+    auto watcher = new QFutureWatcher<ReloadResult>(this);
+    connect(watcher, &QFutureWatcher<ReloadResult>::finished, this, [this, watcher, busyKey, cancelFlag, onReady]()
+    {
+        m_BusyPostProcessSessions.remove(busyKey);
+        if (m_PostProcessCancelFlags.value(busyKey) == cancelFlag)
+            m_PostProcessCancelFlags.remove(busyKey);
+        ReloadResult result = watcher->result();
+        watcher->deleteLater();
+
+        QString error;
+        for (auto &loaded : result.frames)
+        {
+            auto session = m_PostProcessSessions.value(loaded.sessionId);
+            if (error.isEmpty() && !result.cancelled)
+            {
+                if (!loaded.error.isEmpty())
+                    error = loaded.error;
+                else if (!session || !session->imageData())
+                    error = QString("No post-processing session named '%1'").arg(loaded.sessionId);
+                else if (session->adopt(loaded.frame, error, loaded.wcs))
+                {
+                    m_EvictedPostProcessSessions.remove(loaded.sessionId);
+                    // Identical to the file again, so it stays evictable
+                    recordPostProcessBacking(loaded.sessionId, loaded.path);
+                }
+            }
+            // adopt() deep-copies the WCS; free the one loadFrame() allocated.
+            MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
+        }
+
+        if (result.cancelled)
+            sendPostProcessState(QJsonObject{{"state", "cancelled"}, {"sessionId", busyKey}});
+        else if (!error.isEmpty())
+            sendPostProcessState(QJsonObject{{"state", "error"}, {"sessionId", busyKey}, {"message", error}});
+        else
+            onReady();
+    });
+    watcher->setFuture(future);
+}
+
+void Message::retirePostProcessSession(const QString &sessionId)
+{
+    const auto session = m_PostProcessSessions.take(sessionId);
+    m_PostProcessBacking.remove(sessionId);
+    m_EvictedPostProcessSessions.remove(sessionId);
+    m_PostProcessLastUsed.remove(sessionId);
+    if (!session)
+        return;
+
+    // Nothing it does from here on belongs to whatever uses this session id next.
+    disconnect(session.data(), nullptr, this, nullptr);
+    if (!session->imageData() || !session->imageData()->isStackingActive())
+        return;
+
+    // Its worker threads still use it: keep it alive until they are done. A running
+    // redo can't be cancelled, only waited for; stacking is cancelled first.
+    m_RetiredPostProcessSessions.append(session);
+    StackController *raw = session.data();
+    auto release = [this, raw]()
+    {
+        m_RetiredPostProcessSessions.erase(std::remove_if(m_RetiredPostProcessSessions.begin(),
+                                           m_RetiredPostProcessSessions.end(), [raw](const QSharedPointer<StackController> &retired)
+        {
+            return retired.data() == raw;
+        }), m_RetiredPostProcessSessions.end());
+    };
+    connect(raw, &StackController::stackReady, this, release);
+    connect(raw, &StackController::stackFailed, this, release);
+    if (!session->imageData()->isRedoInFlight())
+        session->cancel();
+}
+
+QJsonObject Message::preflightPostProcessStack(const QString &sessionId, const QStringList &directories,
+        const StackData &params, int channelStacks, int concurrentSessions, bool &ok)
+{
+    ok = true;
+    QStringList sample;
+    int fileCount = 0;
+    QSet<QString> uniqueDirectories;
+    for (const QString &directory : directories)
+    {
+        const QString normalized = QDir(directory).absolutePath();
+        if (uniqueDirectories.contains(normalized))
+            continue;
+        uniqueDirectories.insert(normalized);
+        const QStringList files = stackableFiles(normalized);
+        fileCount = std::max(fileCount, static_cast<int>(files.size()));
+        if (sample.isEmpty() && !files.isEmpty())
+            sample << files.first();
+    }
+
+    StackMemoryEstimator::FrameGeometry geometry;
+    if (sample.isEmpty() || !StackMemoryEstimator::peekFrameGeometry(sample.first(), geometry))
+        return QJsonObject(); // nothing to judge by — the stack itself reports what's wrong
+
+    StackMemoryEstimator::EngineConfig config;
+    config.method = params.stackingMethod;
+    config.masterDark = std::any_of(params.masterDark.cbegin(), params.masterDark.cend(), [](const QString & path)
+    {
+        return !path.isEmpty();
+    });
+    config.masterFlat = std::any_of(params.masterFlat.cbegin(), params.masterFlat.cend(), [](const QString & path)
+    {
+        return !path.isEmpty();
+    });
+    config.linearNormalization = params.normalization == StackNormalization::LINEAR;
+
+    const int sessions = std::max(1, concurrentSessions);
+    const QSet<QString> keep { sessionId };
+    const double reclaimable = evictablePostProcessBytes(keep);
+    const double available = KSUtils::getAvailableRAM();
+    const auto estimate = StackMemoryEstimator::estimate(geometry, fileCount, config,
+                          available > 0.0 ? (available + reclaimable) / sessions : 0.0, channelStacks);
+    QJsonObject memory = memoryToJson(estimate, reclaimable, geometry, fileCount);
+
+    const auto &option = estimate.options.value(static_cast<int>(params.downscale));
+    memory["downscale"] = static_cast<int>(params.downscale);
+    memory["requestedQuality"] = StackMemoryEstimator::qualityName(option.quality);
+
+    // A pinned numInMem is the caller's call; only an automatic one is refused.
+    if (option.quality == StackMemoryEstimator::Quality::Insufficient && params.numInMem <= 0)
+    {
+        ok = false;
+        const int minBatch = StackMemoryEstimator::minFirstBatch(config.method, fileCount);
+        QString message = QString("Not enough memory to stack at this resolution: about %1 MB needed for a first batch "
+                                  "of %2 sub(s), %3 MB available.")
+                          .arg(option.minBatchBytes * sessions / 1e6, 0, 'f', 0).arg(minBatch)
+                          .arg((available + reclaimable) / 1e6, 0, 'f', 0);
+        if (estimate.anyFits)
+            message += QString(" Stacking at 1/%1 resolution (downscale %2) would fit.")
+                       .arg(static_cast<int>(StackMemoryEstimator::downscaleFactor(estimate.recommended)))
+                       .arg(static_cast<int>(estimate.recommended));
+        sendPostProcessState(QJsonObject
+        {
+            {"state", "error"}, {"sessionId", sessionId}, {"message", message}, {"memory", memory}
+        });
+        return memory;
+    }
+
+    // Evicting is lossless and a smaller batch isn't, so make room for every sub in one
+    // batch when the finished sessions can give it back. Nothing is evicted when the
+    // memory is already there.
+    ensurePostProcessHeadroom(option.fullBatchBytes * sessions / StackMemoryEstimator::kBudgetFraction, keep);
+    return memory;
+}
+
 QString Message::generateStackOutputPath(const QString &sourceDirectory, const QString &identity) const
 {
     return generateStackOutputPathForRoot(pipelineSessionRootFor(sourceDirectory), identity);
@@ -3822,6 +4146,55 @@ void Message::sendPostProcessState(const QJsonObject &state)
 
 void Message::processPostProcessCommands(const QString &command, const QJsonObject &payload)
 {
+    // Commands that read or change one session's image: note the use, bring an evicted
+    // image back from disk first, and forget the file a changed image no longer matches.
+    const bool changesImage = command == commands[POSTPROCESS_CROP]
+                              || command == commands[POSTPROCESS_APPLY_AUTOSTRETCH]
+                              || command == commands[POSTPROCESS_APPLY_CURVE]
+                              || command == commands[POSTPROCESS_APPLY_CURVE_PER_CHANNEL]
+                              || command == commands[POSTPROCESS_APPLY_STRETCH]
+                              || command == commands[POSTPROCESS_APPLY_SATURATION]
+                              || command == commands[POSTPROCESS_APPLY_CONTRAST]
+                              || command == commands[POSTPROCESS_APPLY_DENOISE]
+                              || command == commands[POSTPROCESS_APPLY_BGE]
+                              || command == commands[POSTPROCESS_APPLY_COLOR_CALIBRATION]
+                              || command == commands[POSTPROCESS_UNDO]
+                              || command == commands[POSTPROCESS_REDO_POSTPROCESS];
+    const bool readsImage = command == commands[POSTPROCESS_SAVE]
+                            || command == commands[POSTPROCESS_GET_HISTOGRAM]
+                            || command == commands[POSTPROCESS_GET_STRETCH_CURVE];
+    if (changesImage || readsImage)
+    {
+        const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+        touchPostProcessSession(sessionId);
+        if (m_EvictedPostProcessSessions.contains(sessionId))
+        {
+            if (m_BusyPostProcessSessions.contains(sessionId))
+            {
+                sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+                return;
+            }
+            if (!hasValidPostProcessBacking(sessionId))
+            {
+                sendPostProcessState(QJsonObject
+                {
+                    {"state", "error"}, {"sessionId", sessionId},
+                    {"message", QString("Session '%1' was released to save memory and its file %2 has since changed "
+                                        "or gone — stack or load it again").arg(sessionId, m_PostProcessBacking.value(sessionId).path)}
+                });
+                return;
+            }
+            reloadPostProcessSessions({{sessionId, m_PostProcessBacking.value(sessionId).path}}, sessionId, command,
+                                      [this, command, payload]()
+            {
+                processPostProcessCommands(command, payload);
+            });
+            return;
+        }
+        if (changesImage)
+            m_PostProcessBacking.remove(sessionId);
+    }
+
     if (command == commands[POSTPROCESS_STACK] && payload.contains("channels"))
     {
         // Filter-tagged mode: each entry stacks independently as its own mono session
@@ -3841,6 +4214,33 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         // Opt-out via "preview": false, same convention as build_master/crop/apply_*.
         const bool wantPreview = payload["preview"].toBool(true);
+
+        // Memory pre-flight for every channel together, since they all stack at once.
+        // Sessions being replaced go first: their memory is about to be given back.
+        QJsonObject memory;
+        {
+            QStringList directories;
+            StackData preflightParams;
+            preflightParams.stackingMethod = static_cast<StackingMethod>(payload["stackingMethod"].toInt(0));
+            preflightParams.downscale = static_cast<StackDownscale>(payload["downscale"].toInt(0));
+            preflightParams.numInMem = payload["numInMem"].toInt(0);
+            for (const auto &value : channels)
+            {
+                const QJsonObject channel = value.toObject();
+                directories << channel["directory"].toString();
+                if (!channel["masterDark"].toString().isEmpty())
+                    preflightParams.masterDark = QVector<QString> {channel["masterDark"].toString()};
+                if (!channel["masterFlat"].toString().isEmpty())
+                    preflightParams.masterFlat = QVector<QString> {channel["masterFlat"].toString()};
+                if (!channel["filter"].toString().isEmpty())
+                    retirePostProcessSession(channel["filter"].toString());
+            }
+            bool fits = true;
+            memory = preflightPostProcessStack(channels.first().toObject()["filter"].toString(), directories,
+                                               preflightParams, 1, static_cast<int>(channels.size()), fits);
+            if (!fits)
+                return;
+        }
 
         QJsonArray startedSessions;
         for (const auto &value : channels)
@@ -3909,8 +4309,14 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 params.masterFlat = QVector<QString> {masterFlat};
 
             auto session = QSharedPointer<StackController>::create(this);
-            connect(session.data(), &StackController::stackReady, this, [this, filter, session, wantPreview, directory](bool cancelled)
+            // Weak: a strong reference held by the session's own connection would keep it
+            // (and every buffer it holds) alive after it is closed or replaced.
+            const QWeakPointer<StackController> weakSession = session;
+            connect(session.data(), &StackController::stackReady, this, [this, filter, weakSession, wantPreview, directory](bool cancelled)
             {
+                const auto session = weakSession.toStrongRef();
+                if (!session)
+                    return;
                 // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
                 // build_master previews above — tagged "+PS", its own slot distinct from
                 // build_master's "+P" (a standalone result, no "before" counterpart the
@@ -3937,10 +4343,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     const QString outputPath = generateStackOutputPath(directory, filter);
                     QString saveError;
                     if (session->save(outputPath, saveError))
+                    {
                         state["outputPath"] = outputPath;
+                        recordPostProcessBacking(filter, outputPath);
+                    }
                     else
                         state["saveError"] = saveError;
+                    state["batches"] = session->imageData()->stackBatchCount();
+                    state["firstBatchSize"] = session->imageData()->stackFirstBatchSize();
                 }
+                touchPostProcessSession(filter);
                 sendPostProcessState(state);
             });
             connect(session.data(), &StackController::stackFailed, this, [this, filter](const QString & reason)
@@ -3969,10 +4381,14 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             session->start(QStringList { directory }, params);
             m_PostProcessSessions[filter] = session;
             m_PostProcessSessionRoots[filter] = pipelineSessionRootFor(directory);
+            touchPostProcessSession(filter);
             startedSessions << filter;
         }
 
-        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "started"}, {"sessions", startedSessions}});
+        QJsonObject started{{"state", "started"}, {"sessions", startedSessions}};
+        if (!memory.isEmpty())
+            started["memory"] = memory;
+        sendResponse(commands[NEW_POSTPROCESS_STATE], started);
     }
     else if (command == commands[POSTPROCESS_STACK])
     {
@@ -4076,9 +4492,28 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         const bool wantPreview = payload["preview"].toBool(true);
 
         const QString sessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
+
+        // The session being replaced goes first — its memory is about to be given back —
+        // then check the stack fits, making room by evicting finished sessions if needed.
+        retirePostProcessSession(sessionId);
+        QSet<QString> channelDirectories;
+        for (const QString &directory : directories)
+            channelDirectories.insert(QDir(directory).absolutePath());
+        bool fits = true;
+        const QJsonObject memory = preflightPostProcessStack(sessionId, directories, params,
+                                   static_cast<int>(channelDirectories.size()), 1, fits);
+        if (!fits)
+            return;
+
         auto session = QSharedPointer<StackController>::create(this);
-        connect(session.data(), &StackController::stackReady, this, [this, sessionId, session, wantPreview, directories](bool cancelled)
+        // Weak: a strong reference held by the session's own connection would keep it
+        // (and every buffer it holds) alive after it is closed or replaced.
+        const QWeakPointer<StackController> weakSession = session;
+        connect(session.data(), &StackController::stackReady, this, [this, sessionId, weakSession, wantPreview, directories](bool cancelled)
         {
+            const auto session = weakSession.toStrongRef();
+            if (!session)
+                return;
             // Same "headless JPEG preview over wsMedia" pattern as the crop/apply_*/
             // build_master previews above — tagged "+PS", its own slot distinct from
             // build_master's "+P" (a standalone result, no "before" counterpart the way
@@ -4110,10 +4545,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 const QString outputPath = generateStackOutputPath(directories.first(), identity);
                 QString saveError;
                 if (session->save(outputPath, saveError))
+                {
                     state["outputPath"] = outputPath;
+                    recordPostProcessBacking(sessionId, outputPath);
+                }
                 else
                     state["saveError"] = saveError;
+                state["batches"] = session->imageData()->stackBatchCount();
+                state["firstBatchSize"] = session->imageData()->stackFirstBatchSize();
             }
+            touchPostProcessSession(sessionId);
             sendPostProcessState(state);
         });
         connect(session.data(), &StackController::stackFailed, this, [this, sessionId](const QString & reason)
@@ -4142,7 +4583,11 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         session->start(directories, params);
         m_PostProcessSessions[sessionId] = session;
         m_PostProcessSessionRoots[sessionId] = pipelineSessionRootFor(directories.first());
-        sendPostProcessState(QJsonObject{{"state", "started"}, {"sessionId", sessionId}});
+        touchPostProcessSession(sessionId);
+        QJsonObject started{{"state", "started"}, {"sessionId", sessionId}};
+        if (!memory.isEmpty())
+            started["memory"] = memory;
+        sendPostProcessState(started);
     }
     else if (command == commands[POSTPROCESS_STOP])
     {
@@ -4171,7 +4616,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // multiple concurrent sessions (filter-tagged mode), each must be closed
         // individually by its own sessionId.
         const QString closedSessionId = payload["sessionId"].toString(m_DefaultPostProcessSession);
-        m_PostProcessSessions.remove(closedSessionId);
+        retirePostProcessSession(closedSessionId);
         m_PostProcessSessionRoots.remove(closedSessionId);
         sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject{{"state", "closed"}});
     }
@@ -4414,7 +4859,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 // True only for an explicitly saved, fully edited image (see
                 // markPostProcessed) — tells a caller it must not re-adopt this as
                 // a raw stack.
-                {"postProcessed", file.postProcessed}
+                {"postProcessed", file.postProcessed},
+                {"width", file.width}, {"height", file.height}, {"channels", file.channels}
             };
             if (!file.error.isEmpty())
                 entry["error"] = file.error;
@@ -4456,11 +4902,56 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             };
         };
 
-        sendResponse(commands[NEW_POSTPROCESS_STATE], QJsonObject
+        QJsonObject inspected
         {
             {"state", "inspected"}, {"directory", directory}, {"fileCount", files.size()},
             {"files", filesArray}, {"groups", groupsToJson(groups)}, {"tree", nodeToJson(tree)}
-        });
+        };
+
+        // What stacking these lights would need, so a caller can pick a resolution before
+        // it starts (see "Memory" in the pipeline README). postprocess_stack stacks one
+        // folder at a time, so this is for the most demanding folder of light frames. The
+        // optional hints describe the stack the caller intends to run.
+        {
+            QHash<QString, int> lightCounts;
+            QHash<QString, StackMemoryEstimator::FrameGeometry> lightGeometry;
+            for (const auto &file : files)
+            {
+                const bool light = file.imagetyp.isEmpty() || file.imagetyp.contains("light", Qt::CaseInsensitive);
+                if (!light || file.width <= 0 || file.postProcessed)
+                    continue;
+                lightCounts[file.directory]++;
+                if (!lightGeometry.contains(file.directory))
+                    lightGeometry.insert(file.directory, { file.width, file.height, file.channels });
+            }
+
+            StackMemoryEstimator::EngineConfig config;
+            config.method = static_cast<StackingMethod>(payload["stackingMethod"].toInt(static_cast<int>(StackingMethod::SIGMA)));
+            config.masterDark = payload["masterDark"].toBool(true);
+            config.masterFlat = payload["masterFlat"].toBool(true);
+
+            const double reclaimable = evictablePostProcessBytes(QSet<QString>());
+            const double available = KSUtils::getAvailableRAM();
+            bool haveEstimate = false;
+            double worstPeak = 0;
+            for (auto it = lightCounts.constBegin(); it != lightCounts.constEnd(); ++it)
+            {
+                const auto geometry = lightGeometry.value(it.key());
+                const auto estimate = StackMemoryEstimator::estimate(geometry, it.value(), config,
+                                      available > 0.0 ? available + reclaimable : 0.0);
+                const double peak = estimate.options.first().fullBatchBytes;
+                if (!haveEstimate || peak > worstPeak)
+                {
+                    haveEstimate = true;
+                    worstPeak = peak;
+                    QJsonObject memory = memoryToJson(estimate, reclaimable, geometry, it.value());
+                    memory["directory"] = it.key();
+                    inspected["memory"] = memory;
+                }
+            }
+        }
+
+        sendResponse(commands[NEW_POSTPROCESS_STATE], inspected);
     }
     else if (command == commands[POSTPROCESS_LOAD_MASTER])
     {
@@ -4571,7 +5062,10 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     {"state", "progress"}, {"sessionId", sessionId}, {"message", describePostProcessStage(channel, stage)}
                 });
             });
+            retirePostProcessSession(sessionId);
             m_PostProcessSessions[sessionId] = session;
+            recordPostProcessBacking(sessionId, path);
+            touchPostProcessSession(sessionId);
 
             // Keep the loaded file's own provenance (OBJECT/EXPTIME/EXPOSURE/STACKCNT) — see
             // readProvenanceKeys() and FITSData::setStackMetadata(). An adopted session never
@@ -4655,10 +5149,12 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         QVector<QPair<QString, QString>> pendingMasters;
         for (const QString &id : blendInputIds)
         {
+            touchPostProcessSession(id);
             const auto session = m_PostProcessSessions.value(id);
             if (!session || !session->imageData() || !session->imageData()->stackedImageMat().empty())
                 continue;
-            const QString masterPath = blendInputMasterPath(id);
+            QString masterPath = m_EvictedPostProcessSessions.contains(id) && hasValidPostProcessBacking(id)
+                                 ? m_PostProcessBacking.value(id).path : blendInputMasterPath(id);
             if (!masterPath.isEmpty() && QFileInfo::exists(masterPath))
                 pendingMasters.append({id, masterPath});
         }
@@ -4702,6 +5198,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     }
                 const double monoFrame = inputCount > 0 ? inputBytes / inputCount : 0.0;
                 const double needBytes = 2.0 * inputBytes + 4.0 * monoFrame;
+                QSet<QString> keep = blendInputIds;
+                keep.insert(outputSessionId);
+                ensurePostProcessHeadroom(needBytes, keep);
                 const double availBytes = KSUtils::getAvailableRAM();
                 if (availBytes > 0.0 && availBytes < needBytes)
                 {
@@ -4890,7 +5389,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                         {"state", "progress"}, {"sessionId", outputSessionId}, {"message", describePostProcessStage(channel, stage)}
                     });
                 });
+                retirePostProcessSession(outputSessionId);
                 m_PostProcessSessions[outputSessionId] = outputSession;
+                touchPostProcessSession(outputSessionId);
 
                 QJsonObject state
                 {
@@ -4908,7 +5409,10 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     const QString outputPath = generateStackOutputPathForRoot(blendRoot, outputSessionId);
                     QString saveError;
                     if (outputSession->save(outputPath, saveError))
+                    {
                         state["outputPath"] = outputPath;
+                        recordPostProcessBacking(outputSessionId, outputPath);
+                    }
                     else
                         state["saveError"] = saveError;
                 }
@@ -4917,17 +5421,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 // The blend succeeded and the result is an independent image (blendRGB()'s
                 // cv::merge allocates a fresh buffer, so it shares nothing with the
                 // inputs), so the input sessions' pixel buffers are now pure overhead.
-                // Free them to keep the long post-processing run that follows inside a
-                // small controller's RAM budget. The sessions stay registered so their
-                // ids still resolve and postprocess_close stays a clean no-op; ops on
-                // them now fail with the normal "no stacked image" message. A later
-                // re-blend transparently reloads them from their auto-saved master — see
-                // the reload phase below and blendInputMasterPath().
+                // Evict the ones that can be reloaded exactly from their file, to keep
+                // the long post-processing run that follows inside a small controller's
+                // RAM budget; any later command on them (a re-blend included) reloads
+                // them first. One that isn't identical to a file on disk stays resident.
                 for (const QString &id : blendInputIds)
                 {
                     const auto input = m_PostProcessSessions.value(id);
-                    if (input && input->imageData())
-                        input->imageData()->releaseStackedImage();
+                    if (input && input->imageData() && !input->imageData()->hasUndo()
+                            && !m_BusyPostProcessSessions.contains(id) && hasValidPostProcessBacking(id))
+                        evictPostProcessSession(id);
                 }
             });
             watcher->setFuture(future);
@@ -4939,115 +5442,10 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             return;
         }
 
-        // Reload phase: rehydrate each released input from its own auto-saved master,
-        // adopt it back into the existing session, then run the blend. Reserved under
-        // outputSessionId so a concurrent blend for the same output is rejected as busy,
-        // exactly as the blend phase reserves it.
-        m_BusyPostProcessSessions.insert(outputSessionId);
-        sendPostProcessState(QJsonObject
-        {
-            {"state", "processing"}, {"op", command}, {"sessionId", outputSessionId},
-            {"message", QStringLiteral("Reloading released input master(s)")}
-        });
-
-        struct ReloadedFrame
-        {
-            QString sessionId;
-            cv::Mat frame;
-            struct wcsprm *wcs = nullptr;
-            int nwcs = 0;
-            QString error;
-        };
-        struct ReloadResult
-        {
-            QVector<ReloadedFrame> frames;
-            bool cancelled = false;
-        };
-
-        auto reloadCancelFlag = QSharedPointer<QAtomicInt>::create(0);
-        m_PostProcessCancelFlags[outputSessionId] = reloadCancelFlag;
-
-        auto reloadFuture = QtConcurrent::run([pendingMasters, reloadCancelFlag]() -> ReloadResult
-        {
-            ReloadResult result;
-            for (const auto &entry : pendingMasters)
-            {
-                if (reloadCancelFlag->loadAcquire() != 0)
-                {
-                    result.cancelled = true;
-                    break;
-                }
-                ReloadedFrame loaded;
-                loaded.sessionId = entry.first;
-                double median = 0;
-                // FITS_NORMAL (not MasterBuilder's FITS_CALIBRATE default) so the file's
-                // own WCS comes along, exactly like postprocess_load_master — that's what
-                // keeps cross-channel registration working on the re-blend.
-                if (!MasterBuilder::loadFrame(entry.second, loaded.frame, median, loaded.error,
-                                              FITS_NORMAL, &loaded.wcs, &loaded.nwcs))
-                {
-                    result.frames.append(loaded);
-                    break;
-                }
-                result.frames.append(loaded);
-            }
-            return result;
-        });
-
-        auto reloadWatcher = new QFutureWatcher<ReloadResult>(this);
-        connect(reloadWatcher, &QFutureWatcher<ReloadResult>::finished, this,
-                [this, reloadWatcher, outputSessionId, reloadCancelFlag, runBlend]()
-        {
-            m_BusyPostProcessSessions.remove(outputSessionId);
-            if (m_PostProcessCancelFlags.value(outputSessionId) == reloadCancelFlag)
-                m_PostProcessCancelFlags.remove(outputSessionId);
-            ReloadResult result = reloadWatcher->result();
-            reloadWatcher->deleteLater();
-
-            if (result.cancelled)
-            {
-                for (auto &loaded : result.frames)
-                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
-                sendPostProcessState(
-                QJsonObject{{"state", "cancelled"}, {"sessionId", outputSessionId}});
-                return;
-            }
-
-            for (auto &loaded : result.frames)
-            {
-                if (!loaded.error.isEmpty())
-                {
-                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
-                    sendPostProcessState(
-                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", loaded.error}});
-                    return;
-                }
-                auto session = m_PostProcessSessions.value(loaded.sessionId);
-                if (!session || !session->imageData())
-                {
-                    MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
-                    sendPostProcessState(
-                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId},
-                        {"message", QString("No post-processing session named '%1'").arg(loaded.sessionId)}});
-                    return;
-                }
-                QString adoptError;
-                const bool adopted = session->adopt(loaded.frame, adoptError, loaded.wcs);
-                // adopt() deep-copies the WCS into the session; free the one loadFrame()
-                // allocated for us.
-                MasterBuilder::freeWcs(&loaded.wcs, loaded.nwcs);
-                if (!adopted)
-                {
-                    sendPostProcessState(
-                    QJsonObject{{"state", "error"}, {"sessionId", outputSessionId}, {"message", adoptError}});
-                    return;
-                }
-            }
-
-            // Inputs are resident again — run the normal blend path on them.
-            runBlend();
-        });
-        reloadWatcher->setFuture(reloadFuture);
+        // Reload phase: bring each released input back from its file, then run the
+        // blend. Reserved under outputSessionId so a concurrent blend for the same output
+        // is rejected as busy, exactly as the blend phase reserves it.
+        reloadPostProcessSessions(pendingMasters, outputSessionId, command, runBlend);
     }
     else if (command == commands[POSTPROCESS_REDO_POSTPROCESS])
     {
@@ -5118,6 +5516,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             {
                 const double frameBytes = static_cast<double>(working.total()) * working.elemSize();
                 const double needBytes = frameBytes * memWeight;
+                ensurePostProcessHeadroom(needBytes, QSet<QString> { sessionId });
                 const double availBytes = KSUtils::getAvailableRAM();
                 if (availBytes > 0.0 && availBytes < needBytes)
                 {
@@ -5348,11 +5747,16 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
 
         auto watcher = new QFutureWatcher<PostProcessOpResult>(this);
         connect(watcher, &QFutureWatcher<PostProcessOpResult>::finished, this,
-                [this, watcher, session, sessionId, wantPreview]()
+                [this, watcher, session, sessionId, wantPreview, command, saveOutputPath]()
         {
             m_BusyPostProcessSessions.remove(sessionId);
             const PostProcessOpResult result = watcher->result();
             watcher->deleteLater();
+
+            // The image now matches the saved file, so it can be evicted and reloaded
+            if (result.ok && command == commands[POSTPROCESS_SAVE]
+                    && m_PostProcessSessions.value(sessionId) == session)
+                recordPostProcessBacking(sessionId, saveOutputPath);
 
             if (result.ok && wantPreview)
             {

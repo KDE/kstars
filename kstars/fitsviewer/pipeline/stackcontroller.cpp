@@ -46,6 +46,8 @@ void StackController::start(const QStringList &inDir, const StackData &params)
     m_FitsWatcher.setFuture(m_ImageData->loadFromFile(noImage));
     m_FitsWatcher.waitForFinished();
 
+    // The pipeline stacks the files a folder holds now, once — see FITSData::setStackBatchMode()
+    m_ImageData->setStackBatchMode(true);
     m_ImageData->loadStack(inDir, params);
 }
 

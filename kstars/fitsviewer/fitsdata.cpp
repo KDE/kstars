@@ -22,6 +22,7 @@
 #include "pipeline/bgeoperation.h"
 #include "pipeline/photometriccalibration.h"
 #include "pipeline/photometriccatalog.h"
+#include "pipeline/stackmemoryestimator.h"
 
 #include "fpack.h"
 
@@ -60,6 +61,9 @@
 
 #include <cfloat>
 #include <cmath>
+#if defined(__GLIBC__)
+#include <malloc.h>
+#endif
 #include <zlib.h>
 
 #include <fits_debug.h>
@@ -402,38 +406,60 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 }
 
 #if !defined (KSTARS_LITE)
-// Read a FITS file's dimensions from its header alone (no pixel decode) — used to
-// size the in-memory stacking batch to the machine's free RAM (see loadStack()).
-static bool peekFITSSize(const QString &path, int &width, int &height, int &channels)
+// Pick numInMem for a caller that left it unset. One sub's header is enough to go on:
+// every sub in a run comes off the same camera at the same binning.
+int FITSData::autoSizeStackBatch(const QString &sampleSub, int fileCount)
 {
-    fitsfile *fptr = nullptr;
-    int status = 0;
-    if (fits_open_file(&fptr, QFile::encodeName(path).constData(), READONLY, &status))
-        return false;
-
-    int naxis = 0;
-    long naxes[3] = { 0, 0, 1 };
-    if (fits_get_img_dim(fptr, &naxis, &status) != 0 || naxis < 1)
+    const int files = std::max(1, fileCount);
+    StackMemoryEstimator::FrameGeometry geometry;
+    if (!StackMemoryEstimator::peekFrameGeometry(sampleSub, geometry))
     {
-        fits_close_file(fptr, &status);
-        return false;
+        const int fallback = std::min(5, files);
+        qCDebug(KSTARS_FITS) << QString("Auto-sized stack batch: numInMem=%1 (could not read %2)").arg(fallback).arg(sampleSub);
+        return fallback;
     }
-    if (naxis > 3)
-        naxis = 3;
-    fits_get_img_size(fptr, naxis, naxes, &status);
-    fits_close_file(fptr, &status);
 
-    if (naxes[0] <= 0 || naxes[1] <= 0)
-        return false;
-    width = static_cast<int>(naxes[0]);
-    height = static_cast<int>(naxes[1]);
-    channels = (naxis >= 3 && naxes[2] > 0) ? static_cast<int>(naxes[2]) : 1;
-    return true;
+    StackMemoryEstimator::EngineConfig config;
+    config.method = m_LiveStackData.stackingMethod;
+    config.masterDark = std::any_of(m_DarkChannelMap.cbegin(), m_DarkChannelMap.cend(), [](const QString & path)
+    {
+        return !path.isEmpty();
+    });
+    config.masterFlat = std::any_of(m_FlatChannelMap.cbegin(), m_FlatChannelMap.cend(), [](const QString & path)
+    {
+        return !path.isEmpty();
+    });
+    config.linearNormalization = m_LiveStackData.normalization == StackNormalization::LINEAR;
+
+    // Channel stacks that haven't done their initial stack yet still have their engine
+    // state to allocate; the others already hold it, so it's already out of free memory.
+    int pendingStacks = 0;
+    for (const auto &stack : m_Stacks)
+        if (stack && !stack->getInitialStackDone())
+            pendingStacks++;
+
+    const double frameBytes = StackMemoryEstimator::frameBytes(geometry, m_LiveStackData.downscale);
+    const double availBytes = KSUtils::getAvailableRAM();
+    int batch = StackMemoryEstimator::fitBatch(frameBytes, config.method,
+                StackMemoryEstimator::engineFrames(config) * pendingStacks, files, availBytes);
+
+    // The first batch sets SIGMA/WINDSOR's clip bounds for every later one, so it isn't
+    // shrunk below what rejection needs. The pipeline's pre-flight has already made
+    // sure that much fits (see Message's postprocess_stack handler).
+    if (m_CurrentStack && !m_CurrentStack->getInitialStackDone())
+        batch = std::max(batch, StackMemoryEstimator::minFirstBatch(config.method, files));
+
+    qCDebug(KSTARS_FITS) << QString("Auto-sized stack batch: numInMem=%1 (%2 MB/frame, %3 MB free, %4 file(s))")
+                         .arg(batch).arg(frameBytes / 1e6, 0, 'f', 1).arg(availBytes / 1e6, 0, 'f', 0).arg(files);
+    return batch;
 }
 
 bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 {
     m_LiveStackData = params;
+    m_LiveStackData.batchMode = m_StackBatchMode;
+    m_StackNumInMemAuto = params.numInMem <= 0;
+    m_StackBatchCount = m_StackFirstBatchSize = 0;
     m_StackSavedFrameCount = 0;  // Reset frame counter for new stacking session
     if (!initStackChannels(inDir, params.masterDark, params.masterFlat))
         return true;
@@ -444,7 +470,7 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 
     for (StackChannel base : baseChannels)
     {
-        QSharedPointer<FITSStack> stack = QSharedPointer<FITSStack>::create(this, base, params);
+        QSharedPointer<FITSStack> stack = QSharedPointer<FITSStack>::create(this, base, m_LiveStackData);
 
         connect(stack.get(), &FITSStack::updateStackMon, this, &FITSData::updateStackMon);
         m_Stacks.insert(base, stack);
@@ -469,6 +495,10 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
 
     m_StackDirWatcher->watchDirs(getUniqueStackDirs());
     QVector<LiveStackFile> subs = m_StackDirWatcher->getCurrentFiles();
+    // A batch stacks what is there now. The watcher stays (its file list is the progress
+    // total) but new files are ignored.
+    if (m_StackBatchMode)
+        disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
 
     // Make sure the future watchers aren't still active
     m_StackWatcher.waitForFinished();
@@ -500,33 +530,12 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
         // Auto-size the in-memory working set unless the caller pinned a count
         // (numInMem <= 0 means "let KStars decide"). The engine holds `numInMem` subs
         // resident at once, each decoded to CV_32F — on a large sensor that is
-        // hundreds of MB per sub, easily enough to OOM a 4-8 GB StellarMate
-        // controller. Read the first sub's dimensions (header only, cheap) and fit as
-        // many as a fraction of free RAM allows, leaving the rest for the running
-        // stack, the combine, post-processing temporaries and the OS. Capped at the
-        // number of files actually present so the full initial stack (rather than the
-        // slower incremental path) is still used whenever memory permits.
-        if (m_LiveStackData.numInMem <= 0)
-        {
-            const int fileCount = static_cast<int>(subs.size());
-            int width = 0, height = 0, channels = 1;
-            int dynamic = std::min(5, std::max(1, fileCount));
-            if (peekFITSSize(subs[0].file, width, height, channels))
-            {
-                const double subBytes = static_cast<double>(width) * height * channels * sizeof(float);
-                const double availBytes = KSUtils::getAvailableRAM();
-                if (subBytes > 0.0 && availBytes > 0.0)
-                {
-                    constexpr double kBatchBudgetFraction = 0.5;
-                    dynamic = static_cast<int>(std::floor(availBytes * kBatchBudgetFraction / subBytes));
-                    dynamic = std::clamp(dynamic, 1, std::max(1, fileCount));
-                    qCDebug(KSTARS_FITS) << QString("Auto-sized stack batch: numInMem=%1 (%2 MB/sub, %3 MB free, %4 file(s))")
-                                         .arg(dynamic).arg(subBytes / 1e6, 0, 'f', 1)
-                                         .arg(availBytes / 1e6, 0, 'f', 0).arg(fileCount);
-                }
-            }
-            m_LiveStackData.numInMem = dynamic;
-        }
+        // hundreds of MB per sub. When everything fits it is every file, so the full
+        // initial stack (rather than the slower incremental path) is used.
+        if (m_StackNumInMemAuto)
+            m_LiveStackData.numInMem = autoSizeStackBatch(subs[0].file, static_cast<int>(subs.size()));
+        m_StackFirstBatchSize = std::min(m_LiveStackData.numInMem, static_cast<int>(subs.size()));
+        m_StackBatchCount = 1;
 
         // We have some existing subs in the directory to process
         int subsToProcess = m_LiveStackData.numInMem;
@@ -845,6 +854,16 @@ void FITSData::incrementalStack()
     bool hasUnprocessedSubs = !m_StackSubs.empty() && m_StackSubPos < m_StackSubs.size();
     if (m_CurrentStack->getStackInProgress() || hasUnprocessedSubs)
         return;
+
+    // Re-size each batch for what is free now rather than what was free before the
+    // first sub was decoded — by now each channel stack holds its engine state.
+    if (m_StackNumInMemAuto)
+    {
+        m_LiveStackData.numInMem = autoSizeStackBatch(m_StackQ.constFirst().file, static_cast<int>(m_StackQ.size()));
+        for (auto &stack : m_Stacks)
+            stack->setStackData(m_LiveStackData);
+    }
+    m_StackBatchCount++;
 
     int subsToProcess = m_LiveStackData.numInMem;
     m_StackSubs.clear();
@@ -1430,7 +1449,14 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams, const FITSStack
     // Update the new parameters
     m_LiveStackData.postProcessing = ppParams;
 
-    if (m_Stacks.isEmpty())
+    // Stacks whose linear stack was released (an evicted, since reloaded session) have
+    // nothing to recompute from either — post-process the current image, as for an
+    // adopted one.
+    const bool haveLinearStack = std::any_of(m_Stacks.cbegin(), m_Stacks.cend(), [](const QSharedPointer<FITSStack> &stack)
+    {
+        return stack && stack->hasLinearStack();
+    });
+    if (!haveLinearStack)
     {
         // No per-channel FITSStack sessions to redo — true for any "adopted" image
         // (postprocess_blend_channels' output, or anything else built via
@@ -1459,10 +1485,12 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams, const FITSStack
             return convertMatToFITS(m_StackedImageMat);
         });
 
+        m_StackRedosInFlight++;
         auto *watcher = new QFutureWatcher<bool>(this);
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher, isCancelled]()
         {
             watcher->deleteLater();
+            m_StackRedosInFlight--;
             if (isCancelled && isCancelled())
                 Q_EMIT stackReady(true);
             else if (watcher->future().result())
@@ -1489,6 +1517,7 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams, const FITSStack
     }
 
     // Create a combined future that waits for all others to complete
+    m_StackRedosInFlight++;
     QFuture<void> combined = QtConcurrent::run([futures]() mutable
     {
         for (auto &f : futures)
@@ -1505,6 +1534,7 @@ void FITSData::redoPostProcessStack(const StackPPData &ppParams, const FITSStack
     connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, isCancelled]()
     {
         watcher->deleteLater();
+        m_StackRedosInFlight--;
         if (isCancelled && isCancelled())
             Q_EMIT stackReady(true);
         else
@@ -1715,6 +1745,61 @@ bool FITSData::saveStackedImage(const QString &path, QString &error)
     }
 
     return true;
+}
+
+bool FITSData::isStackingActive() const
+{
+    const bool unprocessedSubs = !m_StackSubs.empty() && m_StackSubPos < m_StackSubs.size();
+    return !m_StackQ.isEmpty() || unprocessedSubs || (m_CurrentStack && m_CurrentStack->getStackInProgress())
+           || m_StackPrepareFuture.isRunning() || m_StackRedosInFlight > 0;
+}
+
+// Hand freed heap back to the OS. glibc keeps freed chunks in its per-thread arenas,
+// and stacking frees a lot from many worker threads, so without this the process
+// keeps a large share of what it just released.
+static void returnFreedMemoryToOS()
+{
+#if defined(__GLIBC__)
+    malloc_trim(0);
+#endif
+}
+
+double FITSData::residentStackBytes() const
+{
+    auto matBytes = [](const cv::Mat & mat)
+    {
+        return static_cast<double>(mat.total()) * mat.elemSize();
+    };
+    double bytes = matBytes(m_StackedImageMat) + matBytes(m_UndoStackedImageMat);
+    if (m_StackedBuffer)
+        bytes += m_StackedBuffer->size();
+    for (const auto &stack : m_Stacks)
+        if (stack)
+            bytes += stack->linearStackBytes();
+    return bytes;
+}
+
+void FITSData::releaseStackBatchState()
+{
+    for (auto &stack : m_Stacks)
+        if (stack)
+            stack->releaseBatchState();
+    delete[] m_StackImageBuffer;
+    m_StackImageBuffer = nullptr;
+    m_StackImageBufferSize = 0;
+    returnFreedMemoryToOS();
+}
+
+void FITSData::evictStackedImage()
+{
+    releaseStackedImage();
+    for (auto &stack : m_Stacks)
+        if (stack)
+            stack->releaseLinearStack();
+    delete[] m_StackImageBuffer;
+    m_StackImageBuffer = nullptr;
+    m_StackImageBufferSize = 0;
+    returnFreedMemoryToOS();
 }
 
 void FITSData::releaseStackedImage()
@@ -2691,6 +2776,15 @@ void FITSData::stackProcessDone()
         qCDebug(KSTARS_FITS) << "Stacking operation failed";
 
     updateLiveStackMetadata();
+
+    // A batch only needs its result once the last batch is in: combining and encoding
+    // after every batch would cost time and memory for an image nobody sees.
+    if (m_StackBatchMode && !m_StackQ.isEmpty())
+    {
+        incrementalStack();
+        return;
+    }
+
     prepareStackBufferAsync();
 
     // If more subs were already queued when this batch was kicked off (a batch
@@ -2730,6 +2824,8 @@ void FITSData::prepareStackBufferAsync()
         watcher->deleteLater();
         if (watcher->future().result())
         {
+            if (m_StackBatchMode && !isStackingActive())
+                releaseStackBatchState();
             qCDebug(KSTARS_FITS) << "Stack buffer ready. Emitting stackReady().";
             Q_EMIT stackReady();
         }
