@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-30 02:10+0000\n"
-"PO-Revision-Date: 2026-09-23 19:03+0400\n"
+"PO-Revision-Date: 2026-09-30 19:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -28013,7 +28013,7 @@ msgstr "اضبط مجلدًا أساسيًا بديلًا لصور Analyze ال�
 #: ekos/opsekos.cpp:69 ekos/opsekos.ui:551
 #, kde-format
 msgid "Select the root directory MCP tools may access"
-msgstr ""
+msgstr "اختر الدليل الجذر الذي قد تصل إليه أدوات MCP"
 
 #: ekos/opsekos.cpp:145 ekos/opsekos.cpp:168
 #, kde-format
@@ -28247,7 +28247,7 @@ msgstr "رمز القراءة فقط:"
 #: ekos/opsekos.ui:532
 #, kde-format
 msgid "File access root:"
-msgstr ""
+msgstr "جذر الوصول إلى الملفات:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_MCPFileAccessRoot)
 #: ekos/opsekos.ui:570
@@ -28257,6 +28257,9 @@ msgid ""
 "this directory and its subfolders. Empty denies all file access. Governs "
 "tool inputs only; tools may still report paths of files the rig itself wrote."
 msgstr ""
+"الأدوات التي تأخذ مسار نظام ملفات تقبل فقط المسارات المطلقة للملفات داخل هذا "
+"الدليل ودليله الفرعية. القيمة الفارغة تمنع كل وصول إلى الملفات. يتحكم هذا في "
+"مدخلات الأدوات فقط؛ قد تُبلّغ الأدوات مع ذلك عن مسارات ملفات كتبها الجهاز نفسه."
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:585
@@ -31603,13 +31606,13 @@ msgid "Job '%1' is slewing to target."
 msgstr "المهمة ”%1“ تنزلق نحو الهدف."
 
 #: ekos/scheduler/schedulerprocess.cpp:1090
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' is unable to proceed with autofocus, not supported."
+#, kde-format
 msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
-msgstr "تحذير: لا أستطيع المتابعة بالتركيز الـ آلي للمهمة ”%1“، غير مدعوم."
+msgstr ""
+"تحذير: المهمة '%1' غير قادرة على المتابعة بالضبط التلقائي للتركيز على "
+"السلسلة '%2'، غير مدعوم."
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
 #, kde-format
@@ -31880,7 +31883,7 @@ msgstr "لم تُجدوَل أي مهام."
 #: ekos/scheduler/schedulerprocess.cpp:2415
 #, kde-format
 msgid "No jobs left to run while waiting for safety to improve."
-msgstr ""
+msgstr "لم تبقَ مهام لتشغيلها أثناء انتظار تحسّن السلامة."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -46823,7 +46826,7 @@ msgstr ""
 #: kstars.kcfg:4049
 #, kde-format
 msgid "Root directory MCP tools may access"
-msgstr ""
+msgstr "الدليل الجذر الذي قد تصل إليه أدوات MCP"
 
 #. i18n: ectx: whatsthis, entry (MCPFileAccessRoot), group (MCP)
 #: kstars.kcfg:4050
@@ -46835,6 +46838,11 @@ msgid ""
 "tool inputs only; tools may still report paths of files the rig itself wrote "
 "(e.g. image_last_info)."
 msgstr ""
+"الأدوات التي تأخذ مسار نظام ملفات (مثل scheduler_load وalign_load_and_slew "
+"وcapture_load_sequence) تقبل فقط المسارات المطلقة للملفات داخل هذا الدليل "
+"ودليله الفرعية. القيمة الفارغة تمنع كل وصول إلى الملفات. يتحكم هذا في مدخلات "
+"الأدوات فقط؛ قد تُبلّغ الأدوات مع ذلك عن مسارات ملفات كتبها الجهاز نفسه (مثل "
+"image_last_info)."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
