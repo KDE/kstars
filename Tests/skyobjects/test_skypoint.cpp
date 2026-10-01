@@ -628,4 +628,55 @@ void TestSkyPoint::testDeltaAngle()
     QVERIFY(diffDE.Degrees() < 1);
 }
 
+// A mount that has just been powered on (e.g. OnStep at its home position) can report exactly Dec = 90.
+// Align::captureAndSolve() then looks up the nearest object for that position, and SkyMesh::aperture()
+// converts it to catalogue coordinates and back. Floating-point round-off at the exact pole must not turn
+// the coordinates into NaN (that hit the Q_ASSERT in SkyPoint::updateCoords() and aborted KStars).
+// This mirrors SkyMesh::aperture() but calls the steps individually, so a NaN fails the test instead of
+// aborting it through the assert. Whether round-off strikes depends on RA (= LST) and time, so a grid
+// around the real crash (2026-09-30 20:03:09 UTC, RA 15.8264 h) is scanned.
+void TestSkyPoint::testExactPoleStaysFinite_data()
+{
+    QTest::addColumn<double>("dec");
+    QTest::newRow("north pole") << 90.0;
+    QTest::newRow("south pole") << -90.0;
+}
+
+void TestSkyPoint::testExactPoleStaysFinite()
+{
+    QFETCH(double, dec);
+    Options::setUseRelativistic(false);
+
+    const auto crash = KStarsDateTime::fromString("2026-09-30T20:03:09");
+    int checked = 0;
+    for (int minute = -60; minute <= 60; minute += 5)
+    {
+        const long double jd = crash.djd() + minute / 1440.0L;
+        KSNumbers num(jd);
+        for (int step = 0; step <= 2400; ++step)
+        {
+            // Every 0.01 h over the whole RA range, plus the exact RA of the real crash.
+            const double raHours = (step < 2400) ? step * 0.01 : 15.826388888888889;
+
+            SkyPoint p1(dms(raHours * 15.0), dms(dec));
+            p1.catalogueCoord(jd);
+
+            SkyPoint p2 = p1;
+            p2.precess(&num);
+            p2.nutate(&num);
+            p2.aberrate(&num);
+
+            const bool finite = std::isfinite(p1.ra0().Degrees()) && std::isfinite(p1.dec0().Degrees())
+                                && std::isfinite(p2.ra().Degrees()) && std::isfinite(p2.dec().Degrees());
+            QVERIFY2(finite, qPrintable(QString("NaN at Dec %1, RA %2 h, %3 min from the crash: catalogue %4/%5, "
+                                                "apparent %6/%7")
+                                        .arg(dec).arg(raHours, 0, 'f', 12).arg(minute)
+                                        .arg(p1.ra0().Degrees()).arg(p1.dec0().Degrees())
+                                        .arg(p2.ra().Degrees()).arg(p2.dec().Degrees())));
+            ++checked;
+        }
+    }
+    QVERIFY(checked > 0);
+}
+
 QTEST_GUILESS_MAIN(TestSkyPoint)

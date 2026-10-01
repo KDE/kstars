@@ -22,6 +22,7 @@
 
 #include <QDebug>
 
+#include <algorithm>
 #include <cmath>
 
 
@@ -215,7 +216,8 @@ void SkyPoint::findEcliptic(const CachingDms *Obliquity, dms &EcLong, dms &EcLat
     double ELongRad = atan2(ycosDec, cosDec * cosRA);
     EcLong.setRadians(ELongRad);
     EcLong.reduceToRange(dms::ZERO_TO_2PI);
-    EcLat.setRadians(asin(sinDec * cosOb - cosDec * sinOb * sinRA)); // FIXME: Haversine
+    // Clamp: round-off can push the argument marginally outside [-1, 1] (asin would return NaN).
+    EcLat.setRadians(asin(std::clamp(sinDec * cosOb - cosDec * sinOb * sinRA, -1.0, 1.0))); // FIXME: Haversine
 }
 
 void SkyPoint::setFromEcliptic(const CachingDms *Obliquity, const dms &EcLong, const dms &EcLat)
@@ -233,11 +235,10 @@ void SkyPoint::setFromEcliptic(const CachingDms *Obliquity, const dms &EcLong, c
     RA.reduceToRange(dms::ZERO_TO_2PI);
     // Dec.setUsing_asin(sinDec);
 
-    // Use Haversine to set declination
-    Dec.setRadians(dms::PI / 2.0 - 2.0 * asin(sqrt(0.5 * (
-                       1.0 - sinLat * cosObliq
-                       - cosLat * sinObliq * sinLong
-                   ))));
+    // Use Haversine to set declination. The haversine is mathematically in [0, 1], but at (or extremely
+    // close to) a celestial pole round-off can make it slightly negative, and sqrt() would return NaN.
+    const double haversine = 0.5 * (1.0 - sinLat * cosObliq - cosLat * sinObliq * sinLong);
+    Dec.setRadians(dms::PI / 2.0 - 2.0 * asin(sqrt(std::clamp(haversine, 0.0, 1.0))));
 }
 
 void SkyPoint::precess(const KSNumbers *num)
