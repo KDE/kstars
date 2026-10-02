@@ -79,7 +79,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
     public:
 
         typedef enum { TILES_ALL, TILES_OUTER_CORNERS, TILES_INNER_DIAMOND } TileSelection;
-        typedef struct
+        struct abInsData
         {
             int run;
             CurveFitting::CurveFit curveFit;
@@ -97,7 +97,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
             // Optical train id, so the Tilt Correction Advisory can persist its settings
             // per train (0 = unknown → falls back to global settings).
             uint32_t opticalTrainID = 0;
-        } abInsData;
+        };
 
         /**
          * @brief create an AberrationInspector with the associated data
