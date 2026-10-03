@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-01 19:41+0000\n"
-"PO-Revision-Date: 2026-10-01 00:32+0200\n"
+"PO-Revision-Date: 2026-10-02 01:27+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1536,12 +1536,12 @@ msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
 msgstr ""
-"Establix el pas temporal a l'actual d'Xplanet, bo per a veure esdeveniments"
+"Establix el pas de temps a l'actual d'Xplanet, bo per a veure esdeveniments"
 
 #: auxiliary/xplanetimageviewer.cpp:442
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
-msgstr "Establix el pas temporal a l'actual d'Xplanet"
+msgstr "Establix el pas de temps a l'actual d'Xplanet"
 
 #: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
@@ -1604,7 +1604,7 @@ msgstr "segons"
 #: auxiliary/xplanetimageviewer.cpp:456
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr "Permet canviar les unitats per al pas temporal en l'animació"
+msgstr "Permet canviar les unitats per al pas de temps a l'animació"
 
 #: auxiliary/xplanetimageviewer.cpp:469
 #, kde-format
@@ -1614,7 +1614,7 @@ msgstr "Permet que executeu l'animació"
 #: auxiliary/xplanetimageviewer.cpp:478
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
-msgstr "Reinicia l'animació al pas temporal 0 des del temps actual d'Xplanet"
+msgstr "Reinicia l'animació al pas de temps 0 des del temps actual d'Xplanet"
 
 #: auxiliary/xplanetimageviewer.cpp:549
 #, kde-format
@@ -2254,7 +2254,7 @@ msgstr " Seguiment automàtic "
 #: data/qml/whatisinteresting/wiview.qml:1066
 #, kde-kuit-format
 msgid "Slew Telescope"
-msgstr "Orienta el telescopi"
+msgstr "Apunta el telescopi"
 
 #: data/qml/whatisinteresting/wiview.qml:1093
 #, kde-kuit-format
@@ -5998,7 +5998,7 @@ msgstr "Ara"
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr "Gestioneu les vistes del mapa celeste"
+msgstr "Gestioneu les vistes del mapa celest"
 
 #: dialogs/viewsdialog.cpp:198
 #, kde-format
@@ -6030,7 +6030,7 @@ msgstr ""
 #: dialogs/viewsdialog.ui:14
 #, kde-format
 msgid "Edit Sky Map Views"
-msgstr "Editeu les vistes del mapa celeste"
+msgstr "Editeu les vistes del mapa celest"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
@@ -6045,7 +6045,7 @@ msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Afig una vista nova a la llista. Podreu definir la paritat, orientació i "
+"Afig una vista nova a la llista. Podreu definir la paritat, l'orientació i "
 "altres paràmetres."
 
 # skip-rule: punctuation-period-no
@@ -6372,14 +6372,14 @@ msgstr "Captura i resol"
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
-"Carrega i resol una imatge FITS. Orienta la muntura cap a les coordenades "
-"del centre de la imatge."
+"Carrega i resol una imatge FITS. Apunta la muntura cap a les coordenades del "
+"centre de la imatge."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
 #: ekos/align/align.ui:136
 #, kde-format
 msgid "Load && Slew..."
-msgstr "Carrega i orienta…"
+msgstr "Carrega i apunta…"
 
 #. i18n: ectx: property (text), widget (QPushButton, stopB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
@@ -6425,7 +6425,7 @@ msgstr "Acció del solucionador"
 #: ekos/align/align.ui:187
 #, kde-format
 msgid "Synchronize the telescope to the solution coordinates"
-msgstr "Sincronitza el telescopi amb les coordenades de la solució."
+msgstr "Sincronitza el telescopi amb les coordenades resoltes."
 
 #. i18n: ectx: property (text), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:193
@@ -6441,14 +6441,14 @@ msgid ""
 "Synchronize the telescope to the solution coordinates and then slew to the "
 "target coordinates"
 msgstr ""
-"Sincronitza el telescopi amb les coordenades de la solució i després orienta "
-"cap a les coordenades de l'objectiu."
+"Sincronitza el telescopi amb les coordenades resoltes i després apunta cap a "
+"les coordenades de l'objectiu."
 
 #. i18n: ectx: property (text), widget (QRadioButton, slewR)
 #: ekos/align/align.ui:212
 #, kde-format
 msgid "S&lew to Target"
-msgstr "&Orienta cap a l'objectiu"
+msgstr "&Apunta cap a l'objectiu"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, nothingR)
@@ -6479,10 +6479,9 @@ msgid ""
 "Plate solver shall be repeatedly executed until the solution coordinates are "
 "below the accuracy threshold"
 msgstr ""
-"El llindar de la precisió en segons d'arc entre les coordenades de la "
-"resolució i l'objectiu. El solucionador de plaques s'ha d'executar "
-"repetidament fins que les coordenades de la resolució estiguen dins el "
-"llindar de la precisió."
+"El llindar de la precisió en segons d'arc entre les coordenades resoltes i "
+"l'objectiu. El solucionador de plaques s'ha d'executar repetidament fins que "
+"les coordenades resoltes estiguen dins el llindar de la precisió."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
@@ -6492,7 +6491,7 @@ msgid ""
 "After telescope completes slewing, wait until it settles for this many "
 "milliseconds before capturing the next image."
 msgstr ""
-"Després que el telescopi complete l'orientació, esperarà este nombre de "
+"Després que el telescopi complete l'apuntament, esperarà este nombre de "
 "mil·lisegons fins que es posicione abans de capturar la imatge següent."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
@@ -6511,7 +6510,7 @@ msgstr "Precisió:"
 #: ekos/align/align.ui:347
 #, kde-format
 msgid "Solution Coordinates (JNow)"
-msgstr "Coordenades de la solució (JNow)"
+msgstr "Coordenades resoltes (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVOut)
@@ -6528,8 +6527,8 @@ msgstr "Mida del camp de visió efectiu, en minuts d'arc."
 msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
 msgstr ""
-"Diferència entre les coordenades del telescopi i les coordenades de la "
-"solució, en segons d'arc."
+"Diferència entre les coordenades del telescopi i les coordenades resoltes, "
+"en segons d'arc."
 
 #. i18n: ectx: property (text), widget (QLabel, err)
 #: ekos/align/align.ui:395
@@ -6798,8 +6797,8 @@ msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
-"Els resultats de les solucions per a l'astrometria de les eines «Captura» i "
-"«Resol», «Carrega» i «Orienta», així com l'eina «Model de la muntura» es "
+"Els resultats de les solucions per a l'astrometria de les eines «Captura i "
+"resol», «Carrega i apunta», així com l'eina «Model de la muntura» es "
 "mostraran davall."
 
 # skip-rule: abbreviations-dec
@@ -7027,13 +7026,13 @@ msgstr "S'ha interromput el solucionador."
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
-"La muntura ha completat l'orientació prop del pol celeste. Torneu a capturar "
+"La muntura ha completat l'apuntament prop del pol celeste. Torneu a capturar "
 "per a verificar-ho."
 
 #: ekos/align/align_goto.cpp:174
 #, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
+msgstr "La muntura s'ha sincronitzat amb les coordenades resoltes."
 
 #: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:1010
 #, kde-format
@@ -7051,13 +7050,13 @@ msgstr ""
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
-"S'ha completat l'orientació. No s'ha assolit la precisió de l'objectiu, "
+"S'ha completat l'apuntament. No s'ha assolit la precisió de l'objectiu, "
 "s'està tornant a executar el solucionador…"
 
 #: ekos/align/align_goto.cpp:259
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
-msgstr "S'ha completat l'orientació. S'estan resolent els punts d'alineació…"
+msgstr "S'ha completat l'apuntament. S'estan resolent els punts d'alineació…"
 
 #: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
 #, kde-format
@@ -7067,7 +7066,7 @@ msgstr "No s'ha pogut sincronitzar."
 #: ekos/align/align_goto.cpp:312
 #, kde-format
 msgid "Slewing failed."
-msgstr "No s'ha pogut fer l'orientació."
+msgstr "No s'ha pogut fer l'apuntament."
 
 #: ekos/align/align_goto.cpp:343
 #, kde-format
@@ -7091,7 +7090,7 @@ msgstr ""
 #: ekos/align/align_goto.cpp:438
 #, kde-format
 msgid "Slew detected, suspend solving..."
-msgstr "S'ha detectat una orientació, se suspén la resolució…"
+msgstr "S'ha detectat un apuntament, se suspén la resolució…"
 
 #: ekos/align/align_goto.cpp:482
 #, kde-format
@@ -7101,7 +7100,7 @@ msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
 #: ekos/align/align_goto.cpp:512
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
-msgstr "Orientat cap a les coordenades de l'objectiu: AR (%1) Dec (%2)."
+msgstr "Apuntant cap a les coordenades de l'objectiu: AR (%1) Dec (%2)."
 
 #: ekos/align/align_goto.cpp:517
 #, kde-format
@@ -7109,7 +7108,7 @@ msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr ""
-"S'ha rebutjat l'orientació cap a les coordenades de l'objectiu: AR (%1) Dec "
+"S'ha rebutjat l'apuntament cap a les coordenades de l'objectiu: AR (%1) Dec "
 "(%2) (vegeu la notificació)"
 
 #: ekos/align/align_goto.cpp:574
@@ -7473,7 +7472,7 @@ msgstr "S'ha completat el solucionador remot en %1 segons."
 msgid ""
 "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5) PA (%6)"
 msgstr ""
-"Solucionador AR (%1) Dec. (%2) Orientació (%3) Escala de píxels (%4) Paritat "
+"Solucionador AR (%1) Dec. (%2) Apuntament (%3) Escala de píxels (%4) Paritat "
 "(%5) AP (%6)"
 
 #: ekos/align/align_solver.cpp:831
@@ -7491,13 +7490,13 @@ msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
-"Coordenades solucionades: AR (%1) Dec (%2) Coordenades del telescopi: AR "
-"(%3) Dec (%4) Coordenades de l'objectiu: AR (%5) Dec (%6)"
+"Coordenades resoltes: AR (%1) Dec (%2) Coordenades del telescopi: AR (%3) "
+"Dec (%4) Coordenades de l'objectiu: AR (%5) Dec (%6)"
 
 #: ekos/align/align_solver.cpp:859
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
-msgstr "L'objectiu es troba a %1 graus de les coordenades de la solució."
+msgstr "L'objectiu es troba a %1 graus de les coordenades resoltes."
 
 #: ekos/align/align_solver.cpp:917
 #, kde-format
@@ -8112,8 +8111,8 @@ msgid ""
 "mount model routine."
 msgstr ""
 "Afig una fila buida a la llista d'alineació de manera que podreu afegir "
-"manualment una AR i una Dec per a una posició cap a la qual voldríeu "
-"orientar el telescopi en fer una rutina del model de la muntura."
+"manualment una AR i una Dec per a una posició cap a la qual voldríeu apuntar-"
+"hi el telescopi en realitzar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
 #: ekos/align/mountmodel.ui:417
@@ -8124,8 +8123,8 @@ msgid ""
 "doing the mount model routine."
 msgstr ""
 "Obri el diàleg «Busca un objecte» per a seleccionar un objecte del que "
-"s'aconseguirà automàticament una AR i una Dec cap a les que voldríeu "
-"orientar el telescopi en realitzar la rutina del model de la muntura."
+"s'aconseguirà automàticament una AR i una Dec cap a les que voldríeu apuntar-"
+"hi el telescopi en realitzar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:439
@@ -8136,7 +8135,7 @@ msgid ""
 msgstr ""
 "Ordena els punts d'alineació, començant pel punt més proper a la posició "
 "actual del telescopi, per a intentar minimitzar la distància entre cada "
-"orientació."
+"apuntament."
 
 #. i18n: ectx: property (toolTip), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:464
@@ -8201,7 +8200,7 @@ msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
 "remove the flags.  The flags will not be saved."
 msgstr ""
-"Mostra els punts d'alineació en el mapa celeste com a indicadors. Quan s'hi "
+"Mostra els punts d'alineació en el mapa celest com a indicadors. Quan s'hi "
 "clique una altra vegada, s'eliminaran. Els indicadors no es guardaran."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
@@ -8214,7 +8213,7 @@ msgid ""
 "off.  If it was stopped or it had finished it will start the routine over "
 "again."
 msgstr ""
-"Inicia o fa pausa en la rutina del model de la muntura. Orientarà i resoldrà "
+"Inicia o fa pausa en la rutina del model de la muntura. Apuntarà i resoldrà "
 "l'astrometria a partir de la llista de punts de la taula anterior utilitzant "
 "la configuració en el mòdul «Alinea». Si la rutina estava en pausa "
 "prèviament, es reprendrà a on estava. Si estava parada o havia acabat, es "
@@ -8397,7 +8396,7 @@ msgstr "Opcions d'alineació"
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 "Mostra les imatges FITS rebudes davall un rectangle CDV del solucionador en "
-"el mapa celeste."
+"el mapa celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
 #: ekos/align/opsalign.ui:233
@@ -8472,7 +8471,7 @@ msgid ""
 "considered successful.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Llindar de desviació del gir, en minuts d'arc, quan "
-"s'utilitza «Carrega» i «Orienta». Si la diferència entre l'angle de posició "
+"s'utilitza «Carrega i apunta». Si la diferència entre l'angle de posició "
 "mesurat i l'angle de posició de FITS està per davall d'este valor, es "
 "considerarà que l'operació ha finalitzat amb èxit.</p></body></html>"
 
@@ -9073,7 +9072,7 @@ msgstr "4"
 msgid "Automatically update position coordinates when mount completes slewing."
 msgstr ""
 "Actualitza automàticament les coordenades de la posició en completar "
-"l'orientació de la muntura."
+"l'apuntament de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, positionWarningLabel)
 #: ekos/align/opsastrometry.ui:536
@@ -9088,15 +9087,15 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies. This is useful on some mounts (e.g. Paramount)."
 msgstr ""
-"No utilitzeu «Sincronitza» quan s'ha seleccionat «Orienta cap a l'objectiu». "
-"Utilitzeu l'orientació diferencial per a corregir les discrepàncies. Açò és "
+"No utilitzeu «Sincronitza» quan s'ha seleccionat «Apunta cap a l'objectiu». "
+"Utilitzeu l'apuntament diferencial per a corregir les discrepàncies. Açò és "
 "útil en algunes muntures (p. ex., Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
 #, kde-format
 msgid "Use differential slewing instead of syncing"
-msgstr "Utilitza l'orientació diferencial en lloc de la sincronització"
+msgstr "Utilitza l'apuntament diferencial en lloc de la sincronització"
 
 #: ekos/align/opsastrometryindexfiles.cpp:163
 #, kde-format
@@ -10832,20 +10831,20 @@ msgstr "Velocitat:"
 #: ekos/align/polaralignmentassistant.ui:162
 #, kde-format
 msgid "Mount slew speed"
-msgstr "Velocitat d'orientació de la muntura"
+msgstr "Velocitat d'apuntament de la muntura"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
 #, kde-format
 msgid "Toggle for manual slewing with non-GOTO mounts"
-msgstr "Canvia l'orientació manual amb les muntures no GOTO."
+msgstr "Canvia l'apuntament manual amb les muntures no GOTO."
 
 #. i18n: ectx: property (text), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:175
 #, kde-format
 msgid "Manual slew"
-msgstr "Orientació manual"
+msgstr "Apuntament manual"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
 #: ekos/align/polaralignmentassistant.ui:266
@@ -11098,7 +11097,7 @@ msgstr "Resol"
 #: kstarslite/qml/modules/menus/ContextMenu.qml:130
 #, kde-format, kde-kuit-format
 msgid "Slew"
-msgstr "Orientació"
+msgstr "Apunta"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
 #: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:415
@@ -15599,7 +15598,7 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
-"Orienta la muntura cap a les coordenades «Azimut» i «Altitud» abans de "
+"Apunta la muntura cap a les coordenades «Azimut» i «Altitud» abans de "
 "prendre les imatges de camp pla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
@@ -18921,9 +18920,9 @@ msgstr ""
 "CDV) respecte a la direcció d'origen del rotor. El desplaçament de la càmera "
 "es determina automàticament mitjançant <span style=\"font-weight:700;"
 "\">Captura i resol</span> o el botó <span style=\"font-weight:700;\">Carrega "
-"i orienta…</span> en el mòdul «Alinea».</p><p>El desplaçament de la càmera "
-"es mesura en l'abast de l'angle de posició (des de -179,99° fins a 180,00°)."
-"</p></body></html>"
+"i apunta…</span> en el mòdul «Alinea».</p><p>El desplaçament de la càmera es "
+"mesura en l'abast de l'angle de posició (des de -179,99° fins a 180,00°).</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
@@ -19142,20 +19141,20 @@ msgstr "La muntura està desaparcada."
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
-"S'està orientant la muntura cap a la posició de la paret (az =%1 alt =%2)"
+"S'està apuntant la muntura cap a la posició de la paret (az =%1 alt =%2)"
 
 #: ekos/capture/sequencejobstate.cpp:657
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
-"S'ha completat l'orientació cap a la posició de la paret, es para el "
+"S'ha completat l'apuntament cap a la posició de la paret, es para el "
 "seguiment."
 
 #: ekos/capture/sequencejobstate.cpp:661
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
-"S'ha completat l'orientació cap a la posició de la paret, es para el "
+"S'ha completat l'apuntament cap a la posició de la paret, es para el "
 "seguiment."
 
 #: ekos/capture/sequencejobstate.cpp:701
@@ -19334,7 +19333,7 @@ msgstr "Sincronitzeu"
 #: indi/indimount.cpp:1621
 #, kde-format
 msgid "Slewing"
-msgstr "S'està orientant"
+msgstr "S'està apuntant"
 
 #: ekos/ekos.h:140
 #, kde-format
@@ -20187,8 +20186,8 @@ msgstr ""
 "family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
 "background-color:#ffffff;\">tolerància de l'enfocament, </span>τ<span style="
 "\"font-family:'Arial','Helvetica','sans-serif'; font-size:medium; color:"
-"#000000; background-color:#ffffff;\"> com un percentatge de la qualitat de "
-"visió total.</span></p></body></html>"
+"#000000; background-color:#ffffff;\"> com un percentatge de l'estabilitat "
+"atmosfèrica total.</span></p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZTau)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
@@ -20266,7 +20265,7 @@ msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>La FWHM total de la qualitat de visió (en segons "
+"<html><head/><body><p>La FWHM total de l'estabilitat atmosfèrica (en segons "
 "d'arc).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
@@ -22372,7 +22371,7 @@ msgstr ""
 "característica experimental que requerix la instal·lació d'openCV.</li><li "
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">De Laplace</span> Utilitza l'algoritme de detecció de vores de "
+"weight:600;\">De Laplace</span> Utilitza l'algorisme de detecció de vores de "
 "Laplace. Està pensat per a camps sense estreles, p. ex., solar, d'alguna "
 "lluna o planetaris. Esta és una característica experimental que requerix la "
 "instal·lació d'openCV.</li></ul><ul style=\"margin-top:0px; margin-"
@@ -23978,8 +23977,8 @@ msgstr ""
 "guia)</li><li><span style=\"font-weight:600;\">Transmissió directa:</span> "
 "exposició d'1,0 s fins a 3,0 s</li></ul><p>Definiu un <span style=\"font-"
 "weight:600;\">horitzó artificial</span> (Configuració → Horitzó artificial) "
-"abans d'executar. El protocol farà una orientació per Alt/Az i l'utilitzarà "
-"per a triar objectius segurs.</p></body></html>"
+"abans d'executar. El protocol farà apuntaments per Alt/Az i l'utilitzarà per "
+"a triar objectius segurs.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/aiguidewizard.ui:105
@@ -24024,11 +24023,11 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Protocol de «Corona i "
-"vis sens fi» (~65 min):</span><br/>1. Orienta cap a una altitud alta: "
-"guiatge estàndard, deriva lliure i després l'ajust automàtic amb el PID "
-"(resposta al pas).<br/>2. Orienta cap a una altitud més baixa: guiatge "
-"estàndard i després la deriva lliure.<br/>3. Orienta cap a una altitud alta: "
-"guiatge estàndard i després la deriva lliure.</p></body></html>"
+"vis sens fi» (~65 min):</span><br/>1. Apunta cap a una altitud alta: guiatge "
+"estàndard, deriva lliure i després l'ajust automàtic amb el PID (resposta al "
+"pas).<br/>2. Apunta cap a una altitud més baixa: guiatge estàndard i després "
+"la deriva lliure.<br/>3. Apunta cap a una altitud alta: guiatge estàndard i "
+"després la deriva lliure.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/aiguidewizard.ui:157
@@ -24040,9 +24039,9 @@ msgid ""
 "Altitude: Free drift, then standard guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Protocol «Transmissió "
-"harmònica» (~60 min):</span><br/>1. Orienta cap a una altitud alta: guiatge "
+"harmònica» (~60 min):</span><br/>1. Apunta cap a una altitud alta: guiatge "
 "estàndard, deriva lliure i després l'ajust automàtic amb el PID (resposta al "
-"pas).<br/>2. Orienta cap a una altitud més baixa: deriva lliure i després el "
+"pas).<br/>2. Apunta cap a una altitud més baixa: deriva lliure i després el "
 "guiatge estàndard.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
@@ -24056,10 +24055,10 @@ msgid ""
 "guiding, then free drift.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Protocol de "
-"«Transmissió directa» (~30 min):</span><br/>1. Orienta cap a una altitud "
+"«Transmissió directa» (~30 min):</span><br/>1. Apunta cap a una altitud "
 "alta: guiatge estàndard, deriva lliure i després l'ajust automàtic amb el "
-"PID (resposta al pas).<br/>2. Orienta cap a una altitud més baixa: guiatge "
-"estàndard i després la deriva lliure.<br/>3. Orienta cap a una altitud alta: "
+"PID (resposta al pas).<br/>2. Apunta cap a una altitud més baixa: guiatge "
+"estàndard i després la deriva lliure.<br/>3. Apunta cap a una altitud alta: "
 "guiatge estàndard i després la deriva lliure.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
@@ -24663,7 +24662,7 @@ msgstr "S'està aparcant la muntura. S'interromp el guiatge…"
 #: ekos/guide/guide.cpp:1938
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
-msgstr "S'està orientant la muntura. S'interromp el guiatge…"
+msgstr "S'està apuntant la muntura. S'interromp el guiatge…"
 
 #: ekos/guide/guide.cpp:1951
 #, kde-format
@@ -25947,9 +25946,9 @@ msgid ""
 "algorithm in the Guide options and load a matching trained weights file to "
 "activate it."
 msgstr ""
-"Paràmetres per al sistema de guiatge experimental per predicció anticipada "
-"de la IA. Per a activar-lo, trieu l'algorisme d'IA en les opcions de «Guia» "
-"i carregueu un fitxer amb les ponderacions entrenades que coincidisca."
+"Paràmetres per al sistema de guiatge predictiu per IA, és experimental. Per "
+"a activar-lo, trieu l'algorisme d'IA en les opcions de «Guia» i carregueu un "
+"fitxer amb les ponderacions entrenades que coincidisca."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:44
@@ -26279,7 +26278,7 @@ msgstr ""
 #, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
 msgstr ""
-"Reinicia el calibratge del guiatge després de cada orientació de la muntura"
+"Reinicia el calibratge del guiatge després de cada apuntament de la muntura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:405
@@ -26293,7 +26292,7 @@ msgstr ""
 "<html><head/><body><p>Emmagatzema i intenta tornar a utilitzar els "
 "calibratges. Açò només funciona en els costats oposats del meridià si es pot "
 "determinar automàticament el costat del pilar a partir de la muntura. "
-"L'opció «Reinicialitza el guiatge quan s'oriente» de dalt ha d'estar "
+"L'opció «Reinicialitza el guiatge quan s'apunte» de dalt ha d'estar "
 "desmarcada perquè s'intente.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
@@ -27029,10 +27028,10 @@ msgstr ""
 "s'aplica la histèresi ni el guany integral.</li><li style=\"margin-top:0px; "
 "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\"font-weight:600;\">GPG</span>: (Només l'AR) "
-"L'algorisme GPG intenta predir els errors periòdics i les derivacions "
-"lineals. Utilitza agressivitat, uns paràmetres mínims i màxims d'ací i més "
-"paràmetres en la pestanya «GPG» separada. La histèresi i el guany integral "
-"no s'apliquen.</li></ul></body></html>"
+"L'algorisme GPG intenta predir els errors periòdics i les derives lineals. "
+"Utilitza agressivitat, uns paràmetres mínims i màxims d'ací i més paràmetres "
+"en la pestanya «GPG» independent. La histèresi i el guany integral no "
+"s'apliquen.</li></ul></body></html>"
 
 # skip-rule: t-2p_sp
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
@@ -27087,7 +27086,7 @@ msgstr ""
 "li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">GPG</span>: L'algorisme GPG intenta predir els errors "
-"periòdics i les derivacions lineals. Utilitza agressivitat, uns paràmetres "
+"periòdics i les derives lineals. Utilitza agressivitat, uns paràmetres "
 "mínims i màxims d'ací i més paràmetres en la pestanya «GPG» separada. La "
 "histèresi i el guany integral no s'apliquen.</li></ul></body></html>"
 
@@ -28124,7 +28123,7 @@ msgstr "Inversió del meridià inactiva (no s'ha establit cap objectiu)"
 #: ekos/manager/meridianflipstate.cpp:198
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
-msgstr "Inversió del meridià inactiva (orienta després del meridià)"
+msgstr "Inversió del meridià inactiva (apunta després del meridià)"
 
 #: ekos/manager/meridianflipstate.cpp:214
 #, kde-format
@@ -28451,8 +28450,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Activa o desactiva el límit d'angle horari de la "
 "muntura. Una vegada activat, Ekos vigilarà l'angle horari de la muntura "
-"mentre s'orienta o seguix. Si la muntura s'orienta o seguix passat este "
-"límit mentre el costat del pilar està en un estat que no ho permet, "
+"mentre s'apunta o seguix. Si la muntura fa apuntaments o seguiments passat "
+"este límit mentre el costat del pilar està en un estat que no ho permet, "
 "s'ordenarà que es pare i es desactivarà el seguiment. Requerix una muntura "
 "que informe correctament del costat del pilar.</p></body></html>"
 
@@ -28479,9 +28478,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Activa o desactiva els límits de l'interval per al "
 "recorregut de la muntura. Una vegada activat, Ekos vigilarà l'altitud de la "
-"muntura mentre s'orienta o seguix. Si la muntura orienta o seguix per davall "
-"o per damunt del límit, s'ordenarà que es pare i el seguiment es desactivarà."
-"</p></body></html>"
+"muntura mentre s'apunta o seguix. Si la muntura fa apuntaments o seguiments "
+"per davall o per damunt del límit, s'ordenarà que es pare i el seguiment es "
+"desactivarà.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:344
@@ -30924,7 +30923,7 @@ msgstr "Importa…"
 #: ekos/scheduler/framingassistant.ui:990
 #, kde-format
 msgid "Reset mosaic center to sky map center"
-msgstr "Restablix el centre del mosaic al centre del mapa celeste."
+msgstr "Restablix el centre del mosaic al centre del mapa celest."
 
 #. i18n: ectx: property (text), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:993
@@ -30965,7 +30964,7 @@ msgid ""
 "center of the mosaic on the sky map."
 msgstr ""
 "Ajusta el centre de la quadrícula introduint manualment el centre J2000 o "
-"arrossegant el centre del mosaic en el mapa celeste."
+"arrossegant el centre del mosaic en el mapa celest."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToSelectGrid)
@@ -31086,7 +31085,7 @@ msgstr "M 31"
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr ""
-"Orienta cap a l'objectiu i fes el seguiment abans de continuar amb el pas "
+"Apunta cap a l'objectiu i fes el seguiment abans de continuar amb el pas "
 "següent."
 
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
@@ -32037,7 +32036,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:2490
 #, kde-format
 msgid "Slew complete"
-msgstr "S'ha completat l'orientació"
+msgstr "S'ha completat l'apuntament"
 
 #: ekos/scheduler/scheduler.cpp:2494
 #, kde-format
@@ -32111,7 +32110,7 @@ msgid ""
 msgstr ""
 "Trieu el fitxer FITS opcional que s'utilitzarà per a l'alineació. Si "
 "s'utilitza FITS, especifiqueu l'objecte o les coordenades estimades que "
-"s'utilitzaran per a orientar la muntura."
+"s'utilitzaran per a apuntar la muntura."
 
 #. i18n: ectx: property (text), widget (QLabel, FITSLabel)
 #: ekos/scheduler/scheduler.ui:149
@@ -32134,7 +32133,7 @@ msgstr ""
 #, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr ""
-"Orienta cap a l'objectiu i fes el seguiment. Es fa al començament de cada "
+"Apunta cap a l'objectiu i fes el seguiment. Es fa al començament de cada "
 "tasca del programador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAlignStep)
@@ -32191,7 +32190,7 @@ msgstr "AP"
 #: ekos/scheduler/scheduler.ui:338
 #, kde-format
 msgid "Fill coordinates with Sky Map center"
-msgstr "Emplena les coordenades amb el centre del mapa celeste."
+msgstr "Emplena les coordenades amb el centre del mapa celest."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, groupLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
@@ -33022,12 +33021,12 @@ msgstr ""
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr ""
 "La muntura es troba aparcada, s'afig una tasca de desaparcament abans de "
-"l'orientació."
+"l'apuntament."
 
 #: ekos/scheduler/schedulerprocess.cpp:1009
 #, kde-format
 msgid "Job '%1' is slewing to target."
-msgstr "La tasca «%1» està orientant cap a l'objectiu."
+msgstr "La tasca «%1» està apuntant cap a l'objectiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:1090
 #, kde-format
@@ -33035,7 +33034,7 @@ msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
 msgstr ""
-"Avís: la tasca «%1» no pot continuar amb l'enfocament automàtic al tren "
+"Avís: la tasca «%1» no pot continuar amb l'enfocament automàtic en el tren "
 "«%2», no està implementat."
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
@@ -33629,19 +33628,19 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4027
 #, kde-format
 msgid "Job '%1' slew is complete."
-msgstr "S'ha completat l'orientació de la tasca «%1»."
+msgstr "S'ha completat l'apuntament de la tasca «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:4033
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
-"Avís: la tasca «%1» d'orientació ha fallat, i es marca com a finalitzada a "
+"Avís: la tasca «%1» d'apuntament ha fallat, i es marca com a finalitzada a "
 "causa d'errors."
 
 #: ekos/scheduler/schedulerprocess.cpp:4039
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
-msgstr "Avís: la tasca «%1» no ha trobat cap orientació, es reinicia."
+msgstr "Avís: la tasca «%1» no ha trobat cap apuntament, es reinicia."
 
 #: ekos/scheduler/schedulerprocess.cpp:4052
 #, kde-format
@@ -35433,7 +35432,7 @@ msgstr "Aplica"
 #: fitsviewer/fitslabel.cpp:399 tools/whatsinteresting/wiview.cpp:336
 #, kde-format
 msgid "Continue Slew"
-msgstr "Continua l'orientació"
+msgstr "Continua l'apuntament"
 
 #: fitsviewer/fitslabel.cpp:484 fitsviewer/fitslabel.cpp:511
 #, kde-format
@@ -38298,7 +38297,7 @@ msgstr ""
 "weight:600;\">WCS automàtic</span>: No es processaran les dades del Sistema "
 "de Coordenades Mundial «World Coordinate System». El WCS mapa les "
 "coordenades celestes a coordenades de les imatges. Es desactiven les línies "
-"de la quadrícula equatorial, la identificació d'objectes, i l'orientació del "
+"de la quadrícula equatorial, la identificació d'objectes, i l'apuntament del "
 "telescopi en una imatge.</li><li style=\"margin-top:0px;margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0;text-indent:0px;"
 "\"><span style=\"font-weight:600;\">Cub en 3D</span>: Les imatges RGB no es "
@@ -38336,12 +38335,11 @@ msgid ""
 "unpredictable behavior resulting in crashes on slower machines.</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Carrega automàticament les dades del Sistema de "
-"Coordenades Mundials «World-Coordinate-System» (WCS) mentre s'obria un "
-"fitxer FITS.</p><p><span style=\"font-weight:600;\">Avís: Trieu esta opció "
-"només en màquines molt ràpides, ja que pot portar a un comportament "
-"impredictible que provoque fallades en màquines lentes.</span></p></body></"
-"html>"
+"<html><head/><body><p>Carrega automàticament les dades del sistema de "
+"coordenades mundial (WCS) mentre s'obria un fitxer FITS.</p><p><span style="
+"\"font-weight:600;\">Avís: Trieu esta opció només en màquines molt ràpides, "
+"ja que pot portar a un comportament impredictible que provoque fallades en "
+"màquines lentes.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:397
@@ -38395,7 +38393,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Trieu un catàleg a utilitzar-lo per a identificar els "
-"objectes en la imatge. El valor predeterminat és el mapa celeste intern. Els "
+"objectes en la imatge. El valor predeterminat és el mapa celest intern. Els "
 "catàlegs externs requerixen WCS i accés a Internet.</p><p><span style=\"font-"
 "weight:600;\">Avís: La consulta de catàlegs externs pot ser lenta en "
 "màquines lentes.</span></p></body></html>"
@@ -38411,7 +38409,7 @@ msgstr "Catàleg d'objectes:"
 #: fitsviewer/opsfits.ui:440 indi/opsindi.ui:204 kstarslite/qml/main.qml:162
 #, kde-format, kde-kuit-format
 msgid "Sky Map"
-msgstr "Mapa celeste"
+msgstr "Mapa celest"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:455
@@ -38577,7 +38575,7 @@ msgid ""
 "Set the approximate RA/DEC positions using the center position of the SkyMap."
 msgstr ""
 "Establix les posicions aproximades AR/Dec utilitzant la posició central del "
-"mapa celeste."
+"mapa celest."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
@@ -39679,7 +39677,7 @@ msgstr "S'està movent"
 #: indi/indimount.cpp:253
 #, kde-format
 msgid "Mount is slewing to target location"
-msgstr "La muntura s'està orientant cap a la ubicació de l'objectiu"
+msgstr "La muntura s'està apuntant cap a la ubicació de l'objectiu"
 
 #: indi/indimount.cpp:268
 #, kde-format
@@ -39930,7 +39928,7 @@ msgstr "Carpeta predeterminada de FITS:"
 #: indi/opsindi.ui:222
 #, kde-format
 msgid "External Sky Map (experimental)"
-msgstr "Mapa celeste extern (experimental)"
+msgstr "Mapa celest extern (experimental)"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
@@ -39966,7 +39964,7 @@ msgstr "Fins al port:"
 #: indi/opsindi.ui:376
 #, kde-format
 msgid "Display the telescope position on the sky map"
-msgstr "Mostra la posició del telescopi sobre el mapa celeste."
+msgstr "Mostra la posició del telescopi sobre el mapa celest."
 
 #. i18n: ectx: property (statusTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_showTargetCrosshair)
@@ -39976,7 +39974,7 @@ msgid ""
 "Display a telescope marker on the sky map in order to track the telescope "
 "motion across the sky."
 msgstr ""
-"Mostra una marca de telescopi en el mapa celeste per tal de seguir el "
+"Mostra una marca de telescopi en el mapa celest per tal de seguir el "
 "moviment del telescopi a través del cel."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showTargetCrosshair)
@@ -41100,7 +41098,7 @@ msgstr ""
 #: kstars.kcfg:101
 #, kde-format
 msgid "Display CCD sensor angular size on the sky map?"
-msgstr "Voleu que es mostre la mida angular del sensor CCD en el mapa celeste?"
+msgstr "Voleu que es mostre la mida angular del sensor CCD en el mapa celest?"
 
 #. i18n: ectx: label, entry (WindowWidth), group (GUI)
 #: kstars.kcfg:105
@@ -41191,7 +41189,7 @@ msgid ""
 msgstr ""
 "Els noms dels objectes introduïts en el diàleg «Busca» es resolen emprant "
 "els serveis en línia i s'emmagatzemen en la base de dades. Esta opció també "
-"activa i desactiva la visualització dels objectes resolts en el mapa celeste."
+"activa i desactiva la visualització dels objectes resolts en el mapa celest."
 
 #. i18n: ectx: label, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:145
@@ -41278,7 +41276,7 @@ msgstr ""
 msgid "Draw crosshairs at telescope position in the sky map?"
 msgstr ""
 "Voleu que es dibuixe un punt de mira en la posició del telescopi sobre el "
-"mapa celeste?"
+"mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (showTargetCrosshair), group (indi)
 #: kstars.kcfg:196
@@ -41288,7 +41286,7 @@ msgid ""
 "KStars sky map."
 msgstr ""
 "Canvia la visualització del punt de mira centrat a la posició apuntada pel "
-"telescopi en el mapa celeste de KStars."
+"telescopi en el mapa celest de KStars."
 
 #. i18n: ectx: label, entry (showINDIMessages), group (indi)
 #: kstars.kcfg:200
@@ -41352,8 +41350,8 @@ msgstr "Font mestra per a l'emplaçament (KStars, Mount o dispositiu INDI)"
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
-"Utilitza un programari de planetari extern per a controlar les orientacions "
-"i les sincronitzacions de les muntures."
+"Utilitza un programari de planetari extern per a controlar els apuntaments i "
+"les sincronitzacions de les muntures."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:232
@@ -41619,7 +41617,7 @@ msgstr ""
 #, kde-format
 msgid "Use animated slewing effects when changing focus position?"
 msgstr ""
-"Voleu que s'utilitzen efectes de transició animada quan es canvie la posició "
+"Voleu que s'utilitzen efectes de moviment animat quan es canvie la posició "
 "d'enfocament?"
 
 #. i18n: ectx: whatsthis, entry (UseAnimatedSlewing), group (View)
@@ -41646,20 +41644,20 @@ msgid ""
 "If true, clicking on the skymap will select the closest object and "
 "highlights it."
 msgstr ""
-"Si es tria, clicant damunt del mapa celeste se seleccionarà i es ressaltarà "
+"Si es tria, clicant damunt del mapa celest se seleccionarà i es ressaltarà "
 "l'objecte més proper."
 
 #. i18n: ectx: label, entry (DefaultCursor), group (View)
 #: kstars.kcfg:376
 #, kde-format
 msgid "Select default Skymap cursor?"
-msgstr "Voleu seleccionar el cursor predeterminat del mapa celeste?"
+msgstr "Voleu seleccionar el cursor predeterminat del mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (DefaultCursor), group (View)
 #: kstars.kcfg:377
 #, kde-format
 msgid "Type of cursor when exploring the sky map."
-msgstr "Tipus de cursor en explorar el mapa celeste."
+msgstr "Tipus de cursor en explorar el mapa celest."
 
 #. i18n: ectx: label, entry (FOVNames), group (View)
 #: kstars.kcfg:381
@@ -41707,7 +41705,7 @@ msgid ""
 "The right ascension of the initial focus position of the sky map, in decimal "
 "hours. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"L'ascensió recta de la posició inicial de l'enfocament del mapa celeste, en "
+"L'ascensió recta de la posició inicial de l'enfocament del mapa celest, en "
 "hores decimals. Este valor és volàtil; es restablix quan el programa s'apaga."
 
 #. i18n: ectx: label, entry (FocusDec), group (View)
@@ -41723,7 +41721,7 @@ msgid ""
 "The declination of the initial focus position of the sky map, in decimal "
 "degrees. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"La declinació de la posició inicial de l'enfocament del mapa celeste, en "
+"La declinació de la posició inicial de l'enfocament del mapa celest, en "
 "graus decimals. Este valor és volàtil; es restablix quan el programa s'apaga."
 
 #. i18n: ectx: label, entry (FocusObject), group (View)
@@ -41757,8 +41755,8 @@ msgid ""
 "True if the skymap should track on its initial position on startup. This "
 "value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"Cert si el mapa celeste ha de seguir la seua posició inicial en iniciar. "
-"Este valor és volàtil. Es restablirà quan s'apaga el programa."
+"Cert si el mapa celest ha de seguir la seua posició inicial en iniciar. Este "
+"valor és volàtil. Es restablirà quan s'apaga el programa."
 
 #. i18n: ectx: label, entry (HideOnSlew), group (View)
 #: kstars.kcfg:411
@@ -41945,19 +41943,19 @@ msgstr ""
 #: kstars.kcfg:466
 #, kde-format
 msgid "Draw asteroids in the sky map?"
-msgstr "Voleu que es dibuixen els asteroides en el mapa celeste?"
+msgstr "Voleu que es dibuixen els asteroides en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowAsteroids), group (View)
 #: kstars.kcfg:467
 #, kde-format
 msgid "Toggle whether asteroids are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran els asteroides en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els asteroides en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:471
 #, kde-format
 msgid "Label asteroid names in the sky map?"
-msgstr "Voleu que es mostren els noms dels asteroides en el mapa celeste?"
+msgstr "Voleu que es mostren els noms dels asteroides en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:472
@@ -41965,7 +41963,7 @@ msgstr "Voleu que es mostren els noms dels asteroides en el mapa celeste?"
 msgid "Toggle whether asteroid name labels are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran les etiquetes dels noms dels asteroides en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (OrbitalElementsAutoUpdate), group (View)
 #: kstars.kcfg:476
@@ -41981,31 +41979,31 @@ msgstr ""
 #: kstars.kcfg:480
 #, kde-format
 msgid "Draw comets in the sky map?"
-msgstr "Voleu que es dibuixen els cometes en el mapa celeste?"
+msgstr "Voleu que es dibuixen els cometes en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowComets), group (View)
 #: kstars.kcfg:481
 #, kde-format
 msgid "Toggle whether comets are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran els cometes en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els cometes en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowCometComas), group (View)
 #: kstars.kcfg:485
 #, kde-format
 msgid "Draw comet comas in the sky map?"
-msgstr "Voleu que es dibuixen les comes dels cometes en el mapa celeste?"
+msgstr "Voleu que es dibuixen les comes dels cometes en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowCometComas), group (View)
 #: kstars.kcfg:486
 #, kde-format
 msgid "Toggle whether comet comas are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran les comes dels cometes en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les comes dels cometes en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowCometNames), group (View)
 #: kstars.kcfg:490
 #, kde-format
 msgid "Label comet names in the sky map?"
-msgstr "Voleu que es mostren els noms dels cometes en el mapa celeste?"
+msgstr "Voleu que es mostren els noms dels cometes en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowCometNames), group (View)
 #: kstars.kcfg:491
@@ -42013,25 +42011,25 @@ msgstr "Voleu que es mostren els noms dels cometes en el mapa celeste?"
 msgid "Toggle whether comet name labels are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran les etiquetes de nom per als cometes en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:495
 #, kde-format
 msgid "Draw supernovae in the sky map?"
-msgstr "Voleu que es dibuixen les supernoves en el mapa celeste?"
+msgstr "Voleu que es dibuixen les supernoves en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:496
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran les supernoves en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les supernoves en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:500
 #, kde-format
 msgid "Label Supernova Names in the sky map?"
-msgstr "Voleu que es mostren els noms de les supernoves en el mapa celeste?"
+msgstr "Voleu que es mostren els noms de les supernoves en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:501
@@ -42039,15 +42037,14 @@ msgstr "Voleu que es mostren els noms de les supernoves en el mapa celeste?"
 msgid "Toggle whether supernova name labels are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran les etiquetes de nom per a les supernoves en el "
-"mapa celeste."
+"mapa celest."
 
 #. i18n: ectx: label, entry (MagnitudeLimitShowSupernovae), group (View)
 #: kstars.kcfg:505
 #, kde-format
 msgid "Set magnitude limit for supernovae to be shown on the skymap"
 msgstr ""
-"Establix el llindar de magnitud per a mostrar una supernova en el mapa "
-"celeste"
+"Establix el llindar de magnitud per a mostrar una supernova en el mapa celest"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitShowSupernovae), group (View)
 #: kstars.kcfg:506
@@ -42055,7 +42052,7 @@ msgstr ""
 msgid "Set magnitude limit for supernovae to be shown on the skymap."
 msgstr ""
 "Establix el llindar de magnitud per a mostrar una supernova en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (SupernovaDetectionAge), group (View)
 #. i18n: ectx: label, entry (SupernovaDownloadUrl), group (View)
@@ -42139,7 +42136,7 @@ msgstr "Establix el llindar de magnitud per a alertar o no de les supernoves."
 #, kde-format
 msgid "Draw constellation boundaries in the sky map?"
 msgstr ""
-"Voleu que es dibuixen els límits de les constel·lacions en el mapa celeste?"
+"Voleu que es dibuixen els límits de les constel·lacions en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowCBounds), group (View)
 #: kstars.kcfg:547
@@ -42147,7 +42144,7 @@ msgstr ""
 msgid "Toggle whether constellation boundaries are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran els límits de les constel·lacions en el mapa "
-"celeste."
+"celest."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: label, entry (ShowHighlightedCBound), group (View)
@@ -42155,7 +42152,7 @@ msgstr ""
 #, kde-format
 msgid "Highlight the central constellation boundary in the sky map?"
 msgstr ""
-"Voleu que es ressalte en el mapa celeste el límit de la constel·lació "
+"Voleu que es ressalte en el mapa celest el límit de la constel·lació "
 "centrada?"
 
 #. i18n: ectx: whatsthis, entry (ShowHighlightedCBound), group (View)
@@ -42166,14 +42163,14 @@ msgid ""
 "highlighted in the sky map."
 msgstr ""
 "Canvia quan es ressaltarà el límit de la constel·lació que conté el punt "
-"d'enfocament en el mapa celeste."
+"d'enfocament en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowCLines), group (View)
 #: kstars.kcfg:556
 #, kde-format
 msgid "Draw constellation lines in the sky map?"
 msgstr ""
-"Voleu que es dibuixen les línies de les constel·lacions en el mapa celeste?"
+"Voleu que es dibuixen les línies de les constel·lacions en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowCLines), group (View)
 #: kstars.kcfg:557
@@ -42181,27 +42178,27 @@ msgstr ""
 msgid "Toggle whether constellation lines are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran les línies de les constel·lacions en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (ShowConstellationArt), group (View)
 #: kstars.kcfg:561
 #, kde-format
 msgid "Draw constellation art in the sky map?"
-msgstr "Voleu que es dibuixe l'art de les constel·lacions en el mapa celeste?"
+msgstr "Voleu que es dibuixe l'art de les constel·lacions en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowConstellationArt), group (View)
 #: kstars.kcfg:562
 #, kde-format
 msgid "Toggle whether constellation art drawn in the sky map."
 msgstr ""
-"Canvia quan es dibuixarà l'art de les constel·lacions en el mapa celeste."
+"Canvia quan es dibuixarà l'art de les constel·lacions en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowCNames), group (View)
 #: kstars.kcfg:566
 #, kde-format
 msgid "Draw constellation names in the sky map?"
 msgstr ""
-"Voleu que es dibuixen els noms de les constel·lacions en el mapa celeste?"
+"Voleu que es dibuixen els noms de les constel·lacions en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowCNames), group (View)
 #: kstars.kcfg:567
@@ -42209,45 +42206,44 @@ msgstr ""
 msgid "Toggle whether constellation name labels are drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixaran les etiquetes de nom per a les constel·lacions en "
-"el mapa celeste."
+"el mapa celest."
 
 #. i18n: ectx: label, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:571
 #, kde-format
 msgid "Draw \"deep sky\" objects in the sky map?"
-msgstr ""
-"Voleu que es dibuixen els objectes de «cel profund» en el mapa celeste?"
+msgstr "Voleu que es dibuixen els objectes de «cel profund» en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:572
 #, kde-format
 msgid "Toggle whether deep-sky objects are drawn in the sky map."
 msgstr ""
-"Canvia quan es dibuixaran els objectes del cel profund en el mapa celeste."
+"Canvia quan es dibuixaran els objectes del cel profund en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:576
 #, kde-format
 msgid "Draw ecliptic line in the sky map?"
-msgstr "Voleu que es dibuixe la línia de l'eclíptica en el mapa celeste?"
+msgstr "Voleu que es dibuixe la línia de l'eclíptica en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:577
 #, kde-format
 msgid "Toggle whether the ecliptic line is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà la línia de l'eclíptica en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'eclíptica en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowEquator), group (View)
 #: kstars.kcfg:581
 #, kde-format
 msgid "Draw equator line in the sky map?"
-msgstr "Voleu que es dibuixe la línia de l'equador en el mapa celeste?"
+msgstr "Voleu que es dibuixe la línia de l'equador en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquator), group (View)
 #: kstars.kcfg:582
 #, kde-format
 msgid "Toggle whether the equator line is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà la línia de l'equador en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'equador en el mapa celest."
 
 #. i18n: ectx: label, entry (AutoSelectGrid), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoSelectGrid)
@@ -42273,7 +42269,7 @@ msgstr ""
 msgid "Draw equatorial coordinate grid in the sky map?"
 msgstr ""
 "Voleu que es dibuixe la quadrícula de coordenades equatorials en el mapa "
-"celeste?"
+"celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquatorialGrid), group (View)
 #: kstars.kcfg:592
@@ -42281,7 +42277,7 @@ msgstr ""
 msgid "Toggle whether the equatorial coordinate grid is drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixarà la quadrícula de coordenades equatorials en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:596
@@ -42289,7 +42285,7 @@ msgstr ""
 msgid "Draw horizontal coordinate grid in the sky map?"
 msgstr ""
 "Voleu que es dibuixe la quadrícula de coordenades horitzontals en el mapa "
-"celeste?"
+"celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:597
@@ -42297,26 +42293,25 @@ msgstr ""
 msgid "Toggle whether the horizontal coordinate grid is drawn in the sky map."
 msgstr ""
 "Canvia quan es dibuixarà la quadrícula de coordenades horitzontals en el "
-"mapa celeste."
+"mapa celest."
 
 #. i18n: ectx: label, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:601
 #, kde-format
 msgid "Draw local meridian line in the sky map?"
-msgstr "Voleu que es dibuixe la línia del meridià local en el mapa celeste?"
+msgstr "Voleu que es dibuixe la línia del meridià local en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:602
 #, kde-format
 msgid "Toggle whether the local meridian line is drawn in the sky map."
-msgstr ""
-"Canvia quan es dibuixarà la línia del meridià local en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia del meridià local en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowGround), group (View)
 #: kstars.kcfg:606
 #, kde-format
 msgid "Draw opaque ground in the sky map?"
-msgstr "Voleu que es dibuixe el terra opac en el mapa celeste?"
+msgstr "Voleu que es dibuixe el terra opac en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowGround), group (View)
 #: kstars.kcfg:607
@@ -42328,25 +42323,25 @@ msgstr "Canvia quan es farà opaca la regió davall l'horitzó."
 #: kstars.kcfg:611
 #, kde-format
 msgid "Draw horizon line in the sky map?"
-msgstr "Voleu que es dibuixe la línia de l'horitzó en el mapa celeste?"
+msgstr "Voleu que es dibuixe la línia de l'horitzó en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowHorizon), group (View)
 #: kstars.kcfg:612
 #, kde-format
 msgid "Toggle whether the horizon line is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà la línia de l'horitzó en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'horitzó en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowFlags), group (View)
 #: kstars.kcfg:616
 #, kde-format
 msgid "Draw flags in the sky map?"
-msgstr "Voleu que es dibuixen els indicadors en el mapa celeste?"
+msgstr "Voleu que es dibuixen els indicadors en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowFlags), group (View)
 #: kstars.kcfg:617
 #, kde-format
 msgid "Toggle whether flags are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran els indicadors en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els indicadors en el mapa celest."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:621
@@ -42366,26 +42361,26 @@ msgstr "Si està marcada, el cel serà brillant durant les hores diürnes."
 msgid "Draw extra deep-sky objects in the sky map?"
 msgstr ""
 "Voleu que es dibuixen els objectes addicionals del cel profund en el mapa "
-"celeste?"
+"celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowOther), group (View)
 #: kstars.kcfg:627
 #, kde-format
 msgid "Toggle whether extra objects are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran els objectes addicionals en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els objectes addicionals en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowMilkyWay), group (View)
 #: kstars.kcfg:631
 #, kde-format
 msgid "Draw Milky Way contour in the sky map?"
-msgstr "Voleu que es dibuixe el contorn de la Via Làctia en el mapa celeste?"
+msgstr "Voleu que es dibuixe el contorn de la Via Làctia en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowMilkyWay), group (View)
 #: kstars.kcfg:632
 #, kde-format
 msgid "Toggle whether the Milky Way contour is drawn in the sky map."
 msgstr ""
-"Canvia quan es dibuixarà el contorn de la Via Làctia en el mapa celeste."
+"Canvia quan es dibuixarà el contorn de la Via Làctia en el mapa celest."
 
 #. i18n: ectx: label, entry (FillMilkyWay), group (View)
 #: kstars.kcfg:636
@@ -42409,7 +42404,7 @@ msgstr ""
 #: kstars.kcfg:641
 #, kde-format
 msgid "Meta-option for all planets in the sky map."
-msgstr "Meta-opció per a tots els planetes en el mapa celeste."
+msgstr "Meta-opció per a tots els planetes en el mapa celest."
 
 #. i18n: ectx: whatsthis, entry (ShowSolarSystem), group (View)
 #: kstars.kcfg:642
@@ -42419,13 +42414,13 @@ msgid ""
 "drawn in the sky map."
 msgstr ""
 "Meta-opció per a controlar si es dibuixen o no tots els planetes principals "
-"(i el Sol i la Lluna) en el mapa celeste."
+"(i el Sol i la Lluna) en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:646
 #, kde-format
 msgid "Draw planets as images in the sky map?"
-msgstr "Voleu que es dibuixen els planetes com a imatges en el mapa celeste?"
+msgstr "Voleu que es dibuixen els planetes com a imatges en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:647
@@ -42435,13 +42430,13 @@ msgid ""
 "in the sky map."
 msgstr ""
 "Canvia quan s'hauran de renderitzar els planetes principals (inclosos el Sol "
-"i la Lluna) com a imatges en el mapa celeste."
+"i la Lluna) com a imatges en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:651
 #, kde-format
 msgid "Label planet names in the sky map?"
-msgstr "Voleu que es mostren els noms dels planetes en el mapa celeste?"
+msgstr "Voleu que es mostren els noms dels planetes en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:652
@@ -42451,19 +42446,19 @@ msgid ""
 "map."
 msgstr ""
 "Canvia quan s'hauran d'etiquetar els planetes principals (inclosos el Sol i "
-"la Lluna) en el mapa celeste."
+"la Lluna) en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowSun), group (View)
 #: kstars.kcfg:656
 #, kde-format
 msgid "Draw Sun in the sky map?"
-msgstr "Voleu que es dibuixe el Sol en el mapa celeste?"
+msgstr "Voleu que es dibuixe el Sol en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowSun), group (View)
 #: kstars.kcfg:657
 #, kde-format
 msgid "Toggle whether the Sun is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà el Sol en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el Sol en el mapa celest."
 
 #. i18n: ectx: label, entry (SunScale), group (View)
 #: kstars.kcfg:661
@@ -42475,13 +42470,13 @@ msgstr "Augmenta la mida del Sol segons este factor."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Draw Moon in the sky map?"
-msgstr "Voleu que es dibuixe la Lluna en el mapa celeste?"
+msgstr "Voleu que es dibuixe la Lluna en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowMoon), group (View)
 #: kstars.kcfg:666
 #, kde-format
 msgid "Toggle whether the Moon is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà la Lluna en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la Lluna en el mapa celest."
 
 #. i18n: ectx: label, entry (MoonScale), group (View)
 #: kstars.kcfg:670
@@ -42493,115 +42488,115 @@ msgstr "Augmenta la mida de la Lluna segons este factor."
 #: kstars.kcfg:674
 #, kde-format
 msgid "Draw Mercury in the sky map?"
-msgstr "Voleu que es dibuixe Mercuri en el mapa celeste?"
+msgstr "Voleu que es dibuixe Mercuri en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowMercury), group (View)
 #: kstars.kcfg:675
 #, kde-format
 msgid "Toggle whether Mercury is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Mercuri en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Mercuri en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowVenus), group (View)
 #: kstars.kcfg:679
 #, kde-format
 msgid "Draw Venus in the sky map?"
-msgstr "Voleu que es dibuixe Venus en el mapa celeste?"
+msgstr "Voleu que es dibuixe Venus en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowVenus), group (View)
 #: kstars.kcfg:680
 #, kde-format
 msgid "Toggle whether Venus is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Venus en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Venus en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowMars), group (View)
 #: kstars.kcfg:684
 #, kde-format
 msgid "Draw Mars in the sky map?"
-msgstr "Voleu que es dibuixe Mart en el mapa celeste?"
+msgstr "Voleu que es dibuixe Mart en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowMars), group (View)
 #: kstars.kcfg:685
 #, kde-format
 msgid "Toggle whether Mars is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Mart en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Mart en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowJupiter), group (View)
 #: kstars.kcfg:689
 #, kde-format
 msgid "Draw Jupiter in the sky map?"
-msgstr "Voleu que es dibuixe Júpiter en el mapa celeste?"
+msgstr "Voleu que es dibuixe Júpiter en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowJupiter), group (View)
 #: kstars.kcfg:690
 #, kde-format
 msgid "Toggle whether Jupiter is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Júpiter en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Júpiter en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowSaturn), group (View)
 #: kstars.kcfg:694
 #, kde-format
 msgid "Draw Saturn in the sky map?"
-msgstr "Voleu que es dibuixe Saturn en el mapa celeste?"
+msgstr "Voleu que es dibuixe Saturn en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowSaturn), group (View)
 #: kstars.kcfg:695
 #, kde-format
 msgid "Toggle whether Saturn is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Saturn en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Saturn en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowUranus), group (View)
 #: kstars.kcfg:699
 #, kde-format
 msgid "Draw Uranus in the sky map?"
-msgstr "Voleu que es dibuixe Urà en el mapa celeste?"
+msgstr "Voleu que es dibuixe Urà en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowUranus), group (View)
 #: kstars.kcfg:700
 #, kde-format
 msgid "Toggle whether Uranus is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Urà en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Urà en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowNeptune), group (View)
 #: kstars.kcfg:704
 #, kde-format
 msgid "Draw Neptune in the sky map?"
-msgstr "Voleu que es dibuixe Neptú en el mapa celeste?"
+msgstr "Voleu que es dibuixe Neptú en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowNeptune), group (View)
 #: kstars.kcfg:705
 #, kde-format
 msgid "Toggle whether Neptune is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Neptú en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Neptú en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowPluto), group (View)
 #: kstars.kcfg:709
 #, kde-format
 msgid "Draw Pluto in the sky map?"
-msgstr "Voleu que es dibuixe Plutó en el mapa celeste?"
+msgstr "Voleu que es dibuixe Plutó en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowPluto), group (View)
 #: kstars.kcfg:710
 #, kde-format
 msgid "Toggle whether Pluto is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà Plutó en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Plutó en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowStars), group (View)
 #: kstars.kcfg:714
 #, kde-format
 msgid "Draw stars in the sky map?"
-msgstr "Voleu que es dibuixen les estreles en el mapa celeste?"
+msgstr "Voleu que es dibuixen les estreles en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowStars), group (View)
 #: kstars.kcfg:715
 #, kde-format
 msgid "Toggle whether stars are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran les estreles en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les estreles en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:719
 #, kde-format
 msgid "Label star magnitudes in the sky map?"
-msgstr "Voleu que es mostren les magnituds de les estreles en el mapa celeste?"
+msgstr "Voleu que es mostren les magnituds de les estreles en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:720
@@ -42609,7 +42604,7 @@ msgstr "Voleu que es mostren les magnituds de les estreles en el mapa celeste?"
 msgid ""
 "Toggle whether star magnitude (brightness) labels are shown in the sky map."
 msgstr ""
-"Canvia quan es mostraran en el mapa celeste les etiquetes de la magnitud "
+"Canvia quan es mostraran en el mapa celest les etiquetes de la magnitud "
 "(brillantor) de les estreles."
 
 #. i18n: ectx: label, entry (ShowStarsOverHIPS), group (View)
@@ -42623,7 +42618,7 @@ msgstr "Visualitza el catàleg d'estreles quan es mostre HiPS."
 #: kstars.kcfg:729
 #, kde-format
 msgid "Label star names in the sky map?"
-msgstr "Voleu que es mostren els noms de les estreles en el mapa celeste?"
+msgstr "Voleu que es mostren els noms de les estreles en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarNames), group (View)
 #: kstars.kcfg:730
@@ -42631,7 +42626,7 @@ msgstr "Voleu que es mostren els noms de les estreles en el mapa celeste?"
 msgid "Toggle whether star name labels are shown in the sky map."
 msgstr ""
 "Canvia quan es mostraran les etiquetes de nom per a les estreles en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: label, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:734
@@ -42639,7 +42634,7 @@ msgstr ""
 msgid "Label deep-sky object magnitudes in the sky map?"
 msgstr ""
 "Voleu que s'etiquetin les magnituds dels objectes del cel profund en el mapa "
-"celeste?"
+"celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:735
@@ -42648,14 +42643,14 @@ msgid ""
 "Toggle whether deep-sky object magnitude (brightness) labels are shown in "
 "the sky map."
 msgstr ""
-"Canvia quan es mostraran en el mapa celeste les etiquetes de les magnituds "
+"Canvia quan es mostraran en el mapa celest les etiquetes de les magnituds "
 "(brillantor) dels objectes del cel profund."
 
 #. i18n: ectx: label, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:739
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Voleu que s'etiquetin els objectes del cel profund en el mapa celeste?"
+msgstr "Voleu que s'etiquetin els objectes del cel profund en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:740
@@ -42663,32 +42658,32 @@ msgstr "Voleu que s'etiquetin els objectes del cel profund en el mapa celeste?"
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
 msgstr ""
 "Canvia quan es mostraran les etiquetes de nom per als objectes del cel "
-"profund en el mapa celeste."
+"profund en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:744
 #, kde-format
 msgid "Draw Mosaic Panel in the sky map?"
-msgstr "Voleu que es dibuixe el quadro del mosaic en el mapa celeste?"
+msgstr "Voleu que es dibuixe el quadro del mosaic en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:745
 #, kde-format
 msgid "Toggle whether the Mosaic Panel are drawn in the sky map."
-msgstr "Canvia quan es dibuixarà el quadro del mosaic en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el quadro del mosaic en el mapa celest."
 
 #. i18n: ectx: label, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:749
 #, kde-format
 msgid "Minimum timescale for forced-slewing mode"
-msgstr "Escala de temps mínima per a forçar el mode transició"
+msgstr "Escala de temps mínima per a forçar el mode apuntament"
 
 #. i18n: ectx: whatsthis, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:750
 #, kde-format
 msgid "The timescale above which slewing mode is forced on at all times."
 msgstr ""
-"L'escala de temps per damunt de la qual es forçarà sempre el mode transició."
+"L'escala de temps per damunt de la qual es forçarà sempre el mode apuntament."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (BoxBGMode), group (View)
@@ -42899,7 +42894,7 @@ msgstr "El nivell d'ampliació, mesurat en píxels per radiant."
 #: kstars.kcfg:821
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr "L'angle amb el qual es gira el mapa celeste"
+msgstr "L'angle amb el qual es gira el mapa celest"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:822
@@ -42909,7 +42904,7 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
-"L'angle amb el qual es gira el mapa celeste des de la seua orientació "
+"L'angle amb el qual es gira el mapa celest des de la seua orientació "
 "estàndard (cap al nord si s'utilitzen les coordenades equatorials, cap al "
 "zenit si s'utilitzen les coordenades horitzontals)."
 
@@ -42917,7 +42912,7 @@ msgstr ""
 #: kstars.kcfg:828
 #, kde-format
 msgid "Mirrors the sky map"
-msgstr "Emmiralla el mapa celeste"
+msgstr "Emmiralla el mapa celest"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:829
@@ -42926,15 +42921,15 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
-"Trieu-la si voleu que el mapa celeste s'emmiralle d'esquerra a dreta, p. "
-"ex., perquè coincidisca amb la vista a través d'un prisma erecte."
+"Trieu-la si voleu que el mapa celest s'emmiralle d'esquerra a dreta, p. ex., "
+"perquè coincidisca amb la vista a través d'un prisma erecte."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:833
 #, kde-format
 msgid "Orients the sky-map to account for an erect observer at the eyepiece"
 msgstr ""
-"Orienta el mapa celeste per a tindre en compte un observador dret a l'ocular"
+"Apunta el mapa celest per a tindre en compte un observador dret a l'ocular"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
@@ -42951,8 +42946,8 @@ msgid ""
 msgstr ""
 "Trieu-la si utilitzeu el vostre ull a l'ocular en un telescopi newtonià "
 "muntat en altazimutal. Açò té en compte el fet que l'observador roman dret "
-"mentre el telescopi es mou cap amunt i cap avall, de manera que l'orientació "
-"del mapa celeste farà un seguiment del que es veja a l'ocular una vegada "
+"mentre el telescopi es mou cap amunt i cap avall, de manera que l'apuntament "
+"del mapa celest farà un seguiment del que es veja a l'ocular una vegada "
 "estiga configurat correctament. Trieu la mà de la correcció segons en quin "
 "costat del telescopi apareix l'ocular en mirar des de la part posterior del "
 "telescopi."
@@ -43126,7 +43121,7 @@ msgstr ""
 #: kstars.kcfg:908
 #, kde-format
 msgid "Faint limit for stars when slewing"
-msgstr "Límit de feblesa per a les estreles durant la transició"
+msgstr "Límit de feblesa per a les estreles durant el moviment"
 
 #. i18n: ectx: whatsthis, entry (MagLimitHideStar), group (View)
 #: kstars.kcfg:909
@@ -43202,7 +43197,7 @@ msgstr "Mida de la lletra de l'etiqueta"
 msgid "Set this to adjust the font-size of labels placed on the sky map"
 msgstr ""
 "Establiu-la per a ajustar la mida del tipus de lletra de les etiquetes "
-"situades en el mapa celeste."
+"situades en el mapa celest."
 
 #. i18n: ectx: label, entry (MaxRadCometName), group (View)
 #: kstars.kcfg:933
@@ -43568,7 +43563,7 @@ msgstr ""
 #: kstars.kcfg:1102
 #, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Orienta cap als objectes seleccionats al mapa celeste."
+msgstr "Apunta cap als objectes seleccionats al mapa celest."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1106
@@ -44758,7 +44753,7 @@ msgstr ""
 #: kstars.kcfg:1554
 #, kde-format
 msgid "Draw satellites in the sky map?"
-msgstr "Voleu que es dibuixen els satèl·lits en el mapa celeste?"
+msgstr "Voleu que es dibuixen els satèl·lits en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellites), group (Satellites)
 #. i18n: ectx: whatsthis, entry (ShowVisibleSatellites), group (Satellites)
@@ -44766,13 +44761,13 @@ msgstr "Voleu que es dibuixen els satèl·lits en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether satellite tracks are drawn in the sky map."
 msgstr ""
-"Canvia quan es dibuixaran les traces dels satèl·lits en el mapa celeste."
+"Canvia quan es dibuixaran les traces dels satèl·lits en el mapa celest."
 
 #. i18n: ectx: label, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1559
 #, kde-format
 msgid "Draw only visible satellites in the sky map"
-msgstr "Mostra únicament els satèl·lits visibles en el mapa celeste"
+msgstr "Mostra únicament els satèl·lits visibles en el mapa celest"
 
 #. i18n: ectx: label, entry (DrawSatellitesLikeStars), group (Satellites)
 #. i18n: ectx: whatsthis, entry (DrawSatellitesLikeStars), group (Satellites)
@@ -44796,7 +44791,7 @@ msgstr "Voleu que es mostren les etiquetes dels satèl·lits?"
 #, kde-format
 msgid "Toggle whether satellite labels are drawn in the sky map."
 msgstr ""
-"Canvia quan es dibuixaran les etiquetes dels satèl·lits en el mapa celeste."
+"Canvia quan es dibuixaran les etiquetes dels satèl·lits en el mapa celest."
 
 #. i18n: ectx: label, entry (SelectedSatellites), group (Satellites)
 #: kstars.kcfg:1574
@@ -46910,8 +46905,8 @@ msgstr "El nombre f que s'utilitzarà en l'algorisme de la ZCE."
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
 msgstr ""
-"La qualitat de visió total en segons d'arc que s'utilitzarà en l'algorisme "
-"de la ZCE."
+"L'estabilitat atmosfèrica total en segons d'arc que s'utilitzarà en "
+"l'algorisme de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2695
@@ -47261,7 +47256,7 @@ msgstr "Utilitza el filtre seleccionat en el mode Alineació."
 #: kstars.kcfg:2896
 #, kde-format
 msgid "Use rotator when performing load and slew."
-msgstr "Utilitza el rotor quan es realitze la càrrega i l'orientació."
+msgstr "Utilitza el rotor quan es realitze la càrrega i l'apuntament."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
 #: kstars.kcfg:2900
@@ -47271,7 +47266,7 @@ msgid ""
 "consider the load and slew operation successful."
 msgstr ""
 "Llindar de l'angle de posició mesurat i FITS en minuts d'arc per a "
-"considerar que l'operació de càrrega i orientació ha finalitzat amb èxit."
+"considerar que l'operació de càrrega i apuntament ha finalitzat amb èxit."
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2904
@@ -47311,7 +47306,7 @@ msgstr ""
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
 "Mostra les imatges FITS rebudes davall un rectangle CDV del solucionador en "
-"el mapa celeste."
+"el mapa celest."
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
 #: kstars.kcfg:2920
@@ -47320,8 +47315,8 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies."
 msgstr ""
-"No utilitzeu «Sincronitza» quan s'ha seleccionat «Orienta cap a l'objectiu». "
-"Utilitzeu l'orientació diferencial per a corregir les discrepàncies."
+"No utilitzeu «Sincronitza» quan s'ha seleccionat «Apunta cap a l'objectiu». "
+"Utilitzeu l'apuntament diferencial per a corregir les discrepàncies."
 
 #. i18n: ectx: label, entry (AlignAccuracyThreshold), group (Align)
 #: kstars.kcfg:2924
@@ -47339,7 +47334,7 @@ msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
 "starting the next capture."
 msgstr ""
-"Temps d'espera en mil·lisegons una vegada es complete l'orientació del "
+"Temps d'espera en mil·lisegons una vegada es complete l'apuntament del "
 "telescopi abans d'iniciar la captura següent."
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
@@ -47447,7 +47442,7 @@ msgid ""
 "Automatically update position coordinates when mounts completes slewing."
 msgstr ""
 "Actualitza automàticament les coordenades de la posició en completar "
-"l'orientació de la muntura."
+"l'apuntament de la muntura."
 
 #. i18n: ectx: label, entry (AstrometryDetectParity), group (Align)
 #: kstars.kcfg:2996
@@ -48896,7 +48891,7 @@ msgstr ""
 #: kstars.kcfg:3831
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Mostra la quadrícula de HiPS en el mapa celeste."
+msgstr "Mostra la quadrícula de HiPS en el mapa celest."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3835
@@ -48908,13 +48903,13 @@ msgstr "Torna a dibuixar HiPS mentre es fa la panoràmica."
 #: kstars.kcfg:3839
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
-msgstr "Voleu que es dibuixen els orígens de HiPS en el mapa celeste?"
+msgstr "Voleu que es dibuixen els orígens de HiPS en el mapa celest?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3840
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
-msgstr "Canvia quan es dibuixaran els orígens de HiPS en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els orígens de HiPS en el mapa celest."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
 #: kstars.kcfg:3844
@@ -49001,7 +48996,7 @@ msgstr "Dibuixa el terreny"
 #: kstars.kcfg:3879
 #, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
-msgstr "Canvia quan es dibuixarà el terreny en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el terreny en el mapa celest."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
 #: kstars.kcfg:3883
@@ -49059,7 +49054,7 @@ msgstr "Mostra les superposicions d'imatges davall dels catàlegs."
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
 msgstr ""
-"Centra el mapa celeste damunt de la superposició d'imatges seleccionada."
+"Centra el mapa celest damunt de la superposició d'imatges seleccionada."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3911
@@ -49068,7 +49063,7 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
-"Centra el mapa celeste damunt de la imatge superposada seleccionada en la "
+"Centra el mapa celest damunt de la imatge superposada seleccionada en la "
 "taula de superposició d'imatges (si està resolta)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
@@ -83431,12 +83426,12 @@ msgstr "Para el rellotge"
 #: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
-msgstr "Avança un pas temporal"
+msgstr "Avança un pas de temps"
 
 #: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
-msgstr "Retrocedix un pas temporal"
+msgstr "Retrocedix un pas de temps"
 
 #: kstarsinit.cpp:255
 #, kde-format
@@ -83621,7 +83616,7 @@ msgstr "Totes les superposicions del cel de HiPS"
 #: kstarsinit.cpp:422
 #, kde-format
 msgid "Skymap Orientation"
-msgstr "Orientació del mapa celeste"
+msgstr "Apuntament del mapa celest"
 
 # En català no pot ser un adjectiu
 #: kstarsinit.cpp:428
@@ -83759,7 +83754,7 @@ msgid ""
 "of 'X'."
 msgstr ""
 "Utilitzeu-la per a establir la velocitat de la simulació.\n"
-"Per a un pas temporal «X» de fins a 10 minuts, el temps transcorrerà a raó "
+"Per a un pas de temps «X» de fins a 10 minuts, el temps transcorrerà a raó "
 "de «X» per segon.\n"
 "Per a passos de temps més grans de 10 minuts, els fotogrames es mostraran a "
 "intervals de «X»."
@@ -83767,7 +83762,7 @@ msgstr ""
 #: kstarsinit.cpp:590
 #, kde-format
 msgid "Time step control"
-msgstr "Control del pas temporal"
+msgstr "Control del pas de temps"
 
 #: kstarsinit.cpp:599
 #, kde-format
@@ -84030,7 +84025,7 @@ msgstr "Canvia el seguiment del telescopi"
 #: kstarsinit.cpp:711
 #, kde-format
 msgid "Slew telescope to the focused object"
-msgstr "Orienta el telescopi cap a l'objecte enfocat"
+msgstr "Apunta el telescopi cap a l'objecte enfocat"
 
 #: kstarsinit.cpp:715
 #, kde-format
@@ -84055,7 +84050,7 @@ msgstr "Desaparca el telescopi"
 #: kstarsinit.cpp:734
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
-msgstr "Orienta el telescopi cap a la posició de l'apuntador del ratolí"
+msgstr "Apunta el telescopi cap a la posició de l'apuntador del ratolí"
 
 #: kstarsinit.cpp:737
 #, kde-format
@@ -84081,10 +84076,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
-"Trieu-la per a una vista del mapa celeste estant dret, on el nord (en el "
-"mode Coordenades equatorials) o el zenit (en el mode Coordenades "
-"horitzontals) estaran verticalment cap amunt. Esta seria l'elecció natural "
-"per a un instrument de visió de busca d'imatges o a simple vista estant dret."
+"Trieu-la per a una vista del mapa celest estant dret, on el nord (en el mode "
+"Coordenades equatorials) o el zenit (en el mode Coordenades horitzontals) "
+"estaran verticalment cap amunt. Esta seria l'elecció natural per a un "
+"instrument de visió de busca d'imatges o a simple vista estant dret."
 
 #: kstarsinit.cpp:779
 #, kde-format
@@ -84095,7 +84090,7 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
-"Trieu-la per a una vista invertida del mapa celeste, on el nord (en el mode "
+"Trieu-la per a una vista invertida del mapa celest, on el nord (en el mode "
 "Coordenades equatorials) o el zenit (en el mode Coordenades horitzontals) "
 "estaran verticalment cap avall. Esta seria l'elecció natural per a un "
 "instrument de visió de busca d'imatges invertit, refractor o de Cassegrain "
@@ -84116,7 +84111,7 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
-"Este mode se selecciona automàticament si gireu manualment el mapa celeste "
+"Este mode se selecciona automàticament si gireu manualment el mapa celest "
 "amb l'acció del ratolí «Majús+Arrossega», per a informar-vos que "
 "l'orientació és arbitrària"
 
@@ -84135,7 +84130,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr ""
 "Trieu-la si esteu emprant una càmera en el telescopi, o si teniu muntada la "
-"pantalla del mapa celeste en el telescopi."
+"pantalla del mapa celest en el telescopi."
 
 #: kstarsinit.cpp:805
 #, kde-format
@@ -84158,7 +84153,7 @@ msgid ""
 msgstr ""
 "Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
 "l'enfocador apareix en el costat esquerre quan mireu cap amunt amb el tub "
-"del telescopi. Esta característica corregirà l'orientació del mapa celeste "
+"del telescopi. Esta característica corregirà l'orientació del mapa celest "
 "per a tindre en compte que l'observador roman dret mentre el telescopi es "
 "mou cap amunt i cap avall, a diferència d'una càmera que giraria amb el "
 "telescopi. Normalment té sentit combinar açò amb l'orientació «Zenit cap "
@@ -84185,7 +84180,7 @@ msgid ""
 msgstr ""
 "Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
 "l'enfocador apareix en el costat dret quan mireu cap amunt amb el tub del "
-"telescopi. Esta característica corregirà l'orientació del mapa celeste per a "
+"telescopi. Esta característica corregirà l'orientació del mapa celest per a "
 "tindre en compte que l'observador roman dret mentre el telescopi es mou cap "
 "amunt i cap avall, a diferència d'una càmera que giraria amb el telescopi. "
 "Normalment té sentit combinar açò amb l'orientació «Zenit cap avall»."
@@ -84818,7 +84813,7 @@ msgstr "SE"
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
 #, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Taxa d'orientació: "
+msgstr "Velocitat d'apuntament: "
 
 #: kstarslite/qml/main.qml:430
 #, kde-kuit-format
@@ -85283,8 +85278,8 @@ msgid ""
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
 "Passant el dit d'esquerra a dreta podreu accedir a l'àrea de context amb "
-"funcions relacionades amb el mapa celeste. Este menú només estarà disponible "
-"en el mapa celeste."
+"funcions relacionades amb el mapa celest. Este menú només estarà disponible "
+"en el mapa celest."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
 #, kde-kuit-format
@@ -85456,13 +85451,13 @@ msgstr "Interromp el moviment"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew"
-msgstr "Interromp l'orientació"
+msgstr "Interromp l'apuntament"
 
 #: libindi_strings.cpp:16
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew/Track"
-msgstr "Interromp l'orientació/seguiment"
+msgstr "Interromp l'apuntament/seguiment"
 
 #: libindi_strings.cpp:17
 #, kde-kuit-format
@@ -87073,7 +87068,7 @@ msgstr "Alarma principal"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max slew Rate"
-msgstr "Taxa d'orientació màxima"
+msgstr "Velocitat d'apuntament màxima"
 
 #: libindi_strings.cpp:288
 #, kde-kuit-format
@@ -87856,7 +87851,7 @@ msgstr "Propietats de l'instrument de visió"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Seeing"
-msgstr "Qualitat de visió"
+msgstr "Estabilitat atmosfèrica"
 
 #: libindi_strings.cpp:417
 #, kde-kuit-format
@@ -88018,31 +88013,31 @@ msgstr "Suspén"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Accuracy"
-msgstr "Precisió en l'orientació"
+msgstr "Precisió en l'apuntament"
 
 #: libindi_strings.cpp:444
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Rate"
-msgstr "Taxa d'orientació"
+msgstr "Velocitat d'apuntament"
 
 #: libindi_strings.cpp:445
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Target"
-msgstr "Orienta cap a l'objectiu"
+msgstr "Apunta cap a l'objectiu"
 
 #: libindi_strings.cpp:446
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew rate"
-msgstr "Taxa d'orientació"
+msgstr "Velocitat d'apuntament"
 
 #: libindi_strings.cpp:447
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew"
-msgstr "Orientació"
+msgstr "Apuntament"
 
 #: libindi_strings.cpp:448
 #, kde-kuit-format
@@ -89569,7 +89564,7 @@ msgstr "Establix les notes d'observació de l'objecte:"
 #, kde-format
 msgctxt "Move the telescope to an object or location"
 msgid "Slew Telescope"
-msgstr "Orienta el telescopi"
+msgstr "Apunta el telescopi"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_3)
 #: oal/execute.ui:278
@@ -89605,7 +89600,7 @@ msgstr "Lent:"
 #: oal/execute.ui:375 printing/loggingform.cpp:45
 #, kde-format
 msgid "Seeing:"
-msgstr "Qualitat de visió:"
+msgstr "Estabilitat atmosfèrica:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: oal/execute.ui:387
@@ -89743,7 +89738,7 @@ msgid ""
 "coordinate system."
 msgstr ""
 "L'atmosfera desvia els raigs de llum que la travessen, com una lent. Si es "
-"tria, esta «refracció atmosfèrica» serà simulada en el mapa celeste. Cal "
+"tria, esta «refracció atmosfèrica» serà simulada en el mapa celest. Cal "
 "tindre present que esta correcció tan sols s'aplicarà quan s'empre el "
 "sistema de coordenades horitzontals."
 
@@ -89892,7 +89887,7 @@ msgstr "Voleu que es mostren imatges incloses en el cel?"
 #: options/opsadvanced.ui:537
 #, kde-format
 msgid "If checked, inline images will be shown on the skymap."
-msgstr "Si es tria, es mostraran imatges incloses en el mapa celeste."
+msgstr "Si es tria, es mostraran imatges incloses en el mapa celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:540
@@ -89942,7 +89937,7 @@ msgstr "Cursor predeterminat:"
 #, kde-format
 msgid "Show slewing motion when focus changes?"
 msgstr ""
-"Voleu que es mostre el moviment d'orientació quan es canvia l'enfocament?"
+"Voleu que es mostre el moviment d'apuntament quan es canvia l'enfocament?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:593
@@ -89953,20 +89948,20 @@ msgid ""
 "position instantaneously."
 msgstr ""
 "Si es tria, quan es canvie la posició d'enfocament es produirà una animació "
-"de l'«orientació» fins a la posició nova. Altrament la pantalla se centrarà "
+"de l'«apuntament» fins a la posició nova. Altrament la pantalla se centrarà "
 "sobre la posició nova instantàniament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:596
 #, kde-format
 msgid "Use animated slewing"
-msgstr "Utilitza la transició animada"
+msgstr "Utilitza el moviment animat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: options/opsadvanced.ui:603
 #, kde-format
 msgid "Font size of sky map labels:"
-msgstr "Tipus de lletra de les etiquetes en el mapa celeste:"
+msgstr "Tipus de lletra de les etiquetes en el mapa celest:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, hideObjectsWhileSlewing)
 #: options/opsadvanced.ui:628
@@ -90004,13 +89999,13 @@ msgstr "Oculta els objectes mentre es mou el mapa"
 #, kde-format
 msgid "Hide objects only if time step is larger than threshold"
 msgstr ""
-"Oculta els objectes només si el pas temporal és més gran que el llindar."
+"Oculta els objectes només si el pas de temps és més gran que el llindar."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:670
 #, kde-format
 msgid "Also hide if time step larger than:"
-msgstr "Oculta també si el pas temporal és més gran que:"
+msgstr "Oculta també si el pas de temps és més gran que:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideStars)
 #: options/opsadvanced.ui:680
@@ -90761,7 +90756,7 @@ msgstr "Voleu que es mostren les línies de les constel·lacions?"
 msgid "If checked, constellation lines will be drawn on the sky map."
 msgstr ""
 "Si es tria, es dibuixaran les línies de les constel·lacions en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:29
@@ -90819,7 +90814,7 @@ msgstr "Voleu que es dibuixen els noms de les constel·lacions?"
 #, kde-format
 msgid "If checked, constellation names will be drawn on the sky map."
 msgstr ""
-"Si es tria, es dibuixaran els noms de les constel·lacions en el mapa celeste."
+"Si es tria, es dibuixaran els noms de les constel·lacions en el mapa celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCNames)
 #: options/opsguides.ui:94
@@ -90847,7 +90842,7 @@ msgstr "Utilitza els noms en llatí de les constel·lacions."
 msgid "Select this to use Latin constellation names on the sky map"
 msgstr ""
 "Trieu-la per a utilitzar els noms en llatí de les constel·lacions en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:133
@@ -90916,7 +90911,7 @@ msgid ""
 "great circle on the sky that the Sun appears to follow over the course of "
 "one year.  All other solar system bodies roughly follow the ecliptic as well."
 msgstr ""
-"Si es tria, es dibuixarà l'eclíptica en el mapa celeste. L'eclíptica és un "
+"Si es tria, es dibuixarà l'eclíptica en el mapa celest. L'eclíptica és un "
 "cercle més gran en el cel que el Sol aparenta seguir durant el transcurs "
 "d'un any. La resta de cossos del sistema solar també seguixen aproximadament "
 "l'eclíptica."
@@ -90956,7 +90951,7 @@ msgid ""
 "If checked, a line representing the local horizon will be drawn on the map."
 msgstr ""
 "Si es tria, es dibuixarà una línia representant l'horitzó local en el mapa "
-"celeste."
+"celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizon)
 #: options/opsguides.ui:236
@@ -90977,7 +90972,7 @@ msgstr "Voleu que es dibuixe el contorn de la Via Làctia?"
 msgid ""
 "If checked, a contour representing the Milky Way will be drawn on the sky map"
 msgstr ""
-"Si es tria, es dibuixarà un contorn en el mapa celeste representant la Via "
+"Si es tria, es dibuixarà un contorn en el mapa celest representant la Via "
 "Làctia."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowMilkyWay)
@@ -91013,7 +91008,7 @@ msgstr "Voleu que es dibuixen els indicadors?"
 #: options/opsguides.ui:281
 #, kde-format
 msgid "If checked, flags will be drawn on the sky map"
-msgstr "Si es tria, es dibuixaran els indicadors en el mapa celeste."
+msgstr "Si es tria, es dibuixaran els indicadors en el mapa celest."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
@@ -91107,7 +91102,7 @@ msgstr "Voleu que es dibuixe l'equador celeste?"
 #: options/opsguides.ui:361
 #, kde-format
 msgid "If checked, the celestial equator will be drawn in the sky map."
-msgstr "Si es tria, es dibuixarà l'equador celeste en el mapa celeste."
+msgstr "Si es tria, es dibuixarà l'equador celeste en el mapa celest."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquator)
 #: options/opsguides.ui:364
@@ -91140,14 +91135,14 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
-"Centra el mapa celeste damunt de la imatge superposada seleccionada en la "
+"Centra el mapa celest damunt de la imatge superposada seleccionada en la "
 "taula de davall (si està resolta)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
 #, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Centra el mapa celeste en la selecció"
+msgstr "Centra el mapa celest en la selecció"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
@@ -91232,7 +91227,7 @@ msgstr ""
 "solucionar totes les imatges. Podeu intentar proporcionar escales i "
 "posicions, així com provar perfils diferents. Si no esteu satisfet, però "
 "encara voleu que es mostre una imatge, podeu introduir una «AR», «Dec», "
-"«Escala» i «Orientació» en les columnes apropiades en la fila en la qual "
+"«Escala» i «Apuntament» en les columnes apropiades en la fila en la qual "
 "esteu interessat, després establiu manualment la columna «Estat» a «D'acord»."
 "</p><p>No es pot tornar a resoldre una placa d'una fila l'estat de la qual "
 "siga correcte, però podeu canviar manualment l'estat a una altra cosa, "
@@ -92415,7 +92410,7 @@ msgid ""
 "<p>Press <b>Next</b> when done.</p>"
 msgstr ""
 "<p>En el mètode manual de captura del camp de visió, l'usuari centra el mapa "
-"celeste en un punt d'interés i aleshores captura instantànies de fragments "
+"celest en un punt d'interés i aleshores captura instantànies de fragments "
 "del cel dins del símbol de CDV actiu.</p>\n"
 "<p>Quan esteu en el mode Captura del camp de visió, premeu <b>Re Pàg</b> i "
 "<b>Av Pàg</b> per a alternar entre els símbols de CDV. Podeu capturar les "
@@ -92464,7 +92459,7 @@ msgstr "Trieu un objecte d'una llista"
 #: printing/pwizfovsh.ui:158 printing/pwizobjectselection.ui:156
 #, kde-format
 msgid "Point object on sky map"
-msgstr "Assenyaleu un objecte en el mapa celeste"
+msgstr "Assenyaleu un objecte en el mapa celest"
 
 #. i18n: ectx: property (text), widget (QPushButton, detailsButton)
 #: printing/pwizfovsh.ui:205 printing/pwizobjectselection.ui:232
@@ -92505,7 +92500,7 @@ msgid ""
 msgstr ""
 "<p>Trieu el mètode de captura del camp de visió. Hi ha dos mètodes: manual i "
 "basat en els salts entre estreles.</p>\n"
-"<p>En el <b>mètode manual</b> navegueu pel mapa celeste per a trobar els "
+"<p>En el <b>mètode manual</b> navegueu pel mapa celest per a trobar els "
 "objectes d'interés i tot seguit captureu múltiples representacions del camp "
 "de visió.</p>\n"
 "<p>El <b>mètode basat en els salts entre estreles</b> captura automàticament "
@@ -92552,8 +92547,8 @@ msgid ""
 msgstr ""
 "<p>Trieu l'objecte celeste que s'observarà. Podeu seleccionar-lo des d'una "
 "llista d'objectes clicant damunt del botó <b>Tria un objecte de la llista</"
-"b> o bé directament des del mapa celeste prement <b>Apunta cap a un objecte "
-"del mapa celeste</b>. Una vegada s'haja localitzat l'objecte, cliqueu-hi amb "
+"b> o bé directament des del mapa celest prement <b>Apunta cap a un objecte "
+"del mapa celest</b>. Una vegada s'haja localitzat l'objecte, cliqueu-hi amb "
 "el botó dret del ratolí i trieu l'opció <b>Tria este objecte</b> des del "
 "menú contextual.</p>\n"
 "<p>En acabar, premeu el botó <b>Següent</b>.</p>"
@@ -93008,7 +93003,7 @@ msgstr "Data :: %1"
 #: skycomponents/notifyupdatesui.ui:36
 #, kde-format
 msgid "Slew map to object"
-msgstr "Orienta el mapa cap a l'objecte"
+msgstr "Apunta el mapa cap a l'objecte"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: skycomponents/notifyupdatesui.ui:68
@@ -93817,7 +93812,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Cliqueu i arrossegueu amb el ratolí per a orientar el mapa celeste "
+"\t\t<p>Cliqueu i arrossegueu amb el ratolí per a desplaçar el mapa celest "
 "cap a\n"
 "\t\t\tuna posició nova en el cel.\n"
 "\t\t</p>\n"
@@ -93974,7 +93969,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>El botó de selecció de valors de la barra d'eines permet ajustar\n"
-"\t\t\tel pas temporal utilitzat pel rellotge de KStars. Establint-lo a «1,0 "
+"\t\t\tel pas de temps utilitzat pel rellotge de KStars. Establint-lo a «1,0 "
 "seg»\n"
 "\t\t\tobtindreu «temps real».\n"
 "\t\t\tNota: els valors negatius faran que el temps transcórrega cap arrere.\n"
@@ -94005,7 +94000,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Podeu fer avançar el rellotge un únic pas temporal avant o\n"
+"\t\t<p>Podeu fer avançar el rellotge un únic pas de temps avant o\n"
 "\t\tarrere prement les tecles «&gt;» o «&lt;».\n"
 "\t\t</p>\n"
 "\t\n"
@@ -94593,8 +94588,8 @@ msgstr ""
 "permet afinar\n"
 "\t\t\tel seu comportament. Podeu especificar si voleu corregir la refracció "
 "atmosfèrica\n"
-"\t\t\ti si utilitzar o no la transició animada. També podeu especificar "
-"quins objectes\n"
+"\t\t\ti si utilitzar o no el moviment animat. També podeu especificar quins "
+"objectes\n"
 "\t\t\ts'ocultaran quan la pantalla estiga en moviment.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -94665,7 +94660,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Podeu simular la famosa prova experimental de la relativitat general "
 "en KStars -- KStars pot calcular la curvatura de la llum de l'estrela al "
-"voltant del sol. Senzillament, centreu en el Sol, feu zoom al mapa celeste i "
+"voltant del sol. Senzillament, centreu en el Sol, feu zoom al mapa celest i "
 "canvieu les correccions prement la tecla «R».\n"
 "\t\t</p>\n"
 "\t\n"
@@ -94843,7 +94838,7 @@ msgstr ""
 "cada regió del cel, efectuades amb el telescopi Oschin Schmidt en la "
 "muntanya Palomar i el telescopi UK Schmidt. Des de KStars es pot accedir a "
 "les imatges DSS de quasi qualsevol regió del cel clicant amb el botó dret "
-"damunt del mapa celeste i seleccionant «Mostra la imatge DSS».\n"
+"damunt del mapa celest i seleccionant «Mostra la imatge DSS».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -95797,7 +95792,7 @@ msgstr "Conjuncions / Oposicions"
 #: tools/eclipsetool.cpp:135
 #, kde-format
 msgid "View in SkyMap"
-msgstr "Visualitza en el mapa celeste"
+msgstr "Visualitza en el mapa celest"
 
 #: tools/eclipsetool.cpp:144
 #, kde-format
@@ -95945,7 +95940,7 @@ msgstr "Guarda els canvis"
 #: tools/flagmanager.ui:213
 #, kde-format
 msgid "Slew to the flag coordinates"
-msgstr "Orienta cap a les coordenades de l'indicador."
+msgstr "Apunta cap a les coordenades de l'indicador."
 
 #: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, kde-format
@@ -96083,7 +96078,7 @@ msgstr "Neteja tots els punts."
 #: tools/horizonmanager.ui:353
 #, kde-format
 msgid "Select points from the sky map"
-msgstr "Trieu els punts des del mapa celeste."
+msgstr "Trieu els punts des del mapa celest."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
@@ -96126,7 +96121,7 @@ msgid ""
 "import region buttons.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>L'horitzó artificial s'utilitza per a definir <span "
-"style=\"font-weight:600;\">regions</span> del mapa celeste que estan <span "
+"style=\"font-weight:600;\">regions</span> del mapa celest que estan <span "
 "style=\"font-style:italic;\">tapades</span> en la vista des del vostre punt "
 "de vista (p. ex., per arbres alts o edificis). Les regions poden ser àrees "
 "per damunt o per davall de segments de línies que introduïu.</p><ul style="
@@ -96145,14 +96140,14 @@ msgstr ""
 "weight:600;\">part tapada sobre</span> les línies.</li><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Afegiu manualment els punts, o amb preferència "
-"seleccionant-los en el mapa celeste després de clicar damunt del botó <span "
+"seleccionant-los en el mapa celest després de clicar damunt del botó <span "
 "style=\"font-style:italic;\">Trieu els punts</span>.</li></ul><li style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Activeu una regió <span style=\"font-"
 "style:italic;\">marcant el seu quadro</span>.</li><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">En seleccionar una regió es mostren els seus "
-"punts en el mapa celeste.</li><li style=\"margin-top:0px; margin-bottom:0px; "
+"punts en el mapa celest.</li><li style=\"margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">En "
 "acabar, cliqueu damunt <span style=\"font-style:italic;\">Aplica</span>.</"
 "li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
@@ -96432,7 +96427,7 @@ msgstr "Ignora %1"
 #: tools/imagingplanner.cpp:3501
 #, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centra %1 en el mapa celeste"
+msgstr "Centra %1 en el mapa celest"
 
 #: tools/imagingplanner.cpp:3503
 #, kde-format
@@ -96441,7 +96436,7 @@ msgid ""
 "SkyMap"
 msgstr ""
 "Fa una captura de pantalla d'alguna imatge de %1, la resol i la col·loca "
-"temporalment en el mapa celeste"
+"temporalment en el mapa celest"
 
 #: tools/imagingplanner.cpp:3643
 #, kde-format
@@ -97180,14 +97175,14 @@ msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Orienta cap als objectes seleccionats al mapa celeste."
-"</p></body></html>"
+"<html><head/><body><p>Apunta cap als objectes seleccionats al mapa celest.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
 #, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Centra l'objecte seleccionat en el mapa celeste"
+msgstr "Centra l'objecte seleccionat en el mapa celest"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
@@ -99817,12 +99812,12 @@ msgstr "Oculta elements"
 #: tools/scriptbuilder.cpp:597
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
-msgstr "Canvia quan s'ocultaran els objectes mentre es mostra l'orientació"
+msgstr "Canvia quan s'ocultaran els objectes mentre es mostra l'apuntament"
 
 #: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
-msgstr "Llindar del pas temporal (en segons) per a ocultar els objectes"
+msgstr "Llindar del pas de temps (en segons) per a ocultar els objectes"
 
 #: tools/scriptbuilder.cpp:600 tools/scriptbuilder.cpp:639
 #: tools/scriptbuilder.cpp:642 tools/scriptbuilder.cpp:707
@@ -99835,45 +99830,45 @@ msgstr "doble"
 #: tools/scriptbuilder.cpp:603
 #, kde-format
 msgid "Hide faint stars while slewing?"
-msgstr "Voleu que s'oculten les estreles més febles durant la transició?"
+msgstr "Voleu que s'oculten les estreles més febles durant el moviment?"
 
 #: tools/scriptbuilder.cpp:606
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
-msgstr "Voleu que s'oculten els cossos del sistema solar durant la transició?"
+msgstr "Voleu que s'oculten els cossos del sistema solar durant el moviment?"
 
 #: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide Milky Way while slewing?"
-msgstr "Voleu que s'oculte la Via Làctia durant la transició?"
+msgstr "Voleu que s'oculte la Via Làctia durant el moviment?"
 
 #: tools/scriptbuilder.cpp:612
 #, kde-format
 msgid "Hide constellation names while slewing?"
 msgstr ""
-"Voleu que s'oculten els noms de les constel·lacions durant la transició?"
+"Voleu que s'oculten els noms de les constel·lacions durant el moviment?"
 
 #: tools/scriptbuilder.cpp:615
 #, kde-format
 msgid "Hide constellation lines while slewing?"
 msgstr ""
-"Voleu que s'oculten les línies de les constel·lacions durant la transició?"
+"Voleu que s'oculten les línies de les constel·lacions durant el moviment?"
 
 #: tools/scriptbuilder.cpp:618
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
 msgstr ""
-"Voleu que s'oculten els límits de les constel·lacions durant la transició?"
+"Voleu que s'oculten els límits de les constel·lacions durant el moviment?"
 
 #: tools/scriptbuilder.cpp:621
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
-msgstr "Voleu que s'oculte la quadrícula de coordenades durant la transició?"
+msgstr "Voleu que s'oculte la quadrícula de coordenades durant el moviment?"
 
 #: tools/scriptbuilder.cpp:635
 #, kde-format
 msgid "Skymap Options"
-msgstr "Opcions del mapa celeste"
+msgstr "Opcions del mapa celest"
 
 #: tools/scriptbuilder.cpp:636
 #, kde-format
@@ -99920,7 +99915,7 @@ msgstr "string"
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr ""
-"Voleu que s'utilitze la transició animada? (Altrament, se «saltarà» cap a "
+"Voleu que s'utilitze el moviment animat? (Altrament, se «saltarà» cap a "
 "l'enfocament nou)"
 
 #: tools/scriptbuilder.cpp:655
@@ -99974,7 +99969,7 @@ msgstr "Magnitud de l'estrela més feble que s'ha d'etiquetar en el mapa"
 #, kde-format
 msgid "magnitude of brightest star hidden while slewing"
 msgstr ""
-"Magnitud de l'estrela més brillant que s'ha d'ocultar durant la transició"
+"Magnitud de l'estrela més brillant que s'ha d'ocultar durant el moviment"
 
 #: tools/scriptbuilder.cpp:713
 #, kde-format
@@ -100126,7 +100121,7 @@ msgid ""
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
 "S'executarà l'script en la finestra principal de KStars. Potser voldreu "
-"reposicionar l'eina «Constructor de scripts» a fi que el mapa celeste siga "
+"reposicionar l'eina «Constructor de scripts» a fi que el mapa celest siga "
 "visible."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -100376,12 +100371,12 @@ msgstr "dies"
 #: tools/starhopper.cpp:104
 #, kde-format
 msgid " Slew %1 degrees %2 to find an %3 star of mag %4 "
-msgstr " Orienta %1 graus %2 per a trobar una estrela %3 de magnitud %4 "
+msgstr " Apunta %1 graus %2 per a trobar una estrela %3 de magnitud %4 "
 
 #: tools/starhopper.cpp:110
 #, kde-format
 msgid " Slew %1 degrees %2 to find a(n) %3"
-msgstr " Orienta %1 graus %2 per a trobar un/a %3"
+msgstr " Apunta %1 graus %2 per a trobar un/a %3"
 
 #: tools/starhopper.cpp:297
 #, kde-format
@@ -101233,12 +101228,12 @@ msgstr "anys"
 #: widgets/timestepbox.cpp:22
 #, kde-format
 msgid "Adjust time step"
-msgstr "Ajusta el pas temporal."
+msgstr "Ajusta el pas de temps."
 
 #: widgets/timestepbox.cpp:23
 #, kde-format
 msgid "Adjust time step units"
-msgstr "Ajusta les unitats de pas temporal"
+msgstr "Ajusta les unitats de pas de temps"
 
 #: widgets/timestepbox.cpp:26
 #, kde-format

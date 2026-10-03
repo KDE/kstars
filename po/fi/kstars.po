@@ -15468,7 +15468,8 @@ msgstr "Aseta CCD:n lämpötila"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_temperature)
 #: ekos/capture/camera.ui:842
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Temp:"
 msgid "Temp:"
 msgstr "Lämp.:"
 
