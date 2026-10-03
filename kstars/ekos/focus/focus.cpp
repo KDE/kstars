@@ -722,6 +722,9 @@ void Focus::checkFilter()
             disconnect(m_FilterManager.get());
             m_FilterManager.reset();
         }
+        // Without a filter manager, any pending filter change can never complete
+        filterPositionPending = false;
+        fallbackFilterPending = false;
         return;
     }
 
@@ -2729,7 +2732,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
 
     if (completionState == Ekos::FOCUS_COMPLETE)
     {
-        if (autoFocusUsed && fallbackFilterPending)
+        if (autoFocusUsed && fallbackFilterPending && m_FilterManager)
         {
             // Save the solution details for the filter used for the AF run before changing
             // filers to the fallback filter. Details for the fallback filter will be saved once that
@@ -2738,6 +2741,10 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
                     m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
         }
     }
+
+    // The filter wheel may have been removed while settling, in which case we cannot return to the original filter
+    if (fallbackFilterPending && !m_FilterManager)
+        fallbackFilterPending = false;
 
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
@@ -2750,7 +2757,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
     else
         setState(completionState, failCode != FOCUS_FAIL_OPTIMISED_OUT);
 
-    if (autoFocusUsed && buildOffsetsUsed)
+    if (autoFocusUsed && buildOffsetsUsed && m_FilterManager)
         // If we are building filter offsets signal AF run is complete
         m_FilterManager->autoFocusComplete(completionState, currentPosition, m_LastSourceAutofocusTemperature,
                                            m_LastSourceAutofocusAlt);
