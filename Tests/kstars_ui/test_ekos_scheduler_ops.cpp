@@ -6,6 +6,7 @@
 
 #include <QFile>
 #include <QDir>
+#include <QSignalSpy>
 
 #include <chrono>
 #include <ctime>
@@ -18,6 +19,7 @@
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerprocess.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 
 #include "skymapcomposite.h"
 
@@ -743,6 +745,55 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
             return (scheduler->moduleState()->timerState() == Ekos::RUN_NOTHING);
         }));
     }
+}
+
+// Regression test: the job editor's "Train" selection must survive a rebuild of the
+// optical train list. The list is rebuilt on every INDI state change, i.e. several times
+// when the scheduler starts, and used to fall back to "--" each time.
+void TestEkosSchedulerOps::testKeepOpticalTrainSelection()
+{
+    QComboBox * const combo = scheduler->opticalTrainCombo;
+    const QStringList trains {"Primary", "Secondary"};
+    QSignalSpy indexChanged(combo, &QComboBox::currentIndexChanged);
+
+    // A selected train is kept when the list is rebuilt with the same trains.
+    scheduler->fillOpticalTrainCombo(trains);
+    QCOMPARE(combo->count(), 3);
+    QCOMPARE(combo->currentText(), QString("--"));
+    combo->setCurrentText("Secondary");
+    QCOMPARE(combo->currentText(), QString("Secondary"));
+    indexChanged.clear();
+
+    scheduler->fillOpticalTrainCombo(trains);
+    QCOMPARE(combo->count(), 3);
+    QCOMPARE(combo->currentText(), QString("Secondary"));
+    // The rebuild must not look like a user edit (it would mark the job as modified).
+    QCOMPARE(indexChanged.count(), 0);
+
+    // The selection follows the train name, not its position in the list.
+    scheduler->fillOpticalTrainCombo({"Secondary", "Primary"});
+    QCOMPARE(combo->currentText(), QString("Secondary"));
+
+    // A train that no longer exists falls back to "--".
+    scheduler->fillOpticalTrainCombo({"Primary"});
+    QCOMPARE(combo->currentIndex(), 0);
+    QCOMPARE(combo->currentText(), QString("--"));
+
+    // "--" stays "--".
+    scheduler->fillOpticalTrainCombo(trains);
+    QCOMPARE(combo->currentText(), QString("--"));
+
+    // The rebuild is triggered by INDI state changes when the scheduler starts. It uses the
+    // trains known to the optical train manager, so a train from that list must survive.
+    const QStringList managerTrains = Ekos::OpticalTrainManager::Instance()->getTrainNames();
+    scheduler->fillOpticalTrainCombo(managerTrains);
+    const QString expected = managerTrains.isEmpty() ? QString("--") : managerTrains.last();
+    combo->setCurrentText(expected);
+    scheduler->moduleState()->setIndiState(Ekos::INDI_CONNECTING);
+    scheduler->moduleState()->setIndiState(Ekos::INDI_PROPERTY_CHECK);
+    scheduler->moduleState()->setIndiState(Ekos::INDI_READY);
+    QCOMPARE(combo->count(), managerTrains.count() + 1);
+    QCOMPARE(combo->currentText(), expected);
 }
 
 void TestEkosSchedulerOps::testSimpleJob()

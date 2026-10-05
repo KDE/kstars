@@ -554,6 +554,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void refreshOpticalTrain();
 
         /**
+         * @brief fillOpticalTrainCombo Rebuild the optical train selection from the given train names,
+         * keeping the current selection if that train still exists, otherwise selecting "--".
+         * @param trainNames names of the available optical trains
+         */
+        void fillOpticalTrainCombo(const QStringList &trainNames);
+
+        /**
          * @brief checkJobInputComplete Check if all inputs are filled such that a new job could be added.
          */
         void checkJobInputComplete();

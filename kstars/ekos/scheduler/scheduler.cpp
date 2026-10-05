@@ -2741,12 +2741,27 @@ void Scheduler::displayTargetCoords()
 
 void Scheduler::refreshOpticalTrain()
 {
+    fillOpticalTrainCombo(OpticalTrainManager::Instance()->getTrainNames());
+}
+
+void Scheduler::fillOpticalTrainCombo(const QStringList &trainNames)
+{
+    // This runs on every INDI state change and optical train update, e.g. several times
+    // when the scheduler starts. Keep the user's selection across the rebuild, otherwise
+    // the job editor silently falls back to "--" and applying an edit would clear the
+    // job's train.
+    const QString selectedTrain = opticalTrainCombo->currentText();
+
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItem("--");
-    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+    opticalTrainCombo->addItems(trainNames);
+
+    // Fall back to "--" if the selected train no longer exists.
+    const int index = opticalTrainCombo->findText(selectedTrain);
+    opticalTrainCombo->setCurrentIndex(index >= 0 ? index : 0);
     opticalTrainCombo->blockSignals(false);
-};
+}
 
 void Scheduler::setFramingAssistantEnabled(bool enabled)
 {

@@ -57,6 +57,7 @@ class TestEkosSchedulerOps : public QObject
         void cleanup();
 
         void testBasics();
+        void testKeepOpticalTrainSelection();
         void testSimpleJob();
         void testTimeZone();
         void testDawnShutdown();
