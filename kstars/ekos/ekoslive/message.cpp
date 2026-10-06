@@ -2930,6 +2930,17 @@ void Message::sendStates()
             sendResponse(commands[NEW_POLAR_STATE], polarState);
         }
     }
+
+    // Scheduler only emits its status on change, so a client connecting
+    // mid-session would otherwise assume the scheduler is idle.
+    if (m_Manager->schedulerModule())
+    {
+        QJsonObject schedulerState =
+        {
+            {"status", m_Manager->schedulerModule()->moduleState()->schedulerState()}
+        };
+        sendResponse(commands[NEW_SCHEDULER_STATE], schedulerState);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
