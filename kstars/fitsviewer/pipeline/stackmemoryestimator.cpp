@@ -143,7 +143,10 @@ Estimate estimate(const FrameGeometry &geometry, int fileCount, const EngineConf
     const int minBatch = minFirstBatch(config.method, files);
     const double engine = engineFrames(config) * std::max(1, channelStacks);
 
-    for (StackDownscale downscale : { StackDownscale::NONE, StackDownscale::X2, StackDownscale::X3, StackDownscale::X4 })
+    for (StackDownscale downscale :
+            {
+                StackDownscale::NONE, StackDownscale::X2, StackDownscale::X3, StackDownscale::X4
+            })
     {
         Option option;
         option.downscale = downscale;

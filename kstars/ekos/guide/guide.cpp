@@ -1948,8 +1948,8 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
         // tracking being off--the guide star will run away at the sidereal rate. Loudly warn instead
         // of silently escalating pulses, since the underlying cause is a mount/driver problem, not guiding.
         const QString message = (newState == ISD::Mount::MOUNT_ERROR)
-                                 ? i18n("Mount reports an error while guiding is active. Guide corrections may not reach the mount.")
-                                 : i18n("Mount has stopped tracking while guiding is active. Guide corrections cannot compensate for lost tracking.");
+                                ? i18n("Mount reports an error while guiding is active. Guide corrections may not reach the mount.")
+                                : i18n("Mount has stopped tracking while guiding is active. Guide corrections cannot compensate for lost tracking.");
         appendLogText(message);
         KSNotification::event(QLatin1String("GuideFailed"), message, KSNotification::Guide, KSNotification::Alert);
     }

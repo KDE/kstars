@@ -470,9 +470,10 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
     }
 
     if (std::abs(bestCandidate["duration"].toDouble() - duration) > 3)
-        Q_EMIT newLog(i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %2 seconds exposure for more accurate results.",
-                           QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
-                           QString::number(duration, 'f', 1)));
+        Q_EMIT newLog(
+            i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %2 seconds exposure for more accurate results.",
+                 QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
+                 QString::number(duration, 'f', 1)));
 
     QString filename = bestCandidate["filename"].toString();
 
@@ -481,8 +482,9 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
     const qint64 frameAge = frameTime.daysTo(QDateTime::currentDateTime());
     if (frameAge > Options::darkLibraryDuration())
     {
-        const QString reason = i18n("The matching dark frame is %1 days old but the dark library is set to reuse dark frames for %2 days.",
-                                    frameAge, Options::darkLibraryDuration());
+        const QString reason =
+            i18n("The matching dark frame is %1 days old but the dark library is set to reuse dark frames for %2 days.",
+                 frameAge, Options::darkLibraryDuration());
         qCWarning(KSTARS_EKOS).noquote() << "Rejected expired dark frame" << filename << "-" << reason;
         if (failureReason)
             *failureReason = reason;

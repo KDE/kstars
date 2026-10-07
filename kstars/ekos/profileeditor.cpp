@@ -652,8 +652,8 @@ void ProfileEditor::addDriver(const QModelIndex &index)
     if (ui->localMode->isChecked() && !isDriverLocallyAvailable(driverInfo))
     {
         KSNotification::error(i18n("<b>%1</b> is only available as a <b>Remote</b> driver and is not installed "
-                                    "locally. It cannot be added to a Local profile. Switch to a Remote profile "
-                                    "or install the driver locally.", driverLabel));
+                                   "locally. It cannot be added to a Local profile. Switch to a Remote profile "
+                                   "or install the driver locally.", driverLabel));
         return;
     }
 

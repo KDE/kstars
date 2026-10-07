@@ -843,22 +843,22 @@ void OpsAstrometryIndexFiles::logInstalledIndexFiles()
                 // Per slotUpdate(), an index is usable for FOVs between the skymark size
                 // and 10x the skymark size, and ideal for FOVs between ~1.1x and 2.5x it.
                 fovDescription = QString("Index Scale: %1' - Usable FOV: %2' - %3'")
-                                  .arg(QString::number(skymarkSize, 'f', 1),
-                                       QString::number(skymarkSize, 'f', 1),
-                                       QString::number(skymarkSize * 10.0, 'f', 1));
+                                 .arg(QString::number(skymarkSize, 'f', 1),
+                                      QString::number(skymarkSize, 'f', 1),
+                                      QString::number(skymarkSize * 10.0, 'f', 1));
             }
 
             qCInfo(KSTARS_EKOS_ALIGN) << "Astrometry Index Files:" << dirPath << series
-                                       << QString("%1/%2 files").arg(files.count()).arg(expectedCount)
-                                       << QString("%1 MB").arg(QString::number(totalBytes / 1048576.0, 'f', 1))
-                                       << fovDescription
-                                       << (complete ? "Complete" : "Incomplete");
+                                      << QString("%1/%2 files").arg(files.count()).arg(expectedCount)
+                                      << QString("%1 MB").arg(QString::number(totalBytes / 1048576.0, 'f', 1))
+                                      << fovDescription
+                                      << (complete ? "Complete" : "Incomplete");
             totalSeriesFound++;
         }
     }
 
     qCInfo(KSTARS_EKOS_ALIGN) << QString("Astrometry Index Files: Found %1 index series across %2 configured director%3.")
-                               .arg(totalSeriesFound).arg(astrometryDataDirs.count()).arg(astrometryDataDirs.count() == 1 ? "y" : "ies");
+                              .arg(totalSeriesFound).arg(astrometryDataDirs.count()).arg(astrometryDataDirs.count() == 1 ? "y" : "ies");
 }
 
 void OpsAstrometryIndexFiles::installIndexFile(const QString &name)
