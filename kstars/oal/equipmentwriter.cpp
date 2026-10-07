@@ -326,7 +326,7 @@ void EquipmentWriter::slotAddFilter()
         ui.f_LockedFilter->text(), 0, Ekos::INVALID_VALUE, Ekos::INVALID_VALUE,
         ui.f_FocusDatetime->dateTime().toString(DATETIME_FORMAT),
         ui.f_FocusTicksPerTemp->value(), ui.f_FocusTicksPerAlt->value(), ui.f_Wavelength->value());
-    KStarsData::Instance()->userdb()->AddFilter(fp, ui.f_Vendor->text());
+    KStarsData::Instance()->userdb()->AddFilter(fp);
 
     loadEquipment();
     ui.f_Id->clear();
