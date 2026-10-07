@@ -29,4 +29,9 @@ TARGET_LINK_LIBRARIES( test_sequencejobstate ${TEST_LIBRARIES})
 ADD_TEST( NAME TestSequenceJobState COMMAND test_sequencejobstate )
 SET_TESTS_PROPERTIES( TestSequenceJobState PROPERTIES LABELS "unstable" )
 
+ADD_EXECUTABLE( test_cameraprocess test_cameraprocess.cpp)
+TARGET_LINK_LIBRARIES( test_cameraprocess ${TEST_LIBRARIES})
+ADD_TEST( NAME TestCameraProcess COMMAND test_cameraprocess )
+SET_TESTS_PROPERTIES( TestCameraProcess PROPERTIES LABELS "stable" )
+
 ENDIF ()
