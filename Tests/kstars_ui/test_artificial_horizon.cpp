@@ -472,6 +472,31 @@ void TestArtificialHorizon::testArtificialHorizon()
     QVERIFY(!horizonComponent->getHorizon().isVisible(az, alt - 5));
 }
 
+void TestArtificialHorizon::testCloseAfterSkyMapDeleted()
+{
+    KStars * const ks = KStars::Instance();
+    QVERIFY(ks != nullptr);
+
+    // Open the horizon manager
+    if (ks->m_HorizonManager == nullptr || !ks->m_HorizonManager->isVisible())
+        ks->slotHorizonManager();
+    QTRY_VERIFY_WITH_TIMEOUT(ks->m_HorizonManager != nullptr && ks->m_HorizonManager->isVisible(), 1000);
+
+    // Closing the main window deletes the sky map in slotAboutToQuit(), while the horizon manager
+    // remains open until the application closes it. Call the slot directly rather than closing the
+    // main window, which would also delete the KStars instance used by the test harness.
+    ks->slotAboutToQuit();
+    QVERIFY(ks->map() == nullptr);
+    QVERIFY(SkyMap::Instance() == nullptr);
+
+    // The horizon manager forces a sky map update when closed
+    QVERIFY(ks->m_HorizonManager->close());
+    QVERIFY(!ks->m_HorizonManager->isVisible());
+
+    // Setting the time over D-Bus updates the sky map and sky objects too
+    ks->slotSetTimeToNow();
+}
+
 QTEST_KSTARS_MAIN(TestArtificialHorizon)
 
 #endif // HAVE_INDI

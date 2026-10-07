@@ -371,7 +371,9 @@ void HorizonManager::slotClosed()
 {
     setSelectPoints(false);
     terminateLivePreview();
-    SkyMap::Instance()->forceUpdate();
+    // On quit, the dialog may be closed after the sky map has already been deleted
+    if (SkyMap::Instance())
+        SkyMap::Instance()->forceUpdate();
 }
 
 void HorizonManager::slotSaveChanges()
