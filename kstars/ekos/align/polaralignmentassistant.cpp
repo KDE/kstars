@@ -769,10 +769,21 @@ void PolarAlignmentAssistant::updateDisplay(Stage stage, const QString &message)
 
 void PolarAlignmentAssistant::startPAHProcess()
 {
+    // PAH can be started remotely (e.g. from EkosLive) while no mount is selected
+    if (m_CurrentTelescope == nullptr)
+    {
+        Q_EMIT newLog(i18n("Polar alignment requires a mount. Please select a mount in the optical train."));
+        return;
+    }
+
     qCInfo(KSTARS_EKOS_ALIGN) << QString("Starting Polar Alignment Assistant process %1 ...").arg(PAA_VERSION);
 
     auto executePAH = [ this ]()
     {
+        // The mount may have been removed while the meridian warning was displayed
+        if (m_CurrentTelescope == nullptr)
+            return;
+
         setPAHStage(PAH_FIRST_CAPTURE);
 
         if (Options::limitedResourcesMode())

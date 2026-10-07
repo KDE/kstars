@@ -1630,6 +1630,10 @@ void CameraProcess::captureImage()
 
 void CameraProcess::resetFrame()
 {
+    // The reset frame button can be clicked while no camera is selected
+    if (!activeCamera())
+        return;
+
     devices()->setActiveChip(state()->useGuideHead() ?
                              devices()->getActiveCamera()->getChip(
                                  ISD::CameraChip::GUIDE_CCD) :

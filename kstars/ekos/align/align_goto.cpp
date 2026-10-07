@@ -63,32 +63,35 @@ void Align::stop(Ekos::AlignState mode)
     m_RotatorParityRetried = false;
     m_RemoteAlignTimer.stop();
 
-    disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
-    disconnect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
-
-    if (rememberUploadMode != m_Camera->getUploadMode())
-        m_Camera->setUploadMode(rememberUploadMode);
-
-    // Remember to reset fast exposure
-    if (m_RememberCameraFastExposure)
+    // Stop can be requested (e.g. by mount motion or EkosLive) while no camera is selected.
+    ISD::CameraChip *targetChip = nullptr;
+    if (m_Camera)
     {
-        m_RememberCameraFastExposure = false;
-        m_Camera->setFastExposureEnabled(true);
-    }
+        disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
+        disconnect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
 
-    auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+        if (rememberUploadMode != m_Camera->getUploadMode())
+            m_Camera->setUploadMode(rememberUploadMode);
+
+        // Remember to reset fast exposure
+        if (m_RememberCameraFastExposure)
+            m_Camera->setFastExposureEnabled(true);
+
+        targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    }
+    m_RememberCameraFastExposure = false;
 
     // If capture is still in progress, let's stop that.
     if (matchPAHStage(PAA::PAH_POST_REFRESH))
     {
-        if (targetChip->isCapturing())
+        if (targetChip && targetChip->isCapturing())
             targetChip->abortExposure();
 
         appendLogText(i18n("Refresh is complete."));
     }
     else
     {
-        if (targetChip->isCapturing())
+        if (targetChip && targetChip->isCapturing())
         {
             targetChip->abortExposure();
             appendLogText(i18n("Capture aborted."));

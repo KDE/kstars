@@ -5696,7 +5696,8 @@ void Focus::setAbsoluteFocusTicks()
 
 void Focus::syncTrackingBoxPosition()
 {
-    if (m_OpsFocusSettings->focusUseFullField->isChecked() || starCenter.isNull())
+    // The camera may have been removed while a frame was being processed
+    if (m_Camera == nullptr || m_OpsFocusSettings->focusUseFullField->isChecked() || starCenter.isNull())
         return;
 
     ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
