@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-04 02:18+0000\n"
-"PO-Revision-Date: 2026-09-28 19:35+0300\n"
+"PO-Revision-Date: 2026-10-06 20:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -379,7 +379,7 @@ msgstr "Görüş Alanı Yok"
 #: auxiliary/imageexporter.cpp:40 auxiliary/imageexporter.cpp:41
 #, kde-format
 msgid "KStars Exported Sky Image"
-msgstr "K Yıldızlar Dışa Aktarılan Gökyüzü Görseli"
+msgstr "KStars Dışa Aktarılan Gökyüzü Görseli"
 
 #: auxiliary/imageexporter.cpp:162
 #, kde-format
@@ -407,7 +407,7 @@ msgstr "Görsel dışa aktarılamadı: %1 URL’si geçersiz"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars image viewer: %1"
-msgstr "K Yıldızlar görsel görüntüleyicisi: %1"
+msgstr "KStars görsel görüntüleyicisi: %1"
 
 #: auxiliary/imageviewer.cpp:132
 #, kde-format
@@ -1443,8 +1443,8 @@ msgid ""
 "Zoom to the current KStars FOV.   Note: has no effect if hovering over "
 "object."
 msgstr ""
-"Geçerli K Yıldızlar Görüş Alanı’na yakınlaştır. Not: Nesne üzerinde "
-"geziniliyorsa bir etkisi olmaz."
+"Geçerli KStars Görüş Alanı’na yakınlaştır. Not: Nesne üzerinde geziniliyorsa "
+"bir etkisi olmaz."
 
 #: auxiliary/xplanetimageviewer.cpp:336
 #, kde-format
@@ -1494,13 +1494,12 @@ msgstr "XPlanet Seçenekleri’ni getir"
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
 msgstr ""
-"XPlanet zamanını, K Yıldızlar zamanından başka bir zamana ayarlamanıza izin "
-"verir"
+"XPlanet zamanını, KStars zamanından başka bir zamana ayarlamanıza izin verir"
 
 #: auxiliary/xplanetimageviewer.cpp:421
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
-msgstr "XPlanet zamanını geçerli K Yıldızlar zamanına ayarlar"
+msgstr "XPlanet zamanını geçerli KStars zamanına ayarlar"
 
 #: auxiliary/xplanetimageviewer.cpp:426
 #, kde-format
@@ -2339,8 +2338,8 @@ msgid ""
 msgstr ""
 "Bu düğme, bir listede yalnızca o anda görünen nesneleri veya listedeki tüm "
 "nesneleri görüntülemek için listenin süzülüp süzülmeyeceğini açar/kapatır. "
-"Görünürlük, geçerli K Yıldızlar tarih ve saatine, var olan gözlem ekipmanına "
-"ve İlginç Neler Var ayarlarına dayalı geçerli gökyüzü koşullarına göre "
+"Görünürlük, geçerli KStars tarih ve saatine, var olan gözlem ekipmanına ve "
+"İlginç Neler Var ayarlarına dayalı geçerli gökyüzü koşullarına göre "
 "belirlenir."
 
 #: data/qml/whatisinteresting/wiview.qml:1721
@@ -2352,11 +2351,11 @@ msgid ""
 "objects are considered 'interesting' if they appear on the KStars "
 "'interesting' list."
 msgstr ""
-"Bu düğme, listenin yalnızca ‘ilginç’ nesneleri görüntüleyecek şekilde mi "
+"Bu düğme, listenin yalnızca “ilginç” nesneleri görüntüleyecek şekilde mi "
 "süzüleceğini yoksa listedeki nesnelerden herhangi birinin mi görüntüleneceği "
 "arasında geçiş yapacaktır. Bu ayar yalnızca Gökadalar, Bulutsular ve Kümeler "
-"listeleri için geçerlidir. Nesneler, K Yıldızlar’ın ‘ilginç’ listesinde yer "
-"alıyorsa ‘ilginç’ olarak kabul edilir."
+"listeleri için geçerlidir. Nesneler, KStars’ın “ilginç” listesinde yer "
+"alıyorsa “ilginç” olarak kabul edilir."
 
 #: data/qml/whatisinteresting/wiview.qml:1743
 #, kde-kuit-format
@@ -2373,7 +2372,7 @@ msgstr ""
 "çalışacaktır. Yalnızca bir nesne hakkındaki bilgilerin mi, bir listedeki tüm "
 "nesnelerin mi yoksa yalnızca henüz veri indirilmemiş bir listedeki "
 "nesnelerin mi indirileceğini seçebilirsiniz. Lütfen unutmayın: Liste şu anda "
-"görünür nesneler veya ‘ilginç’ nesneler için süzülürse yalnızca süzülen "
+"görünür nesneler veya “ilginç” nesneler için süzülürse yalnızca süzülen "
 "nesneler indirilir. Gerçekten tüm nesnelerin listede olmasını istiyorsanız "
 "süzgeçleri kapatın."
 
@@ -5151,8 +5150,8 @@ msgid ""
 "The name of the field-of-view (FOV) symbol.  This name appears in the FOV "
 "menu and in the \"Edit FOV Symbols\" tool."
 msgstr ""
-"Görüş alanı (FOV) sembolünün adı. Bu ad, Görüş Alanı menüsünde ve ‘Görüş "
-"Alanı Sembollerini Düzenle’ aracında görünür."
+"Görüş alanı (FOV) sembolünün adı. Bu ad, Görüş Alanı menüsünde ve “Görüş "
+"Alanı Sembollerini Düzenle” aracında görünür."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
@@ -5315,7 +5314,7 @@ msgstr ""
 "teleskopun ve göz merceğinin odak uzaklıklarını ve göz merceğinin görüş "
 "alanı açısını belirtmeniz gerekir.\n"
 "\n"
-"Hesaplanan FOV açısı (yaydakika olarak), ‘Görüş alanı’ düzenleme kutusunda "
+"Hesaplanan FOV açısı (yaydakika olarak), “Görüş Alanı” düzenleme kutusunda "
 "görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeEyeFOV)
@@ -5442,7 +5441,7 @@ msgstr ""
 "açısını hesaplayacaktır. Öncelikle teleskopun odak uzaklığını ve CCD "
 "yongasının veya film negatifinin boyutunu belirtmelisiniz.\n"
 "\n"
-"Hesaplanan görüş alanı açısı (yaydakika olarak) ‘Görüş alanı’ düzenleme "
+"Hesaplanan görüş alanı açısı (yaydakika olarak) “Görüş Alanı” düzenleme "
 "kutusunda görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetectFromINDI)
@@ -5483,7 +5482,7 @@ msgstr ""
 "Doğrusal görüş alanını dürbün üzerinde belirtildiği gibi belirtmeniz "
 "gerekir.\n"
 "\n"
-"Hesaplanan görüş alanı açısı (yaydakika türünden) ‘Görüş alanı’ düzenleme "
+"Hesaplanan görüş alanı açısı (yaydakika türünden) “Görüş Alanı” düzenleme "
 "kutusunda görüntülenecektir."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab4)
@@ -5537,10 +5536,10 @@ msgid ""
 msgstr ""
 "Bu düğme, teleskopta çok ışınlı bir alıcı bulunmadığını varsayarak, belirli "
 "bir radyoteleskop ve gözlem dalga boyu kombinasyonu için Yarım Güçlü Işın "
-"Genişliği (HPBW) açısını hesaplayacaktır. Öncelikle radyoteleskobun çapını "
+"Genişliği (HPBW) açısını hesaplayacaktır. Öncelikle radyoteleskopun çapını "
 "ve gözlemlenen dalga boyunu belirtmelisiniz.\n"
 "\n"
-"Hesaplanan HPBW açısı (yaydakika olarak) ‘Görüş alanı’ düzenleme kutusunda "
+"Hesaplanan HPBW açısı (yaydakika olarak) “Görüş Alanı” düzenleme kutusunda "
 "görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeHPBW)
@@ -5644,7 +5643,7 @@ msgstr ""
 "Görüş alanı (FOV) sembolü için istediğiniz açısal boyutu girin.\n"
 "\n"
 "Doğrudan bir değer girebilir veya belirli göz mercekleri veya kameralar için "
-"açısal boyutu hesaplamak amacıyla ‘Göz Merceği’ veya ‘Kamera’ sekmelerini "
+"açısal boyutu hesaplamak amacıyla “Göz Merceği” veya “Kamera” sekmelerini "
 "kullanabilirsiniz."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_2)
@@ -5997,13 +5996,13 @@ msgstr "Vurgulanan görünümü listeden kaldırmak için bu düğmeye basın."
 #: dialogs/wizdata.ui:61
 #, kde-format
 msgid "KStars Data Directory"
-msgstr "K Yıldızlar Veri Dizini"
+msgstr "KStars Veri Dizini"
 
 #. i18n: ectx: property (text), widget (QLabel, foundFeedback1)
 #: dialogs/wizdata.ui:68
 #, kde-format
 msgid "The KStars Data Directory called kstars should be located at:"
-msgstr "kstars adlı K Yıldızlar Veri Dizini, şu konumda bulunmalıdır:"
+msgstr "kstars adlı KStars Veri Dizini, şu konumda bulunmalıdır:"
 
 #. i18n: ectx: property (text), widget (QLabel, dataPath)
 #: dialogs/wizdata.ui:83
@@ -6020,16 +6019,16 @@ msgid ""
 "KStars directory already some place else, you can exit KStars and copy it to "
 "that location yourself."
 msgstr ""
-"Veri dizininiz bulunamadı. Öntanımlı bir K Yıldızlar veri dizinini doğru "
-"konuma kopyalamak için aşağıdaki düğmeye tıklayabilirsiniz veya başka bir "
-"yerde hâlihazırda bir K Yıldızlar dizininiz varsa K Yıldızlar’dan çıkıp o "
-"konuma kendiniz kopyalayabilirsiniz."
+"Veri dizininiz bulunamadı. Öntanımlı bir KStars veri dizinini doğru konuma "
+"kopyalamak için aşağıdaki düğmeye tıklayabilirsiniz veya başka bir yerde "
+"hâlihazırda bir KStars dizininiz varsa KStars’dan çıkıp o konuma kendiniz "
+"kopyalayabilirsiniz."
 
 #. i18n: ectx: property (text), widget (QPushButton, copyKStarsData)
 #: dialogs/wizdata.ui:112
 #, kde-format
 msgid "Copy KStars Data Directory"
-msgstr "K Yıldızlar Veri Dizinini Kopyala"
+msgstr "KStars Veri Dizinini Kopyala"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/wizdata.ui:119
@@ -6154,7 +6153,7 @@ msgid ""
 "solving, and learning to use KStars. Just click the button to install or "
 "unzip the zip file and place the gsc folder in the data directory."
 msgstr ""
-"Bunu veri dizininize kurmak, K Yıldızlar’daki CCD Benzeticisi’nin gerçekçi "
+"Bunu veri dizininize kurmak, KStars’daki CCD Benzeticisi’nin gerçekçi "
 "görseller çekmesini sağlayacaktır. Bu, sıraları sınamak, plaka çözmek ve K "
 "Yıldızlar’ı kullanmayı öğrenmek için kullanışlıdır. ZIP dosyasını kurmak "
 "veya çıkarmak için düğmeyi tıklamanız ve GSC klasörünü veri dizinine "
@@ -6176,7 +6175,7 @@ msgid ""
 "tool later, by selecting <b>Download New Data</b> from the <b>File</b> menu."
 "</p>"
 msgstr ""
-"<p>Artık K Yıldızlar’ı geliştirmek için Messier nesne görselleri veya daha "
+"<p>Artık KStars’ı geliştirmek için Messier nesne görselleri veya daha "
 "eksiksiz bir NGC/IC kataloğu gibi isteğe bağlı veri dosyalarını "
 "indirebilirsiniz. Sürdürmek için <b>Ek Veri İndir</b> düğmesine basın. </"
 "p><p>Bu aracı daha sonra <b>Dosya</b> menüsünden <b>Yeni Veri İndir</b>’i "
@@ -6234,7 +6233,7 @@ msgstr "Var olan arama süzgeçleriyle eşleşen şehirler listesi."
 #: dialogs/wizwelcome.ui:61
 #, kde-format
 msgid "Welcome to the KStars Startup Wizard"
-msgstr "K Yıldızlar Başlangıç Sihirbazı’na hoş geldiniz"
+msgstr "KStars Başlangıç Sihirbazı’na hoş geldiniz"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: dialogs/wizwelcome.ui:84
@@ -7641,7 +7640,7 @@ msgid ""
 "means that the mount model tool will not sync/align your mount but will only "
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
-"Hizalama modülünde çözücü eylemi için ‘Hiçbir şey’ seçili değil. Bu, kaide "
+"Hizalama modülünde çözücü eylemi için “Hiçbir Şey” seçili değil. Bu, kaide "
 "modeli aracının kaidenizi eşzamanlamayacağı/hizalamayacağı, yalnızca "
 "işaretleme modeli hatalarını raporlayacağı anlamına gelir. Sürdürmek istiyor "
 "musunuz?"
@@ -7878,8 +7877,8 @@ msgid ""
 "menu."
 msgstr ""
 "Yapay ufkun altında üretilen noktaları, tanımlanmışlarsa ve "
-"etkinleştirilmişlerse atlayın. K Yıldızlar Ayarlar menüsündeki yapay ufuk "
-"ögesine bakın."
+"etkinleştirilmişlerse atlayın. KStars Ayarlar menüsündeki yapay ufuk ögesine "
+"bakın."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239
@@ -7974,7 +7973,7 @@ msgid ""
 "doing the mount model routine."
 msgstr ""
 "Kaide modeli rutinini yaparken teleskopun dönmesini istediğiniz RA ve DEC’i "
-"kendiliğinden almak üzere bir nesneyi seçebilmeniz için ‘Nesne Bul’ iletişim "
+"kendiliğinden almak üzere bir nesneyi seçebilmeniz için “Nesne Bul” iletişim "
 "kutusunu açın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
@@ -8117,8 +8116,8 @@ msgstr ""
 "seçenekler</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
 "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">İç SEP, K Yıldızlar’ın içsel bir kitaplığını kullanır.</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"text-indent:0px;\">İç SEP, KStars’ın içsel bir kitaplığını kullanır.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Dış sekstraktör, bir dış "
 "program gerektirir.</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
@@ -9936,7 +9935,7 @@ msgstr "Linux öntanımlısı"
 #: ekos/align/opsprograms.ui:37
 #, kde-format
 msgid "Linux KStars Internal "
-msgstr "Linux K Yıldızlar içsel "
+msgstr "Linux KStars içsel "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:42
@@ -11219,9 +11218,9 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
-"K Yıldızlar FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” "
-"seçeneği ayarlı değil. Bu olmadan HFR değerlerini alamazsınız. Bunu "
-"ayarladığınızda, yeni çekilen görsellerin HFR’leri hesaplanır."
+"KStars FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” seçeneği "
+"ayarlı değil. Bu olmadan HFR değerlerini alamazsınız. Bunu ayarladığınızda, "
+"yeni çekilen görsellerin HFR’leri hesaplanır."
 
 #: ekos/analyze/analyze.cpp:3526
 #, kde-format
@@ -11230,8 +11229,8 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
-"K Yıldızlar FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” "
-"seçeneği ayarlı değil. Bu olmadan, görüntü yakalama değerlerinde # yıldız "
+"KStars FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” seçeneği "
+"ayarlı değil. Bu olmadan, görüntü yakalama değerlerinde # yıldız "
 "alamazsınız. Bunu ayarladıktan sonra, yeni çekilen görsellerin yıldızları "
 "algılanacaktır."
 
@@ -13739,7 +13738,7 @@ msgstr "INDI durumu iletilerini durum çubuğunda görüntüle"
 #: indi/opsindi.ui:398 indi/opsindi.ui:401
 #, kde-format
 msgid "Display incoming INDI status messages in KStars status bar"
-msgstr "Gelen INDI durum iletilerini K Yıldızlar durum çubuğunda görüntüle"
+msgstr "Gelen INDI durum iletilerini KStars durum çubuğunda görüntüle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:437 indi/opsindi.ui:404
@@ -23524,8 +23523,7 @@ msgstr "Çevrim Dışı Eğitim Kılavuzu"
 #, kde-format
 msgid "Open the KStars documentation on training the model offline."
 msgstr ""
-"Modeli çevrim dışı eğitmek üzerine yazılmış K Yıldızlar belgelendirmesini "
-"açar."
+"Modeli çevrim dışı eğitmek üzerine yazılmış KStars belgelendirmesini açar."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -27811,8 +27809,7 @@ msgstr "Kaynaklar"
 #, kde-format
 msgid "Enable time synchronization upon connection between KStars and INDI"
 msgstr ""
-"K Yıldızlar ve INDI arasındaki bağlantı üzerine zaman eşzamanlamasını "
-"etkinleştir"
+"KStars ve INDI arasındaki bağlantı üzerine zaman eşzamanlamasını etkinleştir"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:822
@@ -27821,8 +27818,8 @@ msgid ""
 "Enable geographic location synchronization upon connection between KStars "
 "and INDI"
 msgstr ""
-"K Yıldızlar ve INDI arasındaki bağlantı üzerine coğrafî konum "
-"eşzamanlamasını etkinleştir"
+"KStars ve INDI arasındaki bağlantı üzerine coğrafî konum eşzamanlamasını "
+"etkinleştir"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
 #: ekos/mount/mount.ui:856
@@ -28478,8 +28475,7 @@ msgstr "Saat yönünün tersine"
 #: ekos/opsekos.cpp:37
 #, kde-format
 msgid "You must restart KStars for this change to take effect."
-msgstr ""
-"Bu değişikliğin etkin olması için K Yıldızlar’ı yeniden başlatmalısınız."
+msgstr "Bu değişikliğin etkin olması için KStars’ı yeniden başlatmalısınız."
 
 #: ekos/opsekos.cpp:44
 #, kde-format
@@ -28607,8 +28603,8 @@ msgid ""
 "Make Ekos window independent from KStars main window. Requires restart to "
 "take effect."
 msgstr ""
-"Ekos penceresini K Yıldızlar ana penceresinden bağımsız yapın. Değişikliğin "
-"etkin olması için yeniden başlatma gerekir."
+"Ekos penceresini KStars ana penceresinden bağımsız yapın. Değişikliğin etkin "
+"olması için yeniden başlatma gerekir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowEkos)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowFITS)
@@ -28872,7 +28868,7 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Ekos çevrim içi olduğunda geçerli K Yıldızlar coğrafî site ayarlarını "
+"<p>Ekos çevrim içi olduğunda geçerli KStars coğrafî site ayarlarını "
 "sürücülere gönderin.</p>\n"
 "<p>Bu seçenek yalnızca uzak bir coğrafî siteye bağlanırken kullanılmalıdır.</"
 "p>\n"
@@ -31630,8 +31626,8 @@ msgid ""
 msgstr ""
 "<html><body><p>Yapay ufuk kısıtlaması, hedefin yüksekliğini, eğer varsa "
 "tanımlanmış ve etkinleştirilmişse yapay ufkun üzerinde olacak şekilde "
-"sınırlandırır. K Yıldızlar Ayarlar menüsündeki yapay ufuk ögesine bakın.</"
-"p></body></html>"
+"sınırlandırır. KStars Ayarlar menüsündeki yapay ufuk ögesine bakın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -33738,7 +33734,7 @@ msgstr "Kuyruğu Farklı Kaydet"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:874
 #, kde-format
 msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr "K Yıldızlar kuyruk dosyası (*.kstarsqueue);;Tüm dosyalar (*)"
+msgstr "KStars kuyruk dosyası (*.kstarsqueue);;Tüm dosyalar (*)"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:852
 #, kde-format
@@ -34122,7 +34118,7 @@ msgstr "FITS dosyası açma hatası (fits_get_img_param): %1"
 #: fitsviewer/fitsdata.cpp:3078
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
-msgstr "1B FITS görselleri, K Yıldızlar tarafından desteklenmiyor."
+msgstr "1B FITS görselleri, KStars tarafından desteklenmiyor."
 
 #: fitsviewer/fitsdata.cpp:3126 fitsviewer/fitsdata.cpp:3871
 #, kde-format
@@ -34518,7 +34514,7 @@ msgstr "Çevirmeyi Sürdür"
 #: fitsviewer/fitslabel.cpp:484 fitsviewer/fitslabel.cpp:511
 #, kde-format
 msgid "KStars did not find any active mounts."
-msgstr "K Yıldızlar etkin bir kaide bulamadı."
+msgstr "KStars etkin bir kaide bulamadı."
 
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
@@ -35651,13 +35647,13 @@ msgstr "3B Grafiği Görüntüle"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "K Yıldızlar Canlı Yığıcı"
+msgstr "KStars Canlı Yığıcı"
 
 #: fitsviewer/fitsviewer.cpp:371
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
-msgstr "K Yıldızlar FITS Görüntüleyicisi"
+msgstr "KStars FITS Görüntüleyicisi"
 
 #: fitsviewer/fitsviewer.cpp:424
 #, kde-format
@@ -36291,7 +36287,7 @@ msgstr ""
 "kullanır. Piksel reddi uygulanmaz.</p><p>— Sigma kırpması. Aykırı pikseller "
 "reddedilir.</p><p>— Winsorlaştırılmış Sigma Kırpma. Sigma kırpmasının "
 "Winsorlaştırılmış sürümü.</p><p>— ImageMM. https://iopscience.iop.org/"
-"article/10.3847/1538-3881/adfb72'ye göre ImageMM yığmasını uygular. NOT: Bu "
+"article/10.3847/1538-3881/adfb72’ye göre ImageMM yığmasını uygular. NOT: Bu "
 "yöntem çok fazla özkaynak gerektirir.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
@@ -36885,7 +36881,7 @@ msgstr "Vurgula"
 #: fitsviewer/livestackwebcast.ui:14
 #, kde-format
 msgid "KStars Live Stacker Webcast"
-msgstr "K Yıldızlar Canlı Yığıcı Web Yayını"
+msgstr "KStars Canlı Yığıcı Web Yayını"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, logoRBtn)
 #: fitsviewer/livestackwebcast.ui:20
@@ -37164,8 +37160,7 @@ msgstr "Görsel alındığında odaklan"
 #: fitsviewer/opsfits.ui:122
 #, kde-format
 msgid "Make FITS Viewer window independent from KStars"
-msgstr ""
-"FITS Görüntüleyicisi penceresini K Yıldızlar’dan bağımsız hale getirin."
+msgstr "FITS Görüntüleyicisi penceresini KStars’dan bağımsız hale getirin."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:132
@@ -38352,8 +38347,8 @@ msgid ""
 "<html><head/><body><p>KStars must be restarted for new drivers to take "
 "effect.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yeni sürücülerin etkili olması için K Yıldızlar "
-"yeniden başlatılmalıdır.</p></body></html>"
+"<html><head/><body><p>Yeni sürücülerin etkili olması için KStars yeniden "
+"başlatılmalıdır.</p></body></html>"
 
 #: indi/drivermanager.cpp:108
 #, kde-format
@@ -38394,7 +38389,7 @@ msgid ""
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
 "INDI sürücüleri dizini bulunamadı: %1\n"
-"Lütfen K Yıldızlar yapılandırmasında doğru yolu ayarladığınızdan emin olun"
+"Lütfen KStars yapılandırmasında doğru yolu ayarladığınızdan emin olun"
 
 #: indi/drivermanager.cpp:1092 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
@@ -38797,8 +38792,7 @@ msgstr "Ayarla"
 msgid ""
 "Enable binary data transfer from this property to KStars and vice-versa."
 msgstr ""
-"Bu özellikten K Yıldızlar’a ve tersi yönde ikili veri aktarımını "
-"etkinleştirin."
+"Bu özellikten KStars’a ve tersi yönde ikili veri aktarımını etkinleştirin."
 
 #: indi/indiproperty.cpp:299
 #, kde-format
@@ -38839,8 +38833,7 @@ msgstr "İç INDI sürücüleri mi yoksa dış INDI sürücüleri mi?"
 #, kde-format
 msgid "You need to restart KStars for this change to take effect."
 msgstr ""
-"Bu değişikliğin etkin olması için K Yıldızlar’ı yeniden başlatmanız "
-"gerekiyor."
+"Bu değişikliğin etkin olması için KStars’ı yeniden başlatmanız gerekiyor."
 
 #: indi/opsindi.cpp:85
 #, kde-format
@@ -39347,14 +39340,13 @@ msgid ""
 "<br><br>\n"
 "Please click next to continue."
 msgstr ""
-"<b>K Yıldızlar Teleskop Kurulum Sihirbazı</b>’na hoş geldiniz\n"
+"<b>KStars Teleskop Kurulum Sihirbazı</b>’na hoş geldiniz\n"
 "<br><br>\n"
-"Bu sihirbaz, teleskopunuza bağlanmanıza ve onu K Yıldızlar’dan denetlemenize "
+"Bu sihirbaz, teleskopunuza bağlanmanıza ve onu KStars’dan denetlemenize "
 "yardımcı olacaktır. Bazı temel bilgileri doğrulamanız istenir.\n"
 "<br>\n"
 "<br>Sihirbaz sırasında herhangi bir noktada <tt>Yardım</tt> düğmesine "
-"basarak K Yıldızlar’daki teleskop desteği hakkında kapsamlı bilgi "
-"alabilirsiniz.\n"
+"basarak KStars’daki teleskop desteği hakkında kapsamlı bilgi alabilirsiniz.\n"
 "<br><br>\n"
 "Sürdürmek için lütfen “Sonraki”ye tıklayın."
 
@@ -39400,7 +39392,7 @@ msgid ""
 msgstr ""
 "<h3>2. Teleskopunuzu Hizalayın</h3>\n"
 "\n"
-"Teleskopunuzu K Yıldızlar’dan düzgün bir şekilde denetleyebilmeniz için önce "
+"Teleskopunuzu KStars’dan düzgün bir şekilde denetleyebilmeniz için önce "
 "hizalamanız gerekir. Hizalama yönergeleri için lütfen teleskopunuzun "
 "kullanım kılavuzuna bakın.\n"
 "<br><br>\n"
@@ -39471,8 +39463,8 @@ msgstr ""
 "Teleskopunuzun bağlı olduğu kapı numarasını girin. Bilgisayarınızda yalnızca "
 "bir seri kapı varsa bağlantı noktası genellikle <tt>/dev/ttyUSB0</tt> "
 "biçimindedir.\n"
-"<br><br>Kapı numarasından emin değilseniz alanı boş bırakın, K Yıldızlar "
-"bağlı teleskoplar için kapıları taramaya çalışacaktır. Kendiliğinden tarama "
+"<br><br>Kapı numarasından emin değilseniz alanı boş bırakın, KStars bağlı "
+"teleskoplar için kapıları taramaya çalışacaktır. Kendiliğinden tarama "
 "işleminin tamamlanmasının birkaç dakika sürebileceğini unutmayın."
 
 #. i18n: ectx: property (text), widget (QLabel, portLabel)
@@ -39492,14 +39484,14 @@ msgid ""
 "Please wait while KStars scan communication ports for attached telescopes.\n"
 "This process might take few minutes to complete."
 msgstr ""
-"K Yıldızlar takılı teleskoplar için iletişim kapılarını tararken lütfen "
+"KStars takılı teleskoplar için iletişim kapılarını tararken lütfen "
 "bekleyin.\n"
 "Bu işlemin tamamlanması birkaç dakika sürebilir."
 
 #: indi/telescopewizardprocess.cpp:225
 #, kde-format
 msgid "Please wait while KStars tries to connect to your telescope..."
-msgstr "K Yıldızlar teleskopunuza bağlanmaya çalışırken lütfen bekleyin…"
+msgstr "KStars teleskopunuza bağlanmaya çalışırken lütfen bekleyin…"
 
 #: indi/telescopewizardprocess.cpp:340
 #, kde-format
@@ -39507,7 +39499,7 @@ msgid ""
 "Sorry. KStars failed to detect any attached telescopes, please check your "
 "settings and try again."
 msgstr ""
-"Üzgünüz. K Yıldızlar takılı bir teleskop algılayamadı. Lütfen ayarlarınızı "
+"Üzgünüz. KStars takılı bir teleskop algılayamadı. Lütfen ayarlarınızı "
 "denetleyin ve yeniden deneyin."
 
 #: indi/telescopewizardprocess.cpp:354
@@ -39763,22 +39755,22 @@ msgstr "Teleskopu Bul"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars"
-msgstr "K Yıldızlar"
+msgstr "KStars"
 
 #: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
 #, kde-format, kde-kuit-format
 msgid "KStars"
-msgstr "K Yıldızlar"
+msgstr "KStars"
 
 #: kstars.cpp:302
 #, kde-format
 msgid "KStars Live Stacker"
-msgstr "K Yıldızlar Canlı Yığıcı"
+msgstr "KStars Canlı Yığıcı"
 
 #: kstars.cpp:303
 #, kde-format
 msgid "© 2025 KStars Team"
-msgstr "© 2025 K Yıldızlar Takımı"
+msgstr "© 2025 KStars Takımı"
 
 #: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
 #, kde-format
@@ -40056,7 +40048,7 @@ msgstr "Ana pencerenin geometrisi, kodlanmış bayt dizilişi"
 #: kstars.kcfg:117
 #, kde-format
 msgid "Run Startup Wizard when KStars launches?"
-msgstr "K Yıldızlar başlatıldığında başlangıç sihirbazı çalıştırılsın mı?"
+msgstr "KStars başlatıldığında başlangıç sihirbazı çalıştırılsın mı?"
 
 #. i18n: ectx: label, entry (CurrentTheme), group (GUI)
 #: kstars.kcfg:121
@@ -40196,8 +40188,7 @@ msgstr "Tarih ve zaman kendiliğinden güncellensin mi?"
 #: kstars.kcfg:191
 #, kde-format
 msgid "Make INDI Control Panel window independent of KStars main window"
-msgstr ""
-"INDI Denetim Masası penceresini K Yıldızlar ana penceresinden bağımsız yap"
+msgstr "INDI Denetim Masası penceresini KStars ana penceresinden bağımsız yap"
 
 #. i18n: ectx: label, entry (showTargetCrosshair), group (indi)
 #: kstars.kcfg:195
@@ -40212,8 +40203,8 @@ msgid ""
 "Toggle display of crosshairs centered at telescope's pointed position in the "
 "KStars sky map."
 msgstr ""
-"K Yıldızlar gökyüzü haritasında teleskopun işaret ettiği konumda "
-"merkezlenmiş artı işaretinin görüntülenmesini açar/kapatır."
+"KStars gökyüzü haritasında teleskopun işaret ettiği konumda merkezlenmiş "
+"artı işaretinin görüntülenmesini açar/kapatır."
 
 #. i18n: ectx: label, entry (showINDIMessages), group (indi)
 #: kstars.kcfg:200
@@ -40261,13 +40252,13 @@ msgstr "INDI iletisi bildirimleri"
 #: kstars.kcfg:220
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr "Zaman için ana kaynak (K Yıldızlar, Mount veya INDI aygıtı)"
+msgstr "Zaman için ana kaynak (KStars, Mount veya INDI aygıtı)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:224
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
-msgstr "Konum için ana kaynak (K Yıldızlar, Mount veya INDI aygıtı)"
+msgstr "Konum için ana kaynak (KStars, Mount veya INDI aygıtı)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:228
@@ -40685,8 +40676,8 @@ msgid ""
 "Toggle whether KStars should hide some objects while the display is moving, "
 "for smoother motion."
 msgstr ""
-"Görüntü hareket ederken daha akıcı hareket için K Yıldızlar’ın bazı "
-"nesneleri gizleyip gizlemeyeceğini açın/kapatın."
+"Görüntü hareket ederken daha akıcı hareket için KStars’ın bazı nesneleri "
+"gizleyip gizlemeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (HideCBounds), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCBounds)
@@ -41955,7 +41946,7 @@ msgid ""
 "When enabled, objects whose magnitudes are unknown, or not available to "
 "KStars, are drawn irrespective of the faint limits set."
 msgstr ""
-"Etkinleştirildiğinde, büyüklükleri bilinmeyen veya K Yıldızlar tarafından "
+"Etkinleştirildiğinde, büyüklükleri bilinmeyen veya KStars tarafından "
 "erişilemeyen nesneler, ayarlanan sönük sınırlardan bağımsız olarak çizilir."
 
 #. i18n: ectx: label, entry (ShowInlineImages), group (View)
@@ -43457,14 +43448,14 @@ msgstr "Belirtilen yapılandırma dosyasını kullanın."
 #: kstars.kcfg:1512
 #, kde-format
 msgid "Use KStars's FOV"
-msgstr "K Yıldızlar’ın görüş alanını kullan"
+msgstr "KStars’ın görüş alanını kullan"
 
 #. i18n: ectx: whatsthis, entry (XplanetFOV), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetFOV)
 #: kstars.kcfg:1513 xplanet/opsxplanet.ui:239
 #, kde-format
 msgid "If checked, use kstars's FOV."
-msgstr "Seçiliyse K Yıldızlar’ın görüş alanını kullanın."
+msgstr "Seçiliyse KStars’ın görüş alanını kullanın."
 
 #. i18n: ectx: label, entry (XplanetMarkerFile), group (Xplanet)
 #: kstars.kcfg:1517
@@ -43628,7 +43619,7 @@ msgstr "Seçili uyduların listesi."
 #: kstars.kcfg:1580
 #, kde-format
 msgid "Is this the first time running KStars?"
-msgstr "Bu, K Yıldızlar’ı ilk çalıştırmanız mı?"
+msgstr "Bu, KStars’ı ilk çalıştırmanız mı?"
 
 #. i18n: ectx: whatsthis, entry (KStarsFirstRun), group (General)
 #: kstars.kcfg:1581
@@ -43637,7 +43628,7 @@ msgid ""
 "This allows KStars to perform several operations if it has never been "
 "installed before."
 msgstr ""
-"Bu, daha önce hiç çalıştırılmamış olsa bile K Yıldızlar’ın çeşitli işlemleri "
+"Bu, daha önce hiç çalıştırılmamış olsa bile KStars’ın çeşitli işlemleri "
 "gerçekleştirmesine olanak tanır."
 
 #. i18n: ectx: label, entry (AlwaysRecomputeCoordinates), group (General)
@@ -43708,9 +43699,9 @@ msgid ""
 "Checking this option causes KStars to generate verbose debug information for "
 "diagnostic purposes. This may cause slowdown of KStars."
 msgstr ""
-"Bu seçeneği işaretlemek, K Yıldızlar’ın tanılama amaçları için ayrıntılı "
-"hata ayıklama bilgileri oluşturmasına neden olur. Bu, K Yıldızlar’ın "
-"yavaşlamasına neden olabilir."
+"Bu seçeneği işaretlemek, KStars’ın tanılama amaçları için ayrıntılı hata "
+"ayıklama bilgileri oluşturmasına neden olur. Bu, KStars’ın yavaşlamasına "
+"neden olabilir."
 
 #. i18n: ectx: label, entry (RegularLogging), group (General)
 #: kstars.kcfg:1605
@@ -43724,7 +43715,7 @@ msgstr "Düzenli günlüklemeyi etkinleştir"
 msgid ""
 "Checking this option causes KStars to generate regular debug information."
 msgstr ""
-"Bu seçeneğin işaretlemek K Yıldızlar’ın düzenli hata ayıklama bilgileri "
+"Bu seçeneğin işaretlemek KStars’ın düzenli hata ayıklama bilgileri "
 "üretmesine neden olur."
 
 #. i18n: ectx: label, entry (DisableLogging), group (General)
@@ -43739,7 +43730,7 @@ msgstr "Ayrıntılı günlüklemeyi devre dışı bırak"
 msgid ""
 "Checking this option causes KStars to stop generating ANY debug information."
 msgstr ""
-"Bu seçeneği işaretlemek, K Yıldızlar’ın HERHANGİ bir hata ayıklama bilgisi "
+"Bu seçeneği işaretlemek, KStars’ın HERHANGİ bir hata ayıklama bilgisi "
 "üretmeyi durdurmasına neden olur."
 
 #. i18n: ectx: label, entry (LogToDefault), group (General)
@@ -43755,9 +43746,9 @@ msgid ""
 "Checking this option causes KStars log debug messages to the default output "
 "used by the platform (e.g. Standard Error)."
 msgstr ""
-"Bu seçeneği işaretlemek, K Yıldızlar günlük hata ayıklama iletilerinin "
-"platform tarafından kullanılan öntanımlı çıktıya (örn. Standart Hata) "
-"gönderilmesini sağlar."
+"Bu seçeneği işaretlemek, KStars günlük hata ayıklama iletilerinin platform "
+"tarafından kullanılan öntanımlı çıktıya (örn. Standart Hata) gönderilmesini "
+"sağlar."
 
 #. i18n: ectx: label, entry (LogToFile), group (General)
 #: kstars.kcfg:1620
@@ -43772,7 +43763,7 @@ msgid ""
 "Checking this option causes KStars log debug messages to a log file as "
 "specified."
 msgstr ""
-"Bu seçeneği işaretlemek, K Yıldızlar’ın günlük hata ayıklama iletilerini "
+"Bu seçeneği işaretlemek, KStars’ın günlük hata ayıklama iletilerini "
 "belirtildiği gibi bir günlük dosyasına kaydetmesini sağlar."
 
 #. i18n: ectx: whatsthis, entry (FITSLogging), group (General)
@@ -43933,8 +43924,7 @@ msgstr ""
 #: kstars.kcfg:1718
 #, kde-format
 msgid "Make FITS Viewer window independent of KStars main window"
-msgstr ""
-"FITS görüntüleyicisi penceresini K Yıldızlar ana penceresinden bağımsız yap"
+msgstr "FITS görüntüleyicisi penceresini KStars ana penceresinden bağımsız yap"
 
 #. i18n: ectx: label, entry (liveStackerOwnProcess), group (FITSViewer)
 #: kstars.kcfg:1722
@@ -44389,7 +44379,7 @@ msgstr "Ekos modüllerinin simgeleri sayfaların soluna yerleştirilir"
 #: kstars.kcfg:2025
 #, kde-format
 msgid "Make Ekos window independent of KStars main window"
-msgstr "Ekos penceresini K Yıldızlar ana penceresinden bağımsız yap"
+msgstr "Ekos penceresini KStars ana penceresinden bağımsız yap"
 
 #. i18n: ectx: label, entry (profile), group (Ekos)
 #: kstars.kcfg:2029
@@ -44437,7 +44427,7 @@ msgstr "EkosLive kimlik bilgilerini anımsa"
 #: kstars.kcfg:2055
 #, kde-format
 msgid "Start Ekos Live on KStars startup."
-msgstr "K Yıldızlar başlatıldığında EkosLive’ı da başlat"
+msgstr "KStars başlatıldığında EkosLive’ı da başlat"
 
 #. i18n: ectx: label, entry (EkosLiveUsername), group (EkosLive)
 #: kstars.kcfg:2059
@@ -45993,7 +45983,7 @@ msgid ""
 "angle math assumes. Learned automatically the first time the auto-reverse "
 "wrong-direction check confirms it, or can be set manually."
 msgstr ""
-"Döndürücü, K Yıldızlar’ın konum–açı matematiğinin varsaydığı yönün tersine "
+"Döndürücü, KStars’ın konum–açı matematiğinin varsaydığı yönün tersine "
 "fiziksel olarak döner. Kendiliğinden ters çevirme yanlış yön denetimi, bunu "
 "ilk onayladığında kendiliğinden öğrenilir veya elle ayarlanabilir."
 
@@ -72028,7 +72018,7 @@ msgstr "Üsküp"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Sky's The Limit Obs."
-msgstr "Sky's The Limit Obs."
+msgstr "Sky’s The Limit Obs."
 
 #: kstars_i18n.cpp:4140
 #, kde-kuit-format
@@ -81582,7 +81572,7 @@ msgstr "Görseli Dışa Aktar"
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
-msgstr "K Yıldızlar betikleri (*.kstars)"
+msgstr "KStars betikleri (*.kstars)"
 
 #: kstarsactions.cpp:1454
 #, kde-format
@@ -81602,7 +81592,7 @@ msgid ""
 "properly, and it may even contain malicious code. Would you like to execute "
 "it anyway?"
 msgstr ""
-"Seçili betik, K Yıldızlar betik oluşturucusu kullanılarak oluşturulmadığını "
+"Seçili betik, KStars betik oluşturucusu kullanılarak oluşturulmadığını "
 "gösteren tanınmayan ögeler içeriyor. Bu betik düzgün çalışmayabilir ve hatta "
 "kötü amaçlı kodlar içerebilir. Yine de yürütmek ister misiniz?"
 
@@ -81735,7 +81725,7 @@ msgid ""
 "\n"
 "It appears that your setup is broken."
 msgstr ""
-"%1 dosyası bulunamadı. K Yıldızlar, bu dosya olmadan düzgün çalışamaz. K "
+"%1 dosyası bulunamadı. KStars, bu dosya olmadan düzgün çalışamaz. K "
 "Yıldızlar bu dosyayı şu konumlarda arar:\n"
 "\n"
 "\t%2\n"
@@ -81804,11 +81794,11 @@ msgid ""
 "instead abort now and manually fix the problem. "
 msgstr ""
 "Kullanıcı notları günlük dosyası %1, %2 konumunda başlayan girdinin "
-"açılışında hatalı biçimlendirilmiş. K Yıldızlar, bu dosyayı tam olarak "
-"okumadan da çalışabilir. K Yıldızlar’ı, kısımsal okuma başarılı olursa olsun "
-"çalıştırmak için “Sürdür”e basın. K Yıldızlar dosyaya daha sonra yazarsa "
-"dosya yarıda kesilebilir. Bunun yerine şimdi iptal etmek ve sorunu elle "
-"düzeltmek için “İptal”e basın."
+"açılışında hatalı biçimlendirilmiş. KStars, bu dosyayı tam olarak okumadan "
+"da çalışabilir. KStars’ı, kısımsal okuma başarılı olursa olsun çalıştırmak "
+"için “Sürdür”e basın. KStars dosyaya daha sonra yazarsa dosya yarıda "
+"kesilebilir. Bunun yerine şimdi iptal etmek ve sorunu elle düzeltmek için "
+"“İptal”e basın."
 
 #: kstarsdata.cpp:814
 #, kde-format
@@ -82746,7 +82736,7 @@ msgstr "HiPS Ayarları…"
 #: kstarsinit.cpp:917
 #, kde-format
 msgid " Welcome to KStars "
-msgstr " K Yıldızlar’a hoş geldiniz "
+msgstr " KStars’a hoş geldiniz "
 
 #: kstarsinit.cpp:1014 kstarsliteinit.cpp:65 skymap.cpp:411 skymaplite.cpp:326
 #: widgets/infoboxwidget.cpp:112
@@ -82796,7 +82786,7 @@ msgstr "Yapı: %1"
 #: kstarslite.cpp:121
 #, kde-format
 msgid "(c), The KStars Team"
-msgstr "©, K Yıldızlar Takımı"
+msgstr "©, KStars Takımı"
 
 #: kstarslite.cpp:122
 #, kde-format
@@ -83762,7 +83752,7 @@ msgstr "Çık"
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:36
 #, kde-kuit-format
 msgid "Welcome to KStars Lite"
-msgstr "K Yıldızlar Temel’e hoş geldiniz"
+msgstr "KStars Temel’e hoş geldiniz"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:44
 #, kde-kuit-format
@@ -83770,14 +83760,13 @@ msgid ""
 "KStars Lite is a free, open source, cross-platform Astronomy Software "
 "designed for mobile devices."
 msgstr ""
-"K Yıldızlar Temel, taşınabilir aygıtlar için tasarlanmış, ücretsiz, açık "
+"KStars Temel, taşınabilir aygıtlar için tasarlanmış, ücretsiz, açık "
 "kaynaklı, çapraz platform bir gökbilim yazılımıdır."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
 #, kde-kuit-format
 msgid "A quick tutorial will introduce you to main functions of KStars Lite"
-msgstr ""
-"Hızlı bir öğretici, size K Yıldızlar Temel’in ana işlevlerini tanıtacaktır."
+msgstr "Hızlı bir öğretici, size KStars Temel’in ana işlevlerini tanıtacaktır."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:66
 #, kde-kuit-format
@@ -83795,7 +83784,7 @@ msgid ""
 "By swiping from left to right on any page of KStars Lite you can access "
 "global drawer"
 msgstr ""
-"K Yıldızlar Temel’in herhangi bir sayfasında soldan sağa kaydırarak global "
+"KStars Temel’in herhangi bir sayfasında soldan sağa kaydırarak global "
 "çekmeceye erişebilirsiniz"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
@@ -83852,7 +83841,7 @@ msgid ""
 "almost over. The last step to do is to set your location (you can do that "
 "either manually or from GPS). Click next to proceed."
 msgstr ""
-"K Yıldızlar Temel’deki ilk adımlarınız için tebrikler. Öğreticiniz neredeyse "
+"KStars Temel’deki ilk adımlarınız için tebrikler. Öğreticiniz neredeyse "
 "bitmek üzere. Yapmanız gereken son adım, konumunuzu ayarlamaktır (bunu elle "
 "veya GPS ile yapabilirsiniz). Sürdürmek için Sonraki düğmesine tıklayın."
 
@@ -83887,7 +83876,7 @@ msgstr "KB"
 #: kstarssplash.cpp:18
 #, kde-format
 msgid "Welcome to KStars. Please stand by while loading..."
-msgstr "K Yıldızlar’a hoş geldiniz. Yükleme sürerken lütfen bekleyin…"
+msgstr "KStars’a hoş geldiniz. Yükleme sürerken lütfen bekleyin…"
 
 #: libindi_strings.cpp:1
 #, kde-kuit-format
@@ -87201,8 +87190,7 @@ msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
-"Üzgünüm, bir K Yıldızlar veri dizini olmadan K Yıldızlar çalışamaz. Şimdi "
-"çıkılacak."
+"Üzgünüm, bir KStars veri dizini olmadan KStars çalışamaz. Şimdi çıkılacak."
 
 #: main.cpp:142
 #, kde-format
@@ -87211,7 +87199,7 @@ msgid ""
 "\n"
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
-"©, K Yıldızlar Takımı\n"
+"©, KStars Takımı\n"
 "\n"
 "Gauss Süreç Kılavuzu Algoritması: © 2014–2017 Max Planck Society"
 
@@ -87265,7 +87253,7 @@ msgstr "Robert Lancaster"
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
-"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. K Yıldızlar’ın macOS’a aktarımı"
+"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. KStars’ın macOS’a aktarımı"
 
 #: main.cpp:162
 #, kde-format
@@ -87330,7 +87318,7 @@ msgstr "Artem Fedoskin"
 #: main.cpp:177
 #, kde-format
 msgid "KStars Lite"
-msgstr "K Yıldızlar Temel"
+msgstr "KStars Temel"
 
 #: main.cpp:179
 #, kde-format
@@ -87459,7 +87447,7 @@ msgstr "Ana-Maria Constantin"
 #: main.cpp:207
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
-msgstr "Gökbilim ve K Yıldızlar ile ilgili teknik belgelendirme"
+msgstr "Gökbilim ve KStars ile ilgili teknik belgelendirme"
 
 #: main.cpp:208
 #, kde-format
@@ -87499,8 +87487,7 @@ msgstr "Stephane Lucas"
 #: main.cpp:216
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
-msgstr ""
-"Ekos Zamanlayıcısı, K Yıldızlar macOS sürümü için geniş sınama ve öneriler"
+msgstr "Ekos Zamanlayıcısı, KStars macOS sürümü için geniş sınama ve öneriler"
 
 #: main.cpp:217
 #, kde-format
@@ -87510,7 +87497,7 @@ msgstr "Yuriy Fabirovskiy"
 #: main.cpp:218
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
-msgstr "Hem K Yıldızlar hem de K Yıldızlar Temel için açılış ekranı"
+msgstr "Hem KStars hem de KStars Temel için açılış ekranı"
 
 #: main.cpp:219
 #, kde-format
@@ -87520,7 +87507,7 @@ msgstr "Jamie Smith"
 #: main.cpp:219
 #, kde-format
 msgid "KStars OSX Port."
-msgstr "K Yıldızlar macOS sürümü"
+msgstr "KStars macOS sürümü"
 
 #: main.cpp:220
 #, kde-format
@@ -88182,15 +88169,14 @@ msgstr "Kişi:"
 #: options/opsadvanced.cpp:127
 #, kde-format
 msgid "Purge complete. Please restart KStars."
-msgstr "Temizlik tamamlandı. Lütfen K Yıldızlar’ı yeniden başlatın."
+msgstr "Temizlik tamamlandı. Lütfen KStars’ı yeniden başlatın."
 
 #: options/opsadvanced.cpp:136
 #, kde-format
 msgid ""
 "Warning! All KStars configuration is going to be purged. This cannot be "
 "reversed."
-msgstr ""
-"Uyarı! Tüm K Yıldızlar yapılandırması temizlenecek. Bu eylem geri alınamaz."
+msgstr "Uyarı! Tüm KStars yapılandırması temizlenecek. Bu eylem geri alınamaz."
 
 #: options/opsadvanced.cpp:137
 #, kde-format
@@ -88309,7 +88295,7 @@ msgstr "Ayrıntılı hata ayıklama çıktısını etkinleştir"
 #: options/opsadvanced.ui:384
 #, kde-format
 msgid "Clear all KStars configuration and user database."
-msgstr "Tüm K Yıldızlar yapılandırmasını ve kullanıcı veri tabanını temizle"
+msgstr "Tüm KStars yapılandırmasını ve kullanıcı veri tabanını temizle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: options/opsadvanced.ui:420
@@ -88748,10 +88734,10 @@ msgid ""
 "The objects acquired in this manner are stored under a catalog that is "
 "called user, and it can be edited using the \"Manage DSO Catalogs\" feature."
 msgstr ""
-"Bu onay kutusu işaretliyse, K Yıldızlar’ın bilmediği bir nesne adı Bul "
-"iletişim kutusuna girildiğinde, K Yıldızlar nesne hakkında bilgi edinmek ve "
-"ardından nesneyi veri tabanına eklemek için çevrim içi hizmetlerle (örneğin "
-"CDS Sesame) iletişime geçecektir.\n"
+"Bu onay kutusu işaretliyse, KStars’ın bilmediği bir nesne adı Bul iletişim "
+"kutusuna girildiğinde, KStars nesne hakkında bilgi edinmek ve ardından "
+"nesneyi veri tabanına eklemek için çevrim içi hizmetlerle (örneğin CDS "
+"Sesame) iletişime geçecektir.\n"
 "Bu şekilde edinilen nesneler kullanıcı adı verilen bir katalog altında "
 "saklanır ve “DSO Kataloglarını Yönet” özelliği kullanılarak düzenlenebilir."
 
@@ -88759,7 +88745,7 @@ msgstr ""
 #: options/opscatalog.ui:620
 #, kde-format
 msgid "Resolve names not known to KStars using online services"
-msgstr "K Yıldızlar’ın bilmediği adları çevrim içi hizmetleri kullanarak çöz"
+msgstr "KStars’ın bilmediği adları çevrim içi hizmetleri kullanarak çöz"
 
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
@@ -91005,7 +90991,7 @@ msgstr "Dosyaya Dışa Aktar…"
 #: printing/pwizwelcome.ui:83
 #, kde-format
 msgid "Welcome to the KStars Printing Wizard"
-msgstr "K Yıldızlar Yazdırma Sihirbazı’na hoş geldiniz"
+msgstr "KStars Yazdırma Sihirbazı’na hoş geldiniz"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizwelcome.ui:107
@@ -92067,8 +92053,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar El Kitabı, astronomi hakkında bilgilendirici yazılar "
-"dizisi olan AstroInfo Projesi’ni içerir.\n"
+"\t\t<p>KStars El Kitabı, astronomi hakkında bilgilendirici yazılar dizisi "
+"olan AstroInfo Projesi’ni içerir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92105,8 +92091,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’ın bir tam ekran kipi vardır; bu kipi, “Tam Ekran” araç "
-"çubuğu düğmesini kullanarak veya Kontrol+Üst Karakter+F düğmelerine basarak "
+"\t\t<p>KStars’ın bir tam ekran kipi vardır; bu kipi, “Tam Ekran” araç çubuğu "
+"düğmesini kullanarak veya Kontrol+Üst Karakter+F düğmelerine basarak "
 "açabilir/kapatabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -92123,7 +92109,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar projesini geliştirmemize yardımcı olun! Daha fazla bilgi "
+"\t\t<p>KStars projesini geliştirmemize yardımcı olun! Daha fazla bilgi "
 "edinmek için https://edu.kde.org/kstars adresindeki web sitemizi ziyaret "
 "edin ve kstars-devel@kde.org adresindeki posta listemize katılın. Hata "
 "raporları, astronomi ve yöntem bilgisi katkıları, kod katkıları, çeviriler "
@@ -92190,8 +92176,8 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Fareyle çift tıklayarak görüntüyü fare imlecinin bulunduğu yere "
-"ortalayın. Bir nesneye çift tıklarsanız K Yıldızlar onu kendiliğinden "
-"izlemeye başlayacaktır.\n"
+"ortalayın. Bir nesneye çift tıklarsanız KStars onu kendiliğinden izlemeye "
+"başlayacaktır.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92287,8 +92273,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Tarihi ve zamanı ayarlamak için Kontrol+S düğmelerine basın, “Zaman → "
 "Zamanı Ayarla” menü ögesini kullanın veya “Zaman” araç çubuğu düğmesine "
-"basın. K Yıldızlar’daki tarihlerin çok uzak olabileceğini unutmayın; −50.000 "
-"ile +50.000 arasındaki herhangi bir yılı kullanabilirsiniz.\n"
+"basın. KStars’daki tarihlerin çok uzak olabileceğini unutmayın; −50.000 ile "
+"+50.000 arasındaki herhangi bir yılı kullanabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92319,10 +92305,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Araç çubuğundaki döndürme kutusu, K Yıldızlar saatinin kullandığı "
-"zaman adımını ayarlamanıza olanak tanır; bunu “1,0 san” olarak ayarlamak "
-"“gerçek zamanı” sağlar. Not: Negatif değerler zamanın geriye doğru akmasına "
-"neden olur.\n"
+"\t\t<p>Araç çubuğundaki döndürme kutusu, KStars saatinin kullandığı zaman "
+"adımını ayarlamanıza olanak tanır; bunu “1,0 san” olarak ayarlamak “gerçek "
+"zamanı” sağlar. Not: Negatif değerler zamanın geriye doğru akmasına neden "
+"olur.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92425,7 +92411,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Öntanımlı olarak, K Yıldızlar’taki yıldızlar gerçekçi renklerle "
+"\t\t<p>Öntanımlı olarak, KStars’taki yıldızlar gerçekçi renklerle "
 "görüntülenir. Bir yıldızın rengi sıcaklığına bağlıdır; daha soğuk yıldızlar "
 "kırmızı, daha sıcak yıldızlar ise mavidir.\n"
 "\t\t</p>\n"
@@ -92494,8 +92480,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar Astro Hesaplayıcısı (Kontrol+C), K Yıldızlar’ın sahne "
-"arkasında yaptığı hesaplamaların çoğuna doğrudan erişmenizi sağlar.\n"
+"\t\t<p>KStars Astro Hesaplayıcısı (Kontrol+C), KStars’ın sahne arkasında "
+"yaptığı hesaplamaların çoğuna doğrudan erişmenizi sağlar.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92567,12 +92553,12 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’ın güçlü bir Gözlem Planlayıcısı aracı vardır (Kontrol"
-"+L). Planlayıcı, gözlemlemek istediğiniz nesnelerin bir istek listesini "
-"tutmanıza ve ardından bir gözlem oturumu planlamak için bu nesnelerden "
-"bazılarını seçmenize yardımcı olur. Planlayıcı daha sonra gözlem zamanları "
-"atayabilir ve nesneleri sahada kolay gözlem iş akışı için zaman sırasına "
-"göre sunabilir.\n"
+"\t\t<p>KStars’ın güçlü bir Gözlem Planlayıcısı aracı vardır (Kontrol+L). "
+"Planlayıcı, gözlemlemek istediğiniz nesnelerin bir istek listesini tutmanıza "
+"ve ardından bir gözlem oturumu planlamak için bu nesnelerden bazılarını "
+"seçmenize yardımcı olur. Planlayıcı daha sonra gözlem zamanları atayabilir "
+"ve nesneleri sahada kolay gözlem iş akışı için zaman sırasına göre "
+"sunabilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92586,10 +92572,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’ın Ekos adında güçlü bir astrofotoğrafçılık paketi "
-"vardır! Ekos, INDI aracılığıyla astrofotoğrafçılık ekipmanınızı "
-"denetlemenizi, kendiliğinden odaklama vb. yapmanızı ve kendiliğinden çekim "
-"dizileri ayarlamanızı sağlar.\n"
+"\t\t<p>KStars’ın Ekos adında güçlü bir astrofotoğrafçılık paketi vardır! "
+"Ekos, INDI aracılığıyla astrofotoğrafçılık ekipmanınızı denetlemenizi, "
+"kendiliğinden odaklama vb. yapmanızı ve kendiliğinden çekim dizileri "
+"ayarlamanızı sağlar.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92605,7 +92591,7 @@ msgid ""
 msgstr ""
 "\t\t<p>ScriptBuilder aracı, basit bir kullanıcı arayüzü kullanarak karmaşık "
 "D-Bus betikleri oluşturmanıza olanak tanır. Betikler daha sonra komut "
-"satırından veya K Yıldızlar içinden yürütülebilir.\n"
+"satırından veya KStars içinden yürütülebilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92659,7 +92645,7 @@ msgstr ""
 "\t\t<p>Gökyüzü görselini “Dosya” menüsündeki “Gökyüzü Görselini Kaydet” "
 "ögesini kullanarak veya Kontrol+I düğmelerine basarak bir dosyaya dışa "
 "aktarabilirsiniz. Ayrıca, program penceresini açmadan bile bir gökyüzü "
-"görselini diske kaydetmek için K Yıldızlar’ı bir komut isteminden “--dump” "
+"görselini diske kaydetmek için KStars’ı bir komut isteminden “--dump” "
 "argümanıyla çalıştırabilirsiniz. Bu, KDE masaüstünüz için devingen duvar "
 "kağıdı oluşturmak için kullanılabilir.\n"
 "\t\t</p>\n"
@@ -92677,10 +92663,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Kendi özel nesne kataloglarınızı eklemek için K Yıldızlar "
-"yapılandırma penceresindeki Kataloglar sayfasından “Katalog İçe Aktar…” veya "
-"“Katalog Oluştur…” seçeneğini seçin. Katalog dosyanızı biçimlendirme "
-"yönergeleri için El Kitabı’na bakın.\n"
+"\t\t<p>Kendi özel nesne kataloglarınızı eklemek için KStars yapılandırma "
+"penceresindeki Kataloglar sayfasından “Katalog İçe Aktar…” veya “Katalog "
+"Oluştur…” seçeneğini seçin. Katalog dosyanızı biçimlendirme yönergeleri için "
+"El Kitabı’na bakın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92694,10 +92680,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Öntanımlı olarak K Yıldızlar, NGC ve IC derin gökyüzü nesne "
-"kataloglarıyla birlikte gelir. “Dosya → Yeni Veri İndir” seçeneğinden çok "
-"daha fazla katalog indirebilirsiniz. Ayrıca kendi özel kataloglarınızı "
-"oluşturabilir ve bunları ekleyebilirsiniz.\n"
+"\t\t<p>Öntanımlı olarak KStars, NGC ve IC derin gökyüzü nesne kataloglarıyla "
+"birlikte gelir. “Dosya → Yeni Veri İndir” seçeneğinden çok daha fazla "
+"katalog indirebilirsiniz. Ayrıca kendi özel kataloglarınızı oluşturabilir ve "
+"bunları ekleyebilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92712,10 +92698,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Öntanımlı olarak K Yıldızlar, yaklaşık 8 büyüklüğe kadar olan "
-"yıldızlardan oluşan bir katalogla birlikte gelir. “Dosya → Yeni Veri İndir” "
-"seçeneğini kullanarak yaklaşık 16 büyüklüğe kadar olan 100 milyona kadar "
-"yıldızı göstermek için ek yıldız katalogları (Tycho-2 ve USNO NOMAD) "
+"\t\t<p>Öntanımlı olarak KStars, yaklaşık 8 büyüklüğe kadar olan yıldızlardan "
+"oluşan bir katalogla birlikte gelir. “Dosya → Yeni Veri İndir” seçeneğini "
+"kullanarak yaklaşık 16 büyüklüğe kadar olan 100 milyona kadar yıldızı "
+"göstermek için ek yıldız katalogları (Tycho-2 ve USNO NOMAD) "
 "indirebilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -92900,11 +92886,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar yapılandırma penceresinin Gelişmiş sekmesi, K "
-"Yıldızlar’ın davranışını ince ayarlamanıza olanak tanır. Atmosferik "
-"kırılmayı düzeltip düzeltmeyeceğinizi ve hareketli döndürmeyi kullanıp "
-"kullanmayacağınızı belirtebilirsiniz. Ayrıca, ekran hareket halindeyken "
-"hangi nesnelerin gizleneceğini de belirtebilirsiniz.\n"
+"\t\t<p>KStars yapılandırma penceresinin Gelişmiş sekmesi, K Yıldızlar’ın "
+"davranışını ince ayarlamanıza olanak tanır. Atmosferik kırılmayı düzeltip "
+"düzeltmeyeceğinizi ve hareketli döndürmeyi kullanıp kullanmayacağınızı "
+"belirtebilirsiniz. Ayrıca, ekran hareket halindeyken hangi nesnelerin "
+"gizleneceğini de belirtebilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92920,8 +92906,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar; 100 milyona kadar yıldızı, 13.000’den fazla derin "
-"gökyüzü nesnesini, 88 takımyıldızı, tüm gezegenleri, Güneş’i, Ay’ı, binlerce "
+"\t\t<p>KStars; 100 milyona kadar yıldızı, 13.000’den fazla derin gökyüzü "
+"nesnesini, 88 takımyıldızı, tüm gezegenleri, Güneş’i, Ay’ı, binlerce "
 "kuyrukluyıldız ve asteroit ile Samanyolu’nu görüntüler.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -92951,9 +92937,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’daki nesne konumları; presesyon, nütasyon, sapma, "
-"atmosferik kırılma ve ışık yolculuk süresinin (gezegenler için) etkilerini "
-"içerir.\n"
+"\t\t<p>KStars’daki nesne konumları; presesyon, nütasyon, sapma, atmosferik "
+"kırılma ve ışık yolculuk süresinin (gezegenler için) etkilerini içerir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -92968,10 +92953,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Genel göreliliğin ünlü deneysel testini K Yıldızlar’da "
-"benzetebilirsiniz — K Yıldızlar, yıldız ışığının güneş etrafındaki "
-"bükülmesini hesaplayabilir. Yalnızca güneşe odaklanın, gökyüzü haritasını "
-"yakınlaştırın ve klavyede “R” düğmesine basarak düzeltmeleri açın/kapatın.\n"
+"\t\t<p>Genel göreliliğin ünlü deneysel testini KStars’da benzetebilirsiniz — "
+"KStars, yıldız ışığının güneş etrafındaki bükülmesini hesaplayabilir. "
+"Yalnızca güneşe odaklanın, gökyüzü haritasını yakınlaştırın ve klavyede “R” "
+"düğmesine basarak düzeltmeleri açın/kapatın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -93051,9 +93036,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Arada sırada gezegenler duruyormuş gibi görünür ve gece göğünde "
 "hareket yönlerini geçici olarak değiştirirler. Buna geri hareket denir. Bunu "
-"K Yıldızlar’da dış bir gezegene bir iz ekleyerek ve benzetim saatinin hızlı "
-"bir şekilde (yaklaşık 1 yan gün) ilerlemesine izin vererek "
-"benzetebilirsiniz.\n"
+"KStars’da dış bir gezegene bir iz ekleyerek ve benzetim saatinin hızlı bir "
+"şekilde (yaklaşık 1 yan gün) ilerlemesine izin vererek benzetebilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -93105,10 +93089,9 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Daha yakındaki yıldızlara olan uzaklık “Parallax” kullanılarak "
-"ölçülebilir. Fikir, Astro Info projesinde açıklanmıştır. K Yıldızlar, "
-"Ayrıntılar iletişim kutusunda birçok yıldıza olan uzaklıkları gösterir. Bu "
-"bilgiye erişmek için yıldıza sağ tıklayın ve açılan menüden “Ayrıntılar”ı "
-"seçin.\n"
+"ölçülebilir. Fikir, Astro Info projesinde açıklanmıştır. KStars, Ayrıntılar "
+"iletişim kutusunda birçok yıldıza olan uzaklıkları gösterir. Bu bilgiye "
+"erişmek için yıldıza sağ tıklayın ve açılan menüden “Ayrıntılar”ı seçin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -93144,8 +93127,7 @@ msgstr ""
 "Schmidt teleskopu ve UK Schmidt teleskopu ile çekilen gökyüzünün her "
 "bölgesinin fotoğraflarından alınan görselleri sayısallaştırmıştır. "
 "Gökyüzünün hemen hemen her bölgesinin DSS görseline, gökyüzü haritasına sağ "
-"tıklanarak ve “DSS Görüntüsünü Göster” seçilerek K Yıldızlar’dan "
-"erişilebilir.\n"
+"tıklanarak ve “DSS Görüntüsünü Göster” seçilerek KStars’dan erişilebilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -93162,8 +93144,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Edwin Hubble, uzak gökadaların bizden çok hızlı bir şekilde "
 "uzaklaştığını gösteren ilk ölçümleri yaptı. Bu, evrenin genişlemesine dair "
-"erken bir kanıttı. K Yıldızlar El Kitabı’ndaki (Yardım → K Yıldızlar El "
-"Kitabı) AstroInfo projesinden daha fazla bilgi edinin.\n"
+"erken bir kanıttı. KStars El Kitabı’ndaki (Yardım → KStars El Kitabı) "
+"AstroInfo projesinden daha fazla bilgi edinin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -93729,9 +93711,9 @@ msgid ""
 "position of any planet, from a given location on Earth at a given time</LI></"
 "UL></QT>"
 msgstr ""
-"<QT><H2>K Yıldızlar Astro Hesaplayıcı</H2><P>K Yıldızlar Astro Hesaplayıcı, "
-"çeşitli astronomi ile ilgili hesaplamaları gerçekleştiren birkaç <B>modül</"
-"b> içerir. Modüller çeşitli kategorilere ayrılmıştır: <UL><LI><B>Zaman "
+"<QT><H2>KStars Astro Hesaplayıcı</H2><P>KStars Astro Hesaplayıcı, çeşitli "
+"astronomi ile ilgili hesaplamaları gerçekleştiren birkaç <B>modül</b> "
+"içerir. Modüller çeşitli kategorilere ayrılmıştır: <UL><LI><B>Zaman "
 "hesaplayıcıları: </B>Zaman sistemleri arasında dönüşümler yap ve göksel "
 "olayların zamanlamasını tahmin et</LI><LI><B>Koordinat dönüştürücüleri: </"
 "B>Çeşitli koordinat sistemleri arasında dönüşümler yap</LI><LI><B>Güneş "
@@ -95750,7 +95732,7 @@ msgstr "%1 Almanağı"
 #: tools/modcalcdaylength.cpp:290
 #, kde-format
 msgid "computed by KStars"
-msgstr "K Yıldızlar tarafından hesaplandı"
+msgstr "KStars tarafından hesaplandı"
 
 #: tools/modcalcdaylength.cpp:359
 #, kde-format
@@ -96295,7 +96277,7 @@ msgid ""
 "# computed by KStars\n"
 "#\n"
 msgstr ""
-"# K Yıldızlar tarafından hesaplandı\n"
+"# KStars tarafından hesaplandı\n"
 "#\n"
 
 #: tools/modcalcvizequinox.cpp:102
@@ -96514,7 +96496,7 @@ msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
 msgstr ""
-"K Yıldızlar’ın adını bilmediği yıldızlar ve nesneler gözlem listelerinde "
+"KStars’ın adını bilmediği yıldızlar ve nesneler gözlem listelerinde "
 "desteklenmiyor."
 
 #: tools/observinglist.cpp:277
@@ -96589,7 +96571,7 @@ msgid ""
 "will be added to the database."
 msgstr ""
 "Her satırda bir nesne olacak şekilde eklemek için bir nesne listesi "
-"belirtin. Adlar K Yıldızlar tarafından veya ayarlarda internet çözücüsü "
+"belirtin. Adlar KStars tarafından veya ayarlarda internet çözücüsü "
 "etkinleştirilmişse CDS Sesame çözücüsü tarafından anlaşılmalıdır. İnternet "
 "çözümlü nesneler veri tabanına eklenecektir."
 
@@ -96700,7 +96682,7 @@ msgid ""
 "following objects will be removed from the wishlist when you exit KStars. "
 "Are you sure this is okay?"
 msgstr ""
-"Bu işlemi iptal ederseniz istek listeniz kesilecek ve K Yıldızlar’dan "
+"Bu işlemi iptal ederseniz istek listeniz kesilecek ve KStars’dan "
 "çıktığınızda aşağıdaki nesneler istek listesinden kaldırılacaktır. Bunun "
 "doğru olduğundan emin misiniz?"
 
@@ -97434,17 +97416,17 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Parlak nesneleri seçin.</p><p>Bu sayfada, gözlem "
 "listenizi yalnızca belirli bir büyüklükten daha parlak nesnelerle "
-"sınırlayabilirsiniz. Bu seçimde dikkatli olun; çünkü K Yıldızlar veri "
-"tabanındaki her nesne için bir büyüklüğe sahip değildir. Tanımlanmamış bir "
-"büyüklüğe sahip nesneleri içermek isteyip istemediğinizi belirtmeniz gerekir."
-"</p><p>Bu seçimle soluk nesneleri dışlamak istemiyorsanız aşağıdaki onay "
-"kutusunu işaretsiz bırakmanız yeterlidir.</p><p>Bu, Gözlem Listesi "
-"Sihirbazı’nın son sayfasıdır. <span style=\" font-weight:600;\">Geri</span> "
-"düğmesini kullanarak geri gidebilir ve önceki sayfalarda değişiklikler "
-"yapabilirsiniz. Memnun kaldığınızda sihirbazdan çıkmak için <span style=\" "
-"font-weight:600;\">Tamam</span> düğmesini kullanın; bundan sonra Gözlem "
-"Listesi aracı, burada belirttiğiniz nesnelerle doldurulacaktır.</p><p><br/></"
-"p></body></html>"
+"sınırlayabilirsiniz. Bu seçimde dikkatli olun; çünkü KStars veri tabanındaki "
+"her nesne için bir büyüklüğe sahip değildir. Tanımlanmamış bir büyüklüğe "
+"sahip nesneleri içermek isteyip istemediğinizi belirtmeniz gerekir.</p><p>Bu "
+"seçimle soluk nesneleri dışlamak istemiyorsanız aşağıdaki onay kutusunu "
+"işaretsiz bırakmanız yeterlidir.</p><p>Bu, Gözlem Listesi Sihirbazı’nın son "
+"sayfasıdır. <span style=\" font-weight:600;\">Geri</span> düğmesini "
+"kullanarak geri gidebilir ve önceki sayfalarda değişiklikler yapabilirsiniz. "
+"Memnun kaldığınızda sihirbazdan çıkmak için <span style=\" font-weight:600;"
+"\">Tamam</span> düğmesini kullanın; bundan sonra Gözlem Listesi aracı, "
+"burada belirttiğiniz nesnelerle doldurulacaktır.</p><p><br/></p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByMagnitude)
 #: tools/obslistwizard.ui:919
@@ -98278,8 +98260,8 @@ msgid ""
 "Executes the script in the KStars main window. You may want to reposition "
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
-"Betiği K Yıldızlar ana penceresinde yürütür. Gökyüzü haritasının görünür "
-"olması için Betik Yapıcısı aracını yeniden konumlandırmak isteyebilirsiniz."
+"Betiği KStars ana penceresinde yürütür. Gökyüzü haritasının görünür olması "
+"için Betik Yapıcısı aracını yeniden konumlandırmak isteyebilirsiniz."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
@@ -99567,8 +99549,7 @@ msgstr "xplanet görselinin yüksekliğini ayarla"
 #: xplanet/opsxplanet.ui:162
 #, kde-format
 msgid "The time KStars will wait for XPlanet to complete before giving up."
-msgstr ""
-"K Yıldızlar’ın vazgeçmeden önce XPlanet’in tamamlanmasını bekleyeceği süre."
+msgstr "KStars’ın vazgeçmeden önce XPlanet’in tamamlanmasını bekleyeceği süre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: xplanet/opsxplanet.ui:169
@@ -99592,7 +99573,7 @@ msgstr "Canlandırma kareleri arasındaki gecikme süresi"
 #: xplanet/opsxplanet.ui:216
 #, kde-format
 msgid "Use KStars's FOV?"
-msgstr "K Yıldızlar’ın görüş alanı mı kullanılsın?"
+msgstr "KStars’ın görüş alanı mı kullanılsın?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:219
@@ -99605,12 +99586,12 @@ msgid ""
 "save the hard disk from excessive reads/writes and may offer a performance "
 "enhancement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>İşaretlenirse XPlanet, K Yıldızlar’ın yüklemesi ve "
-"görünümü güncellemesi için XPlanet görselini geçici olarak kaydetmek üzere /"
-"tmp dizinindeki bir FIFO dosyasını kullanır. İşaretlenmezse XPlanet, "
-"dosyaları aslında K Yıldızlar veri dizinindeki XPlanet klasörüne kaydeder. "
-"Bir FIFO dosyası kullanmak, sabit diski aşırı okuma/yazma işlemlerinden "
-"kurtarabilir ve başarım artışı sağlayabilir.</p></body></html>"
+"<html><head/><body><p>İşaretlenirse XPlanet, KStars’ın yüklemesi ve görünümü "
+"güncellemesi için XPlanet görselini geçici olarak kaydetmek üzere /tmp "
+"dizinindeki bir FIFO dosyasını kullanır. İşaretlenmezse XPlanet, dosyaları "
+"aslında KStars veri dizinindeki XPlanet klasörüne kaydeder. Bir FIFO dosyası "
+"kullanmak, sabit diski aşırı okuma/yazma işlemlerinden kurtarabilir ve "
+"başarım artışı sağlayabilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:222
@@ -99628,13 +99609,13 @@ msgstr "(sabit disk yerine belleğe kaydeder)"
 #: xplanet/opsxplanet.ui:236
 #, kde-format
 msgid "Use kstars's FOV?"
-msgstr "K Yıldızlar’ın görüş alanı mı kullanılsın?"
+msgstr "KStars’ın görüş alanı mı kullanılsın?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetFOV)
 #: xplanet/opsxplanet.ui:242
 #, kde-format
 msgid "Use kstars's FOV"
-msgstr "K Yıldızlar’ın görüş alanını kullan"
+msgstr "KStars’ın görüş alanını kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetMagnitude)
 #: xplanet/opsxplanet.ui:249
@@ -99734,7 +99715,7 @@ msgid ""
 "xplanet.sourceforge.net/maps.php\">http://xplanet.sourceforge.net/maps.php</"
 "a> "
 msgstr ""
-"XPlanet düzgün çalışabilmesi için haritalara gereksinim duyar. Çok sayıda "
+"XPlanet, düzgün çalışabilmesi için haritalara gereksinim duyar. Çok sayıda "
 "gezegen haritasıyla birlikte gelmez. XPlanet’in tüm avantajlarından "
 "yararlanmak için bazılarını indirmeniz gerekir. Başlamak için iyi bir yer "
 "burasıdır: <a href=\"http://xplanet.sourceforge.net/maps.php\">http://"
