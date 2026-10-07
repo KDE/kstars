@@ -28,6 +28,11 @@
 
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
+#include <unistd.h>
+#include <QCoreApplication>
+#include <QElapsedTimer>
+#include <QLocalSocket>
+#include <QThread>
 #elif defined(_WIN32)
 #include "windows.h"
 #else //Linux
@@ -1457,6 +1462,180 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
         return false;
 
     return true;
+}
+
+namespace
+{
+const QString kDBusLaunchAgentLabel = QStringLiteral("org.freedesktop.dbus-kstars");
+
+// Escapes a value for use inside a D-Bus address, e.g. the space in "Application Support".
+QString escapeDBusAddressValue(const QString &value)
+{
+    QString escaped;
+    for (const char c : value.toUtf8())
+    {
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')
+                || c == '-' || c == '_' || c == '/' || c == '.')
+            escaped += QLatin1Char(c);
+        else
+            escaped += QLatin1Char('%') + QString::number(static_cast<uchar>(c), 16).rightJustified(2, QLatin1Char('0'));
+    }
+    return escaped;
+}
+
+// The socket is owned by dbus-daemon itself, so a successful connection means the bus is up.
+bool isDBusSocketReachable(const QString &socketPath, int timeoutMs)
+{
+    QLocalSocket socket;
+    socket.connectToServer(socketPath);
+    const bool connected = socket.waitForConnected(timeoutMs);
+    socket.abort();
+    return connected;
+}
+
+int runLaunchctl(const QStringList &args)
+{
+    QProcess launchctl;
+    launchctl.start(QStringLiteral("/bin/launchctl"), args);
+    if (!launchctl.waitForFinished(10000))
+    {
+        launchctl.kill();
+        qCWarning(KSTARS) << "launchctl" << args << "timed out";
+        return -1;
+    }
+    if (launchctl.exitCode() != 0)
+        qCDebug(KSTARS) << "launchctl" << args << "exited with" << launchctl.exitCode()
+                        << launchctl.readAllStandardError().trimmed();
+    return launchctl.exitCode();
+}
+}
+
+bool setupMacDBus(QString *logPath)
+{
+    const QString appDir = QCoreApplication::applicationDirPath();
+    const QString daemonPath = appDir + "/dbus-daemon";
+    const QString configPath = QDir(appDir + "/../PlugIns/dbus/kstars.conf").absolutePath();
+
+    // Not running from an app bundle (e.g. a development build): rely on the existing session bus setup.
+    if (!QFileInfo::exists(daemonPath) || !QFileInfo::exists(configPath))
+    {
+        qCInfo(KSTARS) << "Bundled dbus-daemon not found, using the default session bus.";
+        return true;
+    }
+
+    // dbus-daemon used to be socket-activated by launchd (launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET in
+    // kstars.conf), but launchd no longer hands the socket to the daemon on recent macOS versions, which left
+    // KStars waiting forever for a bus that never answers. The daemon now listens on its own socket at a fixed
+    // path (--address overrides the <listen> element of kstars.conf) and launchd only keeps it running.
+    QString dbusDir = QDir::homePath() + "/Library/Application Support/kstars/dbus";
+    QString socketPath = dbusDir + "/session_bus_socket";
+    // sun_path is limited to 104 bytes on macOS.
+    if (socketPath.toUtf8().size() >= 104)
+    {
+        dbusDir = QDir::tempPath() + "/kstars-dbus";
+        socketPath = dbusDir + "/session_bus_socket";
+    }
+    QDir().mkpath(dbusDir);
+    QFile::setPermissions(dbusDir, QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
+
+    const QString address = "unix:path=" + escapeDBusAddressValue(socketPath);
+    const QByteArray currentAddress = qgetenv("DBUS_SESSION_BUS_ADDRESS");
+    if (!currentAddress.isEmpty() && currentAddress != address.toUtf8())
+    {
+        qCInfo(KSTARS) << "Using the session bus from DBUS_SESSION_BUS_ADDRESS:" << currentAddress;
+        return true;
+    }
+
+    const QString daemonLogPath = dbusDir + "/dbus-daemon.log";
+    if (logPath)
+        *logPath = daemonLogPath;
+    const QString plist = QStringLiteral(
+                              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                              "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
+                              "<plist version=\"1.0\">\n"
+                              "<dict>\n"
+                              "    <key>Label</key>\n"
+                              "    <string>%1</string>\n"
+                              "    <key>ProgramArguments</key>\n"
+                              "    <array>\n"
+                              "        <string>%2</string>\n"
+                              "        <string>--nofork</string>\n"
+                              "        <string>--config-file=%3</string>\n"
+                              "        <string>--address=%4</string>\n"
+                              "    </array>\n"
+                              "    <key>RunAtLoad</key>\n"
+                              "    <true/>\n"
+                              "    <key>KeepAlive</key>\n"
+                              "    <true/>\n"
+                              "    <key>StandardErrorPath</key>\n"
+                              "    <string>%5</string>\n"
+                              "</dict>\n"
+                              "</plist>\n")
+                          .arg(kDBusLaunchAgentLabel, daemonPath.toHtmlEscaped(), configPath.toHtmlEscaped(),
+                               address.toHtmlEscaped(), daemonLogPath.toHtmlEscaped());
+
+    const QString agentsDir = QDir::homePath() + "/Library/LaunchAgents";
+    const QString plistPath = agentsDir + "/" + kDBusLaunchAgentLabel + ".plist";
+    QDir().mkpath(agentsDir);
+
+    bool plistChanged = true;
+    QFile existing(plistPath);
+    if (existing.open(QIODevice::ReadOnly))
+    {
+        plistChanged = existing.readAll() != plist.toUtf8();
+        existing.close();
+    }
+    if (plistChanged)
+    {
+        QFile out(plistPath);
+        if (!out.open(QIODevice::WriteOnly | QIODevice::Truncate) || out.write(plist.toUtf8()) < 0)
+        {
+            qCWarning(KSTARS) << "Failed to write" << plistPath << out.errorString();
+            return false;
+        }
+        out.close();
+    }
+
+    // KStars and the processes it starts use the bus through the environment; launchctl setenv makes it
+    // available to other apps launched afterwards as well.
+    qputenv("DBUS_SESSION_BUS_ADDRESS", address.toUtf8());
+    runLaunchctl({"setenv", "DBUS_SESSION_BUS_ADDRESS", address});
+
+    if (!plistChanged && isDBusSocketReachable(socketPath, 1000))
+        return true;
+
+    qCInfo(KSTARS) << "Starting D-Bus session bus at" << address;
+    const QString domain = QString("gui/%1").arg(getuid());
+    const QString service = domain + "/" + kDBusLaunchAgentLabel;
+
+    // Replaces any older socket-activated job, or a daemon that stopped answering.
+    runLaunchctl({"bootout", service});
+    runLaunchctl({"unsetenv", "DBUS_LAUNCHD_SESSION_BUS_SOCKET"});
+    QFile::remove(socketPath);
+    runLaunchctl({"enable", service});
+
+    // bootout completes asynchronously, so bootstrap may need a few attempts.
+    for (int attempt = 0; attempt < 5; ++attempt)
+    {
+        if (runLaunchctl({"bootstrap", domain, plistPath}) == 0)
+            break;
+        QThread::msleep(500);
+    }
+
+    QElapsedTimer timer;
+    timer.start();
+    while (timer.elapsed() < 15000)
+    {
+        if (isDBusSocketReachable(socketPath, 250))
+        {
+            qCInfo(KSTARS) << "D-Bus session bus started.";
+            return true;
+        }
+        QThread::msleep(100);
+    }
+
+    qCCritical(KSTARS) << "D-Bus session bus did not start. See" << daemonLogPath;
+    return false;
 }
 
 bool configureAstrometry()
