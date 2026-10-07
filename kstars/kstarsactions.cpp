@@ -1273,6 +1273,11 @@ void KStars::slotSetTime()
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow()
 {
+    // Can be called over D-Bus before the sky map is created or after it is deleted.
+    // Changing the time updates sky objects, which also requires the sky map.
+    if (map() == nullptr)
+        return;
+
     data()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
 
     if (Options::useAltAz())
