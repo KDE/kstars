@@ -506,12 +506,12 @@ void GenericDevice::processNumber(INDI::Property prop)
         {
             m_LocationSyncRetries++;
             qCWarning(KSTARS_INDI) << "GEOGRAPHIC_COORD update for" << getDeviceName() << "was rejected by the driver, retrying"
-                                    << m_LocationSyncRetries << "/" << MAX_SYNC_RETRIES;
+                                   << m_LocationSyncRetries << "/" << MAX_SYNC_RETRIES;
             updateLocation();
         }
         else
             qCWarning(KSTARS_INDI) << "Giving up on GEOGRAPHIC_COORD update for" << getDeviceName()
-                                    << "after" << MAX_SYNC_RETRIES << "attempts.";
+                                   << "after" << MAX_SYNC_RETRIES << "attempts.";
     }
     else if (nvp.isNameMatch("WATCHDOG_HEARTBEAT"))
     {
@@ -629,12 +629,12 @@ void GenericDevice::processText(INDI::Property prop)
         {
             m_TimeSyncRetries++;
             qCWarning(KSTARS_INDI) << "TIME_UTC update for" << getDeviceName() << "was rejected by the driver, retrying"
-                                    << m_TimeSyncRetries << "/" << MAX_SYNC_RETRIES;
+                                   << m_TimeSyncRetries << "/" << MAX_SYNC_RETRIES;
             updateTime();
         }
         else
             qCWarning(KSTARS_INDI) << "Giving up on TIME_UTC update for" << getDeviceName()
-                                    << "after" << MAX_SYNC_RETRIES << "attempts.";
+                                   << "after" << MAX_SYNC_RETRIES << "attempts.";
     }
 
     Q_EMIT propertyUpdated(prop);

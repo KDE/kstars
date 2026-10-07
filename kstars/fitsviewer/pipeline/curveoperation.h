@@ -119,9 +119,9 @@ class CurveOperation
             float x1, y1, m1;
         };
 
-        static bool buildSegments(const QVector<QPointF> &controlPoints, std::vector<Segment> &segments,
+        static bool buildSegments(const QVector < QPointF > &controlPoints, std::vector < Segment > &segments,
                                   QString &error);
-        static float evaluate(const std::vector<Segment> &segments, float x);
+        static float evaluate(const std::vector < Segment > &segments, float x);
         /**
          * @brief Apply one curve to one single-channel image, remapping each pixel from
          * the `inputMin`-anchored range onto the curve's normalized x first.
@@ -131,7 +131,7 @@ class CurveOperation
          * identity — subtracting 0 and multiplying by 1 — so they keep their original
          * behavior bit-for-bit.
          */
-        static bool applyToChannel(cv::Mat &channel, const QVector<QPointF> &controlPoints,
+        static bool applyToChannel(cv::Mat &channel, const QVector < QPointF > &controlPoints,
                                    float inputMin, float invRange, QString &error);
 
         // Shared precondition checks: non-empty and CV_32F.

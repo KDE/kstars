@@ -3734,7 +3734,7 @@ namespace
 // as the joiner). Every hyphen/space/underscore-separated word must be one of these —
 // whole-segment match only, so an unrelated folder that merely contains one of these
 // words (e.g. a target actually named "Flats Nebula") won't false-positive.
-bool isCalibrationTypeFolderName(const QString &name)
+bool isCalibrationTypeFolderName(const QString & name)
 {
     static const QSet<QString> words
     {
@@ -3798,7 +3798,7 @@ QString Message::generatePipelineOutputPath(const QString &sourceDirectory, cons
 QString Message::generateStackOutputPathForRoot(const QString &root, const QString &identity) const
 {
     const QString filename = identity.isEmpty() ? QStringLiteral("light_master.fits")
-                              : QString("light_master_%1.fits").arg(identity);
+                             : QString("light_master_%1.fits").arg(identity);
     return QDir(pipelineOutputDirForRoot(root)).filePath(filename);
 }
 
@@ -3818,7 +3818,7 @@ QString Message::blendInputMasterPath(const QString &sessionId) const
 namespace
 {
 // The stackable files directly inside a folder (postprocess_stack doesn't recurse)
-QStringList stackableFiles(const QString &directory)
+QStringList stackableFiles(const QString & directory)
 {
     QStringList files;
     for (const QFileInfo &info : QDir(directory).entryInfoList(QDir::Files, QDir::Name))
@@ -3829,8 +3829,8 @@ QStringList stackableFiles(const QString &directory)
 
 // The memory estimate as sent to clients, in inspect_directory's "inspected" state and
 // postprocess_stack's "started"/"error" states. See "Memory" in the pipeline README.
-QJsonObject memoryToJson(const StackMemoryEstimator::Estimate &estimate, double reclaimableBytes,
-                         const StackMemoryEstimator::FrameGeometry &geometry, int fileCount)
+QJsonObject memoryToJson(const StackMemoryEstimator::Estimate & estimate, double reclaimableBytes,
+                         const StackMemoryEstimator::FrameGeometry & geometry, int fileCount)
 {
     QJsonArray options;
     QString recommendedQuality;
@@ -4190,13 +4190,15 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 sendPostProcessState(QJsonObject
                 {
                     {"state", "error"}, {"sessionId", sessionId},
-                    {"message", QString("Session '%1' was released to save memory and its file %2 has since changed "
-                                        "or gone — stack or load it again").arg(sessionId, m_PostProcessBacking.value(sessionId).path)}
+                    {
+                        "message", QString("Session '%1' was released to save memory and its file %2 has since changed "
+                                           "or gone — stack or load it again").arg(sessionId, m_PostProcessBacking.value(sessionId).path)
+                    }
                 });
                 return;
             }
             reloadPostProcessSessions({{sessionId, m_PostProcessBacking.value(sessionId).path}}, sessionId, command,
-                                      [this, command, payload]()
+            [this, command, payload]()
             {
                 processPostProcessCommands(command, payload);
             });
@@ -4323,7 +4325,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             // Weak: a strong reference held by the session's own connection would keep it
             // (and every buffer it holds) alive after it is closed or replaced.
             const QWeakPointer<StackController> weakSession = session;
-            connect(session.data(), &StackController::stackReady, this, [this, filter, weakSession, wantPreview, directory](bool cancelled)
+            connect(session.data(), &StackController::stackReady, this, [this, filter, weakSession, wantPreview,
+                    directory](bool cancelled)
             {
                 const auto session = weakSession.toStrongRef();
                 if (!session)
@@ -4520,7 +4523,8 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // Weak: a strong reference held by the session's own connection would keep it
         // (and every buffer it holds) alive after it is closed or replaced.
         const QWeakPointer<StackController> weakSession = session;
-        connect(session.data(), &StackController::stackReady, this, [this, sessionId, weakSession, wantPreview, directories](bool cancelled)
+        connect(session.data(), &StackController::stackReady, this, [this, sessionId, weakSession, wantPreview,
+                directories](bool cancelled)
         {
             const auto session = weakSession.toStrongRef();
             if (!session)
@@ -4879,7 +4883,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         }
 
         std::function<QJsonArray(const QVector<DirectoryInspector::Group> &)> groupsToJson =
-                [](const QVector<DirectoryInspector::Group> &groups)
+            [](const QVector<DirectoryInspector::Group> &groups)
         {
             QJsonArray groupsArray;
             for (const auto &group : groups)
@@ -4898,7 +4902,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // folder plus every descendant (e.g. Lights totalFileCount = HA + SII + OIII +
         // any files directly under Lights itself).
         std::function<QJsonObject(const DirectoryInspector::DirectoryNode &)> nodeToJson =
-                [&](const DirectoryInspector::DirectoryNode & node)
+            [&](const DirectoryInspector::DirectoryNode & node)
         {
             QJsonArray subdirsArray;
             for (const auto &child : node.subdirs)
@@ -5135,7 +5139,9 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         // mono stacks (each holding a working Mat AND its FITS buffer) are the
         // single biggest avoidable cost during post-processing.
         QSet<QString> blendInputIds;
-        for (const auto &key : { "red", "green", "blue" })
+        for (const auto &key :
+                { "red", "green", "blue"
+                })
         {
             for (const auto &value : payload[key].toArray())
             {
@@ -5201,7 +5207,10 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
             {
                 double inputBytes = 0.0;
                 int inputCount = 0;
-                for (const auto *group : { &red, &green, &blue })
+                for (const auto *group :
+                        {
+                            &red, &green, &blue
+                        })
                     for (const auto &in : *group)
                     {
                         inputBytes += static_cast<double>(in.image.total()) * in.image.elemSize();
@@ -5217,9 +5226,11 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                 {
                     sendResponse(commands[NEW_POSTPROCESS_STATE],
                     QJsonObject{{"state", "error"},
-                        {"message", QString("Not enough free memory to combine channels: ~%1 MB needed, %2 MB available. "
-                                            "Free up memory or combine fewer/smaller channels.")
-                         .arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}});
+                        {
+                            "message", QString("Not enough free memory to combine channels: ~%1 MB needed, %2 MB available. "
+                                               "Free up memory or combine fewer/smaller channels.")
+                            .arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)
+                        }});
                     return;
                 }
             }
@@ -5298,7 +5309,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     return cancelFlag->loadAcquire() != 0;
                 };
                 result.ok = ChannelBlendOperation::blendRGB(red, green, blue, result.blended, result.refWcs, result.error,
-                                                            normalize, onProgress, isCancelled, &result.cancelled);
+                            normalize, onProgress, isCancelled, &result.cancelled);
                 return result;
             });
 
@@ -5534,9 +5545,11 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
                     sendPostProcessState(QJsonObject
                     {
                         {"state", "error"}, {"sessionId", sessionId},
-                        {"message", QString("Not enough free memory to run %1: ~%2 MB needed, %3 MB available. "
-                                             "Free up memory or process a smaller image.")
-                         .arg(command).arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)}
+                        {
+                            "message", QString("Not enough free memory to run %1: ~%2 MB needed, %3 MB available. "
+                                               "Free up memory or process a smaller image.")
+                            .arg(command).arg(needBytes / 1e6, 0, 'f', 0).arg(availBytes / 1e6, 0, 'f', 0)
+                        }
                     });
                     return;
                 }
@@ -5805,7 +5818,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (!session || session->imageData()->isStackedImageEmpty())
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "error"},
+            QJsonObject{{"state", "error"},
                 {"message", "No post-processing working image — call postprocess_stack first"}});
             return;
         }
@@ -5814,7 +5827,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (m_BusyPostProcessSessions.contains(sessionId))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
             return;
         }
 
@@ -5852,7 +5865,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (!ok)
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", histError}});
+            QJsonObject{{"state", "error"}, {"sessionId", sessionId}, {"message", histError}});
             return;
         }
 
@@ -5895,7 +5908,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (!session || session->imageData()->isStackedImageEmpty())
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "error"},
+            QJsonObject{{"state", "error"},
                 {"message", "No post-processing working image — call postprocess_stack first"}});
             return;
         }
@@ -5904,7 +5917,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (m_BusyPostProcessSessions.contains(sessionId))
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
+            QJsonObject{{"state", "busy"}, {"sessionId", sessionId}});
             return;
         }
 
@@ -5938,7 +5951,7 @@ void Message::processPostProcessCommands(const QString &command, const QJsonObje
         if (!ok || curves.isEmpty())
         {
             sendResponse(commands[NEW_POSTPROCESS_STATE],
-                         QJsonObject{{"state", "error"}, {"sessionId", sessionId},
+            QJsonObject{{"state", "error"}, {"sessionId", sessionId},
                 {"message", ok ? QStringLiteral("No curve could be derived") : curveError}});
             return;
         }

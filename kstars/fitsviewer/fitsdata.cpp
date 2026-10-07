@@ -1699,7 +1699,7 @@ bool FITSData::applyStretch(const StretchRequest &params, float &appliedInputMin
         const bool curveOk = haveSharedCurve
                              ? CurveOperation::apply(m_StackedImageMat, params.points, inputMin, inputMax, error)
                              : CurveOperation::applyPerChannel(m_StackedImageMat, params.channelPoints, inputMin,
-                                     inputMax, error);
+                                 inputMax, error);
         if (!curveOk)
         {
             // All-or-nothing. The autostretch already rewrote the buffer, and the single
@@ -2594,7 +2594,7 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
         if (!wcsHasPlateSolution(m_StackWCSHandle))
         {
             qCWarning(KSTARS_FITS) << "Align master WCS is stale or invalid at consumption time — "
-                                   "skipping, next successfully-solved sub can still become align master.";
+                                      "skipping, next successfully-solved sub can still become align master.";
             return;
         }
 

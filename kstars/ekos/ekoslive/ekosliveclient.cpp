@@ -473,7 +473,7 @@ void Client::emitStatusChanges()
 void Client::reloadCredentialsAndReconnect()
 {
     qCInfo(KSTARS_EKOS) <<
-                        "Client::reloadCredentialsAndReconnect: Reloading EkosLive device tokens from disk and reconnecting disconnected managers.";
+    "Client::reloadCredentialsAndReconnect: Reloading EkosLive device tokens from disk and reconnecting disconnected managers.";
 
     // Pick up any freshly-written device_secret / enrollment_token without a KStars restart.
     loadTokensFromDisk();

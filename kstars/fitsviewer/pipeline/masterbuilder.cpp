@@ -438,7 +438,7 @@ bool MasterBuilder::buildAndSave(const QString &dir, Type type, const QString &o
     cv::Mat master;
     int usedCount = 0;
     if (!build(dir, type, master, error, lowSigma, highSigma, subtractPath, matchExptime, exptimeTolerance, &usedCount,
-              onProgress, isCancelled, outCancelled))
+               onProgress, isCancelled, outCancelled))
         return false;
 
     if (outMaster)

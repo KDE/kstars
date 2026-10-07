@@ -125,7 +125,7 @@ bool ChannelBlendOperation::registerToReference(cv::Mat &image, const struct wcs
     const int cy = height / 2;
     const cv::Vec2f center = map.at<cv::Vec2f>(cy, cx);
     const double centerDisplacement = std::sqrt((center[0] - cx) * (center[0] - cx)
-                                     + (center[1] - cy) * (center[1] - cy));
+                                      + (center[1] - cy) * (center[1] - cy));
     const double maxCenterDisplacement = std::min(width, height) * 0.5;
     if (center[0] < 0.0f || centerDisplacement > maxCenterDisplacement)
     {
@@ -272,7 +272,10 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
     // strided ~200k-sample percentile per input, no full-frame copy.
     if (normalize)
     {
-        for (auto *group : { &redReg, &greenReg, &blueReg })
+        for (auto *group :
+                {
+                    &redReg, &greenReg, &blueReg
+                })
             for (auto &input : *group)
                 input.background = robustBackground(input.image);
     }
@@ -310,7 +313,7 @@ bool ChannelBlendOperation::blendRGB(const QVector<WeightedInput> &red, const QV
                 current++;
                 if (onProgress)
                     onProgress(current, total,
-                              QString("Registered %1 channel input %2/%3").arg(group.name).arg(i + 1).arg(group.inputs->size()));
+                               QString("Registered %1 channel input %2/%3").arg(group.name).arg(i + 1).arg(group.inputs->size()));
             }
         }
     }

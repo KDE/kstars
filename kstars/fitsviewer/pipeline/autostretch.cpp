@@ -230,7 +230,7 @@ bool AutoStretch::equivalentCurve(const cv::Mat &image, float inputMin, float in
         for (const auto &channel : channels)
             all.push_back(&channel);
         const ChannelParams pooled = computeParams(all, maxInput, static_cast<float>(targetBackground),
-                                      static_cast<float>(shadowsClipping));
+                                     static_cast<float>(shadowsClipping));
         std::fill(params.begin(), params.end(), pooled);
     }
     else
@@ -240,7 +240,7 @@ bool AutoStretch::equivalentCurve(const cv::Mat &image, float inputMin, float in
                                       static_cast<float>(shadowsClipping));
     }
 
-    const auto sample = [&](const ChannelParams &p)
+    const auto sample = [&](const ChannelParams & p)
     {
         QVector<QPointF> points;
         points.reserve(controlPoints);

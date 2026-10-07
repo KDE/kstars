@@ -192,7 +192,7 @@ DirectoryInspector::DirectoryNode DirectoryInspector::buildNode(const QDir &dire
     for (const auto &subdirInfo : directory.entryInfoList(subdirFilter, QDir::Name))
     {
         QString childRelativePath = relativePath.isEmpty() ? subdirInfo.fileName()
-                                     : relativePath + '/' + subdirInfo.fileName();
+                                    : relativePath + '/' + subdirInfo.fileName();
         DirectoryNode child = buildNode(QDir(subdirInfo.absoluteFilePath()), childRelativePath);
 
         node.totalFileCount += child.totalFileCount;
