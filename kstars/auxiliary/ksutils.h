@@ -304,6 +304,10 @@ QString getDefaultPath(const QString &option);
 #ifdef Q_OS_MACOS
 void copyResourcesFolderFromAppBundle(QString folder, const QStringList &excludeFiles = {});
 bool setupMacKStarsIfNeeded(); //The boolean returns true if the data folders are good to go.
+// Makes sure the bundled D-Bus session bus is running and DBUS_SESSION_BUS_ADDRESS points to it. Must be called
+// before anything connects to the session bus. Returns false if the bus could not be started; logPath then holds
+// the path of the dbus-daemon log.
+bool setupMacDBus(QString *logPath = nullptr);
 bool configureAstrometry();
 bool replaceIndexFileNotYetSet();
 bool copyRecursively(QString sourceFolder, QString destFolder, const QStringList &excludeFiles = {});

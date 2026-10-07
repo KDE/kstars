@@ -43,6 +43,7 @@
 
 #if defined(Q_OS_MACOS)
 #include <ksnotification.h>
+#include <QMessageBox>
 #endif
 
 #include <QApplication>
@@ -106,6 +107,18 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef Q_OS_MACOS
+    // Start the bundled D-Bus session bus before anything (KDBusService in particular) connects to it,
+    // otherwise KStars exits on first launch or waits forever for a bus that never answers.
+    QString dbusLogPath;
+    if (!KSUtils::setupMacDBus(&dbusLogPath))
+    {
+        QMessageBox::critical(nullptr, i18n("KStars"),
+                              i18n("KStars could not start its D-Bus session bus and cannot run without it.\n\n"
+                                   "Details may be found in %1. You can also check the service status with:\n"
+                                   "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars", dbusLogPath));
+        return 1;
+    }
+
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
     if (!KSUtils::setupMacKStarsIfNeeded())
     {
