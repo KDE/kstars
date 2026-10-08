@@ -47,9 +47,7 @@ OpsHIPSCache::OpsHIPSCache() : QFrame(KStars::Instance())
 
         kcfg_HIPSOfflinePath->setText(dir);
 
-        QDir hipsDirectory(dir);
-        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        HIPSManager::Instance()->setOfflineLevels(orders);
+        HIPSManager::Instance()->loadOfflineLevels(dir);
         HIPSManager::Instance()->setCurrentSource("DSS Colored");
     });
 }

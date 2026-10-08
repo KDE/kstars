@@ -95,7 +95,26 @@ class HIPSManager : public QObject
         {
             return m_uid;
         }
+        /**
+         * @brief setOfflineLevels Replace the offline level map from the given directory names.
+         * @param value Directory entries of the offline storage path (e.g. "Norder3", "Norder5").
+         */
         void setOfflineLevels(const QStringList &value);
+
+        /**
+         * @brief loadOfflineLevels Scan an offline HiPS storage directory and update the offline level map.
+         * Logs a warning if the offline source is enabled but the directory is missing or has no Norder* levels.
+         * @param path Offline HiPS storage path.
+         */
+        void loadOfflineLevels(const QString &path);
+
+        /**
+         * @brief computeOfflineLevels Map every HiPS order 0-20 to an order that is available offline.
+         * A missing order is mapped to the next higher available one, or to the highest available one.
+         * @param directories Directory entries of the offline storage path. Only "Norder<N>" entries are used.
+         * @return Map of requested order to usable order. If no order is available, all orders map to 1.
+         */
+        static QMap<int, int> computeOfflineLevels(const QStringList &directories);
 
     public Q_SLOTS:
         bool setCurrentSource(const QString &title);

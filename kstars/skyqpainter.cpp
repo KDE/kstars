@@ -849,6 +849,9 @@ bool SkyQPainter::drawHips(bool useCache)
     else
     {
         m_HiPSImage.reset(new QImage(w, h, QImage::Format_ARGB32_Premultiplied));
+        // QImage does not initialize its pixel buffer. Tiles that are missing or still loading leave
+        // their area untouched, so clear it to avoid drawing uninitialized memory as noise.
+        m_HiPSImage->fill(Qt::transparent);
         bool rendered     = m_hipsRender->render(w, h, m_HiPSImage.data(), m_proj);
         if (rendered)
             drawImage(viewport(), *m_HiPSImage.data());
