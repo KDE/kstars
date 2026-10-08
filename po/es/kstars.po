@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-04 02:18+0000\n"
+"POT-Creation-Date: 2026-10-08 02:18+0000\n"
 "PO-Revision-Date: 2026-09-28 12:43+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -477,14 +477,14 @@ msgid "Save Image"
 msgstr "Guardar imagen"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:443
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1414
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1419
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ya existe un archivo llamado «%1». ¿Sobrescribir?"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:446
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1415
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1420
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
@@ -552,7 +552,7 @@ msgstr "No"
 #: dialogs/catalogdetails.cpp:217 dialogs/catalogsdbui.cpp:155
 #: dialogs/catalogsdbui.cpp:191 dialogs/catalogsdbui.cpp:212
 #: dialogs/catalogsdbui.cpp:232 dialogs/catalogsdbui.cpp:250
-#: dialogs/catalogsdbui.cpp:285 ekos/align/polaralignmentassistant.cpp:825
+#: dialogs/catalogsdbui.cpp:285 ekos/align/polaralignmentassistant.cpp:836
 #: ekos/scheduler/schedulerprocess.cpp:573
 #, kde-format
 msgid "Warning"
@@ -627,109 +627,109 @@ msgstr "Lo sentimos"
 msgid "Info"
 msgstr "Información"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNE"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NE"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ENE"
 
-#: auxiliary/ksutils.cpp:186
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "E"
 
-#: auxiliary/ksutils.cpp:187
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ESE"
 
-#: auxiliary/ksutils.cpp:188
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "SE"
 
-#: auxiliary/ksutils.cpp:189
+#: auxiliary/ksutils.cpp:194
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "SSE"
 
-#: auxiliary/ksutils.cpp:190
+#: auxiliary/ksutils.cpp:195
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "S"
 
-#: auxiliary/ksutils.cpp:191
+#: auxiliary/ksutils.cpp:196
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "SSO"
 
-#: auxiliary/ksutils.cpp:192
+#: auxiliary/ksutils.cpp:197
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "SO"
 
-#: auxiliary/ksutils.cpp:193
+#: auxiliary/ksutils.cpp:198
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "OSO"
 
-#: auxiliary/ksutils.cpp:194
+#: auxiliary/ksutils.cpp:199
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:195
+#: auxiliary/ksutils.cpp:200
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:196
+#: auxiliary/ksutils.cpp:201
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:197
+#: auxiliary/ksutils.cpp:202
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:198
+#: auxiliary/ksutils.cpp:203
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1474
+#: auxiliary/ksutils.cpp:1653
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -740,18 +740,18 @@ msgstr ""
 " %1 \n"
 " no existe. ¿Desea crear el directorio?"
 
-#: auxiliary/ksutils.cpp:1477
+#: auxiliary/ksutils.cpp:1656
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "¿Crear el directorio de archivos de índice de Astrometry?"
 
-#: auxiliary/ksutils.cpp:1482
+#: auxiliary/ksutils.cpp:1661
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr ""
 "Se ha creado la ubicación predeterminada del archivo de índice de Astrometry."
 
-#: auxiliary/ksutils.cpp:1487
+#: auxiliary/ksutils.cpp:1666
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -760,19 +760,19 @@ msgstr ""
 "El directorio del archivo de índice predeterminado de Astrometry no existe y "
 "no se ha podido crear."
 
-#: auxiliary/ksutils.cpp:1508 auxiliary/ksutils.cpp:1666
-#: auxiliary/ksutils.cpp:1731
+#: auxiliary/ksutils.cpp:1687 auxiliary/ksutils.cpp:1845
+#: auxiliary/ksutils.cpp:1910
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Error de lectura en archivo de configuración de Astrometry."
 
-#: auxiliary/ksutils.cpp:1522 auxiliary/ksutils.cpp:1709
-#: auxiliary/ksutils.cpp:1751
+#: auxiliary/ksutils.cpp:1701 auxiliary/ksutils.cpp:1888
+#: auxiliary/ksutils.cpp:1930
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Error de escritura en archivo de configuración de Astrometry interno."
 
-#: auxiliary/ksutils.cpp:1797 fitsviewer/fitsdata.cpp:4042
+#: auxiliary/ksutils.cpp:1976 fitsviewer/fitsdata.cpp:4042
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -781,22 +781,22 @@ msgstr ""
 "No se puede encontrar «dcraw» ni «cjpeg». Instale las herramientas "
 "necesarias para convertir CR2/NEF en JPEG."
 
-#: auxiliary/ksutils.cpp:1808
+#: auxiliary/ksutils.cpp:1987
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "No se puede abrir %1: %2"
 
-#: auxiliary/ksutils.cpp:1816
+#: auxiliary/ksutils.cpp:1995
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "No se ha podido desempaquetar la miniatura de %1: %2"
 
-#: auxiliary/ksutils.cpp:1827
+#: auxiliary/ksutils.cpp:2006
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "No se puede escribir %s %1: %2"
 
-#: auxiliary/ksutils.cpp:2052 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:2231 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -3022,7 +3022,7 @@ msgstr "Mapeado del tipo"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
-#: ekos/capture/cameraprocess.cpp:2509 ekos/capture/capturecountswidget.cpp:325
+#: ekos/capture/cameraprocess.cpp:2513 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, kde-format
@@ -3925,8 +3925,8 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align_devices.cpp:484
-#: ekos/analyze/analyze.ui:192 ekos/auxiliary/darklibrary.cpp:1211
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/auxiliary/darklibrary.cpp:1272
+#: ekos/analyze/analyze.ui:192 ekos/auxiliary/darklibrary.cpp:1213
+#: ekos/auxiliary/darklibrary.cpp:1214 ekos/auxiliary/darklibrary.cpp:1274
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6826,8 +6826,8 @@ msgid "Polar Alignment"
 msgstr "Alineación polar"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:249 ekos/align/align_goto.cpp:267
-#: ekos/align/align_goto.cpp:382 ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:252 ekos/align/align_goto.cpp:270
+#: ekos/align/align_goto.cpp:385 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Estabilizando…"
@@ -6851,7 +6851,7 @@ msgid "Dustcap error detected. Aborting alignment."
 msgstr ""
 "Detectado error de la cubierta antipolvo. Interrumpiendo la alineación."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5925
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5926
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Dispositivo de cubierta antipolvo %1 eliminado."
@@ -6876,8 +6876,8 @@ msgstr "%1: El sistema de coordenadas mundial (WCS) está desactivado."
 msgid "Capture error. Aborting..."
 msgstr "Error de captura. Interrumpiendo…"
 
-#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1677
-#: ekos/capture/cameraprocess.cpp:2241
+#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1681
+#: ekos/capture/cameraprocess.cpp:2245
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando intento de captura #%1"
@@ -6922,79 +6922,79 @@ msgstr "<p>Campo de visión efectivo, en minutos de arco.</p>"
 msgid "Invalid FOV."
 msgstr "Campo de visión no válido."
 
-#: ekos/align/align_goto.cpp:87
+#: ekos/align/align_goto.cpp:90
 #, kde-format
 msgid "Refresh is complete."
 msgstr "La actualización se ha completado."
 
-#: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1630
+#: ekos/align/align_goto.cpp:97 ekos/auxiliary/darklibrary.cpp:1632
 #: ekos/focus/focus.cpp:1733
 #, kde-format
 msgid "Capture aborted."
 msgstr "Captura interrumpida."
 
-#: ekos/align/align_goto.cpp:97
+#: ekos/align/align_goto.cpp:100
 #, kde-format
 msgid "Solver aborted."
 msgstr "Sistema de identificación interrumpido."
 
-#: ekos/align/align_goto.cpp:152
+#: ekos/align/align_goto.cpp:155
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "La montura ha completado el desplazamiento cerca del polo celeste. Vuelva a "
 "capturar para verificarlo."
 
-#: ekos/align/align_goto.cpp:174
+#: ekos/align/align_goto.cpp:177
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "La montura se ha sincronizado con las coordenadas de la solución."
 
-#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:1010
+#: ekos/align/align_goto.cpp:180 ekos/align/align_solver.cpp:1010
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "La alineación de Astrometry se ha completado con éxito"
 
-#: ekos/align/align_goto.cpp:237 ekos/align/align_goto.cpp:675
+#: ekos/align/align_goto.cpp:240 ekos/align/align_goto.cpp:678
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 "Diferencia AP ~%1°, la imagen está invertida. Se preserva el ángulo del "
 "rotador."
 
-#: ekos/align/align_goto.cpp:257
+#: ekos/align/align_goto.cpp:260
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Desplazamiento completado. No se ha conseguido la precisión del objetivo. Se "
 "vuelve a ejecutar el sistema de identificación…"
 
-#: ekos/align/align_goto.cpp:259
+#: ekos/align/align_goto.cpp:262
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Desplazamiento completado. Resolviendo el punto de alineación…"
 
-#: ekos/align/align_goto.cpp:310 ekos/align/align_goto.cpp:488
+#: ekos/align/align_goto.cpp:313 ekos/align/align_goto.cpp:491
 #, kde-format
 msgid "Syncing failed."
 msgstr "Sincronización fallida."
 
-#: ekos/align/align_goto.cpp:312
+#: ekos/align/align_goto.cpp:315
 #, kde-format
 msgid "Slewing failed."
 msgstr "El desplazamiento ha fallado."
 
-#: ekos/align/align_goto.cpp:343
+#: ekos/align/align_goto.cpp:346
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "Detectado error del rotador. Interrumpiendo la alineación."
 
-#: ekos/align/align_goto.cpp:364
+#: ekos/align/align_goto.cpp:367
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "El rotador ha alcanzado el ángulo de posición de la cámara."
 
-#: ekos/align/align_goto.cpp:399
+#: ekos/align/align_goto.cpp:402
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -7003,22 +7003,22 @@ msgstr ""
 "El rotador no ha podido alcanzar el ángulo de posición solicitado "
 "(desviación de %1 minutos de arco)."
 
-#: ekos/align/align_goto.cpp:438
+#: ekos/align/align_goto.cpp:441
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Se ha detectado movimiento. Se suspende el proceso de resolución…"
 
-#: ekos/align/align_goto.cpp:482
+#: ekos/align/align_goto.cpp:485
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Sincronizando con la AR (%1) y la DEC (%2)"
 
-#: ekos/align/align_goto.cpp:512
+#: ekos/align/align_goto.cpp:515
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Moviendo hasta las coordenadas de destino: AR (%1) DEC (%2)."
 
-#: ekos/align/align_goto.cpp:517
+#: ekos/align/align_goto.cpp:520
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -7027,36 +7027,36 @@ msgstr ""
 "Se ha rechazado el movimiento hasta las coordenadas de destino: AR (%1) DEC "
 "(%2). (Consulte la notificación)"
 
-#: ekos/align/align_goto.cpp:574
+#: ekos/align/align_goto.cpp:577
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Cargar imagen"
 
-#: ekos/align/align_goto.cpp:605 ekos/align/align_solver.cpp:265
+#: ekos/align/align_goto.cpp:608 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "No se ha detectado ningún controlador remoto de Astrometry. Cambiando a "
 "StellarSolver."
 
-#: ekos/align/align_goto.cpp:689
+#: ekos/align/align_goto.cpp:692
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Fijando el ángulo de posición de la cámara a %1 grados…"
 
-#: ekos/align/align_goto.cpp:698
+#: ekos/align/align_goto.cpp:701
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 "El ángulo de posición de la cámara está dentro del intervalo aceptable."
 
-#: ekos/align/align_goto.cpp:710
+#: ekos/align/align_goto.cpp:713
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "La AP actual es %1; la AP del objetivo es %2; diferencia: %3"
 
-#: ekos/align/align_goto.cpp:748
+#: ekos/align/align_goto.cpp:751
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -7100,7 +7100,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (segundos de arco)"
 
 #: ekos/align/align_settings.cpp:226 ekos/capture/camera_config.cpp:723
-#: ekos/focus/focus.cpp:6005
+#: ekos/focus/focus.cpp:6006
 #, kde-format
 msgid "Filter operation failed."
 msgstr "La operación de filtrado ha fallado."
@@ -7168,12 +7168,12 @@ msgstr "No se puede escribir en el archivo %1 "
 
 #: ekos/align/align_solution.cpp:463 ekos/align/mountmodel.cpp:300
 #: ekos/align/mountmodel.cpp:418 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2654 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2658 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2994
 #: ekos/scheduler/schedulerprocess.cpp:3473
 #: ekos/scheduler/schedulerprocess.cpp:4609
 #: ekos/scheduler/schedulerprocess.cpp:4629 indi/drivermanager.cpp:1589
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1463 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1468 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -7254,7 +7254,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: se ha perdido la conexión con la rueda de filtros."
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:666 ekos/focus/focus.cpp:6124
+#: ekos/capture/cameraprocess.cpp:666 ekos/focus/focus.cpp:6125
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7502,13 +7502,13 @@ msgstr ""
 "«Configuración -> Registros» para obtener información detallada sobre el "
 "fallo."
 
-#: ekos/align/align_solver.cpp:1223 ekos/capture/cameraprocess.cpp:2161
-#: ekos/focus/focus.cpp:6179
+#: ekos/align/align_solver.cpp:1223 ekos/capture/cameraprocess.cpp:2165
+#: ekos/focus/focus.cpp:6180
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "El tiempo de exposición se ha agotado. Interrumpiendo…"
 
-#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6186
+#: ekos/align/align_solver.cpp:1231 ekos/focus/focus.cpp:6187
 #: ekos/guide/guide.cpp:1229
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
@@ -7516,8 +7516,8 @@ msgstr ""
 "El tiempo de exposición se ha agotado. Detectado muchas veces. Reiniciando "
 "el controlador…"
 
-#: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2188
-#: ekos/focus/focus.cpp:6200 ekos/guide/guide.cpp:1194
+#: ekos/align/align_solver.cpp:1251 ekos/capture/cameraprocess.cpp:2192
+#: ekos/focus/focus.cpp:6201 ekos/guide/guide.cpp:1194
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición…"
@@ -7610,7 +7610,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Abrir lista de alineación de Ekos"
 
 #: ekos/align/mountmodel.cpp:299 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2653 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2657 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3472
 #: ekos/scheduler/schedulerprocess.cpp:4628
 #, kde-format
@@ -10313,7 +10313,13 @@ msgstr ""
 "Se ha interrumpido la montura. Invierta la dirección del eje de AR y vuelva "
 "a probar."
 
-#: ekos/align/polaralignmentassistant.cpp:779
+#: ekos/align/polaralignmentassistant.cpp:775
+#, kde-format
+msgid ""
+"Polar alignment requires a mount. Please select a mount in the optical train."
+msgstr ""
+
+#: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
@@ -10322,38 +10328,38 @@ msgstr ""
 "Advertencia: no se mostrarán las líneas de la cuadrícula ecuatorial por "
 "estar activo el modo de recursos limitados."
 
-#: ekos/align/polaralignmentassistant.cpp:783
+#: ekos/align/polaralignmentassistant.cpp:794
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "Borrando el modelo de alineación de la montura…"
 
-#: ekos/align/polaralignmentassistant.cpp:824
+#: ekos/align/polaralignmentassistant.cpp:835
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Esto puede hacer que el telescopio cruce el meridiano."
 
-#: ekos/align/polaralignmentassistant.cpp:886
+#: ekos/align/polaralignmentassistant.cpp:897
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Aparcando la montura…"
 
-#: ekos/align/polaralignmentassistant.cpp:929
+#: ekos/align/polaralignmentassistant.cpp:940
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Espere hasta que la montura termine de rotar hasta AR (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:945
-#: ekos/align/polaralignmentassistant.cpp:951
+#: ekos/align/polaralignmentassistant.cpp:956
+#: ekos/align/polaralignmentassistant.cpp:962
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: No ha sido posible encontrar el píxel correcto."
 
-#: ekos/align/polaralignmentassistant.cpp:977
+#: ekos/align/polaralignmentassistant.cpp:988
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: No ha sido posible encontrar el centro del eje de AR."
 
-#: ekos/align/polaralignmentassistant.cpp:1049
+#: ekos/align/polaralignmentassistant.cpp:1060
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -10362,17 +10368,17 @@ msgstr ""
 "La alineación polar no se puede actualizar durante la fase de refresco "
 "porque podría afectar a las medidas de error."
 
-#: ekos/align/polaralignmentassistant.cpp:1066
+#: ekos/align/polaralignmentassistant.cpp:1077
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Primera rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1071
+#: ekos/align/polaralignmentassistant.cpp:1082
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Segunda rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1137
+#: ekos/align/polaralignmentassistant.cpp:1148
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -10381,35 +10387,35 @@ msgstr ""
 "La montura está sincronizada con el polo celeste. Ahora puede continuar el "
 "procedimiento del asistente de alineación polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1156
+#: ekos/align/polaralignmentassistant.cpp:1167
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Espere mientras se procesan los datos WCS…"
 
-#: ekos/align/polaralignmentassistant.cpp:1187
+#: ekos/align/polaralignmentassistant.cpp:1198
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "El procesamiento de los datos WCS se ha completado."
 
-#: ekos/align/polaralignmentassistant.cpp:1196
+#: ekos/align/polaralignmentassistant.cpp:1207
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "La información de WCS ya es válida. Capturando el siguiente fotograma…"
 
-#: ekos/align/polaralignmentassistant.cpp:1238
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "El procesamiento del sistema de coordenadas mundiales ha fallado: %1. Pruebe "
 "otra vez."
 
-#: ekos/align/polaralignmentassistant.cpp:1256
+#: ekos/align/polaralignmentassistant.cpp:1267
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: No se ha podido encontrar el eje de AR. Saliendo."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1287
+#: ekos/align/polaralignmentassistant.cpp:1298
 #: ekos/align/polaralignmentassistant.ui:216
 #, kde-format
 msgid ""
@@ -10419,54 +10425,54 @@ msgstr ""
 "<p>El asistente necesita tres imágenes para encontrar una solución. Ekos "
 "está capturando ahora la primera imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1289
+#: ekos/align/polaralignmentassistant.cpp:1300
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Resolviendo la <i>primera</i> imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1291
+#: ekos/align/polaralignmentassistant.cpp:1302
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Ejecutando la <i>primera</i> rotación de la montura…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1293
+#: ekos/align/polaralignmentassistant.cpp:1304
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 "<p>Estabilizando después de la <i>primera</i> rotación de la montura.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1295
+#: ekos/align/polaralignmentassistant.cpp:1306
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr ""
 "<p>Estabilizando después de la <i>segunda</i> rotación de la montura.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1297
+#: ekos/align/polaralignmentassistant.cpp:1308
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Capturando la segunda imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1299
+#: ekos/align/polaralignmentassistant.cpp:1310
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Resolviendo la <i>segunda</i> imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1301
+#: ekos/align/polaralignmentassistant.cpp:1312
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Ejecutando la <i>segunda</i> rotación de la montura…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1303
+#: ekos/align/polaralignmentassistant.cpp:1314
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Capturando la <i>tercera</i> y última imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1305
+#: ekos/align/polaralignmentassistant.cpp:1316
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Resolviendo la <i>tercera</i> imagen…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1308
+#: ekos/align/polaralignmentassistant.cpp:1319
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -10475,7 +10481,7 @@ msgstr ""
 "<p>Escoja el tiempo de exposición y seleccione un método de ajuste. A "
 "continuación, pulse <i>Actualizar</i> para iniciar los ajustes.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1310
+#: ekos/align/polaralignmentassistant.cpp:1321
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10489,7 +10495,7 @@ msgstr ""
 "el vector de corrección. Use el método <i>Mover estrella y calcular error</"
 "i> para estimar el error restante.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1313
+#: ekos/align/polaralignmentassistant.cpp:1324
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10503,7 +10509,7 @@ msgstr ""
 "de los resultados tras dos imágenes. Pulse <i>Detener</i> cuando haya "
 "terminado.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1315
+#: ekos/align/polaralignmentassistant.cpp:1326
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10517,36 +10523,36 @@ msgstr ""
 "centrada dentro de la cruceta.</p><p>Pulse <i>Detener</i> cuando la estrella "
 "esté centrada.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1331
+#: ekos/align/polaralignmentassistant.cpp:1342
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
 "No se puede cambiar al algoritmo «Mover estrella» una vez iniciada la "
 "actualización"
 
-#: ekos/align/polaralignmentassistant.cpp:1365
+#: ekos/align/polaralignmentassistant.cpp:1376
 #, kde-format
 msgid "PAC: Polar Alignment Corrector connected."
 msgstr "PAC: Corrector de alineación polar conectado."
 
-#: ekos/align/polaralignmentassistant.cpp:1378
+#: ekos/align/polaralignmentassistant.cpp:1389
 #, kde-format
 msgid "PAC: Correction in progress – adjusting azimuth and altitude axes..."
 msgstr "PAC: Corrección en curso. Ajustando los ejes de acimut y de altitud…"
 
-#: ekos/align/polaralignmentassistant.cpp:1383
+#: ekos/align/polaralignmentassistant.cpp:1394
 #, kde-format
 msgid "PAC: Correction applied. Capturing next image to verify alignment..."
 msgstr ""
 "PAC: Corrección aplicada. Capturando la siguiente imagen para verificar la "
 "alineación…"
 
-#: ekos/align/polaralignmentassistant.cpp:1389
+#: ekos/align/polaralignmentassistant.cpp:1400
 #, kde-format
 msgid "PAC: Correction failed. Stopping polar alignment."
 msgstr "PAC: La corrección ha fallado. Deteniendo la alineación polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1420
+#: ekos/align/polaralignmentassistant.cpp:1431
 #, kde-format
 msgid ""
 "PAC: Polar alignment successful! Total error %1' is within threshold %2'."
@@ -10554,21 +10560,21 @@ msgstr ""
 "PAC: Alineación polar completada. El error total de %1' está dentro del "
 "umbral de %2'."
 
-#: ekos/align/polaralignmentassistant.cpp:1431
+#: ekos/align/polaralignmentassistant.cpp:1442
 #, kde-format
 msgid "PAC: Correction timeout (%1s) reached. Total error is %2'. Stopping."
 msgstr ""
 "PAC: Se ha agotado el tiempo de espera de la corrección (%1 s). El error "
 "total es de %2'. Se detiene el proceso."
 
-#: ekos/align/polaralignmentassistant.cpp:1461
+#: ekos/align/polaralignmentassistant.cpp:1472
 #, kde-format
 msgid "PAC: Az error increase confirmed (%1' → %2') – reversing Az direction."
 msgstr ""
 "PAC: Aumento de error de Az confirmado (%1' → %2'). Se invierte la dirección "
 "de Az."
 
-#: ekos/align/polaralignmentassistant.cpp:1467
+#: ekos/align/polaralignmentassistant.cpp:1478
 #, kde-format
 msgid ""
 "PAC: Az error increase not confirmed (likely noise) – keeping original "
@@ -10577,7 +10583,7 @@ msgstr ""
 "PAC: Aumento de error de Az no confirmado (puede ser ruido). Se mantiene la "
 "dirección original."
 
-#: ekos/align/polaralignmentassistant.cpp:1474
+#: ekos/align/polaralignmentassistant.cpp:1485
 #, kde-format
 msgid ""
 "PAC: Alt error increase confirmed (%1' → %2') – reversing Alt direction."
@@ -10585,7 +10591,7 @@ msgstr ""
 "PAC: Aumento de error de Alt confirmado (%1' → %2'). Se invierte la "
 "dirección de Alt."
 
-#: ekos/align/polaralignmentassistant.cpp:1480
+#: ekos/align/polaralignmentassistant.cpp:1491
 #, kde-format
 msgid ""
 "PAC: Alt error increase not confirmed (likely noise) – keeping original "
@@ -10594,7 +10600,7 @@ msgstr ""
 "PAC: Aumento de error de Alt no confirmado (puede ser ruido). Se mantiene la "
 "dirección original."
 
-#: ekos/align/polaralignmentassistant.cpp:1505
+#: ekos/align/polaralignmentassistant.cpp:1516
 #, kde-format
 msgid ""
 "PAC: No improvement for %1 consecutive iteration(s) (best: %2', current: "
@@ -10602,7 +10608,7 @@ msgid ""
 msgstr ""
 "PAC: No hay mejora en %1 iteraciones consecutivas (mejor: %2', actual: %3')."
 
-#: ekos/align/polaralignmentassistant.cpp:1511
+#: ekos/align/polaralignmentassistant.cpp:1522
 #, kde-format
 msgid ""
 "PAC: No improvement after %1 consecutive iterations. Best error reached: "
@@ -10611,7 +10617,7 @@ msgstr ""
 "PAC: No hay mejora tras %1 iteraciones consecutivas. Mejor error conseguido: "
 "%2'. Se detiene la alineación polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1528
+#: ekos/align/polaralignmentassistant.cpp:1539
 #, kde-format
 msgid ""
 "PAC: Az error increased (%1' → %2') – re-solving to confirm before direction "
@@ -10620,7 +10626,7 @@ msgstr ""
 "PAC: Ha aumentado el error de Az (%1' → %2'). Se vuelve a resolver para "
 "confirmar antes de cambiar la dirección."
 
-#: ekos/align/polaralignmentassistant.cpp:1535
+#: ekos/align/polaralignmentassistant.cpp:1546
 #, kde-format
 msgid ""
 "PAC: Alt error increased (%1' → %2') – re-solving to confirm before "
@@ -10629,7 +10635,7 @@ msgstr ""
 "PAC: Ha aumentado el error de Alt (%1' → %2'). Se vuelve a resolver para "
 "confirmar antes de cambiar la dirección."
 
-#: ekos/align/polaralignmentassistant.cpp:1559
+#: ekos/align/polaralignmentassistant.cpp:1570
 #, kde-format
 msgid "PAC: Commanding corrector – Az: %1'  Alt: %2'  Total: %3'"
 msgstr "PAC: Enviando órdenes al corrector. Ac: %1'  Alt: %2'  Total: %3'"
@@ -12736,7 +12742,7 @@ msgstr ""
 "Ningún fotograma oscuro grabado coincide con la duración y el «binning» "
 "actuales."
 
-#: ekos/auxiliary/darklibrary.cpp:473
+#: ekos/auxiliary/darklibrary.cpp:474
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -12746,7 +12752,7 @@ msgstr ""
 "un fotograma oscuro con %2 segundos de exposición para unos resultados más "
 "precisos."
 
-#: ekos/auxiliary/darklibrary.cpp:484
+#: ekos/auxiliary/darklibrary.cpp:486
 #, kde-format
 msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
@@ -12756,80 +12762,80 @@ msgstr ""
 "biblioteca oscura está configurada para reutilizar los fotogramas oscuros "
 "durante %2 días."
 
-#: ekos/auxiliary/darklibrary.cpp:511
+#: ekos/auxiliary/darklibrary.cpp:513
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "Eliminando archivo de fotograma oscuro incorrecto %1"
 
-#: ekos/auxiliary/darklibrary.cpp:624
+#: ekos/auxiliary/darklibrary.cpp:626
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "No se ha podido cargar el mapa de defectos %1"
 
-#: ekos/auxiliary/darklibrary.cpp:644
+#: ekos/auxiliary/darklibrary.cpp:646
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "No se ha podido cargar el archivo de mapa de defectos %1"
 
-#: ekos/auxiliary/darklibrary.cpp:664
+#: ekos/auxiliary/darklibrary.cpp:666
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Ha fallado la carga del archivo de fotograma oscuro %1"
 
-#: ekos/auxiliary/darklibrary.cpp:728
+#: ekos/auxiliary/darklibrary.cpp:730
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "El procesamiento de los datos oscuros ha fallado."
 
-#: ekos/auxiliary/darklibrary.cpp:734
+#: ekos/auxiliary/darklibrary.cpp:736
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Ha fallado la carga de datos oscuros."
 
-#: ekos/auxiliary/darklibrary.cpp:744
+#: ekos/auxiliary/darklibrary.cpp:746
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Recibidas %1/%2 imágenes."
 
-#: ekos/auxiliary/darklibrary.cpp:861
+#: ekos/auxiliary/darklibrary.cpp:863
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "¿Seguro que desea borrar todas las imágenes de fotogramas oscuros y los "
 "datos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1429 ekos/focus/focusadvisor.cpp:665
+#: ekos/auxiliary/darklibrary.cpp:1431 ekos/focus/focusadvisor.cpp:665
 #: ekos/focus/focusadvisor.cpp:979 ekos/focus/focusadvisor.cpp:1276
 #, kde-format
 msgid "In progress..."
 msgstr "En curso…"
 
-#: ekos/auxiliary/darklibrary.cpp:1587
+#: ekos/auxiliary/darklibrary.cpp:1589
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "No se ha podido guardar el fotograma patrón: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1609
+#: ekos/auxiliary/darklibrary.cpp:1611
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Fotograma oscuro patrón guardado en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1634
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Capture completed."
 msgstr "Captura completada."
 
-#: ekos/auxiliary/darklibrary.cpp:1661
+#: ekos/auxiliary/darklibrary.cpp:1663
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Mapa de defectos guardado en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1681
+#: ekos/auxiliary/darklibrary.cpp:1683
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "No se ha podido guardar el mapa de defectos en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1856
+#: ekos/auxiliary/darklibrary.cpp:1858
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "El tren óptico no existe para el identificador %1"
@@ -15821,7 +15827,7 @@ msgstr "Biblioteca oscura"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:171
+#: ekos/capture/camera.ui:1202 ekos/capture/rotatorsettings.ui:20 main.cpp:184
 #, kde-format
 msgid "Rotator Control"
 msgstr "Control del rotador"
@@ -15853,7 +15859,7 @@ msgstr "Opciones de calibración automática de fotogramas oscuros y planos"
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1349 ekos/capture/cameraprocess.cpp:2522
+#: ekos/capture/camera.ui:1349 ekos/capture/cameraprocess.cpp:2526
 #: ekos/guide/guide.cpp:83 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
@@ -16721,7 +16727,7 @@ msgstr "Aplicados los cambios del trabajo #%1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "¿Seguro que desea reiniciar el estado de todos los trabajos?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2774
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2778
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar el estado de los trabajos"
@@ -16945,81 +16951,81 @@ msgstr "Error: Se ha perdido la conexión con la cámara."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "No se pueden calcular los niveles de ADU en imágenes que no sean FITS."
 
-#: ekos/capture/cameraprocess.cpp:1669 ekos/capture/cameraprocess.cpp:2233
+#: ekos/capture/cameraprocess.cpp:1673 ekos/capture/cameraprocess.cpp:2237
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "La captura ha fallado. Compruebe el panel de control de INDI para más "
 "detalles."
 
-#: ekos/capture/cameraprocess.cpp:1769
+#: ekos/capture/cameraprocess.cpp:1773
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 "Tiempo de descarga: %1 s, Nueva estimación del tiempo de descarga: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1835
+#: ekos/capture/cameraprocess.cpp:1839
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Recibida imagen %1 de %2."
 
-#: ekos/capture/cameraprocess.cpp:1872
+#: ekos/capture/cameraprocess.cpp:1876
 #, kde-format
 msgid "Captured %1"
 msgstr "Se ha capturado %1"
 
-#: ekos/capture/cameraprocess.cpp:1878
+#: ekos/capture/cameraprocess.cpp:1882
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "Advertencia: etiquetas de sustitución restantes y potencialmente "
 "desconocidas %1 en %2"
 
-#: ekos/capture/cameraprocess.cpp:1920
+#: ekos/capture/cameraprocess.cpp:1924
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Ejecutando guion de captura %1"
 
-#: ekos/capture/cameraprocess.cpp:1935
+#: ekos/capture/cameraprocess.cpp:1939
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "El guion previo a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1946
+#: ekos/capture/cameraprocess.cpp:1950
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "El guion posterior a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1958
+#: ekos/capture/cameraprocess.cpp:1962
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando la inversión de meridiano…"
 
-#: ekos/capture/cameraprocess.cpp:1968
+#: ekos/capture/cameraprocess.cpp:1972
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "El guion previo al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1973
+#: ekos/capture/cameraprocess.cpp:1977
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "El guion posterior al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2168
+#: ekos/capture/cameraprocess.cpp:2172
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado más de 3 veces. Se "
 "reiniciará el controlador."
 
-#: ekos/capture/cameraprocess.cpp:2214
+#: ekos/capture/cameraprocess.cpp:2218
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado muchas veces. "
 "Interrumpiendo…"
 
-#: ekos/capture/cameraprocess.cpp:2295
+#: ekos/capture/cameraprocess.cpp:2299
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -17028,20 +17034,20 @@ msgstr ""
 "La calibración plana ha fallado. La imagen capturada es de solo %1 bits, "
 "mientras que la ADU necesaria es de %2."
 
-#: ekos/capture/cameraprocess.cpp:2306
+#: ekos/capture/cameraprocess.cpp:2310
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "La imagen actual está saturada (%1). La siguiente exposición es de %2 "
 "segundos."
 
-#: ekos/capture/cameraprocess.cpp:2328
+#: ekos/capture/cameraprocess.cpp:2332
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "El ADU actual de %1 está en el intervalo de tolerancia del ADU objetivo."
 
-#: ekos/capture/cameraprocess.cpp:2357
+#: ekos/capture/cameraprocess.cpp:2361
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -17050,27 +17056,27 @@ msgstr ""
 "No ha sido posible calcular los ajustes de exposición óptimos. Capture los "
 "planos de forma manual."
 
-#: ekos/capture/cameraprocess.cpp:2365
+#: ekos/capture/cameraprocess.cpp:2369
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "El ADU actual es de %1. La siguiente exposición es de %2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:2506
+#: ekos/capture/cameraprocess.cpp:2510
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista previa de %1"
 
-#: ekos/capture/cameraprocess.cpp:2517 ekos/capture/cameraprocess.cpp:2519
+#: ekos/capture/cameraprocess.cpp:2521 ekos/capture/cameraprocess.cpp:2523
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Calibración plana"
 
-#: ekos/capture/cameraprocess.cpp:2723
+#: ekos/capture/cameraprocess.cpp:2727
 #, kde-format
 msgid "Sequence paused."
 msgstr "Secuencia en pausa."
 
-#: ekos/capture/cameraprocess.cpp:2773
+#: ekos/capture/cameraprocess.cpp:2777
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -17079,7 +17085,7 @@ msgstr ""
 "Se han completado todos los trabajos. ¿Seguro que desea reiniciar el estado "
 "de todos los trabajos y de la captura?"
 
-#: ekos/capture/cameraprocess.cpp:2787
+#: ekos/capture/cameraprocess.cpp:2791
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -17088,17 +17094,17 @@ msgstr ""
 "Advertencia: la opción «Reiniciar siempre la secuencia al empezar» está "
 "activada y reinicia los contadores de la secuencia."
 
-#: ekos/capture/cameraprocess.cpp:3023
+#: ekos/capture/cameraprocess.cpp:3027
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "¿Está seguro de que desea reiniciar el controlador de la cámara %1?"
 
-#: ekos/capture/cameraprocess.cpp:3024
+#: ekos/capture/cameraprocess.cpp:3028
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicio del controlador"
 
-#: ekos/capture/cameraprocess.cpp:3171 ekos/capture/sequencejobstate.cpp:72
+#: ekos/capture/cameraprocess.cpp:3175 ekos/capture/sequencejobstate.cpp:72
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Las operaciones de captura han expirado tras %1 segundos."
@@ -20247,7 +20253,7 @@ msgid "In Focus Loop, Autofocus rejected."
 msgstr "En bucle de enfoque. Se ha rechazado el enfoque automático."
 
 #: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5508
-#: ekos/focus/focus.cpp:5783
+#: ekos/focus/focus.cpp:5784
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ajuste de enfoque"
@@ -20255,7 +20261,7 @@ msgstr "Ajuste de enfoque"
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5510
-#: ekos/focus/focus.cpp:5783 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:5784 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -20760,30 +20766,30 @@ msgstr "No se ha detectado ninguna estrella. Interrumpiendo…"
 msgid "Focuser already at %1..."
 msgstr "El enfocador ya está en %1…"
 
-#: ekos/focus/focus.cpp:5786
+#: ekos/focus/focus.cpp:5787
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitud de ajuste de enfoque: esperando 10 segundos para que se complete "
 "%1."
 
-#: ekos/focus/focus.cpp:5820
+#: ekos/focus/focus.cpp:5821
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fotograma de enfoque"
 
-#: ekos/focus/focus.cpp:6224
+#: ekos/focus/focus.cpp:6225
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "No se ha podido guardar la imagen. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:6239 ekos/focus/focus.cpp:6264
+#: ekos/focus/focus.cpp:6240 ekos/focus/focus.cpp:6265
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "La exposición ha fallado. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:6563
+#: ekos/focus/focus.cpp:6564
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -40319,32 +40325,33 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:301 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:140
+#: kstars.cpp:226 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:115
+#: main.cpp:153
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:302
+#: kstars.cpp:227
 #, kde-format
 msgid "KStars Live Stacker"
 msgstr "Apilador en vivo de KStars"
 
-#: kstars.cpp:303
+#: kstars.cpp:228
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr "© 2025 El equipo de KStars"
 
-#: kstars.cpp:430 kstarsactions.cpp:1680 skymap.cpp:464
+#: kstars.cpp:355 kstarsactions.cpp:1685 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Detener &seguimiento"
 
-#: kstars.cpp:438 kstarsactions.cpp:1847 kstarsinit.cpp:292
+#: kstars.cpp:363 kstarsactions.cpp:1852 kstarsinit.cpp:292
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Cambiar a la vista del globo de estrellas (&Coordenadas ecuatoriales)"
 
-#: kstars.cpp:439 kstarsactions.cpp:1828 kstarsinit.cpp:293
+#: kstars.cpp:364 kstarsactions.cpp:1833 kstarsinit.cpp:293
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Cambiar a la vista horizontal (&Coordenadas horizontales)"
@@ -82270,50 +82277,50 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "Desarrollador"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:302
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2115 kstarsinit.cpp:302
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Ocultar terreno"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2110 kstarsinit.cpp:303
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2115 kstarsinit.cpp:303
 #, kde-format
 msgid "Show Terrain"
 msgstr "Mostrar el terreno"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:307
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2125 kstarsinit.cpp:307
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Ocultar capas de imágenes"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2120 kstarsinit.cpp:308
+#: kstarsactions.cpp:1218 kstarsactions.cpp:2125 kstarsinit.cpp:308
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Mostrar capas de imágenes"
 
-#: kstarsactions.cpp:1400
+#: kstarsactions.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Exportar imagen"
 
-#: kstarsactions.cpp:1446 tools/scriptbuilder.cpp:796
+#: kstarsactions.cpp:1451 tools/scriptbuilder.cpp:796
 #: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "Guiones de KStars (*.kstars)"
 
-#: kstarsactions.cpp:1454
+#: kstarsactions.cpp:1459
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "No se permite la ejecución de guiones remotos."
 
-#: kstarsactions.cpp:1462 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1467 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Imposible abrir el archivo %1"
 
-#: kstarsactions.cpp:1487
+#: kstarsactions.cpp:1492
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -82326,27 +82333,27 @@ msgstr ""
 "no funcione adecuadamente y puede incluso contener código malicioso. ¿Desea "
 "ejecutarlo de todos modos?"
 
-#: kstarsactions.cpp:1492
+#: kstarsactions.cpp:1497
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Falló la validación del guion"
 
-#: kstarsactions.cpp:1492
+#: kstarsactions.cpp:1497
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Ejecutar a pesar de todo"
 
-#: kstarsactions.cpp:1499
+#: kstarsactions.cpp:1504
 #, kde-format
 msgid "Running script: %1"
 msgstr "Guion en ejecución: %1"
 
-#: kstarsactions.cpp:1516
+#: kstarsactions.cpp:1521
 #, kde-format
 msgid "Script finished."
 msgstr "Guion finalizado."
 
-#: kstarsactions.cpp:1528
+#: kstarsactions.cpp:1533
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -82357,84 +82364,84 @@ msgstr ""
 "que usa un fondo blanco. ¿Desea cambiar al esquema de color de carta estelar "
 "para imprimir?"
 
-#: kstarsactions.cpp:1533
+#: kstarsactions.cpp:1538
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "¿Cambiar a colores de carta estelar?"
 
-#: kstarsactions.cpp:1534
+#: kstarsactions.cpp:1539
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Cambiar esquema de color"
 
-#: kstarsactions.cpp:1534
+#: kstarsactions.cpp:1539
 #, kde-format
 msgid "Do Not Switch"
 msgstr "No cambiar"
 
-#: kstarsactions.cpp:1595
+#: kstarsactions.cpp:1600
 #, kde-format
 msgid "Stop running clock in realtime"
 msgstr "Detener el reloj en tiempo real"
 
-#: kstarsactions.cpp:1613 kstarsinit.cpp:220
+#: kstarsactions.cpp:1618 kstarsinit.cpp:220
 #, kde-format
 msgid "Run clock in realtime"
 msgstr "Ejecutar el reloj en tiempo real"
 
-#: kstarsactions.cpp:1657 kstarsinit.cpp:265
+#: kstarsactions.cpp:1662 kstarsinit.cpp:265
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Activar &seguimiento"
 
-#: kstarsactions.cpp:1771
+#: kstarsactions.cpp:1776
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Campo de visión aproximado: %1 grados"
 
-#: kstarsactions.cpp:1776
+#: kstarsactions.cpp:1781
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Campo de visión aproximado: %1 minutos de arco"
 
-#: kstarsactions.cpp:1782
+#: kstarsactions.cpp:1787
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Campo de visión aproximado: %1 segundos de arco"
 
-#: kstarsactions.cpp:1799
+#: kstarsactions.cpp:1804
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Introducir ángulo del campo de visión deseado"
 
-#: kstarsactions.cpp:1800
+#: kstarsactions.cpp:1805
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Introducir ángulo del campo de visión en grados: "
 
-#: kstarsactions.cpp:1831 kstarsinit.cpp:766
+#: kstarsactions.cpp:1836 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Norte a&rriba"
 
-#: kstarsactions.cpp:1834 kstarsinit.cpp:775
+#: kstarsactions.cpp:1839 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norte a&bajo"
 
-#: kstarsactions.cpp:1850 kstarsinit.cpp:766
+#: kstarsactions.cpp:1855 kstarsinit.cpp:766
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "C&enit arriba"
 
-#: kstarsactions.cpp:1853 kstarsinit.cpp:775
+#: kstarsactions.cpp:1858 kstarsinit.cpp:775
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -87922,7 +87929,16 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "cálido"
 
-#: main.cpp:112
+#: main.cpp:116
+#, kde-format
+msgid ""
+"KStars could not start its D-Bus session bus and cannot run without it.\n"
+"\n"
+"Details may be found in %1. You can also check the service status with:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
+msgstr ""
+
+#: main.cpp:125
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
@@ -87931,7 +87947,7 @@ msgstr ""
 "Lo sentimos: KStars no puede funcionar sin un directorio de datos. El "
 "programa terminará ahora."
 
-#: main.cpp:142
+#: main.cpp:155
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -87943,7 +87959,7 @@ msgstr ""
 "Algoritmo del sistema de guiado de proceso gaussiano, @ 2014-2017 Max Planck "
 "Society"
 
-#: main.cpp:144
+#: main.cpp:157
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -87959,405 +87975,405 @@ msgstr ""
 "\n"
 "%3"
 
-#: main.cpp:151
+#: main.cpp:164
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:151
+#: main.cpp:164
 #, kde-format
 msgid "Original Author"
 msgstr "Autor original"
 
-#: main.cpp:153
+#: main.cpp:166
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:153
+#: main.cpp:166
 #, kde-format
 msgid "Current Maintainer"
 msgstr "Responsable actual"
 
-#: main.cpp:157
+#: main.cpp:170
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:159
+#: main.cpp:172
 #, kde-format
 msgid "Robert Lancaster"
 msgstr "Robert Lancaster"
 
-#: main.cpp:160
+#: main.cpp:173
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr "Mejoras en el visor FITS y Ekos. Adaptación de KStars a OSX."
 
-#: main.cpp:162
+#: main.cpp:175
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
-#: main.cpp:163
+#: main.cpp:176
 #, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
 msgstr "Canalización CI/CD y mejoras en el planificador Ekos."
 
-#: main.cpp:164
+#: main.cpp:177
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:166
+#: main.cpp:179
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Mejoras en el planificador Ekos y en el observatorio"
 
-#: main.cpp:167
+#: main.cpp:180
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:168
+#: main.cpp:181
 #, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
 msgstr ""
 "Módulo de análisis. Mejoras en FITS, enfoque, guiado y el planificador."
 
-#: main.cpp:169
+#: main.cpp:182
 #, kde-format
 msgid "John Evans"
 msgstr "John Evans"
 
-#: main.cpp:170
+#: main.cpp:183
 #, kde-format
 msgid "Focus algorithms & Livestacking"
 msgstr "Algoritmos de enfoque y apilamiento en vivo."
 
-#: main.cpp:171
+#: main.cpp:184
 #, kde-format
 msgid "Tony Schriber"
 msgstr "Tony Schriber"
 
-#: main.cpp:174
+#: main.cpp:187
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Csaba Kertesz"
 
-#: main.cpp:176
+#: main.cpp:189
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 "Lista de asteroides binarios, base de datos de objetos del espacio profundo "
 "y catálogos"
 
-#: main.cpp:177
+#: main.cpp:190
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:177
+#: main.cpp:190
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:179
+#: main.cpp:192
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:180
+#: main.cpp:193
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:181
+#: main.cpp:194
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:182
+#: main.cpp:195
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:184
+#: main.cpp:197
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:185
+#: main.cpp:198
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:186
+#: main.cpp:199
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:187
+#: main.cpp:200
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:189
+#: main.cpp:202
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:191
+#: main.cpp:204
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:192
+#: main.cpp:205
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:193
+#: main.cpp:206
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:194
+#: main.cpp:207
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:196
+#: main.cpp:209
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:197
+#: main.cpp:210
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:200
+#: main.cpp:213
 #, kde-format
 msgid "Andreas Ruthner"
 msgstr "Andreas Ruthner"
 
-#: main.cpp:200
+#: main.cpp:213
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr "Numerosas correcciones en el guiado, emisión y el planificador."
 
-#: main.cpp:201
+#: main.cpp:214
 #, kde-format
 msgid "Christian Kemper"
 msgstr "Christian Kemper"
 
-#: main.cpp:201
+#: main.cpp:214
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
 "Mejoras en el asistente del modelo de montura. Refactorización de la base de "
 "datos de ciudades."
 
-#: main.cpp:202
+#: main.cpp:215
 #, kde-format
 msgid "Thomas Nemer"
 msgstr "Thomas Nemer"
 
-#: main.cpp:202
+#: main.cpp:215
 #, kde-format
 msgid "Ekos MCP server and AI skills."
 msgstr "Servidor MCP de Ekos y habilidades de IA."
 
-#: main.cpp:204
+#: main.cpp:217
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:205
+#: main.cpp:218
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Convirtió las etiquetas que contenían términos técnicos en enlaces a "
 "documentación"
 
-#: main.cpp:206
+#: main.cpp:219
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:207
+#: main.cpp:220
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Documentación técnica sobre Astronomía y KStars"
 
-#: main.cpp:208
+#: main.cpp:221
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:208
+#: main.cpp:221
 #, kde-format
 msgid "Artwork"
 msgstr "Arte gráfico"
 
-#: main.cpp:210
+#: main.cpp:223
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:211
+#: main.cpp:224
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 "Mejoras en la ejecución del plan de observación, saltos de estrellas, etc."
 
-#: main.cpp:212
+#: main.cpp:225
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:213
+#: main.cpp:226
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Pruebas exhaustivas y sugerencias para Ekos/INDI."
 
-#: main.cpp:215
+#: main.cpp:228
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:216
+#: main.cpp:229
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Pruebas exhaustivas y sugerencias para planificador Ekos. Adaptación de "
 "KStars para OSX."
 
-#: main.cpp:217
+#: main.cpp:230
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:218
+#: main.cpp:231
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Pantalla de bienvenida para KStars y KStars Lite."
 
-#: main.cpp:219
+#: main.cpp:232
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:219
+#: main.cpp:232
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Adaptación de KStars a OSX."
 
-#: main.cpp:220
+#: main.cpp:233
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:220
+#: main.cpp:233
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Asistente de enfoque Bahtinov."
 
-#: main.cpp:221
+#: main.cpp:234
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr "Philipp Auersperg-Castell"
 
-#: main.cpp:221
+#: main.cpp:234
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "Actualizaciones diarias de supernovas"
 
-#: main.cpp:222
+#: main.cpp:235
 #, kde-format
 msgid "Joseph McGee"
 msgstr "Joseph McGee"
 
-#: main.cpp:222
+#: main.cpp:235
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 "Calculadora de subexposición basada en el trabajo del Dr. Robin Glover."
 
-#: main.cpp:223
+#: main.cpp:236
 #, kde-format
 msgid "Project Nayuki"
 msgstr "Proyecto Nayuki"
 
-#: main.cpp:223
+#: main.cpp:236
 #, kde-format
 msgid "QR Code generator library (MIT)"
 msgstr "Biblioteca de generación de códigos QR (MIT)"
 
-#: main.cpp:234
+#: main.cpp:247
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Volcar una imagen del cielo a un archivo."
 
-#: main.cpp:235
+#: main.cpp:248
 #, kde-format
 msgid "Script to execute."
 msgstr "Guion a ejecutar."
 
-#: main.cpp:236
+#: main.cpp:249
 #, kde-format
 msgid "Width of sky image."
 msgstr "Anchura de la imagen del cielo."
 
-#: main.cpp:237
+#: main.cpp:250
 #, kde-format
 msgid "Height of sky image."
 msgstr "Altura de la imagen del cielo."
 
-#: main.cpp:238
+#: main.cpp:251
 #, kde-format
 msgid "Date and time."
 msgstr "Fecha y hora."
 
-#: main.cpp:239
+#: main.cpp:252
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Comenzar con el reloj detenido."
 
-#: main.cpp:240
+#: main.cpp:253
 #, kde-format
 msgid "Run Live Stacker standalone mode"
 msgstr "Ejecutar el apilador en vivo de modo independiente"
 
-#: main.cpp:243
+#: main.cpp:256
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Archivo(s) FITS a abrir."
 
-#: main.cpp:289 printing/foveditordialog.cpp:176
+#: main.cpp:302 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "No se puede procesar el formato de imagen de %1, asumiendo PNG."
 
-#: main.cpp:347
+#: main.cpp:360
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "La cadena de fecha proporcionada no es válida: %1. Se usa en su lugar la "
 "fecha/hora de la CPU."
 
-#: main.cpp:378
+#: main.cpp:391
 #, kde-format
 msgid "Script executed."
 msgstr "Guion ejecutado."
 
-#: main.cpp:382
+#: main.cpp:395
 #, kde-format
 msgid "Could not execute script."
 msgstr "Imposible ejecutar el guion."
 
-#: main.cpp:406
+#: main.cpp:419
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Usando en su lugar la fecha/hora de la CPU."
@@ -95106,19 +95122,19 @@ msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Gestor del horizonte artificial"
 
-#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:485
 #, kde-format
 msgid "Region"
 msgstr "Zona"
 
-#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:485
 #: tools/observinglist.cpp:102 widgets/infoboxwidget.cpp:121
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Ac"
 
-#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:485
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:121
 #, kde-format
 msgctxt "Altitude"
@@ -95135,18 +95151,18 @@ msgstr "La zona es válida"
 msgid "Region %1"
 msgstr "Zona %1"
 
-#: tools/horizonmanager.cpp:387
+#: tools/horizonmanager.cpp:389
 #, kde-format
 msgid "%1 region is invalid."
 msgstr "La zona %1 no es válida."
 
-#: tools/horizonmanager.cpp:552
+#: tools/horizonmanager.cpp:554
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "Guardar horizonte artificial"
 
-#: tools/horizonmanager.cpp:668
+#: tools/horizonmanager.cpp:670
 #, kde-format
 msgid "Invalid angle value: %1"
 msgstr "Valor de ángulo no válido: %1"
