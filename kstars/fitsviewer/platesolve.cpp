@@ -142,8 +142,7 @@ void PlateSolve::abort()
 
 void PlateSolve::setupSolver(const QSharedPointer<FITSData> &imageData, bool extractOnly)
 {
-    auto parameters = getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule())).at(
-                          kcfg_FitsSolverProfile->currentIndex());
+    auto parameters = getSelectedSolverParameters();
     parameters.search_radius = kcfg_FitsSolverRadius->value();
     if (extractOnly)
     {
@@ -278,8 +277,7 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
     if (m_Solver.get() && m_Solver->isRunning())
         m_Solver->abort();
 
-    auto parameters = getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule())).at(
-                          kcfg_FitsSolverProfile->currentIndex());
+    auto parameters = getSelectedSolverParameters();
 
     double lowerPixScale, upperPixScale;
     if (index == -1)
@@ -604,6 +602,19 @@ void PlateSolve::overlayImage()
     KStars::Instance()->raise();
 }
 
+// Returns the solver parameters of the profile selected in the profiles combo box. If the combo box
+// has no valid selection the first profile is used, so the profile list is never indexed out of range.
+SSolver::Parameters PlateSolve::getSelectedSolverParameters()
+{
+    const QList<SSolver::Parameters> parametersList =
+        getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule()));
+    if (parametersList.isEmpty())
+        return SSolver::Parameters();
+
+    const int index = kcfg_FitsSolverProfile->currentIndex();
+    return parametersList.at((index >= 0 && index < parametersList.size()) ? index : 0);
+}
+
 // Each module can default to its own profile index. These two methods retrieves and saves
 // the values in a JSON string using an Options variable.
 int PlateSolve::getProfileIndex(int moduleIndex)
@@ -664,8 +675,16 @@ void PlateSolve::setupProfiles(int moduleIndex)
 
     m_ProfileEditor->setProfileGroup(profileGroup, false);
 
-    // Restore the stored options.
-    kcfg_FitsSolverProfile->setCurrentIndex(getProfileIndex(Options::fitsSolverModule()));
+    // Restore the stored options. The stored index may not exist in the current list of profiles,
+    // e.g. after profiles were removed, so fall back to the first profile rather than leaving the
+    // combo box with no selection, and store the corrected index.
+    int profileIndex = getProfileIndex(Options::fitsSolverModule());
+    if (profileIndex < 0 || profileIndex >= kcfg_FitsSolverProfile->count())
+    {
+        profileIndex = 0;
+        setProfileIndex(moduleIndex, profileIndex);
+    }
+    kcfg_FitsSolverProfile->setCurrentIndex(profileIndex);
 
     m_ProfileEditorPage->setHeader(QString("FITS Viewer Solver %1 Profiles Editor")
                                    .arg(Ekos::ProfileGroupNames[moduleIndex].toString()));
