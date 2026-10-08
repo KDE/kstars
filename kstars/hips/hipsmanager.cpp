@@ -18,10 +18,12 @@
 
 #include <KConfigDialog>
 
+#include <QDir>
 #include <QTime>
 #include <QHash>
 #include <QNetworkDiskCache>
 #include <QPainter>
+#include <QRegularExpression>
 
 static QNetworkDiskCache *g_discCache = nullptr;
 static UrlFileDownload *g_download = nullptr;
@@ -46,9 +48,7 @@ HIPSManager *HIPSManager::Instance()
         _HIPSManager = new HIPSManager();
 
         // We should read offline sources on startup
-        QDir hipsDirectory(Options::hIPSOfflinePath());
-        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        HIPSManager::Instance()->setOfflineLevels(orders);
+        _HIPSManager->loadOfflineLevels(Options::hIPSOfflinePath());
 
         if (Options::hIPSUseOfflineSource())
             _HIPSManager->setCurrentSource(Options::hIPSSource());
@@ -114,9 +114,7 @@ void HIPSManager::slotApply()
 {
     if (Options::hIPSUseOfflineSource())
     {
-        QDir hipsDirectory(Options::hIPSOfflinePath());
-        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        HIPSManager::Instance()->setOfflineLevels(orders);
+        loadOfflineLevels(Options::hIPSOfflinePath());
         _HIPSManager->setCurrentSource(Options::hIPSSource());
     }
 
@@ -490,41 +488,63 @@ bool HIPSManager::setCurrentSource(const QString &title)
 }
 
 // Extract which levels are available for offline use.
-void HIPSManager::setOfflineLevels(const QStringList &value)
+QMap<int, int> HIPSManager::computeOfflineLevels(const QStringList &directories)
 {
-    for (auto oneLevel : value)
+    constexpr int maxOrder = 20;
+    QMap<int, int> levels;
+
+    for (const auto &oneLevel : directories)
     {
-        if (oneLevel.startsWith("Norder"))
-        {
-            oneLevel.remove("Norder");
-            auto level =  oneLevel.toUInt();
-            m_OfflineLevelsMap[level] = level;
-        }
+        if (!oneLevel.startsWith("Norder"))
+            continue;
+
+        bool ok = false;
+        const int level = oneLevel.mid(6).toInt(&ok);
+        if (ok && level >= 0 && level <= maxOrder)
+            levels[level] = level;
     }
 
     // In case we don't have offline maps, fill all levels with 1
-    if (m_OfflineLevelsMap.isEmpty())
+    if (levels.isEmpty())
     {
-        for (int i = 0; i <= 20; i++)
-            m_OfflineLevelsMap[i] = 1;
-        return;
+        for (int i = 0; i <= maxOrder; i++)
+            levels[i] = 1;
+        return levels;
     }
 
-    // Now let's map all the missing levels, if any
-    for (int i = 0; i <= 20; i++)
+    // Now let's map all the missing levels to the closest available higher level, or the highest one.
+    const QList<int> available = levels.keys();
+    for (int i = 0; i <= maxOrder; i++)
     {
-        // Find closest level
-        if (m_OfflineLevelsMap.contains(i) == false)
-        {
-            const auto keys = m_OfflineLevelsMap.keys();
-            const auto values = m_OfflineLevelsMap.values();
-            auto it = std::upper_bound(keys.constBegin(), keys.constEnd(), i);
-            if (it != keys.end())
-                m_OfflineLevelsMap[i] = *it;
-            else
-                m_OfflineLevelsMap[i] = values.last();
+        if (levels.contains(i))
+            continue;
 
-        }
+        auto it = std::upper_bound(available.constBegin(), available.constEnd(), i);
+        levels[i] = (it != available.constEnd()) ? *it : available.last();
+    }
+
+    return levels;
+}
+
+void HIPSManager::setOfflineLevels(const QStringList &value)
+{
+    // Replace the whole map. Merging into the previous map would keep stale levels
+    // (e.g. the "all levels map to 1" fallback) after the offline path is changed.
+    m_OfflineLevelsMap = computeOfflineLevels(value);
+}
+
+void HIPSManager::loadOfflineLevels(const QString &path)
+{
+    QDir hipsDirectory(path);
+    const auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    setOfflineLevels(orders);
+
+    if (Options::hIPSUseOfflineSource())
+    {
+        if (path.isEmpty() || !hipsDirectory.exists())
+            qCWarning(KSTARS) << "HiPS offline source is enabled but the offline path does not exist:" << path;
+        else if (orders.filter(QRegularExpression("^Norder\\d+$")).isEmpty())
+            qCWarning(KSTARS) << "HiPS offline source is enabled but no Norder* directories were found in" << path;
     }
 }
 

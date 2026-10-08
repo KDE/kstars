@@ -79,6 +79,7 @@ add_subdirectory(auxiliary)
 add_subdirectory(tools)
 add_subdirectory(skyobjects)
 add_subdirectory(skycomponents)
+add_subdirectory(hips)
 add_subdirectory(time)
 add_subdirectory(projections)
 
