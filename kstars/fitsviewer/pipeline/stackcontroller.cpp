@@ -216,6 +216,16 @@ bool StackController::applyPhotometricCalibration(double strength, double maxCat
             starsDetected, starsMatched);
 }
 
+SSolver::Parameters StackController::solverParameters()
+{
+    const QList<SSolver::Parameters> parametersList = Ekos::getDefaultAlignOptionsProfiles();
+    if (parametersList.isEmpty())
+        return SSolver::Parameters();
+
+    const uint index = Options::solveOptionsProfile();
+    return parametersList.at(index < static_cast<uint>(parametersList.size()) ? index : 0);
+}
+
 void StackController::handlePlateSolveSub(const double ra, const double dec, const double pixScale, const int index,
         const int healpix, const StackFrameWeighting &weighting)
 {
@@ -235,7 +245,7 @@ void StackController::handlePlateSolveSub(const double ra, const double dec, con
 void StackController::runExtract(const double ra, const double dec, const double pixScale, const int index,
                                  const int healpix)
 {
-    auto parameters = Ekos::getDefaultAlignOptionsProfiles().at(Options::solveOptionsProfile());
+    auto parameters = solverParameters();
     const double lowerPixScale = (index == -1) ? pixScale * 0.8 : pixScale * 0.95;
     const double upperPixScale = (index == -1) ? pixScale * 1.2 : pixScale * 1.05;
     if (index != -1)
@@ -254,7 +264,7 @@ void StackController::runExtract(const double ra, const double dec, const double
 void StackController::runSolve(const double ra, const double dec, const double pixScale, const int index,
                                const int healpix)
 {
-    auto parameters = Ekos::getDefaultAlignOptionsProfiles().at(Options::solveOptionsProfile());
+    auto parameters = solverParameters();
     double lowerPixScale, upperPixScale;
     if (index == -1)
     {

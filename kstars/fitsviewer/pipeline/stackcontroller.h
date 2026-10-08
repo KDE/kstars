@@ -22,6 +22,10 @@ namespace FITSImage
 {
 struct Solution;
 }
+namespace SSolver
+{
+class Parameters;
+}
 class FITSData;
 class SolverUtils;
 struct wcsprm;
@@ -198,6 +202,14 @@ class StackController : public QObject
          */
         bool applyPhotometricCalibration(double strength, double maxCatalogMagnitude, double matchRadiusArcsec,
                                          QString &error, int &starsDetected, int &starsMatched);
+
+        /**
+         * @brief Solver parameters used to plate solve subs: the default Align profile
+         * selected by Options::solveOptionsProfile(). That index belongs to the Align
+         * module's profile list, which can hold more profiles than the defaults, so the
+         * first default profile is used when the index is out of range.
+         */
+        static SSolver::Parameters solverParameters();
 
         /**
          * @brief Access the underlying FITSData for the current session,
