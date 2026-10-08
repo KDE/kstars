@@ -40,7 +40,7 @@
   <name xml:lang="sk">KStars</name>
   <name xml:lang="sl">KStars</name>
   <name xml:lang="sv">Kstars</name>
-  <name xml:lang="tr">K Yıldızlar</name>
+  <name xml:lang="tr">KStars</name>
   <name xml:lang="uk">KStars</name>
   <name xml:lang="zh-CN">KStars</name>
   <name xml:lang="zh-TW">天文_KStars</name>
@@ -105,7 +105,7 @@
     <p xml:lang="sk">KStars je slobodný, open source, cross platformový astronomický softvér od KDE.</p>
     <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih in izdelana pri KDE.</p>
     <p xml:lang="sv">Kstars är en astronomiprogramvara med öppen källkod och fri licens för flera plattformar.</p>
-    <p xml:lang="tr">K Yıldızlar; KDE tarafından ücretsiz olarak lisanslanan, açık kaynaklı, çapraz platform bir gökbilim yazılımıdır.</p>
+    <p xml:lang="tr">KStars; KDE tarafından ücretsiz olarak lisanslanan, açık kaynaklı, çapraz platform bir gökbilim yazılımıdır.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах від KDE.</p>
     <p xml:lang="zh-CN">KStars 是 KDE 开发的一款自由开源且跨平台的天文软件。</p>
     <p xml:lang="zh-TW">KStars 是由 KDE 提供的自由授權、開放原始碼、跨平臺的天文學軟體。</p>
@@ -161,7 +161,7 @@
     <p xml:lang="sk">Pre študentov a učiteľov, podporuje upraviteľné simulované rýchlosti na zobrazenie fenomén, ktoré nastávajú počas dlhých období, KStars astrokalkulačka na predpovedanie konjunkcií a mnoho bežných astronomických výpočtov.</p>
     <p xml:lang="sl">Za študente in učitelje so na voljo prilagodljive hitrosti simulacije za ogled fenomenov, ki se zgodijo v daljših časovnih obdobjih, ter zvezdno računalo KStars za napovedovanje konjunkcij ter številne pogoste astronomske izračune.</p>
     <p xml:lang="sv">För elever och lärare stöder den justerbar simuleringshastighet för att visa fenomen som inträffar under långa tidsperioder. Kstars astronomiräknare predikterar konjunktioner, och utför många vanliga astronomiska beräkningar.</p>
-    <p xml:lang="tr">Öğrenciler ve öğretmenler için uzun zaman ölçeklerinde meydana gelen fenomenleri görüntülemek için ayarlanabilir benzetim hızlarını, kavuşumları tahmin etmek için K Yıldızlar Astro Hesaplayıcı'yı ve birçok yaygın gökbilimsel hesaplamayı destekler.</p>
+    <p xml:lang="tr">Öğrenciler ve öğretmenler için uzun zaman ölçeklerinde meydana gelen fenomenleri görüntülemek için ayarlanabilir benzetim hızlarını, kavuşumları tahmin etmek için KStars Astro Hesaplayıcı’yı ve birçok yaygın gökbilimsel hesaplamayı destekler.</p>
     <p xml:lang="uk">Для учнів і вчителів, у програмі передбачено підтримку налаштовуваної швидкості імітації з метою перегляду явищ, які тривають дуже довго, астрономічний калькулятор KStars для розрахунку сполучень та багатьох інших астрономічних обчислень.</p>
     <p xml:lang="zh-CN">对于学生和教师而言，KStars 支持对模拟速度进行调整，方便观看时间跨度极大的天文现象。KStars 的天体计算器可以用来预测合的发生时间和进行各种常见的天文学计算。</p>
     <p xml:lang="zh-TW">對於學生與教師來說，它支援了可調整的模擬速度以檢視在極長的時間尺度下發生的現象，KStars Astrocalculator 可用來預測天體會合，也可以用來計算許多常見的天文學數據。</p>
@@ -189,7 +189,7 @@
     <p xml:lang="sk">Pre amatérskeho astronóma poskytuje plánovať pozorovaní, nástroj nebeského kalendára a FOV editor na výpočet príslušenstva a ich zobrazenie. Nájdite zaujímavé objekty v nástroji "Čo je vidno dnes", zakreslite si graf výšky podľa času pre ľubovoľný objekt, vytlačte grafy oblohy vo vysokej kvalite a získajte prístup k mnohým informáciám a zdrojom, ktoré vám pomôžu skúmať vesmír!</p>
     <p xml:lang="sl">Amaterskemu astronomu ponuja načrtovalnik opazovanja, nebesni koledarček ter urejevalnik vidnega polja za izračun vidnega polja opreme in njihov prikaz. Z orodjem »Kaj je nocoj na nebu« se lahko pozanimate o zanimivih objektih, izrišete grafikone višine nasproti času za poljuben objekt, natisnete visokokakovostne nebesne karte ter pridobite dostop do velike količine podatkov in virov, ki vam bodo v pomoč pri raziskovanju vesolja!</p>
     <p xml:lang="sv">För amatörastronomer tillhandahåller den observationsplanering, ett verktyg med en himmelskalender, och en synfältseditor för att beräkna utrustningens synfält och visa det. Ta reda på intressanta objekt med verktyget "Vad händer inatt", skapa diagram över elevation över tid för vilket objekt som helst, skriv ut himmelskartor med hög kvalitet, och få tillgång till massor med information och resurser för att hjälpa till att utforska universum.</p>
-    <p xml:lang="tr">Amatör gökbilimci için ekipmanın görüş alanını hesaplamak ve görüntülemek için bir gözlem planlayıcı, bir gök takvimi aracı ve bir FOV düzenleyici sağlar. "Bu Gece Neler Var" aracında ilginç nesneleri bulun, herhangi bir nesne için yükseklik-zaman grafikleri çizin, yüksek kaliteli gök haritaları yazdırın ve evreni keşfetmenize yardımcı olacak birçok bilgi ve kaynağa erişin!</p>
+    <p xml:lang="tr">Amatör gökbilimci için ekipmanın görüş alanını hesaplamak ve görüntülemek için bir gözlem planlayıcısı, bir gök takvimi aracı ve bir FOV düzenleyicisi sağlar. “Bu Gece Neler Var” aracında ilginç nesneleri bulun, herhangi bir nesne için yükseklik-zaman grafikleri çizin, yüksek kaliteli gök haritaları bastırın ve evreni keşfetmenize yardımcı olacak birçok bilgi ve kaynağa erişin!</p>
     <p xml:lang="uk">Для астрономів-аматорів у програмі передбачено засіб планування спостережень, небесний календар та редактор поля здору для визначення поля зору обладнання та його показу. Ви зможете шукати цікаві об’єкти для спостереження за допомогою засобу «Сьогодні ввечері», переглядати графіки висота-час для усіх об’єктів, друкувати високоякісні карти неба та отримаєте доступ до багатьох інформаційних ресурсів та ресурсів із мультимедійними даними, які допоможуть вам вивчати всесвіт!</p>
     <p xml:lang="zh-CN">对于业余天文爱好者而言，KStars 提供了观测计划、星空日历等工具。它还具备视场编辑器，可用于计算设备的视场并按此显示视图。您还可以使用“今夜天象”工具来发现值得观测的天体，为任意天体按高度角和时间规划图表，打印高品质星图，获取大量有助于探索宇宙星空奥秘的信息和资源等。</p>
     <p xml:lang="zh-TW">對於業餘天文學家來說，它提供了觀測計劃器、天空日曆工具、FOV 編輯器來計算裝備的視野並顯示它們。在「今晚有什麼」工具中尋找有趣的目標、繪製任何物體的高度與時間關係圖，列印高品質的天空圖，並取得大量資訊與資源來協助您探索宇宙！</p>
@@ -218,7 +218,7 @@
     <p xml:lang="sk">KStars obsahuje astrofotografický balík Ekos, kompletné riešenie, ktoré vie ovládať všetky INDI zariadenia vrátane mnohých ďalekohľadov, CCD, DSLR, približovače, filtre a omnoho viac. Ekos podporuje vysoko presné sledovanie pomocou online a offline astrometrického riešiteľa, automatické zaostrovanie a navádzanie a snímanie jednej alebo viac snímok pomocou silného správcu sekvencií.</p>
     <p xml:lang="sl">V KStars je vključen tudi Ekos, astronomski fotografski paket, popolna rešitev za astrofotografijo, s katero lahko nadzirate vse naprave INDI, vključno s številnimi teleskopi, CCD-ji, DSLR-ji, fokuserji, filtri, itd. Ekos podpira zelo natančno sledenje z uporabo spletnega in nepovezanega reševalnika astrometry.net, zmogljivosti samodejnega ostrenja in sledenja ter zajem posamičnih ali zaporednih slik z zmogljivim vgrajenim upravljalnikom zaporedij.</p>
     <p xml:lang="sv">Ekos astronomifotograferingssvit ingår i Kstars: en fullständig lösning för astronomisk fotografering som kan styra alla INDI-enheter, inklusive en mängd teleskop, CCD:er, digitala spegelreflexkameror, fokuseringsenheter, filter, med mera. Ekos stöder mycket noggrann följning med ett nätbaserat och lokalt astrometrilösningsverktyg, har möjlighet till automatisk fokusering och guidning, samt tagning av enstaka eller flera bilder med den kraftfulla inbyggda sekvenshanteraren.</p>
-    <p xml:lang="tr">K Yıldızlar'a, çok sayıda teleskop, CCD, DSLR, odaklayıcı, süzgeç ve çok daha fazlasını içeren tüm INDI aygıtlarını denetleyebilen eksiksiz bir astrofotoğrafçılık çözümü olan Ekos astrofotoğrafçılık paketi dahildir. Ekos, çevrim içi ve çevrim dışı astrometri çözücü, otomatik odaklama ve otomatik yönlendirme özelliklerini kullanarak son derece hassas izlemeyi ve güçlü yerleşik sıralama yöneticisini kullanarak tekli veya çoklu görsellerin yakalanmasını destekler.</p>
+    <p xml:lang="tr">KStars’a, çok sayıda teleskop, CCD, DSLR, odaklayıcı, süzgeç ve çok daha fazlasını içeren tüm INDI aygıtlarını denetleyebilen eksiksiz bir astrofotoğrafçılık çözümü olan Ekos astrofotoğrafçılık paketi dahildir. Ekos, çevrim içi ve çevrim dışı astrometri çözücü, otomatik odaklama ve otomatik yönlendirme özelliklerini kullanarak son derece hassas izlemeyi ve güçlü yerleşik sıralama yöneticisini kullanarak tekli veya çoklu görsellerin yakalanmasını destekler.</p>
     <p xml:lang="uk">До складу пакунків з KStars включено астрометричний розв’язувач Ekos — повноцінне астрографічне рішення, яке може керувати усіма пристроями INDI, зокрема багатьма телескопами, ПЗЗ, цифровими дзеркальними фотокамерами, засобам фокусування, фільтрами та іншими інструментами. У Ekos передбачено підтримку високоточного стеження за допомогою засобів інтерактивної та авторомної астрометрії, автофокусування та автонаведення, можливості захоплення одного або декількох зображень на основі потужного вбудованого засобу керування зйомкою.</p>
     <p xml:lang="zh-CN">KStars 还内建了 Ekos 天文摄影套件。Ekos 是一套完整的天体摄影解决方案，能够控制所有 INDI 设备，包括各种望远镜、CCD、DSLR、电调、滤镜和更多其他设备。Ekos 支持使用在线和离线天体测量解析器进行高精确度跟踪、自动聚焦和自动导星功能，以及使用内建的序列管理器拍摄单个或多个图像。</p>
     <p xml:lang="zh-TW">包含在 KStars 中的是 Ekos 天文攝影套裝軟體，這是一套可以控制所有 INDI 裝置的完整解決方案，其中包含了眾多望遠鏡、CCS、DSLR、聚焦器、濾光片與許多其他東西。Ekos 使用線上與離線的天體測量計算程式、自動對焦與自動導航功能進行高精度追蹤，並使用功能強大的序列管理程式來照出一張或多張照片。</p>
@@ -445,7 +445,7 @@
       <caption xml:lang="sk">KStars hlavné okno</caption>
       <caption xml:lang="sl">Glavno okno KStars</caption>
       <caption xml:lang="sv">Huvudfönstret i Kstars</caption>
-      <caption xml:lang="tr">K Yıldızlar'ın ana penceresi</caption>
+      <caption xml:lang="tr">KStars’ın ana penceresi</caption>
       <caption xml:lang="uk">Головне вікно KStars</caption>
       <caption xml:lang="zh-CN">KStars 主窗口</caption>
       <caption xml:lang="zh-TW">KStars 主視窗</caption>
@@ -477,7 +477,7 @@
       <caption xml:lang="sk">Nástroj "Čo je zaujímavé" v KStars</caption>
       <caption xml:lang="sl">Orodje "Kaj je zanimivega" v programu KStars</caption>
       <caption xml:lang="sv">Verktyget "Vad är intressant" i Kstars</caption>
-      <caption xml:lang="tr">K Yıldızlar'daki "İlginç Neler Var" aracı</caption>
+      <caption xml:lang="tr">KStars’daki “İlginç Neler Var” aracı</caption>
       <caption xml:lang="uk">Інструмент «Цікаві об'єкти» у KStars</caption>
       <caption xml:lang="zh-CN">KStars 的“有趣天体”工具</caption>
       <caption xml:lang="zh-TW">「有哪些有趣的東西」工具在 KStars 中</caption>
@@ -509,7 +509,7 @@
       <caption xml:lang="sk">Nástroj Ekos v KStars</caption>
       <caption xml:lang="sl">Orodje Ekos v KStars</caption>
       <caption xml:lang="sv">Ekos-verktyget i Kstars</caption>
-      <caption xml:lang="tr">K Yıldızlar'daki Ekos aracı</caption>
+      <caption xml:lang="tr">KStars’daki Ekos aracı</caption>
       <caption xml:lang="uk">Інструмент Ekos у KStars</caption>
       <caption xml:lang="zh-CN">KStars 的 Ekos 工具</caption>
       <caption xml:lang="zh-TW">Ekos 工具在 Kstars 中</caption>
@@ -541,7 +541,7 @@
       <caption xml:lang="sk">Plánovač pozorovania v KStars</caption>
       <caption xml:lang="sl">Planiranje opazovanja v KStars</caption>
       <caption xml:lang="sv">Observationsplanering i Kstars</caption>
-      <caption xml:lang="tr">K Yıldızlar'ın Gözlem Planlayıcısı</caption>
+      <caption xml:lang="tr">KStars’ın Gözlem Planlayıcısı</caption>
       <caption xml:lang="uk">Планування спостережень у KStars</caption>
       <caption xml:lang="zh-CN">KStars 的观测规划器</caption>
       <caption xml:lang="zh-TW">KStars 的觀測計劃器</caption>
