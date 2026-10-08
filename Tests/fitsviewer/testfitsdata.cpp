@@ -903,6 +903,34 @@ void TestFitsData::testStackController()
     controller.cancel();
 }
 
+void TestFitsData::testStackControllerSolverProfile_data()
+{
+    QTest::addColumn<int>("storedIndex");
+    QTest::addColumn<int>("expectedIndex");
+
+    const int count = Ekos::getDefaultAlignOptionsProfiles().size();
+    QTest::newRow("first") << 0 << 0;
+    QTest::newRow("last") << count - 1 << count - 1;
+    QTest::newRow("past end") << count << 0;
+    QTest::newRow("far past end") << 100 << 0;
+}
+
+// Options::solveOptionsProfile() indexes the Align module's profile list, which can hold more
+// profiles than the defaults StackController solves with. An out-of-range index must fall back
+// to the first default profile instead of indexing the list out of range.
+void TestFitsData::testStackControllerSolverProfile()
+{
+    QFETCH(int, storedIndex);
+    QFETCH(int, expectedIndex);
+
+    const uint savedIndex = Options::solveOptionsProfile();
+    Options::setSolveOptionsProfile(static_cast<uint>(storedIndex));
+    const SSolver::Parameters parameters = StackController::solverParameters();
+    Options::setSolveOptionsProfile(savedIndex);
+
+    QCOMPARE(parameters.listName, Ekos::getDefaultAlignOptionsProfiles().at(expectedIndex).listName);
+}
+
 // Stacks a fixed set of files through StackController (batch mode) with SIGMA and returns
 // the combined image. Eight flat frames at 1000, 1100 ... 1700 ADU, so every pixel's
 // correct stack is their mean.
