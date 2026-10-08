@@ -78,6 +78,7 @@ class PlateSolve: public QDialog, public Ui::PlateSolveUI
         void setupProfiles(int profileIndex);
         int getProfileIndex(int moduleIndex);
         void setProfileIndex(int moduleIndex, int profileIndex);
+        SSolver::Parameters getSelectedSolverParameters();
         void loadFileDone();
         void centerOnSkymap();
         void overlayImage();
