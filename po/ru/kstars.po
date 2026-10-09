@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
-"PO-Revision-Date: 2026-09-28 19:01+0200\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
+"PO-Revision-Date: 2026-10-08 08:05+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -586,7 +586,7 @@ msgstr "Продолжить"
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10256,6 +10256,8 @@ msgstr ""
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
 msgstr ""
+"Для полярного выравнивания нужна монтировка. Выберите монтировку в "
+"оптической системе."
 
 #: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
@@ -10908,7 +10910,7 @@ msgstr "Захватить изображение"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -28672,7 +28674,7 @@ msgid "Slaving deactivated."
 msgstr "Подчинение отключено."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, kde-format
 msgid "Aborting..."
 msgstr "Прерывание…"
@@ -37844,49 +37846,49 @@ msgstr "Разбиение StellarSolver"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Редактор профилей решателя просмотрщика FITS"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, kde-format
 msgid "Extracting..."
 msgstr "Извлечение…"
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, kde-format
 msgid "Solving..."
 msgstr "Поиск решения…"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Истекло время анализатора: %1 с"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ошибка анализатора синтаксиса: %1s"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Извлечено %1 звёзд (%2 без фильтрации) за %3 с"
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Превышено время ожидания решателя: %1 с"
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Не удалось выполнить астрономическую привязку поля: %1s"
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Внимание! Этот инструмент поддерживает только встроенный решатель "
 "StellarSolver."
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Измените это в меню параметров астрономической привязки Ekos."
@@ -38331,17 +38333,17 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr "Автономное хранилище HiPS"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "HiPS Update"
 msgstr "Обновить"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "Downloading HiPS sources..."
 msgstr "Загрузка источников HiPS…"
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, kde-format
 msgid "Error downloading HiPS sources: %1"
 msgstr "Ошибка загрузки источников HiPS: %1"
@@ -46534,7 +46536,7 @@ msgstr ""
 #, kde-format
 msgid "Speed to set mount in Polar Alignment Assistant Tool."
 msgstr ""
-"Скорость установки монтировки в инструменте помощника полярной выравнивания."
+"Скорость установки монтировки в инструменте помощника полярного выравнивания."
 
 #. i18n: ectx: label, entry (PAHRotaion), group (Align)
 #: kstars.kcfg:3048
@@ -46572,7 +46574,7 @@ msgstr ""
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
-"При полярной выравнивании монтировку необходимо вручную поворачивать вокруг "
+"При полярном выравнивании монтировку необходимо вручную поворачивать вокруг "
 "её оси."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
@@ -87508,6 +87510,12 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"KStars не удалось запустить сеансовую шину D-Bus, а без неё программа "
+"работать не может.\n"
+"\n"
+"Подробности можно найти в %1. Состояние службы также можно проверить "
+"командой:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format

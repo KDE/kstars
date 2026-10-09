@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
-"PO-Revision-Date: 2026-09-28 11:09+0200\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
+"PO-Revision-Date: 2026-10-08 18:34+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -575,7 +575,7 @@ msgstr "Voortzetten"
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -6277,7 +6277,7 @@ msgstr "%1 %2"
 #: ekos/mount/mount.ui:435 ekos/scheduler/scheduler.ui:670
 #, kde-format
 msgid "Train:"
-msgstr "Trein:"
+msgstr "Keten:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlBox)
 #: ekos/align/align.ui:93
@@ -7210,7 +7210,7 @@ msgid ""
 "train settings and try again."
 msgstr ""
 "Opening en brandpuntsafstand telescoop ontbreken. Controleer de instellingen "
-"van uw optische trein en probeer het opnieuw."
+"van uw optische keten en probeer het opnieuw."
 
 #: ekos/align/align_solver.cpp:103
 #, kde-format
@@ -10257,6 +10257,8 @@ msgstr "Opstellen afgebroken. Draai richting RK-as om en probeer opnieuw."
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
 msgstr ""
+"Voor uitlijning op de pool is een opstelling vereist. Selecteer een "
+"opstelling in de optische keten."
 
 #: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
@@ -10898,7 +10900,7 @@ msgstr "Opnemen"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -12752,7 +12754,7 @@ msgstr "Defectenkaart opslaan naar %1 is mislukt."
 #: ekos/auxiliary/darklibrary.cpp:1858
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
-msgstr "Optische trein bestaat niet voor id %1"
+msgstr "Optische keten bestaat niet voor id %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14
@@ -13823,7 +13825,7 @@ msgstr "Map voor logs openen..."
 #: ekos/auxiliary/opticaltrainmanager.cpp:149
 #, kde-format
 msgid "New Train"
-msgstr "Nieuwe trein"
+msgstr "Nieuwe keten"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:508
 #, kde-format
@@ -13846,7 +13848,7 @@ msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
-"Ontbrekend apparaat gedetecteerd (%1). Configureer de optische treinen "
+"Ontbrekend apparaat gedetecteerd (%1). Configureer de optische ketens "
 "alvorens door te gaan."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1315
@@ -13855,7 +13857,7 @@ msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
-"Ontbrekende apparaten gedetecteerd (%1). Configureer de optische treinen "
+"Ontbrekende apparaten gedetecteerd (%1). Configureer de optische ketens "
 "alvorens door te gaan."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1416
@@ -13888,35 +13890,35 @@ msgstr "%1 - %2"
 #: ekos/auxiliary/opticaltrains.ui:14
 #, kde-format
 msgid "Optical Trains"
-msgstr "Optische trein"
+msgstr "Optische keten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
 #, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Maak een nieuwe optische trein aan.</p></body></html>"
+"<html><head/><body><p>Maak een nieuwe optische keten aan.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:68
 #, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Geselecteerde optische trein verwijderen</p></body></"
+"<html><head/><body><p>Geselecteerde optische keten verwijderen</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:112
 #, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr "Naam optische trein (dubbelklik om de naam te wijzigen)"
+msgstr "Naam optische keten (dubbelklik om de naam te wijzigen)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
 #: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:454
 #, kde-format
 msgid "Optical Train"
-msgstr "Optische trein"
+msgstr "Optische keten"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:147
@@ -13927,8 +13929,8 @@ msgid ""
 "optical elements, tap the <span style=\" font-weight:600;\">Telescope &amp; "
 "Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De scoop of lens gebruikt in de optische trein "
-"selecteren. Dit is een vereiste selectie in alle treinen.</p><p>Om optische "
+"<html><head/><body><p>De scoop of lens gebruikt in de optische keten "
+"selecteren. Dit is een vereiste selectie in alle ketens.</p><p>Om optische "
 "elementen toe te voegen, te bewerken of te verwijderen, tik op de knop <span "
 "style=\" font-weight:600;\">Telescoop &amp; lens</span>.</p></body></html>"
 
@@ -13949,7 +13951,7 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
-"Selecteer welke opstelling te gebruiken. Alle optische treinen in hetzelfde "
+"Selecteer welke opstelling te gebruiken. Alle optische ketens in hetzelfde "
 "profiel gebruiken dezelfde opstelling."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
@@ -13959,8 +13961,8 @@ msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecteer de opnamecamera voor deze optische trein. "
-"Dit is een vereiste selectie in alle treinen.</p></body></html>"
+"<html><head/><body><p>Selecteer de opnamecamera voor deze optische keten. "
+"Dit is een vereiste selectie in alle ketens.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:186
@@ -13996,7 +13998,7 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecteer of een reduceerder of barlow in de trein "
+"<html><head/><body><p>Selecteer of een reduceerder of barlow in de keten "
 "wordt gebruikt.</p><p><span style=\" font-weight:600;\">Reduceerder:</span> "
 "Als de waarde minder is dan 1.0x, dan wordt dit element beschouwd als een "
 "reduceerder (brandpuntsafstand is verminderd door deze factor).</p><p><span "
@@ -16121,7 +16123,7 @@ msgstr ""
 "indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Plaatshouder <span style=\" font-weight:600;\">%o</span> or <span style="
-"\" font-weight:600;\">%opticaltrain</span>: De actieve optische treinnaam.</"
+"\" font-weight:600;\">%opticaltrain</span>: De actieve optische ketennaam.</"
 "li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Plaatshouder<span "
 "style=\" font-weight:704;\"> %s*</span> or <span style=\" font-weight:704;\">"
@@ -16712,7 +16714,7 @@ msgstr "Reeks wordt tijdelijk gestopt als huidige belichting is voltooid."
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
-"Geen camera gedetecteerd. Controleer de treinconfiguratie en "
+"Geen camera gedetecteerd. Controleer de ketenconfiguratie en "
 "verbindingsinstellingen."
 
 #: ekos/capture/cameraprocess.cpp:520
@@ -17316,7 +17318,7 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
-"Filterbeheerder is nog niet geïnitialiseerd. Filterwiel ontbreekt in trein?"
+"Filterbeheerder is nog niet geïnitialiseerd. Filterwiel ontbreekt in keten?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:694
 #, kde-format
@@ -19668,7 +19670,7 @@ msgid ""
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Zet de opening van uw telescoop in mm. Dit is de "
-"standaard uit de geselecteerde optische trein.</p></body></html>"
+"standaard uit de geselecteerde optische keten.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -19685,7 +19687,7 @@ msgid ""
 "optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>De CFZ van de camera (resolutielimiet) in de actieve "
-"optische trein.</p></body></html>"
+"optische keten.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/cfz.ui:204
@@ -19832,7 +19834,7 @@ msgid ""
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Golflengte,  Opening,  Brandpuntverhouding resetten "
-"naar waarden uit het nu geselecteerde filter en optische trein</p></body></"
+"naar waarden uit het nu geselecteerde filter en optische keten</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
@@ -19922,7 +19924,7 @@ msgid ""
 "optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Zet de te gebruiken F#. Dit is de standaard uit de "
-"geselecteerde optische trein.</p></body></html>"
+"geselecteerde optische keten.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/cfz.ui:560
@@ -24073,12 +24075,12 @@ msgstr "AI Free Drift actief. Onderdrukt enkele puls (%1ms)."
 #: ekos/guide/guide.cpp:1686
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
-msgstr "Geen camera gedetecteerd. Controleer de camera in optische treinen."
+msgstr "Geen camera gedetecteerd. Controleer de camera in optische ketens."
 
 #: ekos/guide/guide.cpp:1692
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
-msgstr "Geen richter gedetecteerd. Controleer richten-via in optische treinen."
+msgstr "Geen richter gedetecteerd. Controleer richten-via in optische ketens."
 
 #: ekos/guide/guide.cpp:1784
 #, kde-format
@@ -24340,7 +24342,7 @@ msgstr ""
 #: ekos/guide/guide.cpp:4071
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
-msgstr "Kan actieve optische trein niet wijzigen terwijl PHD2 is verbonden"
+msgstr "Kan actieve optische keten niet wijzigen terwijl PHD2 is verbonden"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:94
@@ -28556,7 +28558,7 @@ msgid "Slaving deactivated."
 msgstr "Slaving uitgezet."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, kde-format
 msgid "Aborting..."
 msgstr "Afbreken..."
@@ -31535,7 +31537,7 @@ msgstr "Coördinaten vullen met huidige telescooppositie."
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
-"Te gebruiken optische trein voor deze planningjob binnen the Opname-module."
+"Te gebruiken optische keten voor deze planningjob binnen the Opname-module."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -32298,7 +32300,7 @@ msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
 msgstr ""
-"Waarschuwing: taak '%1' kan autofocus niet voortzetten op de trein '%2', "
+"Waarschuwing: taak '%1' kan autofocus niet voortzetten op de keten '%2', "
 "niet ondersteund."
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
@@ -32738,18 +32740,18 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3522
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr "Waarschuwing: treinnaam is leeg, \"%1\" wordt geselecteerd."
+msgstr "Waarschuwing: ketennaam is leeg, \"%1\" wordt geselecteerd."
 
 #: ekos/scheduler/schedulerprocess.cpp:3523
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr "Waarschuwing: treinnaam %2 bestaat niet, \"%1\" wordt geselecteerd."
+msgstr "Waarschuwing: ketennaam %2 bestaat niet, \"%1\" wordt geselecteerd."
 
 #: ekos/scheduler/schedulerprocess.cpp:3525
 #: ekos/scheduler/schedulerprocess.cpp:3537
 #, kde-format
 msgid "Select optical train"
-msgstr "Optische trein selecteren"
+msgstr "Optische keten selecteren"
 
 #: ekos/scheduler/schedulerprocess.cpp:3534
 #, kde-format
@@ -32757,8 +32759,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
-"Waarschuwing: geen beschikbare treinnaam voor planningtaak, handmatig de "
-"optische treinnaam selecteren."
+"Waarschuwing: geen beschikbare ketennaam voor planningtaak, handmatig de "
+"optische ketennaam selecteren."
 
 #: ekos/scheduler/schedulerprocess.cpp:3684
 #, kde-format
@@ -32848,7 +32850,7 @@ msgstr "[%2] Taak (%1) - Opnemen klaar"
 #: ekos/scheduler/schedulerprocess.cpp:3973
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "Taak '%1' focusseren van trein '%2' is voltooid."
+msgstr "Taak '%1' focusseren van keten '%2' is voltooid."
 
 #: ekos/scheduler/schedulerprocess.cpp:3985
 #, kde-format
@@ -32858,14 +32860,14 @@ msgstr "Waarschuwing: Focusseren van taak '%1' is mislukt."
 #: ekos/scheduler/schedulerprocess.cpp:3989
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "Taak '%1' voor trein '%2' start de focusprocedure opnieuw."
+msgstr "Taak '%1' voor keten '%2' start de focusprocedure opnieuw."
 
 #: ekos/scheduler/schedulerprocess.cpp:3994
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Waarschuwing: taak '%1' focusprocedure op trein '%2' is mislukt, wordt "
+"Waarschuwing: taak '%1' focusprocedure op keten '%2' is mislukt, wordt "
 "gemarkeerd als afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:4027
@@ -33187,7 +33189,7 @@ msgstr "Geen compatibele apparaten gevonden"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
 #, kde-format
 msgid "Optical Train Manager not available"
-msgstr "Beheerder van optische trein niet beschikbaar"
+msgstr "Beheerder van optische keten niet beschikbaar"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
 #, kde-format
@@ -33208,7 +33210,7 @@ msgstr "Profiel niet gevonden: %1"
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
 #, kde-format
 msgid "No optical trains for profile: %1"
-msgstr "Geen optische trein voor profiel: %1"
+msgstr "Geen optische keten voor profiel: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
@@ -33453,7 +33455,7 @@ msgstr "Profiel niet gevonden"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
 #, kde-format
 msgid "No optical trains found"
-msgstr "Geen optische trein gevonden"
+msgstr "Geen optische keten gevonden"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
@@ -37630,49 +37632,49 @@ msgstr "Opdelingen met StellarSolver"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "FITS-viewer-oplosser voor bewerken profiel"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraheren..."
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, kde-format
 msgid "Solving..."
 msgstr "Oplossen..."
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Tijd voor extraheren is verlopen: %1s"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extraheren is mislukt: %1s"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "%1 sterren geëxtraheerd (%2 ongefilterd) in %3s"
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Tijd voor oplossen is verlopen: %1s"
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Oplossen is mislukt: %1s"
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Waarschuwing! Dit hulpmiddel ondersteunt alleen de interne oplosser "
 "StellarSolver."
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Wijzig daarnaar in de het optiemenu Ekos uitlijnen."
@@ -38119,17 +38121,17 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr "HiPS opslag offline"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "HiPS Update"
 msgstr "HiPS -update"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "Downloading HiPS sources..."
 msgstr "Downloaden HiPS-bronnen..."
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, kde-format
 msgid "Error downloading HiPS sources: %1"
 msgstr "Fout bij downloaden HiPS-bronnen: %1"
@@ -45152,7 +45154,7 @@ msgstr "Positie na opnamen berekenen."
 #: kstars.kcfg:2370
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr "ID van optische trein die het meest recent is gebruikt bij opnemen."
+msgstr "ID van optische keten die het meest recent is gebruikt bij opnemen."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:2373
@@ -87344,6 +87346,12 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"KStars kon zijn D-Bus-sessiebus niet starten en kan niet zonder "
+"functioneren.\n"
+"\n"
+"Details zijn te vinden in %1. U kunt de status van de service ook "
+"controleren met:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format

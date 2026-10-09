@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
 "PO-Revision-Date: 2025-06-21 12:07+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -571,7 +571,7 @@ msgstr "Continuar"
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10887,7 +10887,7 @@ msgstr "Capturar"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -28809,7 +28809,7 @@ msgid "Slaving deactivated."
 msgstr "Desactivouse a imitación."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, kde-format
 msgid "Aborting..."
 msgstr "Interrompendo…"
@@ -38171,48 +38171,48 @@ msgstr "Partición de StellarSolver."
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Editor de perfís de resolvente de visor de FITS"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraendo…"
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, kde-format
 msgid "Solving..."
 msgstr "Resolvendo…"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "O extractor esgotou o tempo límite: %1 s."
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "O extractor fallou: %1 s"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extraéronse %1 estrelas (%2 sen filtrar) en %3 s."
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "O resolvente esgotou o tempo límite: %1 s."
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "O resolvente fallou: %1 s."
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Aviso! Esta ferramenta só permite o resolvente interno de StellarSolver."
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Cambiar a iso no menú de opcións de aliñamento de Ekos."
@@ -38661,17 +38661,17 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr "Almacenamento local de HiPS"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "HiPS Update"
 msgstr "Actualización de HiPS"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "Downloading HiPS sources..."
 msgstr "Descargando as fontes de HiPS…"
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, kde-format
 msgid "Error downloading HiPS sources: %1"
 msgstr "Erro ao descargar as fontes de HiPS: %1"

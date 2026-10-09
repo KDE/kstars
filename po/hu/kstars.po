@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -575,7 +575,7 @@ msgstr "Folytatás"
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10961,7 +10961,7 @@ msgstr "Rögzítés"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -28476,7 +28476,7 @@ msgid "Slaving deactivated."
 msgstr "Egyéb"
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Aborting..."
@@ -37648,54 +37648,54 @@ msgstr "Stimuláció beállítása"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Előnézet-szerkesztő"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Extracting..."
 msgstr "Várakozás…"
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Solving..."
 msgstr "&Beállítások"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Extractor timed out: %1s"
 msgstr "Vezetés indítása"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Extractor failed: %1s"
 msgstr "Nincs FOV"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Solver timed out: %1s"
 msgstr "Vezetés indítása"
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s"
 msgstr "Nincs FOV"
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -38176,19 +38176,19 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr ""
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "HiPS Update"
 msgstr "Frissítés"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Downloading HiPS sources..."
 msgstr "Letöltés…"
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error downloading HiPS sources: %1"

@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
-"PO-Revision-Date: 2026-09-28 07:44+0200\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
+"PO-Revision-Date: 2026-10-08 07:09+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -603,7 +603,7 @@ msgstr "Nadaljuj"
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10226,7 +10226,7 @@ msgstr "Montaža je prekinila. Preobrnitev smeri osi RA in ponovni poskus."
 #, kde-format
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
-msgstr ""
+msgstr "Polarna poravnava zahteva montažo. Izberite montažo v optičnem vlaku."
 
 #: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
@@ -10868,7 +10868,7 @@ msgstr "Zajemi"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -28459,7 +28459,7 @@ msgid "Slaving deactivated."
 msgstr "Podrejanje deaktivirano."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, kde-format
 msgid "Aborting..."
 msgstr "Prekinjanje …"
@@ -37547,48 +37547,48 @@ msgstr "Razdelitev StellarSolverja"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Urejevalnik profilov ogledovalnika FITS"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, kde-format
 msgid "Extracting..."
 msgstr "Ekstrahiranje…"
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, kde-format
 msgid "Solving..."
 msgstr "Reševanje…"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Časovna omejitev ekstraktorja je potekla: %1s"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ekstraktor ni uspel: %1s"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Ekstrahiranih %1 zvezd (%2 nefiltriranih) v %3s"
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Časovna omejitev reševalnika je potekla: %1s"
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Reševalnik ni uspel: %1s"
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Opozorilo! To orodje podpira samo notranjega reševalnika StellarSolver."
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Spremenite na to nastavitev v meniju možnosti poravnave Ekosa."
@@ -38031,17 +38031,17 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr "Nepovezana shramba HiPS"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "HiPS Update"
 msgstr "Posodobitev HiPS"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, kde-format
 msgid "Downloading HiPS sources..."
 msgstr "Prejemanje virov HiPS…"
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, kde-format
 msgid "Error downloading HiPS sources: %1"
 msgstr "Napaka pri prejemanju virov HiPS: %1"
@@ -87114,6 +87114,11 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"Programu KStars ni uspelo zagnati seje vodila D-Bus in brez njega ne more "
+"delovati.\n"
+"\n"
+"Podrobnosti najdete v %1. Stanje storitve lahko preverite tudi z ukazom:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format

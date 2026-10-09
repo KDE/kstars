@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 02:18+0000\n"
+"POT-Creation-Date: 2026-10-09 02:23+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -585,7 +585,7 @@ msgstr ""
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:78
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:113
-#: fitsviewer/platesolve.cpp:225 fitsviewer/platesolve.cpp:261
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10610,7 +10610,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:340
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:338
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:355
 #: skycomponents/imageoverlaycomponent.cpp:759
@@ -27105,7 +27105,7 @@ msgid "Slaving deactivated."
 msgstr "ไปยังแฟ้ม..."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:104
-#: fitsviewer/platesolve.cpp:221 fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Aborting..."
@@ -35847,55 +35847,55 @@ msgstr "ลบป้ายชื่อ"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "ลบป้ายชื่อ"
 
-#: fitsviewer/platesolve.cpp:231
+#: fitsviewer/platesolve.cpp:230
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Extracting..."
 msgstr "ชื่อดาว"
 
-#: fitsviewer/platesolve.cpp:265
+#: fitsviewer/platesolve.cpp:264
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgid "Solving..."
 msgstr "ลบป้ายชื่อ"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:324
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Extractor timed out: %1s"
 msgstr "เวลาตก: %1"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Extractor failed: %1s"
 msgstr "ขั้นสูง"
 
-#: fitsviewer/platesolve.cpp:346
+#: fitsviewer/platesolve.cpp:344
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:430
+#: fitsviewer/platesolve.cpp:428
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Solver timed out: %1s"
 msgstr "เวลาตก: %1"
 
-#: fitsviewer/platesolve.cpp:436
+#: fitsviewer/platesolve.cpp:434
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Solver failed: %1s"
 msgstr "ขั้นสูง"
 
-#: fitsviewer/platesolve.cpp:777
+#: fitsviewer/platesolve.cpp:796
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:778
+#: fitsviewer/platesolve.cpp:797
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -36358,19 +36358,19 @@ msgctxt "@title:window"
 msgid "HiPS Offline Storage"
 msgstr ""
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "HiPS Update"
 msgstr "ชื่อดาว"
 
-#: hips/opships.cpp:83
+#: hips/opships.cpp:81
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Downloading HiPS sources..."
 msgstr "ไปยังแฟ้ม..."
 
-#: hips/opships.cpp:159
+#: hips/opships.cpp:157
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Error downloading HiPS sources: %1"
