@@ -2377,6 +2377,11 @@ void Manager::processNewProperty(INDI::Property prop)
         {
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
             connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
+            // However the dialog is closed (locally or via EkosLive invoke_method), tell clients to close theirs.
+            connect(m_PortSelector.get(), &Selector::Dialog::finished, this, [this]()
+            {
+                ekosLiveClient.get()->message()->requestPortSelection(false);
+            });
         }
         m_PortSelectorTimer.start();
         portSelectorB->setEnabled(true);
