@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-09 02:23+0000\n"
-"PO-Revision-Date: 2026-10-03 18:36+0200\n"
+"PO-Revision-Date: 2026-10-09 12:01+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -10304,6 +10304,8 @@ msgstr "Montatura interrotta. Inverti la direzione dell'asse AR e riprova."
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
 msgstr ""
+"L'allineamento polare richiede una montatura. Selezionane una nel gruppo "
+"ottico."
 
 #: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
@@ -20595,7 +20597,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:4028
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
-msgstr "Algoritmo messa a fuoco automatica lineare interrotto: %1"
+msgstr "Algoritmo per la messa a fuoco automatica lineare interrotto: %1"
 
 #: ekos/focus/focus.cpp:4063
 #, kde-format
@@ -22369,7 +22371,7 @@ msgid ""
 msgstr ""
 "Numero di fotogrammi da acquisire quando è in esecuzione il Controllo HFR in "
 "sequenza. Se stai utilizzando Lineare a 1 passo, il punto di fuoco ottimale "
-"catturerà anche questo numero di fotogrammi."
+"acquisirà anche questo numero di fotogrammi."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:490
@@ -87944,6 +87946,12 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"KStars non è in grado di avviare la sua sessione D-Bus e senza di essa non "
+"può essere avviato.\n"
+"\n"
+"I dettagli si trovano in %1. Puoi anche controllare lo stato del servizio "
+"con il comando:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format
