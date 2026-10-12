@@ -400,7 +400,15 @@ void SequenceJobState::prepareTemperatureCheck(bool enforceCCDTemp)
     if (m_enforceTemperature)
     {
         prepareActions[CAPTURE_ACTION_TEMPERATURE] = false;
-        if (isInitialized(CAPTURE_ACTION_TEMPERATURE))
+        if (isInitialized(CAPTURE_ACTION_TEMPERATURE) && m_isPreview)
+        {
+            // previews (single or looping) set the target temperature but do not wait for it,
+            // so that framing is possible while the camera is still cooling
+            Q_EMIT setCCDTemperature(targetTemperature);
+            Q_EMIT newLog(i18n("Setting temperature to %1 °C. Previews do not wait for it.", targetTemperature));
+            prepareActions[CAPTURE_ACTION_TEMPERATURE] = true;
+        }
+        else if (isInitialized(CAPTURE_ACTION_TEMPERATURE))
         {
             // ignore the next value since after setting temperature the next received value will be
             // exactly this value no matter what the CCD temperature
