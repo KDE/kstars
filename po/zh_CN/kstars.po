@@ -30626,13 +30626,11 @@ msgid "Job '%1' is slewing to target."
 msgstr "任务“%1”正在转动到目标。"
 
 #: ekos/scheduler/schedulerprocess.cpp:1090
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' is unable to proceed with autofocus, not supported."
+#, kde-format
 msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
-msgstr "警告：任务“%1”无法进行自动对焦，不被支持。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1212
 #, kde-format
@@ -96814,9 +96812,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Executing post-startup tasks from %1 after safety recovery..."
-#~ msgstr "安全恢复后，正从 %1 执行启动后任务…"
-
-#~ msgid "Post-startup queue empty or unloadable after safety recovery."
-#~ msgstr "启动后队列在安全恢复后为空或不可加载。"
