@@ -23,6 +23,11 @@ constexpr int SCHEDULE_RESOLUTION_MINUTES = 2;
 namespace Ekos
 {
 
+namespace
+{
+bool allowJob(const SchedulerJob *job, bool rescheduleAbortsImmediate, bool rescheduleAbortsQueue, bool rescheduleErrors);
+}  // namespace
+
 GreedyScheduler::GreedyScheduler()
 {
 }
@@ -98,7 +103,6 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
                 }
                 else
                 {
-                    QString reason;
                     for (int offset = 20; offset >= 0; offset -= 4)
                     {
                         auto now = SchedulerModuleState::getLocalTime().addSecs(offset * 3600);
@@ -108,10 +112,24 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
                             const auto &job = jobs[i - 1];
                             if (job->getState() == SCHEDJOB_COMPLETE)
                                 logger->appendLogText(i18n("(%1) Job %2: has completed.", i, job->getName()));
+                            // Aborted or failed jobs that the error handling settings do not allow to
+                            // reschedule are never considered, whatever their constraints.
+                            else if ((job->getState() == SCHEDJOB_ABORTED || job->getState() == SCHEDJOB_ERROR) &&
+                                     !allowJob(job, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
+                                logger->appendLogText(job->getState() == SCHEDJOB_ERROR ?
+                                                      i18n("(%1) Job %2: cannot run because: it failed and errors are not rescheduled", i,
+                                                           job->getName()) :
+                                                      i18n("(%1) Job %2: cannot run because: it was aborted and aborted jobs are not rescheduled", i,
+                                                           job->getName()));
                             else
                             {
+                                // getNextEndTime() only sets the reason when a constraint is violated.
+                                QString reason;
                                 job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
-                                logger->appendLogText(i18n("(%1) Job %2: cannot run because: %3", i, job->getName(), reason));
+                                if (reason.isEmpty())
+                                    logger->appendLogText(i18n("(%1) Job %2: no constraint violated", i, job->getName()));
+                                else
+                                    logger->appendLogText(i18n("(%1) Job %2: cannot run because: %3", i, job->getName(), reason));
                             }
                         }
                         if (offset == 0)
