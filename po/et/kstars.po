@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-11 02:49+0000\n"
+"POT-Creation-Date: 2026-10-13 02:39+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -17267,7 +17267,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:828
-#: ekos/capture/sequencejobstate.cpp:546
+#: ekos/capture/sequencejobstate.cpp:554
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Pimekaadri säritus"
@@ -18615,146 +18615,152 @@ msgstr "Töös"
 msgid "Complete"
 msgstr "Valmis"
 
-#: ekos/capture/sequencejobstate.cpp:533
+#: ekos/capture/sequencejobstate.cpp:408
+#, fuzzy, kde-format
+#| msgid "Setting temperature to %1 C..."
+msgid "Setting temperature to %1 °C. Previews do not wait for it."
+msgstr "Temperatuuriks määratakse %1 C..."
+
+#: ekos/capture/sequencejobstate.cpp:541
 #, fuzzy, kde-format
 #| msgid "Cover the telescope in order to take a dark exposure."
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Pimekaadri särituseks kata teleskoop kinni."
 
-#: ekos/capture/sequencejobstate.cpp:534
+#: ekos/capture/sequencejobstate.cpp:542
 #, kde-format
 msgid "Flat Frame"
 msgstr "Tasaväljakaader"
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:553
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Pimekaadri särituseks kata teleskoop kinni."
 
-#: ekos/capture/sequencejobstate.cpp:583 ekos/capture/sequencejobstate.cpp:792
+#: ekos/capture/sequencejobstate.cpp:591 ekos/capture/sequencejobstate.cpp:800
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:583
+#: ekos/capture/sequencejobstate.cpp:591
 #, kde-format
 msgid "Parking dust cap..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
-#: ekos/capture/sequencejobstate.cpp:778
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
+#: ekos/capture/sequencejobstate.cpp:786
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:614 ekos/capture/sequencejobstate.cpp:692
+#: ekos/capture/sequencejobstate.cpp:622 ekos/capture/sequencejobstate.cpp:700
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:623
+#: ekos/capture/sequencejobstate.cpp:631
 #, fuzzy, kde-format
 #| msgid "Suspend guiding while autofocus in progress."
 msgid "Unparking mount..."
 msgstr "Gideerimise peatamine automaatse fokuseerimise ajal."
 
-#: ekos/capture/sequencejobstate.cpp:632
+#: ekos/capture/sequencejobstate.cpp:640
 #, kde-format
 msgid "Mount unparked."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:645
+#: ekos/capture/sequencejobstate.cpp:653
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:657
+#: ekos/capture/sequencejobstate.cpp:665
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:661
+#: ekos/capture/sequencejobstate.cpp:669
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:701
+#: ekos/capture/sequencejobstate.cpp:709
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:720
+#: ekos/capture/sequencejobstate.cpp:728
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:730
+#: ekos/capture/sequencejobstate.cpp:738
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:1048
+#: ekos/capture/sequencejobstate.cpp:1056
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned on."
 msgstr "%1 filter on võrgus."
 
-#: ekos/capture/sequencejobstate.cpp:1051
+#: ekos/capture/sequencejobstate.cpp:1059
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned off."
 msgstr "%1 filter on võrgus."
 
-#: ekos/capture/sequencejobstate.cpp:1054
+#: ekos/capture/sequencejobstate.cpp:1062
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box busy."
 msgstr "Valgus"
 
-#: ekos/capture/sequencejobstate.cpp:1057
+#: ekos/capture/sequencejobstate.cpp:1065
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box error."
 msgstr "Valgus"
 
-#: ekos/capture/sequencejobstate.cpp:1081
+#: ekos/capture/sequencejobstate.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Dust cap error occurred."
 msgstr "Püstine"
 
-#: ekos/capture/sequencejobstate.cpp:1087
+#: ekos/capture/sequencejobstate.cpp:1095
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "Dust cap is idle."
 msgstr "%1 fokuseerija on võrgus."
 
-#: ekos/capture/sequencejobstate.cpp:1090
+#: ekos/capture/sequencejobstate.cpp:1098
 #, fuzzy, kde-format
 #| msgid "%1 is parked."
 msgid "Dust cap is parked."
 msgstr "%1 on pargitud."
 
-#: ekos/capture/sequencejobstate.cpp:1093
+#: ekos/capture/sequencejobstate.cpp:1101
 #, fuzzy, kde-format
 #| msgid "%1 is parking..."
 msgid "Dust cap is parking..."
 msgstr "%1 parkimine käib ..."
 
-#: ekos/capture/sequencejobstate.cpp:1096
+#: ekos/capture/sequencejobstate.cpp:1104
 #, fuzzy, kde-format
 #| msgid "%1 is parking..."
 msgid "Dust cap is unparking..."
 msgstr "%1 parkimine käib ..."
 
-#: ekos/capture/sequencejobstate.cpp:1099
+#: ekos/capture/sequencejobstate.cpp:1107
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "Dust cap status unknown."

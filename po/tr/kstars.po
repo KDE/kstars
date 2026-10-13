@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-11 02:49+0000\n"
+"POT-Creation-Date: 2026-10-13 02:39+0000\n"
 "PO-Revision-Date: 2026-10-08 19:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -8579,7 +8579,7 @@ msgid ""
 "<html><head/><body><p>Update the fits header with the found solution.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>FITS üstbilgisini bulunan çözümle güncelleyin.</p></"
+"<html><head/><body><p>FITS üst bilgisini bulunan çözümle güncelleyin.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
@@ -17262,7 +17262,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 üzerinde bir kepenk var mı?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:828
-#: ekos/capture/sequencejobstate.cpp:546
+#: ekos/capture/sequencejobstate.cpp:554
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Karanlık Pozlama"
@@ -18590,133 +18590,139 @@ msgstr "Sürüyor"
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: ekos/capture/sequencejobstate.cpp:533
+#: ekos/capture/sequencejobstate.cpp:408
+#, fuzzy, kde-format
+#| msgid "Setting temperature to %1 °C..."
+msgid "Setting temperature to %1 °C. Previews do not wait for it."
+msgstr "Sıcaklık %1 °C olarak ayarlanıyor…"
+
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Teleskopu eşit olarak aydınlatılmış bir ışık kaynağıyla örtün."
 
-#: ekos/capture/sequencejobstate.cpp:534
+#: ekos/capture/sequencejobstate.cpp:542
 #, kde-format
 msgid "Flat Frame"
 msgstr "Düz Kare"
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:553
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Karanlık bir poz elde etmek için teleskopun üzerini örtün."
 
-#: ekos/capture/sequencejobstate.cpp:583 ekos/capture/sequencejobstate.cpp:792
+#: ekos/capture/sequencejobstate.cpp:591 ekos/capture/sequencejobstate.cpp:800
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Toz kapağı açılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:583
+#: ekos/capture/sequencejobstate.cpp:591
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Toz kapağı park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Işık kutusu ışığı açılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
-#: ekos/capture/sequencejobstate.cpp:778
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
+#: ekos/capture/sequencejobstate.cpp:786
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Işık kutusu ışığı kapatılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:614 ekos/capture/sequencejobstate.cpp:692
+#: ekos/capture/sequencejobstate.cpp:622 ekos/capture/sequencejobstate.cpp:700
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Kaideyi park başarısız oldu, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:623
+#: ekos/capture/sequencejobstate.cpp:631
 #, kde-format
 msgid "Unparking mount..."
 msgstr "Kaide parktan çıkarılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:632
+#: ekos/capture/sequencejobstate.cpp:640
 #, kde-format
 msgid "Mount unparked."
 msgstr "Kaide parktan çıkarıldı."
 
-#: ekos/capture/sequencejobstate.cpp:645
+#: ekos/capture/sequencejobstate.cpp:653
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Kaide, duvar konumuna çevriliyor (az =%1 yük = %2)…"
 
-#: ekos/capture/sequencejobstate.cpp:657
+#: ekos/capture/sequencejobstate.cpp:665
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
-#: ekos/capture/sequencejobstate.cpp:661
+#: ekos/capture/sequencejobstate.cpp:669
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
-#: ekos/capture/sequencejobstate.cpp:701
+#: ekos/capture/sequencejobstate.cpp:709
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri çekimi öncesinde kaide park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:720
+#: ekos/capture/sequencejobstate.cpp:728
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Kubbeyi park etme başarısız, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:730
+#: ekos/capture/sequencejobstate.cpp:738
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri çekimi öncesinde kubbe park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:1048
+#: ekos/capture/sequencejobstate.cpp:1056
 #, kde-format
 msgid "Light box light turned on."
 msgstr "Işık kutusu ışığı açıldı."
 
-#: ekos/capture/sequencejobstate.cpp:1051
+#: ekos/capture/sequencejobstate.cpp:1059
 #, kde-format
 msgid "Light box light turned off."
 msgstr "Işık kutusu ışığı kapatıldı."
 
-#: ekos/capture/sequencejobstate.cpp:1054
+#: ekos/capture/sequencejobstate.cpp:1062
 #, kde-format
 msgid "Light box busy."
 msgstr "Işık kutusu meşgûl."
 
-#: ekos/capture/sequencejobstate.cpp:1057
+#: ekos/capture/sequencejobstate.cpp:1065
 #, kde-format
 msgid "Light box error."
 msgstr "Işık kutusu hatası."
 
-#: ekos/capture/sequencejobstate.cpp:1081
+#: ekos/capture/sequencejobstate.cpp:1089
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Toz kapağı hatası oluştu."
 
-#: ekos/capture/sequencejobstate.cpp:1087
+#: ekos/capture/sequencejobstate.cpp:1095
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "Toz kapağı boşta."
 
-#: ekos/capture/sequencejobstate.cpp:1090
+#: ekos/capture/sequencejobstate.cpp:1098
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "Toz kapağı park edilmiş."
 
-#: ekos/capture/sequencejobstate.cpp:1093
+#: ekos/capture/sequencejobstate.cpp:1101
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "Toz kapağı park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:1096
+#: ekos/capture/sequencejobstate.cpp:1104
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "Toz kapağı parktan çıkıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:1099
+#: ekos/capture/sequencejobstate.cpp:1107
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Toz kapağı durumu bilinmiyor."
@@ -31012,12 +31018,12 @@ msgstr "FITS/XISF Görseli Seç"
 #: ekos/scheduler/scheduler.cpp:851
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
-msgstr "FITS üstbilgisi: OBJCTRA bulunamıyor (%1)."
+msgstr "FITS üst bilgisi: OBJCTRA bulunamıyor (%1)."
 
 #: ekos/scheduler/scheduler.cpp:870
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
-msgstr "FITS üstbilgisi: OBJCTDEC bulunamıyor (%1)."
+msgstr "FITS üst bilgisi: OBJCTDEC bulunamıyor (%1)."
 
 #: ekos/scheduler/scheduler.cpp:903
 #, kde-format
@@ -47843,7 +47849,7 @@ msgstr ""
 #: kstars.kcfg:4013
 #, kde-format
 msgid "Update the fits header with the found solution."
-msgstr "FITS üstbilgisini bulunan çözümle güncelle"
+msgstr "FITS üst bilgisini bulunan çözümle güncelle"
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
 #: kstars.kcfg:4017
@@ -84760,7 +84766,7 @@ msgstr "Uç Değerler"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FITS Header"
-msgstr "FITS Üstbilgisi"
+msgstr "FITS Üst Bilgisi"
 
 #: libindi_strings.cpp:149
 #, kde-kuit-format

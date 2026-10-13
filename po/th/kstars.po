@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-11 02:49+0000\n"
+"POT-Creation-Date: 2026-10-13 02:39+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -16684,7 +16684,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:828
-#: ekos/capture/sequencejobstate.cpp:546
+#: ekos/capture/sequencejobstate.cpp:554
 #, kde-format
 msgid "Dark Exposure"
 msgstr ""
@@ -17970,153 +17970,159 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:533
+#: ekos/capture/sequencejobstate.cpp:408
+#, fuzzy, kde-format
+#| msgid "To file..."
+msgid "Setting temperature to %1 °C. Previews do not wait for it."
+msgstr "ไปยังแฟ้ม..."
+
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:534
+#: ekos/capture/sequencejobstate.cpp:542
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Flat Frame"
 msgstr "ชื่อดาว"
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:553
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:583 ekos/capture/sequencejobstate.cpp:792
+#: ekos/capture/sequencejobstate.cpp:591 ekos/capture/sequencejobstate.cpp:800
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Unparking dust cap..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:583
+#: ekos/capture/sequencejobstate.cpp:591
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Parking dust cap..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:595 ekos/capture/sequencejobstate.cpp:674
-#: ekos/capture/sequencejobstate.cpp:778
+#: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
+#: ekos/capture/sequencejobstate.cpp:786
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:614 ekos/capture/sequencejobstate.cpp:692
+#: ekos/capture/sequencejobstate.cpp:622 ekos/capture/sequencejobstate.cpp:700
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:623
+#: ekos/capture/sequencejobstate.cpp:631
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Unparking mount..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:632
+#: ekos/capture/sequencejobstate.cpp:640
 #, kde-format
 msgid "Mount unparked."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:645
+#: ekos/capture/sequencejobstate.cpp:653
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:657
+#: ekos/capture/sequencejobstate.cpp:665
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:661
+#: ekos/capture/sequencejobstate.cpp:669
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:701
+#: ekos/capture/sequencejobstate.cpp:709
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:720
+#: ekos/capture/sequencejobstate.cpp:728
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Parking dome failed, aborting..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:730
+#: ekos/capture/sequencejobstate.cpp:738
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:1048
+#: ekos/capture/sequencejobstate.cpp:1056
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Light box light turned on."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1051
+#: ekos/capture/sequencejobstate.cpp:1059
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Light box light turned off."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1054
+#: ekos/capture/sequencejobstate.cpp:1062
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Light box busy."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1057
+#: ekos/capture/sequencejobstate.cpp:1065
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Light box error."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1081
+#: ekos/capture/sequencejobstate.cpp:1089
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Dust cap error occurred."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:1087
+#: ekos/capture/sequencejobstate.cpp:1095
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Dust cap is idle."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1090
+#: ekos/capture/sequencejobstate.cpp:1098
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
 msgid "Dust cap is parked."
 msgstr "แสดงภาพ DSS"
 
-#: ekos/capture/sequencejobstate.cpp:1093
+#: ekos/capture/sequencejobstate.cpp:1101
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Dust cap is parking..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:1096
+#: ekos/capture/sequencejobstate.cpp:1104
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Dust cap is unparking..."
 msgstr "ไปยังแฟ้ม..."
 
-#: ekos/capture/sequencejobstate.cpp:1099
+#: ekos/capture/sequencejobstate.cpp:1107
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
