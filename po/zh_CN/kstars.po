@@ -17833,10 +17833,9 @@ msgid "Complete"
 msgstr "完成"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "正在设置温度至 %1 摄氏度..."
+msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format

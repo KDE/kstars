@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-13 02:39+0000\n"
-"PO-Revision-Date: 2026-10-11 23:23+0200\n"
+"PO-Revision-Date: 2026-10-13 22:21+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2517,7 +2517,7 @@ msgstr "Opcional"
 #: dialogs/addcatalogobject.ui:131
 #, kde-format
 msgid "Size Info in Arcminutes"
-msgstr "Informació de la mida, en minuts d'arc"
+msgstr "Informació de la mida en minuts d'arc"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/addcatalogobject.ui:146
@@ -2588,8 +2588,7 @@ msgid ""
 "another app and magically try to infer the contents of this form from it."
 msgstr ""
 "Esta característica permet copiar i apegar un fragment de text (p. ex., d'un "
-"lloc web o d'una altra aplicació) i màgicament intentarà deduir el contingut "
-"d'este formulari."
+"lloc web o d'una altra aplicació) deduir-ne el contingut d'este formulari."
 
 #. i18n: ectx: property (text), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:254
@@ -3657,14 +3656,14 @@ msgstr "%1 UA"
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 arcmin"
-msgstr "%1 min. d'arc"
+msgstr "%1 minuts d'arc"
 
 #: dialogs/detaildialog.cpp:281 kstarslite/dialogs/detaildialoglite.cpp:193
 #: printing/detailstable.cpp:196
 #, kde-format
 msgctxt "angular size in arcseconds"
 msgid "%1 arcsec"
-msgstr "%1 seg. d'arc"
+msgstr "%1 segons d'arc"
 
 #: dialogs/detaildialog.cpp:296 kstarslite/dialogs/detaildialoglite.cpp:208
 #: skyobjects/skyobject.cpp:373 skyobjects/skyobject.cpp:423
@@ -3908,7 +3907,7 @@ msgstr "Mida:"
 #: dialogs/details_data.ui:307
 #, kde-format
 msgid "0.0 arcmin"
-msgstr "0,0 min. d'arc"
+msgstr "0,0 minuts d'arc"
 
 #. i18n: ectx: property (text), widget (KSHelpLabel, BVLabel)
 #: dialogs/details_data.ui:332
@@ -4058,7 +4057,7 @@ msgstr "0,0 km"
 #: dialogs/details_data_comet.ui:117 printing/detailstable.cpp:467
 #, kde-format
 msgid "Rotation period:"
-msgstr "Període de gir:"
+msgstr "Període de rotació:"
 
 #. i18n: ectx: property (text), widget (QLabel, Rotation)
 #: dialogs/details_data_comet.ui:132
@@ -4931,7 +4930,7 @@ msgstr "Establiu l'emplaçament geogràfic"
 #: dialogs/locationdialog.cpp:102 dialogs/locationdialog.ui:461
 #, kde-format
 msgid "DST rule:"
-msgstr "Regla DST:"
+msgstr "Regla de l'horari d'estiu:"
 
 #: dialogs/locationdialog.cpp:147 dialogs/locationdialog.cpp:207
 #: dialogs/locationdialog.cpp:513
@@ -5094,8 +5093,8 @@ msgid ""
 "<html><head/><body><p>Latitude in degrees. North of equator is positive and "
 "South is negative.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Latitud, en graus. El nord de l'equador és positiu i "
-"el sud és negatiu.</p></body></html>"
+"<html><head/><body><p>Latitud en graus. El nord de l'equador és positiu i el "
+"sud és negatiu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LongLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -5120,7 +5119,7 @@ msgid ""
 "<html><head/><body><p>Longitude in degrees. East of Greenwich is positive "
 "and West is negative.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Longitud en en graus. L'est de Greenwich és positiu i "
+"<html><head/><body><p>Longitud en graus. L'est de Greenwich és positiu i "
 "l'oest és negatiu.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LatLabel)
@@ -5241,7 +5240,7 @@ msgstr "Distància focal del telescopi:"
 #: dialogs/newfov.ui:839
 #, kde-format
 msgid "Telescope focal length, in millimeters"
-msgstr "Distància focal del telescopi, en mil·límetres."
+msgstr "Distància focal del telescopi en mil·límetres."
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, TLength1)
 #: dialogs/newfov.ui:108
@@ -5252,7 +5251,7 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a telescope eyepiece."
 msgstr ""
-"Introduïu la distància focal del telescopi, en mil·límetres.\n"
+"Introduïu la distància focal del telescopi en mil·límetres.\n"
 "\n"
 "Este és un dels camps de dades requerit per a definir un símbol del camp de "
 "visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
@@ -5284,7 +5283,7 @@ msgstr "Distància focal de l'ocular:"
 #: dialogs/newfov.ui:171
 #, kde-format
 msgid "Eyepiece focal length, in millimeters"
-msgstr "Distància focal de l'ocular, en mil·límetres."
+msgstr "Distància focal de l'ocular en mil·límetres."
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, EyeLength)
 #: dialogs/newfov.ui:176
@@ -5295,7 +5294,7 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a telescope eyepiece."
 msgstr ""
-"Introduïu la distància focal de l'ocular, en mil·límetres.\n"
+"Introduïu la distància focal de l'ocular en mil·límetres.\n"
 "\n"
 "Este és un dels camps de dades requerit per a definir un símbol del camp de "
 "visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
@@ -5318,7 +5317,7 @@ msgstr "CDVA de l'ocular:"
 #: dialogs/newfov.ui:272
 #, kde-format
 msgid "field-of-view of the eyepiece, in arcminutes"
-msgstr "Camp de visió de l'ocular, en minuts d'arc."
+msgstr "Camp de visió de l'ocular en minuts d'arc."
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, EyeFOV)
 #: dialogs/newfov.ui:277
@@ -5329,7 +5328,7 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a telescope eyepiece."
 msgstr ""
-"Introduïu l'angle del camp de visió per a l'ocular, en minuts d'arc.\n"
+"Introduïu l'angle del camp de visió per a l'ocular en minuts d'arc.\n"
 "\n"
 "Este és un dels camps de dades requerit per a definir un símbol del camp de "
 "visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
@@ -5424,7 +5423,7 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a camera mounted on a telescope."
 msgstr ""
-"Introduïu la distància focal del telescopi, en mil·límetres.\n"
+"Introduïu la distància focal del telescopi en mil·límetres.\n"
 "\n"
 "Este és un dels camps de dades requerit per a definir un símbol del camp de "
 "visió (CDV) que coincidisca amb el camp de visió d'una càmera muntada en un "
@@ -5473,7 +5472,7 @@ msgstr "Am. del píxel:"
 #: dialogs/newfov.ui:538 dialogs/newfov.ui:569 dialogs/newfov.ui:894
 #, kde-format
 msgid "Size of chip or film, in millimeters"
-msgstr "Mida del xip o pel·lícula, en mil·límetres."
+msgstr "Mida del xip o de la pel·lícula en mil·límetres."
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeW)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeH)
@@ -5632,7 +5631,7 @@ msgstr "Calcula l'HPBW"
 #: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:329 ekos/align/opsalign.ui:456
 #, kde-format
 msgid "arcmin"
-msgstr "min. d'arc"
+msgstr "minuts d'arc"
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel)
 #: dialogs/newfov.ui:1041
@@ -5648,9 +5647,9 @@ msgid ""
 "that <b>UP</b> is pointing directly at the pole. 90 degrees indicates that "
 "<b>UP</b> is rotated 90 degrees clockwise with respect to the pole.</p>"
 msgstr ""
-"<p>Gir del fotograma respecte al pol celeste. Zero graus indica que "
+"<p>Rotació del fotograma respecte al pol celeste. Zero graus indica que "
 "<b>AMUNT</b> apunta directament cap al pol. 90 graus indica que <b>AMUNT</b> "
-"està girat 90 graus en sentit horari respecte al pol.</p>"
+"està rotat 90 graus en sentit horari respecte al pol.</p>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditRotation)
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditOffsetY)
@@ -5687,7 +5686,7 @@ msgstr "0"
 #: dialogs/newfov.ui:1068
 #, kde-format
 msgid "Desired vertical offset in arcminutes"
-msgstr "Desplaçament vertical desitjat, en minuts d'arc."
+msgstr "Desplaçament vertical desitjat en minuts d'arc."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_3)
 #: dialogs/newfov.ui:1081
@@ -5707,7 +5706,7 @@ msgstr "graus E del N"
 #: dialogs/newfov.ui:1102
 #, kde-format
 msgid "Desired field-of-view size, in arcminutes"
-msgstr "Camp de visió desitjat, en minuts d'arc."
+msgstr "Camp de visió desitjat en minuts d'arc."
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1107
@@ -5741,13 +5740,13 @@ msgstr " x "
 #: dialogs/newfov.ui:1131
 #, kde-format
 msgid "Desired horizontal offset in arcminutes"
-msgstr "Desplaçament horitzontal desitjat, en minuts d'arc."
+msgstr "Desplaçament horitzontal desitjat en minuts d'arc."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, FOVLockCP)
 #: dialogs/newfov.ui:1144
 #, kde-format
 msgid "Rotation is performed with respect to the celestial pole."
-msgstr "El gir es porta a terme respecte al pol celeste."
+msgstr "La rotació es porta a terme respecte al pol celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, FOVLockCP)
 #: dialogs/newfov.ui:1150
@@ -6532,7 +6531,7 @@ msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
 msgstr ""
 "Diferència entre les coordenades del telescopi i les coordenades de la "
-"solució, en segons d'arc."
+"solució en segons d'arc."
 
 #. i18n: ectx: property (text), widget (QLabel, err)
 #: ekos/align/align.ui:395
@@ -6546,7 +6545,7 @@ msgstr "Err:"
 #: ekos/align/align.ui:422 ekos/align/align.ui:459
 #, kde-format
 msgid "Image scale in arcsecs/pixel"
-msgstr "Escala de la imatge, en segons d'arc per píxel."
+msgstr "Escala de la imatge en segons d'arc per píxel."
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/align/align.ui:425
@@ -6559,7 +6558,7 @@ msgstr "Píx:"
 #: ekos/align/align.ui:439
 #, kde-format
 msgid "Image rotation angle, East of North"
-msgstr "Angle de gir de la imatge, cap a l'est del nord."
+msgstr "Angle de rotació de la imatge, a l'est del nord."
 
 # Nota: (PA)
 #  - Position Angle
@@ -6575,7 +6574,7 @@ msgstr "AP:"
 #: ekos/align/align.ui:449
 #, kde-format
 msgid "Position angle in degrees, East of North"
-msgstr "Angle de posició, en graus, cap a l'est del nord."
+msgstr "Angle de posició en graus, a l'est del nord."
 
 # FL (Focal lenght) -> DF (Distància focal)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -6592,7 +6591,7 @@ msgid ""
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Distància focal calculada (efectiva) del telescopi, en "
+"<html><head/><body><p>Distància focal calculada (efectiva) del telescopi en "
 "mil·límetres. La distància focal efectiva es mesura a partir de la resolució "
 "astromètrica.</p></body></html>"
 
@@ -6697,7 +6696,7 @@ msgstr "Canvia a pantalla completa."
 #: ekos/align/align.ui:644
 #, kde-format
 msgid "Exposure duration in seconds"
-msgstr "Duració de l'exposició, en segons."
+msgstr "Duració de l'exposició en segons."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignGain)
@@ -6998,7 +6997,7 @@ msgstr ""
 #: ekos/align/align_fov.cpp:202
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
-msgstr "<p>Mida del camp de visió efectiu, en minuts d'arc.</p>"
+msgstr "<p>Mida del camp de visió efectiu en minuts d'arc.</p>"
 
 #: ekos/align/align_fov.cpp:537
 #, kde-format
@@ -7094,7 +7093,7 @@ msgstr "S'ha detectat un apuntament. Se suspén la resolució…"
 #: ekos/align/align_goto.cpp:485
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
-msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
+msgstr "Se sincronitza amb l'AR (%1) i la Dec (%2)"
 
 #: ekos/align/align_goto.cpp:515
 #, kde-format
@@ -7175,12 +7174,12 @@ msgstr "Fitxers d'índex"
 #: ekos/align/align_settings.cpp:177 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
-msgstr "dAR (seg. d'arc)"
+msgstr "dAR (segons d'arc)"
 
 #: ekos/align/align_settings.cpp:178 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
-msgstr "dDE (seg. d'arc)"
+msgstr "dDE (segons d'arc)"
 
 #: ekos/align/align_settings.cpp:226 ekos/capture/camera_config.cpp:723
 #: ekos/focus/focus.cpp:6006
@@ -7301,7 +7300,7 @@ msgstr "No s'ha pogut fer l'alineació amb l'astrometria"
 #: ekos/align/align_solver.cpp:61
 #, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "S'establix l'objectiu a l'AR: %1 i la Dec: %2"
+msgstr "S'establix l'objectiu a l'AR:%1 i la Dec:%2"
 
 #: ekos/align/align_solver.cpp:77
 #, kde-format
@@ -7515,8 +7514,8 @@ msgid ""
 "rotator configuration."
 msgstr ""
 "El rotor s'està movent en la direcció incorrecta. L'error de l'angle de "
-"posició ha augmentat des de %1° fins a %2° després del gir. Ja s'ha provat "
-"la inversió automàtica. Comproveu la configuració del rotor."
+"posició ha augmentat des de %1° fins a %2° després de la rotació. Ja s'ha "
+"provat la inversió automàtica. Comproveu la configuració del rotor."
 
 #: ekos/align/align_solver.cpp:969
 #, kde-format
@@ -7663,9 +7662,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Per a desactivar la validació del gir, desmarqueu "
-"l'opció «Control automàtic i manual del rotor» a «Opcions de StellarSolver»."
-"</p></body></html>"
+"<html><head/><body><p>Per a desactivar la validació de la rotació, "
+"desmarqueu l'opció «Control automàtic i manual del rotor» a «Opcions de "
+"StellarSolver».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -8475,10 +8474,10 @@ msgid ""
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Llindar de desviació del gir en minuts d'arc quan "
-"s'utilitza «Carrega i apunta». Si la diferència entre l'angle de posició "
-"mesurat i l'angle de posició de FITS és inferior a este valor, es considera "
-"que l'operació «Carrega i apunta» és correcta.</p></body></html>"
+"<html><head/><body><p>Llindar de desviació de la rotació en minuts d'arc "
+"quan s'utilitza «Carrega i apunta». Si la diferència entre l'angle de "
+"posició mesurat i l'angle de posició de FITS és inferior a este valor, es "
+"considera que l'operació «Carrega i apunta» és correcta.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:297
@@ -8492,8 +8491,8 @@ msgstr "Llindar: "
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Llindar de desviació de l'angle de gir.</p></body></"
-"html>"
+"<html><head/><body><p>Llindar de desviació de l'angle de rotació.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:336
@@ -8527,7 +8526,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Mantín l'angle del "
 "rotor</span> conservarà la posició del rotor. El rotor roman inactiu i, per "
-"tant, la càmera gira virtualment 180°.</p><p>La majoria d'aplicacions "
+"tant, la càmera rota virtualment 180°.</p><p>La majoria d'aplicacions "
 "modernes de processament d'imatges astronòmiques poden gestionar les imatges "
 "«capgirades».</p></body></html>"
 
@@ -8837,8 +8836,8 @@ msgstr ""
 "<p>Les unitats dels límits de l'escala del capturador d'imatges de dalt:</"
 "p>\n"
 "<ul>\n"
-"<li>dw: amplària, en graus.</li>\n"
-"<li>aw: amplària, en minuts d'arc.</li>\n"
+"<li>dw: amplària en graus.</li>\n"
+"<li>aw: amplària en minuts d'arc.</li>\n"
 "</ul>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_50)
@@ -8927,8 +8926,8 @@ msgstr ""
 "<p>Les unitats de l'escala del capturador d'imatges que es limiten a dalt:</"
 "p>\n"
 "<ul>\n"
-"<li>dw: amplària, en graus.</li>\n"
-"<li>aw: amplària, en minuts d'arc.</li>\n"
+"<li>dw: amplària en graus.</li>\n"
+"<li>aw: amplària en minuts d'arc.</li>\n"
 "<li>app: segons d'arc per píxel.</li>\n"
 "</ul>"
 
@@ -8999,7 +8998,7 @@ msgid ""
 "degrees."
 msgstr ""
 "El radi de busca per a la posició estimada del camp del telescopi o de la "
-"imatge, en graus."
+"imatge en graus."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_44)
 #. i18n: ectx: property (text), widget (QLineEdit, subpix)
@@ -10328,7 +10327,7 @@ msgstr "Busca de CP"
 #: ekos/align/polaralignmentassistant.cpp:32
 #, kde-format
 msgid "First Rotation"
-msgstr "Primer gir"
+msgstr "Primera rotació"
 
 #: ekos/align/polaralignmentassistant.cpp:33
 #, kde-format
@@ -10348,7 +10347,7 @@ msgstr "Segona resolució"
 #: ekos/align/polaralignmentassistant.cpp:36
 #, kde-format
 msgid "Second Rotation"
-msgstr "Segon gir"
+msgstr "Segona rotació"
 
 #: ekos/align/polaralignmentassistant.cpp:37
 #, kde-format
@@ -10409,12 +10408,12 @@ msgstr "AAP: S'està parant, el mòdul de resolució ha fallat massa vegades."
 #: ekos/align/polaralignmentassistant.cpp:637
 #, kde-format
 msgid "Mount first rotation is complete."
-msgstr "S'ha completat el gir de la primera muntura."
+msgstr "S'ha completat la rotació de la primera muntura."
 
 #: ekos/align/polaralignmentassistant.cpp:644
 #, kde-format
 msgid "Mount second rotation is complete."
-msgstr "S'ha completat el gir de la segona muntura."
+msgstr "S'ha completat la rotació de la segona muntura."
 
 #: ekos/align/polaralignmentassistant.cpp:690
 #, kde-format
@@ -10457,7 +10456,9 @@ msgstr "S'està aparcant la muntura…"
 #: ekos/align/polaralignmentassistant.cpp:940
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
-msgstr "Espereu fins que la muntura complete la rotació a AR (%1) Dec (%2)"
+msgstr ""
+"Espereu fins que la muntura complete la rotació fins a l'AR (%1) i la Dec "
+"(%2)"
 
 #: ekos/align/polaralignmentassistant.cpp:956
 #: ekos/align/polaralignmentassistant.cpp:962
@@ -10482,12 +10483,12 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1077
 #, kde-format
 msgid "First manual rotation done."
-msgstr "S'ha fet el primer gir manual."
+msgstr "S'ha fet la primera rotació manual."
 
 #: ekos/align/polaralignmentassistant.cpp:1082
 #, kde-format
 msgid "Second manual rotation done."
-msgstr "S'ha fet el segon gir manual."
+msgstr "S'ha fet la segona rotació manual."
 
 #: ekos/align/polaralignmentassistant.cpp:1148
 #, kde-format
@@ -10544,17 +10545,19 @@ msgstr "<p>S'està resolent la <i>primera</i> imatge…</p>"
 #: ekos/align/polaralignmentassistant.cpp:1302
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
-msgstr "<p>S'està executant el <i>primer</i> gir de la muntura…</p>"
+msgstr "<p>S'està executant la <i>primera</i> rotació de la muntura…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1304
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
-msgstr "<p>Estabilització després del <i>primer</i> gir de la muntura…</p>"
+msgstr ""
+"<p>Estabilització després de la <i>primera</i> rotació de la muntura…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1306
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
-msgstr "<p>Estabilització després del <i>segon</i> gir de la muntura…</p>"
+msgstr ""
+"<p>Estabilització després de la <i>segona</i> rotació de la muntura…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1308
 #, kde-format
@@ -10569,7 +10572,7 @@ msgstr "<p>S'està resolent la <i>segona</i> imatge…</p>"
 #: ekos/align/polaralignmentassistant.cpp:1312
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
-msgstr "<p>S'està executant el <i>segon</i> gir de la muntura…</p>"
+msgstr "<p>S'està executant la <i>segona</i> rotació de la muntura…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1314
 #, kde-format
@@ -10832,7 +10835,7 @@ msgstr "Est"
 #: ekos/align/polaralignmentassistant.ui:136
 #, kde-format
 msgid "Rotation magnitude in degrees"
-msgstr "Magnitud del gir, en graus."
+msgstr "Magnitud de la rotació en graus."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/polaralignmentassistant.ui:155
@@ -10863,7 +10866,7 @@ msgstr "Apuntament manual"
 #: ekos/align/polaralignmentassistant.ui:266
 #, kde-format
 msgid "Please rotate your mount in RA"
-msgstr "Gireu la muntura en AR"
+msgstr "Roteu la muntura en AR"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
 #: ekos/align/polaralignmentassistant.ui:341
@@ -10890,7 +10893,7 @@ msgstr "Actualitza"
 #: ekos/align/polaralignmentassistant.ui:351
 #, kde-format
 msgid "Exposure duration in seconds during refresh phase"
-msgstr "Duració de l'exposició, en segons, durant la fase d'actualització."
+msgstr "Duració de l'exposició en segons, durant la fase d'actualització."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
@@ -11828,7 +11831,7 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de deriva de l'ascensió recta (AR), en "
+"<html><head/><body><p>Traça l'error de deriva de l'ascensió recta (AR) en "
 "segons d'arc.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
@@ -11846,7 +11849,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body>L'error de deriva de l'ascensió recta (AR), en segons "
+"<html><head/><body>L'error de deriva de l'ascensió recta (AR) en segons "
 "d'arc. Cliqueu ací per a veure este eix amb els valors de l'eix esquerre. "
 "Compartix l'eix amb l'error de l'AR/Dec, la deriva i els valors de RMS. Feu "
 "doble clic per a actualitzar l'eix.<p></p></body></html>"
@@ -11858,7 +11861,7 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) drift error in arc-seconds."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec), en "
+"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec) en "
 "segons d'arc.</p></body></html>"
 
 # skip-rule: abbreviations-dec
@@ -11879,7 +11882,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec), en "
+"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec) en "
 "segons d'arc. Cliqueu ací per a veure este eix en els valors de l'eix "
 "esquerre. Compartix l'eix amb l'error de l'AR/Dec, la deriva i els valors de "
 "RMS. Feu doble clic per a actualitzar l'eix.</p></body></html>"
@@ -11891,8 +11894,8 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) guide pulses in "
 "milliseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça els impulsos de guiatge de l'ascensió recta "
-"(AR), en mil·lisegons.</p></body></html>"
+"<html><head/><body><p>Traça els impulsos de guiatge de l'ascensió recta (AR) "
+"en mil·lisegons.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:688
@@ -11930,7 +11933,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Els impulsos de guiatge de la declinació (Dec), en "
+"<html><head/><body><p>Els impulsos de guiatge de la declinació (Dec) en "
 "mil·lisegons. Cliqueu ací per a veure este eix en els valors de l'eix "
 "esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
@@ -11942,7 +11945,7 @@ msgid ""
 "seconds.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traça l'error de la deriva combinada de l'AR i de la "
-"Dec, en segons d'arc.</p></body></html>"
+"Dec en segons d'arc.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:782
@@ -11958,7 +11961,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'error de la deriva combinada de l'AR i la Dec, en "
+"<html><head/><body><p>L'error de la deriva combinada de l'AR i la Dec en "
 "segons d'arc. Cliqueu ací per a veure este eix en els valors de l'eix "
 "esquerre. Compartix l'eix amb l'error de l'AR/Dec, la deriva i els valors de "
 "RMS. Feu doble clic per a actualitzar l'eix.</p></body></html>"
@@ -11972,7 +11975,7 @@ msgid ""
 "samples.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traça el valor de la mitjana quadràtica (RMS) de la "
-"deriva combinada de l'AR i de la Dec, en segons d'arc, fent la mitjana "
+"deriva combinada de l'AR i de la Dec en segons d'arc, fent la mitjana "
 "d'aproximadament les últimes 40 mostres.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
@@ -11992,7 +11995,7 @@ msgid ""
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>El valor de la mitjana quadràtica (RMS) de la deriva "
-"combinada de l'AR i de la Dec, en segons d'arc, fent la mitjana "
+"combinada de l'AR i de la Dec en segons d'arc, fent la mitjana "
 "d'aproximadament les últimes 40 mostres. Cliqueu ací per a veure este eix en "
 "els valors de l'eix esquerre. Compartix l'eix amb l'error de l'AR/Dec, la "
 "deriva i els valors de RMS. Feu doble clic per a actualitzar l'eix.</p></"
@@ -12250,7 +12253,7 @@ msgid ""
 "<html><head/><body><p>Plot the Half-Flux Radius (in pixels) of the captured "
 "images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el radi de semiflux (HFR, en píxels) de les "
+"<html><head/><body><p>Traça el radi de semiflux (HFR en píxels) de les "
 "imatges capturades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
@@ -12267,7 +12270,7 @@ msgid ""
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El radi de semiflux (HFR, en píxels) de les imatges "
+"<html><head/><body><p>El radi de semiflux (HFR en píxels) de les imatges "
 "capturades. Cliqueu ací per a veure este eix en els valors de l'eix "
 "esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
@@ -13082,7 +13085,7 @@ msgstr "Algorisme:"
 #: ekos/auxiliary/darklibrary.ui:366
 #, kde-format
 msgid "Step size in seconds"
-msgstr "Mida del pas, en segons."
+msgstr "Mida del pas en segons."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
@@ -13094,7 +13097,7 @@ msgstr "Temps total:"
 #: ekos/auxiliary/darklibrary.ui:389
 #, kde-format
 msgid "Minimum exposure time in seconds."
-msgstr "Temps mínim d'exposició, en segons."
+msgstr "Temps mínim d'exposició en segons."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, countSpin)
 #: ekos/auxiliary/darklibrary.ui:405
@@ -13119,7 +13122,7 @@ msgstr "Fins:"
 #: ekos/auxiliary/darklibrary.ui:441
 #, kde-format
 msgid "Maximum exposure time in seconds."
-msgstr "Temps màxim d'exposició, en segons."
+msgstr "Temps màxim d'exposició en segons."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/darklibrary.ui:464
@@ -15276,8 +15279,8 @@ msgid ""
 "The minimum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"La mida mínima de les estreles que s'inclouran en la llista final, en "
-"píxels, basada en l'eix semimajor i el semimenor."
+"La mida mínima de les estreles que s'inclouran en la llista final en píxels, "
+"basada en l'eix semimajor i el semimenor."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_39)
@@ -15308,8 +15311,8 @@ msgid ""
 "The maximum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"La mida màxima de les estreles que s'inclouran en la llista final, en "
-"píxels, basada en l'eix semimajor i el semimenor."
+"La mida màxima de les estreles que s'inclouran en la llista final en píxels, "
+"basada en l'eix semimajor i el semimenor."
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
 #. i18n: ectx: property (text), widget (QLabel, label_49)
@@ -15457,7 +15460,7 @@ msgid ""
 "in degrees."
 msgstr ""
 "Si no s'indica cap estimació d'escala, este és el límit en l'amplària màxima "
-"del camp, en graus."
+"del camp en graus."
 
 #. i18n: ectx: property (text), widget (QLineEdit, maxWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:972
@@ -15507,7 +15510,7 @@ msgid ""
 "in degrees."
 msgstr ""
 "Si no s'indica cap estimació d'escala, este és el límit en l'amplària mínima "
-"del camp, en graus."
+"del camp en graus."
 
 #. i18n: ectx: property (text), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1002
@@ -18277,7 +18280,7 @@ msgstr "Límits del guiatge"
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
 msgstr ""
-"Interromp la seqüència si la desviació del guiatge supera este valor N de "
+"Interromp la seqüència si la desviació del guiatge supera este valor «N» "
 "vegades consecutives."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDitherPerJobFrequency)
@@ -18288,9 +18291,10 @@ msgid ""
 "number of frames for this job. Set to 0 to use global dither frequency.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Si s'ha marcat el microdesplaçament global, llavors es "
-"farà un microdesplaçament cada N fotogrames per a esta tasca. Establiu-la a "
-"0 per a emprar la freqüència de microdesplaçament global.</p></body></html>"
+"<html><head/><body><p>Si el microdesplaçament global està activat, es "
+"realitza un microdesplaçament cada «N» fotogrames per a esta tasca. Establiu-"
+"la a 0 per a emprar la freqüència de microdesplaçament global.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
 #: ekos/capture/limits.ui:127
@@ -18435,7 +18439,7 @@ msgid ""
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Marqueu esta opció per a forçar un enfocament "
-"automàtic cada N minuts. El temporitzador es restablirà a cada enfocament "
+"automàtic cada «N» minuts. El temporitzador es restablirà a cada enfocament "
 "automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceRefocusEveryN)
@@ -18520,7 +18524,7 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>El valor comprovació d'HFR, en píxels. Este és un camp "
+"<html><head/><body><p>El valor comprovació d'HFR en píxels. Este és un camp "
 "d'eixida quan se selecciona «Últim enfocament automàtic» o «Mesura relativa» "
 "i un camp d'entrada per a «Fix». En tots els casos, l'usuari podrà embolcar "
 "el valor generat pel sistema.</p></body></html>"
@@ -18603,7 +18607,7 @@ msgid ""
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Duració mínima d'una inversió del meridià, en segons. "
+"<html><head/><body><p>Duració mínima d'una inversió del meridià en segons. "
 "Augmenteu este valor si Ekos informa que una inversió del meridià ha fallat "
 "perquè el costat del pilar no ha canviat. Una estimació bona d'este valor és "
 "com a mínim el 50 % de la duració habitual d'una inversió del meridià.</p></"
@@ -18949,8 +18953,8 @@ msgstr ""
 "<html><head/><body><p>Mentre s'establix l'angle de posició de la càmera es "
 "mourà el rotor. L'indicador reflectix l'estat del rotor. Depenent de la "
 "precisió del rotor, pot haver-hi alguna desviació en l'angle de posició "
-"final.</p><p>L'angle de posició es mesura cap a l'est del nord, en graus.</"
-"p></body></html>"
+"final.</p><p>L'angle de posició es mesura a l'est del nord en graus.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -19097,10 +19101,10 @@ msgid "Complete"
 msgstr "Completada"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "S'establix la temperatura a %1 °C…"
+msgstr ""
+"S'està establint la temperatura a %1 °C. Les vistes prèvies no l'esperaran."
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
@@ -19345,7 +19349,7 @@ msgstr "Correcte"
 #: ekos/ekos.h:140
 #, kde-format
 msgid "Syncing"
-msgstr "Sincronitzeu"
+msgstr "S'està sincronitzant"
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2489 indi/indimount.cpp:30
 #: indi/indimount.cpp:1621
@@ -19356,7 +19360,7 @@ msgstr "S'està apuntant"
 #: ekos/ekos.h:140
 #, kde-format
 msgid "Rotating"
-msgstr "Rotació"
+msgstr "S'està rotant"
 
 #: ekos/ekos.h:161
 #, kde-format
@@ -19382,7 +19386,7 @@ msgstr "Tancament"
 #: ekos/ekos.h:200
 #, kde-format
 msgid "Loading"
-msgstr "Carregant"
+msgstr "S'està carregant"
 
 #: ekos/ekos.h:220
 #, kde-format
@@ -19564,12 +19568,12 @@ msgstr "Solució de l'enfocador"
 #: ekos/focus/aberrationinspector.cpp:115
 #, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Delta a partir de la tessel·la central, en marques"
+msgstr "Delta a partir de la tessel·la central en marques"
 
 #: ekos/focus/aberrationinspector.cpp:116
 #, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "Delta a partir de la tessel·la central, en micròmetres"
+msgstr "Delta a partir de la tessel·la central en micròmetres"
 
 #: ekos/focus/aberrationinspector.cpp:117
 #, kde-format
@@ -21185,7 +21189,7 @@ msgstr "Càmera i roda de filtres"
 #: ekos/focus/focus.ui:510 ekos/focus/focus.ui:535 ekos/guide/guide.ui:416
 #, kde-format
 msgid "Exposure time in seconds"
-msgstr "Temps d'exposició, en segons."
+msgstr "Temps d'exposició en segons."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
@@ -21219,7 +21223,7 @@ msgstr "TS."
 #: ekos/focus/focus.ui:782 ekos/focus/focus.ui:798
 #, kde-format
 msgid "Source temperature in Celsius"
-msgstr "Temperatura de la font, en Celsius."
+msgstr "Temperatura de la font en Celsius."
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/focus/focus.ui:785
@@ -21242,7 +21246,7 @@ msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
 "temperature when autofocus was successful and the current source temperature."
 msgstr ""
-"Delta de la temperatura, en Celsius. És la diferència entre l'última "
+"Delta de la temperatura en Celsius. És la diferència entre l'última "
 "temperatura registrada quan l'enfocament automàtic fou correcte i la "
 "temperatura actual de la font."
 
@@ -21422,7 +21426,7 @@ msgstr "Valors proposat"
 #: ekos/focus/focusadvisor.cpp:122
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr "Valor proposat del paràmetre per a l'Assessor d'enfocament"
+msgstr "Valor proposat del paràmetre per a l'«Assessor d'enfocament»"
 
 #: ekos/focus/focusadvisor.cpp:170
 #, kde-format
@@ -21434,12 +21438,13 @@ msgstr ""
 #: ekos/focus/focusadvisor.cpp:195
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr "L'Assessor d'enfocament no es pot executar amb els paràmetres actuals."
+msgstr ""
+"L'«Assessor d'enfocament» no es pot executar amb els paràmetres actuals."
 
 #: ekos/focus/focusadvisor.cpp:205
 #, kde-format
 msgid "Focus Advisor stopped"
-msgstr "S'ha parat l'Assessor d'enfocament"
+msgstr "S'ha parat l'«Assessor d'enfocament»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.cpp:277 ekos/focus/focusadvisor.ui:50
@@ -21476,13 +21481,14 @@ msgstr "Paràmetres de la mecànica"
 #: ekos/focus/focusadvisor.cpp:652
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr "S'ha interromput l'Assessor d'enfocament a causa d'un error intern"
+msgstr "S'ha interromput l'«Assessor d'enfocament» a causa d'un error intern"
 
 #: ekos/focus/focusadvisor.cpp:661 ekos/focus/focusadvisor.cpp:968
 #: ekos/focus/focusadvisor.cpp:1272
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr "L'Assessor d'enfocament no es pot executar amb els paràmetres actuals"
+msgstr ""
+"L'«Assessor d'enfocament» no es pot executar amb els paràmetres actuals"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.cpp:695 ekos/focus/focusadvisor.ui:69
@@ -21513,7 +21519,7 @@ msgstr "S'han detectat estreles, centre de l'interval %1"
 #: ekos/focus/focusadvisor.cpp:776
 #, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "S'ha completat «Troba les estreles» de l'Assessor d'enfocament"
+msgstr "S'ha completat «Troba les estreles» de l'«Assessor d'enfocament»"
 
 #: ekos/focus/focusadvisor.cpp:824
 #, kde-format
@@ -21564,14 +21570,14 @@ msgstr ""
 #, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
 msgstr ""
-"Execució %1 en «Troba les estreles» de l'Assessor d'enfocament: no s'ha "
+"Execució %1 en «Troba les estreles» de l'«Assessor d'enfocament»: no s'ha "
 "pogut moure l'enfocador"
 
 #: ekos/focus/focusadvisor.cpp:975
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
 msgstr ""
-"S'ha interromput l'«Ajust aproximat» de l'Assessor d'enfocament després de "
+"S'ha interromput l'«Ajust aproximat» de l'«Assessor d'enfocament» després de "
 "%1 execucions"
 
 #: ekos/focus/focusadvisor.cpp:992
@@ -21588,14 +21594,14 @@ msgstr "Ajust aproximat"
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
 msgstr ""
-"No s'ha pogut fer l'«Ajust aproximat» de l'Assessor d'enfocament en moure "
+"No s'ha pogut fer l'«Ajust aproximat» de l'«Assessor d'enfocament» en moure "
 "l'enfocador"
 
 #: ekos/focus/focusadvisor.cpp:1036
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
 msgstr ""
-"Ajust aproximat de l'Assessor d'enfocament: s'ha excedit el màxim "
+"Ajust aproximat de l'«Assessor d'enfocament»: s'ha excedit el màxim "
 "d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:1093
@@ -21607,7 +21613,7 @@ msgstr "Execució %1 de busca de l'ajust aproximat…"
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
-"Execució %1 de l'«Ajust aproximat» en l'Assessor d'enfocament: dades "
+"Execució %1 de l'«Ajust aproximat» en l'«Assessor d'enfocament»: dades "
 "insuficients per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1158
@@ -21618,13 +21624,13 @@ msgstr "Relació màx. i mín.: %1"
 #: ekos/focus/focusadvisor.cpp:1175
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr "S'ha completat l'«Ajust aproximat» de l'Assessor d'enfocament."
+msgstr "S'ha completat l'«Ajust aproximat» de l'«Assessor d'enfocament»."
 
 #: ekos/focus/focusadvisor.cpp:1196
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
 msgstr ""
-"«Ajust aproximat» de l'Assessor d'enfocament: la qualitat de les dades és "
+"«Ajust aproximat» de l'«Assessor d'enfocament»: la qualitat de les dades és "
 "massa roïna per a poder continuar"
 
 #: ekos/focus/focusadvisor.cpp:1230
@@ -21647,20 +21653,20 @@ msgstr "Relació màx. i mín.: %1, R2: %2, Mida del pas: %3, Sobreexploració: 
 #: ekos/focus/focusadvisor.cpp:1406
 #, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr "S'ha completat l'«Ajust fi» de l'Assessor d'enfocament"
+msgstr "S'ha completat l'«Ajust fi» de l'«Assessor d'enfocament»"
 
 #: ekos/focus/focusadvisor.cpp:1497
 #, kde-format
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
-"Resultat de l'Assessor d'enfocament (%1): Execució: %2 PosInici: %3 MidaPas: "
-"%4 Sobreexploració: %5"
+"Resultat de l'«Assessor d'enfocament» (%1): Execució: %2 PosInici: %3 "
+"MidaPas: %4 Sobreexploració: %5"
 
 #: ekos/focus/focusadvisor.cpp:1534
 #, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Actualització del resultat de l'Assessor d'enfocament: %1"
+msgstr "Actualització del resultat de l'«Assessor d'enfocament»: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -21676,7 +21682,7 @@ msgid ""
 "proposed changes."
 msgstr ""
 "Marqueu esta opció per a tindre actualitzats els paràmetres d'enfocament per "
-"a l'Assessor d'enfocament. Cliqueu damunt «Ajuda» per a veure els canvis "
+"a l'«Assessor d'enfocament». Cliqueu damunt «Ajuda» per a veure els canvis "
 "proposats."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
@@ -21686,8 +21692,8 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not necessary."
 msgstr ""
-"Marqueu esta opció perquè l'Assessor d'enfocament busque estreles. Si esteu "
-"prou a prop del focus per a veure les estreles en «Enquadrat de "
+"Marqueu esta opció perquè l'«Assessor d'enfocament» busque estreles. Si "
+"esteu prou a prop del focus per a veure les estreles en «Enquadrat de "
 "l'enfocament», este pas no serà necessari."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
@@ -21697,7 +21703,7 @@ msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
-"Marqueu esta opció perquè l'Assessor d'enfocament trobe l'enfocament "
+"Marqueu esta opció perquè l'«Assessor d'enfocament» trobe l'enfocament "
 "aproximat. Trobarà una posició d'enfocament aproximada prou bona per a "
 "executar l'enfocament automàtic."
 
@@ -21714,7 +21720,7 @@ msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
 msgstr ""
-"Marqueu esta opció perquè l'Assessor d'enfocament execute l'enfocament "
+"Marqueu esta opció perquè l'«Assessor d'enfocament» execute l'enfocament "
 "automàtic per a fer ajustos fins als paràmetres d'enfocament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
@@ -21727,13 +21733,13 @@ msgstr "Ajust fi (utilitzant enfocament automàtic)"
 #: ekos/focus/focusadvisor.ui:200
 #, kde-format
 msgid "Close Focus Advisor"
-msgstr "Tanca l'Assessor d'enfocament"
+msgstr "Tanca l'«Assessor d'enfocament»"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
 #, kde-format
 msgid "Focus Advisor Help"
-msgstr "Ajuda de l'Assessor d'enfocament"
+msgstr "Ajuda de l'«Assessor d'enfocament»"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
@@ -22600,12 +22606,12 @@ msgstr ""
 "pot ser més ràpid que l'aproximació purament iterativa gràcies a un bon "
 "conjunt de dades.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Lineal</span>: de manera habitual les mostres "
-"s'enfocaran cap a dins, utilitzant 2 passos. L'algorisme pot ser lent, però "
-"és més resilient a la folgança. Comenceu amb l'enfocador col·locat prop de "
-"l'enfocament bo. Establiu la «Mida del pas inicial:» i el «Recorregut màx.:» "
+"style=\"font-weight:600;\">Lineal</span>: fa mostres de l'enfocament cap a "
+"dins de manera regular, utilitzant 2 passos. L'algorisme pot ser lent, però "
+"és més resilient a la folgança. Comenceu amb l'enfocador situat a prop d'un "
+"enfocament bo. Establiu la «Mida del pas inicial:» i el «Recorregut màx.:» "
 "per a l'interval de mostreig desitjat i l'interval al voltant de la posició "
-"d'enfocament inicial. La tolerància haurà d'estar al voltant del 5 %.</"
+"d'enfocament inicial. La tolerància hauria de ser al voltant del 5 %.</"
 "li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Lineal d'1 pas</span>: Comença com el <span style=\"font-"
@@ -23540,7 +23546,7 @@ msgid ""
 "The suggested screw and amount are recomputed from the last focus run,\n"
 "so no new autofocus is needed after changing this."
 msgstr ""
-"Gir de la placa d'inclinació (anell de cargols) respecte al sensor.\n"
+"Rotació de la placa d'inclinació (anell de cargols) respecte al sensor.\n"
 "El sensor roman fix (en horitzontal); només giren els cargols per a\n"
 "coincidir amb la placa física -p. ex., una placa de 3 punts cargolada a "
 "15°-.\n"
@@ -24719,7 +24725,7 @@ msgstr "S'ha netejat el calibratge."
 #, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"El camp ha girat %1° des del calibratge del guiatge. Es neteja el calibratge."
+"El camp ha rotat %1° des del calibratge del guiatge. Es neteja el calibratge."
 
 #: ekos/guide/guide.cpp:2158
 #, kde-format
@@ -25087,7 +25093,7 @@ msgstr "Connecta amb una aplicació de guiatge externa."
 #: ekos/guide/guide.ui:380
 #, kde-format
 msgid "Guide Declination Axis"
-msgstr "Eix de la declinació del guiatge."
+msgstr "Eix de declinació del guiatge."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, guideBinning)
 #: ekos/guide/guide.ui:426
@@ -25196,21 +25202,21 @@ msgstr "Informació de l'instrument de visió o lent"
 #: ekos/guide/guide.ui:641
 #, kde-format
 msgid "Field of View (arcmin)"
-msgstr "Camp de visió, en minuts d'arc."
+msgstr "Camp de visió en minuts d'arc."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
 #: ekos/guide/guide.ui:695
 #, kde-format
 msgid "Aperture (mm)"
-msgstr "Obertura, en mil·límetres."
+msgstr "Obertura en mil·límetres."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Focal)
 #: ekos/guide/guide.ui:749
 #, kde-format
 msgid "Focal Length (mm)"
-msgstr "Distància focal, en mil·límetres."
+msgstr "Distància focal en mil·límetres."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
@@ -25256,14 +25262,14 @@ msgstr "Es genera l'impuls de la Dec."
 #: ekos/guide/guide.ui:891
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
-msgstr "Desviació de l'AR del guiatge immediat, en segons d'arc."
+msgstr "Desviació de l'AR del guiatge immediat en segons d'arc."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
 #: ekos/guide/guide.ui:904
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
-msgstr "Desviació de la Dec del guiatge immediat, en segons d'arc."
+msgstr "Desviació de la Dec del guiatge immediat en segons d'arc."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
@@ -25517,12 +25523,12 @@ msgstr ""
 #: ekos/guide/guidedriftgraph.cpp:78
 #, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "Deriva de la Dec de la muntura (seg. d'arc)"
+msgstr "Deriva de la Dec de la muntura (segons d'arc)"
 
 #: ekos/guide/guidedriftgraph.cpp:79
 #, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "Deriva de l'AR de la muntura (seg. d'arc)"
+msgstr "Deriva de l'AR de la muntura (segons d'arc)"
 
 #: ekos/guide/guidedriftgraph.cpp:247 ekos/guide/guidedriftgraph.cpp:656
 #: ekos/guide/guidedriftgraph.cpp:731
@@ -26239,7 +26245,7 @@ msgstr "xxxx"
 #: ekos/guide/opscalibration.ui:287 ekos/guide/opscalibration.ui:358
 #, kde-format
 msgid "ms/arcsec"
-msgstr "ms/seg. d'arc"
+msgstr "ms/segons d'arc"
 
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees_unit)
 #: ekos/guide/opscalibration.ui:332
@@ -26284,7 +26290,7 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:385
 #, kde-format
 msgid "Assume DEC orthogonal to RA"
-msgstr "Assumix que la Dec és ortogonal a l'eix de l'AR"
+msgstr "Assumix que la Dec és ortogonal a l'AR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -26297,7 +26303,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si està marcada, sempre es tornarà a calibrar quan "
 "s'inicie el guiatge. Sovint no cal fer-ho perquè abans s'ha efectuat un "
-"calibratge de bona qualitat i la càmera de guiatge no s'ha girat o tornat a "
+"calibratge de bona qualitat i la càmera de guiatge no s'ha rotat o tornat a "
 "instal·lar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
@@ -26367,20 +26373,20 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Restablix el calibratge del guiatge cada vegada que "
-"gire el camp, de manera que es mesure un calibratge nou durant l'inici "
-"següent del guiatge en lloc d'emprar un guiatge obsolet. El gir es detecta "
-"des de l'angle de posició obtingut per la placa resolta, de manera que es "
-"cobrisquen tant els moviments del rotor electrònic, com el gir manual de la "
-"càmera (per exemple, quan s'enquadra una imatge de referència d'una sessió "
-"anterior). Qualsevol gir confirmat activarà un restabliment -els canvis de "
-"meridià es gestionen per separat i no faran-. Funciona amb el sistema de "
-"guiatge intern i PHD2.</p></body></html>"
+"roti el camp, de manera que es mesure un calibratge nou durant l'inici "
+"següent del guiatge en lloc d'emprar un guiatge obsolet. La rotació es "
+"detecta a partir de l'angle de posició obtingut per la placa resolta, de "
+"manera que cobrix tant els moviments del rotor electrònic, com la rotació "
+"manual de la càmera (per exemple, quan s'enquadra una imatge de referència "
+"d'una sessió anterior). Qualsevol rotació confirmada activa un restabliment -"
+"els canvis de meridià es gestionen per separat i no ho faran-. Funciona amb "
+"el sistema de guiatge intern i PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
 #, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Restablix el calibratge del guiatge quan es gira el camp."
+msgstr "Restablix el calibratge del guiatge quan es rota el camp."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -26765,8 +26771,8 @@ msgid ""
 "ul><p>This should probably be several\n"
 "          times larger than the major period.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Escala de llargària del nucli d'abast llunyà, en "
-"segons.</p><p>Este \n"
+"<html><head/><body><p>Escala de llargària del nucli d'abast llunyà en segons."
+"</p><p>Este \n"
 "          paràmetre calcula la deriva a llarg termini en l'error periòdic, "
 "en l'escala de diversos períodes majors. Açò pot ser degut a, per\n"
 "          exemple:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
@@ -26825,7 +26831,7 @@ msgid ""
 "          components; a shorter length-scale means it has more.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Escala de llargària periòdica del nucli, en segons.</"
+"<html><head/><body><p>Escala de llargària periòdica del nucli en segons.</"
 "p><p>Descriu\n"
 "          la rapidesa amb què l'error canvia en un sol període. Es pot "
 "pensar com la longitud d'ona del component de soroll\n"
@@ -26885,7 +26891,7 @@ msgid ""
 "indent:0; text-indent:0px;\">Swinging or dragging\n"
 "          cables.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Escala de llargària del nucli d'abast proper, en \n"
+"<html><head/><body><p>Escala de llargària del nucli d'abast proper en \n"
 "          segons.</p><p>Açò és una mesura de l'escala del soroll no periòdic "
 "a curt termini, causat per coses\n"
 "          com:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
@@ -27246,7 +27252,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:241
 #, kde-format
 msgid "Max response (arcsec)"
-msgstr "Resposta màx. (seg. d'arc)"
+msgstr "Resposta màx. (segons d'arc)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_15)
 #: ekos/guide/opsguide.ui:280
@@ -27256,16 +27262,16 @@ msgid ""
 "guide pulse would be sent to the mount. If the guide error is less than this "
 "value, then no pulse is sent to the mount.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desviació mínima del guiatge, en segons d'arc, per a "
-"la qual s'enviarà un impuls de guiatge a la muntura. Si l'error del guiatge "
-"és menor que este valor, llavors no s'enviarà cap impuls a la muntura.</p></"
+"<html><head/><body><p>Desviació mínima del guiatge en segons d'arc, per a la "
+"qual s'enviarà un impuls de guiatge a la muntura. Si l'error del guiatge és "
+"menor que este valor, llavors no s'enviarà cap impuls a la muntura.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_15)
 #: ekos/guide/opsguide.ui:283
 #, kde-format
 msgid "Min error (arcsec)"
-msgstr "Error mín. (seg. d'arc)"
+msgstr "Error mín. (segons d'arc)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:345
@@ -27384,7 +27390,7 @@ msgstr "HFR màx. amb múltiples estreles"
 #: ekos/guide/opsguide.ui:564
 #, kde-format
 msgid "arcsecs"
-msgstr "seg. d'arc"
+msgstr "segons d'arc"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:574
@@ -28391,7 +28397,7 @@ msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
 "activated."
 msgstr ""
-"Posició de l'AR, en graus darrere del meridià on s'ha d'activar la inversió "
+"Posició de l'AR en graus darrere del meridià on s'ha d'activar la inversió "
 "del meridià."
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
@@ -28433,7 +28439,7 @@ msgstr ""
 #: ekos/mount/mount.ui:238
 #, kde-format
 msgid "Min. Alt:"
-msgstr "Alt mín.:"
+msgstr "Alt mín:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
@@ -28941,7 +28947,7 @@ msgstr "Mou (rel)"
 #: ekos/observatory/observatory.ui:250
 #, kde-format
 msgid "Rotate clockwise"
-msgstr "Gira en sentit horari."
+msgstr "Rotació en sentit horari."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCWButton)
 #: ekos/observatory/observatory.ui:261
@@ -28954,7 +28960,7 @@ msgstr "&Horari"
 #: ekos/observatory/observatory.ui:286
 #, kde-format
 msgid "Rotate counter clockwise"
-msgstr "Gira en sentit antihorari."
+msgstr "Rotació en sentit antihorari."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:297
@@ -30499,7 +30505,7 @@ msgstr "↓ Confirma l'equip"
 #: ekos/scheduler/framingassistant.ui:74
 #, kde-format
 msgid "Mount focal length in millimeters"
-msgstr "Distància focal de la muntura, en mil·límetres."
+msgstr "Distància focal de la muntura en mil·límetres."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -30531,7 +30537,7 @@ msgstr "Reductor:"
 #: ekos/scheduler/framingassistant.ui:136
 #, kde-format
 msgid "Camera frame width and height in pixels"
-msgstr "Amplària i alçària del fotograma de la càmera, en píxels."
+msgstr "Amplària i alçària del fotograma de la càmera en píxels."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:139
@@ -30562,7 +30568,7 @@ msgid ""
 "camera, in pixels.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Amplària del fotograma produït per "
-"la càmera, en píxels.</p></body></html>"
+"la càmera en píxels.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, cameraWSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, cameraHSpin)
@@ -30580,14 +30586,14 @@ msgid ""
 "camera, in pixels.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Alçària del fotograma produït per la "
-"càmera, en píxels.</p></body></html>"
+"càmera en píxels.</p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/scheduler/framingassistant.ui:224
 #, kde-format
 msgid "Camera pixel size in microns"
-msgstr "Mida dels píxels de la càmera, en micròmetres."
+msgstr "Mida dels píxels de la càmera en micròmetres."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/scheduler/framingassistant.ui:227
@@ -30603,7 +30609,7 @@ msgid ""
 "in micrometers.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Amplària d'un «photosite» de càmera "
-"individual, en micròmetres.</p></body></html>"
+"individual en micròmetres.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelWSizeSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, pixelHSizeSpin)
@@ -30621,7 +30627,7 @@ msgid ""
 "in micrometers.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Alçària d'un «photosite» de càmera "
-"individual, en micròmetres.</p></body></html>"
+"individual en micròmetres.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, fetchB)
 #: ekos/scheduler/framingassistant.ui:333
@@ -30769,7 +30775,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Amplària mínima del camp que ha de "
-"cobrir el mosaic, en minuts d'arc.</p><p align=\"justify\">La modificació "
+"cobrir el mosaic en minuts d'arc.</p><p align=\"justify\">La modificació "
 "d'este valor canvia immediatament el nombre de tessel·les en l'amplària del "
 "mosaic.</p></body></html>"
 
@@ -30796,7 +30802,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Alçària mínima del camp que ha de "
-"cobrir el mosaic, en minuts d'arc.</p><p align=\"justify\">La modificació "
+"cobrir el mosaic en minuts d'arc.</p><p align=\"justify\">La modificació "
 "d'este valor canvia immediatament el nombre de tessel·les en l'alçària del "
 "mosaic.</p></body></html>"
 
@@ -30851,8 +30857,8 @@ msgid ""
 "Camera's rotation angle (East of North) in degrees. To measure the angle, "
 "solve an image and use the astrometry solver solution's rotation angle"
 msgstr ""
-"Angle de gir de la càmera (cap a l'est del nord) en graus. Per a mesurar "
-"l'angle, resoleu una imatge i utilitzeu l'angle de gir de la solució del "
+"Angle de rotació de la càmera (a l'est del nord) en graus. Per a mesurar "
+"l'angle, resoleu una imatge i utilitzeu l'angle de rotació de la solució del "
 "mòdul de resolució de l'astrometria."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -30866,7 +30872,7 @@ msgstr "Angle de posició:"
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
 msgstr ""
-"Apunta cap al centre i gira perquè coincidisca amb este angle de posició."
+"Apunta cap al centre i rota perquè coincidisca amb este angle de posició."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -30919,7 +30925,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:920
 #, kde-format
 msgid " East of North"
-msgstr " cap a l'est del nord"
+msgstr " a l'est del nord"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToEquipmentB)
@@ -31163,13 +31169,13 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:1436
 #, kde-format
 msgid "Perform alignment every N jobs."
-msgstr "Realitza una alineació cada N tasques."
+msgstr "Realitza una alineació cada «N» tasques."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
 #: ekos/scheduler/framingassistant.ui:1455
 #, kde-format
 msgid "Perform autofocus every N jobs."
-msgstr "Realitza un enfocament automàtic cada N tasques."
+msgstr "Realitza un enfocament automàtic cada «N» tasques."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/framingassistant.ui:1496
@@ -31197,7 +31203,7 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Trieu un nom de grup. És útil si "
 "voleu que les tasques de mosaic es repetisquen juntes: assigneu-lis un nom "
 "de grup i doneu-lis les condicions de compleció <span style=\"font-style:"
-"italic;\">Repetix N (N=2 o més)</span> o <span style=\"font-style:italic;"
+"italic;\">Repetix «N» (N=2 o més)</span> o <span style=\"font-style:italic;"
 "\">Repetix fins que es finalitze</span>. En cas contrari, deixeu-ho en blanc."
 "</p></body></html>"
 
@@ -31386,8 +31392,8 @@ msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
 "to 0 to disable."
 msgstr ""
-"Quan es calcule la posició després de les captures, es farà cada N captures. "
-"Establiu-ho a 0 per a desactivar-ho."
+"Quan es calcule la posició després de les captures, es farà cada «N» "
+"captures. Establiu-ho a 0 per a desactivar-ho."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/scheduler/opsalignmentsettings.ui:61
@@ -31444,7 +31450,7 @@ msgid ""
 "If Align is enabled, scheduler would initiate a realignment procedure before "
 "restarting any jobs even if guiding is active."
 msgstr ""
-"Si s'ha marcat l'alineació, el programador iniciarà un procediment de "
+"Si l'alineació està activada, el programador iniciarà un procediment de "
 "realineació abans de tornar a iniciar cap tasca encara que el guiatge estiga "
 "actiu."
 
@@ -32079,12 +32085,12 @@ msgstr "S'ha completat l'alineació"
 #: ekos/scheduler/scheduler.cpp:2497
 #, kde-format
 msgid "Repositioning"
-msgstr "S'està reposicionant"
+msgstr "S'està tornant a posicionar"
 
 #: ekos/scheduler/scheduler.cpp:2498
 #, kde-format
 msgid "Repositioning complete"
-msgstr "S'ha completat el tornar a estabilitzar"
+msgstr "S'ha completat el tornar a posicionar"
 
 #: ekos/scheduler/scheduler.cpp:2501
 #, kde-format
@@ -32233,9 +32239,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Trieu un nom de grup. És útil si "
 "voleu que diverses tasques es repetisquen juntes: assigneu-lis un nom de "
-"grup i doneu-lis les condicions de la compleció <i>Repetix N (N=2 o més)</i> "
-"o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en blanc. "
-"Només s'aplicarà a l'algorisme «Voraç» del programador.</p></body></html>"
+"grup i doneu-lis les condicions de la compleció <i>Repetix «N» (N=2 o més)</"
+"i> o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en "
+"blanc. Només s'aplicarà a l'algorisme «Voraç» del programador.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, leadFollowerSelectionCB)
 #: ekos/scheduler/scheduler.ui:361
@@ -32257,7 +32264,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:566
 #, kde-format
 msgid "Position Angle in Degrees"
-msgstr "Angle de posició, en graus."
+msgstr "Angle de posició en graus."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
@@ -33686,22 +33693,22 @@ msgstr "Avís: la tasca «%1» no ha trobat cap apuntament, es torna a iniciar."
 #: ekos/scheduler/schedulerprocess.cpp:4052
 #, kde-format
 msgid "Job '%1' repositioning is complete."
-msgstr "S'ha completat el tornar a estabilitzar de la tasca «%1»."
+msgstr "S'ha completat el tornar a posicionar de la tasca «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:4058
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
-"Avís: la tasca «%1» de tornar a estabilitzar ha fallat, i es marca com a "
+"Avís: la tasca «%1» de tornar a posicionar ha fallat, i es marca com a "
 "finalitzada a causa d'errors."
 
 #: ekos/scheduler/schedulerprocess.cpp:4064
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
-"Avís: la tasca «%1» no ha trobat cap tornar a estabilitzar, es torna a "
-"iniciar."
+"Avís: s'ha detectat que la tasca «%1» no s'està tornant a posicionar, es "
+"torna a iniciar."
 
 #: ekos/scheduler/schedulerprocess.cpp:4078
 #: ekos/scheduler/schedulerprocess.cpp:4089
@@ -33744,7 +33751,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4231
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
-msgstr "El procediment de tancament manual s'ha completat correctament."
+msgstr "El procediment de tancament manual s'ha completat amb èxit."
 
 #: ekos/scheduler/schedulerprocess.cpp:4237
 #, kde-format
@@ -34883,7 +34890,7 @@ msgstr "VNG"
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Edge-Aware"
-msgstr "Eficaç en la vores"
+msgstr "Eficaç en les vores"
 
 #: fitsviewer/bayerparameters.cpp:53
 #, kde-format
@@ -34903,7 +34910,7 @@ msgstr ""
 "<b>Bilineal</b>: Interpolació bilineal senzilla.<br/>• Molt ràpid, vores "
 "suaus.<br/><br/><b>VNG</b>: Nombre variable de degradats<br/>• Una "
 "reconstrucció millorada del color.<br/>• Només imatges de 8 bits.<br/><br/"
-"><b>Eficaç en la vores</b>: Interpolació eficaç en la vores.<br/>• Una "
+"><b>Eficaç en les vores</b>: Interpolació eficaç en les vores.<br/>• Una "
 "qualitat alta i molt ràpid."
 
 #: fitsviewer/bayerparameters.cpp:74
@@ -35684,7 +35691,7 @@ msgstr ""
 msgctxt "Tooltip for Load Wait Time column"
 msgid "Wait time from subs detected until loading starts"
 msgstr ""
-"Temps d'espera des que es detecten les subimatges fins que en comença la "
+"Temps d'espera des que es detecten les subimatges fins que comença la "
 "càrrega."
 
 #: fitsviewer/fitsstackmonitor.h:271
@@ -35979,7 +35986,7 @@ msgstr "Gir(°)"
 #, kde-format
 msgctxt "Tooltip for Rotation column"
 msgid "Rotation angle in degrees compared to alignment master"
-msgstr "Angle de gir en graus en comparació amb el mestre d'alineació."
+msgstr "Angle de rotació en graus en comparació amb el mestre d'alineació."
 
 #: fitsviewer/fitsstackmonitor.h:372
 #, kde-format
@@ -36529,12 +36536,12 @@ msgstr "Difuminat gaussià"
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:109
 #, kde-format
 msgid "Rotate Right"
-msgstr "Gira cap a la dreta"
+msgstr "Rotació cap a la dreta"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:113
 #, kde-format
 msgid "Rotate Left"
-msgstr "Gira cap a l'esquerra"
+msgstr "Rotació cap a l'esquerra"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:117
 #, kde-format
@@ -38018,8 +38025,8 @@ msgstr "<html><head/><body><p>Reinicia la difusió web.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Toggle display of webcast subcribers</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra o oculta la visualització de subscriptors de la "
-"difusió web.</p></body></html>"
+"<html><head/><body><p>Mostra o oculta els subscriptors de la difusió web.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, subscribersBtn)
 #: fitsviewer/livestackwebcast.ui:206
@@ -38264,7 +38271,7 @@ msgid ""
 "stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be "
 "coarse resolution and fast."
 msgstr ""
-"Establix la definició de la vista prèvia mostrada en moure els controls "
+"Establix el gruix de la vista prèvia mostrada en moure els controls "
 "lliscants del paràmetre d'estirament en el «Visor de FITS». L'1 és la "
 "resolució completa, però pot ser lent, el 4 seria una resolució baixa i "
 "ràpida."
@@ -38656,8 +38663,7 @@ msgstr ""
 #: fitsviewer/platesolve.ui:338 fitsviewer/platesolve.ui:354
 #, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr ""
-"L'angle de posició de la imatge resolta, cap a l'est del nord (en graus)."
+msgstr "L'angle de posició de la imatge resolta, a l'est del nord (en graus)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
@@ -38735,7 +38741,7 @@ msgstr "PixScale"
 #: fitsviewer/solveInfo.ui:81
 #, kde-format
 msgid "Rotation"
-msgstr "Gir"
+msgstr "Rotació"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
 #: fitsviewer/solveInfo.ui:99
@@ -39338,7 +39344,7 @@ msgstr ""
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr "Si hi ha més d'una ocurrència, establix l'angle base de gir."
+msgstr "Si hi ha més d'una ocurrència, establix l'angle de rotació base."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
@@ -39615,8 +39621,8 @@ msgid ""
 "from the Device Manager in the devices menu."
 msgstr ""
 "Actualment no hi ha cap dispositiu INDI en execució. Per a iniciar-los, "
-"trieu-los des del «Gestor de dispositius» amb l'element de menú «Eines → "
-"Dispositius → Gestor de dispositius…»."
+"trieu-los amb l'element de menú «Eines → Dispositius → Gestor de "
+"dispositius…»."
 
 #: indi/indicamera.cpp:496
 #, kde-format
@@ -40293,11 +40299,12 @@ msgstr "Fallada del controlador"
 msgid "Video Stream"
 msgstr "Emissió de vídeo"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:59
 #, kde-format
 msgid "Start Recording"
-msgstr "Comença la gravació"
+msgstr "Comença la gravació."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: indi/streamform.ui:87
@@ -40368,7 +40375,7 @@ msgstr "Mou l'àrea ampliada cap a l'esquerra i dreta."
 #: indi/streamform.ui:327 indi/streamform.ui:343
 #, kde-format
 msgid "Video frame duration in seconds"
-msgstr "Duració del fotograma de vídeo, en segons."
+msgstr "Duració del fotograma de vídeo en segons."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:330
@@ -40419,11 +40426,10 @@ msgstr "Ix de pantalla completa"
 msgid "Stop recording"
 msgstr "Para la gravació"
 
-# skip-rule: punctuation-period-no
 #: indi/streamwg.cpp:456 indi/streamwg.cpp:466
 #, kde-format
 msgid "Start recording"
-msgstr "Comença la gravació."
+msgstr "Comença la gravació"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, telescopeWizard)
 #: indi/telescopewizard.ui:31
@@ -40479,8 +40485,8 @@ msgid ""
 msgstr ""
 "<h3>1. Model de telescopi</h3>\n"
 "\n"
-"Trieu el vostre model de telescopi de la llista següent. Després de fer-ho, "
-"cliqueu damunt «Següent»."
+"Trieu el model de telescopi de la llista següent. Després de fer-ho, cliqueu "
+"damunt «Següent»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -40513,8 +40519,8 @@ msgstr ""
 "de KStars. Consulteu l'apartat d'instruccions d'alineació del manual del "
 "telescopi.\n"
 "<br><br>\n"
-"Una vegada alineat correctament, connecteu la interfície RS232 del telescopi "
-"amb el port sèrie o USB de l'ordinador. \n"
+"Una vegada alineat, connecteu la interfície RS232 del telescopi amb el port "
+"sèrie o USB de l'ordinador. \n"
 "<br><br><br>Cliqueu damunt «Següent» per a continuar."
 
 #. i18n: ectx: property (text), widget (QLabel, localPageLabel)
@@ -40582,7 +40588,7 @@ msgstr ""
 "un port sèrie en l'ordinador, normalment serà <tt>/dev/ttyUSB0</tt>\n"
 "<br><br>Si no n'esteu segur, podeu deixar el camp buit i KStars intentarà "
 "explorar-los per a trobar els telescopis connectats. Cal tindre present que "
-"el procés d'exploració automàtica pot tardar uns minuts a completar-se."
+"el procés d'exploració automàtica pot tardar uns minuts."
 
 #. i18n: ectx: property (text), widget (QLabel, portLabel)
 #: indi/telescopewizard.ui:575
@@ -40617,12 +40623,12 @@ msgid ""
 "settings and try again."
 msgstr ""
 "Ho sentim. KStars no ha pogut detectar cap telescopi connectat, comproveu la "
-"vostra configuració i proveu-ho una altra vegada."
+"configuració i torneu-ho a provar."
 
 #: indi/telescopewizardprocess.cpp:354
 #, kde-format
 msgid "Telescope Wizard completed successfully."
-msgstr "S'ha completat amb èxit l'Assistent del telescopi."
+msgstr "L'assistent del telescopi s'ha completat amb èxit."
 
 #: kspopupmenu.cpp:87
 #, kde-format
@@ -40743,7 +40749,7 @@ msgstr "Elimina l'etiqueta"
 #: kspopupmenu.cpp:308 kspopupmenu.cpp:407
 #, kde-format
 msgid "Attach Label"
-msgstr "Adjunta-hi una etiqueta"
+msgstr "Adjunta una etiqueta"
 
 #: kspopupmenu.cpp:330
 #, kde-format
@@ -40784,7 +40790,7 @@ msgstr "Elimina la traça"
 #: kspopupmenu.cpp:429
 #, kde-format
 msgid "Add Trail"
-msgstr "Afig una traça"
+msgstr "Afig la traça"
 
 #: kspopupmenu.cpp:438
 #, kde-format
@@ -40794,7 +40800,7 @@ msgstr "Visualitza en Xplanet"
 #: kspopupmenu.cpp:443
 #, kde-format
 msgid "View in What's Interesting"
-msgstr "Visualitza en el «Què hi ha d'interessant»"
+msgstr "Visualitza a «Què hi ha d'interessant»"
 
 #: kspopupmenu.cpp:456
 #, kde-format
@@ -40856,7 +40862,7 @@ msgstr "Sincronitza"
 #: kspopupmenu.cpp:673
 #, kde-format
 msgid "Track satellite"
-msgstr "Seguix satèl·lit"
+msgstr "Seguix el satèl·lit"
 
 #: kspopupmenu.cpp:687
 #, kde-format
@@ -40866,7 +40872,7 @@ msgstr "Ves-hi i establix com a posició d'aparcament"
 #: kspopupmenu.cpp:694
 #, kde-format
 msgid "Find Telescope"
-msgstr "Troba amb el telescopi"
+msgstr "Troba el telescopi"
 
 #: kstars.cpp:66
 #, kde-format
@@ -40924,15 +40930,14 @@ msgstr "Les coordenades de pantalla del rètol informatiu del temps."
 #: kstars.kcfg:15
 #, kde-format
 msgid "Position of the focus InfoBox."
-msgstr "Posició del rètol informatiu del punt celest enfocat."
+msgstr "Posició del rètol informatiu de l'enfocament."
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (PositionFocusBox), group (GUI)
 #: kstars.kcfg:16
 #, kde-format
 msgid "The screen coordinates of the Focus InfoBox."
-msgstr ""
-"Les coordenades de pantalla del rètol informatiu del punt celest enfocat."
+msgstr "Les coordenades de pantalla del rètol informatiu de l'enfocament."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (PositionGeoBox), group (GUI)
@@ -40962,15 +40967,15 @@ msgstr "El rètol informatiu del temps es troba en estat «ocult»?"
 #, kde-format
 msgid "If true, the Time InfoBox will show only its top line of data."
 msgstr ""
-"Si es tria, el rètol informatiu del temps mostrarà només la primera línia de "
-"dades."
+"Si és cert, el rètol informatiu del temps només mostrarà la línia superior "
+"de dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShadeFocusBox), group (GUI)
 #: kstars.kcfg:30
 #, kde-format
 msgid "Is the focus InfoBox in the \"shaded\" state?"
-msgstr "El rètol informatiu del punt celest enfocat es troba en estat «ocult»?"
+msgstr "El rètol informatiu de l'enfocament es troba en estat «ocult»?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShadeFocusBox), group (GUI)
@@ -40978,8 +40983,8 @@ msgstr "El rètol informatiu del punt celest enfocat es troba en estat «ocult»
 #, kde-format
 msgid "If true, the Focus InfoBox will show only its top line of data."
 msgstr ""
-"Si és cert, el rètol informatiu del punt celest enfocat mostrarà només la "
-"primera línia de dades."
+"Si és cert, el rètol informatiu de l'enfocament només mostrarà la línia "
+"superior de dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShadeGeoBox), group (GUI)
@@ -40996,24 +41001,22 @@ msgstr ""
 msgid ""
 "If true, the Geographic Location InfoBox will show only its top line of data."
 msgstr ""
-"Si és cert, el rètol informatiu de l'emplaçament geogràfic mostrarà només la "
-"primera línia de dades."
+"Si és cert, el rètol informatiu de l'emplaçament geogràfic només mostrarà la "
+"línia superior de dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowInfoBoxes), group (GUI)
 #: kstars.kcfg:40
 #, kde-format
 msgid "Meta-option to toggle display of all InfoBoxes"
-msgstr ""
-"Meta-opció per a mostrar o ocultar la visualització de tots els rètols "
-"informatius"
+msgstr "Metaopció per a mostrar o ocultar tots els rètols informatius"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShowInfoBoxes), group (GUI)
 #: kstars.kcfg:41
 #, kde-format
 msgid "Toggles display of all three InfoBoxes."
-msgstr "Mostra o oculta la visualització dels tres rètols informatius."
+msgstr "Mostra o oculta els tres rètols informatius."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowTimeBox), group (GUI)
@@ -41027,23 +41030,21 @@ msgstr "Voleu que es mostre el rètol informatiu del temps?"
 #: kstars.kcfg:46
 #, kde-format
 msgid "Toggles display of the Time InfoBox."
-msgstr "Mostra o oculta la visualització del rètol informatiu del temps."
+msgstr "Mostra o oculta el rètol informatiu del temps."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:50
 #, kde-format
 msgid "Display the focus InfoBox?"
-msgstr "Voleu que es mostre el rètol informatiu del punt celest enfocat?"
+msgstr "Voleu que es mostre el rètol informatiu de l'enfocament?"
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:51
 #, kde-format
 msgid "Toggles display of the Focus InfoBox."
-msgstr ""
-"Mostra o oculta la visualització del rètol informatiu del punt celest "
-"enfocat."
+msgstr "Mostra o oculta el rètol informatiu de l'enfocament."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowGeoBox), group (GUI)
@@ -41057,9 +41058,7 @@ msgstr "Voleu que es mostre el rètol informatiu de l'emplaçament geogràfic?"
 #: kstars.kcfg:56
 #, kde-format
 msgid "Toggles display of the Geographic Location InfoBox."
-msgstr ""
-"Mostra o oculta la visualització del rètol informatiu de l'emplaçament "
-"geogràfic."
+msgstr "Mostra o oculta el rètol informatiu de l'emplaçament geogràfic."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (StickyTimeBox), group (GUI)
@@ -41078,9 +41077,9 @@ msgid ""
 "anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom "
 "and right edges."
 msgstr ""
-"El rètol informatiu del temps està ancorat a una vora de la finestra? 0 = no "
-"ancorat, 1 = ancorat en la vora dreta, 2 = ancorat a la vora inferior i 3 = "
-"ancorat en la vores inferior i dreta."
+"El rètol informatiu del temps està ancorat a una vora de la finestra? 0 = "
+"sense ancorar, 1 = ancorat en la vora dreta, 2 = ancorat a la vora inferior "
+"i 3 = ancorat en les vores inferior i dreta."
 
 # skip-rule: kct-box
 #. i18n: ectx: whatsthis, entry (StickyFocusBox), group (GUI)
@@ -41091,9 +41090,9 @@ msgid ""
 "anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom "
 "and right edges."
 msgstr ""
-"El rètol informatiu del punt celest enfocat està ancorat a una vora de la "
-"finestra? 0 = no ancorat, 1 = ancorat en la vora dreta, 2 = ancorat a la "
-"vora inferior i 3 = ancorat en la vores inferior i dreta."
+"El rètol informatiu de l'enfocament està ancorat a una vora de la finestra? "
+"0 = sense ancorar, 1 = ancorat en la vora dreta, 2 = ancorat a la vora "
+"inferior i 3 = ancorat en les vores inferior i dreta."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (StickyGeoBox), group (GUI)
@@ -41112,8 +41111,8 @@ msgid ""
 "anchored to bottom and right edges."
 msgstr ""
 "El rètol informatiu de l'emplaçament geogràfic està ancorat a una vora de la "
-"finestra? 0 = no ancorat, 1 = ancorat en la vora dreta, 2 = ancorat a la "
-"vora inferior i 3 = ancorat en la vores inferior i dreta."
+"finestra? 0 = sense ancorar, 1 = ancorat en la vora dreta, 2 = ancorat a la "
+"vora inferior i 3 = ancorat en les vores inferior i dreta."
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (GUI)
 #: kstars.kcfg:81
@@ -41156,8 +41155,8 @@ msgid ""
 "Toggle display of the Equatorial coordinates of the mouse cursor at the "
 "current epoch in the status bar."
 msgstr ""
-"Mostra o oculta les coordenades equatorials del cursor del ratolí de l'època "
-"actual en la barra d'estat."
+"Mostra o oculta les coordenades equatorials del cursor del ratolí a l'època "
+"actual a la barra d'estat."
 
 #. i18n: ectx: label, entry (ShowJ2000RADecField), group (GUI)
 #: kstars.kcfg:96
@@ -41174,8 +41173,8 @@ msgid ""
 "Toggle display of the Equatorial coordinates of the mouse cursor at the "
 "standard epoch in the status bar."
 msgstr ""
-"Mostra o oculta les coordenades equatorials del cursor del ratolí de l'època "
-"estàndard en la barra d'estat."
+"Mostra o oculta les coordenades equatorials del cursor del ratolí a l'època "
+"estàndard a la barra d'estat."
 
 #. i18n: ectx: label, entry (ShowSensorFOV), group (GUI)
 #: kstars.kcfg:101
@@ -41187,13 +41186,13 @@ msgstr "Voleu que es mostre la mida angular del sensor CCD en el mapa celest?"
 #: kstars.kcfg:105
 #, kde-format
 msgid "Width of main window, in pixels"
-msgstr "Amplària de la finestra principal, en píxels"
+msgstr "Amplària de la finestra principal en píxels"
 
 #. i18n: ectx: label, entry (WindowHeight), group (GUI)
 #: kstars.kcfg:109
 #, kde-format
 msgid "Height of main window, in pixels"
-msgstr "Alçària de la finestra principal, en píxels"
+msgstr "Alçària de la finestra principal en píxels"
 
 #. i18n: ectx: label, entry (KStarsGeometry), group (GUI)
 #: kstars.kcfg:113
@@ -41217,7 +41216,7 @@ msgstr "Tema de l'aplicació actual"
 #: kstars.kcfg:128
 #, kde-format
 msgid "Filenames of defined custom object catalogs."
-msgstr "Noms de fitxer dels catàlegs personalitzats d'objectes definits."
+msgstr "Noms de fitxer dels catàlegs d'objectes personalitzats definits."
 
 #. i18n: ectx: whatsthis, entry (CatalogFile), group (Catalogs)
 #: kstars.kcfg:129
@@ -41230,8 +41229,8 @@ msgstr "Llista dels noms de fitxer dels catàlegs d'objectes personalitzats."
 #, kde-format
 msgid "List of toggles for displaying custom object catalogs."
 msgstr ""
-"Llista d'opcions per a mostrar o ocultar els catàlegs personalitzats "
-"d'objectes."
+"Llista d'opcions per a mostrar o ocultar els catàlegs d'objectes "
+"personalitzats."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalog), group (Catalogs)
 #: kstars.kcfg:133
@@ -41240,21 +41239,21 @@ msgid ""
 "List of integers toggling display of each custom object catalog (any nonzero "
 "value indicates the objects in that catalog will be displayed)."
 msgstr ""
-"Llista d'enters per a mostrar o ocultar cada catàleg personalitzat "
-"d'objectes (qualsevol valor diferent de zero indica que es mostraran els "
+"Llista d'enters per a mostrar o ocultar cada catàleg d'objectes "
+"personalitzat (qualsevol valor diferent de zero indica que es mostraran els "
 "objectes d'aquell catàleg)."
 
 #. i18n: ectx: label, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:136
 #, kde-format
 msgid "List for displaying custom object catalogs."
-msgstr "Llista per a visualitzar els catàlegs personalitzats d'objectes."
+msgstr "Llista per a visualitzar els catàlegs d'objectes personalitzats."
 
 #. i18n: ectx: whatsthis, entry (ShowCatalogNames), group (Catalogs)
 #: kstars.kcfg:137
 #, kde-format
 msgid "List of names for which custom catalogs are to be displayed."
-msgstr "Llista de noms per als quals es mostraran catàlegs personalitzats."
+msgstr "Llista de noms dels catàlegs personalitzats que s'han de mostrar."
 
 #. i18n: ectx: label, entry (ResolveNamesOnline), group (Catalogs)
 #: kstars.kcfg:140
@@ -41299,9 +41298,7 @@ msgstr ""
 #: kstars.kcfg:155
 #, kde-format
 msgid "Minimum zoom level to render DeepSkyObjects."
-msgstr ""
-"Nivell mínim de zoom per a representar objectes del cel profund "
-"(DeepSkyObjects)."
+msgstr "Nivell mínim de zoom per a representar objectes del cel profund."
 
 #. i18n: ectx: label, entry (DSOCatalogFilename), group (Catalogs)
 #: kstars.kcfg:161
@@ -41368,8 +41365,8 @@ msgid ""
 "Toggle display of crosshairs centered at telescope's pointed position in the "
 "KStars sky map."
 msgstr ""
-"Mostra o oculta la visualització del punt de mira centrat a la posició "
-"apuntada pel telescopi en el mapa celest de KStars."
+"Mostra o oculta el punt de mira centrat a la posició apuntada pel telescopi "
+"en el mapa celest de KStars."
 
 #. i18n: ectx: label, entry (showINDIMessages), group (indi)
 #: kstars.kcfg:200
@@ -41387,7 +41384,7 @@ msgstr "Mostra o oculta els missatges d'INDI en la barra d'estat de KStars."
 #: kstars.kcfg:205
 #, kde-format
 msgid "Show the INDI window on startup?"
-msgstr "Voleu que es mostre la finestra INDI en l'inici?"
+msgstr "Voleu que es mostre la finestra d'INDI durant l'inici?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:206
@@ -41419,13 +41416,13 @@ msgstr "Notificacions dels missatges INDI"
 #: kstars.kcfg:220
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr "Font mestra per al temps (KStars, Muntura o Dispositiu INDI)"
+msgstr "Font mestra del temps (KStars, muntura o dispositiu INDI)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:224
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
-msgstr "Font mestra per a l'emplaçament (KStars, muntura o dispositiu INDI)"
+msgstr "Font mestra de l'emplaçament (KStars, muntura o dispositiu INDI)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:228
@@ -41433,7 +41430,7 @@ msgstr "Font mestra per a l'emplaçament (KStars, muntura o dispositiu INDI)"
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
 "Utilitza un programari de planetari extern per a controlar els apuntaments i "
-"les sincronitzacions de les muntures."
+"les sincronitzacions de la muntura."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:232
@@ -41639,39 +41636,39 @@ msgstr "Indica el nom del país de l'emplaçament geogràfic actual."
 #: kstars.kcfg:340
 #, kde-format
 msgid "Geographic Longitude, in degrees."
-msgstr "Longitud geogràfica, en graus."
+msgstr "Longitud geogràfica en graus."
 
 #. i18n: ectx: whatsthis, entry (Longitude), group (Location)
 #: kstars.kcfg:341
 #, kde-format
 msgid "The longitude of the current geographic location, in decimal degrees."
-msgstr "La longitud de l'emplaçament geogràfic actual, en graus decimals."
+msgstr "La longitud de l'emplaçament geogràfic actual en graus decimals."
 
 #. i18n: ectx: label, entry (Latitude), group (Location)
 #: kstars.kcfg:345
 #, kde-format
 msgid "Geographic Latitude, in degrees."
-msgstr "Latitud geogràfica, en graus."
+msgstr "Latitud geogràfica en graus."
 
 #. i18n: ectx: whatsthis, entry (Latitude), group (Location)
 #: kstars.kcfg:346
 #, kde-format
 msgid "The latitude of the current geographic location, in decimal degrees."
-msgstr "La latitud de l'emplaçament geogràfic actual, en graus decimals."
+msgstr "La latitud de l'emplaçament geogràfic actual en graus decimals."
 
 #. i18n: ectx: label, entry (Elevation), group (Location)
 #: kstars.kcfg:350
 #, kde-format
 msgid "Elevation above sea level of geographic location, in meters."
 msgstr ""
-"L'elevació sobre el nivell del mar de l'emplaçament geogràfic actual, en "
+"L'elevació sobre el nivell del mar de l'emplaçament geogràfic actual en "
 "metres."
 
 #. i18n: ectx: label, entry (TimeZone), group (Location)
 #: kstars.kcfg:354
 #, kde-format
 msgid "Time Zone offset of geographic location, in hours."
-msgstr "Desplaçament del fus horari de l'emplaçament geogràfic, en hores."
+msgstr "Desplaçament del fus horari de l'emplaçament geogràfic en hores."
 
 #. i18n: ectx: label, entry (DST), group (Location)
 #: kstars.kcfg:358
@@ -41691,8 +41688,8 @@ msgid ""
 "\" button in the Geographic Location window)."
 msgstr ""
 "Un codi de dues lletres que determina les dates en què comença i acaba "
-"l'horari d'estiu/hivern (podeu veure les regles prement el botó «Explica les "
-"regles DST» en la finestra de l'emplaçament geogràfic)."
+"l'horari d'estiu (podeu veure les regles prement el botó «Explica les regles "
+"de l'horari d'estiu» a la finestra de l'emplaçament geogràfic)."
 
 #. i18n: ectx: label, entry (UseAnimatedSlewing), group (View)
 #: kstars.kcfg:366
@@ -41709,9 +41706,9 @@ msgid ""
 "If true, focus changes will cause the sky to visibly spin to the new "
 "position. Otherwise, the display will \"snap\" instantly to the new position."
 msgstr ""
-"Si es tria, quan es canvie l'enfocament es produirà una animació de «gir» "
-"visible en el cel fins a la posició nova. Altrament la pantalla se centrarà "
-"sobre la posició nova de manera instantània."
+"Si és cert, els canvis de l'enfocament faran que el cel gire visiblement cap "
+"a la posició nova. Altrament, la pantalla saltarà fins a la posició nova de "
+"manera instantània."
 
 #. i18n: ectx: label, entry (LeftClickSelectsObject), group (View)
 #: kstars.kcfg:371
@@ -41726,7 +41723,7 @@ msgid ""
 "If true, clicking on the skymap will select the closest object and "
 "highlights it."
 msgstr ""
-"Si es tria, clicant damunt del mapa celest se seleccionarà i es ressaltarà "
+"Si és cert, clicant damunt del mapa celest se seleccionarà i es ressaltarà "
 "l'objecte més proper."
 
 #. i18n: ectx: label, entry (DefaultCursor), group (View)
@@ -41754,9 +41751,9 @@ msgid ""
 "The names of the currently selected field-of-view indicators. The list of "
 "defined FOV indicator names is listed in the \"Settings|FOV Symbols\" menu."
 msgstr ""
-"Els noms dels indicadors del camp de visió actualment seleccionats. La "
-"llista de noms per als indicadors de CDV definits es mostra en el menú "
-"«Configuració → Símbols de CDV»."
+"Els noms dels indicadors del camp de visió seleccionats. La llista de noms "
+"per als indicadors de CDV definits es troba al menú «Configuració → Símbols "
+"de CDV»."
 
 #. i18n: ectx: label, entry (FadePlanetTrails), group (View)
 #: kstars.kcfg:386
@@ -41771,8 +41768,8 @@ msgid ""
 "If true, trails attached to solar system bodies will fade into the "
 "background sky color."
 msgstr ""
-"Si es tria, les traces dels cossos del sistema solar es fondran amb el color "
-"de fons del cel."
+"Si és cert, les traces associades amb els cossos del sistema solar es "
+"fondran amb el color de fons del cel."
 
 #. i18n: ectx: label, entry (FocusRA), group (View)
 #: kstars.kcfg:391
@@ -41787,7 +41784,7 @@ msgid ""
 "The right ascension of the initial focus position of the sky map, in decimal "
 "hours. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"L'ascensió recta de la posició inicial de l'enfocament del mapa celest, en "
+"L'ascensió recta de la posició inicial de l'enfocament del mapa celest en "
 "hores decimals. Este valor és volàtil; es restablix quan el programa s'apaga."
 
 #. i18n: ectx: label, entry (FocusDec), group (View)
@@ -41803,8 +41800,8 @@ msgid ""
 "The declination of the initial focus position of the sky map, in decimal "
 "degrees. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"La declinació de la posició inicial de l'enfocament del mapa celest, en "
-"graus decimals. Este valor és volàtil; es restablix quan el programa s'apaga."
+"La declinació de la posició inicial de l'enfocament del mapa celest en graus "
+"decimals. Este valor és volàtil; es restablix quan el programa s'apaga."
 
 #. i18n: ectx: label, entry (FocusObject), group (View)
 #: kstars.kcfg:401
@@ -42955,7 +42952,7 @@ msgstr ""
 #: kstars.kcfg:814
 #, kde-format
 msgid "Zoom Factor, in pixels per radian"
-msgstr "Factor de zoom, en píxels per radiant"
+msgstr "Factor de zoom en píxels per radiant"
 
 #. i18n: ectx: whatsthis, entry (ZoomFactor), group (View)
 #: kstars.kcfg:815
@@ -43276,7 +43273,7 @@ msgstr ""
 #: kstars.kcfg:933
 #, kde-format
 msgid "Maximum distance from Sun for labeling comets, in AU"
-msgstr "Distància màxima al Sol per a etiquetar els cometes, en UA"
+msgstr "Distància màxima al Sol per a etiquetar els cometes en UA"
 
 #. i18n: ectx: whatsthis, entry (MaxRadCometName), group (View)
 #: kstars.kcfg:934
@@ -43754,7 +43751,7 @@ msgstr ""
 "l'altitud actual en percentatge és una manera senzilla de determinar quins "
 "objectes estan ben situats per a l'observació. Tanmateix, en utilitzar un "
 "telescopi de Dobson gran, els objectes propers al zenit seran difícils "
-"d'observar. Com que ací el seguiment correspon a un gir de l'azimut, és "
+"d'observar. Com que ací el seguiment correspon a una rotació de l'azimut, és "
 "contraintuïtiu i requerix que l'observador moga l'escala amb freqüència. La "
 "regió al voltant del zenit a on açò és especialment frustrant s'anomena el "
 "forat de Dobson. Esta casella de selecció fa que la llista d'observacions "
@@ -43768,7 +43765,7 @@ msgid ""
 "This is the angular distance from the zenith, in degrees, below which you "
 "can easily point your telescope."
 msgstr ""
-"La distància angular des del zenit, en graus, per davall de la qual es pot "
+"La distància angular des del zenit en graus, per davall de la qual es pot "
 "apuntar amb facilitat el telescopi."
 
 #. i18n: ectx: whatsthis, entry (ObsListHoleSize), group (ObservingList)
@@ -44315,7 +44312,7 @@ msgstr "Temps d'espera d'Xplanet"
 #: kstars.kcfg:1362
 #, kde-format
 msgid "How long to wait for XPlanet before giving up in milliseconds"
-msgstr "Quant temps, en mil·lisegons, s'esperarà Xplanet abans de renunciar."
+msgstr "Quant temps en mil·lisegons, s'esperarà Xplanet abans de renunciar."
 
 #. i18n: ectx: label, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1366
@@ -44516,7 +44513,7 @@ msgstr "Situa l'observador per damunt de la latitud i longitud especificades."
 #: kstars.kcfg:1447 xplanet/opsxplanet.ui:894
 #, kde-format
 msgid "Latitude in degrees"
-msgstr "Latitud, en graus"
+msgstr "Latitud en graus"
 
 #. i18n: ectx: whatsthis, entry (XplanetLatitude), group (Xplanet)
 #: kstars.kcfg:1448
@@ -44533,7 +44530,7 @@ msgstr ""
 #: kstars.kcfg:1452 xplanet/opsxplanet.ui:917
 #, kde-format
 msgid "Longitude in degrees"
-msgstr "Longitud en en graus"
+msgstr "Longitud en graus"
 
 #. i18n: ectx: whatsthis, entry (XplanetLongitude), group (Xplanet)
 #: kstars.kcfg:1453
@@ -45414,14 +45411,14 @@ msgstr "Fotograma pla mestre en l'«Apilament en directe»"
 #: kstars.kcfg:1843
 #, kde-format
 msgid "Live Stacking remove hot pixels"
-msgstr "L'apilament en directe elimina els píxels calents."
+msgstr "L'«Apilament en directe» elimina els píxels calents."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (fitsLSColdPixels), group (FITSViewer)
 #: kstars.kcfg:1847
 #, kde-format
 msgid "Live Stacking remove cold pixels"
-msgstr "L'apilament en directe elimina els píxels freds."
+msgstr "L'«Apilament en directe» elimina els píxels freds."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
@@ -45448,7 +45445,7 @@ msgstr "Factor de submostratge de l'«Apilament en directe»"
 #: kstars.kcfg:1863
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr "Ponderació de les subimatges en l'apilament en directe"
+msgstr "Ponderació de les subimatges en l'«Apilament en directe»"
 
 #. i18n: ectx: whatsthis, entry (fitsLSNormalization), group (FITSViewer)
 #: kstars.kcfg:1867
@@ -45828,7 +45825,7 @@ msgstr ""
 #, kde-format
 msgid "Default hour angle to perform meridian flip in degrees."
 msgstr ""
-"Angle horari predeterminat per a executar la inversió del meridià, en graus."
+"Angle horari predeterminat per a executar la inversió del meridià en graus."
 
 #. i18n: ectx: whatsthis, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:2130
@@ -46056,7 +46053,7 @@ msgstr "Força l'enfocament automàtic en el canvi de la temperatura."
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Enforce Refocus Every N Minutes."
-msgstr "Força el reenfocament cada N minuts."
+msgstr "Força el reenfocament cada «N» minuts."
 
 #. i18n: ectx: label, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:2232
@@ -46591,7 +46588,7 @@ msgstr "Unitats de visualització per a HFR i la FWHM."
 #: kstars.kcfg:2498
 #, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Si s'ha marcat l'enfocament adaptatiu."
+msgstr "Si l'enfocament adaptatiu està activat."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:2502
@@ -46991,7 +46988,7 @@ msgstr "La mida en micròmetres d'una marca de l'enfocador."
 #: kstars.kcfg:2700
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr "L'ajuda de l'Assessor d'enfocament només mostrarà els canvis."
+msgstr "L'ajuda de l'«Assessor d'enfocament» només mostrarà els canvis."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2704
@@ -47013,13 +47010,13 @@ msgstr ""
 #, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
 msgstr ""
-"Si s'ha d'executar la funció Ajust del curs de l'Assessor d'enfocament."
+"Si s'ha d'executar la funció Ajust del curs de l'«Assessor d'enfocament»."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2716
 #, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
-msgstr "Si s'ha d'executar la funció Ajust fi de l'Assessor d'enfocament."
+msgstr "Si s'ha d'executar la funció «Ajust fi» de l'«Assessor d'enfocament»."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2721
@@ -47158,7 +47155,7 @@ msgstr "Pas de rosca de la placa d'inclinació en mm per volta."
 #, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
 msgstr ""
-"Gir de la càmera per al diagrama de correcció de la inclinació en graus."
+"Rotació de la càmera per al diagrama de correcció de la inclinació en graus."
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
@@ -47257,7 +47254,7 @@ msgstr "Si s'ha de registrar a un fitxer."
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
-"Camí cap al fitxer de registre per a guardar el registre de l'astrometria."
+"Camí cap al fitxer de registre on guardar el registre de l'astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2861
@@ -47345,8 +47342,8 @@ msgstr ""
 #, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
-"El gir de 180° de l'AP del rotor s'ha acceptat després de la inversió de la "
-"muntura."
+"LA rotació de 180° de l'AP del rotor s'ha acceptat després de la inversió de "
+"la muntura."
 
 #. i18n: ectx: whatsthis, entry (RotatorParityReversed), group (Align)
 #: kstars.kcfg:2908
@@ -47466,7 +47463,7 @@ msgstr ""
 msgid ""
 "Image scale units in arcminutes (aw), degrees (dw), or arcsec per pixel (app)"
 msgstr ""
-"Unitats de l'escala de la imatge en minuts d'arc (aw), graus (dw) o seg. "
+"Unitats de l'escala de la imatge en minuts d'arc (aw), graus (dw) o segons "
 "d'arc per píxel (app)"
 
 #. i18n: ectx: label, entry (AstrometryUseDownsample), group (Align)
@@ -47629,7 +47626,7 @@ msgstr ""
 #: kstars.kcfg:3048
 #, kde-format
 msgid "Rotate mount by this many degrees during polar alignment."
-msgstr "Fa girar la muntura este nombre de graus durant l'alineació polar."
+msgstr "Fa rotar la muntura este nombre de graus durant l'alineació polar."
 
 #. i18n: ectx: label, entry (PAHRefreshAlgorithm), group (Align)
 #: kstars.kcfg:3052
@@ -47641,7 +47638,7 @@ msgstr "L'algorisme utilitzat per l'actualització de l'alineació polar."
 #: kstars.kcfg:3055
 #, kde-format
 msgid "Mount rotation direction during polar alignment."
-msgstr "Direcció del gir de la muntura durant l'alineació polar."
+msgstr "Direcció de rotació de la muntura durant l'alineació polar."
 
 #. i18n: ectx: label, entry (PAHAutoPark), group (Align)
 #: kstars.kcfg:3058
@@ -47659,14 +47656,14 @@ msgstr ""
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
-"L'usuari hauria de girar manualment la muntura sobre el seu eix durant "
+"L'usuari hauria de fer rotar la muntura manualment sobre el seu eix durant "
 "l'alineació polar."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
 #: kstars.kcfg:3066
 #, kde-format
 msgid "Polar Alignment Assistant exposure duration in seconds."
-msgstr "Duració de l'exposició de l'assistent d'alineació polar, en segons."
+msgstr "Duració de l'exposició de l'assistent d'alineació polar en segons."
 
 #. i18n: ectx: label, entry (PAHAutoPACCorrection), group (Align)
 #: kstars.kcfg:3070
@@ -47711,7 +47708,7 @@ msgstr ""
 #: kstars.kcfg:3088
 #, kde-format
 msgid "Guider exposure duration in seconds."
-msgstr "Duració de l'exposició del sistema de guiatge, en segons."
+msgstr "Duració de l'exposició del sistema de guiatge en segons."
 
 #. i18n: ectx: label, entry (GuideDelay), group (Guide)
 #: kstars.kcfg:3092
@@ -47879,7 +47876,7 @@ msgstr ""
 #: kstars.kcfg:3160
 #, kde-format
 msgid "Guide square size selection in pixels."
-msgstr "Se selecciona la mida del requadro de guiatge, en píxels."
+msgstr "Se selecciona la mida del requadro de guiatge en píxels."
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
 #: kstars.kcfg:3164
@@ -48194,7 +48191,7 @@ msgstr ""
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr ""
-"Indica si l'script de tancament, sí existix, finalitza el servidor INDI "
+"Indica si l'script de tancament, si existix, finalitza el servidor INDI "
 "durant el procés."
 
 #. i18n: ectx: label, entry (CameraWarmupEnabled), group (Scheduler)
@@ -48289,9 +48286,9 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
-"Restablix un calibratge del guiatge emmagatzemat quan gira el camp, es "
+"Restablix un calibratge del guiatge emmagatzemat quan roti el camp, es "
 "detecta a partir de l'angle de posició obtingut per la placa resolta (inclou "
-"tant els moviments del rotor electrònic, com el gir manual de la càmera)."
+"tant els moviments del rotor electrònic, com la rotació manual de la càmera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -48303,13 +48300,13 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
-"Llindar mínim de soroll, en graus, per a detectar el gir del camp a partir "
-"de l'angle de posició obtingut per la placa resolta. Els girs iguals o "
-"superiors a este valor restablixen el calibratge del guiatge. Es manté just "
-"per damunt de la inestabilitat de resoldre la imatge, de manera que "
-"qualsevol gir real n'active el restabliment. No s'exposa en la interfície "
-"d'usuari per a evitar que els usuaris establisquen una tolerància gran que "
-"degrade el guiatge de manera silenciosa."
+"Llindar mínim de soroll en graus, per a detectar la rotació del camp a "
+"partir de l'angle de posició obtingut per la placa resolta. Les rotacions "
+"iguals o superiors a este valor restablixen el calibratge del guiatge. Es "
+"manté just per damunt de la inestabilitat de resoldre la imatge, de manera "
+"que qualsevol rotació real n'active el restabliment. No s'exposa en la "
+"interfície d'usuari per a evitar que els usuaris establisquen una tolerància "
+"gran que degrade el guiatge de manera silenciosa."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -48393,7 +48390,7 @@ msgstr ""
 #: kstars.kcfg:3526
 #, kde-format
 msgid "Telescope focal length in millimeters."
-msgstr "Distància focal del telescopi, en mil·límetres."
+msgstr "Distància focal del telescopi en mil·límetres."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:3530
@@ -49175,7 +49172,7 @@ msgstr ""
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
-"Escala predeterminada (en segons d'arc/píxels) per a la resolució "
+"Escala predeterminada (en segons d'arc per píxel) per a la resolució "
 "astromètrica a la superposició d'imatges."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
@@ -49200,13 +49197,13 @@ msgstr "Cal reaccionar a les alertes?"
 #: kstars.kcfg:3943
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
-msgstr "Cal tancar la cúpula quan esdevinga un avís meteorològic?"
+msgstr "S'ha de tancar la cúpula quan es produïsca un avís meteorològic?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
 #: kstars.kcfg:3947
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
-msgstr "Cal tancar l'obturador quan esdevinga un avís meteorològic?"
+msgstr "S'ha de tancar l'obturador quan es produïsca un avís meteorològic?"
 
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
@@ -49214,7 +49211,7 @@ msgstr "Cal tancar l'obturador quan esdevinga un avís meteorològic?"
 #: kstars.kcfg:3951 kstars.kcfg:3963 kstars.kcfg:3967
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
-msgstr "Cal tancar l'obturador quan esdevinga una alerta meteorològica?"
+msgstr "S'ha de tancar l'obturador quan es produïsca una alerta meteorològica?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
 #: kstars.kcfg:3955
@@ -49226,7 +49223,7 @@ msgstr "Retard en reaccionar a un avís meteorològic."
 #: kstars.kcfg:3959
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
-msgstr "Cal tancar la cúpula quan esdevinga una alerta meteorològica?"
+msgstr "S'ha de tancar la cúpula quan es produïsca una alerta meteorològica?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
 #: kstars.kcfg:3971
@@ -49336,8 +49333,8 @@ msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
 "call. Tools not listed here are enabled."
 msgstr ""
-"Els noms d'eina exclosos de la resposta d'eines o llista MCP i, rebutjats en "
-"eines o crides. Les eines que no es llisten ací estaran habilitades."
+"Els noms d'eina exclosos de la resposta a «tools/list» de l'MCP i, rebutjats "
+"a «tools/call». Les eines que no es llisten ací estan habilitades."
 
 #. i18n: ectx: label, entry (MCPFileAccessRoot), group (MCP)
 #: kstars.kcfg:4049
@@ -49358,9 +49355,9 @@ msgstr ""
 "Les eines que requerixen un camí del sistema de fitxers (p. ex., "
 "«scheduler_load», «align_load_and_slew» i «capture_load_sequence») només "
 "accepten camins absoluts cap a fitxers d'esta carpeta i de les seues "
-"subcarpetes. Si es deixa buit, es denegarà qualsevol accés als fitxers. Açò "
-"només afectarà a les entrades de les eines. Les eines encara podran informar "
-"dels camins dels fitxers escrits pel propi equip (p. ex., «image_last_info»)."
+"subcarpetes. Si es deixa buit, es denega qualsevol accés als fitxers. Només "
+"regix les entrades de les eines. Les eines encara podran informar dels "
+"camins dels fitxers escrits pel mateix equip (p. ex., «image_last_info»)."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -82801,7 +82798,7 @@ msgstr "Aladin"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Skyview"
-msgstr "Vista del cel"
+msgstr "Skyview"
 
 #: kstars_i18n.cpp:5682
 #, kde-kuit-format
@@ -82837,7 +82834,7 @@ msgstr "Òptics"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Infrared"
-msgstr "Infraroigs"
+msgstr "Infrarojos"
 
 #: kstars_i18n.cpp:5688
 #, kde-kuit-format
@@ -82849,7 +82846,7 @@ msgstr "Ràdio"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "High Energy Astrophysical Archive (HEASARC)"
-msgstr "(HEASARC) Arxiu astrofísic d'altes energies"
+msgstr "Arxiu Astrofísic d'Altes Energies (HEASARC)"
 
 #: kstars_i18n.cpp:5690
 #, kde-kuit-format
@@ -82861,7 +82858,7 @@ msgstr "Missions recents de raigs X"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Past X-ray Mission"
-msgstr "Missions de raigs X"
+msgstr "Missions anteriors de raigs X"
 
 #: kstars_i18n.cpp:5692
 #, kde-kuit-format
@@ -82873,7 +82870,7 @@ msgstr "Missions de raigs gamma"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Other Missions"
-msgstr "D'altres missions"
+msgstr "Altres missions"
 
 #: kstars_i18n.cpp:5694
 #, kde-kuit-format
@@ -82891,7 +82888,7 @@ msgstr "Catàlegs de longitud d'ona múltiple"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Extragalactic Database (NED)"
-msgstr "(NED) Base de dades extragalàctiques de la NASA"
+msgstr "Base de dades extragalàctica de la NASA (NED)"
 
 #: kstars_i18n.cpp:5697
 #, kde-kuit-format
@@ -82903,7 +82900,7 @@ msgstr "Posicions"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Astrophysics Data System (ADS)"
-msgstr "(ADS) Sistema de dades astrofísiques de la NASA"
+msgstr "Sistema de Dades Astrofísiques de la NASA (ADS)"
 
 #: kstars_i18n.cpp:5699
 #, kde-kuit-format
@@ -82933,7 +82930,7 @@ msgstr "Prepublicacions d'astrofísica"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multimission Archive at Space Telescope (MAST)"
-msgstr "(MAST) Arxiu Multimissió del Telescopi Espacial"
+msgstr "Arxiu Multimissió del Telescopi Espacial (MAST)"
 
 #: kstars_i18n.cpp:5704
 #, kde-kuit-format
@@ -82994,13 +82991,14 @@ msgstr ""
 #: kstarsactions.cpp:511
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
-msgstr "El catàleg «%1» s'ha malmés."
+msgstr "El catàleg «%1» està corrupte."
 
 #: kstarsactions.cpp:519
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
-"El catàleg «%1» s'ha malmés.<br>S'esperava ID=%2, però s'ha obtingut ID=%3"
+"El catàleg «%1» està corrupte.<br>S'esperava l'ID=%2, però s'ha obtingut "
+"l'ID=%3"
 
 #: kstarsactions.cpp:529
 #, kde-format
@@ -83124,10 +83122,10 @@ msgid ""
 "properly, and it may even contain malicious code. Would you like to execute "
 "it anyway?"
 msgstr ""
-"L'script escollit conté elements desconeguts, cosa que indica que no ha "
-"sigut creat amb el constructor de scripts de KStars. Potser no funcionarà "
-"correctament o fins i tot podria contindre codi maliciós. Voleu executar-lo, "
-"tanmateix?"
+"L'script seleccionat conté elements no reconeguts, la qual cosa indica que "
+"no s'ha creat amb el constructor de scripts de KStars. Potser no funcionarà "
+"correctament i, fins i tot, podria contindre codi maliciós. Voleu executar-"
+"lo igualment?"
 
 #: kstarsactions.cpp:1497
 #, kde-format
@@ -83183,7 +83181,7 @@ msgstr "Para el rellotge en el temps real"
 #: kstarsactions.cpp:1618 kstarsinit.cpp:220
 #, kde-format
 msgid "Run clock in realtime"
-msgstr "Executa el rellotge en el temps real"
+msgstr "Executa el rellotge en temps real"
 
 #: kstarsactions.cpp:1662 kstarsinit.cpp:265
 #, kde-format
@@ -83258,12 +83256,12 @@ msgid ""
 "\n"
 "It appears that your setup is broken."
 msgstr ""
-"No s'ha pogut trobar el fitxer %1. KStars no pot funcionar adequadament "
+"No s'ha pogut trobar el fitxer %1. KStars no pot funcionar correctament "
 "sense este fitxer. KStars el busca en les ubicacions següents:\n"
 "\n"
 "\t%2\n"
 "\n"
-"Pareix que la configuració és errònia."
+"Pareix que la instal·lació està malmesa."
 
 #: kstarsdata.cpp:57
 #, kde-format
@@ -83279,7 +83277,7 @@ msgstr "S'estan llegint les regles del fus horari"
 #, kde-format
 msgid "Upgrade existing user city db to support geographic elevation."
 msgstr ""
-"S'actualitza la BBDD de ciutats d'usuari per a permetre l'elevació "
+"Actualitza la base de dades de ciutats de l'usuari per a admetre l'elevació "
 "geogràfica."
 
 #: kstarsdata.cpp:163
@@ -83326,12 +83324,12 @@ msgid ""
 "file may get truncated if KStars writes to the file later. Press Cancel to "
 "instead abort now and manually fix the problem. "
 msgstr ""
-"El fitxer de registre de notes %1 de l'usuari està mal format en l'obertura "
-"de l'entrada a partir de %2. KStars encara es pot executar sense llegir "
-"completament este fitxer. Premeu «Continua» per a executar KStars amb "
-"qualsevol lectura parcial reeixida. El fitxer es pot truncar si KStars "
-"escriu en el fitxer més avant. Premeu «Cancel·la» per a cancel·lar ara i "
-"corregir manualment el problema. "
+"El fitxer de registre de notes %1 està mal format en l'obertura de l'entrada "
+"que comença a %2. KStars encara es pot executar sense llegir completament "
+"este fitxer. Premeu «Continua» per a executar KStars amb la lectura parcial "
+"que haja reeixit. El fitxer es podria truncar si KStars hi escriu més avant. "
+"Premeu «Cancel·la» si preferiu interrompre l'acció ara i solucionar el "
+"problema manualment. "
 
 #: kstarsdata.cpp:814
 #, kde-format
@@ -83341,12 +83339,12 @@ msgstr "Fitxer mal format %1"
 #: kstarsdata.cpp:1159
 #, kde-format
 msgid "Could not set time: %1 / %2 / %3 ; %4:%5:%6"
-msgstr "No es pot establir el temps: %1 / %2 / %3; %4:%5:%6"
+msgstr "No s'ha pogut establir el temps: %1 / %2 / %3; %4:%5:%6"
 
 #: kstarsdata.cpp:1488
 #, kde-format
 msgid "Could not set location named %1, %2, %3"
-msgstr "No es pot establir l'emplaçament de nom %1, %2, %3"
+msgstr "No s'ha pogut establir l'emplaçament de nom %1, %2, %3"
 
 #: kstarsdata.cpp:1568 kstarslite/dialogs/detaildialoglite.cpp:686
 #, kde-format
@@ -83354,8 +83352,8 @@ msgid ""
 "Custom image-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"No es pot obrir el fitxer personalitzat amb els enllaços d'imatges.\n"
-"No es guardarà l'enllaç per a les futures sessions."
+"No s'ha pogut obrir el fitxer d'enllaços d'imatges personalitzat.\n"
+"No es pot registrar l'enllaç per a les sessions futures."
 
 #: kstarsdata.cpp:1570 kstarslite/dialogs/detaildialoglite.cpp:711
 #, kde-format
@@ -83363,8 +83361,8 @@ msgid ""
 "Custom information-links file could not be opened.\n"
 "Link cannot be recorded for future sessions."
 msgstr ""
-"No es pot obrir el fitxer personalitzat amb els enllaços d'informació.\n"
-"No es guardarà l'enllaç per a les futures sessions."
+"No s'ha pogut obrir el fitxer d'enllaços d'informació personalitzat.\n"
+"No es pot registrar l'enllaç per a les sessions futures."
 
 #: kstarsdata.cpp:1670 kstarsdata.cpp:1692
 #, kde-format
@@ -83449,7 +83447,7 @@ msgstr "Obri algunes imatges…"
 #: kstarsinit.cpp:162
 #, kde-format
 msgid "Open &Recent"
-msgstr "Obri'n un de &recent"
+msgstr "Obri'n una de &recent"
 
 #: kstarsinit.cpp:185
 #, kde-format
@@ -83496,12 +83494,12 @@ msgstr "Para el rellotge"
 #: kstarsinit.cpp:246
 #, kde-format
 msgid "Advance One Step Forward in Time"
-msgstr "Avança un pas de temps"
+msgstr "Avança un pas avant en el temps"
 
 #: kstarsinit.cpp:250
 #, kde-format
 msgid "Advance One Step Backward in Time"
-msgstr "Retrocedix un pas de temps"
+msgstr "Avança un pas arrere en el temps"
 
 #: kstarsinit.cpp:255
 #, kde-format
@@ -83681,14 +83679,13 @@ msgstr "&Vistes"
 #: kstarsinit.cpp:415
 #, kde-format
 msgid "HiPS All Sky Overlay"
-msgstr "Totes les superposicions del cel de HiPS"
+msgstr "Superposició de tot el cel de HiPS"
 
 #: kstarsinit.cpp:422
 #, kde-format
 msgid "Skymap Orientation"
 msgstr "Apuntament del mapa celest"
 
-# En català no pot ser un adjectiu
 #: kstarsinit.cpp:428
 #, kde-format
 msgctxt "Location on Earth"
@@ -83718,7 +83715,7 @@ msgstr "Actualitza els elements orbitals dels asteroides"
 #: kstarsinit.cpp:458
 #, kde-format
 msgid "Update Recent Supernovae Data"
-msgstr "Actualitza les dades de supernoves recents"
+msgstr "Actualitza les dades de les supernoves recents"
 
 #: kstarsinit.cpp:460
 #, kde-format
@@ -83786,7 +83783,7 @@ msgstr "Llista l'&equip…"
 #: kstarsinit.cpp:534
 #, kde-format
 msgid "Manage Observer..."
-msgstr "Gestiona l'observador…"
+msgstr "Gestiona els observadors…"
 
 #: kstarsinit.cpp:538
 #, kde-format
@@ -83801,7 +83798,7 @@ msgstr "Executa la planificació de la sessió…"
 #: kstarsinit.cpp:546
 #, kde-format
 msgid "Polaris Hour Angle..."
-msgstr "Angle horari de Polaris…"
+msgstr "Angle horari de la Polaris…"
 
 #: kstarsinit.cpp:553
 #, kde-format
@@ -83823,11 +83820,12 @@ msgid ""
 "For time steps larger than 10 minutes, frames are displayed at an interval "
 "of 'X'."
 msgstr ""
-"Utilitzeu-la per a establir la velocitat de la simulació.\n"
-"Per a un pas de temps «X» de fins a 10 minuts, el temps transcorrerà a raó "
-"de «X» per segon.\n"
-"Per a passos de temps més grans de 10 minuts, els fotogrames es mostraran a "
-"intervals de «X»."
+"Utilitzeu este control per a establir la velocitat amb què fluïx el temps a "
+"la simulació.\n"
+"Per a un pas de temps «X» de fins a 10 minuts, el temps transcorre a raó de "
+"«X» per segon.\n"
+"Per a passos de temps superiors a 10 minuts, els fotogrames es mostren a un "
+"interval de «X»."
 
 #: kstarsinit.cpp:590
 #, kde-format
@@ -84085,12 +84083,12 @@ msgstr "Centra el telescopi"
 #: kstarsinit.cpp:703
 #, kde-format
 msgid "Toggle Lock Telescope Center"
-msgstr "Canvia el bloqueig de centrar el telescopi"
+msgstr "Mostra o oculta el bloqueig del centre del telescopi"
 
 #: kstarsinit.cpp:707
 #, kde-format
 msgid "Toggle Telescope Tracking"
-msgstr "Canvia el seguiment del telescopi"
+msgstr "Mostra o oculta el seguiment del telescopi"
 
 #: kstarsinit.cpp:711
 #, kde-format
@@ -84146,10 +84144,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
-"Trieu-la per a una vista del mapa celest estant dret, on el nord (en el mode "
-"Coordenades equatorials) o el zenit (en el mode Coordenades horitzontals) "
-"estaran verticalment cap amunt. Esta seria l'elecció natural per a un "
-"instrument de visió de busca d'imatges o a simple vista estant dret."
+"Trieu esta opció per a una vista del mapa celest estant dret, on el nord (en "
+"el mode Coordenades equatorials) o el zenit (en el mode Coordenades "
+"horitzontals) estan verticalment cap amunt. Esta seria l'elecció natural per "
+"a un instrument de visió de busca d'imatges o a simple vista estant dret."
 
 #: kstarsinit.cpp:779
 #, kde-format
@@ -84160,11 +84158,11 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
-"Trieu-la per a una vista invertida del mapa celest, on el nord (en el mode "
-"Coordenades equatorials) o el zenit (en el mode Coordenades horitzontals) "
-"estaran verticalment cap avall. Esta seria l'elecció natural per a un "
-"instrument de visió de busca d'imatges invertit, refractor o de Cassegrain "
-"sense prisma erector o un de Dobson."
+"Trieu esta opció per a una vista invertida del mapa celest, on el nord (en "
+"el mode Coordenades equatorials) o el zenit (en el mode Coordenades "
+"horitzontals) estan verticalment cap avall. Esta seria l'elecció natural per "
+"a un instrument de visió de busca d'imatges capgirades, refractor o de "
+"Cassegrain sense prisma inversor o un telescopi de Dobson."
 
 #: kstarsinit.cpp:784
 #, kde-format
@@ -84173,6 +84171,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "Arbitrària"
 
+# skip-rule: punctuation-period-no
 #: kstarsinit.cpp:788
 #, kde-format
 msgctxt "Orientation of the sky map"
@@ -84181,9 +84180,9 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
-"Este mode se selecciona automàticament si gireu manualment el mapa celest "
-"amb l'acció del ratolí «Majús+Arrossega», per a informar-vos que "
-"l'orientació és arbitrària"
+"Este mode se selecciona automàticament si heu rotat manualment el mapa "
+"celest mitjançant l'acció del ratolí «Majús+Arrossega», per a informar-vos "
+"que l'orientació és arbitrària."
 
 #: kstarsinit.cpp:795
 #, kde-format
@@ -84199,8 +84198,8 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
-"Trieu-la si esteu emprant una càmera en el telescopi, o si teniu muntada la "
-"pantalla del mapa celest en el telescopi."
+"Trieu esta opció si esteu emprant una càmera en el telescopi o si teniu "
+"muntada la pantalla del mapa celest en el telescopi."
 
 #: kstarsinit.cpp:805
 #, kde-format
@@ -84208,7 +84207,7 @@ msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, left-handed"
-msgstr "Correcció de l'observador estant dret, mà esquerra"
+msgstr "Correcció de l'observador estant dret, amb l'ocular a l'esquerra"
 
 #: kstarsinit.cpp:809
 #, kde-format
@@ -84221,13 +84220,12 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
-"l'enfocador apareix en el costat esquerre quan mireu cap amunt amb el tub "
-"del telescopi. Esta característica corregirà l'orientació del mapa celest "
-"per a tindre en compte que l'observador roman dret mentre el telescopi es "
-"mou cap amunt i cap avall, a diferència d'una càmera que giraria amb el "
-"telescopi. Normalment té sentit combinar açò amb l'orientació «El zenit a "
-"baix»."
+"Trieu esta opció si esteu observant visualment amb un telescopi de Dobson "
+"que té l'enfocador al costat esquerre quan es mira des de la part superior "
+"del tub. Esta característica corregirà l'orientació del mapa celest per a "
+"tindre en compte que l'observador roman dret mentre el telescopi es mou "
+"verticalment, a diferència d'una càmera que rotaria amb el telescopi. "
+"Normalment té sentit combinar esta opció amb l'orientació «El zenit a baix»."
 
 #: kstarsinit.cpp:815
 #, kde-format
@@ -84235,7 +84233,7 @@ msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, right-handed"
-msgstr "Correcció de l'observador estant dret, mà dreta"
+msgstr "Correcció de l'observador estant dret, amb l'ocular a la dreta"
 
 #: kstarsinit.cpp:819
 #, kde-format
@@ -84248,12 +84246,12 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
-"l'enfocador apareix en el costat dret quan mireu cap amunt amb el tub del "
-"telescopi. Esta característica corregirà l'orientació del mapa celest per a "
-"tindre en compte que l'observador roman dret mentre el telescopi es mou cap "
-"amunt i cap avall, a diferència d'una càmera que giraria amb el telescopi. "
-"Normalment té sentit combinar açò amb l'orientació «El zenit a baix»."
+"Trieu esta opció si esteu observant visualment amb un telescopi de Dobson "
+"que té l'enfocador al costat dret quan es mira des de la part superior del "
+"tub. Esta característica corregirà l'orientació del mapa celest per a tindre "
+"en compte que l'observador roman dret mentre el telescopi es mou "
+"verticalment, a diferència d'una càmera que rotaria amb el telescopi. "
+"Normalment té sentit combinar esta opció amb l'orientació «El zenit a baix»."
 
 #: kstarsinit.cpp:843
 #, kde-format
@@ -84290,7 +84288,7 @@ msgstr "res"
 #: kstarsinit.cpp:1069 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
-msgstr "Posició inicial per davall de l'horitzó"
+msgstr "La posició inicial es troba per davall de l'horitzó"
 
 #: kstarsinit.cpp:1071 kstarsliteinit.cpp:122
 #, kde-format
@@ -84324,7 +84322,7 @@ msgstr "Versió: %1"
 #: kstarslite.cpp:119
 #, kde-format
 msgid "Build: %1"
-msgstr "Construcció: %1"
+msgstr "Versió de compilació: %1"
 
 #: kstarslite.cpp:121
 #, kde-format
@@ -84351,7 +84349,7 @@ msgstr "Dec. (%1):"
 #: kstarslite/dialogs/finddialoglite.cpp:188
 #, kde-format
 msgid "Not Implemented."
-msgstr "Sense implementar."
+msgstr "No s'ha implementat."
 
 #: kstarslite/qml/dialogs/AboutDialog.qml:16
 #, kde-kuit-format
@@ -84391,7 +84389,7 @@ msgstr "Diàmetre"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:183
 #, kde-kuit-format
 msgid "Rotation period"
-msgstr "Període de gir"
+msgstr "Període de rotació"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:188
 #, kde-kuit-format
@@ -84533,7 +84531,7 @@ msgstr "Visualitza l'emplaçament"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
 #, kde-kuit-format
 msgid "Add location"
-msgstr "Afig l'emplaçament"
+msgstr "Afig un emplaçament"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:20
 #, kde-kuit-format
@@ -84555,14 +84553,15 @@ msgstr "Província predeterminada"
 msgid "Default country"
 msgstr "País predeterminat"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:62
 #, kde-kuit-format
 msgid ""
 "Could not fetch location name (check your Internet connection). Added with "
 "default name"
 msgstr ""
-"No s'ha pogut recuperar el nom de l'emplaçament (comproveu la connexió amb "
-"Internet). S'ha afegit amb el nom predeterminat"
+"No s'ha pogut obtindre el nom de l'emplaçament (comproveu la connexió amb "
+"Internet). S'ha afegit amb el nom predeterminat."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:66
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
@@ -84574,22 +84573,23 @@ msgstr "Ha fallat mentre s'establia l'emplaçament"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
 #, kde-kuit-format
 msgid "Successfully set your location"
-msgstr "S'ha establit correctament l'emplaçament"
+msgstr "L'emplaçament s'ha establit correctament"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:73
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:102
 #, kde-kuit-format
 msgid "Could not set your location"
-msgstr "No s'ha pogut establir l'emplaçament"
+msgstr "No s'ha pogut establir el vostre emplaçament"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:76
 #, kde-kuit-format
 msgid ""
 "Could not fetch location name (check your Internet connection). Set default "
 "name"
 msgstr ""
-"No s'ha pogut recuperar el nom de l'emplaçament (comproveu la connexió amb "
-"Internet). Establiu el nom predeterminat"
+"No s'ha pogut obtindre el nom de l'emplaçament (comproveu la connexió amb "
+"Internet). S'ha establit el nom predeterminat."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:148
 #, kde-kuit-format
@@ -84615,7 +84615,7 @@ msgstr "S'ha exhaurit el temps d'espera. Torneu-ho a provar."
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
 #, kde-kuit-format
 msgid "Found your longitude and altitude"
-msgstr "Trobeu la vostra longitud i altitud"
+msgstr "S'ha trobat la vostra longitud i altitud"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:185
 #, kde-kuit-format
@@ -84655,7 +84655,7 @@ msgstr "Desplaçament TU: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
 #, kde-kuit-format
 msgid "DST rule: "
-msgstr "Regla DST: "
+msgstr "Regla de l'horari d'estiu: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
@@ -84738,7 +84738,7 @@ msgstr "Filtre de país: "
 #: kstarslite/qml/dialogs/LocationDialog.qml:127
 #, kde-kuit-format
 msgid "Add Location"
-msgstr "Afig l'emplaçament"
+msgstr "Afig un emplaçament"
 
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:36
 #, kde-kuit-format
@@ -84783,7 +84783,7 @@ msgstr "Quadro de control d'INDI…"
 #: kstarslite/qml/indi/INDIControlPanel.qml:58
 #, kde-kuit-format
 msgid "IP Address or Hostname"
-msgstr "Adreça IP o un nom d'amfitrió"
+msgstr "Adreça IP o nom d'amfitrió"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:69
 #, kde-kuit-format
@@ -84883,7 +84883,7 @@ msgstr "SE"
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
 #, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Velocitat d'apuntament: "
+msgstr "Velocitat de gir: "
 
 #: kstarslite/qml/main.qml:430
 #, kde-kuit-format
@@ -85132,22 +85132,22 @@ msgstr "100 anys"
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:28
 #, kde-kuit-format
 msgid "%1 are toggled on"
-msgstr "%1 estan actius"
+msgstr "%1 estan activats"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:30
 #, kde-kuit-format
 msgid "%1 is toggled on"
-msgstr "%1 està actiu"
+msgstr "%1 està activat"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:34
 #, kde-kuit-format
 msgid "%1 are toggled off"
-msgstr "%1 estan inactius"
+msgstr "%1 estan desactivats"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:36
 #, kde-kuit-format
 msgid "%1 is toggled off"
-msgstr "%1 està inactiu"
+msgstr "%1 està desactivat"
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:40
 #, kde-kuit-format
@@ -85238,7 +85238,7 @@ msgstr "Hora"
 #: kstarslite/qml/modules/TimePage.qml:479
 #, kde-kuit-format
 msgid "Min."
-msgstr "Min."
+msgstr "Mín."
 
 #: kstarslite/qml/modules/TopMenu.qml:116
 #, kde-kuit-format
@@ -85325,21 +85325,22 @@ msgstr "Inicia el programa d'aprenentatge"
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
 #, kde-kuit-format
 msgid "Global Drawer"
-msgstr "Àrea global"
+msgstr "Menú lateral global"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:36
 #, kde-kuit-format
 msgid ""
 "By swiping from left to right on any page of KStars Lite you can access "
 "global drawer"
 msgstr ""
-"Passant el dit d'esquerra a dreta en qualsevol pàgina de KStars Lite, podreu "
-"accedir a l'àrea global"
+"Si passeu el dit d'esquerra a dreta en qualsevol pàgina de KStars Lite, "
+"podreu accedir al menú lateral global."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
 #, kde-kuit-format
 msgid "Context Drawer"
-msgstr "Àrea de context"
+msgstr "Menú lateral de context"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:29
 #, kde-kuit-format
@@ -85347,37 +85348,39 @@ msgid ""
 "By swiping from right to left you can access context drawer with functions "
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
-"Passant el dit d'esquerra a dreta podreu accedir a l'àrea de context amb "
-"funcions relacionades amb el mapa celest. Este menú només estarà disponible "
-"en el mapa celest."
+"Si passeu el dit d'esquerra a dreta podreu accedir al menú lateral de "
+"context amb funcions relacionades amb el mapa celest. Este menú només estarà "
+"disponible en el mapa celest."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
 #, kde-kuit-format
 msgid "Top Menu"
 msgstr "Menú superior"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:31
 #, kde-kuit-format
 msgid ""
 "By tapping on this arrow you can access top menu from which you can control "
 "visibility of different sky objects"
 msgstr ""
-"Tocant en esta fletxa es pot accedir al menú superior des del qual podreu "
-"controlar la visibilitat de diferents objectes celestes"
+"Si toqueu esta fletxa, podreu accedir al menú superior des del qual podreu "
+"controlar la visibilitat de diferents objectes celestes."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:25
 #, kde-kuit-format
 msgid "Bottom Menu"
 msgstr "Menú inferior"
 
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:26
 #, kde-kuit-format
 msgid ""
 "By tapping on this arrow you can access bottom menu from which you can set "
 "time and start time simulation"
 msgstr ""
-"Tocant en esta fletxa es pot accedir al menú inferior des del qual podreu "
-"establir l'hora i la data d'inici de la simulació"
+"Si toqueu esta fletxa, podreu accedir al menú inferior des del qual podreu "
+"establir l'hora i la data i, iniciar la simulació del temps."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:18
 #, kde-kuit-format
@@ -85393,7 +85396,7 @@ msgid ""
 msgstr ""
 "Enhorabona per les primeres passes en KStars Lite. Esta guia d'aprenentatge "
 "quasi ha acabat. L'últim pas és establir el vostre emplaçament (podeu fer-ho "
-"manualment o a partir del GPS). Cliqueu damunt «Següent» per a continuar."
+"manualment o mitjançant el GPS). Cliqueu damunt «Següent» per a continuar."
 
 #: kstarslite/skyitems/horizonitem.cpp:22
 #: skycomponents/horizoncomponent.cpp:111
@@ -85587,7 +85590,7 @@ msgstr "Alt D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Antifolgança Alt/Dec"
+msgstr "Antifolgança d'Alt/Dec"
 
 # Nota: PEC=Periodic Error Correction
 #: libindi_strings.cpp:27
@@ -85648,7 +85651,7 @@ msgstr "Auxiliar"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Average (1 sec.)"
-msgstr "Mitjana (1 seg)"
+msgstr "Mitjana (1 s)"
 
 #: libindi_strings.cpp:37
 #, kde-kuit-format
@@ -85762,25 +85765,25 @@ msgstr "Simulador de CCD"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD X Pixel Size"
-msgstr "Mida en X del píxel de CCD"
+msgstr "Mida el píxel X de CCD"
 
 #: libindi_strings.cpp:57
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD X resolution"
-msgstr "Resolució en X de CCD"
+msgstr "Resolució X de CCD"
 
 #: libindi_strings.cpp:58
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Y Pixel Size"
-msgstr "Mida en Y del píxel de CCD"
+msgstr "Mida del píxel Y de CCD"
 
 #: libindi_strings.cpp:59
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Y resolution"
-msgstr "Resolució en Y de CCD"
+msgstr "Resolució Y de CCD"
 
 #: libindi_strings.cpp:60
 #, kde-kuit-format
@@ -85834,13 +85837,13 @@ msgstr "Color"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet DEC motion arcmin/day"
-msgstr "Moviment en la Dec del cometa en min. d'arc/dia"
+msgstr "Moviment de Dec del cometa en minuts d'arc/dia"
 
 #: libindi_strings.cpp:69
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet RA motion arcmin/day"
-msgstr "Moviment en l'AR del cometa en min. d'arc/dia"
+msgstr "Moviment d'AR del cometa en minuts d'arc/dia"
 
 #: libindi_strings.cpp:70
 #, kde-kuit-format
@@ -85978,7 +85981,7 @@ msgstr "Personalitzat"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "DE (arcsecs/s)"
-msgstr "Dec (seg. d'arc/seg)"
+msgstr "Dec (segons d'arc/s)"
 
 #: libindi_strings.cpp:93
 #, kde-kuit-format
@@ -86026,7 +86029,7 @@ msgstr "Depuració"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dec (arcmin)"
-msgstr "Dec (min. d'arc)"
+msgstr "Dec (minuts d'arc)"
 
 #: libindi_strings.cpp:101
 #, kde-kuit-format
@@ -86044,7 +86047,7 @@ msgstr "Dec D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Declination axis"
-msgstr "Eix de la declinació"
+msgstr "Eix de declinació"
 
 #: libindi_strings.cpp:104
 #, kde-kuit-format
@@ -87679,13 +87682,13 @@ msgstr "AR  H:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcmin)"
-msgstr "AR (min. d'arc)"
+msgstr "AR (minuts d'arc)"
 
 #: libindi_strings.cpp:377
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcsecs/s)"
-msgstr "AR (seg. d'arc/seg)"
+msgstr "AR (segons d'arc/s)"
 
 #: libindi_strings.cpp:378
 #, kde-kuit-format
@@ -87829,13 +87832,13 @@ msgstr "Restaura"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rotation CW (degrees)"
-msgstr "Gir en sentit horari (en graus)"
+msgstr "Rotació en sentit horari (en graus)"
 
 #: libindi_strings.cpp:402
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rotation"
-msgstr "Gir"
+msgstr "Rotació"
 
 #: libindi_strings.cpp:403
 #, kde-kuit-format
@@ -89311,8 +89314,8 @@ msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
 msgstr ""
-"Distància focal oficial del telescopi, en mil·límetres, sense cap reductor "
-"ni Barlow."
+"Distància focal oficial del telescopi en mil·límetres, sense cap reductor ni "
+"Barlow."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -91302,7 +91305,7 @@ msgstr ""
 "<html><head/><body><p>Resol les plaques de les imatges superposades "
 "seleccionades.</p><p>Utilitza el perfil d'alineació seleccionat a la dreta, "
 "però no escala l'alineació ni la posició. Utilitzarà l'escala predeterminada "
-"de la dreta (seg. d'arc/px), si no se n'indica cap a la fila de la taula i "
+"de la dreta (segons d'arc/px), si no se n'indica cap a la fila de la taula i "
 "la columna de l'escala (0 no hi ha cap restricció d'escala). No s'utilitzarà "
 "una posició llevat que s'introduïsquen l'AR i la Dec a la fila de la taula. "
 "Utilitza el temps d'espera anterior. Podeu seleccionar moltes files (amb "
@@ -91351,7 +91354,7 @@ msgstr ""
 #: options/opsimageoverlay.ui:307
 #, kde-format
 msgid "Default a-s/px:"
-msgstr "Seg. d'arc/px predeterminats:"
+msgstr "Segons d'arc/px predeterminats:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -91766,8 +91769,8 @@ msgid ""
 "Sun, approximately 150 million km"
 msgstr ""
 "Establix la distància màxima des del Sol per tal que un cometa tinga una "
-"etiqueta de nom, en unitats astronòmiques (UA). 1 UA és la distància entre "
-"la Terra i el Sol, aproximadament uns 150 milions de km."
+"etiqueta de nom en unitats astronòmiques (UA). 1 UA és la distància entre la "
+"Terra i el Sol, aproximadament uns 150 milions de km."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: options/opssolarsystem.ui:504
@@ -91995,7 +91998,8 @@ msgstr "Fitxer de terreny:"
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
 msgstr ""
-"Graus d'azimut de gir del terreny per tal que el nord siga realment el nord."
+"Graus d'azimut de rotació del terreny per tal que el nord siga realment el "
+"nord."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
@@ -92009,8 +92013,8 @@ msgstr "Graus de correcció de l'azimut de la imatge del terreny:"
 #, kde-format
 msgid "Rotate terrain in altitude degrees so horizon is at 0 degrees altitude"
 msgstr ""
-"Graus d'altitud de gir del terreny per tal que l'horitzó estiga a 0 graus "
-"d'altitud."
+"Graus d'altitud de rotació del terreny per tal que l'horitzó estiga a 0 "
+"graus d'altitud."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:162
@@ -92024,7 +92028,8 @@ msgstr "Graus de correcció de l'altitud de la imatge del terreny:"
 #, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
 msgstr ""
-"Graus d'altitud de gir del terreny per tal que el nord siga realment el nord."
+"Graus d'altitud de rotació del terreny per tal que el nord siga realment el "
+"nord."
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
 #: options/opsterrain.ui:214
@@ -92848,7 +92853,7 @@ msgstr "Angle"
 #: skycomponents/imageoverlaycomponent.cpp:68
 #, kde-format
 msgid "A-S/px"
-msgstr "Seg. d'arc/px"
+msgstr "Segons d'arc/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:69
 #, kde-format
@@ -92905,7 +92910,7 @@ msgstr ""
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 "No s'ha pogut establir l'estat a «D'acord». Es requerix un valor correcte "
-"per als «Seg. d'arc/px» que no siga 0."
+"per als «Segons d'arc/px» que no siga 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:300
 #, kde-format
@@ -94436,7 +94441,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Per a afegir els vostres propis catàlegs personalitzats d'objectes,\n"
+"\t\t<p>Per a afegir els vostres propis catàlegs d'objectes personalitzats,\n"
 "\t\t\tseleccioneu «Importa un catàleg…» o bé «Carrega un catàleg…» des de la "
 "pàgina Catàlegs\n"
 "\t\t\tde la finestra de configuració de KStars. Consulteu el manual per a "
@@ -95040,7 +95045,7 @@ msgstr ""
 "«Traça» (o prement «Retorn»). S'afegirà a la traça una corba d'altitud en "
 "funció del temps i les seues coordenades es mostraran davall.\n"
 "\n"
-"2. Escriviu una etiqueta amb el nom personalitzat de l'objecte. També "
+"2. Escriviu una etiqueta amb el nom de l'objecte personalitzat. També "
 "necessitareu especificar l'ascensió recta (AR) i la declinació (Dec) de "
 "l'objecte i després prémer el botó «Traça» per a afegir la seua corba al "
 "traçat."
@@ -95443,7 +95448,7 @@ msgstr "<font color=\"#00007f\">Seg:</font>"
 #: tools/argwaitfor.ui:37
 #, kde-format
 msgid "Pause delay in seconds"
-msgstr "Retard de la pausa, en segons."
+msgstr "Retard de la pausa en segons."
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, DelayBox)
 #: tools/argwaitfor.ui:40
@@ -96311,8 +96316,8 @@ msgstr ""
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
-"Dimensions màximes de l'objecte (min. d'arc) -cliqueu damunt de la capçalera "
-"per a ordenar en sentit ascendent o descendent-."
+"Dimensions màximes de l'objecte (minuts d'arc) -cliqueu damunt de la "
+"capçalera per a ordenar en sentit ascendent o descendent-."
 
 #: tools/imagingplanner.cpp:1147
 #, kde-format
@@ -96930,7 +96935,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1810
 #, kde-format
 msgid "Min Hours:"
-msgstr "Hores min.:"
+msgstr "Hores mín.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1839
@@ -97311,7 +97316,7 @@ msgstr "Eina «Llunes de Júpiter»"
 #: tools/jmoontool.cpp:87
 #, kde-format
 msgid "offset from Jupiter (arcmin)"
-msgstr "Desplaçament des de Júpiter (min. d'arc)"
+msgstr "Desplaçament des de Júpiter (minuts d'arc)"
 
 #: tools/jmoontool.cpp:88
 #, kde-format
@@ -99230,7 +99235,7 @@ msgstr ""
 "p><p>En esta pàgina podeu limitar la vostra llista d'observacions a aquells "
 "objectes que ocupen una regió circular particular del cel. Especifiqueu la "
 "regió circular seleccionant les coordenades d'ascensió recta (AR) i "
-"declinació (Dec) del centre del cercle, i la mida del radi del cercle, en "
+"declinació (Dec) del centre del cercle, i la mida del radi del cercle en "
 "graus.</p><p></p><p>Quan hàgeu finalitzat, premeu <span style=\"font-"
 "weight:600;\">Següent</span> per a continuar.</p></body></html>"
 
@@ -99408,7 +99413,7 @@ msgstr "Hui"
 #: tools/polarishourangle.ui:14
 #, kde-format
 msgid "Polaris Hour Angle"
-msgstr "Angle horari de Polaris"
+msgstr "Angle horari de la Polaris"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/polarishourangle.ui:44
@@ -99420,7 +99425,7 @@ msgstr "Data i hora"
 #: tools/polarishourangle.ui:91
 #, kde-format
 msgid "Polaris HourAngle"
-msgstr "Angle horari de Polaris"
+msgstr "Angle horari de la Polaris"
 
 #. i18n: ectx: property (text), widget (QPushButton, currentTimeB)
 #: tools/polarishourangle.ui:121
@@ -99633,7 +99638,7 @@ msgstr "Rètols informatius"
 #: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
-msgstr "Mostra o oculta la visualització de tots els rètols informatius"
+msgstr "Mostra o oculta tots els rètols informatius"
 
 #: tools/scriptbuilder.cpp:408 tools/scriptbuilder.cpp:411
 #: tools/scriptbuilder.cpp:414 tools/scriptbuilder.cpp:417
@@ -99671,7 +99676,7 @@ msgstr "bool"
 #: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Time InfoBox"
-msgstr "Mostra o oculta mostrar el rètol informatiu del temps"
+msgstr "Mostra o oculta el rètol informatiu del temps"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:414
@@ -99683,25 +99688,25 @@ msgstr "Mostra o oculta el rètol informatiu de l'emplaçament geogràfic"
 #: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
-msgstr "Mostra o oculta el rètol informatiu del punt celest enfocat"
+msgstr "Mostra o oculta el rètol informatiu de l'enfocament"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:420
 #, kde-format
 msgid "(un)Shade Time InfoBox"
-msgstr "Mostra o oculta el rètol informatiu del temps"
+msgstr "Ombreja o desombreja el rètol informatiu del temps"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:423
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
-msgstr "Mostra o oculta el rètol informatiu de l'emplaçament geogràfic"
+msgstr "Ombreja o desombreja el rètol informatiu de l'emplaçament geogràfic"
 
 # skip-rule: kct-box
 #: tools/scriptbuilder.cpp:426
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
-msgstr "Mostra o oculta el rètol informatiu del punt celest enfocat"
+msgstr "Ombreja o desombreja el rètol informatiu de l'enfocament"
 
 #: tools/scriptbuilder.cpp:439
 #, kde-format
@@ -99731,7 +99736,7 @@ msgstr "Mostra o oculta les estreles"
 #: tools/scriptbuilder.cpp:455
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
-msgstr "Mostra o oculta els objectes del cel profund"
+msgstr "Mostra o oculta tots els objectes del cel profund"
 
 #: tools/scriptbuilder.cpp:462
 #, kde-format
@@ -99969,7 +99974,7 @@ msgstr "Establix el factor d'apropament"
 #: tools/scriptbuilder.cpp:642
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
-msgstr "Tria la mida angular per al símbol de CDV (en min. d'arc)"
+msgstr "Tria la mida angular per al símbol de CDV (en minuts d'arc)"
 
 #: tools/scriptbuilder.cpp:645
 #, kde-format
@@ -100205,8 +100210,8 @@ msgid ""
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
 "S'executarà l'script en la finestra principal de KStars. Potser voldreu "
-"reposicionar l'eina «Constructor de scripts» a fi que el mapa celest siga "
-"visible."
+"tornar a posicionar l'eina «Constructor de scripts» a fi que el mapa celest "
+"siga visible."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
@@ -101083,12 +101088,12 @@ msgstr "Afig a la llista"
 #: widgets/dmsbox.cpp:39
 #, kde-format
 msgid "Angle value in degrees."
-msgstr "El valor de l'angle, en graus."
+msgstr "El valor de l'angle en graus."
 
 #: widgets/dmsbox.cpp:39
 #, kde-format
 msgid "Angle value in hours."
-msgstr "El valor de l'angle, en hores."
+msgstr "El valor de l'angle en hores."
 
 #: widgets/dmsbox.cpp:46
 #, kde-format
@@ -101126,7 +101131,7 @@ msgid ""
 "delimited values specifying degrees, arcminutes and arcseconds (\"12:20\", "
 "\"12:20:00\", \"12 20\", \"12 20 00.0\", etc.)."
 msgstr ""
-"Introduïu un valor de l'angle, en graus. L'angle es pot expressar com un "
+"Introduïu un valor de l'angle en graus. L'angle es pot expressar com un "
 "enter simple («12»), un valor en coma flotant («12,33»), o amb valors "
 "delimitats per espai o dos punts que especifiquen els graus, minuts d'arc i "
 "segons d'arc («12:20», «12:20:00», «12 20», «12 20 00,0», etc.)."
@@ -101148,7 +101153,7 @@ msgid ""
 "delimited values specifying hours, minutes and seconds (\"12:20\", "
 "\"12:20:00\", \"12 20\", \"12 20 00.0\", etc.)."
 msgstr ""
-"Introduïu un valor de l'angle, en hores. L'angle es pot expressar com un "
+"Introduïu un valor de l'angle en hores. L'angle es pot expressar com un "
 "enter simple («12»), un valor en coma flotant («12,33»), o amb valors "
 "delimitats per espai o dos punts que especifiquen els graus, minuts d'arc i "
 "segons d'arc («12:20», «12:20:00», «12 20», «12 20 00,0», etc.)."
@@ -101157,7 +101162,7 @@ msgstr ""
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 x %2 arcmin"
-msgstr "%1 x %2 min. d'arc"
+msgstr "%1 x %2 minuts d'arc"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, nextYear)

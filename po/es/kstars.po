@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-13 02:39+0000\n"
-"PO-Revision-Date: 2026-10-08 12:55+0100\n"
+"PO-Revision-Date: 2026-10-13 23:15+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.1\n"
+"X-Generator: Lokalize 26.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -18854,10 +18854,9 @@ msgid "Complete"
 msgstr "Completado"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "Fijando la temperatura a %1 °C…"
+msgstr "Fijando la temperatura a %1 °C. Las vistas previas no se detienen."
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format

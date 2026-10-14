@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-13 02:39+0000\n"
-"PO-Revision-Date: 2026-10-08 19:08+0300\n"
+"PO-Revision-Date: 2026-10-13 19:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18591,10 +18591,9 @@ msgid "Complete"
 msgstr "Tamamlandı"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "Sıcaklık %1 °C olarak ayarlanıyor…"
+msgstr "Sıcaklık, %1 °C olarak ayarlanıyor. Önizlemeler bunu beklemezler."
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
