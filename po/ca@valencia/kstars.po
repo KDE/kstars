@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-13 02:39+0000\n"
-"PO-Revision-Date: 2026-10-13 22:21+0200\n"
+"PO-Revision-Date: 2026-10-14 11:16+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1434,8 +1434,8 @@ msgstr ""
 #, kde-format
 msgid "Hover over target and freely rotate view with mouse in XPlanet Viewer"
 msgstr ""
-"Passeu el cursor per damunt de l'objectiu i gireu lliurement la vista amb el "
-"ratolí en el visor d'Xplanet"
+"Passeu el cursor per damunt de l'objectiu i feu rodar lliurement la vista "
+"amb el ratolí en el visor d'Xplanet"
 
 #: auxiliary/xplanetimageviewer.cpp:284
 #, kde-format
@@ -1489,22 +1489,22 @@ msgstr ""
 #: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
-msgstr "Gir:"
+msgstr "Rotació:"
 
 #: auxiliary/xplanetimageviewer.cpp:359
 #, kde-format
 msgid "Set the view rotation to the desired angle"
-msgstr "Establix el gir de la vista a l'angle desitjat"
+msgstr "Establix el rodament de la vista a l'angle desitjat"
 
 #: auxiliary/xplanetimageviewer.cpp:368
 #, kde-format
 msgid "Rotate the view 180 degrees"
-msgstr "Gira la vista 180 graus"
+msgstr "Fes rodar la vista 180 graus"
 
 #: auxiliary/xplanetimageviewer.cpp:377
 #, kde-format
 msgid "Reset view rotation to 0"
-msgstr "Restablix el gir de la vista a 0"
+msgstr "Restablix el rodament de la vista a 0"
 
 #: auxiliary/xplanetimageviewer.cpp:386
 #, kde-format
@@ -2588,7 +2588,7 @@ msgid ""
 "another app and magically try to infer the contents of this form from it."
 msgstr ""
 "Esta característica permet copiar i apegar un fragment de text (p. ex., d'un "
-"lloc web o d'una altra aplicació) deduir-ne el contingut d'este formulari."
+"lloc web o d'una altra aplicació) i, deduir el contingut d'este formulari."
 
 #. i18n: ectx: property (text), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:254
@@ -5649,7 +5649,7 @@ msgid ""
 msgstr ""
 "<p>Rotació del fotograma respecte al pol celeste. Zero graus indica que "
 "<b>AMUNT</b> apunta directament cap al pol. 90 graus indica que <b>AMUNT</b> "
-"està rotat 90 graus en sentit horari respecte al pol.</p>"
+"ha fet la rotació de 90 graus en sentit horari respecte al pol.</p>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditRotation)
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditOffsetY)
@@ -8526,9 +8526,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Mantín l'angle del "
 "rotor</span> conservarà la posició del rotor. El rotor roman inactiu i, per "
-"tant, la càmera rota virtualment 180°.</p><p>La majoria d'aplicacions "
-"modernes de processament d'imatges astronòmiques poden gestionar les imatges "
-"«capgirades».</p></body></html>"
+"tant, la càmera fa la rotació virtualment de 180°.</p><p>La majoria "
+"d'aplicacions modernes de processament d'imatges astronòmiques poden "
+"gestionar les imatges «capgirades».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:349
@@ -10866,7 +10866,7 @@ msgstr "Apuntament manual"
 #: ekos/align/polaralignmentassistant.ui:266
 #, kde-format
 msgid "Please rotate your mount in RA"
-msgstr "Roteu la muntura en AR"
+msgstr "Feu la rotació de la muntura en AR"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
 #: ekos/align/polaralignmentassistant.ui:341
@@ -19360,7 +19360,7 @@ msgstr "S'està apuntant"
 #: ekos/ekos.h:140
 #, kde-format
 msgid "Rotating"
-msgstr "S'està rotant"
+msgstr "S'està fent la rotació"
 
 #: ekos/ekos.h:161
 #, kde-format
@@ -24725,7 +24725,7 @@ msgstr "S'ha netejat el calibratge."
 #, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
-"El camp ha rotat %1° des del calibratge del guiatge. Es neteja el calibratge."
+"El camp ha rodat %1° des del calibratge del guiatge. Es neteja el calibratge."
 
 #: ekos/guide/guide.cpp:2158
 #, kde-format
@@ -26303,8 +26303,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si està marcada, sempre es tornarà a calibrar quan "
 "s'inicie el guiatge. Sovint no cal fer-ho perquè abans s'ha efectuat un "
-"calibratge de bona qualitat i la càmera de guiatge no s'ha rotat o tornat a "
-"instal·lar.</p></body></html>"
+"calibratge de bona qualitat i la càmera de guiatge no ha fet la rotació o "
+"s'ha tornat a instal·lar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
@@ -26373,7 +26373,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Restablix el calibratge del guiatge cada vegada que "
-"roti el camp, de manera que es mesure un calibratge nou durant l'inici "
+"rodi el camp, de manera que es mesure un calibratge nou durant l'inici "
 "següent del guiatge en lloc d'emprar un guiatge obsolet. La rotació es "
 "detecta a partir de l'angle de posició obtingut per la placa resolta, de "
 "manera que cobrix tant els moviments del rotor electrònic, com la rotació "
@@ -26386,7 +26386,7 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:437
 #, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Restablix el calibratge del guiatge quan es rota el camp."
+msgstr "Restablix el calibratge del guiatge quan es faça rodar el camp."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28947,7 +28947,7 @@ msgstr "Mou (rel)"
 #: ekos/observatory/observatory.ui:250
 #, kde-format
 msgid "Rotate clockwise"
-msgstr "Rotació en sentit horari."
+msgstr "Fa la rotació en sentit horari."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCWButton)
 #: ekos/observatory/observatory.ui:261
@@ -28960,7 +28960,7 @@ msgstr "&Horari"
 #: ekos/observatory/observatory.ui:286
 #, kde-format
 msgid "Rotate counter clockwise"
-msgstr "Rotació en sentit antihorari."
+msgstr "Fa la rotació en sentit antihorari."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:297
@@ -30872,7 +30872,7 @@ msgstr "Angle de posició:"
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
 msgstr ""
-"Apunta cap al centre i rota perquè coincidisca amb este angle de posició."
+"Apunta cap al centre i roda perquè coincidisca amb este angle de posició."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -32085,12 +32085,12 @@ msgstr "S'ha completat l'alineació"
 #: ekos/scheduler/scheduler.cpp:2497
 #, kde-format
 msgid "Repositioning"
-msgstr "S'està tornant a posicionar"
+msgstr "S'està reposicionant"
 
 #: ekos/scheduler/scheduler.cpp:2498
 #, kde-format
 msgid "Repositioning complete"
-msgstr "S'ha completat el tornar a posicionar"
+msgstr "S'ha completat el reposicionament"
 
 #: ekos/scheduler/scheduler.cpp:2501
 #, kde-format
@@ -33693,22 +33693,22 @@ msgstr "Avís: la tasca «%1» no ha trobat cap apuntament, es torna a iniciar."
 #: ekos/scheduler/schedulerprocess.cpp:4052
 #, kde-format
 msgid "Job '%1' repositioning is complete."
-msgstr "S'ha completat el tornar a posicionar de la tasca «%1»."
+msgstr "S'ha completat el reposicionament de la tasca «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:4058
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
-"Avís: la tasca «%1» de tornar a posicionar ha fallat, i es marca com a "
-"finalitzada a causa d'errors."
+"Avís: la tasca «%1» de reposicionar ha fallat, i es marca com a finalitzada "
+"a causa d'errors."
 
 #: ekos/scheduler/schedulerprocess.cpp:4064
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
-"Avís: s'ha detectat que la tasca «%1» no s'està tornant a posicionar, es "
-"torna a iniciar."
+"Avís: s'ha detectat que la tasca «%1» no s'està reposicionant, es torna a "
+"iniciar."
 
 #: ekos/scheduler/schedulerprocess.cpp:4078
 #: ekos/scheduler/schedulerprocess.cpp:4089
@@ -36536,12 +36536,12 @@ msgstr "Difuminat gaussià"
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:109
 #, kde-format
 msgid "Rotate Right"
-msgstr "Rotació cap a la dreta"
+msgstr "Fes la rotació cap a la dreta"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:113
 #, kde-format
 msgid "Rotate Left"
-msgstr "Rotació cap a l'esquerra"
+msgstr "Fes la rotació cap a l'esquerra"
 
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:117
 #, kde-format
@@ -40628,7 +40628,7 @@ msgstr ""
 #: indi/telescopewizardprocess.cpp:354
 #, kde-format
 msgid "Telescope Wizard completed successfully."
-msgstr "L'assistent del telescopi s'ha completat amb èxit."
+msgstr "L'«Assistent del telescopi» s'ha completat amb èxit."
 
 #: kspopupmenu.cpp:87
 #, kde-format
@@ -42964,7 +42964,7 @@ msgstr "El nivell d'ampliació, mesurat en píxels per radiant."
 #: kstars.kcfg:821
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr "L'angle amb el qual es gira el mapa celest"
+msgstr "L'angle amb el qual es roda el mapa celest"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:822
@@ -42974,7 +42974,7 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
-"L'angle amb el qual es gira el mapa celest des de la seua orientació "
+"L'angle amb el qual es roda el mapa celest des de la seua orientació "
 "estàndard («El nord a dalt» si s'utilitzen les coordenades equatorials, «El "
 "zenit a dalt» si s'utilitzen les coordenades horitzontals)."
 
@@ -47342,7 +47342,7 @@ msgstr ""
 #, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
-"LA rotació de 180° de l'AP del rotor s'ha acceptat després de la inversió de "
+"La rotació de 180° de l'AP del rotor s'ha acceptat després de la inversió de "
 "la muntura."
 
 #. i18n: ectx: whatsthis, entry (RotatorParityReversed), group (Align)
@@ -47626,7 +47626,8 @@ msgstr ""
 #: kstars.kcfg:3048
 #, kde-format
 msgid "Rotate mount by this many degrees during polar alignment."
-msgstr "Fa rotar la muntura este nombre de graus durant l'alineació polar."
+msgstr ""
+"Fa la rotació de la muntura este nombre de graus durant l'alineació polar."
 
 #. i18n: ectx: label, entry (PAHRefreshAlgorithm), group (Align)
 #: kstars.kcfg:3052
@@ -47656,8 +47657,8 @@ msgstr ""
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
-"L'usuari hauria de fer rotar la muntura manualment sobre el seu eix durant "
-"l'alineació polar."
+"L'usuari hauria de fer la rotació de la muntura manualment sobre el seu eix "
+"durant l'alineació polar."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
 #: kstars.kcfg:3066
@@ -48286,9 +48287,10 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
-"Restablix un calibratge del guiatge emmagatzemat quan roti el camp, es "
-"detecta a partir de l'angle de posició obtingut per la placa resolta (inclou "
-"tant els moviments del rotor electrònic, com la rotació manual de la càmera)."
+"Restablix un calibratge del guiatge emmagatzemat quan es faça rodar el camp, "
+"es detecta a partir de l'angle de posició obtingut per la placa resolta "
+"(inclou tant els moviments del rotor electrònic, com la rotació manual de la "
+"càmera)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -84180,7 +84182,7 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
-"Este mode se selecciona automàticament si heu rotat manualment el mapa "
+"Este mode se selecciona automàticament si heu fet rodar manualment el mapa "
 "celest mitjançant l'acció del ratolí «Majús+Arrossega», per a informar-vos "
 "que l'orientació és arbitrària."
 
@@ -84224,8 +84226,9 @@ msgstr ""
 "que té l'enfocador al costat esquerre quan es mira des de la part superior "
 "del tub. Esta característica corregirà l'orientació del mapa celest per a "
 "tindre en compte que l'observador roman dret mentre el telescopi es mou "
-"verticalment, a diferència d'una càmera que rotaria amb el telescopi. "
-"Normalment té sentit combinar esta opció amb l'orientació «El zenit a baix»."
+"verticalment, a diferència d'una càmera que faria la rotació amb el "
+"telescopi. Normalment té sentit combinar esta opció amb l'orientació «El "
+"zenit a baix»."
 
 #: kstarsinit.cpp:815
 #, kde-format
@@ -84250,8 +84253,9 @@ msgstr ""
 "que té l'enfocador al costat dret quan es mira des de la part superior del "
 "tub. Esta característica corregirà l'orientació del mapa celest per a tindre "
 "en compte que l'observador roman dret mentre el telescopi es mou "
-"verticalment, a diferència d'una càmera que rotaria amb el telescopi. "
-"Normalment té sentit combinar esta opció amb l'orientació «El zenit a baix»."
+"verticalment, a diferència d'una càmera que faria la rotació amb el "
+"telescopi. Normalment té sentit combinar esta opció amb l'orientació «El "
+"zenit a baix»."
 
 #: kstarsinit.cpp:843
 #, kde-format
@@ -84883,7 +84887,7 @@ msgstr "SE"
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
 #, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Velocitat de gir: "
+msgstr "Velocitat d'apuntament: "
 
 #: kstarslite/qml/main.qml:430
 #, kde-kuit-format
@@ -91998,7 +92002,7 @@ msgstr "Fitxer de terreny:"
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
 msgstr ""
-"Graus d'azimut de rotació del terreny per tal que el nord siga realment el "
+"Graus d'azimut de rodament del terreny per tal que el nord siga realment el "
 "nord."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
@@ -92013,7 +92017,7 @@ msgstr "Graus de correcció de l'azimut de la imatge del terreny:"
 #, kde-format
 msgid "Rotate terrain in altitude degrees so horizon is at 0 degrees altitude"
 msgstr ""
-"Graus d'altitud de rotació del terreny per tal que l'horitzó estiga a 0 "
+"Graus d'altitud de rodament del terreny per tal que l'horitzó estiga a 0 "
 "graus d'altitud."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAltLabel)
@@ -92028,7 +92032,7 @@ msgstr "Graus de correcció de l'altitud de la imatge del terreny:"
 #, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
 msgstr ""
-"Graus d'altitud de rotació del terreny per tal que el nord siga realment el "
+"Graus d'altitud de rodament del terreny per tal que el nord siga realment el "
 "nord."
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
