@@ -36,7 +36,10 @@ StarHopperDialog::~StarHopperDialog()
 
     if (t->list)
         t->list->clear();
-    SkyMap::Instance()->forceUpdate(true);
+    // The dialog is a child of the sky map, so it can be destroyed by the sky map's own
+    // destructor, after SkyMap::Instance() has been cleared
+    if (SkyMap::Instance())
+        SkyMap::Instance()->forceUpdate(true);
     delete ui;
 }
 

@@ -8,6 +8,7 @@
 
 #if defined(HAVE_INDI)
 
+#include <QPointer>
 #include <QStandardItemModel>
 
 #include "artificialhorizoncomponent.h"
@@ -16,6 +17,7 @@
 #include "linelist.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
+#include "starhopperdialog.h"
 #include "test_ekos.h"
 
 TestArtificialHorizon::TestArtificialHorizon(QObject *parent) : QObject(parent)
@@ -482,12 +484,18 @@ void TestArtificialHorizon::testCloseAfterSkyMapDeleted()
         ks->slotHorizonManager();
     QTRY_VERIFY_WITH_TIMEOUT(ks->m_HorizonManager != nullptr && ks->m_HorizonManager->isVisible(), 1000);
 
+    // An open star-hop dialog is a child of the sky map, so it is destroyed while the sky map
+    // itself is being deleted, after SkyMap::Instance() has been cleared (Sentry KSTARS-HT)
+    QPointer<StarHopperDialog> starHopper = new StarHopperDialog(ks->map());
+    starHopper->show();
+
     // Closing the main window deletes the sky map in slotAboutToQuit(), while the horizon manager
     // remains open until the application closes it. Call the slot directly rather than closing the
     // main window, which would also delete the KStars instance used by the test harness.
     ks->slotAboutToQuit();
     QVERIFY(ks->map() == nullptr);
     QVERIFY(SkyMap::Instance() == nullptr);
+    QVERIFY(starHopper.isNull());
 
     // The horizon manager forces a sky map update when closed
     QVERIFY(ks->m_HorizonManager->close());
