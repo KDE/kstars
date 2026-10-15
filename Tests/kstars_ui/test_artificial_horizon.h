@@ -67,7 +67,8 @@ class TestArtificialHorizon : public QObject
         void testArtificialHorizon();
 
         /** @brief Closing the main window deletes the sky map. The horizon manager, still open,
-         * is closed afterwards when the application quits; this must not crash.
+         * is closed afterwards when the application quits, and an open star-hop dialog is
+         * destroyed along with the sky map; this must not crash.
          * @warning This test deletes the sky map, so it must run last.
          */
         void testCloseAfterSkyMapDeleted();
