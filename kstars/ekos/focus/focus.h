@@ -28,6 +28,8 @@
 #include "ui_cfz.h"
 #include "focusutils.h"
 
+#include <QPointer>
+
 class FocusProfilePlot;
 class FITSData;
 class FITSView;
@@ -1142,13 +1144,14 @@ class Focus : public QWidget, public Ui::Focus
          */
         CaptureHistory::FrameData calculateCurrentMeasureAndWeight();
 
-        /// Focuser device needed for focus operation
-        ISD::Focuser *m_Focuser { nullptr };
+        /// Focuser device needed for focus operation. The devices are owned by their INDI
+        /// device and can be deleted at any time (e.g. when INDI stops), so they are QPointers.
+        QPointer<ISD::Focuser> m_Focuser;
         int m_focuserId;
         /// CCD device needed for focus operation
-        ISD::Camera *m_Camera { nullptr };
+        QPointer<ISD::Camera> m_Camera;
         /// Optional device filter
-        ISD::FilterWheel *m_FilterWheel { nullptr };
+        QPointer<ISD::FilterWheel> m_FilterWheel;
         /// Optional temperature source element
         INumber *currentTemperatureSourceElement {nullptr};
 
@@ -1502,7 +1505,7 @@ class Focus : public QWidget, public Ui::Focus
         QVector<double> m_scanMeasure;
         QString m_AFfilter = NULL_FILTER;
 
-        ISD::DustCap *m_DustCap { nullptr }; // New member for dustcap device
+        QPointer<ISD::DustCap> m_DustCap; // New member for dustcap device
         bool m_waitingForDustCapUnpark { false }; // Flag to indicate waiting for dustcap to unpark
 };
 
