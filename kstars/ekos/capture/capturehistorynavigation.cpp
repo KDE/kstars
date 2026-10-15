@@ -7,6 +7,8 @@
 #include "capturehistorynavigation.h"
 #include <ekos_capture_debug.h>
 
+#include <algorithm>
+
 CaptureHistoryNavigation::CaptureHistoryNavigation(QWidget *parent)
     : QWidget{parent}
 {
@@ -25,7 +27,7 @@ void CaptureHistoryNavigation::addRun()
 
 void CaptureHistoryNavigation::removeRun(int run, bool deleteFiles, bool useTrash)
 {
-    if (run <= m_lastRun)
+    if (run >= 0 && run <= m_lastRun)
     {
         if (deleteFiles)
         {
@@ -54,11 +56,23 @@ void CaptureHistoryNavigation::removeRun(int run, bool deleteFiles, bool useTras
 
             }
         }
-        m_captureHistory.removeAt(run);
-        m_lastRun--;
-        // update current position if necessary and possible
-        if (run <= m_currentRun && (run > 1 || m_captureHistory.size() <= 1))
-            m_currentRun--;
+        if (run == 0)
+        {
+            // Run 0 holds the frames captured before the first run was added. It is not
+            // a numbered run, so clear it instead of removing it.
+            captureHistory(0).reset();
+        }
+        else
+        {
+            // A run without frames (e.g. an aborted autofocus) has no entry in the list yet
+            if (run < m_captureHistory.size())
+                m_captureHistory.removeAt(run);
+            m_lastRun--;
+            // update current position if necessary and possible
+            if (run < m_currentRun || (run == m_currentRun && run > 1))
+                m_currentRun--;
+            m_currentRun = std::clamp(m_currentRun, 0, m_lastRun);
+        }
 
         refreshNavigation();
     }
