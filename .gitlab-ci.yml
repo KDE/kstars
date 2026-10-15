@@ -239,7 +239,3 @@ kubuntu_2604_qt610:
 snap_snapcraft_lxd:
   needs:
     - suse_tumbleweed_qt611
-
-snap_snapcraft_lxd_arm64:
-  needs:
-    - suse_tumbleweed_qt611
