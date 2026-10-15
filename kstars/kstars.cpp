@@ -295,8 +295,9 @@ void KStars::releaseResources()
 {
     bool ekosWasActive = false;
 #ifdef HAVE_INDI
-    // Check if Ekos was active before releasing its resources
-    if (Ekos::Manager::Instance())
+    // Check if Ekos was active before releasing its resources. Do not create the Ekos Manager
+    // here: KStars can be destroyed while its data is still loading, and the Manager needs it.
+    if (Ekos::Manager::hasInstance())
     {
         // Check if Ekos was successfully started
         if (Ekos::Manager::Instance()->ekosStatus() == Ekos::CommunicationStatus::Success)
