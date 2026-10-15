@@ -34,4 +34,9 @@ TARGET_LINK_LIBRARIES( test_cameraprocess ${TEST_LIBRARIES})
 ADD_TEST( NAME TestCameraProcess COMMAND test_cameraprocess )
 SET_TESTS_PROPERTIES( TestCameraProcess PROPERTIES LABELS "stable" )
 
+ADD_EXECUTABLE( test_capturehistorynavigation test_capturehistorynavigation.cpp)
+TARGET_LINK_LIBRARIES( test_capturehistorynavigation ${TEST_LIBRARIES})
+ADD_TEST( NAME TestCaptureHistoryNavigation COMMAND test_capturehistorynavigation )
+SET_TESTS_PROPERTIES( TestCaptureHistoryNavigation PROPERTIES LABELS "stable" )
+
 ENDIF ()

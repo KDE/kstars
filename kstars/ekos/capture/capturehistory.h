@@ -65,10 +65,12 @@ class CaptureHistory
         bool deleteFrame(int pos, bool existingFilesOnly = true);
 
         /**
-         * @brief the currently pointed capture frame
+         * @brief the currently pointed capture frame, or an empty frame if the history is empty
          */
         const FrameData currentFrame()
         {
+            if (m_position < 0 || m_position >= m_history.size())
+                return FrameData();
             return m_history.at(m_position);
         }
 
