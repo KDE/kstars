@@ -636,7 +636,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE QString mainCameraDeviceName()
         {
-            return mainCamera()->activeCamera()->getDeviceName();
+            // can be called over D-Bus before a camera is connected
+            auto camera = mainCamera()->activeCamera();
+            return camera == nullptr ? QString() : camera->getDeviceName();
         }
 
         /** @}*/
