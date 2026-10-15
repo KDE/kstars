@@ -84,3 +84,8 @@ ADD_EXECUTABLE( testksalmanac testksalmanac.cpp )
 TARGET_LINK_LIBRARIES( testksalmanac ${TEST_LIBRARIES})
 ADD_TEST( NAME TestKSAlmanac COMMAND testksalmanac )
 SET_TESTS_PROPERTIES( TestKSAlmanac PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testkslogging testkslogging.cpp )
+TARGET_LINK_LIBRARIES( testkslogging ${TEST_LIBRARIES})
+ADD_TEST( NAME TestKSLogging COMMAND testkslogging )
+SET_TESTS_PROPERTIES( TestKSLogging PROPERTIES LABELS "stable")

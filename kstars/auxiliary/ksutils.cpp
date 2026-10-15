@@ -48,6 +48,7 @@
 #include <QLoggingCategory>
 #include <QMutex>
 #include <QMutexLocker>
+#include <cstdlib>
 #include <thread>
 #include <algorithm>
 
@@ -1003,17 +1004,28 @@ void Logging::UseFile()
         file.close();
     }
 
-    if (!s_running)
-    {
-        s_running = true;
-        s_loggingThread = std::thread(processLogEntries);
-    }
+    startLoggingThread();
 
     qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} "
                        "%{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{"
                        "endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] "
                        "%{if-category}[%{category}]%{endif} - %{message}");
     qInstallMessageHandler(File);
+}
+
+void Logging::startLoggingThread()
+{
+    if (s_running)
+        return;
+
+    s_running = true;
+    s_loggingThread = std::thread(processLogEntries);
+
+    // KStars only calls Shutdown() from its destructor, which does not run on every
+    // exit path. A joinable std::thread aborts the process when the static is
+    // destroyed, so make sure the thread is always stopped before exit.
+    static std::once_flag registerShutdown;
+    std::call_once(registerShutdown, [] { std::atexit(Shutdown); });
 }
 
 void Logging::Shutdown()
@@ -1085,11 +1097,7 @@ void Logging::Stdout(QtMsgType type, const QMessageLogContext &context,
 
 void Logging::UseStderr()
 {
-    if (!s_running)
-    {
-        s_running = true;
-        s_loggingThread = std::thread(processLogEntries);
-    }
+    startLoggingThread();
     qInstallMessageHandler(Stderr);
 }
 

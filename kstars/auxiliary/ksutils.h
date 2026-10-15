@@ -286,6 +286,7 @@ class Logging
         static std::thread s_loggingThread;
 
         static void processLogEntries();
+        static void startLoggingThread();
 
         static void Disabled(QtMsgType type, const QMessageLogContext & context,
                              const QString & msg);
