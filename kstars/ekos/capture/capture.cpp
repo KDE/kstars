@@ -677,7 +677,9 @@ bool Capture::setCoolerControl(bool enable)
 
 void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    process()->removeDevice(device);
+    // Each camera tab holds its own devices
+    for (auto &cam : cameras())
+        cam->process()->removeDevice(device);
 }
 
 QString Capture::getTargetName()

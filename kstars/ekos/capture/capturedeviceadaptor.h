@@ -16,8 +16,11 @@
 #include "indi/indidustcap.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
+#include "indi/indirotator.h"
 
 #include "ekos/auxiliary/filtermanager.h"
+
+#include <QPointer>
 
 namespace
 {
@@ -96,7 +99,8 @@ class CaptureDeviceAdaptor: public QObject
         }
         ISD::CameraChip *getActiveChip()
         {
-            return m_ActiveChip;
+            // The chip belongs to the active camera and is deleted along with it
+            return m_ActiveCamera.isNull() ? nullptr : m_ActiveChip;
         }
 
         // FIXME add support for guide head, not implemented yet
@@ -368,21 +372,21 @@ class CaptureDeviceAdaptor: public QObject
         // the state machine for the current sequence job
         QSharedPointer<SequenceJobState> currentSequenceJobState;
         // the light box device
-        ISD::LightBox *m_ActiveLightBox { nullptr };
+        QPointer<ISD::LightBox> m_ActiveLightBox;
         // the dust cap
-        ISD::DustCap *m_ActiveDustCap { nullptr };
+        QPointer<ISD::DustCap> m_ActiveDustCap;
         // the current mount
-        ISD::Mount *m_ActiveMount { nullptr };
+        QPointer<ISD::Mount> m_ActiveMount;
         // the current dome
-        ISD::Dome *m_ActiveDome { nullptr };
+        QPointer<ISD::Dome> m_ActiveDome;
         // active rotator device
-        ISD::Rotator * m_ActiveRotator { nullptr };
+        QPointer<ISD::Rotator> m_ActiveRotator;
         // active camera device
-        ISD::Camera * m_ActiveCamera { nullptr };
-        // active CCD chip
+        QPointer<ISD::Camera> m_ActiveCamera;
+        // active CCD chip, owned by the active camera
         ISD::CameraChip * m_ActiveChip { nullptr };
         // currently active filter wheel device
-        ISD::FilterWheel * m_ActiveFilterWheel { nullptr };
+        QPointer<ISD::FilterWheel> m_ActiveFilterWheel;
         // currently active filter manager
         QSharedPointer<FilterManager> m_FilterManager;
 
