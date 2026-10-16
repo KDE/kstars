@@ -499,6 +499,11 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         Options::setErrorHandlingStrategyDelay(value);
     });
+    // The generic settings sync looks options up by widget name, which does not match RescheduleErrors
+    connect(errorHandlingRescheduleErrorsCB, &QCheckBox::toggled, [](bool checked)
+    {
+        Options::setRescheduleErrors(checked);
+    });
     connect(executionSequenceLimit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int value)
     {
         Options::setSchedulerExecutionSequencesLimit(value);
