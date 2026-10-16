@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-13 02:39+0000\n"
+"POT-Creation-Date: 2026-10-16 02:25+0000\n"
 "PO-Revision-Date: 2026-10-13 12:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -634,109 +634,109 @@ msgstr "Sorry"
 msgid "Info"
 msgstr "Informatie"
 
-#: auxiliary/ksutils.cpp:187
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:188
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:189
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:190
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:191
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:192
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "OZO"
 
-#: auxiliary/ksutils.cpp:193
+#: auxiliary/ksutils.cpp:194
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "ZO"
 
-#: auxiliary/ksutils.cpp:194
+#: auxiliary/ksutils.cpp:195
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "ZZO"
 
-#: auxiliary/ksutils.cpp:195
+#: auxiliary/ksutils.cpp:196
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "Z"
 
-#: auxiliary/ksutils.cpp:196
+#: auxiliary/ksutils.cpp:197
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "ZZW"
 
-#: auxiliary/ksutils.cpp:197
+#: auxiliary/ksutils.cpp:198
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "ZW"
 
-#: auxiliary/ksutils.cpp:198
+#: auxiliary/ksutils.cpp:199
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "WZW"
 
-#: auxiliary/ksutils.cpp:199
+#: auxiliary/ksutils.cpp:200
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "W"
 
-#: auxiliary/ksutils.cpp:200
+#: auxiliary/ksutils.cpp:201
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "WNW"
 
-#: auxiliary/ksutils.cpp:201
+#: auxiliary/ksutils.cpp:202
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NW"
 
-#: auxiliary/ksutils.cpp:202
+#: auxiliary/ksutils.cpp:203
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNW"
 
-#: auxiliary/ksutils.cpp:203
+#: auxiliary/ksutils.cpp:204
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1653
+#: auxiliary/ksutils.cpp:1661
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -747,17 +747,17 @@ msgstr ""
 "%1\n"
 "bestaat niet. Wilt u die map aanmaken?"
 
-#: auxiliary/ksutils.cpp:1656
+#: auxiliary/ksutils.cpp:1664
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Astrometry Index-bestand aanmaken?"
 
-#: auxiliary/ksutils.cpp:1661
+#: auxiliary/ksutils.cpp:1669
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "De standaard map voor het indexbestand voor Astrometry is aangemaakt."
 
-#: auxiliary/ksutils.cpp:1666
+#: auxiliary/ksutils.cpp:1674
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -766,19 +766,19 @@ msgstr ""
 "De standaard map voor het indexbestand voor Astrometry bestaat niet en het "
 "lukt niet die aan te maken."
 
-#: auxiliary/ksutils.cpp:1687 auxiliary/ksutils.cpp:1845
-#: auxiliary/ksutils.cpp:1910
+#: auxiliary/ksutils.cpp:1695 auxiliary/ksutils.cpp:1853
+#: auxiliary/ksutils.cpp:1918
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Leesfout instellingenbestand Astrometry."
 
-#: auxiliary/ksutils.cpp:1701 auxiliary/ksutils.cpp:1888
-#: auxiliary/ksutils.cpp:1930
+#: auxiliary/ksutils.cpp:1709 auxiliary/ksutils.cpp:1896
+#: auxiliary/ksutils.cpp:1938
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Schrijffout intern instellingenbestand voor Astrometry."
 
-#: auxiliary/ksutils.cpp:1976 fitsviewer/fitsdata.cpp:4042
+#: auxiliary/ksutils.cpp:1984 fitsviewer/fitsdata.cpp:4042
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -787,22 +787,22 @@ msgstr ""
 "Kan dcraw en cjpeg niet vinden.  Installeer aub. de nodige hulpmiddelen voor "
 "het omzetten van CR2 naar JPEG."
 
-#: auxiliary/ksutils.cpp:1987
+#: auxiliary/ksutils.cpp:1995
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Kan %1 niet openen: %2"
 
-#: auxiliary/ksutils.cpp:1995
+#: auxiliary/ksutils.cpp:2003
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Unpack_thumb %1: %2 lukt niet"
 
-#: auxiliary/ksutils.cpp:2006
+#: auxiliary/ksutils.cpp:2014
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Kan %s %1: %2 niet schrijven"
 
-#: auxiliary/ksutils.cpp:2231 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:2239 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -39920,17 +39920,17 @@ msgstr "Live stapelaar van KStars"
 msgid "© 2025 KStars Team"
 msgstr "© 2025 Het team van KStars"
 
-#: kstars.cpp:355 kstarsactions.cpp:1685 skymap.cpp:464
+#: kstars.cpp:356 kstarsactions.cpp:1685 skymap.cpp:464
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Volgen stoppen"
 
-#: kstars.cpp:363 kstarsactions.cpp:1852 kstarsinit.cpp:292
+#: kstars.cpp:364 kstarsactions.cpp:1852 kstarsinit.cpp:292
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Maar globeweergave van sterren omschakelen (Equatoriale &coördinaten)"
 
-#: kstars.cpp:364 kstarsactions.cpp:1833 kstarsinit.cpp:293
+#: kstars.cpp:365 kstarsactions.cpp:1833 kstarsinit.cpp:293
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Naar horizontale weergave omschakelen (Horizontale &coördinaten)"
@@ -98905,7 +98905,7 @@ msgstr "gelijkzijdige driehoek"
 msgid " within %1% of FOV of the marked star"
 msgstr "binnen %1% van GV van de gemarkeerde ster"
 
-#: tools/starhopperdialog.cpp:64
+#: tools/starhopperdialog.cpp:67
 #, kde-format
 msgid ""
 "Star-hopper algorithm failed. If you're trying a large star hop, try using a "
