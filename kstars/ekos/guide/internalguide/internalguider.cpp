@@ -1248,6 +1248,11 @@ bool InternalGuider::SEPMultiStarEnabled()
     return Options::guideAlgorithm() == SEP_MULTISTAR;
 }
 
+void InternalGuider::setMultiStarLocalSearch(bool enable)
+{
+    pmath->setMultiStarLocalSearch(enable);
+}
+
 bool InternalGuider::selectAutoStar()
 {
     m_DitherOrigin = QVector3D(0, 0, 0);

@@ -35,6 +35,9 @@
 // margin below (e.g. if a guide star was selected that was near the max guide-star hfr, the later
 // the hfr increased a little, we still want to be able to find it.
 constexpr double HFR_MARGIN = 2.0;
+
+// Don't accept reference stars whose position is more than this many pixels from expected.
+constexpr double maxStarAssociationDistance = 10;
 /*
  Start with a set of reference (x,y) positions from stars, where one is designated a guide star.
  Given these and a set of new input stars, determine a mapping of new stars to the references.
@@ -104,6 +107,8 @@ int GuideStars::getStarMap(int index)
 void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "setupStarCorrespondence: neighbors " << neighbors.size() << "guide index" << guideIndex;
+    // New reference stars: the local search starts again after a full-frame search.
+    resetLocalSearch();
     if (neighbors.size() >= MIN_STAR_CORRESPONDENCE_SIZE)
     {
         starMap.clear();
@@ -301,9 +306,6 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
     if (firstFrame)
         unreliableDectionCounter = 0;
 
-    // Don't accept reference stars whose position is more than this many pixels from expected.
-    constexpr double maxStarAssociationDistance = 10;
-
     if (imageData == nullptr)
         return GuiderUtils::Vector(-1, -1, -1);
 
@@ -321,63 +323,45 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
 
     // Allow a little margin above the max hfr for guide stars when searching for the guide star.
     const double maxHFR = Options::guideMaxHFR() + HFR_MARGIN;
+    m_LastSearchWasLocal = false;
     if (starCorrespondence.size() > 0)
     {
-
-        findTopStars(imageData, STARS_TO_SEARCH, &detectedStars, maxHFR);
-        if (detectedStars.empty())
-            return GuiderUtils::Vector(-1, -1, -1);
-
-        // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
-        starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
+        GuiderUtils::Vector position;
 
         // Star correspondence can run quicker if it knows the image size.
         starCorrespondence.setImageSize(imageData->width(), imageData->height());
 
-        // When using large star-correspondence sets and filtering with a StellarSolver profile,
-        // the stars at the edge of detection can be lost. Best not to filter, but...
-        double minFraction = 0.5;
-        if (starCorrespondence.size() > 25) minFraction =  0.33;
-        else if (starCorrespondence.size() > 15) minFraction =  0.4;
-
-        Edge foundStar = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap, false, minFraction);
-
-        // Is there a correspondence to the guide star
-        // Should we also weight distance to the tracking box?
-        for (int i = 0; i < detectedStars.size(); ++i)
+        // Local search: only look around the expected reference-star positions.
+        // If that doesn't locate the guide star, fall through to the full-frame search below.
+        if (canUseLocalSearch(firstFrame))
         {
-            if (getStarMap(i) == starCorrespondence.guideStar())
+            if (findLocalStars(imageData, maxHFR, &detectedStars) &&
+                    correspondGuideStar(trackingBox, guideView, timer, &position))
             {
-                auto &star = detectedStars[i];
-                double SNR = skyBackground.SNR(star.sum, star.numPixels);
-                guideStarSNR = SNR;
-                guideStarMass = star.sum;
-                unreliableDectionCounter = 0;
-                qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence found star %1 at %2 %3 SNR %4")
-                                           .arg(i).arg(star.x, 0, 'f', 1).arg(star.y, 0, 'f', 1).arg(SNR, 0, 'f', 1);
-
-                if (guideView != nullptr)
-                    plotStars(guideView, trackingBox);
-                qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar took %1s").arg(timer.elapsed() / 1000.0, 0, 'f',
-                                           3);
-                return GuiderUtils::Vector(star.x, star.y, 0);
+                m_LastSearchWasLocal = true;
+                m_LocalSearchesSinceFullFrame++;
+                return position;
             }
+            qCDebug(KSTARS_EKOS_GUIDE) << "Local star search did not find the guide star, searching the full frame.";
         }
-        // None of the stars matched the guide star, but it's possible star correspondence
-        // invented a guide star position.
-        if (foundStar.x >= 0 && foundStar.y >= 0)
+        else if (m_LocalSearchEnabled)
+            qCDebug(KSTARS_EKOS_GUIDE) << "Local star search not used:" << localSearchBlocker(firstFrame);
+
+        findTopStars(imageData, STARS_TO_SEARCH, &detectedStars, maxHFR);
+        m_LocalSearchesSinceFullFrame = 0;
+        if (detectedStars.empty())
         {
-            guideStarSNR = skyBackground.SNR(foundStar.sum, foundStar.numPixels);
-            guideStarMass = foundStar.sum;
-            unreliableDectionCounter = 0;  // debating this
-            qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << foundStar.x << foundStar.y << "SNR" << guideStarSNR;
-            if (guideView != nullptr)
-                plotStars(guideView, trackingBox);
-            qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar/invent took %1s").arg(timer.elapsed() / 1000.0, 0,
-                                       'f', 3);
-            return GuiderUtils::Vector(foundStar.x, foundStar.y, 0);
+            // Nothing detected (e.g. clouds): the next frame searches the full frame again.
+            m_HaveLastGuideStarPosition = false;
+            return GuiderUtils::Vector(-1, -1, -1);
         }
+
+        if (correspondGuideStar(trackingBox, guideView, timer, &position))
+            return position;
     }
+
+    // The local search needs a position from a successful star correspondence.
+    m_HaveLastGuideStarPosition = false;
 
     qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used. It failed to find the guide star.";
 
@@ -437,6 +421,209 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         return GuiderUtils::Vector(star.x, star.y, 0);
     }
     return GuiderUtils::Vector(-1, -1, -1);
+}
+
+// Matches detectedStars against the reference stars. Returns true and the guide star position
+// if the guide star was found, or if star correspondence could invent its position.
+bool GuideStars::correspondGuideStar(const QRect &trackingBox, QSharedPointer<GuideView> &guideView,
+                                     const QElapsedTimer &timer, GuiderUtils::Vector *position)
+{
+    // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
+    starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
+
+    // When using large star-correspondence sets and filtering with a StellarSolver profile,
+    // the stars at the edge of detection can be lost. Best not to filter, but...
+    double minFraction = 0.5;
+    if (starCorrespondence.size() > 25) minFraction =  0.33;
+    else if (starCorrespondence.size() > 15) minFraction =  0.4;
+
+    Edge foundStar = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap, false, minFraction);
+
+    // Is there a correspondence to the guide star
+    // Should we also weight distance to the tracking box?
+    for (int i = 0; i < detectedStars.size(); ++i)
+    {
+        if (getStarMap(i) == starCorrespondence.guideStar())
+        {
+            auto &star = detectedStars[i];
+            double SNR = skyBackground.SNR(star.sum, star.numPixels);
+            guideStarSNR = SNR;
+            guideStarMass = star.sum;
+            unreliableDectionCounter = 0;
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence found star %1 at %2 %3 SNR %4")
+                                       .arg(i).arg(star.x, 0, 'f', 1).arg(star.y, 0, 'f', 1).arg(SNR, 0, 'f', 1);
+
+            if (guideView != nullptr)
+                plotStars(guideView, trackingBox);
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar took %1s").arg(timer.elapsed() / 1000.0, 0, 'f',
+                                       3);
+            *position = GuiderUtils::Vector(star.x, star.y, 0);
+            m_LastGuideStarX = star.x;
+            m_LastGuideStarY = star.y;
+            m_HaveLastGuideStarPosition = true;
+            return true;
+        }
+    }
+    // None of the stars matched the guide star, but it's possible star correspondence
+    // invented a guide star position.
+    if (foundStar.x >= 0 && foundStar.y >= 0)
+    {
+        guideStarSNR = skyBackground.SNR(foundStar.sum, foundStar.numPixels);
+        guideStarMass = foundStar.sum;
+        unreliableDectionCounter = 0;  // debating this
+        qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << foundStar.x << foundStar.y << "SNR" << guideStarSNR;
+        if (guideView != nullptr)
+            plotStars(guideView, trackingBox);
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar/invent took %1s").arg(timer.elapsed() / 1000.0, 0,
+                                   'f', 3);
+        *position = GuiderUtils::Vector(foundStar.x, foundStar.y, 0);
+        m_LastGuideStarX = foundStar.x;
+        m_LastGuideStarY = foundStar.y;
+        m_HaveLastGuideStarPosition = true;
+        return true;
+    }
+    return false;
+}
+
+void GuideStars::setLocalSearchEnabled(bool enabled)
+{
+    if (enabled == m_LocalSearchEnabled)
+        return;
+    m_LocalSearchEnabled = enabled;
+    qCDebug(KSTARS_EKOS_GUIDE) << "SEP MultiStar local star search" << (enabled ? "enabled" : "disabled");
+    // Start from a full-frame search when it is switched on again.
+    m_LocalSearchesSinceFullFrame = 0;
+}
+
+void GuideStars::resetLocalSearch()
+{
+    m_HaveLastGuideStarPosition = false;
+    m_LastSearchWasLocal = false;
+    m_LocalSearchesSinceFullFrame = 0;
+}
+
+bool GuideStars::canUseLocalSearch(bool firstFrame) const
+{
+    return localSearchBlocker(firstFrame) == nullptr;
+}
+
+const char *GuideStars::localSearchBlocker(bool firstFrame) const
+{
+    if (!m_LocalSearchEnabled)
+        return "disabled";
+    if (!m_LocalSearchAllowed)
+        return "not a guiding frame";
+    if (firstFrame)
+        return "first frame";
+    if (starCorrespondence.size() == 0)
+        return "no reference stars";
+    if (!m_HaveLastGuideStarPosition)
+        return "no guide star position yet";
+    if (m_LocalSearchesSinceFullFrame >= LocalSearchFullFrameInterval)
+        return "periodic full-frame search";
+    return nullptr;
+}
+
+QList<QRect> GuideStars::localSearchWindows(int imageWidth, int imageHeight) const
+{
+    QList<QRect> windows;
+    if (!m_HaveLastGuideStarPosition || imageWidth <= 0 || imageHeight <= 0)
+        return windows;
+
+    const QRect image(0, 0, imageWidth, imageHeight);
+    for (int i = 0; i < starCorrespondence.size(); ++i)
+    {
+        // The reference offsets are relative to the guide star, so the expected position of
+        // reference star i is the last guide star position plus its offset.
+        const QVector2D offset = starCorrespondence.offset(i);
+        const int x = qRound(m_LastGuideStarX + offset.x());
+        const int y = qRound(m_LastGuideStarY + offset.y());
+        QRect window = QRect(x - LocalSearchHalfWindow, y - LocalSearchHalfWindow,
+                             2 * LocalSearchHalfWindow, 2 * LocalSearchHalfWindow).intersected(image);
+        // Skip references that are (mostly) outside the image now.
+        if (window.width() < LocalSearchHalfWindow || window.height() < LocalSearchHalfWindow)
+            continue;
+
+        // Merge overlapping windows so that no star is detected twice.
+        for (int j = 0; j < windows.size();)
+        {
+            if (windows[j].intersects(window))
+            {
+                window = window.united(windows[j]);
+                windows.removeAt(j);
+                j = 0;
+            }
+            else
+                ++j;
+        }
+        windows.append(window);
+    }
+    return windows;
+}
+
+bool GuideStars::findLocalStars(const QSharedPointer<FITSData> &imageData, double maxHFR, QList<Edge> *stars)
+{
+    stars->clear();
+    if (imageData == nullptr)
+        return false;
+
+    const QList<QRect> windows = localSearchWindows(imageData->width(), imageData->height());
+    if (windows.isEmpty())
+        return false;
+
+    QElapsedTimer timer;
+    timer.start();
+
+    QVariantMap settings;
+    settings["optionsProfileIndex"] = Options::guideOptionsProfile();
+    settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
+    imageData->setSourceExtractorSettings(settings);
+
+    QList<Edge> found;
+    int pixelsSearched = 0;
+    for (const QRect &window : windows)
+    {
+        pixelsSearched += window.width() * window.height();
+        imageData->findStars(ALGORITHM_SEP, window).waitForFinished();
+        for (const Edge *edge : imageData->getStarCenters())
+        {
+            if (edge != nullptr && window.contains(static_cast<int>(edge->x), static_cast<int>(edge->y)))
+                found.append(*edge);
+        }
+    }
+
+    // Keep the sky background of the last full-frame search: SNR values (used for star selection
+    // and lost-star decisions) stay comparable between local and full-frame searches.
+    imageData->setSkyBackground(skyBackground);
+    // Leave all detections on the image, as a full-frame search does.
+    QList<Edge *> centers;
+    for (const Edge &edge : std::as_const(found))
+        centers.append(new Edge(edge));
+    imageData->setStarCenters(centers);
+
+    // Same validity filter and ordering as findTopStars().
+    QList<Edge *> candidates;
+    for (Edge &edge : found)
+        candidates.append(&edge);
+    QVector<double> scores;
+    evaluateSEPStars(candidates, &scores, nullptr, maxHFR);
+    QVector<std::pair<int, double>> sc;
+    for (int i = 0; i < scores.size(); ++i)
+        sc.push_back(std::pair<int, double>(i, scores[i]));
+    std::sort(sc.begin(), sc.end(), [](const std::pair<int, double> &a, const std::pair<int, double> &b)
+    {
+        return a.second > b.second;
+    });
+    for (const auto &oneScore : std::as_const(sc))
+    {
+        if (oneScore.second >= 0)
+            stars->append(found[oneScore.first]);
+    }
+
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("Local star search: %1 windows, %2 px, %3 stars, took %4s")
+                               .arg(windows.size()).arg(pixelsSearched).arg(stars->size())
+                               .arg(timer.elapsed() / 1000.0, 0, 'f', 3);
+    return !stars->isEmpty();
 }
 
 SSolver::Parameters GuideStars::getStarExtractionParameters(int num)

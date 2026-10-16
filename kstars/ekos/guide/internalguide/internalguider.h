@@ -130,6 +130,13 @@ class InternalGuider : public GuideInterface
 
         bool useSubFrame();
 
+        /**
+         * @brief setMultiStarLocalSearch With SEP MultiStar, search for the reference stars only
+         * around their expected positions while guiding (the Subframe option in the Guide module).
+         * Calibration, dithering, reacquiring and any failed search still use the full frame.
+         */
+        void setMultiStarLocalSearch(bool enable);
+
         const Calibration &getCalibration() const;
 
         // Select a guide star automatically

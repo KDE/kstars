@@ -587,6 +587,9 @@ class Guide : public QWidget, public Ui::Guide
              */
         void setBusy(bool enable);
 
+        // Returns the guide camera chip to its full frame and updates the frame settings.
+        void resetGuideChipFrame();
+
         /**
          * @brief isGuiderActive Indicate if the guider is active (i.e. calibrating, guiding, dithering, ...)
          */

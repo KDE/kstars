@@ -935,7 +935,11 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     GuiderUtils::Vector starPositionArcSec, targetPositionArcSec;
 
     // find guiding star location in the image
+    // Only normal guiding frames may use the SEP MultiStar local search. Calibration, dithering
+    // and settling frames always search the full frame.
+    guideStars.setLocalSearchAllowed(state == Ekos::GUIDE_GUIDING);
     starPosition = findLocalStarPosition(imageData, guideView, false);
+    guideStars.setLocalSearchAllowed(false);
 
     // If no star found, mark as lost star.
     if (starPosition.x == -1 || std::isnan(starPosition.x))

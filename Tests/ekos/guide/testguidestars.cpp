@@ -6,6 +6,10 @@
 
 #include "../indi/indiproperty.h"
 #include "ekos/guide/internalguide/guidestars.h"
+#include "fitsviewer/fitsdata.h"
+#include "config-kstars.h"
+
+#include "../../testhelpers.h"
 
 #include <QtGlobal>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -14,10 +18,16 @@
 #include <QTest>
 #endif
 
+#include <QElapsedTimer>
 #include <QObject>
+#include <QRandomGenerator>
 
-// The high-level methods, selectGuideStar() and findGuideStar() are not yet tested.
-// Neither are the SEP-related EvaluateSEPStars, findTopStars, findAllSEPStars().
+#include <fitsio.h>
+
+#include <cmath>
+
+// The high-level methods, selectGuideStar() and findGuideStar() are only tested
+// with synthetic star fields (local star search tests below).
 
 class TestGuideStars : public QObject
 {
@@ -31,9 +41,17 @@ class TestGuideStars : public QObject
         ~TestGuideStars() override = default;
 
     private Q_SLOTS:
+        void initTestCase();
+        void cleanupTestCase();
+
         void basicTest();
         void calibrationTest();
         void testFindGuideStar();
+
+        void testLocalSearchWindows();
+        void testLocalSearchMatchesFullFrame();
+        void testLocalSearchFallsBackToFullFrame();
+        void testLocalSearchRules();
 };
 
 #include "testguidestars.moc"
@@ -41,6 +59,363 @@ class TestGuideStars : public QObject
 
 TestGuideStars::TestGuideStars() : QObject()
 {
+}
+
+void TestGuideStars::initTestCase()
+{
+    KTEST_BEGIN();
+}
+
+void TestGuideStars::cleanupTestCase()
+{
+    KTEST_END();
+}
+
+Edge makeEdge(float x, float y);
+
+namespace
+{
+// A star in a synthetic guide frame.
+struct TestStar
+{
+    double x;
+    double y;
+    double peak;
+};
+
+constexpr int FrameWidth = 1280;
+constexpr int FrameHeight = 960;
+
+// Random, well separated stars, away from the image edges.
+QList<TestStar> makeStarList(int count, quint32 seed)
+{
+    QRandomGenerator rng(seed);
+    QList<TestStar> stars;
+    constexpr int border = 90;
+    constexpr double minSeparation = 30;
+    int attempts = 0;
+    while (stars.size() < count && attempts++ < 10000)
+    {
+        const double x = border + rng.bounded(FrameWidth - 2 * border) + rng.generateDouble();
+        const double y = border + rng.bounded(FrameHeight - 2 * border) + rng.generateDouble();
+        bool tooClose = false;
+        for (const auto &star : stars)
+        {
+            if (std::hypot(star.x - x, star.y - y) < minSeparation)
+            {
+                tooClose = true;
+                break;
+            }
+        }
+        if (!tooClose)
+            stars.append({x, y, 2000.0 + rng.bounded(28000)});
+    }
+    return stars;
+}
+
+// Renders a 16-bit guide frame with Gaussian stars, shifted by dx,dy, on a flat noisy sky.
+QSharedPointer<FITSData> makeGuideFrame(const QList<TestStar> &stars, double dx, double dy, quint32 noiseSeed)
+{
+    constexpr double sky = 1000, noise = 15, sigma = 1.6;
+    QVector<double> image(FrameWidth * FrameHeight);
+    QRandomGenerator rng(noiseSeed);
+    for (auto &pixel : image)
+    {
+        // Box-Muller
+        const double u1 = std::max(rng.generateDouble(), 1e-12);
+        const double u2 = rng.generateDouble();
+        pixel = sky + noise * std::sqrt(-2.0 * std::log(u1)) * std::cos(2.0 * M_PI * u2);
+    }
+    for (const auto &star : stars)
+    {
+        const double cx = star.x + dx, cy = star.y + dy;
+        for (int y = std::max(0, int(cy) - 10); y <= std::min(FrameHeight - 1, int(cy) + 10); ++y)
+            for (int x = std::max(0, int(cx) - 10); x <= std::min(FrameWidth - 1, int(cx) + 10); ++x)
+                image[y * FrameWidth + x] += star.peak * std::exp(-((x - cx) * (x - cx) + (y - cy) * (y - cy)) / (2 * sigma * sigma));
+    }
+    QVector<quint16> pixels(image.size());
+    for (int i = 0; i < image.size(); ++i)
+        pixels[i] = static_cast<quint16>(qBound(0.0, image[i], 65535.0));
+
+    fitsfile *fptr = nullptr;
+    void *fitsBuffer = nullptr;
+    size_t fitsSize = 0;
+    int status = 0;
+    long naxes[2] = { FrameWidth, FrameHeight };
+    fits_create_memfile(&fptr, &fitsBuffer, &fitsSize, 2880, realloc, &status);
+    fits_create_img(fptr, USHORT_IMG, 2, naxes, &status);
+    fits_write_img(fptr, TUSHORT, 1, pixels.size(), pixels.data(), &status);
+    fits_flush_file(fptr, &status);
+    fits_close_file(fptr, &status);
+    if (status != 0)
+    {
+        free(fitsBuffer);
+        return {};
+    }
+    QByteArray buffer(static_cast<const char *>(fitsBuffer), static_cast<int>(fitsSize));
+    free(fitsBuffer);
+
+    QSharedPointer<FITSData> data(new FITSData(FITS_GUIDE));
+    data->setExtension("fits");
+    if (!data->loadFromBuffer(buffer))
+        return {};
+    return data;
+}
+
+Calibration makeCalibration()
+{
+    dms ra, dec;
+    ra.setFromString("120:30:40");
+    dec.setFromString("10:20:30");
+    Calibration cal;
+    cal.setParameters(3e-3, 3e-3, 750.0, 1, 1, ISD::Mount::PIER_EAST, ra, dec);
+    return cal;
+}
+
+void setMultiStarOptions()
+{
+    Options::setGuideOptionsProfile(0);
+    Options::setMinDetectionsSEPMultistar(5);
+    Options::setMaxMultistarReferenceStars(10);
+    Options::setGuideMaxHFR(4.5);
+    Options::setAlwaysInventGuideStar(true);
+}
+}  // namespace
+
+void TestGuideStars::testLocalSearchWindows()
+{
+    setMultiStarOptions();
+    GuideStars gs;
+    QList<Edge> refs;
+    refs << makeEdge(100, 100)    // guide star
+         << makeEdge(140, 110)    // its window overlaps the guide star's window
+         << makeEdge(500, 300)
+         << makeEdge(10, 10)      // near the corner: window gets clipped
+         << makeEdge(-50, 300)    // outside the image: no window
+         << makeEdge(900, 700);
+    gs.setupStarCorrespondence(refs, 0);
+
+    // No position from a successful correspondence yet: no windows.
+    QVERIFY(gs.localSearchWindows(1000, 800).isEmpty());
+
+    // The stars moved by (3, -2) pixels since the references were taken.
+    gs.m_LastGuideStarX = 103;
+    gs.m_LastGuideStarY = 98;
+    gs.m_HaveLastGuideStarPosition = true;
+    const QList<QRect> windows = gs.localSearchWindows(1000, 800);
+
+    QCOMPARE(windows.size(), 4);
+    const QRect image(0, 0, 1000, 800);
+    for (int i = 0; i < windows.size(); ++i)
+    {
+        QVERIFY(image.contains(windows[i]));
+        for (int j = i + 1; j < windows.size(); ++j)
+            QVERIFY(!windows[i].intersects(windows[j]));
+    }
+    // Every expected star position that is inside the image is covered by a window.
+    for (const QPoint &expected :
+            {
+                QPoint(103, 98), QPoint(143, 108), QPoint(503, 298), QPoint(13, 8), QPoint(903, 698)
+            })
+    {
+        bool covered = false;
+        for (const auto &window : windows)
+            covered |= window.contains(expected);
+        QVERIFY2(covered, qPrintable(QString("(%1,%2) not covered").arg(expected.x()).arg(expected.y())));
+    }
+}
+
+void TestGuideStars::testLocalSearchMatchesFullFrame()
+{
+#ifndef HAVE_STELLARSOLVER
+    QSKIP("Needs StellarSolver for star detection.");
+#endif
+    setMultiStarOptions();
+    const auto stars = makeStarList(40, 1234);
+    auto frame0 = makeGuideFrame(stars, 0, 0, 1);
+    QVERIFY(frame0);
+
+    QSharedPointer<GuideView> view;
+    GuideStars fullGS, localGS;
+    for (GuideStars *gs :
+            {
+                &fullGS, &localGS
+            })
+    {
+        gs->setCalibration(makeCalibration());
+        QVERIFY(gs->selectGuideStar(frame0).x() >= 0);
+        // First guiding frame: always a full-frame search.
+        gs->setLocalSearchAllowed(true);
+        QVERIFY(gs->findGuideStar(frame0, QRect(), view, true).x >= 0);
+        QVERIFY(!gs->lastSearchWasLocal());
+    }
+    localGS.setLocalSearchEnabled(true);
+    const auto target = fullGS.starCorrespondence.reference(fullGS.starCorrespondence.guideStar());
+
+    const QList<QPointF> shifts = {{0.4, -0.3}, {1.7, 0.9}, {-2.6, 3.1}, {4.2, -4.8}, {-6.5, -1.2}, {2.2, 7.4}};
+    qint64 fullNs = 0, localNs = 0;
+    quint32 seed = 10;
+    for (const auto &shift : shifts)
+    {
+        auto frame = makeGuideFrame(stars, shift.x(), shift.y(), seed++);
+        QVERIFY(frame);
+
+        QElapsedTimer timer;
+        timer.start();
+        const auto full = fullGS.findGuideStar(frame, QRect(), view, false);
+        fullNs += timer.nsecsElapsed();
+        timer.restart();
+        const auto local = localGS.findGuideStar(frame, QRect(), view, false);
+        localNs += timer.nsecsElapsed();
+
+        QVERIFY(full.x >= 0 && full.y >= 0);
+        QVERIFY(!fullGS.lastSearchWasLocal());
+        QVERIFY(localGS.lastSearchWasLocal());
+        QVERIFY2(std::abs(full.x - local.x) < 0.05 && std::abs(full.y - local.y) < 0.05,
+                 qPrintable(QString("full %1,%2 local %3,%4").arg(full.x).arg(full.y).arg(local.x).arg(local.y)));
+
+        // The drift that guiding uses must match as well.
+        double fullRA = 0, fullDEC = 0, localRA = 0, localDEC = 0;
+        QVERIFY(fullGS.getDrift(1.0, target.x, target.y, &fullRA, &fullDEC));
+        QVERIFY(localGS.getDrift(1.0, target.x, target.y, &localRA, &localDEC));
+        QVERIFY2(std::abs(fullRA - localRA) < 0.05 && std::abs(fullDEC - localDEC) < 0.05,
+                 qPrintable(QString("drift full %1,%2 local %3,%4").arg(fullRA).arg(fullDEC).arg(localRA).arg(localDEC)));
+
+        // SNR feeds lost-star decisions: it must not jump when switching between the searches.
+        QVERIFY(fullGS.getGuideStarSNR() > 0);
+        QVERIFY2(std::abs(fullGS.getGuideStarSNR() - localGS.getGuideStarSNR()) < 0.1 * fullGS.getGuideStarSNR(),
+                 qPrintable(QString("SNR full %1 local %2").arg(fullGS.getGuideStarSNR()).arg(localGS.getGuideStarSNR())));
+    }
+    qInfo() << QString("Star search per frame (%1x%2): full frame %3 ms, local %4 ms")
+            .arg(FrameWidth).arg(FrameHeight)
+            .arg(fullNs / 1e6 / shifts.size(), 0, 'f', 1).arg(localNs / 1e6 / shifts.size(), 0, 'f', 1);
+}
+
+void TestGuideStars::testLocalSearchFallsBackToFullFrame()
+{
+#ifndef HAVE_STELLARSOLVER
+    QSKIP("Needs StellarSolver for star detection.");
+#endif
+    setMultiStarOptions();
+    const auto stars = makeStarList(40, 4321);
+    auto frame0 = makeGuideFrame(stars, 0, 0, 1);
+    QVERIFY(frame0);
+
+    QSharedPointer<GuideView> view;
+    GuideStars fullGS, localGS;
+    for (GuideStars *gs :
+            {
+                &fullGS, &localGS
+            })
+    {
+        gs->setCalibration(makeCalibration());
+        QVERIFY(gs->selectGuideStar(frame0).x() >= 0);
+        gs->setLocalSearchAllowed(true);
+        QVERIFY(gs->findGuideStar(frame0, QRect(), view, true).x >= 0);
+    }
+    localGS.setLocalSearchEnabled(true);
+
+    // The stars jumped far beyond the search windows (e.g. a gust or a bump):
+    // the same call must fall back to the full frame and still find the guide star.
+    auto jumped = makeGuideFrame(stars, 55.0, -48.0, 2);
+    const auto full = fullGS.findGuideStar(jumped, QRect(), view, false);
+    const auto local = localGS.findGuideStar(jumped, QRect(), view, false);
+    QVERIFY(full.x >= 0);
+    QVERIFY(!localGS.lastSearchWasLocal());
+    QVERIFY(std::abs(full.x - local.x) < 0.01 && std::abs(full.y - local.y) < 0.01);
+
+    // From the new position, the local search works again.
+    auto next = makeGuideFrame(stars, 55.6, -47.5, 3);
+    const auto full2 = fullGS.findGuideStar(next, QRect(), view, false);
+    const auto local2 = localGS.findGuideStar(next, QRect(), view, false);
+    QVERIFY(localGS.lastSearchWasLocal());
+    QVERIFY(std::abs(full2.x - local2.x) < 0.05 && std::abs(full2.y - local2.y) < 0.05);
+
+    // A frame without stars (e.g. clouds): nothing is found, nothing is invented.
+    QList<TestStar> noStars;
+    auto empty = makeGuideFrame(noStars, 0, 0, 4);
+    const auto lost = localGS.findGuideStar(empty, QRect(), view, false);
+    QVERIFY(lost.x < 0);
+    QVERIFY(!localGS.lastSearchWasLocal());
+    // After a lost star the next frame searches the full frame again.
+    auto back = makeGuideFrame(stars, 55.8, -47.2, 5);
+    QVERIFY(localGS.findGuideStar(back, QRect(), view, false).x >= 0);
+    QVERIFY(!localGS.lastSearchWasLocal());
+}
+
+void TestGuideStars::testLocalSearchRules()
+{
+#ifndef HAVE_STELLARSOLVER
+    QSKIP("Needs StellarSolver for star detection.");
+#endif
+    setMultiStarOptions();
+    const auto stars = makeStarList(40, 99);
+    auto frame0 = makeGuideFrame(stars, 0, 0, 1);
+    auto frame1 = makeGuideFrame(stars, 0.8, -0.6, 2);
+    QVERIFY(frame0 && frame1);
+
+    QSharedPointer<GuideView> view;
+    GuideStars gs;
+    gs.setCalibration(makeCalibration());
+    QVERIFY(gs.selectGuideStar(frame0).x() >= 0);
+    gs.setLocalSearchEnabled(true);
+
+    // Not allowed (calibration, dithering, settling): full frame.
+    gs.setLocalSearchAllowed(false);
+    QCOMPARE(QString(gs.localSearchBlocker(false)), QString("not a guiding frame"));
+    QVERIFY(gs.findGuideStar(frame0, QRect(), view, false).x >= 0);
+    QVERIFY(!gs.lastSearchWasLocal());
+    QVERIFY(gs.findGuideStar(frame1, QRect(), view, false).x >= 0);
+    QVERIFY(!gs.lastSearchWasLocal());
+
+    // Allowed, but the first guiding frame: full frame.
+    gs.setLocalSearchAllowed(true);
+    QCOMPARE(QString(gs.localSearchBlocker(true)), QString("first frame"));
+    QVERIFY(gs.findGuideStar(frame1, QRect(), view, true).x >= 0);
+    QVERIFY(!gs.lastSearchWasLocal());
+
+    // Normal guiding frames: local.
+    QVERIFY(gs.localSearchBlocker(false) == nullptr);
+    QVERIFY(gs.findGuideStar(frame0, QRect(), view, false).x >= 0);
+    QVERIFY(gs.lastSearchWasLocal());
+
+    // Switched off (Subframe unchecked): full frame right away. Back on: local again.
+    gs.setLocalSearchEnabled(false);
+    QCOMPARE(QString(gs.localSearchBlocker(false)), QString("disabled"));
+    QVERIFY(gs.findGuideStar(frame1, QRect(), view, false).x >= 0);
+    QVERIFY(!gs.lastSearchWasLocal());
+    gs.setLocalSearchEnabled(true);
+    QVERIFY(gs.findGuideStar(frame0, QRect(), view, false).x >= 0);
+    QVERIFY(gs.lastSearchWasLocal());
+
+    // Periodic safety net: after LocalSearchFullFrameInterval local searches, one full-frame search.
+    int localCount = 1;
+    bool sawFull = false;
+    for (int i = 0; i < GuideStars::LocalSearchFullFrameInterval + 1; ++i)
+    {
+        const QString reason(gs.localSearchBlocker(false));
+        QVERIFY(gs.findGuideStar(i % 2 ? frame0 : frame1, QRect(), view, false).x >= 0);
+        if (gs.lastSearchWasLocal())
+            localCount++;
+        else
+        {
+            QCOMPARE(reason, QString("periodic full-frame search"));
+            sawFull = true;
+            break;
+        }
+    }
+    QVERIFY(sawFull);
+    QCOMPARE(localCount, GuideStars::LocalSearchFullFrameInterval);
+    QVERIFY(gs.findGuideStar(frame1, QRect(), view, false).x >= 0);
+    QVERIFY(gs.lastSearchWasLocal());
+
+    // New reference stars (star reselected after a lost star, a new job, ...): full frame first.
+    QVERIFY(gs.selectGuideStar(frame0).x() >= 0);
+    QCOMPARE(QString(gs.localSearchBlocker(false)), QString("no guide star position yet"));
+    QVERIFY(gs.findGuideStar(frame1, QRect(), view, false).x >= 0);
+    QVERIFY(!gs.lastSearchWasLocal());
+    QVERIFY(gs.findGuideStar(frame0, QRect(), view, false).x >= 0);
+    QVERIFY(gs.lastSearchWasLocal());
 }
 
 Edge makeEdge(float x, float y)

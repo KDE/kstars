@@ -685,7 +685,9 @@ void Guide::updateGuideParams()
             {
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
-                auto subframed = guideSubframe->isChecked();
+                // SEP MultiStar always uses the full frame (Subframe means local star search there).
+                auto subframed = guideSubframe->isChecked() &&
+                                 !(guiderType == GUIDE_INTERNAL && internalGuider->SEPMultiStarEnabled());
 
                 QVariantMap settings;
 
@@ -1114,7 +1116,8 @@ void Guide::setBusy(bool enable)
         captureB->setEnabled(false);
         loopB->setEnabled(false);
         guideDarkFrame->setEnabled(false);
-        guideSubframe->setEnabled(false);
+        // With SEP MultiStar, Subframe only switches the local star search, which may change while busy.
+        guideSubframe->setEnabled(guiderType == GUIDE_INTERNAL && internalGuider->SEPMultiStarEnabled());
         guideAutoStar->setEnabled(false);
         // Stream mode (depth) cannot be changed mid-session; the stream must be
         // (re)started to apply a new depth. Lock it while busy.
@@ -1147,7 +1150,7 @@ void Guide::setBusy(bool enable)
                 guideDarkFrame->setEnabled(true);
                 guideAutoStar->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
                 if(m_Camera)
-                    guideSubframe->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
+                    guideSubframe->setEnabled(true); // cf. configSEPMultistarOptions()
                 break;
             case GUIDE_PHD2:
                 guideSubframe->setEnabled(!phd2Guider->isCurrentCameraNotInEkos());
@@ -2003,27 +2006,41 @@ void Guide::setSubFrameEnabled(bool enable)
     if(guiderType == GUIDE_PHD2)
         setExternalGuiderBLOBEnabled(!enable);
 
+    // SEP MultiStar never subframes the camera. There the option switches the local star search,
+    // which takes effect with the next frame and may change while guiding.
+    if (guiderType == GUIDE_INTERNAL && internalGuider->SEPMultiStarEnabled())
+    {
+        internalGuider->setMultiStarLocalSearch(enable);
+        return;
+    }
+
     // When subframe is disabled, immediately reset frameSettings to full frame
     // so the next stream start uses the correct dimensions without needing
     // an extra stop/start cycle.
-    if (!enable && guiderType == GUIDE_INTERNAL && m_Camera)
+    if (!enable && guiderType == GUIDE_INTERNAL)
+        resetGuideChipFrame();
+}
+
+void Guide::resetGuideChipFrame()
+{
+    if (!m_Camera)
+        return;
+
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    if (targetChip)
     {
-        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
-        if (targetChip)
-        {
-            targetChip->resetFrame();
-            int x, y, w, h;
-            targetChip->getFrame(&x, &y, &w, &h);
+        targetChip->resetFrame();
+        int x, y, w, h;
+        targetChip->getFrame(&x, &y, &w, &h);
 
-            QVariantMap settings      = frameSettings[targetChip];
-            settings["x"]             = x;
-            settings["y"]             = y;
-            settings["w"]             = w;
-            settings["h"]             = h;
-            frameSettings[targetChip] = settings;
+        QVariantMap settings      = frameSettings[targetChip];
+        settings["x"]             = x;
+        settings["y"]             = y;
+        settings["w"]             = w;
+        settings["h"]             = h;
+        frameSettings[targetChip] = settings;
 
-            subFramed = false;
-        }
+        subFramed = false;
     }
 }
 
@@ -2398,8 +2415,23 @@ void Guide::checkExposureValue(ISD::CameraChip * targetChip, double exposure, IP
 
 void Guide::configSEPMultistarOptions()
 {
-    // SEP MultiStar always uses an automated guide star & doesn't subframe.
-    if (internalGuider->SEPMultiStarEnabled())
+    // SEP MultiStar always uses an automated guide star & doesn't subframe the camera.
+    // With the internal guider, the Subframe option enables the local star search instead.
+    if (internalGuider->SEPMultiStarEnabled() && guiderType == GUIDE_INTERNAL)
+    {
+        // The camera may still be subframed from single-star guiding.
+        if (subFramed)
+            resetGuideChipFrame();
+
+        guideSubframe->setEnabled(true);
+        auto subframed = m_Settings["guideSubframe"];
+        if (subframed.isValid())
+            guideSubframe->setChecked(subframed.toBool());
+
+        guideAutoStar->setChecked(true);
+        guideAutoStar->setEnabled(false);
+    }
+    else if (internalGuider->SEPMultiStarEnabled())
     {
         guideSubframe->setChecked(false);
         guideSubframe->setEnabled(false);
@@ -2419,6 +2451,9 @@ void Guide::configSEPMultistarOptions()
         if (autostar.isValid())
             guideAutoStar->setChecked(autostar.toBool());
     }
+
+    internalGuider->setMultiStarLocalSearch(guiderType == GUIDE_INTERNAL && internalGuider->SEPMultiStarEnabled() &&
+                                            guideSubframe->isChecked());
 }
 
 void Guide::setDarkFrameEnabled(bool enable)
@@ -2995,7 +3030,8 @@ void Guide::buildOperationStack(GuideState operation)
                 {
                     // If subframe is enabled and we need to auto select a star, then we need to make the final capture
                     // of the subframed image. This is only done if we aren't already subframed.
-                    if (subFramed == false && guideSubframe->isChecked())
+                    // SEP MultiStar doesn't subframe the camera, so it doesn't need that capture.
+                    if (subFramed == false && guideSubframe->isChecked() && !internalGuider->SEPMultiStarEnabled())
                         operationStack.push(GUIDE_CAPTURE);
 
                     operationStack.push(GUIDE_SUBFRAME);

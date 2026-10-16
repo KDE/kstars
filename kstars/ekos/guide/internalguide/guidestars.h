@@ -7,7 +7,9 @@
 #pragma once
 
 #include <QObject>
+#include <QElapsedTimer>
 #include <QList>
+#include <QRect>
 #include <QVector3D>
 
 #include "starcorrespondence.h"
@@ -102,7 +104,36 @@ class GuideStars
         void reset()
         {
             starCorrespondence.reset();
+            resetLocalSearch();
         }
+
+        // Local star search (SEP MultiStar only).
+        // When enabled and allowed, findGuideStar() runs SEP only in small windows around the
+        // expected positions of the reference stars instead of on the full frame. A full-frame
+        // search is still done for the first frame, after new reference stars were selected, at
+        // least every LocalSearchFullFrameInterval frames, and whenever the local search does not
+        // locate the guide star (in that case within the same call, so no frame is lost).
+        void setLocalSearchEnabled(bool enabled);
+        bool localSearchEnabled() const
+        {
+            return m_LocalSearchEnabled;
+        }
+        // Set per frame by the caller. Only normal guiding frames should allow the local search;
+        // calibration, dithering and settling always search the full frame.
+        void setLocalSearchAllowed(bool allowed)
+        {
+            m_LocalSearchAllowed = allowed;
+        }
+        // True if the last findGuideStar() call located the guide star with the local search.
+        bool lastSearchWasLocal() const
+        {
+            return m_LastSearchWasLocal;
+        }
+
+        // Half size, in pixels, of the window searched around each expected reference-star position.
+        static constexpr int LocalSearchHalfWindow = 32;
+        // A full-frame search is forced after this many consecutive local searches.
+        static constexpr int LocalSearchFullFrameInterval = 30;
 
         // Used to initialize the StarCorrespondence object, which ultimately finds
         // the guidestar using the geometry between it and the other stars detected.
@@ -125,6 +156,23 @@ class GuideStars
                           QList<double> *minDistances = nullptr);
         // The interface to the SEP star detection algorithms.
         int findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList<Edge*> *sepStars, int num);
+
+        // Matches the detectedStars against the reference stars (star correspondence).
+        // On success, fills in position and returns true.
+        bool correspondGuideStar(const QRect &trackingBox, QSharedPointer<GuideView> &guideView,
+                                 const QElapsedTimer &timer, GuiderUtils::Vector *position);
+
+        // Local star search: true if this frame may use it.
+        bool canUseLocalSearch(bool firstFrame) const;
+        // Local star search: why this frame searches the full frame instead, or nullptr if it may search locally.
+        const char *localSearchBlocker(bool firstFrame) const;
+        // Local star search: the windows around the expected reference-star positions,
+        // clipped to the image and with overlapping windows merged.
+        QList<QRect> localSearchWindows(int imageWidth, int imageHeight) const;
+        // Local star search: runs SEP inside localSearchWindows() and returns the valid detections,
+        // ordered like findTopStars(). Keeps the sky background of the last full-frame search.
+        bool findLocalStars(const QSharedPointer<FITSData> &imageData, double maxHFR, QList<Edge> *stars);
+        void resetLocalSearch();
 
         // Convert from input image coordinates to output RA and DEC coordinates.
         GuiderUtils::Vector point2arcsec(const GuiderUtils::Vector &p) const;
@@ -186,6 +234,16 @@ class GuideStars
         int unreliableDectionCounter { 0 };
 
         int m_NumStarsDetected { 0 };
+
+        // Local star search state.
+        bool m_LocalSearchEnabled { false };
+        bool m_LocalSearchAllowed { false };
+        bool m_LastSearchWasLocal { false };
+        // Position of the guide star (found or invented) in the last successful star correspondence.
+        bool m_HaveLastGuideStarPosition { false };
+        double m_LastGuideStarX { 0 };
+        double m_LastGuideStarY { 0 };
+        int m_LocalSearchesSinceFullFrame { 0 };
 
         friend class TestGuideStars;
 };

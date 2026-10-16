@@ -155,6 +155,17 @@ class cgmath : public QObject
         void setStarDetectionAlgorithmIndex(int algorithmIndex);
         bool usingSEPMultiStar() const;
 
+        // SEP MultiStar: search for the reference stars only around their expected positions
+        // while guiding (see GuideStars::setLocalSearchEnabled()).
+        void setMultiStarLocalSearch(bool enabled)
+        {
+            guideStars.setLocalSearchEnabled(enabled);
+        }
+        bool multiStarLocalSearch() const
+        {
+            return guideStars.localSearchEnabled();
+        }
+
         GPG &getGPG()
         {
             return *gpg;
