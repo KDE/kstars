@@ -280,6 +280,34 @@ class TestEkosCaptureWorkflow : public QObject
         void testLightPanelSource_data();
 
         /**
+         * @brief Test that a light panel stays on across consecutive flat jobs, is off for following
+         * light frames and is turned off when the sequence is complete
+         */
+        void testLightPanelConsecutiveFlats();
+
+        /** @brief Test data for {@see testLightPanelConsecutiveFlats()} */
+        void testLightPanelConsecutiveFlats_data();
+
+        /**
+         * @brief Test that a light panel turned on for flats is turned off when capturing is aborted
+         * or stopped, and stays on while capturing is suspended or paused
+         */
+        void testLightPanelStopFlats();
+
+        /** @brief Test data for {@see testLightPanelStopFlats()} */
+        void testLightPanelStopFlats_data();
+
+        /**
+         * @brief Test that flats restarted right after an abort are taken with the light on
+         */
+        void testLightPanelRestartFlatsAfterAbort();
+
+        /**
+         * @brief Test that stopping capture does not touch a light that Capture did not turn on
+         */
+        void testLightPanelManualLightUntouched();
+
+        /**
          * @brief Test capturing flats or darks with a dust cap
          */
         void testDustcapSource();

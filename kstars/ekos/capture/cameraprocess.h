@@ -251,8 +251,10 @@ class CameraProcess : public QObject
          * @brief stopCapturing Stopping the entire capturing state
          * (envelope for aborting, suspending, pausing, ...)
          * @param targetState state capturing should be having afterwards
+         * @param continueSequence true if the sequence continues right away with its next job,
+         * which leaves the calibration light as it is
          */
-        void stopCapturing(CaptureState targetState);
+        void stopCapturing(CaptureState targetState, bool continueSequence = false);
 
         /**
          * @brief pauseCapturing Pauses capturing as soon as the current

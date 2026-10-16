@@ -268,6 +268,10 @@ class CameraState: public QObject
             m_lightBoxLightState = value;
         }
 
+        /**
+         * @brief lightBoxLightEnabled true if Capture has turned on the light box light, which
+         * is then turned off again when capturing ends.
+         */
         bool lightBoxLightEnabled() const
         {
             return m_lightBoxLightEnabled;

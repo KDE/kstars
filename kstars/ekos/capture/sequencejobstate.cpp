@@ -1039,6 +1039,8 @@ void SequenceJobState::lightBoxLight(bool on)
 {
     // ALWAYS update the state to reflect what Ekos commanded
     m_CameraState->setLightBoxLightState(on ? ISD::LightBox::LIGHT_ON : ISD::LightBox::LIGHT_OFF);
+    // remember that Capture turned the light on, so that it is turned off when capturing ends
+    m_CameraState->setLightBoxLightEnabled(on);
 
     // Only re-run checks if preparation is not completed
     if (!preparationCompleted())

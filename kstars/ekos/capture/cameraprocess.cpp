@@ -148,6 +148,7 @@ bool CameraProcess::setLightBox(ISD::LightBox *device)
 
     devices()->setLightBox(device);
     state()->setLightBoxLightState(ISD::LightBox::LIGHT_UNKNOWN);
+    state()->setLightBoxLightEnabled(false);
 
     return true;
 }
@@ -356,7 +357,7 @@ void CameraProcess::capturePreview(bool loop)
     }
 }
 
-void CameraProcess::stopCapturing(CaptureState targetState)
+void CameraProcess::stopCapturing(CaptureState targetState, bool continueSequence)
 {
     clearFlatCache();
 
@@ -446,8 +447,11 @@ void CameraProcess::stopCapturing(CaptureState targetState)
 
     state()->setActiveJob(nullptr);
 
-    // Turn off any calibration light, IF they were turned on by Capture module
-    if (devices()->lightBox() && state()->lightBoxLightEnabled())
+    // Turn off the calibration light if Capture turned it on, unless capturing continues
+    // shortly: with the next job of the sequence, or after a temporary suspension (e.g.
+    // dithering, follower cameras). Switching it off and on again would only add wear.
+    if (devices()->lightBox() && state()->lightBoxLightEnabled() && targetState != CAPTURE_SUSPENDED
+            && continueSequence == false)
     {
         state()->setLightBoxLightEnabled(false);
         devices()->lightBox()->setLightEnabled(false);
@@ -1438,7 +1442,7 @@ void CameraProcess::processJobCompletion2()
     }
     // stopping clears the planned state, therefore skip if pause planned
     if (state()->getCaptureState() != CAPTURE_PAUSE_PLANNED)
-        Q_EMIT stopCapture();
+        stopCapturing(CAPTURE_IDLE, true);
 
     // Check if there are more pending jobs and execute them
     if (resumeSequence() == IPS_OK)
@@ -2125,6 +2129,7 @@ void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         devices()->setLightBox(nullptr);
         state()->hasLightBox = false;
         state()->setLightBoxLightState(ISD::LightBox::LIGHT_UNKNOWN);
+        state()->setLightBoxLightEnabled(false);
     }
 
     // Cameras

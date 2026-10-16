@@ -19,7 +19,11 @@
 #include "ekos/focus/focusmodule.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "indi/indilightbox.h"
 #include "fitsviewer/fitsdata.h"
+
+#include <QScopeGuard>
 
 #define SHUTTER_UNKNOWN -1
 #define SHUTTER_NO       0
@@ -896,6 +900,249 @@ void TestEkosCaptureWorkflow::testLightPanelSource()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
 }
 
+
+namespace
+{
+/**
+ * @brief Records the light panel state for each frame received by Capture, and the light states
+ * reported by the device. A light command sets the light box to busy until the driver confirms it,
+ * so lightStatus() is LIGHT_ON only if the light is on and no command to change it is pending.
+ */
+class LightPanelRecorder
+{
+    public:
+        LightPanelRecorder(ISD::LightBox *lightBox, Ekos::Capture *capture) : m_LightBox(lightBox)
+        {
+            m_Clock.start();
+            QObject::connect(lightBox, &ISD::LightBox::newLightStatus, &m_Context,
+                             [this](ISD::LightBox::LightStatus status)
+            {
+                m_Events << QString("%1ms light=%2").arg(m_Clock.elapsed()).arg(ISD::LightBox::getStatusString(status, false));
+                if (status == ISD::LightBox::LIGHT_OFF)
+                    lightOffEvents++;
+            });
+            QObject::connect(capture, &Ekos::Capture::newStatus, &m_Context,
+                             [this](Ekos::CaptureState status, const QString &, int)
+            {
+                m_Events << QString("%1ms capture=%2 (light=%3)").arg(m_Clock.elapsed())
+                         .arg(Ekos::getCaptureStatusString(status, false))
+                         .arg(ISD::LightBox::getStatusString(m_LightBox->lightStatus(), false));
+                captureState = status;
+                if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
+                    frames << m_LightBox->lightStatus();
+            });
+        }
+
+        ~LightPanelRecorder()
+        {
+            qInfo() << "Light panel event log:";
+            for (const auto &event : m_Events)
+                qInfo().noquote() << "   " << event;
+        }
+
+        /** @brief frames from position from on received with a light state other than the expected one */
+        QString unexpectedFrames(ISD::LightBox::LightStatus expected, int from = 0, int to = -1) const
+        {
+            QStringList result;
+            for (int i = from; i < (to < 0 ? frames.count() : to); i++)
+                if (frames[i] != expected)
+                    result << QString("#%1 (light=%2)").arg(i + 1).arg(ISD::LightBox::getStatusString(frames[i], false));
+            return result.join(", ");
+        }
+
+        QList<ISD::LightBox::LightStatus> frames;
+        Ekos::CaptureState captureState { Ekos::CAPTURE_IDLE };
+        int lightOffEvents { 0 };
+
+    private:
+        ISD::LightBox *m_LightBox { nullptr };
+        QElapsedTimer m_Clock;
+        QStringList m_Events;
+        QObject m_Context;
+};
+}
+
+// verify that the light is on and that no command to change it has been sent: sending a command
+// changes the local FLAT_LIGHT_CONTROL switch right away
+#define KVERIFY_LIGHT_ON_UNCHANGED(lightBox) do { \
+        QCOMPARE(lightBox->lightStatus(), ISD::LightBox::LIGHT_ON); \
+        auto lightSP = lightBox->getSwitch("FLAT_LIGHT_CONTROL"); \
+        QVERIFY(lightSP && lightSP.findWidgetByName("FLAT_LIGHT_ON")); \
+        QCOMPARE(lightSP.findWidgetByName("FLAT_LIGHT_ON")->getState(), ISS_ON); \
+    } while (false)
+
+#define KTRY_GET_LIGHTBOX(lightBox) \
+    ISD::LightBox *lightBox = Ekos::OpticalTrainManager::Instance()->getLightBox(m_CaptureHelper->m_primaryTrain); \
+    QVERIFY(lightBox != nullptr); \
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_OFF, 5000)
+
+void TestEkosCaptureWorkflow::testLightPanelConsecutiveFlats()
+{
+    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+    m_CaptureHelper->ensureCCDShutter(true);
+    QVERIFY(prepareTestCase());
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    KTRY_GET_LIGHTBOX(lightBox);
+
+    // two flats followed by two frames of the given type
+    QString imagepath = getImageLocation()->path() + "/test";
+    QFETCH(QString, secondType);
+    QFETCH(QString, secondFilter);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1, 2, 0.0, "Luminance", "test", imagepath);
+    KTRY_CAPTURE_ADD_FRAME(secondType, 1, 2, 0.0, secondFilter, "test", imagepath);
+
+    LightPanelRecorder recorder(lightBox, capture);
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY_WITH_TIMEOUT(recorder.captureState == Ekos::CAPTURE_COMPLETE, 90000);
+    QCOMPARE(recorder.frames.count(), 4);
+
+    // all flats are taken with the light on, other frames with the light off
+    QVERIFY2(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON, 0, 2).isEmpty(),
+             qPrintable(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON, 0, 2)));
+    const auto expected = secondType == "Flat" ? ISD::LightBox::LIGHT_ON : ISD::LightBox::LIGHT_OFF;
+    QVERIFY2(recorder.unexpectedFrames(expected, 2).isEmpty(), qPrintable(recorder.unexpectedFrames(expected, 2)));
+    // the light is not switched off between consecutive flat jobs
+    if (secondType == "Flat")
+        QCOMPARE(recorder.lightOffEvents, 0);
+    // the light is off once the sequence is complete
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_OFF, 10000);
+}
+
+void TestEkosCaptureWorkflow::testLightPanelConsecutiveFlats_data()
+{
+    QTest::addColumn<QString>("secondType");
+    QTest::addColumn<QString>("secondFilter");
+    QTest::newRow("flats, same filter") << "Flat" << "Luminance";
+    QTest::newRow("flats, filter change") << "Flat" << "Red";
+    QTest::newRow("flats, then lights") << "Light" << "Red";
+}
+
+void TestEkosCaptureWorkflow::testLightPanelStopFlats()
+{
+    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+    m_CaptureHelper->ensureCCDShutter(true);
+    QVERIFY(prepareTestCase());
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    KTRY_GET_LIGHTBOX(lightBox);
+    auto camera = capture->mainCamera();
+    QVERIFY(camera != nullptr);
+
+    QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1, 4, 0.0, "Luminance", "test", imagepath);
+
+    LightPanelRecorder recorder(lightBox, capture);
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY_WITH_TIMEOUT(recorder.frames.count() >= 1, 30000);
+    QCOMPARE(lightBox->lightStatus(), ISD::LightBox::LIGHT_ON);
+
+    QFETCH(QString, action);
+    if (action == "abort")
+        camera->abort();
+    else if (action == "stop")
+        camera->stop();
+    else if (action == "suspend")
+    {
+        camera->suspend();
+        KVERIFY_LIGHT_ON_UNCHANGED(lightBox);
+        // aborting the suspended capture ends capturing
+        camera->abort();
+    }
+    else if (action == "pause")
+    {
+        // pause during an exposure
+        QTRY_VERIFY_WITH_TIMEOUT(recorder.captureState == Ekos::CAPTURE_CAPTURING, 10000);
+        camera->pause();
+        QTRY_VERIFY_WITH_TIMEOUT(recorder.captureState == Ekos::CAPTURE_PAUSED, 30000);
+        // the light stays on while paused
+        KVERIFY_LIGHT_ON_UNCHANGED(lightBox);
+        QCOMPARE(recorder.lightOffEvents, 0);
+        // resume and complete the sequence
+        camera->toggleSequence();
+        QTRY_VERIFY_WITH_TIMEOUT(recorder.captureState == Ekos::CAPTURE_COMPLETE, 60000);
+        // resuming reports image received once more
+        QVERIFY(recorder.frames.count() >= 4);
+        QVERIFY2(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON).isEmpty(),
+                 qPrintable(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON)));
+    }
+    else
+        QFAIL(qPrintable("Unknown action " + action));
+
+    // in all cases, the light is off once capturing ends
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_OFF, 10000);
+}
+
+void TestEkosCaptureWorkflow::testLightPanelStopFlats_data()
+{
+    QTest::addColumn<QString>("action");
+    for (auto action :
+            {"abort", "stop", "suspend", "pause"
+            })
+        QTest::newRow(action) << action;
+}
+
+void TestEkosCaptureWorkflow::testLightPanelRestartFlatsAfterAbort()
+{
+    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+    m_CaptureHelper->ensureCCDShutter(true);
+    QVERIFY(prepareTestCase());
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    KTRY_GET_LIGHTBOX(lightBox);
+    auto camera = capture->mainCamera();
+    QVERIFY(camera != nullptr);
+
+    QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1, 3, 0.0, "Luminance", "test", imagepath);
+
+    LightPanelRecorder recorder(lightBox, capture);
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY_WITH_TIMEOUT(recorder.frames.count() >= 1, 30000);
+    QCOMPARE(lightBox->lightStatus(), ISD::LightBox::LIGHT_ON);
+
+    // abort, turning the light off, and restart before the device confirmed it
+    camera->abort();
+    const int restartFrame = recorder.frames.count();
+    camera->start();
+    QTRY_VERIFY_WITH_TIMEOUT(recorder.captureState == Ekos::CAPTURE_COMPLETE, 60000);
+    QVERIFY(recorder.frames.count() > restartFrame);
+    // all flats after restarting are taken with the light on
+    QVERIFY2(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON, restartFrame).isEmpty(),
+             qPrintable(recorder.unexpectedFrames(ISD::LightBox::LIGHT_ON, restartFrame)));
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_OFF, 10000);
+}
+
+void TestEkosCaptureWorkflow::testLightPanelManualLightUntouched()
+{
+    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+    m_CaptureHelper->ensureCCDShutter(true);
+    QVERIFY(prepareTestCase());
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    KTRY_GET_LIGHTBOX(lightBox);
+    auto camera = capture->mainCamera();
+    QVERIFY(camera != nullptr);
+
+    // turn the light on outside of Capture
+    QVERIFY(lightBox->setLightEnabled(true));
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_ON, 5000);
+
+    // stopping capture does not touch a light that Capture did not turn on
+    capture->abort();
+    KVERIFY_LIGHT_ON_UNCHANGED(lightBox);
+    camera->stop();
+    KVERIFY_LIGHT_ON_UNCHANGED(lightBox);
+    camera->suspend();
+    KVERIFY_LIGHT_ON_UNCHANGED(lightBox);
+}
 
 void TestEkosCaptureWorkflow::testDustcapSource()
 {

@@ -105,6 +105,9 @@ bool LightBox::setLightEnabled(bool enable)
         lightOFF->setState(ISS_ON);
 
     sendNewProperty(lightSP);
+    // The light state is unknown until the driver confirms it. Report it as busy until then,
+    // so that the outdated state is not taken for the current one.
+    m_LightStatus = LIGHT_BUSY;
 
     return true;
 }
