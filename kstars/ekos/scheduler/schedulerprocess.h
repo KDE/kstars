@@ -824,6 +824,10 @@ class SchedulerProcess : public QObject, public ModuleLogger
         /// behaviour if the list is mutated. The flag makes the nested call a no-op.
         bool m_updatingJobCount {false};
 
+        /// Capture status updates received while updateCompletedJobsCount() processes events.
+        /// They are replayed in order once counting is done, so they see the updated frame map.
+        QList<QPair<Ekos::CaptureState, QString>> m_pendingCaptureStatus;
+
         /**
          * @brief showStartupQueueFailurePopup Display a popup notification for startup queue failure.
          * Only shows the popup once per failure cycle.

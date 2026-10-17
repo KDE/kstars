@@ -3799,6 +3799,16 @@ void SchedulerProcess::setGuideStatus(GuideState status)
 
 void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trainname)
 {
+    // Capture may report IMAGE_RECEIVED, IDLE and COMPLETE in a burst, and the later ones can be
+    // dispatched by the processEvents() call in updateCompletedJobsCount() while it counts the frames
+    // for IMAGE_RECEIVED. Handling COMPLETE then would restart a repeating job with the last frame
+    // not yet counted, capturing one extra frame. Replay these updates once counting is done.
+    if (m_updatingJobCount)
+    {
+        m_pendingCaptureStatus.append({status, trainname});
+        return;
+    }
+
     if (activeJob() == nullptr || !m_activeJobs.contains(trainname))
         return;
 
@@ -4677,7 +4687,20 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
     if (m_updatingJobCount)
         return;
     m_updatingJobCount = true;
-    const auto countGuard = qScopeGuard([this] { m_updatingJobCount = false; });
+    const auto countGuard = qScopeGuard([this]
+    {
+        m_updatingJobCount = false;
+        if (!m_pendingCaptureStatus.isEmpty())
+        {
+            QTimer::singleShot(0, this, [this]()
+            {
+                const auto pending = m_pendingCaptureStatus;
+                m_pendingCaptureStatus.clear();
+                for (const auto &update : pending)
+                    setCaptureStatus(update.first, update.second);
+            });
+        }
+    });
 
     /* Use a temporary map in order to limit the number of file searches */
     CapturedFramesMap newFramesCount;

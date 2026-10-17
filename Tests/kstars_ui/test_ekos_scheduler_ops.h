@@ -79,6 +79,7 @@ class TestEkosSchedulerOps : public QObject
         void testArtificialHorizonConstraints();
         void testGreedySchedulerRun();
         void testRememberJobProgress();
+        void testLoopCycleLastFrameCount();
         void testGreedy();
         void testMaxMoonAltitude();
         void testGroups();

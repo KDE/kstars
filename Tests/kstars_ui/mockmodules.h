@@ -245,10 +245,9 @@ class MockCapture : public QObject
         }
         Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count, QString train = "")
         {
-            Q_UNUSED(signature);
-            Q_UNUSED(count);
             Q_UNUSED(train);
             fprintf(stderr, "%d @@@MockCapture::setCapturedFramesMap(%s,%d)\n", __LINE__, signature.toLatin1().data(), count);
+            m_capturedFramesMap[signature] = count;
         }
         Q_SCRIPTABLE Ekos::CaptureState status()
         {
@@ -284,6 +283,8 @@ class MockCapture : public QObject
             Q_EMIT newStatus(m_Status);
         }
         QString m_fileURL;
+        // Frame counts the scheduler sent through setCapturedFramesMap(), keyed by signature.
+        QMap<QString, int> m_capturedFramesMap;
 
         static const QString mockPath;
 

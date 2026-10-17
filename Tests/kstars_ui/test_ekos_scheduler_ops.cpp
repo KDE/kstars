@@ -1858,6 +1858,78 @@ void TestEkosSchedulerOps::testRememberJobProgress()
             Ekos::SCHEDJOB_COMPLETE));
 }
 
+// Regression test: a "Repeat until terminated" job with "Remember job progress" restarted its
+// next cycle with a stale count for the last filter, so one extra frame of that filter was captured.
+// Capture reports the last frame of a cycle with IMAGE_RECEIVED, IDLE and COMPLETE in a burst, and
+// COMPLETE was handled while the scheduler was still counting the files for IMAGE_RECEIVED.
+void TestEkosSchedulerOps::testLoopCycleLastFrameCount()
+{
+    Options::setRememberJobProgress(true);
+
+    GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
+    QVERIFY(targetObject != nullptr);
+    const QDateTime startUTime(QDate(2021, 10, 30), QTime(18, 0, 0), QTimeZone::utc());
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const QString fitsDir = dir.path() + "/images";
+
+    constexpr int framesPerFilter = 2;
+    const QStringList filters = {"Ha", "OIII", "SII"};
+    QVector<TestEkosSchedulerHelper::CaptureJob> captureJobs;
+    for (const auto &filter : filters)
+        captureJobs.append({1000, framesPerFilter, filter, fitsDir});
+
+    TestEkosSchedulerHelper::CompletionCondition loopCondition;
+    loopCondition.type = Ekos::FINISH_LOOP;
+    startupJob(geo, startUTime, &dir,
+               TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, loopCondition, {true, true, true, true},
+                       false, false),
+               TestEkosSchedulerHelper::getEsqContent(captureJobs), QDateTime(), currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+
+    // Store the frames of the first cycle as the capture module would, reporting each one.
+    for (int f = 0; f < filters.size(); ++f)
+    {
+        const QString filterDir = QString("%1/Kocab/Light/%2").arg(fitsDir, filters[f]);
+        QVERIFY(QDir().mkpath(filterDir));
+        for (int i = 1; i <= framesPerFilter; ++i)
+        {
+            QFile frame(QString("%1/Kocab_Light_%2_%3.fits").arg(filterDir, filters[f]).arg(i, 3, 10, QLatin1Char('0')));
+            QVERIFY(frame.open(QIODevice::WriteOnly));
+            frame.close();
+
+            if (f == filters.size() - 1 && i == framesPerFilter)
+                break;
+
+            capture->setStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
+            QTest::qWait(QWAIT_TIME);
+            capture->setStatus(Ekos::CAPTURE_CAPTURING);
+            QTest::qWait(QWAIT_TIME);
+        }
+    }
+
+    // Report the last frame of the cycle the way Capture does, without a pause in between.
+    capture->m_capturedFramesMap.clear();
+    capture->setStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
+    capture->setStatus(Ekos::CAPTURE_IDLE);
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+
+    // The scheduler restarts capture for the next cycle, which must start from zero for every filter.
+    QTRY_COMPARE_WITH_TIMEOUT(capture->m_capturedFramesMap.size(), static_cast<int>(filters.size()), 5000);
+    for (auto it = capture->m_capturedFramesMap.constBegin(); it != capture->m_capturedFramesMap.constEnd(); ++it)
+        QVERIFY2(it.value() == 0, QString("Next cycle starts with %1 frames already counted for %2")
+                 .arg(it.value()).arg(it.key()).toLocal8Bit());
+}
+
 void TestEkosSchedulerOps::loadGreedySchedule(
     bool first, const QString &targetName,
     const TestEkosSchedulerHelper::StartupCondition &startupCondition,
