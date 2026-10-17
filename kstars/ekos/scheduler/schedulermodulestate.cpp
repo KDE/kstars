@@ -153,6 +153,15 @@ void SchedulerModuleState::emitCurrentPosition()
     Q_EMIT currentPositionChanged(m_currentPosition);
 }
 
+void SchedulerModuleState::flushCurrentPosition()
+{
+    if (m_currentPositionDebouncer.isActive())
+    {
+        m_currentPositionDebouncer.stop();
+        emitCurrentPosition();
+    }
+}
+
 void SchedulerModuleState::setStartupState(StartupState state)
 {
     if (m_startupState != state)

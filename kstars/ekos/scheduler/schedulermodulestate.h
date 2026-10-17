@@ -139,6 +139,10 @@ class SchedulerModuleState : public QObject
         }
         void setCurrentPosition(int newCurrentPosition);
         void emitCurrentPosition();
+        /**
+         * @brief flushCurrentPosition Emit a pending (debounced) position change immediately, if any.
+         */
+        void flushCurrentPosition();
 
         void setStartupState(StartupState state);
 

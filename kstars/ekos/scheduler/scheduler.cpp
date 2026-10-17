@@ -2081,6 +2081,10 @@ void Scheduler::removeJob()
         return;
     }
 
+    // Apply a pending position change now, while job changes are not watched. If it fired later, it
+    // would select the job that moved into the removed row and load it into the edit fields.
+    moduleState()->flushCurrentPosition();
+
     /* removing the job succeeded, update UI */
     /* Remove the job from the table */
     queueTable->removeRow(currentRow);
