@@ -416,6 +416,10 @@ void TestGuideStars::testLocalSearchRules()
     QVERIFY(!gs.lastSearchWasLocal());
     QVERIFY(gs.findGuideStar(frame0, QRect(), view, false).x >= 0);
     QVERIFY(gs.lastSearchWasLocal());
+
+    // A call without an image (guide frame not shown) must not keep the previous local result.
+    QVERIFY(gs.findGuideStar(QSharedPointer<FITSData>(), QRect(), view, false).x < 0);
+    QVERIFY(!gs.lastSearchWasLocal());
 }
 
 Edge makeEdge(float x, float y)

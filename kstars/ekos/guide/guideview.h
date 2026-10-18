@@ -40,6 +40,14 @@ class GuideView : public FITSView
         // Refresh the neighbor graphics if necessary.
         void updateNeighbors();
 
+        // Draw the guide star boxes (tracking box and found reference stars) blue while the shown guide star
+        // was found by the SEP MultiStar local search, green otherwise. Repaints when the value changes.
+        void setLocalSearchUsed(bool used);
+        bool localSearchUsed() const
+        {
+            return m_LocalSearchUsed;
+        }
+
     protected:
 
     private:
@@ -64,5 +72,8 @@ class GuideView : public FITSView
 
         // True if neighbors have been added but not yet displayed.
         bool newNeighbors { false };
+
+        // True if the shown guide star was found by the SEP MultiStar local search.
+        bool m_LocalSearchUsed { false };
     Q_SIGNALS:
 };

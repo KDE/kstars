@@ -1694,7 +1694,7 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
 
 void FITSView::drawTrackingBox(QPainter * painter, double scale)
 {
-    painter->setPen(QPen(Qt::green, scaleSize(2)));
+    painter->setPen(QPen(m_TrackingBoxColor, scaleSize(2)));
 
     if (trackingBox.isNull())
         return;

@@ -252,7 +252,7 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
 
 // Find the current target positions for the guide-star neighbors, and add them
 // to the guideView.
-void GuideStars::plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox)
+void GuideStars::plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox, bool localSearch)
 {
     if (guideView == nullptr) return;
     guideView->clearNeighbors();
@@ -288,6 +288,7 @@ void GuideStars::plotStars(QSharedPointer<GuideView> &guideView, const QRect &tr
         guideView->addGuideStarNeighbor(offset.x() + reticle_x, offset.y() + reticle_y, found[i],
                                         detected_x, detected_y, isGuideStar);
     }
+    guideView->setLocalSearchUsed(localSearch);
     guideView->updateNeighbors();
 }
 
@@ -305,6 +306,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
     constexpr int MAX_CONSECUTIVE_UNRELIABLE = 10;
     if (firstFrame)
         unreliableDectionCounter = 0;
+    m_LastSearchWasLocal = false;
 
     if (imageData == nullptr)
         return GuiderUtils::Vector(-1, -1, -1);
@@ -323,7 +325,6 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
 
     // Allow a little margin above the max hfr for guide stars when searching for the guide star.
     const double maxHFR = Options::guideMaxHFR() + HFR_MARGIN;
-    m_LastSearchWasLocal = false;
     if (starCorrespondence.size() > 0)
     {
         GuiderUtils::Vector position;
@@ -336,7 +337,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         if (canUseLocalSearch(firstFrame))
         {
             if (findLocalStars(imageData, maxHFR, &detectedStars) &&
-                    correspondGuideStar(trackingBox, guideView, timer, &position))
+                    correspondGuideStar(trackingBox, guideView, true, timer, &position))
             {
                 m_LastSearchWasLocal = true;
                 m_LocalSearchesSinceFullFrame++;
@@ -356,7 +357,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
             return GuiderUtils::Vector(-1, -1, -1);
         }
 
-        if (correspondGuideStar(trackingBox, guideView, timer, &position))
+        if (correspondGuideStar(trackingBox, guideView, false, timer, &position))
             return position;
     }
 
@@ -426,7 +427,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
 // Matches detectedStars against the reference stars. Returns true and the guide star position
 // if the guide star was found, or if star correspondence could invent its position.
 bool GuideStars::correspondGuideStar(const QRect &trackingBox, QSharedPointer<GuideView> &guideView,
-                                     const QElapsedTimer &timer, GuiderUtils::Vector *position)
+                                     bool localSearch, const QElapsedTimer &timer, GuiderUtils::Vector *position)
 {
     // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
     starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
@@ -454,7 +455,7 @@ bool GuideStars::correspondGuideStar(const QRect &trackingBox, QSharedPointer<Gu
                                        .arg(i).arg(star.x, 0, 'f', 1).arg(star.y, 0, 'f', 1).arg(SNR, 0, 'f', 1);
 
             if (guideView != nullptr)
-                plotStars(guideView, trackingBox);
+                plotStars(guideView, trackingBox, localSearch);
             qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar took %1s").arg(timer.elapsed() / 1000.0, 0, 'f',
                                        3);
             *position = GuiderUtils::Vector(star.x, star.y, 0);
@@ -473,7 +474,7 @@ bool GuideStars::correspondGuideStar(const QRect &trackingBox, QSharedPointer<Gu
         unreliableDectionCounter = 0;  // debating this
         qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << foundStar.x << foundStar.y << "SNR" << guideStarSNR;
         if (guideView != nullptr)
-            plotStars(guideView, trackingBox);
+            plotStars(guideView, trackingBox, localSearch);
         qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar/invent took %1s").arg(timer.elapsed() / 1000.0, 0,
                                    'f', 3);
         *position = GuiderUtils::Vector(foundStar.x, foundStar.y, 0);

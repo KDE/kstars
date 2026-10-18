@@ -12,6 +12,12 @@
 #include <QPainter>
 #include <math.h>
 
+namespace
+{
+// Guide star boxes of frames found by the local star search. Qt::blue is too dark on a star field.
+const QColor LocalSearchStarBoxColor(0, 160, 255);
+}
+
 GuideView::GuideView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
 {
 }
@@ -20,6 +26,15 @@ void GuideView::updateNeighbors()
 {
     if (newNeighbors)
         updateFrame(true);
+}
+
+void GuideView::setLocalSearchUsed(bool used)
+{
+    if (used == m_LocalSearchUsed)
+        return;
+    m_LocalSearchUsed = used;
+    setTrackingBoxColor(used ? LocalSearchStarBoxColor : QColor(Qt::green));
+    updateFrame();
 }
 
 void GuideView::drawOverlay(QPainter *painter, double scale)
@@ -58,7 +73,7 @@ void GuideView::clearNeighbors()
 void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
 {
     double origOpacity = painter->opacity();
-    QPen pen(neighbor.found ? Qt::green : Qt::red);
+    QPen pen(neighbor.found ? trackingBoxColor() : QColor(Qt::red));
     pen.setWidth(2);
     pen.setStyle(Qt::SolidLine);
     painter->setPen(pen);

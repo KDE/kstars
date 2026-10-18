@@ -1502,6 +1502,15 @@ void Guide::setCaptureComplete()
             break;
     }
 
+    // A suspend, abort or dither can arrive while this frame's stars are detected (nested event loop),
+    // and the search may still have drawn the boxes blue afterwards. Repaint now, because newImage and
+    // newStarPixmap below copy the view (EkosLive, Ekos summary).
+    if (m_State != GUIDE_GUIDING && !m_GuideView.isNull() && m_GuideView->localSearchUsed())
+    {
+        m_GuideView->setLocalSearchUsed(false);
+        m_GuideView->updateFrame(true);
+    }
+
     Q_EMIT newImage(m_GuideView);
     Q_EMIT newStarPixmap(m_GuideView->getTrackingBoxPixmap(10));
 }
@@ -2160,6 +2169,10 @@ void Guide::setStatus(Ekos::GuideState newState)
         return;
     }
 
+    // Blue guide star boxes only belong to guiding frames found by the local star search.
+    if (newState != GUIDE_GUIDING && !m_GuideView.isNull())
+        m_GuideView->setLocalSearchUsed(false);
+
     GuideState previousState = m_State;
 
     // ignore connection states to avoid overwriting guiding activity states
@@ -2567,6 +2580,10 @@ bool Guide::setGuiderType(int type)
         appendLogText(i18n("Cannot change guider type while active."));
         return false;
     }
+
+    // Only the internal guider's local star search draws blue guide star boxes.
+    if (!m_GuideView.isNull())
+        m_GuideView->setLocalSearchUsed(false);
 
     if (m_GuiderInstance != nullptr)
     {

@@ -1026,6 +1026,7 @@ bool InternalGuider::processGuiding()
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
     // unnecessary guiding pulses.
     bool process = true;
+    bool fullFrameSearched = false;
 
     if (m_isFirstFrame)
     {
@@ -1033,6 +1034,7 @@ bool InternalGuider::processGuiding()
         if (state == GUIDE_GUIDING)
         {
             GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, m_GuideFrame, true);
+            fullFrameSearched = true;
             if (star_pos.x != -1 && star_pos.y != -1)
                 pmath->setTargetPosition(star_pos.x, star_pos.y);
             else
@@ -1048,6 +1050,13 @@ bool InternalGuider::processGuiding()
     {
         auto const timeStep = calculateGPGTimeStep();
         pmath->performProcessing(state, m_ImageData, m_GuideFrame, timeStep, &guideLog);
+        // Blue guide star boxes only for frames searched purely locally. This frame was also searched on the
+        // full frame above, so keep it green. Repaint now: Guide copies the view when the frame is done.
+        if (fullFrameSearched && m_GuideFrame->localSearchUsed())
+        {
+            m_GuideFrame->setLocalSearchUsed(false);
+            m_GuideFrame->updateFrame(true);
+        }
         if (pmath->usingSEPMultiStar())
         {
             QString info = "";
@@ -1251,6 +1260,9 @@ bool InternalGuider::SEPMultiStarEnabled()
 void InternalGuider::setMultiStarLocalSearch(bool enable)
 {
     pmath->setMultiStarLocalSearch(enable);
+    // Switched off (Subframe unchecked, other algorithm or guider): green guide star boxes right away.
+    if (!enable && m_GuideFrame)
+        m_GuideFrame->setLocalSearchUsed(false);
 }
 
 bool InternalGuider::selectAutoStar()

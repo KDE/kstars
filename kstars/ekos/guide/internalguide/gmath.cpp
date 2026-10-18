@@ -63,6 +63,9 @@ GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imag
                        imageData, m_StarDetectionAlgorithm, video_width, video_height,
                        guideView->getTrackingBox());
 
+    // Guide view: blue guide star boxes only when the local star search found this frame's guide star.
+    guideView->setLocalSearchUsed(usingSEPMultiStar() && guideStars.lastSearchWasLocal());
+
     if (position.x == -1 || position.y == -1)
         setLostStar(true);
     return position;

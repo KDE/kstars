@@ -19,6 +19,7 @@
 #include "starprofileviewer.h"
 #endif
 
+#include <QColor>
 #include <QFutureWatcher>
 #include <QPixmap>
 #include <QScrollArea>
@@ -146,6 +147,10 @@ class FITSView : public QScrollArea
         const QRect &getTrackingBox() const
         {
             return trackingBox;
+        }
+        const QColor &trackingBoxColor() const
+        {
+            return m_TrackingBoxColor;
         }
 
         // last error
@@ -399,6 +404,12 @@ class FITSView : public QScrollArea
 
         double getScale();
 
+        // Colour of the tracking box. Green by default, the Guide view changes it.
+        void setTrackingBoxColor(const QColor &color)
+        {
+            m_TrackingBoxColor = color;
+        }
+
         /// selectionRectangleRaw is used to do the calculations, this rectangle remains the same when user changes the zoom
         QRect selectionRectangleRaw;
         /// Floating toolbar
@@ -503,6 +514,7 @@ class FITSView : public QScrollArea
         // Tracking box
         bool trackingBoxEnabled { false };
         QRect trackingBox;
+        QColor m_TrackingBoxColor { Qt::green };
         QPixmap trackingBoxPixmap;
         QPixmap m_HiPSOverlayPixmap;
 

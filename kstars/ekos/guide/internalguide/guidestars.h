@@ -158,8 +158,9 @@ class GuideStars
         int findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList<Edge*> *sepStars, int num);
 
         // Matches the detectedStars against the reference stars (star correspondence).
-        // On success, fills in position and returns true.
-        bool correspondGuideStar(const QRect &trackingBox, QSharedPointer<GuideView> &guideView,
+        // On success, fills in position and returns true. localSearch tells whether detectedStars
+        // came from the local search (shown in the guide view).
+        bool correspondGuideStar(const QRect &trackingBox, QSharedPointer<GuideView> &guideView, bool localSearch,
                                  const QElapsedTimer &timer, GuiderUtils::Vector *position);
 
         // Local star search: true if this frame may use it.
@@ -191,7 +192,8 @@ class GuideStars
         double findMinDistance(int index, const QList<Edge*> &stars);
 
         // Plot the positions of the neighbor stars on the guideView display.
-        void plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox);
+        // localSearch: the stars were found by the local search (drawn in a different colour).
+        void plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox, bool localSearch);
 
         // These three methods are useful for testing.
         void setDetectedStars(const QList<Edge> &stars)
