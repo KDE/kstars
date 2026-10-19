@@ -62,6 +62,11 @@ class TestEkosSchedulerOps : public QObject
         void testTimeZone();
         void testDawnShutdown();
         void testPreemptiveShutdown();
+        void testResumeCompletesStartup();
+        void testResumeAfterJobCompletedWhilePaused_data();
+        void testResumeAfterJobCompletedWhilePaused();
+        void testPreemptiveWakeupCompletesStartup_data();
+        void testPreemptiveWakeupCompletesStartup();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
 
         // Weather soft-shutdown tests driven through the mock modules and a simulated

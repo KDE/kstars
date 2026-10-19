@@ -682,8 +682,18 @@ void SchedulerProcess::start()
     SchedulerUtils::clearSequenceQueueCache();
 
     // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
+    // Exception: when resuming a paused scheduler, keep the state of the active job if it completed
+    // while the scheduler was paused. findNextJob() leaves the end-of-job handling to the resume
+    // (step #8 in checkStatus()). Resetting the job here would run it again with its old stage
+    // instead, waiting for a capture that has already finished.
+    const SchedulerJob *completedWhilePaused = nullptr;
+    if (moduleState()->schedulerState() == SCHEDULER_PAUSED && activeJob() != nullptr &&
+            activeJob()->getState() == SCHEDJOB_COMPLETE)
+        completedWhilePaused = activeJob();
     for (auto j : moduleState()->jobs())
     {
+        if (j == completedWhilePaused)
+            continue;
         j->setState(SCHEDJOB_IDLE);
         Q_EMIT updateJobTable(j);
     }
@@ -1738,28 +1748,37 @@ bool SchedulerProcess::checkINDIState()
             moduleState()->setIndiState(INDI_READY);
             moduleState()->resetIndiConnectFailureCount();
 
-            // If we were waiting for INDI during startup, transition to post-devices phase
-            if (moduleState()->startupState() == STARTUP_PRE_DEVICES)
-            {
-                appendLogText(i18n("INDI devices ready. Proceeding to post-startup phase..."));
-                moduleState()->setStartupState(STARTUP_POST_DEVICES);
-                // Return false so the scheduler re-enters checkStartupState() on the next tick
-                // and properly executes the STARTUP_POST_DEVICES phase (post-startup queue)
-                // before proceeding to executeJob(). Without this, the race between
-                // checkINDIState() setting STARTUP_POST_DEVICES and checkStartupState() seeing it
-                // causes the post-startup queue (e.g. unpark mount) to be skipped when Ekos/INDI
-                // is already running from the previous night.
-                return false;
-            }
-
-            return true;
+            return proceedToPostStartup();
         }
 
         case INDI_READY:
-            return true;
+            // The startup state can be reset to STARTUP_IDLE while INDI stays connected, e.g. when
+            // resuming a paused scheduler. The property check above is not run again in that case,
+            // so the startup has to move on from here, or it never reaches STARTUP_COMPLETE and the
+            // scheduler neither parks the mount nor shuts down when it has to wait for the next job.
+            return proceedToPostStartup();
     }
 
     return false;
+}
+
+bool SchedulerProcess::proceedToPostStartup()
+{
+    // If we were waiting for INDI during startup, transition to post-devices phase
+    if (moduleState()->startupState() == STARTUP_PRE_DEVICES)
+    {
+        appendLogText(i18n("INDI devices ready. Proceeding to post-startup phase..."));
+        moduleState()->setStartupState(STARTUP_POST_DEVICES);
+        // Return false so the scheduler re-enters checkStartupState() on the next tick
+        // and properly executes the STARTUP_POST_DEVICES phase (post-startup queue)
+        // before proceeding to executeJob(). Without this, the race between
+        // checkINDIState() setting STARTUP_POST_DEVICES and checkStartupState() seeing it
+        // causes the post-startup queue (e.g. unpark mount) to be skipped when Ekos/INDI
+        // is already running from the previous night.
+        return false;
+    }
+
+    return true;
 }
 
 bool SchedulerProcess::completeShutdown()

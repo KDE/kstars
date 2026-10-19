@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QDir>
 #include <QSignalSpy>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include <chrono>
 #include <ctime>
@@ -20,6 +23,7 @@
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerprocess.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/scheduler/taskqueue/actions/delayaction.h"
 
 #include "skymapcomposite.h"
 
@@ -870,6 +874,477 @@ void TestEkosSchedulerOps::testDawnShutdown()
 
     const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), QTimeZone::utc());
     wakeupAndRestart(restartTime, currentUTime, sleepMs);
+}
+
+// Regression test: resuming a paused scheduler while Ekos and INDI are still connected must
+// complete the startup again. The startup state is reset when the scheduler wakes up, but the
+// INDI property check that moves startup on to the post-startup phase is not run again because
+// INDI is already ready. The startup then never reached STARTUP_COMPLETE, so at the end of the
+// night the scheduler neither parked the mount nor ran the preemptive shutdown.
+void TestEkosSchedulerOps::testResumeCompletesStartup()
+{
+    const auto state = scheduler->moduleState();
+    const auto process = scheduler->process();
+    const bool startupEnabled = Options::schedulerStartupEnabled();
+    Options::setSchedulerStartupEnabled(false);
+
+    // A running session: observatory up, startup complete, then the scheduler was paused.
+    state->setEkosCommunicationStatus(Ekos::Success);
+    state->setIndiCommunicationStatus(Ekos::Success);
+    state->setEkosState(Ekos::EKOS_READY);
+    state->setIndiState(Ekos::INDI_READY);
+    state->setStartupState(Ekos::STARTUP_COMPLETE);
+    state->setSchedulerState(Ekos::SCHEDULER_PAUSED);
+
+    // Resuming calls start() -> init(), which wakes the scheduler as after a preemptive shutdown.
+    state->enablePreemptiveShutdown(Ekos::SchedulerModuleState::getLocalTime());
+    process->wakeUpScheduler();
+    QCOMPARE(state->schedulerState(), Ekos::SCHEDULER_RUNNING);
+    QCOMPARE(state->startupState(), Ekos::STARTUP_IDLE);
+
+    // Step the startup, Ekos and INDI checks in the order checkStatus() runs them on each tick.
+    for (int tick = 0; tick < 10 && state->startupState() != Ekos::STARTUP_COMPLETE; ++tick)
+    {
+        if (process->checkStartupState() && process->checkEkosState())
+            process->checkINDIState();
+    }
+
+    QCOMPARE(state->startupState(), Ekos::STARTUP_COMPLETE);
+    QCOMPARE(state->indiState(), Ekos::INDI_READY);
+    // Startup stays complete on the next tick, with nothing left to do.
+    QVERIFY(process->checkStartupState());
+    QVERIFY(process->checkINDIState());
+    QCOMPARE(state->startupState(), Ekos::STARTUP_COMPLETE);
+
+    Options::setSchedulerStartupEnabled(startupEnabled);
+}
+
+// Regression test: Pause lets the running job finish and then waits. If the job finishes while the
+// scheduler is paused, resuming must not run that job again and leave it waiting for a capture that
+// has already completed. The resume has to handle the end of the job as it would have without the pause:
+// - a job that is done after one sequence, nothing else to do: the scheduler runs the shutdown,
+// - a looping job, or a repeating job with batches left: its capture is started again,
+// - a second job in the queue: the scheduler moves on to that job.
+void TestEkosSchedulerOps::testResumeAfterJobCompletedWhilePaused_data()
+{
+    QTest::addColumn<int>("completion");
+    QTest::addColumn<int>("repeats");
+    QTest::addColumn<bool>("secondJob");
+
+    QTest::newRow("Sequence") << static_cast<int>(Ekos::FINISH_SEQUENCE) << 0 << false;
+    QTest::newRow("Loop") << static_cast<int>(Ekos::FINISH_LOOP) << 0 << false;
+    QTest::newRow("Repeat") << static_cast<int>(Ekos::FINISH_REPEAT) << 2 << false;
+    QTest::newRow("TwoJobs") << static_cast<int>(Ekos::FINISH_SEQUENCE) << 0 << true;
+}
+
+void TestEkosSchedulerOps::testResumeAfterJobCompletedWhilePaused()
+{
+    QFETCH(int, completion);
+    QFETCH(int, repeats);
+    QFETCH(bool, secondJob);
+    TestEkosSchedulerHelper::CompletionCondition completionCondition;
+    completionCondition.type = static_cast<Ekos::CompletionCondition>(completion);
+    completionCondition.repeat = repeats;
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    SkyObject *vega = KStars::Instance()->data()->skyComposite()->findByName("Vega");
+    QVERIFY(altair != nullptr && vega != nullptr);
+    // 00:30 local time: both targets are well above the 30 degree minimum altitude, so the first job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const TestEkosSchedulerHelper::ScheduleSteps steps = {true, true, true, true};
+    QVector<QString> esls, esqs;
+    esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition, completionCondition, steps,
+                   false, true));
+    esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
+    if (secondJob)
+    {
+        esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(vega, m_startupCondition, m_completionCondition, steps,
+                       false, true));
+        esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
+    }
+    startupJobs(geo, startUTime, &dir, esls, esqs, QDateTime(), currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    Ekos::SchedulerJob * const job = scheduler->activeJob();
+    QCOMPARE(job->getName(), altair->name());
+
+    {
+        WithInterval interval(1000, scheduler);
+
+        // Pause while capturing, then let the capture finish while the scheduler is paused.
+        scheduler->pause();
+        QCOMPARE(scheduler->moduleState()->schedulerState(), Ekos::SCHEDULER_PAUSED);
+        capture->setStatus(Ekos::CAPTURE_COMPLETE);
+        // Step the scheduler without changing the time: iterateScheduler() sets the clock on each step,
+        // and while the scheduler isn't running every clock change re-evaluates and resets all jobs
+        // (SchedulerProcess::simClockTimeChanged()). A running clock doesn't do that in the application.
+        bool completed = false;
+        for (int i = 0; i < DEFAULT_ITERATIONS && !completed; ++i)
+        {
+            QTest::qWait(QWAIT_TIME);
+            scheduler->process()->runSchedulerIteration();
+            completed = (job->getState() == Ekos::SCHEDJOB_COMPLETE);
+        }
+        QVERIFY2(completed, "Job did not complete while the scheduler was paused.");
+
+        // Resume, as the Start button does. start() also arms the scheduler's own iteration timer;
+        // disconnect it so that the test keeps stepping the scheduler alone.
+        m_schedulerLog.clear();
+        scheduler->process()->start();
+        QObject::disconnect(&scheduler->moduleState()->iterationTimer(), &QTimer::timeout,
+                            scheduler->process().data(), &Ekos::SchedulerProcess::iterate);
+
+        const auto jobString = [&]()
+        {
+            return QString("state %1, stage %2, capture %3")
+                   .arg(Ekos::SchedulerJob::jobStatusString(job->getState()),
+                        Ekos::SchedulerJob::jobStageString(job->getStage()),
+                        Ekos::getCaptureStatusString(capture->status()));
+        };
+        // Run long enough to also cover the capture inactivity check (CAPTURE_INACTIVITY_TIMEOUT, 120 s).
+        if (completionCondition.type == Ekos::FINISH_SEQUENCE)
+        {
+            // The finished job must not be run again.
+            bool reExecuted = false;
+            if (secondJob)
+            {
+                // The scheduler moves on to the second job.
+                const bool nextJob = iterateScheduler("Wait for Next Job After Resume", 4 * DEFAULT_ITERATIONS, &sleepMs,
+                                                      &currentUTime, [&]() -> bool
+                {
+                    if (job->getState() == Ekos::SCHEDJOB_BUSY)
+                        reExecuted = true;
+                    return (scheduler->activeJob() != nullptr && scheduler->activeJob() != job &&
+                            scheduler->activeJob()->getState() == Ekos::SCHEDJOB_BUSY);
+                });
+                QVERIFY2(!reExecuted, qPrintable("Job completed while paused was executed again after resume: " + jobString()));
+                QVERIFY2(nextJob, qPrintable("Scheduler did not start the next job after resume: " + jobString()));
+                QCOMPARE(scheduler->activeJob()->getName(), vega->name());
+            }
+            else
+            {
+                // Nothing left to do: the scheduler shuts the observatory down, as at the end of a night.
+                const bool stopped = iterateScheduler("Wait for Shutdown After Resume", 4 * DEFAULT_ITERATIONS, &sleepMs,
+                                                      &currentUTime, [&]() -> bool
+                {
+                    if (job->getState() == Ekos::SCHEDJOB_BUSY)
+                        reExecuted = true;
+                    return (scheduler->moduleState()->schedulerState() == Ekos::SCHEDULER_IDLE);
+                });
+                QVERIFY2(!reExecuted, qPrintable("Job completed while paused was executed again after resume: " + jobString()));
+                QVERIFY2(stopped, qPrintable("Scheduler did not stop after resuming with no job left to run: " + jobString()));
+                QVERIFY2(!m_schedulerLog.filter("proceeding to stop Ekos/INDI").isEmpty(),
+                         qPrintable("Scheduler stopped without the shutdown procedure: " + m_schedulerLog.join(" | ")));
+            }
+            QCOMPARE(job->getState(), Ekos::SCHEDJOB_COMPLETE);
+        }
+        else
+        {
+            // The looping or repeating job continues: its capture must be started again.
+            const bool restarted = iterateScheduler("Wait for Capture Restart After Resume", 4 * DEFAULT_ITERATIONS,
+                                                    &sleepMs, &currentUTime, [&]() -> bool
+            {
+                return (job->getState() == Ekos::SCHEDJOB_BUSY &&
+                        job->getStage() == Ekos::SCHEDSTAGE_CAPTURING &&
+                        capture->status() == Ekos::CAPTURE_CAPTURING);
+            });
+            QVERIFY2(restarted, qPrintable("Job did not start capturing again after resume: " + jobString()));
+            QVERIFY2(!m_schedulerLog.filter("is repeating").isEmpty(),
+                     qPrintable("Job end was not handled after resume: " + m_schedulerLog.join(" | ")));
+            // The batch finished while paused is counted once.
+            if (completionCondition.type == Ekos::FINISH_REPEAT)
+                QCOMPARE(job->getRepeatsRemaining(), repeats - 1);
+        }
+    }
+}
+
+// Regression test: a preemptive shutdown whose pre-shutdown queue fails leaves Ekos and INDI connected. The
+// failure ends the shutdown before INDI is disconnected, and the scheduler keeps its wakeup timer. When the
+// scheduler wakes up for the next job, it resets the startup state, but the INDI property check that moves the
+// startup on to the post-startup phase is not run again because INDI is still ready. The startup then stayed at
+// STARTUP_PRE_DEVICES: the next job ran without the post-startup queue (e.g. without unparking the mount), and at
+// the end of the schedule the scheduler logged "No executable jobs found. Stopping scheduler." and stopped
+// without the shutdown procedure.
+//
+// Job 1 (Altair) runs right away, job 2 (Vega) starts 90 minutes later, more than the preemptive shutdown time
+// of 30 minutes. Both jobs only slew and capture. The queues are task queue files with one task without a device
+// each, so the queue executor doesn't need an Ekos profile, which the mock modules don't have: the pre-shutdown
+// task runs a script that exits with code 3, the post-startup task is a delay of 0 s. Rows:
+// - PreQueueFails: Ekos and INDI are to be stopped after the shutdown (the default),
+// - PreQueueFailsStopEkosOff: they are to be kept running, the same as the failure keeps them connected anyway,
+// - PreQueueFailsPostStartupQueue: with a post-startup queue, which has to run after the wakeup, before job 2.
+// The test checks the startup, and that the end of the schedule starts the shutdown procedure, not its result.
+namespace
+{
+// Write a task queue file, as the queue manager saves it, with one task without a device: a script that exits
+// with code 3 if fails is set, else a delay of 0 s. Returns the path of the file, or an empty string if it
+// couldn't be written.
+QString writeDevicelessQueue(const QTemporaryDir &dir, const QString &name, bool fails)
+{
+    QJsonObject task;
+    QJsonObject action;
+    if (fails)
+    {
+        // The script exists and is executable, so the action starts it and fails when it exits
+        QFile script(dir.filePath(name + ".sh"));
+        if (!script.open(QIODevice::WriteOnly) || script.write("#!/bin/sh\nexit 3\n") < 0)
+            return QString();
+        script.close();
+        if (!script.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner))
+            return QString();
+        task["name"] = QStringLiteral("Failing Script");
+        task["template_id"] = QStringLiteral("script_execute");
+        action["type"] = QStringLiteral("SCRIPT");
+        action["script_path"] = script.fileName();
+    }
+    else
+    {
+        task["name"] = QStringLiteral("Short Delay");
+        task["template_id"] = QStringLiteral("delay");
+        action["type"] = QStringLiteral("DELAY");
+        action["duration"] = 0;
+        action["unit"] = static_cast<int>(Ekos::DelayAction::SECONDS);
+    }
+    action["timeout"] = 30;
+    action["retries"] = 0;
+    action["failure_action"] = static_cast<int>(Ekos::TaskAction::ABORT_QUEUE);
+    task["device"] = QString();
+    task["actions"] = QJsonArray{action};
+
+    QJsonObject item;
+    item["id"] = name;
+    item["task"] = task;
+    QJsonObject queue;
+    queue["version"] = QStringLiteral("1.0");
+    queue["items"] = QJsonArray{item};
+
+    const QString path = dir.filePath(name + ".kstarsqueue");
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly) || file.write(QJsonDocument(queue).toJson()) < 0)
+        return QString();
+    return path;
+}
+
+// The number of lines of the log that start with text
+int countLogLines(const QStringList &log, const QString &text)
+{
+    int count = 0;
+    for (const QString &line : log)
+        if (line.startsWith(text))
+            count++;
+    return count;
+}
+}
+
+void TestEkosSchedulerOps::testPreemptiveWakeupCompletesStartup_data()
+{
+    QTest::addColumn<bool>("stopEkosAfterShutdown");
+    QTest::addColumn<bool>("postStartupQueue");
+
+    QTest::newRow("PreQueueFails") << true << false;
+    QTest::newRow("PreQueueFailsStopEkosOff") << false << false;
+    QTest::newRow("PreQueueFailsPostStartupQueue") << true << true;
+}
+
+void TestEkosSchedulerOps::testPreemptiveWakeupCompletesStartup()
+{
+    QFETCH(bool, stopEkosAfterShutdown);
+    QFETCH(bool, postStartupQueue);
+    const auto state = scheduler->moduleState();
+
+    // Restore the options that init() doesn't reset, also when a check fails
+    struct KeepOptions
+    {
+        const bool startupEnabled = Options::schedulerStartupEnabled();
+        const bool shutdownEnabled = Options::schedulerShutdownEnabled();
+        const double preemptiveShutdownTime = Options::preemptiveShutdownTime();
+        ~KeepOptions()
+        {
+            Options::setSchedulerStartupEnabled(startupEnabled);
+            Options::setSchedulerShutdownEnabled(shutdownEnabled);
+            Options::setPreemptiveShutdownTime(preemptiveShutdownTime);
+        }
+    } keepOptions;
+    Options::setPreemptiveShutdown(true);
+    Options::setPreemptiveShutdownTime(0.5);
+    Options::setStopEkosAfterShutdown(stopEkosAfterShutdown);
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+    // The shutdown states in the order they were set. The context object ends the connection with this function.
+    QList<int> shutdownStates;
+    QObject stateContext;
+    connect(state.data(), &Ekos::SchedulerModuleState::shutdownStateChanged, &stateContext,
+            [&shutdownStates](Ekos::ShutdownState newState)
+    {
+        shutdownStates.append(newState);
+    });
+
+    QTemporaryDir queueDir(KTest::tempDirPattern(QStringLiteral("task-queues")));
+    QVERIFY(queueDir.isValid());
+    const QString preShutdownQueueFile = writeDevicelessQueue(queueDir, "pre-shutdown", true);
+    QVERIFY(!preShutdownQueueFile.isEmpty());
+    const QString postStartupQueueFile = postStartupQueue ? writeDevicelessQueue(queueDir, "post-startup", false) : QString();
+    QVERIFY(!postStartupQueue || !postStartupQueueFile.isEmpty());
+
+    // 00:30 local time, as in testResumeAfterJobCompletedWhilePaused: Altair is well above the minimum altitude of
+    // 30 degrees, and so is Vega at 02:00 local time, when job 2 starts.
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    SkyObject *vega = KStars::Instance()->data()->skyComposite()->findByName("Vega");
+    QVERIFY(altair != nullptr && vega != nullptr);
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+    const QDateTime job2UTime(QDate(2021, 6, 14), QTime(9, 0, 0), QTimeZone::utc());
+    initTimeGeo(geo, startUTime);
+    // The start time is local time, with the scheduler's UTC offset for this date, which includes DST
+    const QTimeZone geoTZ(static_cast<int>(KStarsData::Instance()->geo()->TZ() * 3600));
+    TestEkosSchedulerHelper::StartupCondition job2Startup;
+    job2Startup.type = Ekos::START_AT;
+    job2Startup.culminationOffset = 0;
+    job2Startup.atLocalDateTime = job2UTime.toTimeZone(geoTZ);
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const TestEkosSchedulerHelper::ScheduleSteps trackOnly = {true, false, false, false};
+    QVector<QString> esls, esqs;
+    esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition, m_completionCondition, trackOnly,
+                   false, true));
+    esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
+    esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(vega, job2Startup, m_completionCondition, trackOnly,
+                   false, true));
+    esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
+    startupJobs(geo, startUTime, &dir, esls, esqs, QDateTime(), currentUTime, sleepMs);
+    if (QTest::currentTestFailed())
+        return;
+    Ekos::SchedulerJob *job1 = nullptr;
+    Ekos::SchedulerJob *job2 = nullptr;
+    for (const auto job : state->jobs())
+    {
+        if (job->getName() == altair->name())
+            job1 = job;
+        else if (job->getName() == vega->name())
+            job2 = job;
+    }
+    QVERIFY(job1 != nullptr && job2 != nullptr);
+
+    WithInterval interval(1000, scheduler);
+    QVERIFY(iterateScheduler("Wait for Job 1 Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+        return (scheduler->activeJob() == job1 && job1->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    QCOMPARE(state->startupState(), Ekos::STARTUP_COMPLETE);
+
+    // The queues are set once the job runs, so that loading the schedule can't change them
+    Options::setSchedulerShutdownEnabled(true);
+    state->setPreShutdownScriptURL(QUrl::fromLocalFile(preShutdownQueueFile));
+    if (postStartupQueue)
+    {
+        Options::setSchedulerStartupEnabled(true);
+        state->setPreStartupScriptURL(QUrl());
+        state->setPostStartupScriptURL(QUrl::fromLocalFile(postStartupQueueFile));
+    }
+
+    // Job 1 ends. Job 2 is due in about 85 minutes, so the scheduler shuts the observatory down until then
+    // and runs the pre-shutdown queue.
+    m_schedulerLog.clear();
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+    QVERIFY2(iterateScheduler("Wait for Preemptive Shutdown", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (state->preemptiveShutdown() && state->timerState() == Ekos::RUN_WAKEUP &&
+                state->shutdownState() != Ekos::SHUTDOWN_IDLE);
+    }), qPrintable("No preemptive shutdown after job 1: " + m_schedulerLog.join(" | ")));
+    QCOMPARE(job1->getState(), Ekos::SCHEDJOB_COMPLETE);
+    QCOMPARE(static_cast<int>(m_schedulerLog.filter("Observatory scheduled for shutdown until next job is ready.").size()), 1);
+    QCOMPARE(countLogLines(m_schedulerLog, "Executing pre-shutdown tasks from "), 1);
+    // The queue fails while the scheduler waits for the wakeup. Wait for that without stepping the scheduler,
+    // its next step is the wakeup.
+    QTRY_COMPARE_WITH_TIMEOUT(state->shutdownState(), Ekos::SHUTDOWN_ERROR, 10000);
+    QCOMPARE(countLogLines(m_schedulerLog, "Pre-shutdown queue failed: "), 1);
+    // Ekos and INDI stay connected until the wakeup, also when they are to be stopped after a shutdown
+    QCOMPARE(state->timerState(), Ekos::RUN_WAKEUP);
+    QCOMPARE(state->ekosState(), Ekos::EKOS_READY);
+    QCOMPARE(state->indiState(), Ekos::INDI_READY);
+    QCOMPARE(ekos->indiStatus(), Ekos::Success);
+
+    // The scheduler wakes up when job 2 is due and starts the observatory up again before running job 2
+    const int wakeupLogStart = m_schedulerLog.size();
+    int startupStateAtJob2 = -1;
+    int logSizeAtJob2 = -1;
+    QVERIFY2(iterateScheduler("Wait for Job 2 After Wakeup", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        if (job2->getState() != Ekos::SCHEDJOB_BUSY)
+            return false;
+        startupStateAtJob2 = state->startupState();
+        logSizeAtJob2 = m_schedulerLog.size();
+        return true;
+    }), qPrintable("Job 2 didn't start after the wakeup: " + m_schedulerLog.mid(wakeupLogStart).join(" | ")));
+    QVERIFY2(std::abs(KStarsData::Instance()->ut().secsTo(job2UTime)) < timeTolerance(DEFAULT_TOLERANCE),
+             qPrintable(QString("Job 2 started at %1 UTC").arg(KStarsData::Instance()->ut().toString("hh:mm:ss"))));
+    const QStringList wakeupLog = m_schedulerLog.mid(wakeupLogStart, logSizeAtJob2 - wakeupLogStart);
+    QVERIFY(wakeupLog.contains("Scheduler is awake."));
+
+    QVERIFY(iterateScheduler("Wait for Job 2 Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+        return (scheduler->activeJob() == job2 && job2->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    QVERIFY(checkLastSlew(vega));
+
+    // Job 2 ends and nothing is left to run: the end of the schedule starts the shutdown procedure, which runs
+    // the pre-shutdown queue again. Its failure doesn't stop the shutdown, which ends with the scheduler stopped.
+    const int endLogStart = m_schedulerLog.size();
+    shutdownStates.clear();
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+    QVERIFY2(iterateScheduler("Wait for Scheduler Stop", 2 * DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (state->schedulerState() == Ekos::SCHEDULER_IDLE);
+    }), qPrintable("The scheduler didn't stop after job 2: " + m_schedulerLog.mid(endLogStart).join(" | ")));
+    QCOMPARE(job2->getState(), Ekos::SCHEDJOB_COMPLETE);
+    const QStringList endLog = m_schedulerLog.mid(endLogStart);
+
+    // What happened after the wakeup, for the messages
+    const QString summary = QString("startup state when job 2 started: \"%1\", log after the wakeup: %2")
+                            .arg(Ekos::startupStateString(static_cast<Ekos::StartupState>(startupStateAtJob2)),
+                                 m_schedulerLog.mid(wakeupLogStart).join(" | "));
+    // The startup is complete before job 2 runs
+    QVERIFY2(startupStateAtJob2 == Ekos::STARTUP_COMPLETE,
+             qPrintable("Job 2 ran before the startup was complete, " + summary));
+    QVERIFY2(wakeupLog.contains("INDI devices ready. Proceeding to post-startup phase..."),
+             qPrintable("The startup didn't go on to the post-startup phase after the wakeup, " + summary));
+    // The post-startup queue runs after the wakeup, before job 2
+    if (postStartupQueue)
+    {
+        QVERIFY2(countLogLines(wakeupLog, "Executing post-startup tasks from " + postStartupQueueFile) == 1 &&
+                 wakeupLog.contains("Post-startup queue completed successfully."),
+                 qPrintable("The post-startup queue didn't run before job 2, " + summary));
+    }
+    // The end of the schedule runs the shutdown procedure, starting with the pre-shutdown queue
+    QVERIFY2(!m_schedulerLog.contains("No executable jobs found. Stopping scheduler."),
+             qPrintable("The scheduler stopped without the shutdown procedure, " + summary));
+    QVERIFY2(shutdownStates.contains(Ekos::SHUTDOWN_PRE_QUEUE_RUNNING) &&
+             countLogLines(endLog, "Executing pre-shutdown tasks from ") == 1,
+             qPrintable("The end of the schedule didn't run the pre-shutdown queue, " + summary));
 }
 
 void TestEkosSchedulerOps::testPreemptiveShutdown()

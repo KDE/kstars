@@ -208,6 +208,12 @@ class SchedulerProcess : public QObject, public ModuleLogger
         bool checkINDIState();
 
         /**
+         * @brief proceedToPostStartup Move the startup on to the post-startup phase once INDI devices are ready.
+         * @return False if the startup moved on and the post-startup phase still has to run, true otherwise.
+         */
+        bool proceedToPostStartup();
+
+        /**
          * @brief completeShutdown Try to complete the scheduler shutdown
          * @return false iff some further action is required
          */
