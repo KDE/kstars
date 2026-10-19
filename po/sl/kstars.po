@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 02:26+0000\n"
+"POT-Creation-Date: 2026-10-19 02:22+0000\n"
 "PO-Revision-Date: 2026-10-17 07:15+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6267,7 +6267,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:350 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1511 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3650
 #, kde-format
@@ -23986,56 +23986,56 @@ msgstr "Čas za osvetlitev je potekel. Prekinjanje kalibracije."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Neuspešno ponovno povezovanje kamere po ponovnem zagonu krmilnika."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1582
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Prosto zanašanje na umetno inteligenco aktivno. Večkratni impulz je potlačen "
 "(RA: %1 ms, DEC: %2 ms)."
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1644
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 "Prosto zanašanje na umetno inteligenco aktivno. Potlačen enojni impulz (%1 "
 "ms)."
 
-#: ekos/guide/guide.cpp:1689
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Ni zaznane kamere. Preverite kamero v optiki."
 
-#: ekos/guide/guide.cpp:1695
+#: ekos/guide/guide.cpp:1704
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Ni zaznanega nobenega vodnika. Preveri vodnik (guide-via) v optiki."
 
-#: ekos/guide/guide.cpp:1787
+#: ekos/guide/guide.cpp:1796
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Montaža je parkirana. Odparkiraj jo, da se začne z vodenjem."
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1917
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Zaznana je sprememba strani stojala. Čiščenje umerjanja."
 
-#: ekos/guide/guide.cpp:1922
+#: ekos/guide/guide.cpp:1931
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Stativ se premika. Ponastavljanje umerjanja…"
 
-#: ekos/guide/guide.cpp:1939
+#: ekos/guide/guide.cpp:1948
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Montaža se parkira. Prekinjanje vodenja..."
 
-#: ekos/guide/guide.cpp:1941
+#: ekos/guide/guide.cpp:1950
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Montaža se obrača. Prekinjanje vodenja..."
 
-#: ekos/guide/guide.cpp:1954
+#: ekos/guide/guide.cpp:1963
 #, kde-format
 msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
@@ -24044,7 +24044,7 @@ msgstr ""
 "Montaža javlja napako, medtem ko je vodenje aktivno. Popravki vodenja morda "
 "ne bodo dosegli montaže."
 
-#: ekos/guide/guide.cpp:1955
+#: ekos/guide/guide.cpp:1964
 #, kde-format
 msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
@@ -24053,68 +24053,68 @@ msgstr ""
 "Montaža je ustavila sledenje, medtem ko je vodenje aktivno. Popravki vodenja "
 "ne morejo nadomestiti izgube sledenja."
 
-#: ekos/guide/guide.cpp:2062
+#: ekos/guide/guide.cpp:2071
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Umerjanje je počiščeno."
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2143
 #, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
 "Polje se je zavrtelo za %1°od kalibracije vodila. Brisanje kalibracije."
 
-#: ekos/guide/guide.cpp:2175
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "External guider connected."
 msgstr "Zunanji vodnik povezan."
 
-#: ekos/guide/guide.cpp:2193
+#: ekos/guide/guide.cpp:2206
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Prekinjena povezava z zunanjim vodnikom."
 
-#: ekos/guide/guide.cpp:2210
+#: ekos/guide/guide.cpp:2223
 #, kde-format
 msgid "Calibration completed."
 msgstr "Umerjanje zaključeno."
 
-#: ekos/guide/guide.cpp:2240
+#: ekos/guide/guide.cpp:2253
 #, kde-format
 msgid "Calibration started."
 msgstr "Umerjanje začeto."
 
-#: ekos/guide/guide.cpp:2254
+#: ekos/guide/guide.cpp:2267
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Vodenje se nadaljuje."
 
-#: ekos/guide/guide.cpp:2258
+#: ekos/guide/guide.cpp:2271
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Samodejno vodenje teče."
 
-#: ekos/guide/guide.cpp:2287
+#: ekos/guide/guide.cpp:2300
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Samodejno vodenje prekinjeno."
 
-#: ekos/guide/guide.cpp:2295
+#: ekos/guide/guide.cpp:2308
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Vodenje v pripravljenosti."
 
-#: ekos/guide/guide.cpp:2304
+#: ekos/guide/guide.cpp:2317
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Ročno stresanje v teku."
 
-#: ekos/guide/guide.cpp:2308
+#: ekos/guide/guide.cpp:2321
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Stresanje v teku."
 
-#: ekos/guide/guide.cpp:2312
+#: ekos/guide/guide.cpp:2325
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -24123,33 +24123,33 @@ msgstr[1] "Umirjanje po stresanju za %1 sekundo…"
 msgstr[2] "Umirjanje po stresanju za %1 sekundi…"
 msgstr[3] "Umirjanje po stresanju za %1 sekunde…"
 
-#: ekos/guide/guide.cpp:2317
+#: ekos/guide/guide.cpp:2330
 #, kde-format
 msgid "Dithering failed."
 msgstr "Stresanje ni uspelo."
 
-#: ekos/guide/guide.cpp:2328
+#: ekos/guide/guide.cpp:2341
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Stresanje se je uspešno zaključilo."
 
-#: ekos/guide/guide.cpp:2386
+#: ekos/guide/guide.cpp:2399
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "%1x%1 združevanje vodil ni podprto. Največja dovoljena vrednost je %2x%2."
 
-#: ekos/guide/guide.cpp:2410
+#: ekos/guide/guide.cpp:2423
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja …"
 
-#: ekos/guide/guide.cpp:2567
+#: ekos/guide/guide.cpp:2580
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Ni mogoče spremeniti vrste vodnika med dejavnostjo."
 
-#: ekos/guide/guide.cpp:2662
+#: ekos/guide/guide.cpp:2679
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24158,37 +24158,37 @@ msgstr ""
 "Opozorilo: Ponovno nastavljanje umerjanja vodnika je omogočeno. "
 "Priporočljivo je to možnost izklopiti za PHD2."
 
-#: ekos/guide/guide.cpp:3117
+#: ekos/guide/guide.cpp:3134
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Umerjanja ni uspelo zagnati."
 
-#: ekos/guide/guide.cpp:3268
+#: ekos/guide/guide.cpp:3285
 #, kde-format
 msgid "Auto star selected."
 msgstr "Izbrana samodejno zaznana zvezda."
 
-#: ekos/guide/guide.cpp:3272
+#: ekos/guide/guide.cpp:3289
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Izbor samodejno zaznane zvezde ni uspel."
 
-#: ekos/guide/guide.cpp:3281
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Izberite vodilno zvezdo za umerjanje."
 
-#: ekos/guide/guide.cpp:3543
+#: ekos/guide/guide.cpp:3560
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (sl. točk)"
 
-#: ekos/guide/guide.cpp:3544
+#: ekos/guide/guide.cpp:3561
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (sl. točk)"
 
-#: ekos/guide/guide.cpp:3687 ekos/guide/guide.cpp:3839
+#: ekos/guide/guide.cpp:3704 ekos/guide/guide.cpp:3856
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24197,7 +24197,7 @@ msgstr ""
 "Kamera PHD2 za Ekos ni na voljo, zato zajetih slik ne morete videti.  Toda "
 "še vedno boste videli sliko vodilne zvezde, ko boste vodili."
 
-#: ekos/guide/guide.cpp:3691 ekos/guide/guide.cpp:3843
+#: ekos/guide/guide.cpp:3708 ekos/guide/guide.cpp:3860
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24208,32 +24208,32 @@ msgstr ""
 "neodkljukana. Zdaj počistite to polje, da omogočite zajem slik. Lahko ga "
 "ponovno omogočite pred vodenjem"
 
-#: ekos/guide/guide.cpp:3772
+#: ekos/guide/guide.cpp:3789
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Pomočnik vodenja z umetno inteligenco..."
 
-#: ekos/guide/guide.cpp:3780
+#: ekos/guide/guide.cpp:3797
 #, kde-format
 msgid "Load Weights..."
 msgstr "Nalaganje uteži…"
 
-#: ekos/guide/guide.cpp:3886 ekos/guide/guide.cpp:3891
+#: ekos/guide/guide.cpp:3903 ekos/guide/guide.cpp:3908
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive učenje umetne inteligence ni uspelo: %1s"
 
-#: ekos/guide/guide.cpp:3887 ekos/guide/guide.cpp:3892
+#: ekos/guide/guide.cpp:3904 ekos/guide/guide.cpp:3909
 #, kde-format
 msgid "unknown error"
 msgstr "neznana napaka"
 
-#: ekos/guide/guide.cpp:3906
+#: ekos/guide/guide.cpp:3923
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Neuspelo shranjevanje uteži umetne inteligence v %1"
 
-#: ekos/guide/guide.cpp:3916
+#: ekos/guide/guide.cpp:3933
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24241,23 +24241,23 @@ msgstr ""
 "Učenje umetne inteligence je končano. Uteži so shranjene v %1 in nastavljene "
 "kot aktivne uteži umetne inteligence."
 
-#: ekos/guide/guide.cpp:3920
+#: ekos/guide/guide.cpp:3937
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Učenje umetne inteligence je končano. Uteži so shranjene v %1."
 
-#: ekos/guide/guide.cpp:3926
+#: ekos/guide/guide.cpp:3943
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Naloži uteži vodila umetne inteligence"
 
-#: ekos/guide/guide.cpp:3927
+#: ekos/guide/guide.cpp:3944
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Uteži umetne inteligence (*.json)"
 
-#: ekos/guide/guide.cpp:3931
+#: ekos/guide/guide.cpp:3948
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24266,7 +24266,7 @@ msgstr ""
 "Uteži vodila umetne inteligence so nastavljene na %1. Uporabljene bodo ob "
 "naslednjem začetku vodenja."
 
-#: ekos/guide/guide.cpp:4107
+#: ekos/guide/guide.cpp:4124
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Ni mogoče zamenjati aktivne optike, medtem ko je povezana s PHD2"
@@ -24295,7 +24295,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Subframe the image around the guide star. Or for "
+#| "PHD2, receive the Guide Star Image instead of the full image frame. For "
+#| "the Internal Guider, before checking this option, you must <span style=\" "
+#| "font-weight:600;\">first</span> capture an image and select a guide star. "
+#| "Uncheck it to take a full frame again. <br/>With 'SEP Multi Star', the "
+#| "full frame is still captured and shown, but while guiding the stars are "
+#| "only searched for around the guide and reference stars, which is much "
+#| "faster. Calibration, dithering and lost stars still search the full "
+#| "frame. This can be changed while guiding.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -24304,8 +24314,9 @@ msgid ""
 "it to take a full frame again. <br/>With 'SEP Multi Star', the full frame is "
 "still captured and shown, but while guiding the stars are only searched for "
 "around the guide and reference stars, which is much faster. Calibration, "
-"dithering and lost stars still search the full frame. This can be changed "
-"while guiding.</p></body></html>"
+"dithering and lost stars still search the full frame. The guide star boxes "
+"turn blue on frames that used this local search. This can be changed while "
+"guiding.</p></body></html>"
 msgstr ""
 "Izvedite izrez slike okoli vodilne zvezde. V primeru programa PHD2 to "
 "pomeni, da namesto celotnega posnetka prejmete le sliko območja okoli "
@@ -25047,27 +25058,27 @@ msgstr[3] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem CCW)."
 
-#: ekos/guide/internalguide/gmath.cpp:282
-#: ekos/guide/internalguide/gmath.cpp:381
+#: ekos/guide/internalguide/gmath.cpp:285
+#: ekos/guide/internalguide/gmath.cpp:384
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Vodnik umetne inteligence: uporabil je zabeležene nastavitve naučenega "
 "modela (%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:307
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "Datoteke uteži ni bilo mogoče prebrati."
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 "Vodnik umetne inteligence ni uspel naložiti uteži. Vodenje je bilo "
 "prekinjeno."
 
-#: ekos/guide/internalguide/gmath.cpp:311
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -25085,12 +25096,12 @@ msgstr ""
 "datoteko z utežmi ali preklopite algoritem vodenja v standardni način. "
 "Vodenje je bilo prekinjeno."
 
-#: ekos/guide/internalguide/gmath.cpp:313
+#: ekos/guide/internalguide/gmath.cpp:316
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Napaka vodila umetne inteligence"
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -25102,7 +25113,7 @@ msgstr ""
 "uteži ...' ali zaženite pomočnika za vodenje z umetno inteligenco. Vodenje "
 "je bilo prekinjeno."
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -25118,22 +25129,22 @@ msgstr ""
 "zaženite pomočnika za vodenje z umetno inteligenco, da ustvarite uteži za "
 "vaše trenutne nastavitve. Vodenje je bilo prekinjeno."
 
-#: ekos/guide/internalguide/gmath.cpp:330
+#: ekos/guide/internalguide/gmath.cpp:333
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Vodnik z umetno inteligenco: Ni uteži"
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:377
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Ponovno ponastavitev uteži vodnika umetne inteligence ni uspela: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:375
+#: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr "datoteke uteži ni bilo mogoče prebrati ali ne ustreza vrsti montaže."
 
-#: ekos/guide/internalguide/gmath.cpp:399
+#: ekos/guide/internalguide/gmath.cpp:402
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -25141,7 +25152,7 @@ msgstr ""
 "Uteži umetne inteligence so bile ponovno sproti naložene iz %1 – vodenje se "
 "nadaljuje neprekinjeno."
 
-#: ekos/guide/internalguide/gmath.cpp:881
+#: ekos/guide/internalguide/gmath.cpp:884
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Omejen dolg impulz od %1ms do %2ms"
@@ -25199,17 +25210,17 @@ msgstr "Umerjanje vodenja neuspelo"
 msgid "Guiding calibration completed successfully"
 msgstr "Umerjanje vodenja se je uspešno zaključilo"
 
-#: ekos/guide/internalguide/internalguider.cpp:1221
+#: ekos/guide/internalguide/internalguider.cpp:1230
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilne zvezde…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1223
+#: ekos/guide/internalguide/internalguider.cpp:1232
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Vrednost praga delta KKS je prekoračena. Iskanje vodilnih zvezd..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1412
+#: ekos/guide/internalguide/internalguider.cpp:1424
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ni uspelo najti nobenih primernih vodilnih zvezd. Prekinitev…"

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 02:26+0000\n"
+"POT-Creation-Date: 2026-10-19 02:22+0000\n"
 "PO-Revision-Date: 2026-10-13 19:56+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -6283,7 +6283,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:350 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1511 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3650
 #, kde-format
@@ -24313,56 +24313,56 @@ msgstr "Tempo scaduto per l'esposizione. Interruzione calibrazione."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Riconnessione fotocamera dopo riavvio del driver non riuscita."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1582
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Deriva libera IA attiva. Multi-impulso trattenuto (AR: %1ms, DEC: %2ms)."
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1644
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Deriva libera IA attiva. Impulso singolo trattenuto (%1ms)."
 
-#: ekos/guide/guide.cpp:1689
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Nessuna fotocamera rilevata. Verifica la fotocamera nei gruppi ottici."
 
-#: ekos/guide/guide.cpp:1695
+#: ekos/guide/guide.cpp:1704
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Nessuna dispositivo di guida rilevato. Verifica la guida nei treni ottici."
 
-#: ekos/guide/guide.cpp:1787
+#: ekos/guide/guide.cpp:1796
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La montatura è parcheggiata. Sparcheggiala per iniziare la guida."
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1917
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Rilevata modifica dello stato di puntamento. Cancellazione della "
 "calibrazione."
 
-#: ekos/guide/guide.cpp:1922
+#: ekos/guide/guide.cpp:1931
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La montatura si sta spostando. Ripristino calibrazione..."
 
-#: ekos/guide/guide.cpp:1939
+#: ekos/guide/guide.cpp:1948
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "La montatura si sta parcheggiando. Interruzione della guida..."
 
-#: ekos/guide/guide.cpp:1941
+#: ekos/guide/guide.cpp:1950
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "La montatura sta ruotando. Guida interrotta..."
 
-#: ekos/guide/guide.cpp:1954
+#: ekos/guide/guide.cpp:1963
 #, kde-format
 msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
@@ -24371,7 +24371,7 @@ msgstr ""
 "La montatura segnala un errore mentre il sistema di guida è attivo. Le "
 "correzioni di guida potrebbero non raggiungere la montatura."
 
-#: ekos/guide/guide.cpp:1955
+#: ekos/guide/guide.cpp:1964
 #, kde-format
 msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
@@ -24381,101 +24381,101 @@ msgstr ""
 "attivo. Le correzioni di guida non riescono a compensare l'inseguimento "
 "perso."
 
-#: ekos/guide/guide.cpp:2062
+#: ekos/guide/guide.cpp:2071
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "La calibrazione è stata cancellata."
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2143
 #, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr ""
 "Campo ruotato di %1° dalla calibrazione della guida. Azzeramento della "
 "calibrazione."
 
-#: ekos/guide/guide.cpp:2175
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "External guider connected."
 msgstr "Dispositivo di guida esterno connesso."
 
-#: ekos/guide/guide.cpp:2193
+#: ekos/guide/guide.cpp:2206
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dispositivo di guida esterno disconnesso."
 
-#: ekos/guide/guide.cpp:2210
+#: ekos/guide/guide.cpp:2223
 #, kde-format
 msgid "Calibration completed."
 msgstr "Calibrazione completata."
 
-#: ekos/guide/guide.cpp:2240
+#: ekos/guide/guide.cpp:2253
 #, kde-format
 msgid "Calibration started."
 msgstr "Calibrazione iniziata."
 
-#: ekos/guide/guide.cpp:2254
+#: ekos/guide/guide.cpp:2267
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Guida ripresa."
 
-#: ekos/guide/guide.cpp:2258
+#: ekos/guide/guide.cpp:2271
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Guida automatica in esecuzione."
 
-#: ekos/guide/guide.cpp:2287
+#: ekos/guide/guide.cpp:2300
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Guida automatica interrotta."
 
-#: ekos/guide/guide.cpp:2295
+#: ekos/guide/guide.cpp:2308
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guida sospesa."
 
-#: ekos/guide/guide.cpp:2304
+#: ekos/guide/guide.cpp:2317
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Dithering manuale in corso."
 
-#: ekos/guide/guide.cpp:2308
+#: ekos/guide/guide.cpp:2321
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Dithering in corso."
 
-#: ekos/guide/guide.cpp:2312
+#: ekos/guide/guide.cpp:2325
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Stabilizzazione post-dither per 1 secondo..."
 msgstr[1] "Stabilizzazione post-dither per %1 secondi..."
 
-#: ekos/guide/guide.cpp:2317
+#: ekos/guide/guide.cpp:2330
 #, kde-format
 msgid "Dithering failed."
 msgstr "Dithering non riuscito."
 
-#: ekos/guide/guide.cpp:2328
+#: ekos/guide/guide.cpp:2341
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dithering completato correttamente."
 
-#: ekos/guide/guide.cpp:2386
+#: ekos/guide/guide.cpp:2399
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Il binning di guida %1x%1 non è supportato. Il massimo è %2x%2."
 
-#: ekos/guide/guide.cpp:2410
+#: ekos/guide/guide.cpp:2423
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Esposizione non riuscita. Riavvio dell'esposizione..."
 
-#: ekos/guide/guide.cpp:2567
+#: ekos/guide/guide.cpp:2580
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Impossibile cambiare il tipo di dispositivo di guida mentre è attivo."
 
-#: ekos/guide/guide.cpp:2662
+#: ekos/guide/guide.cpp:2679
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -24484,37 +24484,37 @@ msgstr ""
 "Attenzione: Ripristina la calibrazione della guida è abilitato. È "
 "raccomandato disattivare questa opzione per PHD2."
 
-#: ekos/guide/guide.cpp:3117
+#: ekos/guide/guide.cpp:3134
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "La calibrazione non si è avviata."
 
-#: ekos/guide/guide.cpp:3268
+#: ekos/guide/guide.cpp:3285
 #, kde-format
 msgid "Auto star selected."
 msgstr "Stella automatica selezionata."
 
-#: ekos/guide/guide.cpp:3272
+#: ekos/guide/guide.cpp:3289
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Selezione di una stella automatica non riuscita."
 
-#: ekos/guide/guide.cpp:3281
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleziona una stella guida per calibrare."
 
-#: ekos/guide/guide.cpp:3543
+#: ekos/guide/guide.cpp:3560
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (pixel)"
 
-#: ekos/guide/guide.cpp:3544
+#: ekos/guide/guide.cpp:3561
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (pixel)"
 
-#: ekos/guide/guide.cpp:3687 ekos/guide/guide.cpp:3839
+#: ekos/guide/guide.cpp:3704 ekos/guide/guide.cpp:3856
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24524,7 +24524,7 @@ msgstr ""
 "immagini catturate; vedrai però l'immagine della stella guida durante la "
 "guida."
 
-#: ekos/guide/guide.cpp:3691 ekos/guide/guide.cpp:3843
+#: ekos/guide/guide.cpp:3708 ekos/guide/guide.cpp:3860
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24536,32 +24536,32 @@ msgstr ""
 "l'acquisizione delle tue immagini. Puoi riabilitarla prima dell'esecuzione "
 "della guida."
 
-#: ekos/guide/guide.cpp:3772
+#: ekos/guide/guide.cpp:3789
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Assistente al sistema di guida IA..."
 
-#: ekos/guide/guide.cpp:3780
+#: ekos/guide/guide.cpp:3797
 #, kde-format
 msgid "Load Weights..."
 msgstr "Carica pesi..."
 
-#: ekos/guide/guide.cpp:3886 ekos/guide/guide.cpp:3891
+#: ekos/guide/guide.cpp:3903 ekos/guide/guide.cpp:3908
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Addestramento dell'IA di EkosLive non riuscito: %1"
 
-#: ekos/guide/guide.cpp:3887 ekos/guide/guide.cpp:3892
+#: ekos/guide/guide.cpp:3904 ekos/guide/guide.cpp:3909
 #, kde-format
 msgid "unknown error"
 msgstr "errore sconosciuto"
 
-#: ekos/guide/guide.cpp:3906
+#: ekos/guide/guide.cpp:3923
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Impossibile salvare i pesi IA in %1"
 
-#: ekos/guide/guide.cpp:3916
+#: ekos/guide/guide.cpp:3933
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -24569,23 +24569,23 @@ msgstr ""
 "Addestramento IA completato. I pesi sono stati salvati in %1 e configurati "
 "come pesi IA attivi."
 
-#: ekos/guide/guide.cpp:3920
+#: ekos/guide/guide.cpp:3937
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Addestramento IA completato. I pesi sono stati salvati in %1."
 
-#: ekos/guide/guide.cpp:3926
+#: ekos/guide/guide.cpp:3943
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Carica pesi del dispositivo di guida IA"
 
-#: ekos/guide/guide.cpp:3927
+#: ekos/guide/guide.cpp:3944
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Pesi IA (*.json)"
 
-#: ekos/guide/guide.cpp:3931
+#: ekos/guide/guide.cpp:3948
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24594,7 +24594,7 @@ msgstr ""
 "Pesi del dispositivo di guida IA impostati a %1. Essi saranno applicati al "
 "prossimo avvio del sistema di guida."
 
-#: ekos/guide/guide.cpp:4107
+#: ekos/guide/guide.cpp:4124
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Impossibile cambiare il gruppo ottico attivo mentre PHD2 è connesso"
@@ -24641,8 +24641,9 @@ msgid ""
 "it to take a full frame again. <br/>With 'SEP Multi Star', the full frame is "
 "still captured and shown, but while guiding the stars are only searched for "
 "around the guide and reference stars, which is much faster. Calibration, "
-"dithering and lost stars still search the full frame. This can be changed "
-"while guiding.</p></body></html>"
+"dithering and lost stars still search the full frame. The guide star boxes "
+"turn blue on frames that used this local search. This can be changed while "
+"guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Esegue il subframe dell'immagine attorno alla stella "
 "guida. Per PHD2, invece, riceve l'immagine della stella guida anziché il "
@@ -25381,27 +25382,27 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Direzione DEC inversa (AR-DEC è ora sistema antiorario standard)."
 
-#: ekos/guide/internalguide/gmath.cpp:282
-#: ekos/guide/internalguide/gmath.cpp:381
+#: ekos/guide/internalguide/gmath.cpp:285
+#: ekos/guide/internalguide/gmath.cpp:384
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Autoguida IA: applicate le impostazioni registrate del modello addestrato "
 "(%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:307
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "Il file dei pesi non può essere letto."
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr ""
 "Il dispositivo di guida IA non è riuscito a caricare i pesi. Guida "
 "interrotta."
 
-#: ekos/guide/internalguide/gmath.cpp:311
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -25418,12 +25419,12 @@ msgstr ""
 "Esegui di nuovo l'Assistente IA o passa l'algoritmo di guida alla modalità "
 "standard. La guida è stata interrotta."
 
-#: ekos/guide/internalguide/gmath.cpp:313
+#: ekos/guide/internalguide/gmath.cpp:316
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Errore del dispositivo di guida IA"
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -25434,7 +25435,7 @@ msgstr ""
 "Caricali tramite il pulsante IA > 'Carica pesi...', oppure esegui "
 "l'Assistente IA della guida. La guida è stata interrotta."
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -25449,24 +25450,24 @@ msgstr ""
 "l'Assistente IA della guida per generare pesi per le attuali impostazioni. "
 "La guida è stata interrotta."
 
-#: ekos/guide/internalguide/gmath.cpp:330
+#: ekos/guide/internalguide/gmath.cpp:333
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Dispositivo di guida IA: nessun peso"
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:377
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Ricaricamento dei pesi dell'autoguida IA non riuscito: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:375
+#: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "il file dei pesi non può essere letto oppure non corrisponde a questo tipo "
 "di montatura."
 
-#: ekos/guide/internalguide/gmath.cpp:399
+#: ekos/guide/internalguide/gmath.cpp:402
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -25474,7 +25475,7 @@ msgstr ""
 "Pesi dell'autoguida IA ricaricati in diretta da %1 — la guida continua senza "
 "interruzioni."
 
-#: ekos/guide/internalguide/gmath.cpp:881
+#: ekos/guide/internalguide/gmath.cpp:884
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Impulso lungo limitato da %1ms a %2ms"
@@ -25534,18 +25535,18 @@ msgstr "Calibrazione della guida non riuscita"
 msgid "Guiding calibration completed successfully"
 msgstr "Calibrazione della guida completata correttamente"
 
-#: ekos/guide/internalguide/internalguider.cpp:1221
+#: ekos/guide/internalguide/internalguider.cpp:1230
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Inseguimento della stella guida perso. Ricerca di stelle guida..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1223
+#: ekos/guide/internalguide/internalguider.cpp:1232
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Differenza del valore di soglia RMS in eccesso. Ricerca di stelle guida..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1412
+#: ekos/guide/internalguide/internalguider.cpp:1424
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Impossibile trovare una stella guida adatta. Interruzione..."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 02:26+0000\n"
+"POT-Creation-Date: 2026-10-19 02:22+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -6231,7 +6231,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:279 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:350 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1511 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2516 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3650
 #, kde-format
@@ -23797,131 +23797,131 @@ msgstr "Časový limit expozície vypršal. Prerušujem kalibráciu."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Po reštarte ovládača sa nepodarilo znova pripojiť kameru."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1582
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Voľný posun AI je aktívny. Potlačený viacnásobný impulz (RA: %1 ms, DEC: %2 "
 "ms)."
 
-#: ekos/guide/guide.cpp:1635
+#: ekos/guide/guide.cpp:1644
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Voľný posun AI je aktívny. Potlačený jednotlivý impulz (%1 ms)."
 
-#: ekos/guide/guide.cpp:1689
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 "Nebola detegovaná žiadna kamera. Skontrolujte kameru v optických trasách."
 
-#: ekos/guide/guide.cpp:1695
+#: ekos/guide/guide.cpp:1704
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Nebol detegovaný žiadny vodič. Skontrolujte vedenie v optických trasách."
 
-#: ekos/guide/guide.cpp:1787
+#: ekos/guide/guide.cpp:1796
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Montáž je zaparkovaná. Odparkujte pre spustenie vedenia."
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1917
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Zistená zmena strany piliera. Vymazanie kalibrácie."
 
-#: ekos/guide/guide.cpp:1922
+#: ekos/guide/guide.cpp:1931
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Montáž sa pohybuje. Resetujem kalibráciu..."
 
-#: ekos/guide/guide.cpp:1939
+#: ekos/guide/guide.cpp:1948
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Chyba parkovania montáže."
 
-#: ekos/guide/guide.cpp:1941
+#: ekos/guide/guide.cpp:1950
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Posúvanie montáže na polohu steny..."
 
-#: ekos/guide/guide.cpp:1954
+#: ekos/guide/guide.cpp:1963
 #, kde-format
 msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1955
+#: ekos/guide/guide.cpp:1964
 #, kde-format
 msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2062
+#: ekos/guide/guide.cpp:2071
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrácia je vymazaná."
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2143
 #, fuzzy, kde-format
 #| msgid "Pier side change detected. Clearing calibration."
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr "Zistená zmena strany piliera. Vymazanie kalibrácie."
 
-#: ekos/guide/guide.cpp:2175
+#: ekos/guide/guide.cpp:2188
 #, kde-format
 msgid "External guider connected."
 msgstr "Externý navádzač pripojený."
 
-#: ekos/guide/guide.cpp:2193
+#: ekos/guide/guide.cpp:2206
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Externý navádzač odpojený."
 
-#: ekos/guide/guide.cpp:2210
+#: ekos/guide/guide.cpp:2223
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrácia dokončená."
 
-#: ekos/guide/guide.cpp:2240
+#: ekos/guide/guide.cpp:2253
 #, kde-format
 msgid "Calibration started."
 msgstr "PHD2: Kalibrácia spustená."
 
-#: ekos/guide/guide.cpp:2254
+#: ekos/guide/guide.cpp:2267
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Navádzanie hviezd opäť začaté."
 
-#: ekos/guide/guide.cpp:2258
+#: ekos/guide/guide.cpp:2271
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Automatické navádzanie prebieha."
 
-#: ekos/guide/guide.cpp:2287
+#: ekos/guide/guide.cpp:2300
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Automatické navádzanie prerušené."
 
-#: ekos/guide/guide.cpp:2295
+#: ekos/guide/guide.cpp:2308
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Navádzanie pozastavené."
 
-#: ekos/guide/guide.cpp:2304
+#: ekos/guide/guide.cpp:2317
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2308
+#: ekos/guide/guide.cpp:2321
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Rozptyľovanie prebieha."
 
-#: ekos/guide/guide.cpp:2312
+#: ekos/guide/guide.cpp:2325
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23929,32 +23929,32 @@ msgstr[0] "Zaostrenie po zameraní na %1..."
 msgstr[1] "Zaostrenie po zameraní na %1..."
 msgstr[2] "Zaostrenie po zameraní na %1..."
 
-#: ekos/guide/guide.cpp:2317
+#: ekos/guide/guide.cpp:2330
 #, kde-format
 msgid "Dithering failed."
 msgstr "Rozptyľovanie zlyhalo."
 
-#: ekos/guide/guide.cpp:2328
+#: ekos/guide/guide.cpp:2341
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Rozptýlenie ukončené úspešne."
 
-#: ekos/guide/guide.cpp:2386
+#: ekos/guide/guide.cpp:2399
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Binning navádzania %1x%1 nie je podporovaný. Maximum je %2x%2."
 
-#: ekos/guide/guide.cpp:2410
+#: ekos/guide/guide.cpp:2423
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Expozícia zlyhala. Reštartujem expozíciu..."
 
-#: ekos/guide/guide.cpp:2567
+#: ekos/guide/guide.cpp:2580
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Nemôžem zmeniť navádzač počas procesu navádzania."
 
-#: ekos/guide/guide.cpp:2662
+#: ekos/guide/guide.cpp:2679
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23963,37 +23963,37 @@ msgstr ""
 "Upozornenie: Obnoviť kalibráciu vedenia je povolené. Odporúča sa vypnúť túto "
 "možnosť pre PHD2."
 
-#: ekos/guide/guide.cpp:3117
+#: ekos/guide/guide.cpp:3134
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrácia sa nepodarila spustiť."
 
-#: ekos/guide/guide.cpp:3268
+#: ekos/guide/guide.cpp:3285
 #, kde-format
 msgid "Auto star selected."
 msgstr "Hviezda automaticky vybraná."
 
-#: ekos/guide/guide.cpp:3272
+#: ekos/guide/guide.cpp:3289
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Nepodarilo sa vybrať automatickú hviezdu."
 
-#: ekos/guide/guide.cpp:3281
+#: ekos/guide/guide.cpp:3298
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "2. Vybrať vodiacu hviezdu"
 
-#: ekos/guide/guide.cpp:3543
+#: ekos/guide/guide.cpp:3560
 #, kde-format
 msgid "dx (pixels)"
 msgstr "body"
 
-#: ekos/guide/guide.cpp:3544
+#: ekos/guide/guide.cpp:3561
 #, kde-format
 msgid "dy (pixels)"
 msgstr "body"
 
-#: ekos/guide/guide.cpp:3687 ekos/guide/guide.cpp:3839
+#: ekos/guide/guide.cpp:3704 ekos/guide/guide.cpp:3856
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -24002,7 +24002,7 @@ msgstr ""
 "Kamera PHD2 nie je dostupná pre Ekos, takže nevidíte nasnímané snímky. Ale "
 "stále uvidíte snímku sprievodnej hviezdy, keď vedete."
 
-#: ekos/guide/guide.cpp:3691 ekos/guide/guide.cpp:3843
+#: ekos/guide/guide.cpp:3708 ekos/guide/guide.cpp:3860
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -24013,55 +24013,55 @@ msgstr ""
 "Podsnímok odškrtnutý. Teraz ho odškrtávam pre povolenie snímania. Môžete ho "
 "znova povoliť pred vedením"
 
-#: ekos/guide/guide.cpp:3772
+#: ekos/guide/guide.cpp:3789
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Asistent navádzania s AI…"
 
-#: ekos/guide/guide.cpp:3780
+#: ekos/guide/guide.cpp:3797
 #, kde-format
 msgid "Load Weights..."
 msgstr "Načítať váhy…"
 
-#: ekos/guide/guide.cpp:3886 ekos/guide/guide.cpp:3891
+#: ekos/guide/guide.cpp:3903 ekos/guide/guide.cpp:3908
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Trénovanie AI v EkosLive zlyhalo: %1"
 
-#: ekos/guide/guide.cpp:3887 ekos/guide/guide.cpp:3892
+#: ekos/guide/guide.cpp:3904 ekos/guide/guide.cpp:3909
 #, kde-format
 msgid "unknown error"
 msgstr "neznáma chyba"
 
-#: ekos/guide/guide.cpp:3906
+#: ekos/guide/guide.cpp:3923
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Nepodarilo sa uložiť váhy AI do %1"
 
-#: ekos/guide/guide.cpp:3916
+#: ekos/guide/guide.cpp:3933
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 "Trénovanie AI dokončené. Váhy uložené do %1 a nastavené ako aktívne váhy AI."
 
-#: ekos/guide/guide.cpp:3920
+#: ekos/guide/guide.cpp:3937
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Trénovanie AI dokončené. Váhy uložené do %1."
 
-#: ekos/guide/guide.cpp:3926
+#: ekos/guide/guide.cpp:3943
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Načítať váhy navádzača s AI"
 
-#: ekos/guide/guide.cpp:3927
+#: ekos/guide/guide.cpp:3944
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Váhy AI (*.json)"
 
-#: ekos/guide/guide.cpp:3931
+#: ekos/guide/guide.cpp:3948
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -24070,7 +24070,7 @@ msgstr ""
 "Váhy navádzača s AI nastavené na %1. Použijú sa pri ďalšom spustení "
 "navádzania."
 
-#: ekos/guide/guide.cpp:4107
+#: ekos/guide/guide.cpp:4124
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Nemožno zmeniť aktívnu optickú trasu, kým je PHD2 pripojené"
@@ -24116,8 +24116,9 @@ msgid ""
 "it to take a full frame again. <br/>With 'SEP Multi Star', the full frame is "
 "still captured and shown, but while guiding the stars are only searched for "
 "around the guide and reference stars, which is much faster. Calibration, "
-"dithering and lost stars still search the full frame. This can be changed "
-"while guiding.</p></body></html>"
+"dithering and lost stars still search the full frame. The guide star boxes "
+"turn blue on frames that used this local search. This can be changed while "
+"guiding.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Podzáber snímky okolo vodiacej hviezdy. Alebo pre "
 "PHD2, prijať snímku vodiacej hviezdy namiesto celého rámca snímky. Pre "
@@ -24826,24 +24827,24 @@ msgstr[2] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Smer DEC obrátený (RA-DEC je teraz štandardný systém CCW)."
 
-#: ekos/guide/internalguide/gmath.cpp:282
-#: ekos/guide/internalguide/gmath.cpp:381
+#: ekos/guide/internalguide/gmath.cpp:285
+#: ekos/guide/internalguide/gmath.cpp:384
 #, kde-format
 msgid "AI Guider: applied the trained model's recorded settings (%1)."
 msgstr ""
 "Navádzač s AI: použil zaznamenané nastavenia natrénovaného modelu (%1)."
 
-#: ekos/guide/internalguide/gmath.cpp:307
+#: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid "The weights file could not be read."
 msgstr "Súbor s váhami sa nepodarilo prečítať."
 
-#: ekos/guide/internalguide/gmath.cpp:309
+#: ekos/guide/internalguide/gmath.cpp:312
 #, kde-format
 msgid "AI Guider failed to load weights. Guiding aborted."
 msgstr "Navádzaču s AI sa nepodarilo načítať váhy. Navádzanie prerušené."
 
-#: ekos/guide/internalguide/gmath.cpp:311
+#: ekos/guide/internalguide/gmath.cpp:314
 #, kde-format
 msgid ""
 "AI Guider failed to load weights!\n"
@@ -24861,12 +24862,12 @@ msgstr ""
 "prepnite algoritmus navádzania na štandardný režim. Navádzanie bolo "
 "prerušené."
 
-#: ekos/guide/internalguide/gmath.cpp:313
+#: ekos/guide/internalguide/gmath.cpp:316
 #, kde-format
 msgid "AI Guider Error"
 msgstr "Chyba navádzača s AI"
 
-#: ekos/guide/internalguide/gmath.cpp:324
+#: ekos/guide/internalguide/gmath.cpp:327
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded. Load them via the "
@@ -24877,7 +24878,7 @@ msgstr ""
 "Načítajte ich tlačidlom AI > „Načítať váhy…“, alebo spustite asistenta "
 "navádzania s AI. Navádzanie prerušené."
 
-#: ekos/guide/internalguide/gmath.cpp:327
+#: ekos/guide/internalguide/gmath.cpp:330
 #, kde-format
 msgid ""
 "AI Guiding is selected but no trained weights are loaded.\n"
@@ -24892,23 +24893,23 @@ msgstr ""
 "asistenta navádzania s AI, ktorý váhy vytvorí pre vaše aktuálne nastavenia. "
 "Navádzanie bolo prerušené."
 
-#: ekos/guide/internalguide/gmath.cpp:330
+#: ekos/guide/internalguide/gmath.cpp:333
 #, kde-format
 msgid "AI Guider: No Weights"
 msgstr "Navádzač s AI: žiadne váhy"
 
-#: ekos/guide/internalguide/gmath.cpp:374
+#: ekos/guide/internalguide/gmath.cpp:377
 #, kde-format
 msgid "AI Guider weight reload failed: %1"
 msgstr "Opätovné načítanie váh navádzača s AI zlyhalo: %1"
 
-#: ekos/guide/internalguide/gmath.cpp:375
+#: ekos/guide/internalguide/gmath.cpp:378
 #, kde-format
 msgid "the weights file could not be read or does not match this mount type."
 msgstr ""
 "súbor s váhami sa nepodarilo prečítať alebo nezodpovedá tomuto typu montáže."
 
-#: ekos/guide/internalguide/gmath.cpp:399
+#: ekos/guide/internalguide/gmath.cpp:402
 #, kde-format
 msgid ""
 "AI Guider weights reloaded live from %1 — guiding continues uninterrupted."
@@ -24916,7 +24917,7 @@ msgstr ""
 "Váhy navádzača s AI znova načítané za behu z %1 — navádzanie pokračuje bez "
 "prerušenia."
 
-#: ekos/guide/internalguide/gmath.cpp:881
+#: ekos/guide/internalguide/gmath.cpp:884
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Obmedzený dlhý impulz %1 ms na %2 ms"
@@ -24975,17 +24976,17 @@ msgstr "Kalibrácia navádzania zlyhala s chybami"
 msgid "Guiding calibration completed successfully"
 msgstr "Kalibrácia navádzania ukončená úspešne"
 
-#: ekos/guide/internalguide/internalguider.cpp:1221
+#: ekos/guide/internalguide/internalguider.cpp:1230
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Stratená stopa vodiacej hviezdy. Prerušenie navádzania..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1223
+#: ekos/guide/internalguide/internalguider.cpp:1232
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Prekročená prahová hodnota Delta RMS. Hľadám vodiace hviezdy..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1412
+#: ekos/guide/internalguide/internalguider.cpp:1424
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Nenašli sa žiadne vhodné navádzacie hviezdy. Prerušujem..."
