@@ -36,6 +36,16 @@ bool TaskTemplate::loadFromJson(const QJsonObject &json)
         m_supportedInterfaces.append(val.toInt());
     }
 
+    // Load optional required properties
+    m_requiredProperties.clear();
+    QJsonArray requiredArray = json["required_properties"].toArray();
+    for (const QJsonValue &val : requiredArray)
+    {
+        const QString property = val.toString();
+        if (!property.isEmpty())
+            m_requiredProperties.append(property);
+    }
+
     // Load parameters
     m_parameters.clear();
     QJsonArray paramsArray = json["parameters"].toArray();
@@ -96,6 +106,11 @@ QJsonObject TaskTemplate::toJson() const
     }
     json["supported_interfaces"] = interfacesArray;
 
+    if (!m_requiredProperties.isEmpty())
+    {
+        json["required_properties"] = QJsonArray::fromStringList(m_requiredProperties);
+    }
+
     // Parameters
     QJsonArray paramsArray;
     for (const Parameter &param : m_parameters)
@@ -136,6 +151,17 @@ bool TaskTemplate::supportsDeviceInterface(uint32_t deviceInterface) const
         }
     }
     return false;
+}
+
+QStringList TaskTemplate::missingRequiredProperties(const std::function<bool(const QString &)> &hasProperty) const
+{
+    QStringList missing;
+    for (const QString &property : m_requiredProperties)
+    {
+        if (!hasProperty(property))
+            missing.append(property);
+    }
+    return missing;
 }
 
 TaskTemplate::Parameter TaskTemplate::getParameter(const QString &name) const

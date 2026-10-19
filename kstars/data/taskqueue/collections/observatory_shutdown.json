@@ -20,6 +20,14 @@
             }
         },
         {
+            "template_id": "dome_shutter_close",
+            "device": "",
+            "failure_action": 2,
+            "parameters": {
+                "wait_timeout": 120
+            }
+        },
+        {
             "template_id": "dome_park",
             "device": "",
             "failure_action": 2,

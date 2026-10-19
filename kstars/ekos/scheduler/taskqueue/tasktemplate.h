@@ -12,6 +12,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QList>
+#include <QStringList>
+
+#include <functional>
 
 namespace Ekos
 {
@@ -23,6 +26,7 @@ namespace Ekos
  * TaskTemplate represents a reusable blueprint for creating tasks. It defines:
  * - Metadata (id, name, description, category)
  * - Supported INDI device interfaces
+ * - Optional INDI properties the device must define for the task to apply
  * - Configurable parameters with defaults and constraints
  * - Action definitions with parameter placeholders
  *
@@ -140,6 +144,29 @@ class TaskTemplate : public QObject
          */
         bool supportsDeviceInterface(uint32_t deviceInterface) const;
 
+        /**
+         * @brief INDI properties the assigned device must define for this task to apply
+         *
+         * Some capabilities are optional within an interface (e.g. a dome shutter). When the
+         * device does not define one of these properties, the task does not apply to it and
+         * is skipped instead of failing.
+         */
+        QStringList requiredProperties() const
+        {
+            return m_requiredProperties;
+        }
+        void setRequiredProperties(const QStringList &properties)
+        {
+            m_requiredProperties = properties;
+        }
+
+        /**
+         * @brief Get the required properties that are not defined on a device
+         * @param hasProperty Returns true if the device defines the named property
+         * @return Names of the missing required properties, empty if the task applies
+         */
+        QStringList missingRequiredProperties(const std::function<bool(const QString &)> &hasProperty) const;
+
         // Parameter management
         const QList<Parameter> &parameters() const
         {
@@ -199,6 +226,7 @@ class TaskTemplate : public QObject
 
         // Device support
         QList<uint32_t> m_supportedInterfaces;
+        QStringList m_requiredProperties;
 
         // Parameters
         QList<Parameter> m_parameters;

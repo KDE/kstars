@@ -164,6 +164,20 @@ FOREACH(weather_test ${SCHEDULER_WEATHER_TESTS})
     LIST(APPEND SCHEDULER_WEATHER_TEST_NAMES TestEkosSchedulerWeather_${weather_test})
 ENDFOREACH()
 
+# Task queue dome tests with the INDI simulators. Each test function starts its own profile
+# and must run in a process of its own.
+ADD_EXECUTABLE(test_ekos_taskqueue_dome ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_taskqueue_dome.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_taskqueue_dome ${KSTARS_UI_EKOS_LIBS})
+SET(TASKQUEUE_DOME_TESTS
+    testDomeWithShutterSimulator
+    testRollOffWithoutShutterSimulator)
+SET(TASKQUEUE_DOME_TEST_NAMES)
+FOREACH(dome_test ${TASKQUEUE_DOME_TESTS})
+    ADD_TEST(NAME TestEkosTaskQueueDome_${dome_test} COMMAND test_ekos_taskqueue_dome ${dome_test})
+    SET_TESTS_PROPERTIES( TestEkosTaskQueueDome_${dome_test} PROPERTIES LABELS "stable;ui" TIMEOUT 400 )
+    LIST(APPEND TASKQUEUE_DOME_TEST_NAMES TestEkosTaskQueueDome_${dome_test})
+ENDFOREACH()
+
 ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_horizon.cpp)
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestArtificialHorizon COMMAND test_artificial_horizon)
@@ -203,6 +217,7 @@ set_tests_properties(
     TestEkosScheduler
     TestEkosSchedulerOps
     ${SCHEDULER_WEATHER_TEST_NAMES}
+    ${TASKQUEUE_DOME_TEST_NAMES}
     TestArtificialHorizon
     TestEkosMount
     TestCatalogDownload

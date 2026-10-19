@@ -18,6 +18,8 @@ Mount operations including:
 Dome operations including:
 - **Park Dome**: Parks observatory dome using DOME_PARK
 - **Unpark Dome**: Unparks dome for observations
+- **Open Shutter**: Opens the dome shutter using DOME_SHUTTER. Skipped if the dome has no shutter
+- **Close Shutter**: Closes the dome shutter. Skipped if the dome has no shutter
 
 ### dustcap.json
 Dust cap operations including:
@@ -41,6 +43,7 @@ Each template file contains:
             "version": "1.0",
             "category": "Device Category",
             "supported_interfaces": [4],
+            "required_properties": ["OPTIONAL_PROPERTY_NAME"],
             "parameters": [
                 {
                     "name": "parameter_name",
@@ -68,6 +71,12 @@ Each template file contains:
     ]
 }
 ```
+
+`required_properties` is optional. It lists INDI properties the assigned device must define for the
+task to apply, for capabilities that are optional within an interface (e.g. `DOME_SHUTTER`, which a
+roll-off roof does not have). If the connected device does not define one of them, the task is
+skipped (status SKIPPED) instead of failing. Once the task runs, its actions' failure actions apply as
+usual, so a shutter that exists but fails to move still aborts the queue.
 
 ## Action Types
 

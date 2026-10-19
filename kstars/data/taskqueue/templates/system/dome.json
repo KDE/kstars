@@ -90,6 +90,100 @@
                     "failure_action": 0
                 }
             ]
+        },
+        {
+            "id": "dome_shutter_open",
+            "name": "Open Shutter",
+            "description": "Open dome shutter for observations. Skipped if the dome has no shutter.",
+            "version": "1.0",
+            "category": "Dome",
+            "supported_interfaces": [
+                32
+            ],
+            "required_properties": [
+                "DOME_SHUTTER"
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 120,
+                    "min": 30,
+                    "max": 600,
+                    "step": 30,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for the shutter to open"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "DOME_SHUTTER",
+                    "element": "SHUTTER_OPEN",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "DOME_SHUTTER",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 1,
+                    "failure_action": 0
+                }
+            ]
+        },
+        {
+            "id": "dome_shutter_close",
+            "name": "Close Shutter",
+            "description": "Close dome shutter to protect the observatory. Skipped if the dome has no shutter.",
+            "version": "1.0",
+            "category": "Dome",
+            "supported_interfaces": [
+                32
+            ],
+            "required_properties": [
+                "DOME_SHUTTER"
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 120,
+                    "min": 30,
+                    "max": 600,
+                    "step": 30,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for the shutter to close"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "DOME_SHUTTER",
+                    "element": "SHUTTER_CLOSE",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "DOME_SHUTTER",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 1,
+                    "failure_action": 0
+                }
+            ]
         }
     ]
 }

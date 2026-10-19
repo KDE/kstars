@@ -12,6 +12,14 @@
             }
         },
         {
+            "template_id": "dome_shutter_open",
+            "device": "",
+            "failure_action": 2,
+            "parameters": {
+                "wait_timeout": 120
+            }
+        },
+        {
             "template_id": "mount_unpark",
             "device": "",
             "failure_action": 2,

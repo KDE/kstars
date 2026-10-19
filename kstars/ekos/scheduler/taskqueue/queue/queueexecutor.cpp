@@ -297,6 +297,36 @@ void QueueExecutor::executeItem(QueueItem *item)
         }
     }
 
+    // Skip tasks for optional capabilities the device lacks (e.g. a dome without a shutter).
+    // Only skip when the device is connected and has reported its properties; otherwise let the
+    // actions run so that a missing or disconnected device fails according to its failure policy.
+    TemplateManager *templateMgr = TemplateManager::Instance();
+    TaskTemplate *tmpl = templateMgr ? templateMgr->getTemplate(task->templateId()) : nullptr;
+    if (tmpl && !tmpl->requiredProperties().isEmpty() && !task->device().isEmpty())
+    {
+        QSharedPointer<ISD::GenericDevice> device;
+        if (INDIListener::findDevice(task->device(), device) && device && device->isConnected())
+        {
+            const QStringList missing = tmpl->missingRequiredProperties([&device](const QString & name)
+            {
+                return device->getProperty(name.toUtf8().constData()).isValid();
+            });
+
+            if (!missing.isEmpty())
+            {
+                QString message = i18n("Skipping %1: %2 does not support %3", task->name(), task->device(),
+                                       missing.join(", "));
+                qCInfo(KSTARS_EKOS_SCHEDULER) << message;
+                Q_EMIT newLog(message);
+                item->setErrorMessage(message);
+                item->setStatus(QueueItem::SKIPPED);
+                m_currentItem = nullptr;
+                executeNext();
+                return;
+            }
+        }
+    }
+
     item->setStatus(QueueItem::RUNNING);
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting task:" << item->task()->name()
