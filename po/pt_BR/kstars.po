@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-19 08:40-0300\n"
+"PO-Revision-Date: 2026-10-20 07:40-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -33332,7 +33332,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "Ignorando %1: %2 não oferece suporte a %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format

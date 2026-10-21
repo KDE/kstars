@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-19 14:39+0200\n"
+"PO-Revision-Date: 2026-10-20 13:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -33174,7 +33174,7 @@ msgstr "Geen verbonden apparaat gevonden met vereiste interfaces"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "%1 wordt overgeslagen: %2 ondersteunt %3 niet"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format

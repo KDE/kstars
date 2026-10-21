@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-19 11:39+0200\n"
+"PO-Revision-Date: 2026-10-20 11:21+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24672,6 +24672,7 @@ msgstr ""
 "guiatge (incloent maquinari vs. agrupació amb programació si la càmera ho "
 "admet) en cas contrari la correcció no coincidirà.</p></body></html>"
 
+# skip-rule: kct-box
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
 #, kde-format
@@ -33582,7 +33583,7 @@ msgstr "No s'ha trobat cap dispositiu connectat amb les interfícies requerides"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "S'omet %1: %2 no admet %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
