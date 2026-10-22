@@ -849,7 +849,8 @@ void GenericDevice::updateTime(const QString &iso8601, const QString &utcOffset)
 
     if (iso8601.isEmpty())
     {
-        isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove('Z');
+        // TIME_UTC carries whole seconds: round rather than truncate, or a driver runs up to a second behind KStars
+        isoTS = KStars::Instance()->data()->ut().addMSecs(500).toString(Qt::ISODate).remove('Z');
         offset = QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2);
     }
     else
