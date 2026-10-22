@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-19 19:42+0200\n"
+"PO-Revision-Date: 2026-10-21 20:28+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -282,7 +282,7 @@ msgstr "Etiqueta d'objecte de la imatge FITS"
 #: auxiliary/colorscheme.cpp:72
 #, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Etiqueta ressaltada d'objecte de la imatge FITS"
+msgstr "Etiqueta de ressaltat de l'objecte de la imatge FITS"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:742
@@ -4903,8 +4903,8 @@ msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
 "size, shape and color."
 msgstr ""
-"Premeu este botó per a modificar el símbol de CDV ressaltat. Podreu canviar-"
-"ne la mida, forma i color."
+"Premeu este botó per a modificar el símbol de CDV ressaltat. En podeu "
+"canviar la mida, la forma i el color."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
@@ -4918,7 +4918,7 @@ msgstr "Elimina el símbol de CDV ressaltat."
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr ""
-"Premeu este botó per a suprimir de la llista el símbol de CDV ressaltat."
+"Premeu este botó per a suprimir el símbol de CDV ressaltat de la llista."
 
 #: dialogs/locationdialog.cpp:53
 #, kde-format
@@ -4995,7 +4995,7 @@ msgstr "Desplaçament UTC"
 #: dialogs/locationdialog.cpp:572
 #, kde-format
 msgid "Daylight Saving Time Rules"
-msgstr "Regles del canvi horari hivern/estiu"
+msgstr "Regles de l'horari d'estiu"
 
 #: dialogs/locationdialog.cpp:622
 #, kde-format
@@ -6077,7 +6077,7 @@ msgstr "Suprimix la vista ressaltada."
 #: dialogs/viewsdialog.ui:110
 #, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr "Premeu este botó per a suprimir de la llista la vista ressaltada."
+msgstr "Premeu este botó per a suprimir la vista ressaltada de la llista."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -12008,7 +12008,7 @@ msgid ""
 "<html><head/><body><p>Plot the sky background light (computed by SEP from "
 "the guide images).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça la llum de fons del cel (calculada pel SEP a "
+"<html><head/><body><p>Dibuixa la llum de fons del cel (calculada per SEP a "
 "partir de les imatges de guiatge).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyBgCB)
@@ -12909,12 +12909,12 @@ msgstr "Ha fallat mentre es carregava el fitxer de fotograma fosc «%1»"
 #: ekos/auxiliary/darklibrary.cpp:730
 #, kde-format
 msgid "Failed to process dark data."
-msgstr "Ha fallat mentre es processaven les dades fosques."
+msgstr "Ha fallat mentre es processaven les dades dels foscos."
 
 #: ekos/auxiliary/darklibrary.cpp:736
 #, kde-format
 msgid "Failed to load dark data."
-msgstr "Ha fallat mentre es carregaven les dades fosques."
+msgstr "Ha fallat mentre es carregaven les dades dels foscos."
 
 #: ekos/auxiliary/darklibrary.cpp:746
 #, kde-format
@@ -12925,7 +12925,7 @@ msgstr "S'han rebut %1/%2 imatges."
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
-"Segur que voleu eliminar totes les imatges i les dades de fotogrames foscos?"
+"Segur que voleu eliminar totes les imatges i dades dels fotogrames foscos?"
 
 #: ekos/auxiliary/darklibrary.cpp:1431 ekos/focus/focusadvisor.cpp:665
 #: ekos/focus/focusadvisor.cpp:979 ekos/focus/focusadvisor.cpp:1276
@@ -12941,7 +12941,7 @@ msgstr "Ha fallat mentre es guardava el fotograma mestre: %1"
 #: ekos/auxiliary/darklibrary.cpp:1611
 #, kde-format
 msgid "Master Dark saved to %1"
-msgstr "El fotograma fosc mestre s'ha guardat a %1"
+msgstr "El fosc mestre s'ha guardat a %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
@@ -12989,7 +12989,7 @@ msgstr ""
 #: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
 #, kde-format
 msgid "Darks"
-msgstr "Imatges fosques"
+msgstr "Foscos"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDefectsRadio)
 #: ekos/auxiliary/darklibrary.ui:131
@@ -13146,7 +13146,7 @@ msgstr "Mapes de defectes"
 #: ekos/auxiliary/darklibrary.ui:621 fitsviewer/livestacking.ui:2755
 #, kde-format
 msgid "Master Dark:"
-msgstr "Fotograma fosc mestre:"
+msgstr "Fosc mestre:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
@@ -13367,7 +13367,7 @@ msgstr ""
 #: ekos/auxiliary/darklibrary.ui:1132
 #, kde-format
 msgid "Dark validity:"
-msgstr "Validesa dels fotogrames foscos:"
+msgstr "Validesa dels foscos:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, openDarksFolderB)
@@ -13380,7 +13380,7 @@ msgstr "Obri la carpeta a on s'emmagatzemen els fotogrames foscos."
 #: ekos/auxiliary/darklibrary.ui:1171
 #, kde-format
 msgid "Darks Folder"
-msgstr "Carpeta de les imatges fosques"
+msgstr "Carpeta dels foscos"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearExpiredB)
 #: ekos/auxiliary/darklibrary.ui:1195
@@ -13634,7 +13634,7 @@ msgstr ""
 #: ekos/auxiliary/filtersettings.ui:117
 #, kde-format
 msgid "Capture flats at the same focus as lights"
-msgstr "Captura imatges planes amb el mateix enfocament que les llums"
+msgstr "Captura els plans amb el mateix enfocament que els de llum"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:33 ekos/ekos.h:71 ekos/ekos.h:199
 #, kde-format
@@ -15596,7 +15596,7 @@ msgid ""
 "Flat frame is captured.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Trieu quines accions es portaran a terme abans de "
-"capturar un fotograma Biaix, Fosc o Pla.</p></body></html>"
+"capturar un fotograma de biaix, un fosc o un pla.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -15612,8 +15612,8 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
-"Apunta la muntura cap a les coordenades «Azimut» i «Altitud» abans de "
-"prendre les imatges de camp pla."
+"Apunta la muntura a les coordenades «Azimut» i «Altitud» especificades abans "
+"de prendre les imatges de camp pla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
 #: ekos/capture/calibrationoptions.ui:66
@@ -15708,14 +15708,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
-"Quan es prenen imatges planes del cel en les que es pot canviar la "
-"intensitat. S'utilitzarà un càlcul més senzill de l'exposició."
+"Quan es prenen plans del cel amb intensitat variable. S'utilitzarà un càlcul "
+"d'exposició més senzill."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
 #, kde-format
 msgid "Sky flats"
-msgstr "Imatges planes del cel"
+msgstr "Plans del cel"
 
 #: ekos/capture/camera.cpp:72 ekos/capture/camera.cpp:74
 #, kde-format
@@ -15733,12 +15733,12 @@ msgstr "fotogrames"
 #: ekos/capture/camera.cpp:133 ekos/capture/camera_jobs.cpp:267
 #, kde-format
 msgid "Add job to sequence queue"
-msgstr "Afig una tasca a la cua en seqüència"
+msgstr "Afig una tasca a la cua de seqüències"
 
 #: ekos/capture/camera.cpp:134 ekos/capture/camera_jobs.cpp:268
 #, kde-format
 msgid "Remove job from sequence queue"
-msgstr "Suprimix una tasca de la cua en seqüència"
+msgstr "Suprimix una tasca de la cua de seqüències"
 
 #: ekos/capture/camera.cpp:499
 #, kde-format
@@ -16083,7 +16083,7 @@ msgid ""
 "sequence queue.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Genera plans foscos després d'afegir fotogrames plans "
-"a la cua en seqüència.</p></body></html>"
+"a la cua de seqüències.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/camera.ui:1404
@@ -16407,7 +16407,7 @@ msgstr ""
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Variable de substitució <span style="
 "\"font-weight:704;\">%T</span> o <span style=\"font-weight:704;\">%Type</"
-"span>: El tipus de fotograma, p. ex: «Lluminós», «Biaix», «Fosc», «Pla»…</"
+"span>: El tipus de fotograma, p. ex: «De llum», «De biaix», «Fosc», «Pla»…</"
 "li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de substitució "
 "<span style=\"font-weight:704;\">%e</span> o <span style=\"font-weight:704;"
@@ -16507,7 +16507,7 @@ msgstr "Remot:"
 #: ekos/capture/camera.ui:1946
 #, kde-format
 msgid "Sequence Queue"
-msgstr "Cua en seqüència"
+msgstr "Cua de seqüències"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
@@ -16623,9 +16623,9 @@ msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
 "if a suitable dark frame is available.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Aplica automàticament la sostracció fosca en la vista "
-"prèvia d'imatges si hi ha disponible un fotograma fosc adequat.</p></body></"
-"html>"
+"<html><head/><body><p>Aplica automàticament la sostracció del fosc en les "
+"imatges de la vista prèvia si hi ha disponible un fotograma fosc adequat.</"
+"p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
@@ -16977,18 +16977,18 @@ msgstr "S'ha cancel·lat la tasca d'edició."
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
-msgstr "Obriu la cua en seqüència d'Ekos"
+msgstr "Obriu la cua de seqüències d'Ekos"
 
 #: ekos/capture/camera_jobs.cpp:396
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
-msgstr "Guardeu la cua en seqüència d'Ekos"
+msgstr "Guardeu la cua de seqüències d'Ekos"
 
 #: ekos/capture/camera_jobs.cpp:418
 #, kde-format
 msgid "Failed to save sequence queue"
-msgstr "No s'ha pogut fer la guardada de la cua en seqüència"
+msgstr "No s'ha pogut fer la guardada de la cua de seqüències"
 
 #: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:887
 #, kde-format
@@ -17016,7 +17016,7 @@ msgstr "S'ha représ la seqüència."
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
-"No s'han trobat tasques pendents. Afegiu una tasca a la cua en seqüència."
+"No s'han trobat tasques pendents. Afegiu una tasca a la cua de seqüències."
 
 #: ekos/capture/cameraprocess.cpp:318
 #, kde-format
@@ -17247,8 +17247,8 @@ msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
-"Ha fallat el calibratge pla. La imatge capturada és de només %1 bits, mentre "
-"que l'ADU sol·licitada era %2."
+"Ha fallat el calibratge dels plans. La imatge capturada és de només %1 bits, "
+"mentre que l'ADU sol·licitada era %2."
 
 #: ekos/capture/cameraprocess.cpp:2315
 #, kde-format
@@ -17268,8 +17268,8 @@ msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
-"No s'ha pogut calcular la configuració òptima per a l'exposició. Per favor, "
-"captureu manualment les imatges planes."
+"No s'han pogut calcular els paràmetres d'exposició òptims. Captureu els "
+"plans manualment."
 
 #: ekos/capture/cameraprocess.cpp:2374
 #, kde-format
@@ -17717,7 +17717,7 @@ msgstr "%1 té un obturador?"
 #: ekos/capture/sequencejobstate.cpp:554
 #, kde-format
 msgid "Dark Exposure"
-msgstr "Exposició fosca"
+msgstr "Exposició de fosc"
 
 #. i18n: ectx: property (text), widget (QLabel, filenameValue)
 #: ekos/capture/capturehistorynavigation.ui:43
@@ -17855,7 +17855,7 @@ msgstr "<ISO>"
 #: ekos/capture/captureprocessoverlay.ui:352
 #, kde-format
 msgid "Light Red"
-msgstr "Roig clar"
+msgstr "De llum en la banda roja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteCurrentFrameButton)
 #: ekos/capture/captureprocessoverlay.ui:371
@@ -19116,7 +19116,7 @@ msgstr "Fotograma pla"
 #: ekos/capture/sequencejobstate.cpp:553
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
-msgstr "Cobrix el telescopi per tal de prendre una exposició fosca."
+msgstr "Cobrix el telescopi per a fer una exposició de fosc."
 
 #: ekos/capture/sequencejobstate.cpp:591 ekos/capture/sequencejobstate.cpp:800
 #, kde-format
@@ -19132,14 +19132,14 @@ msgstr "S'està aparcant la tapa per la pols…"
 #: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
 #, kde-format
 msgid "Turn light box light on..."
-msgstr "Encén el llum de la caixa de llum…"
+msgstr "Encén la caixa de llum…"
 
 # skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:603 ekos/capture/sequencejobstate.cpp:682
 #: ekos/capture/sequencejobstate.cpp:786
 #, kde-format
 msgid "Turn light box light off..."
-msgstr "Apaga el llum de la caixa de llum…"
+msgstr "Apaga la caixa de llum…"
 
 #: ekos/capture/sequencejobstate.cpp:622 ekos/capture/sequencejobstate.cpp:700
 #, kde-format
@@ -19197,25 +19197,25 @@ msgstr ""
 #: ekos/capture/sequencejobstate.cpp:1058
 #, kde-format
 msgid "Light box light turned on."
-msgstr "El llum de la caixa de llum està encés."
+msgstr "S'ha encés la caixa de llum."
 
 # skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:1061
 #, kde-format
 msgid "Light box light turned off."
-msgstr "El llum de la caixa de llum està apagat."
+msgstr "S'ha apagat la caixa de llum."
 
 # skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:1064
 #, kde-format
 msgid "Light box busy."
-msgstr "Caixa de llum ocupada."
+msgstr "La caixa de llum està ocupada."
 
 # skip-rule: kct-box
 #: ekos/capture/sequencejobstate.cpp:1067
 #, kde-format
 msgid "Light box error."
-msgstr "Error amb la caixa de llum."
+msgstr "S'ha produït un error de la caixa de llum."
 
 #: ekos/capture/sequencejobstate.cpp:1091
 #, kde-format
@@ -19264,7 +19264,7 @@ msgstr "No s'ha pogut obrir el fitxer"
 #: ekos/capture/sequencequeue.cpp:298
 #, kde-format
 msgid "Sequence queue saved to %1"
-msgstr "La cua en seqüència s'ha guardat a %1"
+msgstr "La cua de seqüències s'ha guardat a %1"
 
 #: ekos/ekos.h:71
 #, kde-format
@@ -24952,7 +24952,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Sostrau el fotograma fosc. Es creen fotogrames foscos "
 "o mapes de defectes en l'eina «Biblioteca fosca» del mòdul «Captura».</"
-"p><p>La foscor s'haurà d'haver creat amb el mateix mode d'agrupació que s'ha "
+"p><p>El fosc s'haurà d'haver creat amb el mateix mode d'agrupació que s'ha "
 "emprat durant el guiatge, inclosa l'agrupació per maquinari i programari si "
 "la càmera ho admet, en cas contrari, la correcció no coincidirà.</p></body></"
 "html>"
@@ -31116,7 +31116,7 @@ msgstr "Alinea cada"
 #: ekos/scheduler/framingassistant.ui:1327 ekos/scheduler/scheduler.ui:78
 #, kde-format
 msgid "Load the image sequence queue."
-msgstr "Carrega la cua en seqüència d'imatges."
+msgstr "Carrega la cua de seqüències d'imatges."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetEdit)
 #: ekos/scheduler/framingassistant.ui:1346
@@ -31301,12 +31301,12 @@ msgstr " (només el primer)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
-msgstr "Trieu una cua en seqüència"
+msgstr "Trieu una cua de seqüències"
 
 #: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:934
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
-msgstr "Cua en seqüència d'Ekos (*.esq)"
+msgstr "Cua de seqüències d'Ekos (*.esq)"
 
 #: ekos/scheduler/framingassistantui.cpp:754
 #, kde-format
@@ -32599,8 +32599,8 @@ msgid ""
 msgstr ""
 "<html><body><p>La restricció del crepuscle obliga les tasques a executar-se "
 "en la foscor astronòmica. Utilitzeu els desplaçaments del crepuscle vespertí "
-"i de l'alba en les opcions del «Programador» d'Ekos per a ajustar l'interval."
-"</p></body></html>"
+"i l'alba en les opcions del «Programador» d'Ekos per a ajustar l'interval.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1839
@@ -33948,7 +33948,7 @@ msgstr "S'ha desactivat la supervisió del monitor de seguretat"
 #: ekos/scheduler/schedulerutils.cpp:421 ekos/scheduler/schedulerutils.cpp:437
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
-msgstr "No s'ha pogut obrir el fitxer «%1» de la cua en seqüència"
+msgstr "No s'ha pogut obrir el fitxer «%1» de la cua de seqüències"
 
 #: ekos/scheduler/schedulerutils.cpp:518
 #, kde-format
@@ -33977,7 +33977,7 @@ msgstr "No s'ha trobat cap dispositiu connectat amb les interfícies requerides"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "S'està ometent %1: %2 no admet %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
@@ -35931,7 +35931,7 @@ msgstr "Temps de la correcció."
 #, kde-format
 msgctxt "Column header"
 msgid "Hot Pix"
-msgstr "Píxels calents"
+msgstr "Píxel calent"
 
 # skip-rule: punctuation-period-no
 #: fitsviewer/fitsstackmonitor.h:336
@@ -36176,13 +36176,13 @@ msgstr "Tons mitjans"
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr "Establix el valor de les llums altes per a l'estirament de la imatge."
+msgstr "Establix el valor dels ressalts per a l'estirament de la imatge."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
 #, kde-format
 msgid "Highlights"
-msgstr "Llums altes"
+msgstr "Ressalts"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
@@ -36200,7 +36200,7 @@ msgstr "Busca automàticament el paràmetre d'estirament."
 #: fitsviewer/fitsstretchui.ui:394
 #, kde-format
 msgid "Cycle through stretch presets."
-msgstr "Circula entre els ajustaments predefinits de l'estirament."
+msgstr "Circula entre els ajustaments predefinits d'estirament."
 
 #: fitsviewer/fitstab.cpp:38
 #, kde-format
@@ -36879,9 +36879,9 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Mètode d'alineació:</p><p>- Cap. No es realitza cap "
-"alineació. És útil per a l'apilament d'imatges fosques i planes.</p><p>- "
-"Resol la imatge. Es resoldran els subfotogrames per a alinear-los abans de "
-"l'apilament.</p></body></html>"
+"alineació. És útil per a l'apilament de foscos i plans.</p><p>- Resolució de "
+"plaques. Es resoldran les plaques dels subfotogrames per a alinear-los abans "
+"de l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:153
@@ -37000,7 +37000,7 @@ msgid ""
 "and the final image.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Marqueu esta opció per a activar els càlculs de la SNR "
-"en els subfotogrames i a la imatge final.</p></body></html>"
+"en els subfotogrames i en la imatge final.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CalcSNR)
 #: fitsviewer/livestacking.ui:472
@@ -37214,7 +37214,7 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre màxim de subfotogrames mantinguts a la memòria "
+"<html><head/><body><p>Nombre màxim de subfotogrames mantinguts en la memòria "
 "durant el processament. Com més gran siga el valor, millor serà la qualitat "
 "del procés d'apilament, però a costa de més temps de processament i memòria "
 "utilitzada.</p><p><br/></p><p>Processos com el retallat sigma utilitzaran "
@@ -37262,7 +37262,7 @@ msgid ""
 "p><p>Processes such as sigma clipping will use this many subs to calculate "
 "statistics to use on all subs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre màxim de subfotogrames mantinguts a la memòria "
+"<html><head/><body><p>Nombre màxim de subfotogrames mantinguts en la memòria "
 "durant el processament. Com més gran siga el valor, millor serà la qualitat "
 "del procés d'apilament, però a costa de més temps de processament i memòria "
 "utilitzada.</p><p>Processos com el retallat sigma utilitzaran este nombre de "
@@ -37708,20 +37708,20 @@ msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El fotograma pla mestre que s'utilitzarà per a "
-"calibrar les llums.</p></body></html>"
+"<html><head/><body><p>El pla mestre que s'utilitzarà per a calibrar els de "
+"llum.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLabel)
 #: fitsviewer/livestacking.ui:2299
 #, kde-format
 msgid "Master Flat:"
-msgstr "Fotograma pla mestre:"
+msgstr "Pla mestre:"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLumLabel)
 #: fitsviewer/livestacking.ui:2321
 #, kde-format
 msgid "Master Flat (Lum):"
-msgstr "Fotograma pla mestre (Lum):"
+msgstr "Pla mestre (banda Lum):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLumLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkLum)
@@ -37729,14 +37729,13 @@ msgstr "Fotograma pla mestre (Lum):"
 #, kde-format
 msgid "The Master Dark to use to calibrate Lum lights."
 msgstr ""
-"El fotograma fosc mestre que s'utilitzarà per a calibrar les llums de "
-"lluminositat (Lum)."
+"El fosc mestre que s'utilitzarà per a calibrar els de llum de la banda Lum."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2340
 #, kde-format
 msgid "Master Dark (Lum):"
-msgstr "Fotograma fosc mestre (Lum):"
+msgstr "Fosc mestre (banda Lum):"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkGreen)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkGreenLabel)
@@ -37744,7 +37743,7 @@ msgstr "Fotograma fosc mestre (Lum):"
 #, kde-format
 msgid "The Master Dark to use to calibrate Green lights."
 msgstr ""
-"El fotograma fosc mestre que s'utilitzarà per a calibrar les llums verdes."
+"El fosc mestre que s'utilitzarà per a calibrar els de llum de la banda verda."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkBlue)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkBlueLabel)
@@ -37752,7 +37751,7 @@ msgstr ""
 #, kde-format
 msgid "The Master Dark to use to calibrate Blue lights."
 msgstr ""
-"El fotograma fosc mestre que s'utilitzarà per a calibrar les llums blaves."
+"El fosc mestre que s'utilitzarà per a calibrar els de llum de la banda blava."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkRed)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkRedLabel)
@@ -37760,7 +37759,7 @@ msgstr ""
 #, kde-format
 msgid "The Master Dark to use to calibrate Red lights."
 msgstr ""
-"El fotograma fosc mestre que s'utilitzarà per a calibrar les llums rojes."
+"El fosc mestre que s'utilitzarà per a calibrar els de llum de la banda roja."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:2422
@@ -37768,23 +37767,21 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma pla "
-"mestre.</p></body></html>"
+"<html><head/><body><p>Diàleg del selector de fitxers per al pla mestre.</p></"
+"body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatLumB)
 #: fitsviewer/livestacking.ui:2435
 #, kde-format
 msgid "File chooser dialog for Master Flat Lum"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma pla mestre de lluminositat "
-"(Lum)."
+msgstr "Diàleg del selector de fitxers per al pla mestre de la banda Lum."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatRedLabel)
 #: fitsviewer/livestacking.ui:2460
 #, kde-format
 msgid "Master Flat (Red):"
-msgstr "Fotograma pla mestre (banda roja):"
+msgstr "Pla mestre (banda roja):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkRedB)
 #: fitsviewer/livestacking.ui:2489
@@ -37793,34 +37790,29 @@ msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark Red</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma fosc "
-"mestre de la banda roja.</p></body></html>"
+"<html><head/><body><p>Diàleg del selector de fitxers per al fosc mestre de "
+"la banda roja.</p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkLumB)
 #: fitsviewer/livestacking.ui:2502
 #, kde-format
 msgid "File chooser dialog for Master Dark Lum"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma fosc mestre de lluminositat "
-"(Lum)."
+msgstr "Diàleg del selector de fitxers per al fosc mestre de la banda Lum."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkGreenB)
 #: fitsviewer/livestacking.ui:2515
 #, kde-format
 msgid "File chooser dialog for Master Dark Green"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma fosc mestre de la banda "
-"verda."
+msgstr "Diàleg del selector de fitxers per al fosc mestre de la banda verda."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatRedB)
 #: fitsviewer/livestacking.ui:2528
 #, kde-format
 msgid "File chooser dialog for Master Flat Red"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma pla mestre de la banda roja."
+msgstr "Diàleg del selector de fitxers per al pla mestre de la banda roja."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLabel)
@@ -37830,22 +37822,21 @@ msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El fotograma fosc mestre que s'utilitzarà per a "
-"calibrar els fotogrames d'objecte (les llums).</p></body></html>"
+"<html><head/><body><p>El fosc mestre que s'utilitzarà per a calibrar els de "
+"llum.</p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatBlueB)
 #: fitsviewer/livestacking.ui:2566
 #, kde-format
 msgid "File chooser dialog for Master Flat Blue"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma pla mestre de la banda blava."
+msgstr "Diàleg del selector de fitxers per al pla mestre de la banda blava."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatGreenLabel)
 #: fitsviewer/livestacking.ui:2591
 #, kde-format
 msgid "Master Flat (Green):"
-msgstr "Fotograma pla mestre (banda verda):"
+msgstr "Pla mestre (banda verda):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:2607
@@ -37853,49 +37844,46 @@ msgstr "Fotograma pla mestre (banda verda):"
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma fosc "
-"mestre.</p></body></html>"
+"<html><head/><body><p>Diàleg del selector de fitxers per al fosc mestre.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkGreenLabel)
 #: fitsviewer/livestacking.ui:2648
 #, kde-format
 msgid "Master Dark (Green):"
-msgstr "Fotograma fosc mestre (banda verda):"
+msgstr "Fosc mestre (banda verda):"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkBlueLabel)
 #: fitsviewer/livestacking.ui:2686
 #, kde-format
 msgid "Master Dark (Blue):"
-msgstr "Fotograma fosc mestre (banda blava):"
+msgstr "Fosc mestre (banda blava):"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkBlueB)
 #: fitsviewer/livestacking.ui:2765
 #, kde-format
 msgid "File chooser dialog for Master Dark Blue"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma fosc mestre de la banda "
-"blava."
+msgstr "Diàleg del selector de fitxers per al fosc mestre de la banda blava."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatBlueLabel)
 #: fitsviewer/livestacking.ui:2812
 #, kde-format
 msgid "Master Flat (Blue):"
-msgstr "Fotograma pla mestre (banda blava):"
+msgstr "Pla mestre (banda blava):"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkRedLabel)
 #: fitsviewer/livestacking.ui:2831
 #, kde-format
 msgid "Master Dark (Red):"
-msgstr "Fotograma fosc mestre (banda roja):"
+msgstr "Fosc mestre (banda roja):"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatGreenB)
 #: fitsviewer/livestacking.ui:2841
 #, kde-format
 msgid "File chooser dialog for Master Flat Green"
-msgstr ""
-"Diàleg del selector de fitxers per al fotograma pla mestre de la banda verda."
+msgstr "Diàleg del selector de fitxers per al pla mestre de la banda verda."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2854
@@ -41716,7 +41704,7 @@ msgstr "Desplaçament del fus horari de l'emplaçament geogràfic en hores."
 msgid ""
 "Two-letter code for daylight savings time rule used by geographic location."
 msgstr ""
-"Codi de dues lletres per a la regla del canvi horari que regix en "
+"Codi de dues lletres per a la regla de l'horari d'estiu utilitzada per "
 "l'emplaçament geogràfic."
 
 #. i18n: ectx: whatsthis, entry (DST), group (Location)
@@ -41890,8 +41878,8 @@ msgid ""
 "Toggle whether KStars should hide some objects while the display is moving, "
 "for smoother motion."
 msgstr ""
-"Canvia quan ocultarà KStars alguns objectes mentre es mou el mapa, per tal "
-"de tindre un moviment més fluid."
+"Canvia si KStars ha d'ocultar alguns objectes mentre es mou el mapa, per a "
+"aconseguir un moviment més fluid."
 
 #. i18n: ectx: label, entry (HideCBounds), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCBounds)
@@ -42970,8 +42958,8 @@ msgid ""
 "Toggle whether corrections due to bending of light around the sun are taken "
 "into account"
 msgstr ""
-"Canvia quan tindran en compte les correccions provocades per la curvatura de "
-"la llum al voltant del Sol."
+"Canvia si es tindran en compte les correccions provocades per la curvatura "
+"de la llum al voltant del Sol."
 
 #. i18n: ectx: label, entry (UseAntialias), group (View)
 #: kstars.kcfg:809
@@ -43963,7 +43951,7 @@ msgstr "El color de les línies dels límits de constel·lacions."
 #: kstars.kcfg:1200
 #, kde-format
 msgid "Color of highlighted constellation boundary"
-msgstr "Color del límit ressaltat de les constel·lacions"
+msgstr "Color del límit de la constel·lació ressaltada"
 
 #. i18n: ectx: label, entry (CLineColor), group (Colors)
 #: kstars.kcfg:1205
@@ -45439,13 +45427,13 @@ msgstr "Commutador del càlcul de la SNR en l'«Apilament en directe»"
 #: kstars.kcfg:1835
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr "Fotograma fosc mestre en l'«Apilament en directe»"
+msgstr "Fosc mestre de l'«Apilament en directe»"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1839
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr "Fotograma pla mestre en l'«Apilament en directe»"
+msgstr "Pla mestre de l'«Apilament en directe»"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (fitsLSHotPixels), group (FITSViewer)
@@ -45623,7 +45611,7 @@ msgstr "Amplària de la columna del monitor en l'«Apilament en directe»"
 #: kstars.kcfg:1957
 #, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Ressaltat del monitor en l'«Apilament en directe»."
+msgstr "Ressaltat del monitor de l'«Apilament en directe»."
 
 #. i18n: ectx: label, entry (fitsLSWebcastTitle), group (FITSViewer)
 #: kstars.kcfg:1961
@@ -46069,8 +46057,8 @@ msgstr ""
 msgid ""
 "Automatically apply dark subtraction if a suitable dark frame is available."
 msgstr ""
-"Aplica automàticament la sostracció fosca si hi ha disponible un fotograma "
-"fosc adequat."
+"Aplica automàticament la sostracció del fosc si hi ha disponible un "
+"fotograma fosc adequat."
 
 #. i18n: ectx: label, entry (EnforceGuideDeviation), group (Capture)
 #: kstars.kcfg:2216
@@ -46240,8 +46228,8 @@ msgstr ""
 #, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
 msgstr ""
-"Captura fotogrames plans amb la mateixa posició d'enfocament dels fotogrames "
-"lluminosos."
+"Captura els fotogrames plans amb la mateixa posició d'enfocament que els "
+"fotogrames de llum."
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
 #: kstars.kcfg:2299
@@ -46421,8 +46409,7 @@ msgstr "Tolerància desitjada de l'ADU del fotograma pla."
 #: kstars.kcfg:2401
 #, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr ""
-"Captura els fotogrames de calibratge utilitzant imatges planes del cel."
+msgstr "Captura els fotogrames de calibratge utilitzant plans del cel."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2407
@@ -46494,7 +46481,7 @@ msgstr "Filtre predeterminat de la roda de filtres"
 #, kde-format
 msgid "Take a dark frame and subtract it before running autofocus operation."
 msgstr ""
-"Pren un fotograma fosc i el sostrau abans d'executar l'operació d'enfocament "
+"Pren un fotograma fosc i sostrau-lo abans d'executar l'operació d'enfocament "
 "automàtic."
 
 #. i18n: ectx: label, entry (FocusSubFrame), group (Focus)
@@ -47348,8 +47335,8 @@ msgstr "ISO predeterminada de la càmera en el mode Alineació"
 #, kde-format
 msgid "Take a dark frame and subtract it before running astrometry operation."
 msgstr ""
-"Pren un fotograma fosc i el sostrau abans d'executar l'operació de "
-"l'astrometria."
+"Pren un fotograma fosc i sostrau-lo abans d'executar l'operació "
+"d'astrometria."
 
 #. i18n: ectx: label, entry (AlignFilter), group (Align)
 #: kstars.kcfg:2889
@@ -83052,7 +83039,7 @@ msgstr "No s'ha pogut importar el catàleg «%1»<br>%2"
 #: kstarsactions.cpp:586
 #, kde-format
 msgid "Light Pollution Settings"
-msgstr "Configureu la pol·lució lumínica"
+msgstr "Configureu la contaminació lumínica"
 
 #: kstarsactions.cpp:588
 #, kde-format
@@ -85739,7 +85726,7 @@ msgstr "Velocitat en bauds"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Bias"
-msgstr "Biaix"
+msgstr "De biaix"
 
 #: libindi_strings.cpp:44
 #, kde-kuit-format
@@ -87091,7 +87078,7 @@ msgstr "Biblioteca"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Light"
-msgstr "Imatge de llum"
+msgstr "De llum"
 
 #: libindi_strings.cpp:272
 #, kde-kuit-format
@@ -100568,7 +100555,7 @@ msgstr ""
 #: tools/starhopperdialog.ui:14
 #, kde-format
 msgid "Star-Hopper Results"
-msgstr "Resultats del saltador entre estreles"
+msgstr "Resultats del saltador d'estreles"
 
 #: tools/whatsinteresting/skyobjitem.cpp:114
 #, kde-kuit-format
@@ -100635,7 +100622,7 @@ msgid ""
 "represents an <b>excellent dark-sky site</b>, while <b>9</b> represents a "
 "<b>brilliantly lit inner-city sky</b>.</p>"
 msgstr ""
-"<p>Quanta pol·lució lumínica hi ha en el vostre cel nocturn? Avalueu les "
+"<p>Quanta contaminació lumínica hi ha en el vostre cel nocturn? Avalueu les "
 "vostres condicions del cel nocturn des de l'1 fins al 9 basant-vos en "
 "l'<b>Escala de Bortle de foscor del cel</b>. Una valoració d'<b>1</b> "
 "representa un <b>lloc amb una foscor excel·lent</b>, mentre que el <b>9</b> "
