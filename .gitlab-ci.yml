@@ -33,7 +33,7 @@ include:
 # Override the script for Suse Tumbleweed to avoid building with tests,
 # since ci-utilities/run-ci-build.py turns it on
 
-suse_tumbleweed_qt611:
+suse_tumbleweed_qt612:
   allow_failure: true # Necessary since INDI interface changed
   script:
     - git config --global --add safe.directory $CI_PROJECT_DIR
@@ -60,7 +60,7 @@ windows_qt611:
   rules:
     - !reference [.standard-build-recipes, rules]
   needs:
-    - suse_tumbleweed_qt611 # Wait for a success of the fast job
+    - suse_tumbleweed_qt612 # Wait for a success of the fast job
 
 json-validation:
   stage: validate
@@ -117,14 +117,14 @@ craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64
 craft_macos_qt6_x86_64: # Extended from /gitlab-templates/craft-macos-x86-64-qt6.yml
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
-    - suse_tumbleweed_qt611 # we don't have a macos check build
+    - suse_tumbleweed_qt612 # we don't have a macos check build
   rules:
     - !reference [.craft-recipes, rules]
 
 craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.yml
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
-    - suse_tumbleweed_qt611 # we don't have a macos check build
+    - suse_tumbleweed_qt612 # we don't have a macos check build
   rules:
     - !reference [.craft-recipes, rules]
 
@@ -145,7 +145,7 @@ microsoftstore_qt6:
 flatpak-amd64:
   timeout: 2h
   needs:
-    - suse_tumbleweed_qt611
+    - suse_tumbleweed_qt612
   rules:
     - !reference [.always-on-scheduled-pipeline, rules]
     - !reference [.publishing-recipes, rules]
@@ -153,7 +153,7 @@ flatpak-amd64:
 flatpak-arm64:
   timeout: 3h
   needs:
-    - suse_tumbleweed_qt611
+    - suse_tumbleweed_qt612
   rules:
     - !reference [.always-on-scheduled-pipeline, rules]
     - !reference [.publishing-recipes, rules]
@@ -173,7 +173,7 @@ kubuntu_2604_qt610:
   allow_failure: true # TODO: remove once proven stable as sole path
   timeout: 3 hours
   needs:
-    - suse_tumbleweed_qt611
+    - suse_tumbleweed_qt612
   rules:
     - !reference [.optional-on-forked-repository, rules]
     - !reference [.optional-on-draft-merge-requests, rules]
@@ -238,4 +238,4 @@ kubuntu_2604_qt610:
 # Gate snapcraft on a successful linux build
 snap_snapcraft_lxd:
   needs:
-    - suse_tumbleweed_qt611
+    - suse_tumbleweed_qt612
