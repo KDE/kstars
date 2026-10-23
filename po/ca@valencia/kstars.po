@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-21 20:28+0200\n"
+"PO-Revision-Date: 2026-10-22 21:24+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -13826,7 +13826,7 @@ msgstr "Desactiva el registre de l'eixida."
 #: ekos/auxiliary/opslogs.ui:173 options/opsadvanced.ui:270
 #, kde-format
 msgid "&Disable"
-msgstr "&Desactiva"
+msgstr "&Desactivat"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDILogging)
@@ -14725,7 +14725,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
-msgstr "Predeterminada. Establiu-la per a l'estimació HFR típica."
+msgstr "Predeterminat. Establiu-lo per a l'estimació HFR típica."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
@@ -15050,7 +15050,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:495
 #, kde-format
 msgid "r_min"
-msgstr "r_min"
+msgstr "r_mín"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, apertureShape)
@@ -29309,7 +29309,7 @@ msgstr "Cal tornar a iniciar KStars perquè este canvi tinga efecte."
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr ""
-"Establix una carpeta base alternativa per a les imatges capturades pel "
+"Establiu una carpeta base alternativa per a les imatges capturades pel "
 "procés «Analitza»"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpFileAccessRootB)

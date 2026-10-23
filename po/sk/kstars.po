@@ -5866,7 +5866,7 @@ msgstr "Nastaviť aj zorné pole"
 #: dialogs/skyobjectsearchadapter.cpp:83
 #, kde-format
 msgid "Restrict search to an object category"
-msgstr ""
+msgstr "Obmedziť hľadanie na kategóriu objektov"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -10166,6 +10166,8 @@ msgstr "Montáž bola prerušená. Otočte smer osi RA a skúste znova."
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
 msgstr ""
+"Polárne zarovnanie vyžaduje montáž. Vyberte, prosím, montáž v optickej "
+"zostave."
 
 #: ekos/align/polaralignmentassistant.cpp:790
 #, kde-format
@@ -11054,7 +11056,7 @@ msgstr "Nedostatok pamäti na načítanie %1"
 #: ekos/align/remoteastrometryparser.cpp:101
 #, kde-format
 msgid "Remote astrometry driver is no longer connected."
-msgstr ""
+msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
 
 #: ekos/align/remoteastrometryparser.cpp:114
 #, kde-format
@@ -11105,7 +11107,7 @@ msgstr "Nedá sa zobraziť dočasný súbor obrázku: %1"
 #, kde-format
 msgctxt "Short label for the Nth camera"
 msgid "Cam %1"
-msgstr ""
+msgstr "Kam %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -11120,7 +11122,7 @@ msgstr "Zaostrovač"
 #, kde-format
 msgctxt "Short label for the Nth focuser"
 msgid "Foc %1"
-msgstr ""
+msgstr "Zaostr %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -11291,22 +11293,19 @@ msgstr "Časová os"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If possible display previous (scroll to left) or "
-#| "future (scroll to right) sections of the Timeline and Statistics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which cameras and focusers are shown on the "
 "Timeline and Statistics plots.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Vyberte, ktoré kamery a zaostrovače sa zobrazia na "
+"grafoch Časová os a Štatistiky.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, deviceFilterButton)
 #: ekos/analyze/analyze.ui:76
-#, fuzzy, kde-format
-#| msgid "&Devices"
+#, kde-format
 msgid "Devices"
-msgstr "&Zariadenia"
+msgstr "Zariadenia"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:113
@@ -11501,13 +11500,13 @@ msgstr "Zachytiť:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureDeviceCombo)
 #: ekos/analyze/analyze.ui:585
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which camera's capture statistics are shown "
 "below.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Základný lokálny adresár zachytávania</p></body></html>"
+"<html><head/><body><p>Vyberte, štatistiky snímania ktorej kamery sa zobrazia "
+"nižšie.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:600
@@ -12016,14 +12015,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDeviceCombo)
 #: ekos/analyze/analyze.ui:1544
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the autofocus solution position.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Choose which focuser's temperature/position statistics "
 "are shown below.</p></body></html>"
-msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Vyberte, štatistiky teploty/polohy ktorého zaostrovača "
+"sa zobrazia nižšie.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1563
@@ -12034,10 +12032,9 @@ msgstr "<html><head/><body><p>Iba vyhodnotiť úlohy</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1569
-#, fuzzy, kde-format
-#| msgid "psi"
+#, kde-format
 msgid "pos"
-msgstr "psí"
+msgstr "poz"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1582
@@ -12388,25 +12385,32 @@ msgid ""
 msgid_plural ""
 "The %1 matching dark frames were recorded at gain %2, but gain %3 is in use."
 msgstr[0] ""
+"%1 zodpovedajúci tmavý rámec bol nasnímaný so ziskom %2, ale používa sa zisk "
+"%3."
 msgstr[1] ""
+"%1 zodpovedajúce tmavé rámce boli nasnímané so ziskom %2, ale používa sa "
+"zisk %3."
 msgstr[2] ""
+"%1 zodpovedajúcich tmavých rámcov bolo nasnímaných so ziskom %2, ale používa "
+"sa zisk %3."
 
 #: ekos/auxiliary/darklibrary.cpp:442
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 zodpovedajúci tmavý rámec bol nasnímaný s iným ziskom."
+msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané s iným ziskom."
+msgstr[2] "%1 zodpovedajúcich tmavých rámcov bolo nasnímaných s iným ziskom."
 
 #: ekos/auxiliary/darklibrary.cpp:446
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
 "The %1 matching dark frames were recorded at a different binning."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 zodpovedajúci tmavý rámec bol nasnímaný s iným binningom."
+msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané s iným binningom."
 msgstr[2] ""
+"%1 zodpovedajúcich tmavých rámcov bolo nasnímaných s iným binningom."
 
 #: ekos/auxiliary/darklibrary.cpp:450
 #, kde-format
@@ -12414,50 +12418,49 @@ msgid ""
 "The %1 matching dark frame was recorded outside the temperature threshold."
 msgid_plural ""
 "The %1 matching dark frames were recorded outside the temperature threshold."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 zodpovedajúci tmavý rámec bol nasnímaný mimo teplotného prahu."
+msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané mimo teplotného prahu."
 msgstr[2] ""
+"%1 zodpovedajúcich tmavých rámcov bolo nasnímaných mimo teplotného prahu."
 
 #: ekos/auxiliary/darklibrary.cpp:454
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 nasnímaný tmavý rámec patrí inej kamere alebo čipu."
+msgstr[1] "%1 nasnímané tmavé rámce patria iným kamerám alebo čipom."
+msgstr[2] "%1 nasnímaných tmavých rámcov patrí iným kamerám alebo čipom."
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 zodpovedajúci tmavý rámec nemá zaznamenaný zisk."
+msgstr[1] "%1 zodpovedajúce tmavé rámce nemajú zaznamenaný zisk."
+msgstr[2] "%1 zodpovedajúcich tmavých rámcov nemá zaznamenaný zisk."
 
 #: ekos/auxiliary/darklibrary.cpp:461
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 zodpovedajúci tmavý rámec nemá zaznamenaný binning."
+msgstr[1] "%1 zodpovedajúce tmavé rámce nemajú zaznamenaný binning."
+msgstr[2] "%1 zodpovedajúcich tmavých rámcov nemá zaznamenaný binning."
 
 #: ekos/auxiliary/darklibrary.cpp:465
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
+"Žiadny nasnímaný tmavý rámec nezodpovedá aktuálnemu trvaniu a binningu."
 
 #: ekos/auxiliary/darklibrary.cpp:474
-#, fuzzy, kde-format
-#| msgid ""
-#| "Using available dark frame with %1 seconds exposure. Please take a dark "
-#| "frame with %1 seconds exposure for more accurate results."
+#, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %2 seconds exposure for more accurate results."
 msgstr ""
 "Používa sa dostupný tmavý rámec s expozíciou %1 sekúnd. Nasnímaním tmavého "
-"rámca s expozíciou %1 sekúnd získate presnejšie výsledky."
+"rámca s expozíciou %2 sekúnd získate presnejšie výsledky."
 
 #: ekos/auxiliary/darklibrary.cpp:486
 #, kde-format
@@ -12465,6 +12468,8 @@ msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
 "dark frames for %2 days."
 msgstr ""
+"Zodpovedajúci tmavý rámec je starý %1 dní, ale knižnica tmavých rámcov je "
+"nastavená na opätovné použitie tmavých rámcov počas %2 dní."
 
 #: ekos/auxiliary/darklibrary.cpp:513
 #, kde-format
@@ -12968,15 +12973,12 @@ msgstr ""
 "knižnice tmavých rámcov v module Snímanie."
 
 #: ekos/auxiliary/darkprocessor.cpp:274
-#, fuzzy, kde-format
-#| msgid ""
-#| "No suitable dark frames or defect maps found. Please run the Dark Library "
-#| "wizard in Capture module."
+#, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. %1 Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
-"Nenašli sa vhodné tmavé rámce ani mapy defektov. Spustite sprievodcu "
+"Nenašli sa vhodné tmavé rámce ani mapy defektov. %1 Spustite sprievodcu "
 "knižnice tmavých rámcov v module Snímanie."
 
 #: ekos/auxiliary/darkprocessor.cpp:307
@@ -12985,12 +12987,13 @@ msgid ""
 "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
 "pixels."
 msgstr ""
+"Tmavý rámec má %1x%2 pixelov, zatiaľ čo kalibrovaný rámec má %3x%4 pixelov."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:28
 #, kde-format
 msgctxt "@title:window"
 msgid "Clean Up Unused Devices"
-msgstr ""
+msgstr "Vyčistiť nepoužívané zariadenia"
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:32
 #, kde-format
@@ -12998,17 +13001,18 @@ msgid ""
 "These stored device names are not currently connected. Some may only be "
 "temporarily unavailable, so check before removing."
 msgstr ""
+"Tieto uložené názvy zariadení momentálne nie sú pripojené. Niektoré môžu byť "
+"nedostupné iba dočasne, preto ich pred odstránením skontrolujte."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "All devices are successfully mapped."
+#, kde-format
 msgid "All stored devices are currently connected."
-msgstr "Všetky zariadenia boli úspešne namapované."
+msgstr "Všetky uložené zariadenia sú momentálne pripojené."
 
 #: ekos/auxiliary/devicecleanupdialog.cpp:83
 #, kde-format
 msgid "Remove this stored device reference"
-msgstr ""
+msgstr "Odstrániť tento uložený odkaz na zariadenie"
 
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
@@ -13639,22 +13643,19 @@ msgstr ""
 "pred ďalším pokračovaním."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1416
-#, fuzzy, kde-format
-#| msgid "Filter wheel:"
+#, kde-format
 msgid "Filter wheel"
-msgstr "Koleso filtrov:"
+msgstr "Koleso filtrov"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1418
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust cap"
-msgstr "Ochranný kryt:"
+msgstr "Ochranný kryt"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Light box:"
+#, kde-format
 msgid "Light box"
-msgstr "Svetelná krabica:"
+msgstr "Svetelná krabica"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1420
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
@@ -13665,7 +13666,7 @@ msgstr "Guider"
 #: ekos/auxiliary/opticaltrainmanager.cpp:1438
 #, kde-format
 msgid "%1 - %2"
-msgstr ""
+msgstr "%1 - %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
@@ -13887,6 +13888,9 @@ msgid ""
 "connected. Some may only be temporarily unavailable, so check before "
 "removing.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Odstrániť uložené názvy zariadení, ktoré momentálne "
+"nie sú pripojené. Niektoré môžu byť nedostupné iba dočasne, preto ich pred "
+"odstránením skontrolujte.</p></body></html>"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -15281,18 +15285,20 @@ msgid ""
 "Stream bit depth for video recording (8-bit for fast frame rate, 16-bit for "
 "full dynamic range)"
 msgstr ""
+"Bitová hĺbka streamu pre nahrávanie videa (8-bit pre rýchlu snímkovú "
+"frekvenciu, 16-bit pre plný dynamický rozsah)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:328
 #, kde-format
 msgid "8-bit"
-msgstr ""
+msgstr "8-bit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, videoStreamDepthS)
 #: ekos/capture/camera.ui:333
 #, kde-format
 msgid "16-bit"
-msgstr ""
+msgstr "16-bit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -15389,10 +15395,9 @@ msgstr "Y:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_temperature)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/camera.ui:836 ekos/capture/camera.ui:900
-#, fuzzy, kde-format
-#| msgid "Desired CCD temperature"
+#, kde-format
 msgid "Desired temperature"
-msgstr "Požadovaná teplota CCD"
+msgstr "Požadovaná teplota"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_temperature)
 #: ekos/capture/camera.ui:842
@@ -15402,16 +15407,15 @@ msgstr "Dočasný adresár:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:866
-#, fuzzy, kde-format
-#| msgid "Current CCD temperature"
+#, kde-format
 msgid "Current camera temperature"
-msgstr "Aktuálna teplota CCD"
+msgstr "Aktuálna teplota kamery"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/camera.ui:931
 #, kde-format
 msgid "Set temperature now (does not affect the job's target temperature)"
-msgstr ""
+msgstr "Nastaviť teplotu teraz (neovplyvní cieľovú teplotu úlohy)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/camera.ui:968
@@ -15715,89 +15719,7 @@ msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1861
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %f</span> or <span style=\" font-weight:704;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %D</span> or <span style=\" font-weight:704;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:704;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %T</span> or <span style=\" font-weight:704;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %e</span> or <span style=\" font-weight:704;\">%exposure</span>: The "
-#| "exposure duration in seconds, with '_secs' as suffix.</li><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %E</span> or "
-#| "<span style=\" font-weight:704;\">%exp</span>: The exposure duration in "
-#| "seconds as plain number, without any unit as suffix.</li></ul><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Placeholder<span style=\" font-"
-#| "weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
-#| "span>: The active filter name.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %t</span> or "
-#| "<span style=\" font-weight:704;\">%target</span>: The Target name.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder "
-#| "<span style=\" font-weight:600;\">%C</span> or <span style=\" font-"
-#| "weight:600;\">%temperature</span>: The camera temperature of capturing.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%B</"
-#| "span> or <span style=\" font-weight:600;\">%bin</span>: The binning "
-#| "configured for capturing.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder <span style=\" font-weight:600;\">%G</span> or "
-#| "<span style=\" font-weight:600;\">%gain</span>: The gain configured for "
-#| "capturing.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%O</span> or <span style="
-#| "\" font-weight:600;\">%offset</span>: The offset configured for capturing."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%I</"
-#| "span> or <span style=\" font-weight:600;\">%iso</span>: The ISO value "
-#| "(DSLRs only).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%P</span> or <span style="
-#| "\" font-weight:600;\">%pierside</span>: The current mount's pier side.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%H</"
-#| "span> or <span style=\" font-weight:600;\">%hostname</span>: The hostname "
-#| "running EKOS.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder<span style=\" font-weight:704;\"> %s*</span> or <span "
-#| "style=\" font-weight:704;\">%sequence</span>: The image sequence "
-#| "identifier where * is the number of digits used (1-9). <span style=\" "
-#| "font-weight:704;\">This tag is mandatory and must be the last element in "
-#| "the format.</span></li></ul><p>Arbitrary text may also be included within "
-#| "the Format string, <span style=\" font-weight:704;\">except the % and \\ "
-#| "characters.</span> The / path character can be used to define arbitrary "
-#| "directories.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Tags are case sensitive in both "
-#| "their short and long forms.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Only use the %Datetime tag in the filename portion of the "
-#| "format, not in the path definition.</li></ul></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -15949,23 +15871,33 @@ msgstr ""
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Zástupný tag <span style=\" font-"
 "weight:600;\">%H</span> alebo <span style=\" font-weight:600;\">%hostname</"
-"span>: Názov hostiteľa so spusteným EKOS.</li></ul><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Zástupný tag<span style=\" font-weight:704;\"> "
-"%s*</span> alebo <span style=\" font-weight:704;\">%sequence</span>: "
-"Identifikátor sekvencie snímky, kde * je počet použitých číslic (1-9). <span "
-"style=\" font-weight:704;\">Tento tag je povinný a musí byť posledným prvkom "
-"vo formáte.</span></li></ul><p>Do reťazca Formát možno zahrnúť aj ľubovoľný "
-"text, <span style=\" font-weight:704;\">okrem znakov % a \\.</span> Znak / "
-"cesty môže byť použitý na definovanie ľubovoľných adresárov.</p><p>Poznámky:"
-"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Tagy rozlišujú veľkosť písmen v krátkom aj dlhom tvare.</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Používajte tag %Datetime "
-"len v časti názvu súboru formátu, nie v definícii cesty.</li></ul></body></"
-"html>"
+"span>: Názov hostiteľa so spusteným EKOS.</li></ul><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Zástupný "
+"tag <span style=\" font-weight:600;\">%c</span> alebo <span style=\" font-"
+"weight:600;\">%cameraname</span>: Názov aktívnej kamery.</li></ul><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Zástupný "
+"tag <span style=\" font-weight:600;\">%o</span> alebo <span style=\" font-"
+"weight:600;\">%opticaltrain</span>: Názov aktívnej optickej zostavy.</li></"
+"ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Zástupný tag<span style=\" "
+"font-weight:704;\"> %s*</span> alebo <span style=\" font-weight:704;\">"
+"%sequence</span>: Identifikátor sekvencie snímky, kde * je počet použitých "
+"číslic (1-9). <span style=\" font-weight:704;\">Tento tag je povinný a musí "
+"byť posledným prvkom vo formáte.</span></li></ul><p>Do reťazca Formát možno "
+"zahrnúť aj ľubovoľný text, <span style=\" font-weight:704;\">okrem znakov % "
+"a \\.</span> Znak / cesty môže byť použitý na definovanie ľubovoľných "
+"adresárov.</p><p>Poznámky:</p><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Tagy rozlišujú veľkosť písmen v krátkom "
+"aj dlhom tvare.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Používajte tag %Datetime len v časti názvu súboru formátu, nie v "
+"definícii cesty.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1896
@@ -18469,10 +18401,9 @@ msgid "Complete"
 msgstr "Dokončené"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "Nastavujem teplotu na %1 °C..."
+msgstr "Nastavuje sa teplota na %1 °C. Náhľady na to nečakajú."
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
@@ -19174,59 +19105,51 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:389
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Green"
+#, kde-format
 msgid "Qt Green"
-msgstr "Zelená"
+msgstr "Qt zelená"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:394
 #, kde-format
 msgid "Qt Green Neon"
-msgstr ""
+msgstr "Qt zelená neónová"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:399
 #, kde-format
 msgid "Mix Series"
-msgstr ""
+msgstr "Zmiešaná séria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:404
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Orange Park"
+#, kde-format
 msgid "Orange Series"
-msgstr "Orange Park"
+msgstr "Oranžová séria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:409
-#, fuzzy, kde-format
-#| msgctxt "City in Northwest Territories Canada"
-#| msgid "Yellowknife"
+#, kde-format
 msgid "Yellow Series"
-msgstr "Yellowknife"
+msgstr "Žltá séria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:414
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Blue River"
+#, kde-format
 msgid "Blue Series"
-msgstr "Blue River"
+msgstr "Modrá séria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:419
 #, kde-format
 msgid "Purple Series"
-msgstr ""
+msgstr "Fialová séria"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:424
 #, kde-format
 msgid "Grey Series"
-msgstr ""
+msgstr "Sivá séria"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:432
@@ -22483,24 +22406,21 @@ msgid "View from behind camera"
 msgstr "Pohľad zozadu na kameru"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:152
-#, fuzzy, kde-format
-#| msgid "View from behind camera"
+#, kde-format
 msgid "View from behind · plate %1° %2"
-msgstr "Pohľad zozadu na kameru"
+msgstr "Pohľad zozadu · doska %1° %2"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "&CW"
+#, kde-format
 msgctxt "clockwise"
 msgid "CW"
-msgstr "cW"
+msgstr "CW"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:155
-#, fuzzy, kde-format
-#| msgid "CCW"
+#, kde-format
 msgctxt "counter-clockwise"
 msgid "CCW"
-msgstr "Proti smeru hodinových ručičiek"
+msgstr "CCW"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:259
 #, kde-format
@@ -22508,60 +22428,52 @@ msgid "%1%2 μm"
 msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:290
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgctxt "screw position"
 msgid "right"
-msgstr "Vpravo"
+msgstr "vpravo"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 1 (upper-right)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-right"
-msgstr "Bod 1 (vpravo hore)"
+msgstr "vpravo hore"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:294
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgctxt "screw position"
 msgid "top"
-msgstr "Zastaviť"
+msgstr "hore"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 3 (upper-left)"
+#, kde-format
 msgctxt "screw position"
 msgid "upper-left"
-msgstr "Bod 3 (vľavo hore)"
+msgstr "vľavo hore"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "left"
+#, kde-format
 msgctxt "screw position"
 msgid "left"
-msgstr "Vľavo hore"
+msgstr "vľavo"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:300
 #, kde-format
 msgctxt "screw position"
 msgid "lower-left"
-msgstr ""
+msgstr "vľavo dole"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:302
 #, kde-format
 msgctxt "screw position"
 msgid "bottom"
-msgstr ""
+msgstr "dole"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:304
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgctxt "screw position"
 msgid "lower-right"
-msgstr "Pravý dolný roh"
+msgstr "vpravo dole"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:326
 #, kde-format
@@ -22715,10 +22627,9 @@ msgstr ""
 "ručných doskách."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate angle:"
-msgstr "Astrometrické riešenie"
+msgstr "Uhol dosky:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:386
 #, kde-format
@@ -22731,6 +22642,14 @@ msgid ""
 "The suggested screw and amount are recomputed from the last focus run,\n"
 "so no new autofocus is needed after changing this."
 msgstr ""
+"Otočenie naklápacej dosky (kruhu skrutiek) voči senzoru.\n"
+"Senzor zostáva pevný (vodorovný); otáčajú sa iba skrutky, aby zodpovedali\n"
+"vašej fyzickej doske — napr. 3-bodovej doske priskrutkovanej pod 15°.\n"
+"Kladné = v smere hodinových ručičiek pri pohľade zozadu (na zadnú dosku "
+"kamery).\n"
+"Navrhovaná skrutka a veľkosť otočenia sa prepočítajú z posledného "
+"zaostrovania,\n"
+"takže po zmene netreba nové automatické zaostrovanie."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:395 ekos/profileeditor.ui:154
@@ -22861,26 +22780,22 @@ msgid "%1: %2%3 mm (%4%5 turns)"
 msgstr "%1: %2%3 mm (%4%5 otáčok)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:704
-#, fuzzy, kde-format
-#| msgid "Point 1: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (%1)"
-msgstr "Bod 1: —"
+msgstr "Bod 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "3-point tilt plate screw"
-#| msgid "Point 2 (bottom)"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (%1)"
-msgstr "Bod 2 (dole)"
+msgstr "Bod 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:708
-#, fuzzy, kde-format
-#| msgid "Point 3: —"
+#, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (%1)"
-msgstr "Bod 3: —"
+msgstr "Bod 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:713
 #: ekos/focus/tiltcorrectionwidget.cpp:806
@@ -22906,36 +22821,28 @@ msgstr ""
 "%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (%1)"
-msgstr "Skrutka 1 (vľavo hore)"
+msgstr "Skrutka 1 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:793
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 2 (top-right)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (%1)"
-msgstr "Skrutka 2 (vpravo hore)"
+msgstr "Skrutka 2 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 3 (bottom-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (%1)"
-msgstr "Skrutka 3 (vľavo dole)"
+msgstr "Skrutka 3 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:797
-#, fuzzy, kde-format
-#| msgctxt "4-point tilt plate screw"
-#| msgid "Screw 1 (top-left)"
+#, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (%1)"
-msgstr "Skrutka 1 (vľavo hore)"
+msgstr "Skrutka 4 (%1)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:808
 #, kde-format
@@ -23852,6 +23759,8 @@ msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
 "reach the mount."
 msgstr ""
+"Montáž hlási chybu počas aktívneho navádzania. Korekcie navádzania sa "
+"nemusia dostať k montáži."
 
 #: ekos/guide/guide.cpp:1964
 #, kde-format
@@ -23859,6 +23768,8 @@ msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
 "compensate for lost tracking."
 msgstr ""
+"Montáž prestala sledovať počas aktívneho navádzania. Korekcie navádzania "
+"nedokážu vykompenzovať stratené sledovanie."
 
 #: ekos/guide/guide.cpp:2071
 #, kde-format
@@ -23866,10 +23777,9 @@ msgid "Calibration is cleared."
 msgstr "Kalibrácia je vymazaná."
 
 #: ekos/guide/guide.cpp:2143
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
-msgstr "Zistená zmena strany piliera. Vymazanie kalibrácie."
+msgstr "Pole sa od kalibrácie navádzania otočilo o %1°. Kalibrácia sa vymaže."
 
 #: ekos/guide/guide.cpp:2188
 #, kde-format
@@ -24099,15 +24009,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subframe the image around the guide star. Or for "
-#| "PHD2, receive the Guide Star Image instead of the full image frame. For "
-#| "the Internal Guider, before checking this option, you must <span style=\" "
-#| "font-weight:600;\">first</span> capture an image and select a guide star. "
-#| "Uncheck it to take a full frame again. <br/>Please note: 'SEP Multi Star' "
-#| "<span style=\" font-weight:600;\">cannot</span> use subframe.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -24124,9 +24026,12 @@ msgstr ""
 "PHD2, prijať snímku vodiacej hviezdy namiesto celého rámca snímky. Pre "
 "interný vodič musíte pred zaškrtnutím tejto možnosti <span style=\" font-"
 "weight:600;\">najprv</span> nasnímať snímku a vybrať vodiacu hviezdu. "
-"Odškrtnite pre opätovné snímanie celého rámca. <br/>Upozornenie: 'SEP Multi "
-"Star' <span style=\" font-weight:600;\">nemôže</span> používať podzáber.</"
-"p></body></html>"
+"Odškrtnite pre opätovné snímanie celého rámca. <br/>Pri 'SEP Multi Star' sa "
+"stále sníma a zobrazuje celý rámec, ale počas navádzania sa hviezdy hľadajú "
+"iba okolo vodiacej a referenčných hviezd, čo je oveľa rýchlejšie. "
+"Kalibrácia, dithering a stratené hviezdy stále prehľadávajú celý rámec. "
+"Rámčeky vodiacich hviezd na snímkach, ktoré použili toto lokálne hľadanie, "
+"zmodrejú. Dá sa to meniť aj počas navádzania.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:155
@@ -24168,29 +24073,33 @@ msgid ""
 "guiding frequencies (e.g. 2–5 Hz) that harmonic drives benefit from. This "
 "setting is saved per optical train.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Režim snímania navádzania:</p><ul><li><b>Stream VYP</"
+"b>: snímanie jednotlivých expozícií navádzania (predvolené).</"
+"li><li><b>Stream 16-bit</b>: snímanie rámcov cez nepretržitý 16-bitový video "
+"stream (plná hĺbka senzora).</li><li><b>Stream 8-bit</b>: snímanie rámcov "
+"cez nepretržitý 8-bitový video stream (nižšia šírka pásma).</li></"
+"ul><p>Streamovanie vyžaduje kameru s podporou video streamu. Odstraňuje "
+"réžiu jednotlivých rámcov a umožňuje vyššie frekvencie navádzania (napr. 2–5 "
+"Hz), z ktorých profitujú harmonické pohony. Toto nastavenie sa ukladá pre "
+"každú optickú zostavu.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream OFF"
-msgstr "Stream zapnutý"
+msgstr "Stream VYP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:248
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-format
 msgid "Stream 16-bit"
-msgstr "Stream zapnutý"
+msgstr "Stream 16-bit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideStreamMode)
 #: ekos/guide/guide.ui:253
-#, fuzzy, kde-format
-#| msgid "Stream"
+#, kde-format
 msgid "Stream 8-bit"
-msgstr "Streamovanie"
+msgstr "Stream 8-bit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:286
@@ -25441,13 +25350,20 @@ msgid ""
 "handled separately and do not. Works with the internal guider and PHD2.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Resetovať kalibráciu navádzania vždy, keď sa pole "
+"otočí, aby sa pri ďalšom spustení navádzania zmerala nová kalibrácia "
+"namiesto navádzania so zastaranou. Otočenie sa zisťuje z pozičného uhla "
+"astrometrického riešenia, takže pokrýva pohyby elektronického rotátora aj "
+"ručné otočenie kamery (napríklad pri zarovnaní podľa referenčnej snímky z "
+"predchádzajúcej relácie). Každé potvrdené otočenie spustí reset; preklopenia "
+"cez poludník sa riešia samostatne a reset nespúšťajú. Funguje s interným "
+"vodičom aj s PHD2.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:437
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Reset guide calibration when the field rotates."
-msgstr "Uložiť a znova použiť kalibráciu navádzania, keď je to možné."
+msgstr "Resetovať kalibráciu navádzania, keď sa pole otočí."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28259,7 +28175,7 @@ msgstr ""
 #: ekos/opsekos.cpp:69 ekos/opsekos.ui:551
 #, kde-format
 msgid "Select the root directory MCP tools may access"
-msgstr ""
+msgstr "Vyberte koreňový adresár, ku ktorému môžu nástroje MCP pristupovať"
 
 #: ekos/opsekos.cpp:145 ekos/opsekos.cpp:168
 #, kde-format
@@ -28494,7 +28410,7 @@ msgstr "Token pre režim len na čítanie:"
 #: ekos/opsekos.ui:532
 #, kde-format
 msgid "File access root:"
-msgstr ""
+msgstr "Koreň prístupu k súborom:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_MCPFileAccessRoot)
 #: ekos/opsekos.ui:570
@@ -28504,6 +28420,10 @@ msgid ""
 "this directory and its subfolders. Empty denies all file access. Governs "
 "tool inputs only; tools may still report paths of files the rig itself wrote."
 msgstr ""
+"Nástroje, ktoré berú cestu v súborovom systéme, prijímajú iba absolútne "
+"cesty k súborom v tomto adresári a jeho podpriečinkoch. Prázdna hodnota "
+"zakáže všetok prístup k súborom. Týka sa iba vstupov nástrojov; nástroje "
+"môžu stále hlásiť cesty súborov, ktoré zapísala samotná zostava."
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:585
@@ -28534,16 +28454,14 @@ msgid "Profile name already exists."
 msgstr "Názov profilu už existuje."
 
 #: ekos/profileeditor.cpp:350
-#, fuzzy, kde-format
-#| msgid ""
-#| "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
-#| "corresponding driver.<nobr/>"
+#, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver only. It is not installed locally "
 "and cannot be used in a <b>Local</b> profile. To use it locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
-"<nobr>Dostupný ako <b>vzdialený</b> ovládač. Na lokálne použitie "
+"<nobr>Dostupný iba ako <b>vzdialený</b> ovládač. Nie je nainštalovaný "
+"lokálne a nemožno ho použiť v <b>lokálnom</b> profile. Na lokálne použitie "
 "nainštalujte príslušný ovládač.<nobr/>"
 
 #: ekos/profileeditor.cpp:353
@@ -28567,6 +28485,9 @@ msgid ""
 "locally. It cannot be added to a Local profile. Switch to a Remote profile "
 "or install the driver locally."
 msgstr ""
+"<b>%1</b> je dostupný iba ako <b>vzdialený</b> ovládač a nie je "
+"nainštalovaný lokálne. Nemožno ho pridať do lokálneho profilu. Prepnite na "
+"vzdialený profil alebo nainštalujte ovládač lokálne."
 
 #: ekos/profileeditor.cpp:785
 #, kde-format
@@ -30208,11 +30129,11 @@ msgid "(%1) Job %2: has completed."
 msgstr "(%1) Úloha %2: dokončená."
 
 #: ekos/scheduler/greedyscheduler.cpp:120
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: cannot run because: %3"
+#, kde-format
 msgid ""
 "(%1) Job %2: cannot run because: it failed and errors are not rescheduled"
-msgstr "(%1) Úloha %2: nemôže bežať, pretože: %3"
+msgstr ""
+"(%1) Úloha %2: nemôže bežať, pretože: zlyhala a chyby sa znova neplánujú"
 
 #: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
@@ -30220,12 +30141,13 @@ msgid ""
 "(%1) Job %2: cannot run because: it was aborted and aborted jobs are not "
 "rescheduled"
 msgstr ""
+"(%1) Úloha %2: nemôže bežať, pretože: bola prerušená a prerušené úlohy sa "
+"znova neplánujú"
 
 #: ekos/scheduler/greedyscheduler.cpp:130
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: has completed."
+#, kde-format
 msgid "(%1) Job %2: no constraint violated"
-msgstr "(%1) Úloha %2: dokončená."
+msgstr "(%1) Úloha %2: žiadne obmedzenie nie je porušené"
 
 #: ekos/scheduler/greedyscheduler.cpp:132
 #, kde-format
@@ -31880,15 +31802,13 @@ msgid "Job '%1' is slewing to target."
 msgstr "Úloha '%1' sa natáča na cieľ."
 
 #: ekos/scheduler/schedulerprocess.cpp:1100
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' is unable to proceed with autofocus, not supported."
+#, kde-format
 msgid ""
 "Warning: job '%1' is unable to proceed with autofocus on train '%2', not "
 "supported."
 msgstr ""
-"Upozornenie: úloha '%1' nemôže pokračovať s automatickým zaostrovaním, nie "
-"je podporované."
+"Upozornenie: úloha '%1' nemôže pokračovať s automatickým zaostrovaním na "
+"zostave '%2', nie je podporované."
 
 #: ekos/scheduler/schedulerprocess.cpp:1222
 #, kde-format
@@ -32166,6 +32086,7 @@ msgstr "Žiadne úlohy nie sú naplánované."
 #, kde-format
 msgid "No jobs left to run while waiting for safety to improve."
 msgstr ""
+"Počas čakania na zlepšenie bezpečnosti nezostali žiadne úlohy na spustenie."
 
 #: ekos/scheduler/schedulerprocess.cpp:2461
 #, kde-format
@@ -32710,7 +32631,7 @@ msgstr "Nenašlo sa žiadne pripojené zariadenie s požadovanými rozhraniami"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "Preskakuje sa %1: %2 nepodporuje %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
@@ -46379,6 +46300,9 @@ msgid ""
 "plate-solved position angle (covers both electronic rotator moves and manual "
 "camera rotation)."
 msgstr ""
+"Resetovať uloženú kalibráciu navádzania, keď sa pole otočí, zistené z "
+"pozičného uhla astrometrického riešenia (pokrýva pohyby elektronického "
+"rotátora aj ručné otočenie kamery)."
 
 #. i18n: ectx: label, entry (GuideCalibrationRotationThreshold), group (Scheduler)
 #: kstars.kcfg:3488
@@ -46390,6 +46314,12 @@ msgid ""
 "exposed in the UI to avoid users setting a large tolerance that silently "
 "degrades guiding."
 msgstr ""
+"Prah šumu v stupňoch na zistenie otočenia poľa z pozičného uhla "
+"astrometrického riešenia. Otočenia rovné alebo väčšie resetujú kalibráciu "
+"navádzania; drží sa tesne nad rozptylom astrometrického riešenia, aby každé "
+"skutočné otočenie spustilo reset. Nie je dostupné v používateľskom rozhraní, "
+"aby používatelia nenastavili veľkú toleranciu, ktorá potichu zhorší "
+"navádzanie."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3494
@@ -46791,14 +46721,11 @@ msgstr "Alternatívny adresár na hľadanie obrazových súborov analýzy."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHiddenDevices), group (Analyze)
 #: kstars.kcfg:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display median sample value for the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid ""
 "Cameras and focusers excluded from the Analyze Timeline and Statistics plots."
 msgstr ""
-"Zobrazovať mediánovú hodnotu vzorky pre snímanie na grafe štatistík Analyze."
+"Kamery a zaostrovače vylúčené z grafov Časová os a Štatistiky v Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3705
@@ -47377,7 +47304,7 @@ msgstr ""
 #: kstars.kcfg:4049
 #, kde-format
 msgid "Root directory MCP tools may access"
-msgstr ""
+msgstr "Koreňový adresár, ku ktorému môžu nástroje MCP pristupovať"
 
 #. i18n: ectx: whatsthis, entry (MCPFileAccessRoot), group (MCP)
 #: kstars.kcfg:4050
@@ -47389,6 +47316,11 @@ msgid ""
 "tool inputs only; tools may still report paths of files the rig itself wrote "
 "(e.g. image_last_info)."
 msgstr ""
+"Nástroje, ktoré berú cestu v súborovom systéme (napr. scheduler_load, "
+"align_load_and_slew, capture_load_sequence), prijímajú iba absolútne cesty k "
+"súborom v tomto adresári a jeho podpriečinkoch. Prázdna hodnota zakáže "
+"všetok prístup k súborom. Týka sa iba vstupov nástrojov; nástroje môžu stále "
+"hlásiť cesty súborov, ktoré zapísala samotná zostava (napr. image_last_info)."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -81396,10 +81328,9 @@ msgid "Open Image(s)..."
 msgstr "Otvoriť snímku(y)..."
 
 #: kstarsinit.cpp:162
-#, fuzzy, kde-format
-#| msgid "Recenter"
+#, kde-format
 msgid "Open &Recent"
-msgstr "Centrovať znova"
+msgstr "Otvoriť n&edávne"
 
 #: kstarsinit.cpp:185
 #, kde-format
@@ -86673,6 +86604,11 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"KStars nemohol spustiť svoju reláciovú zbernicu D-Bus a bez nej nemôže "
+"bežať.\n"
+"\n"
+"Podrobnosti nájdete v %1. Stav služby môžete skontrolovať aj príkazom:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format

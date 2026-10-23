@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-13 19:56+0200\n"
+"PO-Revision-Date: 2026-10-22 22:37+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -24624,15 +24624,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subframe the image around the guide star. Or for "
-#| "PHD2, receive the Guide Star Image instead of the full image frame. For "
-#| "the Internal Guider, before checking this option, you must <span style=\" "
-#| "font-weight:600;\">first</span> capture an image and select a guide star. "
-#| "Uncheck it to take a full frame again. <br/>Please note: 'SEP Multi Star' "
-#| "<span style=\" font-weight:600;\">cannot</span> use subframe.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -24650,9 +24642,14 @@ msgstr ""
 "fotogramma dell'immagine completa. Per l'autoguida interna, prima di "
 "selezionare questa opzione devi <span style=\" font-weight:600;\">prima</"
 "span> acquisire un'immagine e selezionare una stella guida. Deselezionala "
-"per scattare di nuovo un fotogramma completo. <br/>Nota: la «SEP MultiStar» "
-"<span style=\" font-weight:600;\">non può</span> usare il subframe.</p></"
-"body></html>"
+"per scattare di nuovo un fotogramma completo. <br/>Con 'SEP Multi Star', "
+"viene ancora acquisito e mostrato l'intero fotogramma, ma durante la guida "
+"le stelle vengono soltanto ricercate attorno alla stella guida e a quelle di "
+"riferimento, processo che risulta molto più veloce. Calibrazione, dithering "
+"e stelle perse ricercano ancora nell'intero fotogramma. I riquadri della "
+"stella guida diventano blu nei fotogrammi che hanno utilizzato questa "
+"ricerca locale. Questo comportamento può essere cambiato durante "
+"l'esecuzione della guida.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:155
@@ -30944,11 +30941,12 @@ msgid "(%1) Job %2: has completed."
 msgstr "(%1) Processo %2: completato."
 
 #: ekos/scheduler/greedyscheduler.cpp:120
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: cannot run because: %3"
+#, kde-format
 msgid ""
 "(%1) Job %2: cannot run because: it failed and errors are not rescheduled"
-msgstr "(%1) Processo %2: impossibile avviare perché %3"
+msgstr ""
+"(%1) Processo %2: impossibile avviare perché non è riuscito e gli errori non "
+"sono riprogrammati"
 
 #: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
@@ -30956,12 +30954,13 @@ msgid ""
 "(%1) Job %2: cannot run because: it was aborted and aborted jobs are not "
 "rescheduled"
 msgstr ""
+"(%1) Processo %2: impossibile avviare perché è stato interrotto e i processi "
+"interroti non sono riprogrammati"
 
 #: ekos/scheduler/greedyscheduler.cpp:130
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: has completed."
+#, kde-format
 msgid "(%1) Job %2: no constraint violated"
-msgstr "(%1) Processo %2: completato."
+msgstr "(%1) Processo %2: nessun limite violato"
 
 #: ekos/scheduler/greedyscheduler.cpp:132
 #, kde-format
@@ -33554,7 +33553,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:317
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "Sto saltando %1: %2 non supporta %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
