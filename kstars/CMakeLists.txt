@@ -152,6 +152,7 @@ if (INDI_FOUND)
             ekos/capture/sequenceeditorui.ui
             ekos/capture/opsdslrsettings.ui
             ekos/capture/opsmiscsettings.ui
+            ekos/capture/opsstreamtrackingsettings.ui
 
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.ui
@@ -256,6 +257,7 @@ if (INDI_FOUND)
             ekos/capture/camerastate.cpp
             ekos/capture/capturedeviceadaptor.cpp
             ekos/capture/camera.cpp
+            ekos/capture/streamtracker.cpp
             ekos/capture/camera_actions.cpp
             ekos/capture/camera_config.cpp
             ekos/capture/camera_device.cpp
@@ -276,6 +278,7 @@ if (INDI_FOUND)
             ekos/capture/sequenceeditor.cpp
             ekos/capture/opsdslrsettings.cpp
             ekos/capture/opsmiscsettings.cpp
+            ekos/capture/opsstreamtrackingsettings.cpp
             
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.cpp

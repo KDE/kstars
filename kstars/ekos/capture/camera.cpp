@@ -481,6 +481,7 @@ void Camera::initCamera()
     });
     connect(m_cameraProcess.data(), &CameraProcess::updateJobTable, this, &Camera::updateJobTable);
     connect(m_cameraProcess.data(), &CameraProcess::newLog, this, &Camera::appendLogText);
+    connect(m_cameraProcess.data(), &CameraProcess::newStreamTrackingState, this, &Camera::newStreamTrackingState);
     connect(m_cameraProcess.data(), &CameraProcess::stopCapture, this, &Camera::stop);
     connect(m_cameraProcess.data(), &CameraProcess::jobStarting, this, &Camera::jobStarting);
     connect(m_cameraProcess.data(), &CameraProcess::cameraReady, this, &Camera::ready);

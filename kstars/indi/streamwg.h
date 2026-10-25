@@ -78,6 +78,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         void updateRecordStatus(bool enabled);
         void resetFrame();
         void syncDebayerParameters();
+        void syncTracking();
         void toggleFullScreen();
 
     protected Q_SLOTS:

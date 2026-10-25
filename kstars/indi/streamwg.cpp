@@ -203,7 +203,32 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     {
         if (prop.isNameMatch("CCD_INFO") || prop.isNameMatch("CCD_CFA"))
             syncDebayerParameters();
+        else if (prop.isNameMatch("STREAM_TRACKING"))
+            syncTracking();
     });
+
+    // Stream tracking: the driver measures the target, Ekos corrects the mount (see Ekos::StreamTracker)
+    trackB->setIcon(QIcon::fromTheme("crosshairs"));
+    connect(trackB, &QPushButton::clicked, this, [this](bool checked)
+    {
+        auto tracking = m_Camera->getSwitch("STREAM_TRACKING");
+        if (!tracking)
+            return;
+        tracking.reset();
+        tracking.findWidgetByName(checked ? "TRACKING_ON" : "TRACKING_OFF")->setState(ISS_ON);
+        m_Camera->sendNewProperty(tracking);
+    });
+    connect(m_Camera, &ISD::Camera::propertyDefined, this, [this](INDI::Property prop)
+    {
+        if (prop.isNameMatch("STREAM_TRACKING"))
+            syncTracking();
+    });
+    connect(m_Camera, &ISD::Camera::propertyDeleted, this, [this](INDI::Property prop)
+    {
+        if (prop.isNameMatch("STREAM_TRACKING"))
+            trackB->setVisible(false);
+    });
+    syncTracking();
     connect(changeFPSB, &QPushButton::clicked, this, [&]()
     {
         if (m_Camera)
@@ -228,6 +253,17 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     restoreScreenIcon = QIcon::fromTheme("view-restore");
     fullScreenB->setIcon(fullScreenIcon);
     connect(fullScreenB, &QPushButton::clicked, this, &StreamWG::toggleFullScreen);
+}
+
+void StreamWG::syncTracking()
+{
+    auto tracking = m_Camera->getSwitch("STREAM_TRACKING");
+    trackB->setVisible(tracking.isValid());
+    if (!tracking)
+        return;
+
+    auto on = tracking.findWidgetByName("TRACKING_ON");
+    trackB->setChecked(on && on->getState() == ISS_ON);
 }
 
 void StreamWG::syncDebayerParameters()

@@ -7,6 +7,7 @@
 #include "capture.h"
 #include "opsmiscsettings.h"
 #include "opsdslrsettings.h"
+#include "opsstreamtrackingsettings.h"
 #include <KConfigDialog>
 
 #include "cameraprocess.h"
@@ -111,7 +112,9 @@ void Capture::setupOptions()
     page = dialog->addPage(m_OpsDslrSettings, i18n("DSLR"));
     page->setIcon(QIcon::fromTheme("camera-photo"));
 
-
+    m_OpsStreamTrackingSettings = new OpsStreamTrackingSettings();
+    page = dialog->addPage(m_OpsStreamTrackingSettings, i18n("Stream Tracking"));
+    page->setIcon(QIcon::fromTheme("crosshairs"));
 }
 
 void Capture::clearAutoFocusHFR(const QString &trainname)
@@ -154,6 +157,12 @@ QSharedPointer<Camera> Capture::addCamera()
         const QString device = resolveCameraDevice(cam->opticalTrain());
         if (!device.isEmpty())
             emit cameraDeviceActive(device);
+    });
+    connect(newCamera.get(), &Camera::newStreamTrackingState, this, [this](const QString &state)
+    {
+        auto *cam = qobject_cast<Camera *>(sender());
+        if (cam)
+            emit newStreamTrackingState(state, cam->opticalTrain());
     });
     connect(newCamera.get(), &Camera::settingsUpdated, this, &Capture::settingsUpdated);
     connect(newCamera.get(), &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);

@@ -478,6 +478,7 @@ class Camera : public QWidget, public Ui::Camera
         void newFilterStatus(FilterState state);
         void trainChanged();
         void newLog(const QString &text);
+        void newStreamTrackingState(const QString &state);
 
         // Signals for the Analyze tab.
         void captureStarting(double exposureSeconds, const QString &filter, const QString &trainname);

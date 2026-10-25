@@ -2161,6 +2161,52 @@
       </entry>
    </group>
    <group name="Capture">      
+      <entry name="StreamTrackingCorrectMount" type="Bool">
+         <label>Correct the mount when the camera's stream tracking is on</label>
+         <whatsthis>When a camera measures the target position in its video stream (STREAM_TRACKING), send guide pulses to keep the target at the lock point.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="StreamTrackingDeadband" type="Double">
+         <label>Stream tracking deadband (pixels)</label>
+         <whatsthis>No correction is sent while the target is closer than this to the lock point.</whatsthis>
+         <default>3</default>
+         <min>0</min>
+         <max>100</max>
+      </entry>
+      <entry name="StreamTrackingAggressiveness" type="Double">
+         <label>Stream tracking aggressiveness</label>
+         <whatsthis>Fraction of the measured offset corrected by each pulse.</whatsthis>
+         <default>0.7</default>
+         <min>0.1</min>
+         <max>1</max>
+      </entry>
+      <entry name="StreamTrackingMaxPulse" type="UInt">
+         <label>Stream tracking maximum pulse (ms)</label>
+         <default>2000</default>
+         <min>50</min>
+         <max>10000</max>
+      </entry>
+      <entry name="StreamTrackingCalibrationPulse" type="UInt">
+         <label>Stream tracking calibration pulse step (ms)</label>
+         <whatsthis>Calibration repeats pulses of this length on each axis until the target moves at least 10 pixels.</whatsthis>
+         <default>500</default>
+         <min>50</min>
+         <max>5000</max>
+      </entry>
+      <entry name="StreamTrackingSettle" type="Double">
+         <label>Stream tracking settle time (s)</label>
+         <whatsthis>Time to wait after a pulse before using new measurements.</whatsthis>
+         <default>0.5</default>
+         <min>0</min>
+         <max>10</max>
+      </entry>
+      <entry name="StreamTrackingMinQuality" type="Double">
+         <label>Stream tracking minimum quality</label>
+         <whatsthis>Measurements below this quality (0 to 1) are ignored.</whatsthis>
+         <default>0.5</default>
+         <min>0</min>
+         <max>1</max>
+      </entry>
       <entry name="DefaultObserver" type="String">
          <label>Default observer full name.</label>
       </entry>

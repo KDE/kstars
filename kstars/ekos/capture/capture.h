@@ -12,6 +12,7 @@
 
 #include "opsmiscsettings.h"
 #include "opsdslrsettings.h"
+#include "opsstreamtrackingsettings.h"
 #include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
@@ -297,6 +298,7 @@ class Capture : public QWidget, public Ui::Capture
         // Settings popup
         OpsMiscSettings *m_OpsMiscSettings { nullptr };
         OpsDslrSettings *m_OpsDslrSettings { nullptr };
+        OpsStreamTrackingSettings *m_OpsStreamTrackingSettings { nullptr };
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
@@ -741,6 +743,7 @@ class Capture : public QWidget, public Ui::Capture
 
     Q_SIGNALS:
         Q_SCRIPTABLE void newLog(const QString &text);
+        Q_SCRIPTABLE void newStreamTrackingState(const QString &state, const QString &trainname);
         Q_SCRIPTABLE void meridianFlipStarted(const QString &trainname);
         Q_SCRIPTABLE void guideAfterMeridianFlip();
         Q_SCRIPTABLE void newStatus(CaptureState status, const QString &trainname, int cameraID);

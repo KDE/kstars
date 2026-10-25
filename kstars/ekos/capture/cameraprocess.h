@@ -20,6 +20,7 @@ namespace Ekos
 
 class CaptureDeviceAdaptor;
 class DarkProcessor;
+class StreamTracker;
 
 /**
  * @class CameraProcess
@@ -737,12 +738,20 @@ class CameraProcess : public QObject
         void driverTimedout(const QString &deviceName);
         // new log text for the module log window
         void newLog(const QString &text);
+        // stream tracking state, see StreamTracker::stateName()
+        void newStreamTrackingState(const QString &state);
 
 
     private:
+        /**
+         * @brief updateStreamTracker Hand the current camera, mount and guider to the stream tracker.
+         */
+        void updateStreamTracker();
+
         QSharedPointer < CameraState > m_State;
         QSharedPointer < CaptureDeviceAdaptor > m_DeviceAdaptor;
         QPointer < DarkProcessor > m_DarkProcessor;
+        QPointer < StreamTracker > m_StreamTracker;
         QSharedPointer < FITSViewer > m_FITSViewerWindow;
         QSharedPointer < StreamWG > m_VideoWindow;
         FitsvViewerTabIDs m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};

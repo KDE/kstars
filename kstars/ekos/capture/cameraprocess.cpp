@@ -8,6 +8,7 @@
 #include "capturedeviceadaptor.h"
 #include "refocusstate.h"
 #include "sequencejob.h"
+#include "streamtracker.h"
 #include "sequencequeue.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -63,6 +64,18 @@ CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &CameraProcess::newLog);
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &CameraProcess::darkFrameCompleted);
 
+    // Keep planets, Moon or Sun centered while the camera's stream tracking is on
+    m_StreamTracker = new StreamTracker(this);
+    m_StreamTracker->setGuidingActiveCallback([this]()
+    {
+        return state()->isGuidingOn();
+    });
+    connect(m_StreamTracker, &StreamTracker::newLog, this, &CameraProcess::newLog);
+    connect(m_StreamTracker, &StreamTracker::newState, this, [this](StreamTracker::TrackerState state)
+    {
+        Q_EMIT newStreamTrackingState(StreamTracker::stateName(state));
+    });
+
     // Pre/post capture/job scripts
     connect(&m_CaptureScript,
             static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
@@ -92,6 +105,7 @@ bool CameraProcess::setMount(ISD::Mount *device)
         devices()->mount()->disconnect(state().data());
 
     devices()->setMount(device);
+    updateStreamTracker();
 
     if (!devices()->mount())
         return false;
@@ -205,8 +219,21 @@ bool CameraProcess::setCamera(ISD::Camera *device)
         connect(device, &ISD::Camera::updateVideoWindow, this, &CameraProcess::updateVideoWindow);
     }
 
+    updateStreamTracker();
     return true;
 
+}
+
+void CameraProcess::updateStreamTracker()
+{
+    auto mount = devices()->mount();
+
+    // Prefer the train's guider (e.g. an ST4 port), else pulse the mount directly
+    ISD::Guider *guider = OpticalTrainManager::Instance()->getGuider(state()->opticalTrain());
+    if (guider == nullptr && mount)
+        guider = mount->genericDevice()->getGuider();
+
+    m_StreamTracker->setDevices(devices()->getActiveCamera(), mount, guider);
 }
 
 void CameraProcess::toggleVideo(bool enabled)
