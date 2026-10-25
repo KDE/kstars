@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-20 02:35+0000\n"
-"PO-Revision-Date: 2026-10-20 11:20+0200\n"
+"PO-Revision-Date: 2026-10-24 07:48+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -15114,7 +15114,7 @@ msgstr "500"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:867
 #, kde-format
 msgid "InitialKeep"
-msgstr "Начальный шаг:"
+msgstr "Кол-во до фильтрации"
 
 #. i18n: ectx: property (title), widget (QGroupBox, astrometryOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:884
