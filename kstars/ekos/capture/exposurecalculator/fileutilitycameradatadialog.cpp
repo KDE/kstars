@@ -8,8 +8,10 @@
 #include <QDir>
 #include <QFile>
 #include "fileutilitycameradata.h"
+#include "fileutilitycameradatadialog.h"
 #include "./ui_fileutilitycameradatadialog.h"
 #include <ekos_capture_debug.h>
+#include <KLocalizedString>
 
 FileUtilityCameraDataDialog::FileUtilityCameraDataDialog(
     QWidget *parent,
@@ -23,13 +25,22 @@ FileUtilityCameraDataDialog::FileUtilityCameraDataDialog(
     OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileList(this);
 
     connect(ui->downloadB, &QPushButton::clicked, this, &FileUtilityCameraDataDialog::startCameraDownload);
+    connect(ui->availableRemoteCameraList, &QListWidget::itemSelectionChanged, this,
+            &FileUtilityCameraDataDialog::updateDownloadButton);
 
     // ui->buttonBox->
     // ui->buttonBox->Cancel
 
     ui->availableRemoteCameraList->clear();
     ui->availableRemoteCameraList->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    updateDownloadButton();
 
+}
+
+void FileUtilityCameraDataDialog::updateDownloadButton()
+{
+    // Nothing to download while downloads are running or no camera is selected
+    ui->downloadB->setEnabled(downloadFileCounter == 0 && !ui->availableRemoteCameraList->selectedItems().isEmpty());
 }
 
 FileUtilityCameraDataDialog::~FileUtilityCameraDataDialog()
@@ -45,38 +56,73 @@ void FileUtilityCameraDataDialog::refreshCameraList()
     ui->availableRemoteCameraList->clear();
     ui->availableRemoteCameraList->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    // This probably needs to move to a method called when downloadRepositoryCameraDataFileList has completed
-    QVector<QString> availableCameraDataFiles = getAvailableCameraDataFiles();
-    for (auto availableCameraFile : availableCameraDataFiles)
+    int updateCount = 0;
+    for (const auto &availableCameraFile : availableCameraDataFiles)
     {
         // Make the camera list user friendly... to match the camera device id
-        QString availableCameraId = OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(availableCameraFile);
+        QString availableCameraId = OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(
+                                        availableCameraFile.fileName);
 
-        ui->availableRemoteCameraList->addItem(availableCameraId);
+        // Compare the installed file with the repository to show what can be downloaded or updated
+        bool installed = false, updateAvailable = false;
+        QFile installedFile(OptimalExposure::FileUtilityCameraData::installedCameraDataFile(availableCameraId));
+        if (installedFile.fileName().length() > 0 && installedFile.open(QIODevice::ReadOnly))
+        {
+            installed = true;
+            updateAvailable = OptimalExposure::FileUtilityCameraData::gitBlobSha(installedFile.readAll())
+                              != availableCameraFile.sha;
+        }
+
+        QString text = availableCameraId;
+        if (updateAvailable)
+            text = i18nc("camera name, followed by its status", "%1 (update available)", availableCameraId);
+        else if (installed)
+            text = i18nc("camera name, followed by its status", "%1 (installed)", availableCameraId);
+
+        auto *item = new QListWidgetItem(text, ui->availableRemoteCameraList);
+        item->setData(Qt::UserRole, availableCameraId);
+
+        // A camera whose data is up to date has nothing to download
+        if (installed && !updateAvailable)
+            item->setFlags(item->flags() & ~(Qt::ItemIsSelectable | Qt::ItemIsEnabled));
+
+        // Preselect updates, and the active camera unless its data is up to date
+        if (updateAvailable)
+        {
+            item->setSelected(true);
+            updateCount++;
+        }
+        else if (!installed && availableCameraId == aPreferredCameraId)
+            item->setSelected(true);
     }
 
-    // Preselect the value for aPreferredCameraId, (which should be the active camera device id)
-    QList<QListWidgetItem *> items = ui->availableRemoteCameraList->findItems(aPreferredCameraId, Qt::MatchExactly);
-    if (items.size() > 0)
-    {
-        items[0]->setSelected(true);
-    }
+    if (updateCount > 0)
+        ui->counter->setText(i18np("An update is available for 1 installed camera.",
+                                   "Updates are available for %1 installed cameras.", updateCount));
+
+    QList<QListWidgetItem *> selected = ui->availableRemoteCameraList->selectedItems();
+    if (!selected.isEmpty())
+        ui->availableRemoteCameraList->scrollToItem(selected.first());
+}
+
+void FileUtilityCameraDataDialog::showListError(const QString &error)
+{
+    ui->counter->setText(i18n("The list of cameras could not be downloaded: %1", error));
 }
 
 
 void FileUtilityCameraDataDialog::startCameraDownload()
 {
-
-
     QList<QListWidgetItem *> selectedItems =  ui->availableRemoteCameraList->selectedItems();
     if (selectedItems.size() > 0)
     {
-        this->setDownloadFileCounter(selectedItems.size());
-        // qCInfo(KSTARS_EKOS_CAPTURE) << "Selected Cameras " << selectedItems.size();
+        failedDownloads.clear();
+        downloadFileCounter = selectedItems.size();
+        updateDownloadButton();
+        ui->counter->setText(i18np("Downloading 1 camera...", "Downloading %1 cameras...", downloadFileCounter));
         for (auto aSelectedCameraItem : selectedItems)
         {
-            QString aSelectedCameraId = aSelectedCameraItem->text();
-            // qCInfo(KSTARS_EKOS_CAPTURE) << "attempt Download of " << aSelectedCameraId;
+            QString aSelectedCameraId = aSelectedCameraItem->data(Qt::UserRole).toString();
             OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(aSelectedCameraId, this);
         }
     }
@@ -87,36 +133,40 @@ int FileUtilityCameraDataDialog::getDownloadFileCounter() const
     return downloadFileCounter;
 }
 
-void FileUtilityCameraDataDialog::setDownloadFileCounter(int newDownloadFileCounter)
+void FileUtilityCameraDataDialog::downloadFinished(const QString &cameraId, bool success)
 {
-    downloadFileCounter = newDownloadFileCounter;
-    ui->counter->text() = QString::number(downloadFileCounter);
-    qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data download file counter set "
-                                << QString::number(downloadFileCounter);
-}
+    if (!success)
+        failedDownloads << cameraId;
 
-void FileUtilityCameraDataDialog::decrementDownloadFileCounter()
-{
     downloadFileCounter--;
-    ui->counter->text() = QString::number(downloadFileCounter);
     qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data download file counter decremented "
                                 << QString::number(downloadFileCounter);
-    if(downloadFileCounter == 0)
+    if (downloadFileCounter > 0)
     {
-        // downloads should have completed, dialog can close
-        // FileUtilityCameraDataDialog::delay(1);
-        qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data download file counter reach 0. Forcing dialog to close.";
-        QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+        ui->counter->setText(i18np("Downloading 1 camera...", "Downloading %1 cameras...", downloadFileCounter));
+        return;
     }
+
+    if (failedDownloads.isEmpty())
+    {
+        // All downloads completed, dialog can close
+        QMetaObject::invokeMethod(this, "accept", Qt::QueuedConnection);
+        return;
+    }
+
+    refreshCameraList();
+    updateDownloadButton();
+    ui->counter->setText(i18n("Could not download: %1", failedDownloads.join(", ")));
 }
 
-void FileUtilityCameraDataDialog::setAvailableCameraDataFiles(QVector<QString> newAvailableCameraDataFiles)
+void FileUtilityCameraDataDialog::setAvailableCameraDataFiles(
+    const QList<OptimalExposure::RemoteCameraDataFile> &newAvailableCameraDataFiles)
 {
     availableCameraDataFiles = newAvailableCameraDataFiles;
 }
 
 
-QVector<QString> FileUtilityCameraDataDialog::getAvailableCameraDataFiles()
+QList<OptimalExposure::RemoteCameraDataFile> FileUtilityCameraDataDialog::getAvailableCameraDataFiles()
 {
     return availableCameraDataFiles;
 }

@@ -39,4 +39,10 @@ TARGET_LINK_LIBRARIES( test_capturehistorynavigation ${TEST_LIBRARIES})
 ADD_TEST( NAME TestCaptureHistoryNavigation COMMAND test_capturehistorynavigation )
 SET_TESTS_PROPERTIES( TestCaptureHistoryNavigation PROPERTIES LABELS "stable" )
 
+ADD_EXECUTABLE( test_cameradata test_cameradata.cpp)
+TARGET_LINK_LIBRARIES( test_cameradata ${TEST_LIBRARIES})
+TARGET_COMPILE_DEFINITIONS( test_cameradata PRIVATE KSTARS_CAMERADATA_DIR="${kstars_SOURCE_DIR}/kstars/data/cameradata")
+ADD_TEST( NAME TestCameraData COMMAND test_cameradata )
+SET_TESTS_PROPERTIES( TestCameraData PROPERTIES LABELS "stable" )
+
 ENDIF ()

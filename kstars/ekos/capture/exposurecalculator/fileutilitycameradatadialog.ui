@@ -98,11 +98,11 @@
    <item row="0" column="0" colspan="4">
     <widget class="QLabel" name="resultLable">
      <property name="text">
-      <string>Select all cameras you wish to use:</string>
+      <string>Select the cameras to download:</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="2" column="0" colspan="4">
     <widget class="QLabel" name="counter">
      <property name="minimumSize">
       <size>
@@ -112,6 +112,9 @@
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

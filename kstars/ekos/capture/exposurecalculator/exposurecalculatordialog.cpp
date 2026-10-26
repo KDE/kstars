@@ -931,15 +931,17 @@ void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialo
     // QString filePath = ui->imagingCameraSelector->itemData(index).toString();
 
     int preferredIndex = 0;
+    // Rebuilding the list must not trigger a calculation with no camera selected
+    QSignalBlocker blocker(ui->imagingCameraSelector);
     ui->imagingCameraSelector->clear();
 
-    /*
-     *  2023-10-05 Added sorting to the filelist, but the full path is included in this
-     *  list, and since camera data can come from either the application folder, or a user local folder
-     *  the sort result can produce two groupings of sorted camera ids.
-     *  In Linux, files from the user local folder will appear first in the QCombo.
-    */
-    availableCameraFileNames.sort();
+    // Sort by camera id; the files may come from the user folder and from the application folder.
+    std::sort(availableCameraFileNames.begin(), availableCameraFileNames.end(),
+              [](const QString & a, const QString & b)
+    {
+        return OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(a).compare(
+                   OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(b), Qt::CaseInsensitive) < 0;
+    });
 
     for (auto filename : availableCameraFileNames)
     {
@@ -970,13 +972,16 @@ void ExposureCalculatorDialog::on_downloadCameraB_clicked()
     // User may want to add more camera files.
     FileUtilityCameraDataDialog aCameraDownloadDialog(this, aPreferredCameraId);
     aCameraDownloadDialog.setWindowModality(Qt::WindowModal);
-    aCameraDownloadDialog.exec();
+    // Without camera data at startup the calculator was not set up; the cameras appear on the next start.
+    if (aCameraDownloadDialog.exec() != QDialog::Accepted || ui->qCustomPlotSubExposure->graphCount() == 0)
+        return;
 
-    // Using refresh is causing an error because the combobox->clear is
-    // making the selection change.  Need to resolve this.
-    // but for now, if a user adds more cameras they will be available
-    // in the exposure calculator on the next start.
-    // refreshCameraSelector(ui, aPreferredCameraId);
-
+    // Show the downloaded cameras, keeping the current camera selected.
+    // A downloaded update replaces the file that is in use, so the selected camera is reloaded too.
+    QString aSelectedCameraId = ui->imagingCameraSelector->currentText();
+    refreshCameraSelector(ui, OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList(),
+                          aSelectedCameraId.isEmpty() ? aPreferredCameraId : aSelectedCameraId);
+    if (ui->imagingCameraSelector->count() > 0)
+        applyInitialInputs();
 }
 

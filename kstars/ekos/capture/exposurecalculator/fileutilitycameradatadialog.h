@@ -38,17 +38,20 @@ class FileUtilityCameraDataDialog : public QDialog
         void setRequest(QNetworkRequest *newRequest);
 
         // Available refers to the files in a repository
-        QVector<QString> getAvailableCameraDataFiles();
-        void setAvailableCameraDataFiles(QVector<QString> newAvailableCameraDataFiles);
+        QList<OptimalExposure::RemoteCameraDataFile> getAvailableCameraDataFiles();
+        void setAvailableCameraDataFiles(const QList<OptimalExposure::RemoteCameraDataFile> &newAvailableCameraDataFiles);
         void refreshCameraList(); // call to repaint the file list after download completes
+        /** @brief Report that the list of cameras could not be downloaded. */
+        void showListError(const QString &error);
 
         int getDownloadFileCounter() const;
-        void setDownloadFileCounter(int newDownloadFileCounter);
-        void decrementDownloadFileCounter();
+        /** @brief Called when the download of one camera data file has completed or failed. */
+        void downloadFinished(const QString &cameraId, bool success);
 
 
     private Q_SLOTS:
         void startCameraDownload();
+        void updateDownloadButton();
 
     private:
         Ui::FileUtilityCameraDataDialog *ui;
@@ -57,10 +60,11 @@ class FileUtilityCameraDataDialog : public QDialog
         QNetworkAccessManager *aNetworkAccessManager;
         QNetworkRequest *request;
         QNetworkReply *reply;
-        QVector<QString> availableCameraDataFiles;
+        QList<OptimalExposure::RemoteCameraDataFile> availableCameraDataFiles;
 
         // void delay(int delaySeconds);
-        int downloadFileCounter;
+        int downloadFileCounter { 0 };
+        QStringList failedDownloads;
 };
 
 #endif // FILEUTILITYCAMERADATADIALOG_H

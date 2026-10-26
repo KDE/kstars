@@ -20,50 +20,105 @@
 #include <QDirIterator>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+#include <QCryptographicHash>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QSaveFile>
+#include <QSet>
 #include "fileutilitycameradata.h"
+#include "fileutilitycameradatadialog.h"
 #include "imagingcameradata.h"
 #include "cameragainreadnoise.h"
 #include "exposurecalculatordialog.h"
 #include <ekos_capture_debug.h>
-#include <sstream>
 #include <kspaths.h>
 
 /*
- * Direct access to files on KDE/kstars git repository:
+ * Camera data is maintained in the indilib/camera-data repository, where users can submit new cameras.
+ * KStars bundles a copy of it in kstars/data/cameradata.
  */
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList
-    = "https://api.github.com/repos/KDE/kstars/git/trees/master:kstars%2Fdata%2Fcameradata";
+    = "https://api.github.com/repos/indilib/camera-data/git/trees/master:cameras";
 
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepository
-    = "https://raw.githubusercontent.com/KDE/kstars/master/kstars/data/cameradata/";
+    = "https://raw.githubusercontent.com/indilib/camera-data/master/cameras/";
 
-QString const OptimalExposure::FileUtilityCameraData::cameraApplicationDataRepository
-    = KSPaths::locate(QStandardPaths::AppDataLocation, QString("cameradata/"), QStandardPaths::LocateDirectory);
-
-QString const OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository
-    = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("kstars/cameradata/");
+QString OptimalExposure::FileUtilityCameraData::localCameraDataDirectory()
+{
+    // Evaluated on each call: the application name, which is part of this path, is not set before main().
+    return QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("cameradata") + '/';
+}
 
 QStringList OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList()
 {
-    QStringList cameraDataFiles;
+    // The user directory comes first so that a downloaded or hand-written file replaces the bundled one.
     QStringList dirs;
-
-
+    dirs << localCameraDataDirectory();
     dirs << KSPaths::locateAll(QStandardPaths::GenericDataLocation,
                                QString::fromLatin1("kstars/cameradata"),
                                QStandardPaths::LocateDirectory);
 
-    Q_FOREACH (const QString &dir, dirs)
-    {
-        QDirIterator it(dir, QStringList() << QLatin1String("*.xml"));
+    return cameraFilesInDirectories(dirs);
+}
 
+QStringList OptimalExposure::FileUtilityCameraData::cameraFilesInDirectories(const QStringList &directories)
+{
+    QStringList cameraDataFiles;
+    QSet<QString> cameraIds;
+
+    for (const QString &dir : directories)
+    {
+        QDirIterator it(dir, QStringList() << QLatin1String("*.xml"), QDir::Files);
         while (it.hasNext())
         {
-            cameraDataFiles.append(it.next());
+            const QString file = it.next();
+            const QString cameraId = cameraDataFileNameToCameraId(file);
+            if (!cameraIds.contains(cameraId))
+            {
+                cameraIds.insert(cameraId);
+                cameraDataFiles.append(file);
+            }
         }
     }
 
-    return(cameraDataFiles);
+    return cameraDataFiles;
+}
+
+QString OptimalExposure::FileUtilityCameraData::installedCameraDataFile(const QString &cameraId)
+{
+    for (const QString &file : getAvailableCameraFilesList())
+    {
+        if (cameraDataFileNameToCameraId(file) == cameraId)
+            return file;
+    }
+    return QString();
+}
+
+QList<OptimalExposure::RemoteCameraDataFile> OptimalExposure::FileUtilityCameraData::parseRepositoryListing(
+    const QByteArray &json)
+{
+    QList<RemoteCameraDataFile> files;
+    const QJsonArray tree = QJsonDocument::fromJson(json).object().value("tree").toArray();
+    for (const QJsonValue &entry : tree)
+    {
+        const QJsonObject object = entry.toObject();
+        const QString path = object.value("path").toString();
+        if (object.value("type").toString() == "blob" && path.endsWith(".xml") && !path.contains('/'))
+            files.append({path, object.value("sha").toString()});
+    }
+    return files;
+}
+
+QString OptimalExposure::FileUtilityCameraData::gitBlobSha(const QByteArray &content)
+{
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    QByteArray header("blob ");
+    header.append(QByteArray::number(content.size()));
+    header.append('\0');
+    hash.addData(header);
+    hash.addData(content);
+    return QString::fromLatin1(hash.result().toHex());
 }
 
 
@@ -106,12 +161,7 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
                                 OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList;
     qCInfo(KSTARS_EKOS_CAPTURE) << "cameraDataRemoteRepository: " <<
                                 OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepository;
-    // qCInfo(KSTARS_EKOS_CAPTURE) << "cameraApplicationDataRepository: " << OptimalExposure::FileUtilityCameraData::cameraApplicationDataRepository;
-    qCInfo(KSTARS_EKOS_CAPTURE) << "cameraLocalDataRepository: " <<
-                                OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository;
-
-    // Using git tree to access camera file list, this approach requires parsing the tree
-    // string collect the xml (camera data) file names.
+    qCInfo(KSTARS_EKOS_CAPTURE) << "localCameraDataDirectory: " << localCameraDataDirectory();
 
     FileUtilityCameraDataDialog *activeDialog = static_cast<FileUtilityCameraDataDialog *> (aDialog);
     activeDialog->setANetworkAccessManager(new QNetworkAccessManager(activeDialog));
@@ -126,82 +176,26 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
     QNetworkReply *activeReply = activeDialog->getReply();
     QTimer::singleShot(60000, activeReply, [activeReply]   //Time-out is 60 seconds
     {
+        qCCritical(KSTARS_EKOS_CAPTURE) << "CameraDataFile List Download Timed out.";
         activeReply->abort();
-        activeReply->deleteLater();
-        qCCritical(KSTARS_EKOS_CAPTURE) << "CameraDataFile Download Timed out.";
     });
-
-    QVector<QString> *availableCameraDataFiles = new QVector<QString>();
 
     activeDialog->connect(activeReply, &QNetworkReply::finished,
                           activeDialog,
-                          [availableCameraDataFiles, activeReply, activeDialog]
+                          [activeReply, activeDialog]
     {
-        // qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List download is finished";
         activeReply->deleteLater();
         if (activeReply->error() != QNetworkReply::NoError)
         {
-            qCCritical(KSTARS_EKOS_CAPTURE) << "An error occurred in the Camera Data File List download";
+            qCCritical(KSTARS_EKOS_CAPTURE) << "An error occurred in the Camera Data File List download:"
+                                            << activeReply->errorString();
+            activeDialog->showListError(activeReply->errorString());
             return;
         }
 
-        // Parse out the filenames from the tree
-        std::string responseDataStr = activeReply->readAll().toStdString();
-
-        // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data File Github Tree:\n" << QString::fromStdString(responseDataStr);
-
-        std::string startdelimiter = "[";
-        std::string stopdelimiter = "]";
-        std::string treeStr = responseDataStr.substr(responseDataStr.find(startdelimiter) + 1, responseDataStr.find(stopdelimiter) - responseDataStr.find(startdelimiter));
-
-        std::vector <std::string> tokens;
-        std::stringstream responseDataStream(treeStr);
-
-        std::string intermediate;
-
-        while(getline(responseDataStream, intermediate, ','))
-        {
-            tokens.push_back(intermediate);
-        }
-
-        // Find the camera file name
-        for(std::size_t i = 0; i < tokens.size(); i++)
-        {
-            if(tokens[i].find("path") != std::string::npos)
-            {
-
-                std::string aCameraDataFileStr = tokens[i].substr(9,  tokens[i].length() - 14);
-                // std::cout << aCameraDataFileStr << '\n';
-
-                QString aCameraDataFile = QString::fromStdString(aCameraDataFileStr);
-
-                availableCameraDataFiles->append(aCameraDataFile);
-
-            }
-        }
-        activeDialog->setAvailableCameraDataFiles(*availableCameraDataFiles);
+        activeDialog->setAvailableCameraDataFiles(parseRepositoryListing(activeReply->readAll()));
         activeDialog->refreshCameraList();
     });
-
-    activeDialog->connect(activeReply, &QNetworkReply::downloadProgress,
-                          activeDialog, []
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List download is in progress";
-    });
-    activeDialog->connect(activeReply, &QNetworkReply::errorOccurred,
-                          activeDialog, []
-    {
-        qCCritical(KSTARS_EKOS_CAPTURE) << "The Camera Data File List download had an error";
-    });
-    activeDialog->connect(activeReply, &QNetworkReply::destroyed,
-                          activeDialog, []
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List connection was destroyed";
-    });
-
-    qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List length is " << availableCameraDataFiles->length();
-
-
 }
 
 void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
@@ -213,8 +207,7 @@ void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
 
     activeDialog->setANetworkAccessManager(new QNetworkAccessManager(activeDialog));
 
-    QDir filePath = OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository;
-    filePath.mkpath(".");
+    QDir().mkpath(localCameraDataDirectory());
 
     QString cameraDataFileName = cameraIdToCameraDataFileName(cameraId);
 
@@ -223,13 +216,7 @@ void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
                                      + cameraDataFileName;
 
     // File for local storage
-    QString aCameraDataLocalFileName = OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository
-                                       + cameraDataFileName;
-
-    //QString aCameraDataLocalFileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
-    //                                   QString("cameradata/%1").arg(cameraDataFileName));
-
-
+    QString aCameraDataLocalFileName = localCameraDataDirectory() + cameraDataFileName;
 
     qCInfo(KSTARS_EKOS_CAPTURE) << "Attempting Download Camera Data from "
                                 << aCameraDataDownloadURL << "\n\tto " << aCameraDataLocalFileName;
@@ -241,58 +228,40 @@ void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
     QNetworkReply *activeReply = activeDialog->getReply();
     QTimer::singleShot(60000, activeReply, [activeReply]   //Time-out is 60 seconds
     {
-        activeReply->abort();
-        activeReply->deleteLater();
         qCCritical(KSTARS_EKOS_CAPTURE) << Q_FUNC_INFO << "CameraDataFile Download Timed out.";
+        activeReply->abort();
     });
     activeDialog->connect(activeReply, &QNetworkReply::finished,
                           activeDialog,
-                          [aCameraDataLocalFileName, activeReply, activeDialog]
+                          [cameraId, aCameraDataLocalFileName, activeReply, activeDialog]
     {
         activeReply->deleteLater();
         if (activeReply->error() != QNetworkReply::NoError)
         {
             qCCritical(KSTARS_EKOS_CAPTURE)
                     << "An error occurred in the Camera Data File download of "
-                    << aCameraDataLocalFileName;
+                    << aCameraDataLocalFileName << ":" << activeReply->errorString();
+            activeDialog->downloadFinished(cameraId, false);
             return;
         }
-        QFile aCameraDataFile(aCameraDataLocalFileName);
-        if(aCameraDataFile.open(QIODevice::ReadWrite | QIODevice::Truncate))
+
+        // Write to a temporary file first, so that a failed write never leaves a broken file behind.
+        QSaveFile aCameraDataFile(aCameraDataLocalFileName);
+        if (aCameraDataFile.open(QIODevice::WriteOnly) && aCameraDataFile.write(activeReply->readAll()) >= 0
+                && aCameraDataFile.commit())
         {
-            QByteArray responseData = activeReply->readAll();
-            if (aCameraDataFile.write(responseData))
-            {
-                aCameraDataFile.close();
-                qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
-                                            << aCameraDataLocalFileName << " is finished";
-                activeDialog->decrementDownloadFileCounter();
-            }
-            else
-            {
-                qCCritical(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
-                                                << aCameraDataLocalFileName << " was not completed";
-            }
+            qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
+                                        << aCameraDataLocalFileName << " is finished";
+            activeDialog->downloadFinished(cameraId, true);
+        }
+        else
+        {
+            qCCritical(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
+                                            << aCameraDataLocalFileName << " was not completed:"
+                                            << aCameraDataFile.errorString();
+            activeDialog->downloadFinished(cameraId, false);
         }
     });
-    activeDialog->connect(activeReply, &QNetworkReply::downloadProgress,
-                          activeDialog, [aCameraDataLocalFileName]
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
-                                    << aCameraDataLocalFileName << " is in progress";
-    });
-    activeDialog->connect(activeReply, &QNetworkReply::errorOccurred,
-                          activeDialog, [aCameraDataLocalFileName]
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
-                                    << aCameraDataLocalFileName << " had an error";
-    });
-    activeDialog->connect(activeReply, &QNetworkReply::destroyed,
-                          activeDialog, [aCameraDataLocalFileName]
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File connection for " << aCameraDataLocalFileName << " was destroyed";
-    });
-
 }
 
 
@@ -501,10 +470,10 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
 int OptimalExposure::FileUtilityCameraData::writeCameraDataFile(OptimalExposure::ImagingCameraData *anImagingCameraData)
 {
 
-    if(QDir().mkpath(cameraLocalDataRepository))
+    if(QDir().mkpath(localCameraDataDirectory()))
     {
         // Replace spaces with "_" in the file name
-        QString aCameraDataFile = cameraLocalDataRepository + cameraIdToCameraDataFileName(anImagingCameraData->getCameraId());
+        QString aCameraDataFile = localCameraDataDirectory() + cameraIdToCameraDataFileName(anImagingCameraData->getCameraId());
 
         QFile file(aCameraDataFile);
         if(file.open(QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text))
