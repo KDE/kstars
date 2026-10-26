@@ -117,11 +117,11 @@
             <GainReadNoiseValue>
                 <Gain>12800</Gain>
                 <ReadNoise>5.776</ReadNoise>
-            </GainReadNoiseValue>                        
+            </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>25600</Gain>
                 <ReadNoise>5.776</ReadNoise>
-            </GainReadNoiseValue>            
+            </GainReadNoiseValue>
         </CameraGainReadNoise>
     </CameraGainReadMode>
     <CameraPixelSize>8.42</CameraPixelSize>

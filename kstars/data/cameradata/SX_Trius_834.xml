@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ExposureCalculatorCameraData>
     <CameraDataClassVersion>1</CameraDataClassVersion>
-    <CameraId>Starlight Xpress Trius Pro 834</CameraId>
+    <CameraId>SX Trius 834</CameraId>
     <SensorType>MONOCHROME</SensorType>
     <GainSelectionType>FIXED</GainSelectionType>
     <CameraGainSelections>
         <GainSelection>0</GainSelection>
     </CameraGainSelections>
-   <CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>0</GainReadModeNumber>
         <GainReadModeName>Standard</GainReadModeName>
         <CameraGainReadNoise>
             <GainReadNoiseValue>
                 <Gain>-1</Gain>
-                <ReadNoise>3.0</ReadNoise>
+                <ReadNoise>3</ReadNoise>
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>1</Gain>
-                <ReadNoise>3.0</ReadNoise>
+                <ReadNoise>3</ReadNoise>
             </GainReadNoiseValue>
         </CameraGainReadNoise>
     </CameraGainReadMode>

@@ -245,6 +245,8 @@
                 <ReadNoise>0.7</ReadNoise>
             </GainReadNoiseValue>
         </CameraGainReadNoise>
+    </CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>1</GainReadModeNumber>
         <GainReadModeName>High Gain</GainReadModeName>
         <CameraGainReadNoise>
@@ -477,6 +479,8 @@
                 <ReadNoise>0.69</ReadNoise>
             </GainReadNoiseValue>
         </CameraGainReadNoise>
+    </CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>2</GainReadModeNumber>
         <GainReadModeName>Extended Full Well</GainReadModeName>
         <CameraGainReadNoise>
@@ -713,6 +717,8 @@
                 <ReadNoise>2.18</ReadNoise>
             </GainReadNoiseValue>
         </CameraGainReadNoise>
+    </CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>3</GainReadModeNumber>
         <GainReadModeName>Extended Full Well 2CMSIT</GainReadModeName>
         <CameraGainReadNoise>

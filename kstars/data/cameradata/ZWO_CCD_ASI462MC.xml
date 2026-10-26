@@ -22,7 +22,7 @@
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>79</Gain>
-                <ReadNoise>2.0</ReadNoise>
+                <ReadNoise>2</ReadNoise>
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>80</Gain>

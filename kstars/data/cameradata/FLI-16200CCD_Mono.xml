@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ExposureCalculatorCameraData>
     <CameraDataClassVersion>1</CameraDataClassVersion>
-    <CameraId>Atik-16200CCD</CameraId>
+    <CameraId>FLI-16200CCD Mono</CameraId>
     <SensorType>MONOCHROME</SensorType>
     <GainSelectionType>FIXED</GainSelectionType>
     <CameraGainSelections>
         <GainSelection>0</GainSelection>
     </CameraGainSelections>
-   <CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>0</GainReadModeNumber>
         <GainReadModeName>Standard</GainReadModeName>
         <CameraGainReadNoise>
@@ -21,6 +21,6 @@
             </GainReadNoiseValue>
         </CameraGainReadNoise>
     </CameraGainReadMode>
-    <CameraPixelSize>6.0</CameraPixelSize>
+    <CameraPixelSize>6</CameraPixelSize>
     <CameraQuantumEfficiency>0.6</CameraQuantumEfficiency>
 </ExposureCalculatorCameraData>

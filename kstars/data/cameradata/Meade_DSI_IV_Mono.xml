@@ -62,7 +62,7 @@
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>1584</Gain>
-                <ReadNoise>1.30</ReadNoise>
+                <ReadNoise>1.3</ReadNoise>
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>1995</Gain>
@@ -70,7 +70,7 @@
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>2000</Gain>
-                <ReadNoise>1.30</ReadNoise>
+                <ReadNoise>1.3</ReadNoise>
             </GainReadNoiseValue>
         </CameraGainReadNoise>
     </CameraGainReadMode>

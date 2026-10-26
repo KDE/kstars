@@ -7,7 +7,7 @@
     <CameraGainSelections>
         <GainSelection>0</GainSelection>
     </CameraGainSelections>
-   <CameraGainReadMode>
+    <CameraGainReadMode>
         <GainReadModeNumber>0</GainReadModeNumber>
         <GainReadModeName>Standard</GainReadModeName>
         <CameraGainReadNoise>

@@ -32,11 +32,11 @@
             <GainReadNoiseValue>
                 <Gain>50</Gain>
                 <ReadNoise>2.25</ReadNoise>
-            </GainReadNoiseValue>           
+            </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>64</Gain>
                 <ReadNoise>2.05</ReadNoise>
-            </GainReadNoiseValue>            
+            </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>80</Gain>
                 <ReadNoise>1.9</ReadNoise>
@@ -47,7 +47,7 @@
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>125</Gain>
-                <ReadNoise>2.0</ReadNoise>
+                <ReadNoise>2</ReadNoise>
             </GainReadNoiseValue>
             <GainReadNoiseValue>
                 <Gain>160</Gain>
@@ -105,9 +105,8 @@
                 <Gain>3200</Gain>
                 <ReadNoise>1.5</ReadNoise>
             </GainReadNoiseValue>
-
         </CameraGainReadNoise>
     </CameraGainReadMode>
     <CameraPixelSize>5.92</CameraPixelSize>
-    <CameraQuantumEfficiency>0.40</CameraQuantumEfficiency>
+    <CameraQuantumEfficiency>0.4</CameraQuantumEfficiency>
 </ExposureCalculatorCameraData>
