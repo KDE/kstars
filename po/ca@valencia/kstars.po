@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 02:21+0000\n"
-"PO-Revision-Date: 2026-10-25 12:00+0100\n"
+"POT-Creation-Date: 2026-10-27 02:40+0000\n"
+"PO-Revision-Date: 2026-10-27 00:26+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7439,12 +7439,12 @@ msgstr "S'està resolent amb un llindar dinàmic cec…"
 #: ekos/align/align_solver.cpp:633
 #, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr "La imatge carregada no conté informació del costat del pilar"
+msgstr "La imatge carregada no conté informació del costat de la columna"
 
 #: ekos/align/align_solver.cpp:638
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr "La imatge carregada es va prendre al costat del pilar %1"
+msgstr "La imatge carregada es va prendre al costat de la columna %1"
 
 #: ekos/align/align_solver.cpp:704
 #, kde-format
@@ -8506,8 +8506,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La <span style=\"font-weight:600;\">Política "
 "d'inversió</span> determina com reacciona el rotor després d'una inversió o "
-"si el resultat d'una imatge de referència resolta informa d'un costat del "
-"pilar diferent del de la muntura real.</p></body></html>"
+"si el resultat d'una imatge de referència resolta informa d'un costat de la "
+"columna diferent del de la muntura real.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:339
@@ -12202,8 +12202,8 @@ msgid ""
 "<html><head/><body><p>Plot the mount's pier side (left) -> where the mount "
 "is pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el costat del pilar (esquerra) de la muntura → "
-"cap a on està apuntant la muntura.</p></body></html>"
+"<html><head/><body><p>Traça el costat de la columna (esquerra) de la muntura "
+"→ cap a on està apuntant la muntura.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:1199
@@ -12219,9 +12219,10 @@ msgid ""
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El costat del pilar (esquerra) de la muntura → cap a "
-"on està apuntant la muntura. Cliqueu ací per a veure este eix en els valors "
-"de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
+"<html><head/><body><p>El costat de la columna (esquerra) de la muntura → cap "
+"a on està apuntant la muntura. Cliqueu ací per a veure este eix en els "
+"valors de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1240
@@ -16455,40 +16456,41 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de substitució "
 "<span style=\"font-weight:600;\">%P</span> o <span style=\"font-weight:600;"
-"\">%pierside</span>: El costat del pilar actual de la muntura.</li><ul style="
+"\">%pierside</span>: El costat de la columna actual de la muntura.</li><ul "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Variable de substitució <span style=\"font-weight:600;\">%H</"
+"span> o <span style=\"font-weight:600;\">%hostname</span>: El nom de "
+"l'amfitrió que executa l'EKOS.</li></ul><ul style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de substitució "
+"<span style=\"font-weight:600;\">%c</span> o <span style=\" font-weight:600;"
+"\">%cameraname</span>: El nom de la càmera activa.</li></ul><ul style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Variable "
-"de substitució <span style=\"font-weight:600;\">%H</span> o <span style="
-"\"font-weight:600;\">%hostname</span>: El nom de l'amfitrió que executa "
-"l'EKOS.</li></ul><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Variable de substitució <span style=\"font-weight:600;\">"
-"%c</span> o <span style=\" font-weight:600;\">%cameraname</span>: El nom de "
-"la càmera activa.</li></ul><ul style=\"margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
+"de substitució <span style=\"font-weight:600;\">%o</span> o <span style="
+"\"font-weight:600;\">%opticaltrain</span>: El nom del tren òptic actiu.</"
+"li></ul><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de "
+"substitució <span style=\"font-weight:704;\">%s*</span> o <span style=\"font-"
+"weight:704;\">%sequence</span>: L'identificador de la seqüència d'imatges on "
+"* és el nombre de dígits emprats (1-9). <span style=\"font-weight:704;"
+"\">Esta etiqueta és obligatòria i haurà de ser l'últim element en el format."
+"</span></li></ul><p>També es pot incloure text arbitrari dins de la cadena "
+"de format, <span style=\"font-weight:704;\">excepte els caràcters «%» i «\\»."
+"</span> El caràcter «/» del camí es pot emprar per a definir carpetes "
+"arbitràries.</p><p>Notes:</p><ul style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left: 0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Variable de substitució <span style=\"font-"
-"weight:600;\">%o</span> o <span style=\"font-weight:600;\">%opticaltrain</"
-"span>: El nom del tren òptic actiu.</li></ul><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Variable de substitució <span style=\"font-weight:704;\">"
-"%s*</span> o <span style=\"font-weight:704;\">%sequence</span>: "
-"L'identificador de la seqüència d'imatges on * és el nombre de dígits "
-"emprats (1-9). <span style=\"font-weight:704;\">Esta etiqueta és obligatòria "
-"i haurà de ser l'últim element en el format.</span></li></ul><p>També es pot "
-"incloure text arbitrari dins de la cadena de format, <span style=\"font-"
-"weight:704;\">excepte els caràcters «%» i «\\».</span> El caràcter «/» del "
-"camí es pot emprar per a definir carpetes arbitràries.</p><p>Notes:</p><ul "
-"style=\"margin-top:0px; margin-bottom:0px; margin-left: 0px; margin-"
-"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
+"indent:0; text-indent:0px;\">Les variables de substitució són sensibles a "
+"les seues formes curtes i llargues.</li><li style=\"margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Les variables de substitució són sensibles a les seues formes "
-"curtes i llargues.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Utilitzeu "
-"només la variable de substitució %Datetime a la part del nom de fitxer del "
-"format, no a la definició del camí.</li></ul></body></html>"
+"indent:0px;\">Utilitzeu només la variable de substitució %Datetime a la part "
+"del nom de fitxer del format, no a la definició del camí.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1896
@@ -17549,10 +17551,9 @@ msgid "DSLR"
 msgstr "Rèflex digital"
 
 #: ekos/capture/capture.cpp:116
-#, fuzzy, kde-format
-#| msgid "Stop &Tracking"
+#, kde-format
 msgid "Stream Tracking"
-msgstr "&Para el seguiment"
+msgstr "Seguiment de l'emissió"
 
 #: ekos/capture/capture.cpp:540 ekos/focus/focusmodule.cpp:718
 #, kde-format
@@ -18255,6 +18256,47 @@ msgstr "dy ="
 msgid "Integration time to noise ratio (potential quality)"
 msgstr "Integració de la relació del temps a soroll (qualitat potencial)."
 
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
+#, fuzzy, kde-format
+#| msgid "%1 properties available"
+msgctxt "camera name, followed by its status"
+msgid "%1 (update available)"
+msgstr "%1 propietats disponibles"
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
+#, kde-format
+msgctxt "camera name, followed by its status"
+msgid "%1 (installed)"
+msgstr ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
+#, kde-format
+msgid "An update is available for 1 installed camera."
+msgid_plural "Updates are available for %1 installed cameras."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
+#, fuzzy, kde-format
+#| msgid "The weights file could not be read."
+msgid "The list of cameras could not be downloaded: %1"
+msgstr "No s'ha pogut llegir el fitxer de ponderacions."
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
+#, fuzzy, kde-format
+#| msgid "Downloading Data..."
+msgid "Downloading 1 camera..."
+msgid_plural "Downloading %1 cameras..."
+msgstr[0] "S'estan baixant les dades…"
+msgstr[1] "S'estan baixant les dades…"
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
+#, fuzzy, kde-format
+#| msgid "Could not open file %1"
+msgid "Could not download: %1"
+msgstr "No s'ha pogut obrir el fitxer %1"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
 #, kde-format
@@ -18263,8 +18305,9 @@ msgstr "Baixada de les dades de les càmeres"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, kde-format
-msgid "Select all cameras you wish to use:"
+#, fuzzy, kde-format
+#| msgid "Select all cameras you wish to use:"
+msgid "Select the cameras to download:"
 msgstr "Trieu totes les càmeres que voleu utilitzar:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
@@ -18616,9 +18659,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Duració mínima d'una inversió del meridià en segons. "
 "Augmenteu este valor si Ekos informa que una inversió del meridià ha fallat "
-"perquè el costat del pilar no ha canviat. Una estimació bona d'este valor és "
-"com a mínim el 50 % de la duració habitual d'una inversió del meridià.</p></"
-"body></html>"
+"perquè el costat de la columna no ha canviat. Una estimació bona d'este "
+"valor és com a mínim el 50 % de la duració habitual d'una inversió del "
+"meridià.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/capture/opsmiscsettings.ui:60
@@ -18755,13 +18798,15 @@ msgid ""
 "When the camera's stream tracking is turned on, by any client, send guide "
 "pulses to keep the target at the lock point. Turn off to only measure."
 msgstr ""
+"Quan qualsevol client active el seguiment de l'emissió de la càmera, "
+"s'enviaran impulsos de guiatge per a mantindre l'objectiu al punt de "
+"fixació. Desactiva-la si només vols mesurar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StreamTrackingCorrectMount)
 #: ekos/capture/opsstreamtrackingsettings.ui:37
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Correct mount"
-msgstr "Temps d'espera de la correcció:"
+msgstr "Corregix la muntura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingDeadband)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
@@ -18772,12 +18817,14 @@ msgstr "Temps d'espera de la correcció:"
 msgid ""
 "No correction is sent while the target is closer than this to the lock point."
 msgstr ""
+"No s'enviarà cap correcció mentre l'objectiu estiga més a prop d'açò "
+"respecte del punt de fixació."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingDeadband)
 #: ekos/capture/opsstreamtrackingsettings.ui:47
 #, kde-format
 msgid "Deadband:"
-msgstr ""
+msgstr "Zona morta:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -18795,14 +18842,13 @@ msgstr " px"
 #: ekos/capture/opsstreamtrackingsettings.ui:86 kstars.kcfg:2178
 #, kde-format
 msgid "Fraction of the measured offset corrected by each pulse."
-msgstr ""
+msgstr "Fracció de la desviació mesurada corregida per cada impuls."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingAggressiveness)
 #: ekos/capture/opsstreamtrackingsettings.ui:79
-#, fuzzy, kde-format
-#| msgid "Aggressiveness (0-1.0)"
+#, kde-format
 msgid "Aggressiveness:"
-msgstr "Agressivitat (0-1,0)"
+msgstr "Agressivitat:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMaxPulse)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
@@ -18810,14 +18856,13 @@ msgstr "Agressivitat (0-1,0)"
 #: ekos/capture/opsstreamtrackingsettings.ui:115
 #, kde-format
 msgid "Longest correction pulse sent on each axis."
-msgstr ""
+msgstr "Impuls de correcció més llarg enviat a cada eix."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMaxPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:108
-#, fuzzy, kde-format
-#| msgid "ra pulse"
+#, kde-format
 msgid "Max pulse:"
-msgstr "impuls ar"
+msgstr "Impuls màx.:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
@@ -18838,13 +18883,14 @@ msgid ""
 "Calibration repeats pulses of this length on each axis until the target "
 "moves at least 10 pixels."
 msgstr ""
+"El calibratge repetix impulsos d'esta duració a cada eix fins que l'objectiu "
+"es mou com a mínim 10 píxels."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingCalibrationPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:137
-#, fuzzy, kde-format
-#| msgid "Calibration started."
+#, kde-format
 msgid "Calibration step:"
-msgstr "S'ha iniciat el calibratge."
+msgstr "Pas de calibratge:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingSettle)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingSettle)
@@ -18854,6 +18900,7 @@ msgstr "S'ha iniciat el calibratge."
 #, kde-format
 msgid "Time to wait after a pulse before using new measurements."
 msgstr ""
+"Temps d'espera després d'un impuls abans d'utilitzar les mesures noves."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMinQuality)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingMinQuality)
@@ -18862,15 +18909,14 @@ msgstr ""
 #: ekos/capture/opsstreamtrackingsettings.ui:205 kstars.kcfg:2205
 #, kde-format
 msgid "Measurements below this quality (0 to 1) are ignored."
-msgstr ""
+msgstr "Es descarten les mesures amb una qualitat inferior a esta (de 0 a 1)."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMinQuality)
 #: ekos/capture/opsstreamtrackingsettings.ui:198
-#, fuzzy, kde-format
-#| msgid "Min alt"
+#, kde-format
 msgid "Min quality:"
-msgstr "Alt. mín."
+msgstr "Qualitat mín.:"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
@@ -18975,22 +19021,22 @@ msgid ""
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El costat del pilar de la muntura. Un marc roig indica "
-"un costat del pilar desconegut. Açò és normal si la muntura està aparcada.</"
-"p></body></html>"
+"<html><head/><body><p>El costat de la columna de la muntura. Un marc roig "
+"indica un costat de la columna desconegut. Açò és normal si la muntura està "
+"aparcada.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
 #, kde-format
 msgid "Current Pierside"
-msgstr "Costat del pilar actual"
+msgstr "Costat de la columna actual"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:257
 #, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Costat del pilar actual de la muntura.</p></body></"
+"<html><head/><body><p>Costat de la columna actual de la muntura.</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
@@ -19013,11 +19059,11 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La <span style=\"font-weight:600;\">Política "
 "d'inversió</span> determina com reacciona el rotor després d'una inversió o "
-"si el resultat d'una imatge de referència resolta informa d'un costat del "
-"pilar diferent respecte al costat del pilar real de la muntura.</p><p>La "
-"política d'inversió es pot modificar en les <span style=\"font-weight:600;"
-"\">Opcions d'alineació</span><span style=\"font-size:12pt;\"> en «Configureu "
-"el rotor».</span></p></body></html>"
+"si el resultat d'una imatge de referència resolta informa d'un costat de la "
+"columna diferent respecte al costat de la columna real de la muntura.</"
+"p><p>La política d'inversió es pot modificar en les <span style=\"font-"
+"weight:600;\">Opcions d'alineació</span><span style=\"font-size:12pt;\"> en "
+"«Configureu el rotor».</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
@@ -19043,8 +19089,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>L'angle sense processar del cercle complet del rotor "
 "del dispositiu de rotor, el qual es calcula com la diferència de l'origen "
-"del rotor (angle zero) respecte al nord en el costat del pilar OEST o al sud "
-"en el costat del pilar EST.</p></body></html>"
+"del rotor (angle zero) respecte al nord en el costat de la columna OEST o al "
+"sud en el costat de la columna EST.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
@@ -19402,12 +19448,11 @@ msgstr "La cua de seqüències s'ha guardat a %1"
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #: ekos/capture/streamtracker.cpp:65
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Pier side changed, stream tracking calibration is cleared."
 msgstr ""
-"S'ha detectat un canvi al costat del pilar de la muntura. Es neteja el "
-"calibratge."
+"S'ha canviat el costat de la columna, s'ha netejat el calibratge del "
+"seguiment de l'emissió."
 
 #: ekos/capture/streamtracker.cpp:123
 #, kde-format
@@ -19415,6 +19460,8 @@ msgid ""
 "Stream tracking is on in the camera, but mount correction is disabled in the "
 "options."
 msgstr ""
+"El seguiment de l'emissió està activat en la càmera, però la correcció de la "
+"muntura està desactivada en les opcions."
 
 #: ekos/capture/streamtracker.cpp:129
 #, kde-format
@@ -19422,76 +19469,84 @@ msgid ""
 "Stream tracking cannot correct the mount: the optical train has no mount or "
 "guider that accepts guide pulses."
 msgstr ""
+"El seguiment de l'emissió no pot corregir la muntura: el tren òptic no té "
+"cap muntura o dispositiu de guiatge que accepte impulsos de guiatge."
 
 #: ekos/capture/streamtracker.cpp:137
 #, kde-format
 msgid "Camera binning changed, stream tracking will calibrate again."
 msgstr ""
+"S'ha canviat l'agrupament de píxels de la càmera. El seguiment de l'emissió "
+"es tornarà a calibrar."
 
 #: ekos/capture/streamtracker.cpp:154
-#, fuzzy, kde-format
-#| msgid "Guide streaming started."
+#, kde-format
 msgid "Stream tracking started."
-msgstr "Ha començat la transmissió del guiatge."
+msgstr "S'ha iniciat el seguiment de l'emissió."
 
 #: ekos/capture/streamtracker.cpp:155
 #, kde-format
 msgid "Stream tracking started. Calibrating once the target is locked..."
 msgstr ""
+"S'ha iniciat el seguiment de l'emissió. Es calibrarà quan l'objectiu estiga "
+"fixat…"
 
 # skip-rule: punctuation-period-no
 #: ekos/capture/streamtracker.cpp:165
-#, fuzzy, kde-format
-#| msgid "Park dome on calibration."
+#, kde-format
 msgid "Stream tracking stopped during calibration."
-msgstr "Aparca la cúpula durant el calibratge."
+msgstr "S'ha parat el seguiment de l'emissió durant el calibratge."
 
 #: ekos/capture/streamtracker.cpp:167
-#, fuzzy, kde-format
-#| msgid "Stacking Stopped"
+#, kde-format
 msgid "Stream tracking stopped."
-msgstr "S'ha parat l'apilament"
+msgstr "S'ha parat el seguiment de l'emissió."
 
 #: ekos/capture/streamtracker.cpp:216
 #, kde-format
 msgid "Ekos guiding is active, stream tracking is paused."
-msgstr ""
+msgstr "El guiatge d'Ekos està actiu. El seguiment de l'emissió està en pausa."
 
 #: ekos/capture/streamtracker.cpp:230
 #, kde-format
 msgid ""
 "Stream tracking lost the target (quality %1). Waiting for it to return..."
 msgstr ""
+"El seguiment de l'emissió ha perdut l'objectiu (qualitat %1). S'està "
+"esperant que torne…"
 
 #: ekos/capture/streamtracker.cpp:240
 #, kde-format
 msgid "Stream tracking found the target again."
-msgstr ""
+msgstr "El seguiment de l'emissió ha tornat a trobar l'objectiu."
 
 #: ekos/capture/streamtracker.cpp:277
 #, kde-format
 msgid "Stream tracking calibration: moving West..."
-msgstr ""
+msgstr "Calibratge del seguiment de l'emissió: s'està movent cap a l'oest…"
 
 #: ekos/capture/streamtracker.cpp:296
 #, kde-format
 msgid "the target did not move in RA after %1 ms of West pulses."
 msgstr ""
+"l'objectiu no s'ha mogut en AR després de %1 ms d'impulsos cap a l'oest."
 
 #: ekos/capture/streamtracker.cpp:297
 #, kde-format
 msgid "the target did not move in DEC after %1 ms of North pulses."
 msgstr ""
+"l'objectiu no s'ha mogut en Dec després de %1 ms d'impulsos cap al nord."
 
 #: ekos/capture/streamtracker.cpp:322
 #, kde-format
 msgid "Stream tracking calibration: moving North..."
-msgstr ""
+msgstr "Calibratge del seguiment de l'emissió: s'està movent cap al nord…"
 
 #: ekos/capture/streamtracker.cpp:341
 #, kde-format
 msgid "RA and DEC pulses moved the target in the same direction."
 msgstr ""
+"Els impulsos d'AR i de DEC han mogut l'objectiu en la mateixa direcció."
 
 #: ekos/capture/streamtracker.cpp:351
 #, kde-format
@@ -19499,6 +19554,8 @@ msgid ""
 "Stream tracking calibration complete: RA %1 px/s, DEC %2 px/s, axes %3° "
 "apart. Tracking..."
 msgstr ""
+"Calibratge del seguiment de l'emissió completat: AR %1 px/s, Dec %2 px/s, "
+"eixos separats %3°. S'està seguint…"
 
 #: ekos/capture/streamtracker.cpp:355
 #, kde-format
@@ -19506,12 +19563,13 @@ msgid ""
 "Warning: stream tracking axes are far from perpendicular. Check for backlash "
 "or a stalled axis if tracking is poor."
 msgstr ""
+"Avís: els eixos de seguiment de l'emissió estan lluny de ser perpendiculars. "
+"Comproveu si hi ha folgança o un eix encallat si el seguiment és deficient."
 
 #: ekos/capture/streamtracker.cpp:362
-#, fuzzy, kde-format
-#| msgid "Guiding calibration failed"
+#, kde-format
 msgid "Stream tracking calibration failed: %1"
-msgstr "Ha fallat el calibratge del guiatge"
+msgstr "Ha fallat el calibratge del seguiment de l'emissió: %1"
 
 #: ekos/ekos.h:71
 #, kde-format
@@ -23441,7 +23499,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Diàmetre del cercle extern que s'exclourà de "
 "l'enfocament. El diàmetre es dona com a percentatge de la diagonal de la "
-"imatge. Establiu-lo al 100 % per a incloure les vores exteriors del sensor.</"
+"imatge. Establiu-lo al 100 % per a incloure les vores exteriors del sensor.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
@@ -24917,7 +24975,7 @@ msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
-"S'ha detectat un canvi al costat del pilar de la muntura. Es neteja el "
+"S'ha detectat un canvi al costat de la columna de la muntura. Es neteja el "
 "calibratge."
 
 #: ekos/guide/guide.cpp:1931
@@ -26566,7 +26624,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Emmagatzema i intenta tornar a utilitzar els "
 "calibratges. Açò només funciona en els costats oposats del meridià si es pot "
-"determinar automàticament el costat del pilar a partir de la muntura. "
+"determinar automàticament el costat de la columna a partir de la muntura. "
 "L'opció «Reinicialitza el guiatge quan s'apunte» de dalt ha d'estar "
 "desmarcada perquè s'intente.</p></body></html>"
 
@@ -26587,9 +26645,10 @@ msgid ""
 "that should be researched. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Quan es torne a emprar un calibratge, invertix l'angle "
-"de la Dec si el costat del pilar actual diferix del costat del calibratge. "
-"Açò només s'aplicarà quan es tornen a emprar els calibratges. El valor que "
-"cal és una propietat de la muntura que cal investigar.</p></body></html>"
+"de la Dec si el costat de la columna actual diferix del costat del "
+"calibratge. Açò només s'aplicarà quan es tornen a emprar els calibratges. El "
+"valor que cal és una propietat de la muntura que cal investigar.</p></body></"
+"html>"
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
@@ -26598,8 +26657,8 @@ msgstr ""
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Invertix els impulsos de guiatge de la Dec quan es canvie el costat del "
-"pilar i es torne a emprar el calibratge."
+"Invertix els impulsos de guiatge de la Dec quan es canvie el costat de la "
+"columna i es torne a emprar el calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibrationOnRotation)
 #: ekos/guide/opscalibration.ui:431
@@ -28411,7 +28470,7 @@ msgstr "Inversió del meridià en %1"
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "S'assumix que s'ha completat la inversió del meridià, però es desconeix el "
-"costat del pilar."
+"costat de la columna."
 
 #: ekos/manager/meridianflipstate.cpp:289
 #, kde-format
@@ -28727,9 +28786,9 @@ msgstr ""
 "<html><head/><body><p>Activa o desactiva el límit d'angle horari de la "
 "muntura. Una vegada activat, Ekos vigilarà l'angle horari de la muntura "
 "mentre s'apunta o seguix. Si la muntura fa apuntaments o seguiments passat "
-"este límit mentre el costat del pilar està en un estat que no ho permet, "
+"este límit mentre el costat de la columna està en un estat que no ho permet, "
 "s'ordenarà que es pare i es desactivarà el seguiment. Requerix una muntura "
-"que informe correctament del costat del pilar.</p></body></html>"
+"que informe correctament del costat de la columna.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:314
@@ -39366,7 +39425,7 @@ msgstr "MB"
 #, kde-format
 msgid "Cache space in RAM used to store HiPS images."
 msgstr ""
-"Espai de la memòria cau a la RAM que s'utilitza per a emmagatzemar les "
+"Espai de la memòria cau en la RAM que s'utilitza per a emmagatzemar les "
 "imatges de HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -40574,23 +40633,26 @@ msgstr "Comença la gravació."
 msgid "Recording Options..."
 msgstr "Opcions de gravació…"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:115
 #, kde-format
 msgid "Reset Frame"
-msgstr "Restablix el fotograma"
+msgstr "Restablix el fotograma."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:144
 #, kde-format
 msgid "Toggle Debayer"
-msgstr "Mostra o oculta la reconstrucció de Bayer"
+msgstr "Mostra o oculta la reconstrucció de Bayer."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:166
 #, kde-format
 msgid "Toggle Collimation Overlay"
-msgstr "Mostra o oculta la superposició de la col·limació"
+msgstr "Mostra o oculta la superposició de la col·limació."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:194
@@ -40598,11 +40660,12 @@ msgstr "Mostra o oculta la superposició de la col·limació"
 msgid "Collimation Overlay Options..."
 msgstr "Opcions de la superposició de col·limació…"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, trackB)
 #: indi/streamform.ui:222
 #, kde-format
 msgid "Keep the planet, Moon or Sun centered by correcting the mount"
-msgstr ""
+msgstr "Manteniu el planeta, la Lluna o el Sol centrats corregint la muntura."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
@@ -45733,7 +45796,7 @@ msgstr "Mètode d'apilament en l'«Apilament en directe»"
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
 msgstr ""
-"Criteri de rebuig dels píxels de la sigma baixa a l'«Apilament en directe»"
+"Criteri de rebuig dels píxels de la sigma baixa en l'«Apilament en directe»"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1879
@@ -46166,6 +46229,8 @@ msgstr "Aparca la muntura en esta hora, en el format de 12 hores."
 #, kde-format
 msgid "Correct the mount when the camera's stream tracking is on"
 msgstr ""
+"Corregix la muntura quan el seguiment de l'emissió de la càmera estiga "
+"activat"
 
 #. i18n: ectx: whatsthis, entry (StreamTrackingCorrectMount), group (Capture)
 #: kstars.kcfg:2166
@@ -46174,42 +46239,45 @@ msgid ""
 "When a camera measures the target position in its video stream "
 "(STREAM_TRACKING), send guide pulses to keep the target at the lock point."
 msgstr ""
+"Quan una càmera mesure la posició de l'objectiu en la seua emissió de vídeo "
+"(STREAM_TRACKING), s'enviaran impulsos de guiatge per a mantindre l'objectiu "
+"al punt de fixació."
 
 #. i18n: ectx: label, entry (StreamTrackingDeadband), group (Capture)
 #: kstars.kcfg:2170
 #, kde-format
 msgid "Stream tracking deadband (pixels)"
-msgstr ""
+msgstr "Zona morta del seguiment de l'emissió (píxels)"
 
 #. i18n: ectx: label, entry (StreamTrackingAggressiveness), group (Capture)
 #: kstars.kcfg:2177
 #, kde-format
 msgid "Stream tracking aggressiveness"
-msgstr ""
+msgstr "Agressivitat del seguiment de l'emissió"
 
 #. i18n: ectx: label, entry (StreamTrackingMaxPulse), group (Capture)
 #: kstars.kcfg:2184
 #, kde-format
 msgid "Stream tracking maximum pulse (ms)"
-msgstr ""
+msgstr "Impuls màxim del seguiment de l'emissió (ms)"
 
 #. i18n: ectx: label, entry (StreamTrackingCalibrationPulse), group (Capture)
 #: kstars.kcfg:2190
 #, kde-format
 msgid "Stream tracking calibration pulse step (ms)"
-msgstr ""
+msgstr "Pas de l'impuls de calibratge del seguiment de l'emissió (ms)"
 
 #. i18n: ectx: label, entry (StreamTrackingSettle), group (Capture)
 #: kstars.kcfg:2197
 #, kde-format
 msgid "Stream tracking settle time (s)"
-msgstr ""
+msgstr "Temps d'estabilització del seguiment de l'emissió (s)"
 
 #. i18n: ectx: label, entry (StreamTrackingMinQuality), group (Capture)
 #: kstars.kcfg:2204
 #, kde-format
 msgid "Stream tracking minimum quality"
-msgstr ""
+msgstr "Qualitat mínima del seguiment de l'emissió"
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
 #: kstars.kcfg:2211
@@ -46241,7 +46309,7 @@ msgstr "Desplaçament de l'angle de posició"
 #: kstars.kcfg:2226
 #, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Calibratge de l'angle de posició del costat del pilar"
+msgstr "Calibratge de l'angle de posició del costat de la columna"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:2229
@@ -48573,8 +48641,8 @@ msgstr ""
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
-"Invertix la Dec quan es canvie el costat del pilar quan es torne a emprar el "
-"calibratge."
+"Invertix la Dec quan es canvie el costat de la columna quan es torne a "
+"emprar el calibratge."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3519
@@ -49217,7 +49285,8 @@ msgstr "Mostra l'altitud en el gràfic «Estadístiques de l'anàlisi»."
 #: kstars.kcfg:3839
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
-msgstr "Mostra el costat del pilar en el gràfic «Estadístiques de l'anàlisi»."
+msgstr ""
+"Mostra el costat de la columna en el gràfic «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:3843
@@ -87873,7 +87942,7 @@ msgstr "Càmera web de Philips"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Pier Side"
-msgstr "Costat del pilar"
+msgstr "Costat de la columna"
 
 #: libindi_strings.cpp:355
 #, kde-kuit-format
@@ -99078,7 +99147,7 @@ msgstr "dd/MM/aaaa"
 #: tools/observinglist.ui:219
 #, kde-format
 msgid "Update the table and the plot for the new date and location."
-msgstr "Actualitza la taula i el traçat a la data i emplaçament nous."
+msgstr "Actualitza la taula i el traçat a la data i l'emplaçament nous."
 
 #. i18n: ectx: property (text), widget (QLabel, refLabel)
 #: tools/observinglist.ui:242

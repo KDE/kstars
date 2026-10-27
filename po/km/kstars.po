@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 02:21+0000\n"
+"POT-Creation-Date: 2026-10-27 02:40+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -16586,6 +16586,41 @@ msgstr ""
 msgid "Integration time to noise ratio (potential quality)"
 msgstr ""
 
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
+#, kde-format
+msgctxt "camera name, followed by its status"
+msgid "%1 (update available)"
+msgstr ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
+#, kde-format
+msgctxt "camera name, followed by its status"
+msgid "%1 (installed)"
+msgstr ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
+#, kde-format
+msgid "An update is available for 1 installed camera."
+msgid_plural "Updates are available for %1 installed cameras."
+msgstr[0] ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
+#, kde-format
+msgid "The list of cameras could not be downloaded: %1"
+msgstr ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
+#, fuzzy, kde-format
+msgid "Downloading 1 camera..."
+msgid_plural "Downloading %1 cameras..."
+msgstr[0] "របារ​ឧបករណ៍"
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
+#, fuzzy, kde-format
+msgid "Could not download: %1"
+msgstr "មិន​អាច​បើក​ឯកសារ %1បាន​ឡើយ​"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
 #, fuzzy, kde-format
@@ -16595,7 +16630,7 @@ msgstr "ពណ៌​មាស​"
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
 #, kde-format
-msgid "Select all cameras you wish to use:"
+msgid "Select the cameras to download:"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)

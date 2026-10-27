@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 02:21+0000\n"
-"PO-Revision-Date: 2026-10-24 07:48+0200\n"
+"POT-Creation-Date: 2026-10-27 02:40+0000\n"
+"PO-Revision-Date: 2026-10-26 07:46+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -17235,10 +17235,9 @@ msgid "DSLR"
 msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:116
-#, fuzzy, kde-format
-#| msgid "Stop &Tracking"
+#, kde-format
 msgid "Stream Tracking"
-msgstr "&Остановить слежение"
+msgstr "Слежение по видеопотоку"
 
 #: ekos/capture/capture.cpp:540 ekos/focus/focusmodule.cpp:718
 #, kde-format
@@ -17914,6 +17913,51 @@ msgstr "dy ="
 msgid "Integration time to noise ratio (potential quality)"
 msgstr "Отношение времени интегрирования к шуму (потенциальное качество)"
 
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
+#, fuzzy, kde-format
+#| msgid "%1 properties available"
+msgctxt "camera name, followed by its status"
+msgid "%1 (update available)"
+msgstr "Доступно свойств: %1"
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
+#, kde-format
+msgctxt "camera name, followed by its status"
+msgid "%1 (installed)"
+msgstr ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
+#, kde-format
+msgid "An update is available for 1 installed camera."
+msgid_plural "Updates are available for %1 installed cameras."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
+#, fuzzy, kde-format
+#| msgid "The weights file could not be read."
+msgid "The list of cameras could not be downloaded: %1"
+msgstr "Не удалось прочитать файл весов."
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
+#, fuzzy, kde-format
+#| msgid "Downloading Data..."
+msgid "Downloading 1 camera..."
+msgid_plural "Downloading %1 cameras..."
+msgstr[0] "Загрузка данных…"
+msgstr[1] "Загрузка данных…"
+msgstr[2] "Загрузка данных…"
+msgstr[3] "Загрузка данных…"
+
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
+#, fuzzy, kde-format
+#| msgid "Could not open file %1"
+msgid "Could not download: %1"
+msgstr "Не удаётся открыть файл %1"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
 #, kde-format
@@ -17922,8 +17966,9 @@ msgstr "Загрузка данных камеры"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, kde-format
-msgid "Select all cameras you wish to use:"
+#, fuzzy, kde-format
+#| msgid "Select all cameras you wish to use:"
+msgid "Select the cameras to download:"
 msgstr "Выберите все камеры, которые вы хотите использовать:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
@@ -18403,13 +18448,15 @@ msgid ""
 "When the camera's stream tracking is turned on, by any client, send guide "
 "pulses to keep the target at the lock point. Turn off to only measure."
 msgstr ""
+"Когда слежение по видеопотоку включено в камере (любым клиентом), отправлять "
+"импульсы ведения, чтобы удерживать объект в точке фиксации. Если выключено, "
+"выполняется только измерение."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StreamTrackingCorrectMount)
 #: ekos/capture/opsstreamtrackingsettings.ui:37
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Correct mount"
-msgstr "Время ожидания коррекции:"
+msgstr "Корректировать монтировку"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingDeadband)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
@@ -18420,12 +18467,14 @@ msgstr "Время ожидания коррекции:"
 msgid ""
 "No correction is sent while the target is closer than this to the lock point."
 msgstr ""
+"Пока объект ближе к точке фиксации, чем это значение, коррекция не "
+"отправляется."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingDeadband)
 #: ekos/capture/opsstreamtrackingsettings.ui:47
 #, kde-format
 msgid "Deadband:"
-msgstr ""
+msgstr "Мёртвая зона:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -18443,14 +18492,13 @@ msgstr " пкс"
 #: ekos/capture/opsstreamtrackingsettings.ui:86 kstars.kcfg:2178
 #, kde-format
 msgid "Fraction of the measured offset corrected by each pulse."
-msgstr ""
+msgstr "Доля измеренного смещения, исправляемая каждым импульсом."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingAggressiveness)
 #: ekos/capture/opsstreamtrackingsettings.ui:79
-#, fuzzy, kde-format
-#| msgid "Aggressiveness (0-1.0)"
+#, kde-format
 msgid "Aggressiveness:"
-msgstr "Агрессивность (0–1,0)"
+msgstr "Агрессивность:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMaxPulse)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
@@ -18458,14 +18506,13 @@ msgstr "Агрессивность (0–1,0)"
 #: ekos/capture/opsstreamtrackingsettings.ui:115
 #, kde-format
 msgid "Longest correction pulse sent on each axis."
-msgstr ""
+msgstr "Наибольшая длительность корректирующего импульса по каждой оси."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMaxPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:108
-#, fuzzy, kde-format
-#| msgid "Maximum pulse"
+#, kde-format
 msgid "Max pulse:"
-msgstr "Максимальная длительность импульса"
+msgstr "Макс. импульс:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
@@ -18486,13 +18533,14 @@ msgid ""
 "Calibration repeats pulses of this length on each axis until the target "
 "moves at least 10 pixels."
 msgstr ""
+"При калибровке импульсы этой длительности повторяются по каждой оси, пока "
+"объект не сместится хотя бы на 10 пикселей."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingCalibrationPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:137
-#, fuzzy, kde-format
-#| msgid "Calibration started."
+#, kde-format
 msgid "Calibration step:"
-msgstr "Калибровка запущена."
+msgstr "Шаг калибровки:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingSettle)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingSettle)
@@ -18501,7 +18549,7 @@ msgstr "Калибровка запущена."
 #: ekos/capture/opsstreamtrackingsettings.ui:173 kstars.kcfg:2198
 #, kde-format
 msgid "Time to wait after a pulse before using new measurements."
-msgstr ""
+msgstr "Время ожидания после импульса перед использованием новых измерений."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMinQuality)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingMinQuality)
@@ -18510,14 +18558,13 @@ msgstr ""
 #: ekos/capture/opsstreamtrackingsettings.ui:205 kstars.kcfg:2205
 #, kde-format
 msgid "Measurements below this quality (0 to 1) are ignored."
-msgstr ""
+msgstr "Измерения с качеством ниже этого значения (от 0 до 1) не учитываются."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMinQuality)
 #: ekos/capture/opsstreamtrackingsettings.ui:198
-#, fuzzy, kde-format
-#| msgid "Min alt"
+#, kde-format
 msgid "Min quality:"
-msgstr "Мин. высота"
+msgstr "Мин. качество:"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
@@ -19033,10 +19080,11 @@ msgid "Sequence queue saved to %1"
 msgstr "Очередь сохранена в %1"
 
 #: ekos/capture/streamtracker.cpp:65
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Pier side changed, stream tracking calibration is cleared."
-msgstr "Обнаружена смена стороны опорной колонны. Сброс калибровки."
+msgstr ""
+"Сторона опорной колонны изменилась, калибровка слежения по видеопотоку "
+"сброшена."
 
 #: ekos/capture/streamtracker.cpp:123
 #, kde-format
@@ -19044,6 +19092,8 @@ msgid ""
 "Stream tracking is on in the camera, but mount correction is disabled in the "
 "options."
 msgstr ""
+"Слежение по видеопотоку в камере включено, но коррекция монтировки отключена "
+"в параметрах."
 
 #: ekos/capture/streamtracker.cpp:129
 #, kde-format
@@ -19051,75 +19101,81 @@ msgid ""
 "Stream tracking cannot correct the mount: the optical train has no mount or "
 "guider that accepts guide pulses."
 msgstr ""
+"Слежение по видеопотоку не может корректировать монтировку: в оптической "
+"системе нет монтировки или устройства ведения, принимающих импульсы ведения."
 
 #: ekos/capture/streamtracker.cpp:137
 #, kde-format
 msgid "Camera binning changed, stream tracking will calibrate again."
 msgstr ""
+"Биннинг камеры изменился, слежение по видеопотоку выполнит калибровку заново."
 
 #: ekos/capture/streamtracker.cpp:154
-#, fuzzy, kde-format
-#| msgid "Guide streaming started."
+#, kde-format
 msgid "Stream tracking started."
-msgstr "Поток автогидирования запущен."
+msgstr "Слежение по видеопотоку запущено."
 
 #: ekos/capture/streamtracker.cpp:155
 #, kde-format
 msgid "Stream tracking started. Calibrating once the target is locked..."
 msgstr ""
+"Слежение по видеопотоку запущено. Калибровка начнётся после фиксации объекта…"
 
 #: ekos/capture/streamtracker.cpp:165
-#, fuzzy, kde-format
-#| msgid "Park dome on calibration."
+#, kde-format
 msgid "Stream tracking stopped during calibration."
-msgstr "Парковать купол при калибровке."
+msgstr "Слежение по видеопотоку остановлено во время калибровки."
 
 #: ekos/capture/streamtracker.cpp:167
-#, fuzzy, kde-format
-#| msgid "Stacking Stopped"
+#, kde-format
 msgid "Stream tracking stopped."
-msgstr "Сложение остановлено"
+msgstr "Слежение по видеопотоку остановлено."
 
 #: ekos/capture/streamtracker.cpp:216
 #, kde-format
 msgid "Ekos guiding is active, stream tracking is paused."
-msgstr ""
+msgstr "Активно ведение Ekos, слежение по видеопотоку приостановлено."
 
 #: ekos/capture/streamtracker.cpp:230
 #, kde-format
 msgid ""
 "Stream tracking lost the target (quality %1). Waiting for it to return..."
 msgstr ""
+"Слежение по видеопотоку потеряло объект (качество %1). Ожидание его "
+"возвращения…"
 
 #: ekos/capture/streamtracker.cpp:240
 #, kde-format
 msgid "Stream tracking found the target again."
-msgstr ""
+msgstr "Слежение по видеопотоку снова нашло объект."
 
 #: ekos/capture/streamtracker.cpp:277
 #, kde-format
 msgid "Stream tracking calibration: moving West..."
-msgstr ""
+msgstr "Калибровка слежения по видеопотоку: перемещение на запад…"
 
 #: ekos/capture/streamtracker.cpp:296
 #, kde-format
 msgid "the target did not move in RA after %1 ms of West pulses."
 msgstr ""
+"объект не сместился по прямому восхождению после %1 мс импульсов на запад."
 
 #: ekos/capture/streamtracker.cpp:297
 #, kde-format
 msgid "the target did not move in DEC after %1 ms of North pulses."
-msgstr ""
+msgstr "объект не сместился по склонению после %1 мс импульсов на север."
 
 #: ekos/capture/streamtracker.cpp:322
 #, kde-format
 msgid "Stream tracking calibration: moving North..."
-msgstr ""
+msgstr "Калибровка слежения по видеопотоку: перемещение на север…"
 
 #: ekos/capture/streamtracker.cpp:341
 #, kde-format
 msgid "RA and DEC pulses moved the target in the same direction."
 msgstr ""
+"Импульсы по прямому восхождению и склонению сместили объект в одном "
+"направлении."
 
 #: ekos/capture/streamtracker.cpp:351
 #, kde-format
@@ -19127,6 +19183,8 @@ msgid ""
 "Stream tracking calibration complete: RA %1 px/s, DEC %2 px/s, axes %3° "
 "apart. Tracking..."
 msgstr ""
+"Калибровка слежения по видеопотоку завершена: прямое восхождение %1 пикс./с, "
+"склонение %2 пикс./с, угол между осями %3°. Слежение…"
 
 #: ekos/capture/streamtracker.cpp:355
 #, kde-format
@@ -19134,12 +19192,13 @@ msgid ""
 "Warning: stream tracking axes are far from perpendicular. Check for backlash "
 "or a stalled axis if tracking is poor."
 msgstr ""
+"Внимание: оси слежения по видеопотоку далеки от перпендикулярных. Если "
+"слежение работает плохо, проверьте люфт или застревание оси."
 
 #: ekos/capture/streamtracker.cpp:362
-#, fuzzy, kde-format
-#| msgid "Guiding calibration failed"
+#, kde-format
 msgid "Stream tracking calibration failed: %1"
-msgstr "Не удалось выполнить калибровку гида"
+msgstr "Не удалось выполнить калибровку слежения по видеопотоку: %1"
 
 #: ekos/ekos.h:71
 #, kde-format
@@ -39851,7 +39910,7 @@ msgstr "Параметры наложения юстировки…"
 #: indi/streamform.ui:222
 #, kde-format
 msgid "Keep the planet, Moon or Sun centered by correcting the mount"
-msgstr ""
+msgstr "Удерживать планету, Луну или Солнце в центре, корректируя монтировку"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:244
@@ -45133,6 +45192,7 @@ msgstr "Время парковки монтировки в 12-часовом ф
 #, kde-format
 msgid "Correct the mount when the camera's stream tracking is on"
 msgstr ""
+"Корректировать монтировку, когда в камере включено слежение по видеопотоку"
 
 #. i18n: ectx: whatsthis, entry (StreamTrackingCorrectMount), group (Capture)
 #: kstars.kcfg:2166
@@ -45141,43 +45201,45 @@ msgid ""
 "When a camera measures the target position in its video stream "
 "(STREAM_TRACKING), send guide pulses to keep the target at the lock point."
 msgstr ""
+"Когда камера измеряет положение объекта в своём видеопотоке "
+"(STREAM_TRACKING), отправлять импульсы ведения, чтобы удерживать объект в "
+"точке фиксации."
 
 #. i18n: ectx: label, entry (StreamTrackingDeadband), group (Capture)
 #: kstars.kcfg:2170
 #, kde-format
 msgid "Stream tracking deadband (pixels)"
-msgstr ""
+msgstr "Мёртвая зона слежения по видеопотоку (пиксели)"
 
 #. i18n: ectx: label, entry (StreamTrackingAggressiveness), group (Capture)
 #: kstars.kcfg:2177
 #, kde-format
 msgid "Stream tracking aggressiveness"
-msgstr ""
+msgstr "Агрессивность слежения по видеопотоку"
 
 #. i18n: ectx: label, entry (StreamTrackingMaxPulse), group (Capture)
 #: kstars.kcfg:2184
 #, kde-format
 msgid "Stream tracking maximum pulse (ms)"
-msgstr ""
+msgstr "Максимальный импульс слежения по видеопотоку (мс)"
 
 #. i18n: ectx: label, entry (StreamTrackingCalibrationPulse), group (Capture)
 #: kstars.kcfg:2190
 #, kde-format
 msgid "Stream tracking calibration pulse step (ms)"
-msgstr ""
+msgstr "Шаг калибровочного импульса слежения по видеопотоку (мс)"
 
 #. i18n: ectx: label, entry (StreamTrackingSettle), group (Capture)
 #: kstars.kcfg:2197
-#, fuzzy, kde-format
-#| msgid "Starting the timer"
+#, kde-format
 msgid "Stream tracking settle time (s)"
-msgstr "Запуск таймера"
+msgstr "Время стабилизации слежения по видеопотоку (с)"
 
 #. i18n: ectx: label, entry (StreamTrackingMinQuality), group (Capture)
 #: kstars.kcfg:2204
 #, kde-format
 msgid "Stream tracking minimum quality"
-msgstr ""
+msgstr "Минимальное качество слежения по видеопотоку"
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
 #: kstars.kcfg:2211
