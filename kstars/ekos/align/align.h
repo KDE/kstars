@@ -776,6 +776,12 @@ class Align : public QWidget, public Ui::Align
         uint8_t getSolverDownsample(uint16_t binnedW);
 
         /**
+         * @brief resetBlindSolving Forget the solver retries without constraints, so the next solve
+         * starts with all constraints and may retry without them again.
+         */
+        void resetBlindSolving();
+
+        /**
              * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
              * @param enable true to enable WCS, false to disable.
              */
@@ -861,6 +867,8 @@ class Align : public QWidget, public Ui::Align
         BlindState useBlindScale {BLIND_IDLE};
         /// Was solving with position off used?
         BlindState useBlindPosition {BLIND_IDLE};
+        /// Was solving with both scale and position off used?
+        BlindState useBlindScaleAndPosition {BLIND_IDLE};
         /// Was solving with dynamic threshold off used?
         BlindState useBlindDynamicThreshold {BLIND_IDLE};
         // FOV

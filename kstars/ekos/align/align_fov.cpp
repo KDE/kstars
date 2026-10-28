@@ -460,6 +460,9 @@ QVariantMap Align::getEffectiveFOV()
 
     m_FOVWidth = m_FOVHeight = 0;
 
+    // Older versions never matched an entry and added a new one after each solve, so there may be
+    // several matching entries. The latest one is the most accurate.
+    QVariantMap latest;
     for (auto &map : effectiveFOVs)
     {
         if (map["Profile"].toString() == m_ActiveProfile->name && map["Train"].toString() == opticalTrain())
@@ -469,17 +472,20 @@ QVariantMap Align::getEffectiveFOV()
                     isEqual(map["PixelW"].toDouble(), m_CameraPixelWidth) &&
                     isEqual(map["PixelH"].toDouble(), m_CameraPixelHeight) &&
                     isEqual(map["FocalLength"].toDouble(), m_FocalLength) &&
-                    isEqual(map["FocalRedcuer"].toDouble(), m_Reducer) &&
-                    isEqual(map["FocalRatio"].toDouble(), m_FocalRatio))
-            {
-                m_FOVWidth = map["FovW"].toDouble();
-                m_FOVHeight = map["FovH"].toDouble();
-                return map;
-            }
+                    isEqual(map["FocalReducer"].toDouble(), m_Reducer) &&
+                    isEqual(map["FocalRatio"].toDouble(), m_FocalRatio) &&
+                    (latest.isEmpty() || map["id"].toLongLong() > latest["id"].toLongLong()))
+                latest = map;
         }
     }
 
-    return QVariantMap();
+    if (!latest.isEmpty())
+    {
+        m_FOVWidth = latest["FovW"].toDouble();
+        m_FOVHeight = latest["FovH"].toDouble();
+    }
+
+    return latest;
 }
 
 void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
@@ -487,11 +493,18 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     if (newFOVW < 0 || newFOVH < 0 || (isEqual(newFOVW, m_FOVWidth) && isEqual(newFOVH, m_FOVHeight)))
         return;
 
-    QVariantMap effectiveMap = getEffectiveFOV();
-
-    // If ID exists, delete it first.
-    if (effectiveMap.isEmpty() == false)
-        KStarsData::Instance()->userdb()->DeleteEffectiveFOV(effectiveMap["id"].toString());
+    // Delete the existing entries first, including duplicates added by older versions.
+    QVariantMap effectiveMap;
+    QString lastID;
+    while (!(effectiveMap = getEffectiveFOV()).isEmpty())
+    {
+        // Stop if the entry could not be deleted
+        const QString id = effectiveMap["id"].toString();
+        if (id == lastID || !KStarsData::Instance()->userdb()->DeleteEffectiveFOV(id))
+            break;
+        lastID = id;
+    }
+    effectiveMap.clear();
 
     // If FOV is 0x0, then we just remove existing effective FOV
     if (newFOVW == 0.0 && newFOVH == 0.0)

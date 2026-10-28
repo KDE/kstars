@@ -93,6 +93,13 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_align POST_BUILD
 # ADD_TEST(NAME TestEkosAlign COMMAND test_ekos_align)
 # SET_TESTS_PROPERTIES( TestEkosAlign PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )
 
+# needs a CCD simulator with SIM_POINTING_OFFSET and astrometry index files covering the simulator FOV
+ADD_EXECUTABLE(test_ekos_align_blind ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_align_blind.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_align_blind ${KSTARS_UI_EKOS_LIBS})
+# excluded to avoid CI timelimit failure, blind solving is slow
+# ADD_TEST(NAME TestEkosAlignBlind COMMAND test_ekos_align_blind)
+# SET_TESTS_PROPERTIES( TestEkosAlignBlind PROPERTIES LABELS "astrometry;ui" TIMEOUT 1800 )
+
 ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure

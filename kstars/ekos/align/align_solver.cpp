@@ -63,7 +63,10 @@ bool Align::captureAndSolve(bool initialCall)
     }
 
     if (initialCall)
+    {
         m_DestinationCoord = m_TargetCoord;
+        resetBlindSolving();
+    }
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Target RA:" <<  m_TargetCoord.ra().toHMSString(true)
                                << " DE:" << m_TargetCoord.dec().toDMSString(true);
@@ -597,6 +600,14 @@ void Align::startSolving()
             appendLogText(i18n("Solving with blind image position..."));
         }
 
+        if (useBlindScaleAndPosition == BLIND_ENGAGNED)
+        {
+            useImageScale = false;
+            useImagePosition = false;
+            useBlindScaleAndPosition = BLIND_USED;
+            appendLogText(i18n("Solving with blind image scale and position..."));
+        }
+
         if (useBlindDynamicThreshold == BLIND_ENGAGNED)
         {
             useBlindDynamicThreshold = BLIND_USED;
@@ -843,6 +854,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     m_CaptureErrorCounter = 0;
     m_SlewErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
+    resetBlindSolving();
 
     appendLogText(
         i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4) Target Coordinates: RA (%5) DEC (%6)",
@@ -1160,6 +1172,17 @@ void Align::solverFailed()
             return;
         }
 
+        // Both the scale and the position may be wrong, e.g. a wrong focal length on a mount that lost its position
+        if (Options::astrometryUseImageScale() && Options::astrometryUsePosition()
+                && useBlindScaleAndPosition == BLIND_IDLE)
+        {
+            appendLogText(i18n("Solver failed. Retrying without scale and position constraints."));
+            useBlindScaleAndPosition = BLIND_ENGAGNED;
+            setAlignTableResult(ALIGN_RESULT_FAILED);
+            captureAndSolve(false);
+            return;
+        }
+
         appendLogText(i18n("Solver Failed."));
         if(!Options::alignmentLogging())
             appendLogText(
@@ -1181,7 +1204,7 @@ void Align::solverFailed()
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
     m_SlewErrorCounter = 0;
-    useBlindDynamicThreshold = BLIND_IDLE;
+    resetBlindSolving();
 
     setState(ALIGN_FAILED);
     Q_EMIT newStatus(state);
@@ -1189,6 +1212,14 @@ void Align::solverFailed()
     solverFOV->setProperty("visible", false);
 
     setAlignTableResult(ALIGN_RESULT_FAILED);
+}
+
+void Align::resetBlindSolving()
+{
+    useBlindScale = BLIND_IDLE;
+    useBlindPosition = BLIND_IDLE;
+    useBlindScaleAndPosition = BLIND_IDLE;
+    useBlindDynamicThreshold = BLIND_IDLE;
 }
 
 uint8_t Align::getSolverDownsample(uint16_t binnedW)
