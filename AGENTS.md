@@ -47,7 +47,9 @@ imaging or put equipment at risk (mount slews, dome/cap motion, cooling). Change
    worktrees or branches unless asked.
 4. **Don't commit, push, or open merge requests unless asked.** Leave changes as uncommitted working-tree edits by default.
    **Never open an MR/PR until the maintainer has confirmed they tested the change locally.** Pushing a branch
-   to a personal fork when asked is fine. Opening the MR needs that confirmation first.
+   to a personal fork when asked is fine. Opening the MR needs that confirmation first. A local `master` may track
+   `upstream/master` (education/kstars), so a plain `git push` publishes to mainline: only push to `upstream` when
+   the maintainer explicitly asks for it.
 5. **Never run destructive git commands** (`reset --hard`, `checkout -- .`, `clean -fd`, force-push) without
    explicit approval. Run `git status` first.
 6. **Don't touch shared or running infrastructure** (running KStars instances, INDI servers, PM2 services,
@@ -81,6 +83,11 @@ ninja -C build -j"$JOBS" testfocus  # a single test binary
   building tests: `cmake -B build -DBUILD_TESTING=ON`. An IDE sharing `build/` may reconfigure it with
   tests off whenever a `CMakeLists.txt` changes, even mid-build. After editing CMake files, re-check the
   cache, and if a test binary fails to execute, check that it is a valid executable before debugging it.
+- Only build targets you name explicitly, taken from the `ADD_EXECUTABLE` lines of the folder's `CMakeLists.txt`.
+  Never build a list derived from `ninja -t targets`: it contains the `all`, `install` and `test` meta targets, and
+  `test` runs ctest outside any sandbox, which starts UI tests on the user's desktop (see §4.3).
+- If a build or test command was killed, check `build/Testing/Temporary/LastTest.log.tmp*` and
+  `journalctl --user` for `test_ekos_*` processes before reporting that no tests ran.
 - For a fast check of one file, compile it with `-fsyntax-only`, using its command from
   `build/compile_commands.json`.
 - A change must build with **no new warnings** in the files you touched.
@@ -202,6 +209,17 @@ pre-existing. Report it rather than fixing it silently.
   like a pass. Redirect to a log file, then check `$?` and the `Totals:` line.
 - Ekos startup in UI tests kills any running `indiserver`. If a real one is running on the machine, run UI
   tests in an isolated environment (separate PID/network namespace or container), never against it.
+- UI tests on the user's own D-Bus session let D-Bus start the *installed* `kstars` for `org.kde.kstars`, on the
+  user's desktop. Use a private bus: `dbus-run-session --config-file=<conf>` with a session config that has no
+  `<servicedir>` or `<standard_session_servicedirs/>`, together with a fresh `TMPDIR` per run.
+- Alignment tests with the simulators:
+  - `TestEkosHelper::slewTo(..., fast=true)` syncs instead of slewing. The mount then reports the target while the
+    CCD simulator renders its physical position (`EQUATORIAL_PE`, still at the pole). Tests that check solved
+    coordinates must call `Mount::resetModel()` and really slew.
+  - The camera gain may be reset to 0 between test functions, and the CCD simulator scales star brightness with
+    it, so frames become nearly black and every solve fails within a fraction of a second. Set `alignGain`.
+  - Simulator features newer than the installed INDI need the INDI build's driver directory first on `PATH`;
+    `indiserver` starts drivers by name.
 - Starting Ekos locks the KStars clock to real time, and `SimClock::setUTC()` is ignored in that mode. This
   state leaks between test functions in the same process: keep INDI-simulator tests separate from
   simulated-clock tests, and register one CTest entry per function when simulator tests interfere.
@@ -243,6 +261,17 @@ library bug, not your change.
   `QtConcurrent`/worker patterns). Never touch widgets from worker threads.
 - **Qt compatibility**: Qt 6 is primary. Where Qt 5/6 differ, use the existing `qtcompat.h`,
   `qtskipemptyparts.h`, etc. shims, not raw version checks scattered through the code.
+- **Plate solving**:
+  - The built-in align profiles always come from `getDefaultAlignOptionsProfiles()`. When you change one, add its
+    previous version to `getLegacyAlignOptionsProfiles()` so saved copies get migrated. Load the align profiles
+    with `loadAlignOptionsProfiles()`.
+  - Never index a profile list with `Options::solveOptionsProfile()` without a bounds check. `QList::at()` does not
+    throw, so a `try`/`catch (std::out_of_range)` around it does not help.
+  - Pass `SolverUtils::useScale()` the expected scale without a margin of your own; `SolverUtils` widens it
+    (`setScaleTolerance()`, 20% by default). Leave `multiAlgorithm` at `MULTI_AUTO` so the threading follows the
+    available hints, and call `setExpectedFieldWidth()` when the field of view is known.
+  - Base solver performance decisions on real frames from several setups, not only the small fixtures in
+    `Tests/fitsviewer`, and on more than one machine (e.g. a desktop and a Raspberry Pi).
 - **Hardware safety**: code that moves or powers equipment (mount, dome, dust cap, flat panel, rotator,
   focuser, cooler) must handle failure, abort, and timeout paths explicitly. Never make it less safe by
   default. In the scheduler, any recovery path (after a weather/safety alert, a sleep or an error) must
