@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-27 02:40+0000\n"
-"PO-Revision-Date: 2026-10-26 15:25+0100\n"
+"PO-Revision-Date: 2026-10-27 11:11+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18018,45 +18018,41 @@ msgid "Integration time to noise ratio (potential quality)"
 msgstr "Relación tiempo-ruido de integración (calidad potencial)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (update available)"
-msgstr "%1 propiedades disponibles"
+msgstr "%1 (actualización disponible)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
 #, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (installed)"
-msgstr ""
+msgstr "%1 (instalada)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
 #, kde-format
 msgid "An update is available for 1 installed camera."
 msgid_plural "Updates are available for %1 installed cameras."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Actualización disponible para 1 cámara instalada."
+msgstr[1] "Actualizaciones disponibles para %1 cámaras instaladas."
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The list of cameras could not be downloaded: %1"
-msgstr "El archivo de pesos no se puede leer."
+msgstr "No se ha podido descargar la lista de cámaras: %1"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
-#, fuzzy, kde-format
-#| msgid "Downloading Data..."
+#, kde-format
 msgid "Downloading 1 camera..."
 msgid_plural "Downloading %1 cameras..."
-msgstr[0] "Descargando datos…"
-msgstr[1] "Descargando datos…"
+msgstr[0] "Descargando 1 cámara…"
+msgstr[1] "Descargando %1 cámaras…"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not download: %1"
-msgstr "Imposible abrir el archivo %1"
+msgstr "No se ha podido descargar: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -18066,10 +18062,9 @@ msgstr "Descarga de datos de la cámara"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, fuzzy, kde-format
-#| msgid "Select all cameras you wish to use:"
+#, kde-format
 msgid "Select the cameras to download:"
-msgstr "Seleccione todas las cámaras que quiera usar:"
+msgstr "Seleccione las cámaras a descargar:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14

@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-27 02:40+0000\n"
-"PO-Revision-Date: 2026-10-26 07:46+0200\n"
+"PO-Revision-Date: 2026-10-27 07:46+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -17914,49 +17914,45 @@ msgid "Integration time to noise ratio (potential quality)"
 msgstr "Отношение времени интегрирования к шуму (потенциальное качество)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (update available)"
-msgstr "Доступно свойств: %1"
+msgstr "%1 (доступно обновление)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
 #, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (installed)"
-msgstr ""
+msgstr "%1 (установлена)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
 #, kde-format
 msgid "An update is available for 1 installed camera."
 msgid_plural "Updates are available for %1 installed cameras."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Доступно обновление для %1 установленной камеры."
+msgstr[1] "Доступны обновления для %1 установленных камер."
+msgstr[2] "Доступны обновления для %1 установленных камер."
+msgstr[3] "Доступно обновление для 1 установленной камеры."
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The list of cameras could not be downloaded: %1"
-msgstr "Не удалось прочитать файл весов."
+msgstr "Не удалось загрузить список камер: %1"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
-#, fuzzy, kde-format
-#| msgid "Downloading Data..."
+#, kde-format
 msgid "Downloading 1 camera..."
 msgid_plural "Downloading %1 cameras..."
-msgstr[0] "Загрузка данных…"
-msgstr[1] "Загрузка данных…"
-msgstr[2] "Загрузка данных…"
-msgstr[3] "Загрузка данных…"
+msgstr[0] "Загрузка %1 камеры…"
+msgstr[1] "Загрузка %1 камер…"
+msgstr[2] "Загрузка %1 камер…"
+msgstr[3] "Загрузка 1 камеры…"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not download: %1"
-msgstr "Не удаётся открыть файл %1"
+msgstr "Не удалось загрузить: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -17966,10 +17962,9 @@ msgstr "Загрузка данных камеры"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, fuzzy, kde-format
-#| msgid "Select all cameras you wish to use:"
+#, kde-format
 msgid "Select the cameras to download:"
-msgstr "Выберите все камеры, которые вы хотите использовать:"
+msgstr "Выберите камеры для загрузки:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
