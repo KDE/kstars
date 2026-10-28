@@ -550,15 +550,7 @@ void Align::startSolving()
         if (!m_ImageData)
             m_ImageData = m_AlignView->imageData();
 
-        SSolver::Parameters params;
-        try
-        {
-            params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
-        }
-        catch (std::out_of_range const &)
-        {
-            params = m_StellarSolverProfiles[0];
-        }
+        SSolver::Parameters params = selectedSolverProfile();
 
         params.partition = Options::stellarSolverPartition();
         params.threshold_bg_multiple = m_dynamicThreshold;
@@ -663,6 +655,9 @@ void Align::startSolving()
             }
             else
                 m_Solver->useScale(false, 0, 0);
+
+            // Without the scale hint, search field widths around the calculated FOV instead of the profile limits
+            m_Solver->setExpectedFieldWidth(m_FOVWidth / 60.0);
 
             if(useImagePosition)
             {
@@ -1214,6 +1209,15 @@ void Align::solverFailed()
     setAlignTableResult(ALIGN_RESULT_FAILED);
 }
 
+SSolver::Parameters Align::selectedSolverProfile() const
+{
+    // The selected index may be stale, e.g. a removed profile, so fall back to the default profile
+    const uint index = Options::solveOptionsProfile();
+    if (index < static_cast<uint>(m_StellarSolverProfiles.size()))
+        return m_StellarSolverProfiles.at(index);
+    return m_StellarSolverProfiles.isEmpty() ? SSolver::Parameters() : m_StellarSolverProfiles.first();
+}
+
 void Align::resetBlindSolving()
 {
     useBlindScale = BLIND_IDLE;
@@ -1311,15 +1315,7 @@ void Align::reconnectDriver(const QString &camera)
 
 void Align::resetDynamicThreshold()
 {
-    SSolver::Parameters params;
-    try
-    {
-        params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
-    }
-    catch (std::out_of_range const &)
-    {
-        params = m_StellarSolverProfiles[0];
-    }
+    const SSolver::Parameters params = selectedSolverProfile();
     auto newThreshold = params.threshold_bg_multiple;
     if (newThreshold != m_dynamicThreshold)
     {

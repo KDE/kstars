@@ -137,17 +137,9 @@ void PolarAlignmentAssistant::setEnabled(bool enabled)
 void PolarAlignmentAssistant::startSolver()
 {
     auto profiles = getDefaultAlignOptionsProfiles();
-    SSolver::Parameters parameters;
-    // Get solver parameters
-    // In case of exception, use first profile
-    try
-    {
-        parameters = profiles.at(Options::solveOptionsProfile());
-    }
-    catch (std::out_of_range const &)
-    {
-        parameters = profiles[0];
-    }
+    // The selected profile may be one of the user's own profiles, which are not among the defaults
+    const uint index = Options::solveOptionsProfile();
+    SSolver::Parameters parameters = index < static_cast<uint>(profiles.size()) ? profiles.at(index) : profiles.first();
 
     // Double search radius
     parameters.search_radius = parameters.search_radius * 2;

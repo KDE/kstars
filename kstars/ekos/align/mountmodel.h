@@ -176,8 +176,6 @@ class MountModel : public QDialog, public Ui::mountModel
         QUrl alignURL;
         // Saved solver settings restored after model run
         bool m_solverSettingsSaved { false };
-        bool m_savedUsePosition { false };
-        bool m_savedUseScale { false };
         int m_savedGotoMode { 2 };  // Align::GOTO_NOTHING -- safe no-op default
 
         bool m_WaitingForUnpark { false };

@@ -1,8 +1,8 @@
 # Ekos Auxiliary Unit Tests
 
-This document describes the unit tests in `Tests/ekos/auxiliary/`.  Currently
-all tests are in the `darkprocessor/` subdirectory, which tests the dark frame
-processing and defect map subsystem in `kstars/ekos/auxiliary/`.
+This document describes the unit tests in `Tests/ekos/auxiliary/`. The
+`darkprocessor/` subdirectory tests the dark frame processing and defect map
+subsystem, and `solver/` tests the plate solving defaults in `kstars/ekos/auxiliary/`.
 
 ---
 
@@ -11,13 +11,16 @@ processing and defect map subsystem in `kstars/ekos/auxiliary/`.
 | Subdirectory | What it tests |
 |---|---|
 | [`darkprocessor/`](darkprocessor/) | Dark frame defect detection and hot-pixel correction |
+| [`solver/`](solver/) | `SolverUtils` threading and blind field width selection, migration of saved align profiles |
 
 ---
 
 ## Prerequisites
 
-- `INDI_FOUND` + `CFITSIO_FOUND` (parent CMakeLists guards)
-- The test loads a FITS file from a relative path; run from the build root.
+- `darkprocessor/`: `INDI_FOUND` + `CFITSIO_FOUND` (parent CMakeLists guards).
+  The test loads a FITS file from a relative path; run from the build root.
+- `solver/`: `StellarSolver_FOUND` + `CFITSIO_FOUND`. No index files or images
+  are needed; the saved profile fixtures are found with `QFINDTESTDATA`.
 
 ---
 
@@ -27,6 +30,7 @@ processing and defect map subsystem in `kstars/ekos/auxiliary/`.
 # From the repo build directory:
 ./build/Tests/ekos/auxiliary/darkprocessor/testdefects -v2
 ./build/Tests/ekos/auxiliary/darkprocessor/testsubtraction -v2
+./build/Tests/ekos/auxiliary/solver/test_ekos_solverprofiles -v2
 ```
 
 ---
@@ -77,3 +81,23 @@ valuable targets:
 | `OpticalTrainManager` | `opticaltrainmanager.cpp` | CRUD operations on the SQLite optical train store |
 | `DarkLibrary` | `darklibrary.cpp` | Dark frame matching by temperature, exposure, and binning |
 | `FilterOffsets` | `buildfilteroffsets.cpp` | Focus offset calculation from filter measurements |
+
+---
+
+### `solver/testsolverprofiles.cpp` — Plate solving defaults
+
+Tests `SolverUtils::selectMultiAlgorithm()`, `SolverUtils::applyExpectedFieldWidth()`
+and the align profile migration in `stellarsolverprofile.cpp`.
+
+- With a scale or position hint a single solver thread is used, a blind solve
+  uses parallel solvers on multiple scales, explicit choices are kept.
+- Without a scale hint, the field width search is limited to 1/4x to 4x of
+  the expected field width.
+- There is one built-in align profile.
+- `savedalignprofiles_searchradius.ini` and `savedalignprofiles_custom.ini` are
+  profile files saved by KStars 3.6 - 3.8. Unmodified copies of built-in
+  profiles are replaced by the current built-in profile, keeping the user's
+  search radius; retired profiles are dropped and their users moved to the
+  default profile; user profiles and modified built-in profiles are kept.
+- `loadAlignOptionsProfiles()` rewrites the saved file and the selected
+  profile once, and leaves them unchanged on the next load.

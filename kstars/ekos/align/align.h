@@ -782,6 +782,12 @@ class Align : public QWidget, public Ui::Align
         void resetBlindSolving();
 
         /**
+         * @brief selectedSolverProfile The StellarSolver profile selected in the options, or the default profile
+         * if the selected index is out of range.
+         */
+        SSolver::Parameters selectedSolverProfile() const;
+
+        /**
              * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
              * @param enable true to enable WCS, false to disable.
              */
@@ -790,7 +796,6 @@ class Align : public QWidget, public Ui::Align
         void resizeEvent(QResizeEvent *event) override;
 
         KPageWidgetItem *m_IndexFilesPage;
-        QString savedOptionsProfiles;
 
         /**
          * @brief React when a mount motion has been detected

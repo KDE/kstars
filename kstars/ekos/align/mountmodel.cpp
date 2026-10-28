@@ -126,14 +126,6 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
 
 MountModel::~MountModel()
 {
-    if (m_solverSettingsSaved)
-    {
-        // Restore persistent options only -- do not call setSolverAction() here
-        // because Align's child widgets (including the goto button group) may
-        // already be partially destroyed by the time this destructor runs.
-        Options::setAstrometryUsePosition(m_savedUsePosition);
-        Options::setAstrometryUseImageScale(m_savedUseScale);
-    }
 }
 
 void MountModel::generateAlignStarList()
@@ -1313,13 +1305,11 @@ void MountModel::finishAlignmentPoint(bool solverSucceeded)
 
 void MountModel::saveAndOverrideSolverSettings()
 {
-    m_savedUsePosition = Options::astrometryUsePosition();
-    m_savedUseScale    = Options::astrometryUseImageScale();
     m_savedGotoMode    = static_cast<int>(m_AlignInstance->currentGOTOMode());
     m_solverSettingsSaved = true;
 
-    Options::setAstrometryUsePosition(false);
-    Options::setAstrometryUseImageScale(false);
+    // The position and scale hints are kept. Before a pointing model exists the mount position may be far off,
+    // but when a solve fails Align retries without the hints.
 
     // Only override the goto mode if it is not already GOTO_NOTHING (report-only run)
     if (m_AlignInstance->currentGOTOMode() != Align::GOTO_NOTHING)
@@ -1330,15 +1320,13 @@ void MountModel::saveAndOverrideSolverSettings()
     // first solve, which is wrong for an independent mount model run.
     m_AlignInstance->setTargetPositionAngle(std::numeric_limits<double>::quiet_NaN());
 
-    emit newLog(i18n("Mount model: forcing blind solve and sync for each alignment point."));
+    emit newLog(i18n("Mount model: syncing the mount for each alignment point."));
 }
 
 void MountModel::restoreSolverSettings()
 {
     if (!m_solverSettingsSaved)
         return;
-    Options::setAstrometryUsePosition(m_savedUsePosition);
-    Options::setAstrometryUseImageScale(m_savedUseScale);
     m_AlignInstance->setSolverAction(static_cast<int>(m_savedGotoMode));
     m_solverSettingsSaved = false;
 }

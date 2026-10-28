@@ -367,14 +367,7 @@ void ImageOverlayComponent::setWidgets(QTableWidget *table, QPlainTextEdit *stat
 
 void ImageOverlayComponent::initSolverProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
-                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-
-    QList<SSolver::Parameters> optionsList;
-    if(QFile(savedOptionsProfiles).exists())
-        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    else
-        optionsList = Ekos::getDefaultAlignOptionsProfiles();
+    const QList<SSolver::Parameters> optionsList = Ekos::loadAlignOptionsProfiles();
 
     m_SolverProfile->clear();
     for(auto &param : optionsList)
@@ -635,11 +628,7 @@ void ImageOverlayComponent::solveImage(const QString &filename)
     m_SolveButton->setText(i18n("Abort"));
     const int solverTimeout = Options::imageOverlayTimeout();
 
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
-                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-    auto profiles = (QFile(savedOptionsProfiles).exists()) ?
-                    StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles) :
-                    Ekos::getDefaultAlignOptionsProfiles();
+    auto profiles = Ekos::loadAlignOptionsProfiles();
 
     const int index = m_SolverProfile->currentIndex();
     auto parameters = index < profiles.size() ? profiles.at(index) : profiles.at(0);

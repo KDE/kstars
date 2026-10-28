@@ -56,14 +56,11 @@ void OpsAlign::setFlipPolicy(const Ekos::OpsAlign::FlipPriority Priority)
 
 void OpsAlign::reloadOptionsProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
-                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-
-    if(QFile(savedOptionsProfiles).exists())
-        optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    else
-        optionsList = getDefaultAlignOptionsProfiles();
-    int currentIndex = kcfg_SolveOptionsProfile->currentIndex();
+    const int selectedIndex = Options::solveOptionsProfile();
+    optionsList = loadAlignOptionsProfiles();
+    // Loading may migrate the saved profiles, and the selected profile with them
+    int currentIndex = static_cast<int>(Options::solveOptionsProfile()) != selectedIndex ?
+                       static_cast<int>(Options::solveOptionsProfile()) : kcfg_SolveOptionsProfile->currentIndex();
     kcfg_SolveOptionsProfile->clear();
     for(auto &param : optionsList)
         kcfg_SolveOptionsProfile->addItem(param.listName);

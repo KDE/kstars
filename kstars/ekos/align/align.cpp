@@ -230,12 +230,7 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     for (auto &button : qButtons)
         button->setAutoDefault(false);
 
-    savedOptionsProfiles = QDir(KSPaths::writableLocation(
-                                    QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-    if(QFile(savedOptionsProfiles).exists())
-        m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-    else
-        m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
+    m_StellarSolverProfiles = loadAlignOptionsProfiles();
 
     // Initialize dynamic threshold after profiles are loaded
     resetDynamicThreshold();

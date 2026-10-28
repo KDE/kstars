@@ -32,12 +32,7 @@ const QList<SSolver::Parameters> getSSolverParametersList(Ekos::ProfileGroup mod
     {
         case Ekos::AlignProfiles:
         default:
-            savedProfiles = QDir(KSPaths::writableLocation(
-                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-            return QFile(savedProfiles).exists() ?
-                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
-                   Ekos::getDefaultAlignOptionsProfiles();
-            break;
+            return Ekos::loadAlignOptionsProfiles();
         case Ekos::FocusProfiles:
             savedProfiles = QDir(KSPaths::writableLocation(
                                      QStandardPaths::AppLocalDataLocation)).filePath("SavedFocusProfiles.ini");

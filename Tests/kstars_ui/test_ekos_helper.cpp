@@ -524,8 +524,8 @@ void TestEkosHelper::prepareAlignmentModule()
     Options::setSolveSextractorType(SSolver::EXTRACTOR_BUILTIN);
     // select StellarSolver
     Options::setSolverType(SSolver::SOLVER_STELLARSOLVER);
-    // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
+    // select the default solve profile
+    Options::setSolveOptionsProfile(0);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
     // disable rotator check in alignment

@@ -394,7 +394,9 @@ void StellarSolverProfileEditor::loadProfiles(bool warn)
     }
     disconnectOptionsProfileComboBox();
     optionsProfile->clear();
-    if(QFile(savedOptionsProfiles).exists())
+    if (selectedProfileGroup == AlignProfiles)
+        optionsList = loadAlignOptionsProfiles();
+    else if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         optionsList = getDefaultProfiles();

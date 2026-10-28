@@ -175,8 +175,7 @@ void TestSolverBenchmark::benchmarkRenderedField()
             .arg(pixscale, 0, 'f', 4)
             .arg(sepStars);
 
-    auto profiles = Ekos::getDefaultAlignOptionsProfiles();
-    auto base = profiles.at(3);
+    auto base = Ekos::getDefaultAlignOptionsProfiles().first();
 
     struct
     {

@@ -87,7 +87,9 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(filename);
     QList<SSolver::Parameters> optionsList;
-    if(QFile(savedOptionsProfiles).exists())
+    if (group == Ekos::AlignProfiles)
+        optionsList = Ekos::loadAlignOptionsProfiles();
+    else if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
     {

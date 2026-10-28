@@ -93,10 +93,7 @@ void Align::setupOptions()
     page = dialog->addPage(optionsProfileEditor, i18n("Align Options Profiles Editor"));
     connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, [this]()
     {
-        if(QFile(savedOptionsProfiles).exists())
-            m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-        else
-            m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
+        m_StellarSolverProfiles = loadAlignOptionsProfiles();
         opsAlign->reloadOptionsProfiles();
     });
     page->setIcon(QIcon::fromTheme("configure"));

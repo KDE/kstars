@@ -39,6 +39,13 @@ class SolverUtils : public QObject
         void runSolver(const QString &filename);
         SolverUtils &useScale(bool useIt, double scaleLow, double scaleHigh, SSolver::ScaleUnits units = ARCSEC_PER_PIX);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
+        /**
+         * @brief setExpectedFieldWidth Set the field width the image is expected to have, e.g. from the optical train.
+         * When solving without a scale hint, the solver then searches field widths around it instead of the
+         * profile's minwidth/maxwidth. Use 0 (default) to use the profile limits.
+         * @param degrees expected field width in degrees.
+         */
+        SolverUtils &setExpectedFieldWidth(double degrees);
         bool isRunning() const;
         void abort(bool wait = false);
 
@@ -64,6 +71,20 @@ class SolverUtils : public QObject
         };
 
         static void patchMultiAlgorithm(StellarSolver *solver);
+
+        /**
+         * @brief selectMultiAlgorithm Resolve MULTI_AUTO based on the available hints.
+         * With a scale or position hint, a single thread is fastest. Parallel solvers add overhead that the
+         * narrow search does not recover. A blind solve searches on multiple scales in parallel, so it gives
+         * up quickly on images that cannot be solved. Explicit choices are kept.
+         */
+        static SSolver::MultiAlgo selectMultiAlgorithm(SSolver::MultiAlgo requested, bool useScale, bool usePosition);
+
+        /**
+         * @brief applyExpectedFieldWidth Limit the blind scale search to 1/4x to 4x of the expected field width,
+         * which covers a wrong reducer, barlow or focal length. Does nothing if the width is not positive.
+         */
+        static void applyExpectedFieldWidth(SSolver::Parameters &parameters, double degrees);
 
         // Override the multi-algorithm selection for testing.
         static void setMultiAlgorithmOverride(int algo)
@@ -108,6 +129,7 @@ class SolverUtils : public QObject
         bool m_UsePosition { false };
         double m_raDegrees { 0.0 };
         double m_decDegrees { 0.0 };
+        double m_ExpectedFieldWidth { 0.0 };
 
         SSolver::ProcessType m_Type = SSolver::SOLVE;
         std::mutex deleteSolverMutex;
