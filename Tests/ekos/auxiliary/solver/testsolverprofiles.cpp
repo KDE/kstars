@@ -31,6 +31,8 @@ class TestSolverProfiles : public QObject
         void testSelectMultiAlgorithm();
         void testApplyExpectedFieldWidth_data();
         void testApplyExpectedFieldWidth();
+        void testScaleSearchRange_data();
+        void testScaleSearchRange();
 
         void testBuiltInProfiles();
         void testMigrateStockFile_data();
@@ -99,6 +101,35 @@ void TestSolverProfiles::testApplyExpectedFieldWidth()
     SolverUtils::applyExpectedFieldWidth(parameters, width);
     QCOMPARE(parameters.minwidth, minWidth);
     QCOMPARE(parameters.maxwidth, maxWidth);
+}
+
+void TestSolverProfiles::testScaleSearchRange_data()
+{
+    QTest::addColumn<double>("low");
+    QTest::addColumn<double>("high");
+    QTest::addColumn<double>("tolerance");
+    QTest::addColumn<double>("searchLow");
+    QTest::addColumn<double>("searchHigh");
+
+    // The scale range is widened once, by the tolerance only
+    QTest::newRow("default tolerance") << 2.0 << 2.0 << 0.2 << 1.6 << 2.4;
+    QTest::newRow("tight stacking subframe") << 2.0 << 2.0 << 0.05 << 1.9 << 2.1;
+    QTest::newRow("image overlay") << 2.0 << 2.0 << 0.25 << 1.5 << 2.5;
+    QTest::newRow("range") << 1.0 << 2.0 << 0.2 << 0.8 << 2.4;
+}
+
+void TestSolverProfiles::testScaleSearchRange()
+{
+    QFETCH(double, low);
+    QFETCH(double, high);
+    QFETCH(double, tolerance);
+    QFETCH(double, searchLow);
+    QFETCH(double, searchHigh);
+
+    double actualLow = 0, actualHigh = 0;
+    SolverUtils::scaleSearchRange(low, high, tolerance, actualLow, actualHigh);
+    QVERIFY(qFuzzyCompare(actualLow, searchLow));
+    QVERIFY(qFuzzyCompare(actualHigh, searchHigh));
 }
 
 void TestSolverProfiles::testBuiltInProfiles()

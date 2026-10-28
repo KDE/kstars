@@ -667,9 +667,9 @@ void ImageOverlayComponent::solveImage(const QString &filename)
 
     if (scaleOK)
     {
-        auto lowScale = scale * 0.75;
-        auto highScale = scale * 1.25;
-        m_Solver->useScale(true, lowScale, highScale);
+        // Search 25% around the scale
+        m_Solver->useScale(true, scale, scale);
+        m_Solver->setScaleTolerance(0.25);
     }
     if (raOK && decOK)
         m_Solver->usePosition(true, raDMS.Degrees(), decDMS.Degrees());

@@ -246,8 +246,8 @@ void StackController::runExtract(const double ra, const double dec, const double
                                  const int healpix)
 {
     auto parameters = solverParameters();
-    const double lowerPixScale = (index == -1) ? pixScale * 0.8 : pixScale * 0.95;
-    const double upperPixScale = (index == -1) ? pixScale * 1.2 : pixScale * 1.05;
+    // SolverUtils searches 20% around the pixel scale by default, tighten it once the location is known
+    const double scaleTolerance = (index == -1) ? 0.2 : 0.05;
     if (index != -1)
         parameters.search_radius = 1;
     parameters.solverTimeLimit = std::min(parameters.solverTimeLimit, 20);
@@ -255,7 +255,8 @@ void StackController::runExtract(const double ra, const double dec, const double
     m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::EXTRACT_WITH_HFR),
                    &QObject::deleteLater);
     connect(m_Solver.get(), &SolverUtils::done, this, &StackController::handleExtractDone, Qt::UniqueConnection);
-    m_Solver->useScale(true, lowerPixScale, upperPixScale);
+    m_Solver->useScale(true, pixScale, pixScale);
+    m_Solver->setScaleTolerance(scaleTolerance);
     m_Solver->usePosition(true, ra, dec);
     m_Solver->setHealpix(index, healpix);
     m_Solver->runSolver(m_ImageData, true);
@@ -265,26 +266,22 @@ void StackController::runSolve(const double ra, const double dec, const double p
                                const int healpix)
 {
     auto parameters = solverParameters();
-    double lowerPixScale, upperPixScale;
-    if (index == -1)
-    {
-        // First solve (or a widened retry): looser criteria, full search radius.
-        lowerPixScale = pixScale * 0.8;
-        upperPixScale = pixScale * 1.2;
-    }
-    else
+    // SolverUtils searches 20% around the pixel scale by default. That suits the first solve
+    // (or a widened retry), which also uses the full search radius.
+    double scaleTolerance = 0.2;
+    if (index != -1)
     {
         // We already know roughly where this landed (from an earlier sub in the same
         // stack) so tighten the search radius and pixel scale for a faster solve.
         parameters.search_radius = 1;
-        lowerPixScale = pixScale * 0.95;
-        upperPixScale = pixScale * 1.05;
+        scaleTolerance = 0.05;
     }
     parameters.solverTimeLimit = std::min(parameters.solverTimeLimit, 20);
 
     m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::SOLVE), &QObject::deleteLater);
     connect(m_Solver.get(), &SolverUtils::done, this, &StackController::handleSolveDone, Qt::UniqueConnection);
-    m_Solver->useScale(true, lowerPixScale, upperPixScale);
+    m_Solver->useScale(true, pixScale, pixScale);
+    m_Solver->setScaleTolerance(scaleTolerance);
     m_Solver->usePosition(true, ra, dec);
     m_Solver->setHealpix(index, healpix);
     m_Solver->runSolver(m_ImageData, true);

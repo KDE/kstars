@@ -516,8 +516,6 @@ void Align::startSolving()
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
-        QString filenameToUse = "";
-
         if(Options::solverType() != SSolver::SOLVER_ASTAP
                 && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY)
         {
@@ -557,24 +555,8 @@ void Align::startSolving()
         if (m_dynamicThreshold == 1 && Options::astrometryDynamicThreshold())
             params.convFilterType = CONV_DEFAULT;
 
+        // External solvers need the image in a file, SolverUtils writes and removes it
         m_Solver.reset(new SolverUtils(params, Options::astrometryTimeout()));
-
-        const SSolver::SolverType type = static_cast<SSolver::SolverType>(Options::solverType());
-        if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
-        {
-            QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                                   QRegularExpression("[-{}]")));
-            m_AlignView->saveImage(filename);
-            filenameToUse = filename;
-        }
-
-        if(type == SSolver::SOLVER_ONLINEASTROMETRY )
-        {
-            QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
-                                   QRegularExpression("[-{}]")));
-            m_AlignView->saveImage(filename);
-            filenameToUse = filename;
-        }
 
         bool useImageScale = Options::astrometryUseImageScale();
         if (useBlindScale == BLIND_ENGAGNED)
@@ -672,10 +654,7 @@ void Align::startSolving()
 
         connect(m_Solver.get(), &SolverUtils::done, this, &Align::solverDone, Qt::UniqueConnection);
 
-        if (filenameToUse.isEmpty())
-            m_Solver->runSolver(m_ImageData);
-        else
-            m_Solver->runSolver(filenameToUse);
+        m_Solver->runSolver(m_ImageData);
     }
     else
     {

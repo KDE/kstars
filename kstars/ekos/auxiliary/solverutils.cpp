@@ -141,8 +141,9 @@ void SolverUtils::prepareSolver(const bool stack)
 
     if (m_UseScale)
     {
-        // Extend search scale from 80% to 120%
-        m_StellarSolver->setSearchScale(m_ScaleLow * 0.8, m_ScaleHigh * 1.2, m_ScaleUnits);
+        double searchLow = 0, searchHigh = 0;
+        scaleSearchRange(m_ScaleLow, m_ScaleHigh, m_ScaleTolerance, searchLow, searchHigh);
+        m_StellarSolver->setSearchScale(searchLow, searchHigh, m_ScaleUnits);
     }
     else
         m_StellarSolver->setProperty("UseScale", false);
@@ -189,6 +190,19 @@ SolverUtils &SolverUtils::usePosition(bool useIt, double raDegrees, double decDe
     m_raDegrees = raDegrees;
     m_decDegrees = decDegrees;
     return *this;
+}
+
+SolverUtils &SolverUtils::setScaleTolerance(double fraction)
+{
+    m_ScaleTolerance = fraction;
+    return *this;
+}
+
+void SolverUtils::scaleSearchRange(double scaleLow, double scaleHigh, double tolerance, double &searchLow,
+                                   double &searchHigh)
+{
+    searchLow = scaleLow * (1.0 - tolerance);
+    searchHigh = scaleHigh * (1.0 + tolerance);
 }
 
 SolverUtils &SolverUtils::setExpectedFieldWidth(double degrees)

@@ -21,6 +21,8 @@
 #include "indi/indicamera.h"
 #include "indi/indimount.h"
 
+#include <QScopeGuard>
+
 // Allowed deviation of the solution from the true pointing in degrees
 #define POSITION_TOLERANCE 0.05
 // Allowed relative deviation of the solved pixel scale from the true pixel scale
@@ -98,6 +100,35 @@ void TestEkosAlignBlind::testWrongFOVAndPointingOffset()
     QVERIFY(captureAndSolve());
     QVERIFY(verifySolution(raOffset, deOffset));
     QVERIFY(logContains("Retrying without scale and position constraints"));
+}
+
+void TestEkosAlignBlind::testExternalSolverTempFiles()
+{
+    if (!QFileInfo(Options::aSTAPExecutable()).isExecutable())
+        QSKIP("ASTAP is not installed.");
+
+    const uint solverType = Options::solverType();
+    const uint timeout = Options::astrometryTimeout();
+    auto restore = qScopeGuard([solverType, timeout]()
+    {
+        Options::setSolverType(solverType);
+        Options::setAstrometryTimeout(timeout);
+    });
+    Options::setSolverType(SSolver::SOLVER_ASTAP);
+    Options::setAstrometryTimeout(30);
+
+    const QStringList filter {"solver*.fits"};
+    const QDir tempDir(QDir::tempPath());
+    const int before = tempDir.entryList(filter, QDir::Files).size();
+
+    QVERIFY(slewToTestField());
+    m_AlignStatus = Ekos::ALIGN_IDLE;
+    QVERIFY(m_CaptureHelper->startAligning(3.0));
+    // The result does not matter, ASTAP may not have its star database
+    QTRY_VERIFY_WITH_TIMEOUT(m_AlignStatus == Ekos::ALIGN_COMPLETE || m_AlignStatus == Ekos::ALIGN_FAILED
+                             || m_AlignStatus == Ekos::ALIGN_ABORTED, SOLVE_TIMEOUT);
+
+    QTRY_COMPARE_WITH_TIMEOUT(tempDir.entryList(filter, QDir::Files).size(), before, 5000);
 }
 
 /* *********************************************************************************

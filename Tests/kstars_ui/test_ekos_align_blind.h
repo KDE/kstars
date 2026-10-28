@@ -100,6 +100,12 @@ class TestEkosAlignBlind : public QObject
          */
         void testWrongFOVAndPointingOffset();
 
+        /**
+         * @brief Solving with an external solver (ASTAP) leaves no temporary image files behind,
+         *        whether or not the solve succeeds.
+         */
+        void testExternalSolverTempFiles();
+
     private:
         TestEkosCaptureHelper *m_CaptureHelper = nullptr;
 

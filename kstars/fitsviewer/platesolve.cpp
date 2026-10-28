@@ -170,9 +170,10 @@ void PlateSolve::setupSolver(const QSharedPointer<FITSData> &imageData, bool ext
     const int imageHeight = imageData->height();
     if (kcfg_FitsSolverUseScale->isChecked() && imageWidth != 0 && imageHeight != 0)
     {
+        // SolverUtils adds the search margin
         const double scale = kcfg_FitsSolverScale->value();
-        double lowScale = scale * 0.8;
-        double highScale = scale * 1.2;
+        double lowScale = scale;
+        double highScale = scale;
 
         // solver utils uses arcsecs per pixel only
         const int units = kcfg_FitsSolverImageScaleUnits->currentIndex();
@@ -274,20 +275,18 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
 
     auto parameters = getSelectedSolverParameters();
 
-    double lowerPixScale, upperPixScale;
+    // SolverUtils searches 20% around the pixel scale by default
+    double scaleTolerance = 0.2;
     if (index == -1)
     {
         // First solve so use wider criteria...
         parameters.search_radius = kcfg_FitsSolverRadius->value();
-        lowerPixScale = pixScale * 0.8;
-        upperPixScale = pixScale * 1.2;
     }
     else
     {
         // Tighten the search radius and pixscale...
         parameters.search_radius = 1;
-        lowerPixScale = pixScale * 0.95;
-        upperPixScale = pixScale * 1.05;
+        scaleTolerance = 0.05;
     }
 
     // Limit the timeout in case of plate solving failure
@@ -302,7 +301,8 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
         // No star details required (or we just extracted them) so now plate solve
         connect(m_Solver.get(), &SolverUtils::done, this, &PlateSolve::subSolverDone, Qt::UniqueConnection);
 
-    m_Solver->useScale(true, lowerPixScale, upperPixScale);
+    m_Solver->useScale(true, pixScale, pixScale);
+    m_Solver->setScaleTolerance(scaleTolerance);
     m_Solver->usePosition(true, ra, dec);
     m_Solver->setHealpix(index, healpix);
     m_Solver->runSolver(imageData, true);

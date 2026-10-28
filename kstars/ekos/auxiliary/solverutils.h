@@ -37,7 +37,16 @@ class SolverUtils : public QObject
 
         void runSolver(const QSharedPointer<FITSData> &data, const bool stack = false);
         void runSolver(const QString &filename);
+        /**
+         * @brief useScale Search for an image scale between scaleLow and scaleHigh. The range is widened by the scale
+         * tolerance, see setScaleTolerance(), so pass the expected scale without a margin of your own.
+         */
         SolverUtils &useScale(bool useIt, double scaleLow, double scaleHigh, SSolver::ScaleUnits units = ARCSEC_PER_PIX);
+        /**
+         * @brief setScaleTolerance Set how much the scale range of useScale() is widened, e.g. 0.05 searches from
+         * 5% below scaleLow to 5% above scaleHigh. Defaults to 0.2.
+         */
+        SolverUtils &setScaleTolerance(double fraction);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
         /**
          * @brief setExpectedFieldWidth Set the field width the image is expected to have, e.g. from the optical train.
@@ -86,6 +95,12 @@ class SolverUtils : public QObject
          */
         static void applyExpectedFieldWidth(SSolver::Parameters &parameters, double degrees);
 
+        /**
+         * @brief scaleSearchRange The scale range searched for useScale(scaleLow, scaleHigh) with the given tolerance.
+         */
+        static void scaleSearchRange(double scaleLow, double scaleHigh, double tolerance, double &searchLow,
+                                     double &searchHigh);
+
         // Override the multi-algorithm selection for testing.
         static void setMultiAlgorithmOverride(int algo)
         {
@@ -118,6 +133,7 @@ class SolverUtils : public QObject
         QString m_TemporaryFilename;
         QFutureWatcher<bool> m_Watcher;
         double m_ScaleLow {0}, m_ScaleHigh {0};
+        double m_ScaleTolerance {0.2};
         SSolver::ScaleUnits m_ScaleUnits { ARCSEC_PER_PIX };
 
         QSharedPointer<FITSData> m_ImageData;
