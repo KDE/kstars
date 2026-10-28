@@ -2302,6 +2302,9 @@ void Guide::setStatus(Ekos::GuideState newState)
             if (m_StreamingGuide)
                 stopGuideStreaming();
             setBusy(false);
+            // Calibration disabled manual pulses, aborting it must give them back
+            manualDitherB->setEnabled(false);
+            manualPulseB->setEnabled(true);
             break;
 
         case GUIDE_SUSPENDED:
