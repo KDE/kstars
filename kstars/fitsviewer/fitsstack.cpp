@@ -763,13 +763,20 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         std::vector<cv::Point2d> points1, points2;
         int gridSize = 5;
 
+        // The WCS describes the full-resolution sub, so the warp is calculated in full-resolution
+        // pixels and only scaled to the downscaled image at the end. m_Width and m_Height hold
+        // the downscaled size, so scale them back up for everything measured against the warp.
+        const double downscaleFactor = getDownscaleFactor();
+        const double width = m_Width * downscaleFactor;
+        const double height = m_Height * downscaleFactor;
+
         for (int i = 0; i < gridSize; i++)
         {
             for (int j = 0; j < gridSize; j++)
             {
                 // Calculate pixel coordinates (0-based)
-                double px = (double)i * (m_Width - 1.0) / (gridSize - 1);
-                double py = (double)j * (m_Height - 1.0) / (gridSize - 1);
+                double px = (double)i * (width - 1.0) / (gridSize - 1);
+                double py = (double)j * (height - 1.0) / (gridSize - 1);
 
                 double imgcrd[2], phi, theta, world[2], pixcrd[2];
                 int status, stat[2];
@@ -837,12 +844,12 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         // mismatch (confirmed on real data: a genuine meridian-flip sub had raw
         // (tx, ty) magnitude ~7537px against a 6252x4176 frame — comfortably over the
         // old half-frame threshold — but its actual center displacement was ~32px).
-        const double cx = m_Width / 2.0;
-        const double cy = m_Height / 2.0;
+        const double cx = width / 2.0;
+        const double cy = height / 2.0;
         const double cxWarped = affine.at<double>(0, 0) * cx + affine.at<double>(0, 1) * cy + affine.at<double>(0, 2);
         const double cyWarped = affine.at<double>(1, 0) * cx + affine.at<double>(1, 1) * cy + affine.at<double>(1, 2);
         const double centerDisplacement = std::sqrt((cxWarped - cx) * (cxWarped - cx) + (cyWarped - cy) * (cyWarped - cy));
-        const double maxCenterDisplacement = std::min(m_Width, m_Height) * 0.5;
+        const double maxCenterDisplacement = std::min(width, height) * 0.5;
         if (centerDisplacement > maxCenterDisplacement)
         {
             qCDebug(KSTARS_FITS) << QString("Sub-frame center displacement too large (%1 px, limit %2 px), sub rejected")

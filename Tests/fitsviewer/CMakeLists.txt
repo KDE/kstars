@@ -29,6 +29,11 @@ TARGET_LINK_LIBRARIES( teststackmemoryestimator ${TEST_LIBRARIES})
 ADD_TEST( NAME StackMemoryEstimatorTest COMMAND teststackmemoryestimator )
 SET_TESTS_PROPERTIES( StackMemoryEstimatorTest PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( testfitsstack testfitsstack.cpp )
+TARGET_LINK_LIBRARIES( testfitsstack ${TEST_LIBRARIES})
+ADD_TEST( NAME FitsStackTest COMMAND testfitsstack )
+SET_TESTS_PROPERTIES( FitsStackTest PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( testsolverbenchmark testsolverbenchmark.cpp )
 TARGET_LINK_LIBRARIES( testsolverbenchmark ${TEST_LIBRARIES})
 ADD_TEST( NAME SolverBenchmarkTest COMMAND testsolverbenchmark )

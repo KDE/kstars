@@ -795,4 +795,6 @@ class FITSStack : public QObject
         int m_Channels { 0 };
         int m_BytesPerPixel { 0 };
         int m_CVType { 0 };
+
+        friend class TestFitsStack;
 };
