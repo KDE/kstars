@@ -17,6 +17,8 @@
 #include <QVector>
 #include <QMap>
 
+class TestSequenceJobState;
+
 namespace Ekos
 {
 /* Status of a single {@see SequenceJob}. */
@@ -37,6 +39,7 @@ class SequenceJobState: public QObject
         friend class CaptureDeviceAdaptor;
         // Fixme: too many friends
         friend class Capture;
+        friend class ::TestSequenceJobState;
 
     public:
         typedef enum

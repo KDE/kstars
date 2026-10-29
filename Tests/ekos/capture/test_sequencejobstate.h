@@ -54,6 +54,17 @@ class TestSequenceJobState : public QObject
          */
         void testPrepareLightFrames_data();
 
+        /**
+         * @brief A filter change that applies a focus offset must not complete the capture
+         *        preparation before the filter manager reports the offset as applied
+         */
+        void testFilterOffsetHoldsCapture();
+
+        /**
+         * @brief Test data for {@see testFilterOffsetHoldsCapture()}
+         */
+        void testFilterOffsetHoldsCapture_data();
+
     private:
         // The state machine
         Ekos::SequenceJobState *m_stateMachine;

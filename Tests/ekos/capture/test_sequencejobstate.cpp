@@ -51,6 +51,78 @@ void TestSequenceJobState::testPrepareLightFrames()
     QTRY_VERIFY_WITH_TIMEOUT(m_adapter->isCapturePreparationComplete, 5000);
 }
 
+void TestSequenceJobState::testFilterOffsetHoldsCapture()
+{
+    QFETCH(int, currentFilter);
+    QFETCH(int, targetFilter);
+
+    int readFilterRequests = 0, initCaptureCompleted = 0;
+    QList<int> filterChangeRequests;
+    QList<Ekos::FilterManager::FilterPolicy> filterChangePolicies;
+    connect(m_stateMachine, &Ekos::SequenceJobState::readFilterPosition, this, [&readFilterRequests]()
+    {
+        readFilterRequests++;
+    });
+    connect(m_stateMachine, &Ekos::SequenceJobState::changeFilterPosition, this,
+            [&filterChangeRequests, &filterChangePolicies](int position, Ekos::FilterManager::FilterPolicy policy)
+    {
+        filterChangeRequests << position;
+        filterChangePolicies << policy;
+    });
+    connect(m_stateMachine, &Ekos::SequenceJobState::initCaptureComplete, this, [&initCaptureCompleted]()
+    {
+        initCaptureCompleted++;
+    });
+
+    // nothing to prepare apart from the filter
+    m_stateMachine->prepareLightFrameCapture(false, false);
+    QVERIFY(m_adapter->isCapturePreparationComplete);
+
+    // Autofocus is not ready yet (e.g. before the session's first autofocus), so the filter
+    // manager is only asked to change the filter and apply its focus offset
+    m_stateMachine->targetFilterID = targetFilter;
+    QVERIFY(m_stateMachine->initCapture(FRAME_LIGHT, false, false, FITS_NORMAL) == false);
+    QCOMPARE(readFilterRequests, 1);
+
+    // the filter manager reports the current filter position
+    m_stateMachine->setCurrentFilterID(currentFilter);
+
+    if (currentFilter == targetFilter)
+    {
+        // no filter change and no offset, so capturing may start right away
+        QVERIFY(filterChangeRequests.isEmpty());
+        QCOMPARE(initCaptureCompleted, 1);
+        return;
+    }
+
+    QCOMPARE(filterChangeRequests, QList<int>({ targetFilter }));
+    QVERIFY(filterChangePolicies.first() & Ekos::FilterManager::OFFSET_POLICY);
+    QVERIFY(!(filterChangePolicies.first() & Ekos::FilterManager::AUTOFOCUS_POLICY));
+    QCOMPARE(initCaptureCompleted, 0);
+
+    // The filter wheel reaches the target slot. The filter manager has not applied the focus
+    // offset yet, so the exposure must not start.
+    m_stateMachine->setCurrentFilterID(targetFilter);
+    QCOMPARE(initCaptureCompleted, 0);
+
+    // the focuser moves to the filter offset
+    m_stateMachine->setFilterStatus(Ekos::FILTER_OFFSET);
+    QCOMPARE(initCaptureCompleted, 0);
+
+    // the filter manager has finished, now capturing may start
+    m_stateMachine->setFilterStatus(Ekos::FILTER_IDLE);
+    QCOMPARE(initCaptureCompleted, 1);
+}
+
+void TestSequenceJobState::testFilterOffsetHoldsCapture_data()
+{
+    QTest::addColumn<int>("currentFilter"); /*!< filter wheel position before the capture */
+    QTest::addColumn<int>("targetFilter");  /*!< filter position of the sequence job */
+
+    QTest::newRow("filter change with offset") << 1 << 4;
+    QTest::newRow("filter already at target") << 4 << 4;
+}
+
 /* *********************************************************************************
  * Test data
  * ********************************************************************************* */
