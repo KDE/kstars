@@ -247,6 +247,30 @@ class SchedulerProcess : public QObject, public ModuleLogger
         bool checkShutdownState();
 
         /**
+         * @brief mountMotionPending Check if the mount is slewing or moving, or a meridian flip is planned, waiting,
+         * accepted or running. A park sent now would be refused (e.g. EQMod: "Can not park while slewing") or start
+         * in the middle of the flip.
+         * @param reason set to the log text that explains the wait if motion is pending
+         * @return True if motion is pending, false otherwise or if the mount status can't be read.
+         */
+        bool mountMotionPending(QString &reason);
+
+        /**
+         * @brief waitForMountMotion Wait before the shutdown or a park while mount motion is pending
+         * (see mountMotionPending()). Logs once when the wait starts, and a warning when the wait times out.
+         * The wait lasts at most mountMotionWaitTimeout() seconds.
+         * @return True if the caller may go on (nothing pending, or the wait timed out), false to wait.
+         */
+        bool waitForMountMotion();
+
+        /**
+         * @brief mountMotionWaitTimeout Maximum time waitForMountMotion() waits.
+         * @return WEATHER_MOUNT_MOTION_WAIT_TIMEOUT_S during a weather (safety) shutdown, so that a mount that keeps
+         * reporting a slew delays closing the dome only by that time, else MOUNT_MOTION_WAIT_TIMEOUT_S.
+         */
+        int mountMotionWaitTimeout() const;
+
+        /**
          * @brief checkParkWaitState Check park wait state.
          * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
          */
@@ -816,12 +840,31 @@ class SchedulerProcess : public QObject, public ModuleLogger
     private:
         ISD::Mount::Status m_lastMountStatus = ISD::Mount::MOUNT_IDLE;
 
+        // Maximum time waitForMountMotion() waits for a meridian flip or slew to finish
+        static constexpr int MOUNT_MOTION_WAIT_TIMEOUT_S = 300;
+        // The same during a weather (safety) shutdown. Longer than a meridian flip takes (about a minute), short
+        // enough not to keep the dome open long when the mount keeps reporting a slew.
+        static constexpr int WEATHER_MOUNT_MOTION_WAIT_TIMEOUT_S = 120;
+        // Start of the current wait for mount motion (simulated clock), invalid if not waiting
+        QDateTime m_mountMotionWaitStart;
+
         // Standalone safety monitor monitoring (before equipment profile starts)
         SchedulerSafetyMonitor *m_StandaloneSafetyMonitor {nullptr};
 
         // Startup queue error tracking
         QString m_lastStartupQueueError;
         bool m_startupQueueFailurePopupShown = false;
+
+        // First failed task of the pre- or post-shutdown queue in the current shutdown ("task: error"),
+        // empty if none failed. Reported at the end of the shutdown instead of "Shutdown complete."
+        QString m_lastShutdownQueueError;
+        // A task of the pre-shutdown queue failed in the current shutdown and the tracking safety net hasn't run yet
+        // (see switchTrackingOffIfUnparked())
+        bool m_preShutdownQueueFailed {false};
+        // When the safety net switched tracking off (simulated clock), invalid if it isn't waiting for the mount
+        QDateTime m_trackingOffRequestedAt;
+        // Maximum time the safety net waits for the mount to stop tracking
+        static constexpr int TRACKING_OFF_TIMEOUT_S = 10;
 
         /// Reentrancy guard for updateCompletedJobsCount().
         /// QCoreApplication::processEvents() inside that function can dispatch timer events
@@ -845,5 +888,22 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * when startup queues are disabled in options, allowing recovery.
          */
         void resetLatchedStartupErrorIfQueuesDisabled();
+
+        /**
+         * @brief reportShutdownQueueFailure If a task of the pre- or post-shutdown queue failed in this shutdown,
+         * log "Shutdown procedure failed" with the task and its error and send an alert notification, once.
+         * @return True if a failure was reported, false if no shutdown task failed.
+         */
+        bool reportShutdownQueueFailure();
+        /**
+         * @brief switchTrackingOffIfUnparked Safety net at the end of a shutdown whose pre-shutdown queue failed: if the
+         * mount isn't parked and is tracking, switch tracking off once and wait until the mount no longer reports
+         * tracking, at most TRACKING_OFF_TIMEOUT_S. Only TELESCOPE_TRACK_STATE is sent (Mount D-Bus setTracking()), no
+         * motion command. Logs a warning if tracking can't be switched off or doesn't stop in time. Runs once per
+         * shutdown.
+         * @param disconnectFollows true if INDI is disconnected next, only changes the log text
+         * @return True if the shutdown may go on, false while it waits for the mount (call again later).
+         */
+        bool switchTrackingOffIfUnparked(bool disconnectFollows);
 };
 }

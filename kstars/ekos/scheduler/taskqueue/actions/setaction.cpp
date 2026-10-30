@@ -24,15 +24,41 @@ SetAction::SetAction(QObject *parent)
     m_type = SET;
     m_completionTimer = new QTimer(this);
     m_timeoutTimer = new QTimer(this);
+    m_retryTimer = new QTimer(this);
+    m_retryTimer->setSingleShot(true);
 
     connect(m_completionTimer, &QTimer::timeout, this, &SetAction::checkCompletion);
     connect(m_timeoutTimer, &QTimer::timeout, this, &SetAction::handleTimeout);
+    connect(m_retryTimer, &QTimer::timeout, this, [this]()
+    {
+        start();
+    });
+}
+
+SetAction::AckResult SetAction::evaluateAnswer(IPState state, qint64 msSinceSend, qint64 settleMs)
+{
+    switch (state)
+    {
+        case IPS_ALERT:
+            return AckResult::Refused;
+        case IPS_OK:
+        case IPS_IDLE:
+            return AckResult::Accepted;
+        case IPS_BUSY:
+            // May still be the Busy the client set itself when sending
+            return (msSinceSend >= settleMs) ? AckResult::Accepted : AckResult::Wait;
+    }
+
+    return AckResult::Wait;
 }
 
 bool SetAction::start()
 {
     qCInfo(KSTARS_EKOS_SCHEDULER) << "SET action starting:" << m_device << "." << m_property << "." << m_element
                                   << "=" << m_value.toString();
+
+    // A delayed retry must not send the command a second time
+    m_retryTimer->stop();
 
     // Check idempotency - is action already done?
     if (isAlreadyDone())
@@ -75,6 +101,7 @@ bool SetAction::start()
     }
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "SET command sent successfully";
+    m_sentTimer.start();
 
     // If we need to wait for completion, start monitoring
     if (m_waitForCompletion)
@@ -106,6 +133,8 @@ bool SetAction::abort()
         m_completionTimer->stop();
     if (m_timeoutTimer)
         m_timeoutTimer->stop();
+    if (m_retryTimer)
+        m_retryTimer->stop();
 
     // Clear device pointer to prevent crashes during cleanup
     if (m_deviceConnection)
@@ -273,43 +302,56 @@ void SetAction::onPropertyUpdated(INDI::Property prop)
     if (QString::fromUtf8(prop.getName()) != m_property)
         return;
 
-    // Check if property reached desired state
-    IPState state = prop.getState();
+    handleAnswer(prop.getState(), ACK_SETTLE_MS);
+}
 
-    // SET action completes when property is not in ALERT state
+void SetAction::handleAnswer(IPState state, qint64 settleMs)
+{
+    // SET action completes when the device accepted the command
     // We don't check the value - that's EVALUATE action's job
-    if (state == IPS_OK || state == IPS_IDLE || state == IPS_BUSY)
+    switch (evaluateAnswer(state, m_sentTimer.elapsed(), settleMs))
     {
-        m_completionTimer->stop();
-        m_timeoutTimer->stop();
-        disconnect(m_deviceConnection);
-        // Clear device pointer to prevent crashes during cleanup
-        m_devicePtr.clear();
+        case AckResult::Wait:
+            // Keep listening, the polling and the timeout timers keep running
+            break;
 
-        Q_EMIT progress(QString("%1.%2.%3 set command acknowledged").arg(m_device).arg(m_property).arg(m_element));
-        setStatus(COMPLETED);
-        Q_EMIT completed();
-    }
-    else if (state == IPS_ALERT)
-    {
-        m_completionTimer->stop();
-        m_timeoutTimer->stop();
-        disconnect(m_deviceConnection);
-
-        if (incrementRetry())
-        {
-            Q_EMIT progress(QString("Property in Alert state, retry %1/%2")
-                            .arg(m_currentRetry).arg(m_retries));
-            start();
-        }
-        else
-        {
+        case AckResult::Accepted:
+            m_completionTimer->stop();
+            m_timeoutTimer->stop();
+            disconnect(m_deviceConnection);
             // Clear device pointer to prevent crashes during cleanup
             m_devicePtr.clear();
-            setErrorMessage("Property entered Alert state");
-            setStatus(FAILED);
-            Q_EMIT failed(m_errorMessage);
-        }
+
+            Q_EMIT progress(QString("%1.%2.%3 set command acknowledged").arg(m_device).arg(m_property).arg(m_element));
+            setStatus(COMPLETED);
+            Q_EMIT completed();
+            break;
+
+        case AckResult::Refused:
+            m_completionTimer->stop();
+            m_timeoutTimer->stop();
+            disconnect(m_deviceConnection);
+            // Clear device pointer to prevent crashes during cleanup, start() gets it again
+            m_devicePtr.clear();
+
+            if (incrementRetry())
+            {
+                // Send again after a delay: retrying at once usually meets the same refusal (e.g. a mount that is
+                // still slewing). Updates still queued from this attempt arrive meanwhile and are ignored.
+                qCInfo(KSTARS_EKOS_SCHEDULER) << "SET command refused:" << m_device << "." << m_property << "."
+                                              << m_element << "- retrying in" << RETRY_DELAY_MS << "ms";
+                Q_EMIT progress(QString("Property in Alert state, retry %1/%2")
+                                .arg(m_currentRetry).arg(m_retries));
+                m_retryTimer->start(RETRY_DELAY_MS);
+            }
+            else
+            {
+                setErrorMessage(QString("%1.%2.%3 was refused by the device (Alert)")
+                                .arg(m_device, m_property, m_element));
+                setStatus(FAILED);
+                Q_EMIT failed(m_errorMessage);
+            }
+            break;
     }
 }
 
@@ -329,46 +371,23 @@ void SetAction::checkCompletion()
         return;
     }
 
-    IPState state = prop.getState();
-
-    // SET action completes when property is not in ALERT state
-    // We don't check the value - that's EVALUATE action's job
-    if (state == IPS_OK || state == IPS_IDLE || state == IPS_BUSY)
-    {
-        m_completionTimer->stop();
-        m_timeoutTimer->stop();
-        disconnect(m_deviceConnection);
-        // Clear device pointer to prevent crashes during cleanup
-        m_devicePtr.clear();
-
-        setStatus(COMPLETED);
-        Q_EMIT completed();
-    }
-    else if (state == IPS_ALERT)
-    {
-        m_completionTimer->stop();
-        m_timeoutTimer->stop();
-        disconnect(m_deviceConnection);
-
-        if (incrementRetry())
-        {
-            Q_EMIT progress(QString("Property in Alert state, retry %1/%2")
-                            .arg(m_currentRetry).arg(m_retries));
-            start();
-        }
-        else
-        {
-            // Clear device pointer to prevent crashes during cleanup
-            m_devicePtr.clear();
-            setErrorMessage("Property entered Alert state");
-            setStatus(FAILED);
-            Q_EMIT failed(m_errorMessage);
-        }
-    }
+    handleAnswer(prop.getState(), ACK_SETTLE_MS);
 }
 
 void SetAction::handleTimeout()
 {
+    // The timeout ends the settle time (only matters when it is shorter than ACK_SETTLE_MS): a Busy state that is
+    // still there is taken as the answer, as the polling does once the settle time has passed
+    if (m_devicePtr && m_devicePtr->isConnected())
+    {
+        INDI::Property prop = m_devicePtr->getProperty(m_property.toUtf8());
+        if (prop.isValid() && prop.getState() != IPS_ALERT)
+        {
+            handleAnswer(prop.getState(), 0);
+            return;
+        }
+    }
+
     m_completionTimer->stop();
     m_timeoutTimer->stop();
     if (m_deviceConnection)

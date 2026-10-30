@@ -1211,6 +1211,14 @@ void Mount::setTrackEnabled(bool enabled)
         trackOffB->click();
 }
 
+bool Mount::setTracking(bool enabled)
+{
+    if (m_Mount == nullptr || m_Mount->isConnected() == false || m_Mount->canControlTrack() == false)
+        return false;
+
+    return m_Mount->setTrackEnabled(enabled);
+}
+
 int Mount::slewRate()
 {
     if (m_Mount == nullptr)
@@ -1279,6 +1287,14 @@ bool Mount::meridianFlipEnabled()
 double Mount::meridianFlipValue()
 {
     return meridianFlipOffsetDegrees->value();
+}
+
+int Mount::meridianFlipStatus() const
+{
+    if (mf_state.isNull())
+        return MeridianFlipState::MOUNT_FLIP_NONE;
+
+    return mf_state->getMeridianFlipMountState();
 }
 
 void Mount::stopTimers()

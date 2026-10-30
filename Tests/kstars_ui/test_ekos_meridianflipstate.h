@@ -56,6 +56,14 @@ class TestEkosMeridianFlipState : public QObject
         /** @brief Test data for {@see testMeridianFlip()} */
         void testMeridianFlip_data();
 
+        /**
+         * @brief No meridian flip is planned while the mount parks or unparks
+         */
+        void testNoFlipWhileParking();
+
+        /** @brief Test data for {@see testNoFlipWhileParking()} */
+        void testNoFlipWhileParking_data();
+
     private:
         // helper functions
         TestEkosHelper m_Helper;

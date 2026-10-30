@@ -49,6 +49,7 @@ class Mount : public QWidget, public Ui::Mount
         Q_PROPERTY(int slewStatus READ slewStatus)
         Q_PROPERTY(bool canPark READ canPark)
         Q_PROPERTY(ISD::Mount::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
+        Q_PROPERTY(int meridianFlipStatus READ meridianFlipStatus)
         Q_PROPERTY(QStringList timeSources READ timeSources)
         Q_PROPERTY(QStringList locationSources READ locationSources)
 
@@ -221,6 +222,13 @@ class Mount : public QWidget, public Ui::Mount
         Q_SCRIPTABLE double meridianFlipValue();
 
         /** DBUS interface function.
+             * Get the meridian flip state of the mount.
+             * @return MeridianFlipState::MeridianFlipMountState as int (0 = no flip, 1 = planned, 2 = waiting,
+             * 3 = accepted, 4 = running, 5 = completed, 6 = error).
+             */
+        Q_SCRIPTABLE int meridianFlipStatus() const;
+
+        /** DBUS interface function.
              * Slew the mount to the RA/DEC (JNow).
              * @param RA Right ascention is hours.
              * @param DEC Declination in degrees.
@@ -329,6 +337,14 @@ class Mount : public QWidget, public Ui::Mount
         //Q_INVOKABLE Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
         Q_INVOKABLE void setTrackEnabled(bool enabled);
+
+        /** DBUS interface function.
+             * Switch mount tracking on or off through TELESCOPE_TRACK_STATE. Unlike setTrackEnabled(), it doesn't
+             * ask for a confirmation, so it can be used unattended. No motion command is sent.
+             * @param enabled true to switch tracking on, false to switch it off.
+             * @return true if the command is sent, false if there is no connected mount or it has no tracking control.
+             */
+        Q_SCRIPTABLE bool setTracking(bool enabled);
 
         Q_INVOKABLE void setJ2000Enabled(bool enabled);
 

@@ -22,6 +22,7 @@
 #include "indi/indistd.h"
 #include "indi/indimount.h"
 #include "ekos/analyze/analyze.h"
+#include "ekos/manager/meridianflipstate.h"
 #include "skymapcomposite.h"
 #include "mosaiccomponent.h"
 #include "mosaictiles.h"
@@ -710,6 +711,11 @@ void SchedulerProcess::start()
         moduleState()->setStartupState(STARTUP_IDLE);
     }
 
+    m_mountMotionWaitStart = QDateTime();
+    m_lastShutdownQueueError.clear();
+    m_preShutdownQueueFailed = false;
+    m_trackingOffRequestedAt = QDateTime();
+
     moduleState()->init();
     iterate();
 }
@@ -745,6 +751,7 @@ void SchedulerProcess::stop()
     moduleState()->setupNextIteration(RUN_NOTHING);
     moduleState()->cancelGuidingTimer();
     moduleState()->tickleTimer().stop();
+    m_mountMotionWaitStart = QDateTime();
 
     moduleState()->setSchedulerState(SCHEDULER_IDLE);
     moduleState()->setParkWaitState(PARKWAIT_IDLE);
@@ -902,6 +909,14 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
              moduleState()->parkWaitState() == PARKWAIT_IDLE &&
              (job->getStepPipeline() & SchedulerJob::USE_TRACK))
     {
+        // Don't park while a meridian flip or slew is pending, check again on the next iteration
+        // (returning true keeps the job from being executed).
+        if (!waitForMountMotion())
+        {
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
+            return true;
+        }
+
         appendLogText(i18n(
                           "Job '%1' scheduled for execution at %2. "
                           "Parking the mount until the job is ready.",
@@ -1796,6 +1811,13 @@ bool SchedulerProcess::completeShutdown()
             && checkINDIState() == false)
         return false;
 
+    // Safety net: if the pre-shutdown tasks failed and left the mount unparked, switch tracking off before INDI is
+    // disconnected or the shutdown ends. Some drivers keep tracking after a disconnect.
+    const bool disconnectFollows = moduleState()->weatherGracePeriodActive() == false &&
+                                   moduleState()->indiState() != INDI_IDLE && Options::stopEkosAfterShutdown();
+    if (switchTrackingOffIfUnparked(disconnectFollows) == false)
+        return false;
+
     // If we are in weather grace period, never shutdown completely
     if (moduleState()->weatherGracePeriodActive() == false)
     {
@@ -1863,10 +1885,14 @@ bool SchedulerProcess::completeShutdown()
         }
     }
 
-    if (moduleState()->shutdownState() == SHUTDOWN_COMPLETE)
-        appendLogText(i18n("Shutdown complete."));
-    else
-        appendLogText(i18n("Shutdown procedure failed, aborting..."));
+    // A failed shutdown task (e.g. the park) is reported even though the remaining steps completed
+    if (reportShutdownQueueFailure() == false)
+    {
+        if (moduleState()->shutdownState() == SHUTDOWN_COMPLETE)
+            appendLogText(i18n("Shutdown complete."));
+        else
+            appendLogText(i18n("Shutdown procedure failed, aborting..."));
+    }
 
     // If we're in weather shutdown monitoring mode, keep scheduler running
     if (moduleState()->weatherShutdownMonitoring())
@@ -1888,6 +1914,90 @@ bool SchedulerProcess::completeShutdown()
     stop();
 
     return true;
+}
+
+bool SchedulerProcess::reportShutdownQueueFailure()
+{
+    if (m_lastShutdownQueueError.isEmpty())
+        return false;
+
+    const QString message = i18n("Shutdown procedure failed: %1", m_lastShutdownQueueError);
+    appendLogText(message);
+    KSNotification::event(QLatin1String("ObservatoryShutdownFailed"), message, KSNotification::Scheduler,
+                          KSNotification::Alert);
+    // Report it once
+    m_lastShutdownQueueError.clear();
+    return true;
+}
+
+bool SchedulerProcess::switchTrackingOffIfUnparked(bool disconnectFollows)
+{
+    // Nothing failed, or the safety net already ran in this shutdown
+    if (m_preShutdownQueueFailed == false)
+        return true;
+
+    // Every "go on" ends the safety net for this shutdown
+    auto done = [this]()
+    {
+        m_preShutdownQueueFailed = false;
+        m_trackingOffRequestedAt = QDateTime();
+        return true;
+    };
+
+    // The status the mount module reports, MOUNT_ERROR if it can't be read
+    auto mountStatus = [this]() -> ISD::Mount::Status
+    {
+        if (mountInterface().isNull())
+            return ISD::Mount::MOUNT_ERROR;
+        const QVariant status = mountInterface()->property("status");
+        return status.isValid() ? static_cast<ISD::Mount::Status>(status.toInt()) : ISD::Mount::MOUNT_ERROR;
+    };
+
+    // Tracking off was sent: wait until the mount no longer reports tracking
+    if (m_trackingOffRequestedAt.isValid())
+    {
+        const qint64 waitedS = m_trackingOffRequestedAt.secsTo(SchedulerModuleState::getLocalTime());
+        const ISD::Mount::Status status = mountStatus();
+        if (status != ISD::Mount::MOUNT_TRACKING)
+        {
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Mount status" << static_cast<int>(status) << waitedS << "s after switching tracking off.";
+            appendLogText(i18n("The mount no longer reports tracking."));
+            return done();
+        }
+        if (waitedS < TRACKING_OFF_TIMEOUT_S)
+            return false;
+
+        appendLogText(i18np("Warning: the mount still reports tracking after %1 second, it may keep tracking after the shutdown.",
+                            "Warning: the mount still reports tracking after %1 seconds, it may keep tracking after the shutdown.",
+                            TRACKING_OFF_TIMEOUT_S));
+        return done();
+    }
+
+    if (mountInterface().isNull())
+        return done();
+
+    // Not through isMountParked(): it handles a D-Bus error as a connection loss and disconnects INDI
+    const QVariant canPark = mountInterface()->property("canPark");
+    const QVariant parkStatus = mountInterface()->property("parkStatus");
+    const bool parked = canPark.toBool() && parkStatus.isValid() && parkStatus.toInt() == ISD::PARK_PARKED;
+    if (parked || mountStatus() != ISD::Mount::MOUNT_TRACKING)
+        return done();
+
+    if (disconnectFollows)
+        appendLogText(i18n("Warning: the mount is not parked, switching tracking off before disconnecting."));
+    else
+        appendLogText(i18n("Warning: the mount is not parked, switching tracking off."));
+
+    // Only TELESCOPE_TRACK_STATE: no abort, slew or park. False if there is no mount or no tracking control.
+    QDBusReply<bool> const reply = mountInterface()->call(QDBus::AutoDetect, "setTracking", false);
+    if (reply.isValid() == false || reply.value() == false)
+    {
+        appendLogText(i18n("Warning: tracking can't be switched off, the mount may keep tracking after the shutdown."));
+        return done();
+    }
+
+    m_trackingOffRequestedAt = SchedulerModuleState::getLocalTime();
+    return false;
 }
 
 void SchedulerProcess::disconnectINDI()
@@ -2094,6 +2204,38 @@ bool SchedulerProcess::checkShutdownState()
     {
         case SHUTDOWN_IDLE:
         {
+            // Don't start the shutdown while a meridian flip or slew is pending: the pre-shutdown tasks would
+            // try to park the mount, and the driver refuses a park while slewing. Check again every iteration.
+            if (observatoryStarted)
+            {
+                const bool waited = m_mountMotionWaitStart.isValid();
+                if (!waitForMountMotion())
+                {
+                    moduleState()->setupNextIteration(RUN_SHUTDOWN);
+                    return false;
+                }
+                // The wait replaced the iteration the caller had set up. Restore it: a preemptive or weather
+                // shutdown sleeps until its wakeup time, the shutdown at the end of the schedule continues with
+                // the scheduler iteration.
+                if (waited)
+                {
+                    if (moduleState()->preemptiveShutdown())
+                    {
+                        const QDateTime now = SchedulerModuleState::getLocalTime();
+                        const qint64 secs = std::max<qint64>(0, now.secsTo(moduleState()->preemptiveShutdownWakeupTime()));
+                        const double scale = KStarsData::Instance()->clock()->scale();
+                        moduleState()->setupNextIteration(RUN_WAKEUP, std::lround(((secs + 1) * 1000) / scale));
+                    }
+                    else
+                        moduleState()->setupNextIteration(RUN_SCHEDULER);
+                }
+            }
+
+            // A new shutdown starts, forget a failure of an earlier one
+            m_lastShutdownQueueError.clear();
+            m_preShutdownQueueFailed = false;
+            m_trackingOffRequestedAt = QDateTime();
+
             KSNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"),
                                   KSNotification::Scheduler);
 
@@ -2182,11 +2324,106 @@ bool SchedulerProcess::checkShutdownState()
             return true;
 
         case SHUTDOWN_ERROR:
+            // The shutdown ends here and INDI stays connected: the tracking safety net first (see completeShutdown())
+            if (switchTrackingOffIfUnparked(false) == false)
+            {
+                moduleState()->setupNextIteration(RUN_SHUTDOWN);
+                return false;
+            }
+            reportShutdownQueueFailure();
             stop();
             return true;
     }
 
     return false;
+}
+
+bool SchedulerProcess::mountMotionPending(QString &reason)
+{
+    if (mountInterface().isNull())
+        return false;
+
+    // An invalid value (e.g. a mount module without this property) leaves only the slew check
+    const QVariant flipStatus = mountInterface()->property("meridianFlipStatus");
+    if (flipStatus.isValid())
+    {
+        switch (static_cast<MeridianFlipState::MeridianFlipMountState>(flipStatus.toInt()))
+        {
+            case MeridianFlipState::MOUNT_FLIP_PLANNED:
+            case MeridianFlipState::MOUNT_FLIP_WAITING:
+            case MeridianFlipState::MOUNT_FLIP_ACCEPTED:
+            case MeridianFlipState::MOUNT_FLIP_RUNNING:
+                reason = i18n("Waiting for the meridian flip to finish before parking the mount...");
+                return true;
+            default:
+                break;
+        }
+    }
+
+    const QVariant status = mountInterface()->property("status");
+    if (status.isValid())
+    {
+        switch (static_cast<ISD::Mount::Status>(status.toInt()))
+        {
+            case ISD::Mount::MOUNT_SLEWING:
+            case ISD::Mount::MOUNT_MOVING:
+                reason = i18n("Waiting for the mount to stop slewing before parking...");
+                return true;
+            default:
+                break;
+        }
+    }
+
+    return false;
+}
+
+bool SchedulerProcess::waitForMountMotion()
+{
+    QString reason;
+    if (mountMotionPending(reason) == false)
+    {
+        if (m_mountMotionWaitStart.isValid())
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Mount motion finished after"
+                                          << m_mountMotionWaitStart.secsTo(SchedulerModuleState::getLocalTime()) << "s.";
+        m_mountMotionWaitStart = QDateTime();
+        return true;
+    }
+
+    const QDateTime now = SchedulerModuleState::getLocalTime();
+    const int timeout = mountMotionWaitTimeout();
+    if (m_mountMotionWaitStart.isValid() == false)
+    {
+        m_mountMotionWaitStart = now;
+        appendLogText(reason);
+        // The shorter limit of a weather shutdown, which also delays closing the dome
+        if (timeout != MOUNT_MOTION_WAIT_TIMEOUT_S)
+            appendLogText(i18np("Safety alert: waiting at most %1 minute for the mount, then continuing the shutdown.",
+                                "Safety alert: waiting at most %1 minutes for the mount, then continuing the shutdown.",
+                                timeout / 60));
+        return false;
+    }
+
+    if (m_mountMotionWaitStart.secsTo(now) >= timeout)
+    {
+        appendLogText(i18np("Warning: the mount is still busy after %1 minute, continuing.",
+                            "Warning: the mount is still busy after %1 minutes, continuing.",
+                            timeout / 60));
+        // Both callers go on with the shutdown or park in this call, so a later one waits again
+        m_mountMotionWaitStart = QDateTime();
+        return true;
+    }
+
+    return false;
+}
+
+int SchedulerProcess::mountMotionWaitTimeout() const
+{
+    // A weather alert started the soft shutdown (grace period), or its grace period expired and the full shutdown
+    // follows (monitoring). Waiting the full time there would also delay closing the dome.
+    if (moduleState()->weatherGracePeriodActive() || moduleState()->weatherShutdownMonitoring())
+        return WEATHER_MOUNT_MOTION_WAIT_TIMEOUT_S;
+
+    return MOUNT_MOTION_WAIT_TIMEOUT_S;
 }
 
 bool SchedulerProcess::checkParkWaitState()
@@ -2980,6 +3217,10 @@ bool SchedulerProcess::executeJob(SchedulerJob * job)
 
     // From this point job can be executed now
 
+    // A wait for mount motion that was left (e.g. the weather improved during a shutdown wait) is over,
+    // so that the next shutdown or park gets its full wait time
+    m_mountMotionWaitStart = QDateTime();
+
     if (job->getCompletionCondition() == FINISH_SEQUENCE && Options::rememberJobProgress())
         captureInterface()->setProperty("targetName", job->getName());
 
@@ -3431,7 +3672,15 @@ void SchedulerProcess::queueExecutionCompleted()
 
 void SchedulerProcess::queueItemFailed(QueueItem *item, const QString &error)
 {
-    Q_UNUSED(item);
+    // Remember the first failed shutdown task, the end of the shutdown reports it
+    auto latchShutdownQueueError = [this, item, &error]()
+    {
+        if (m_lastShutdownQueueError.isEmpty() == false)
+            return;
+        const QString taskName = item ? item->name() : QString();
+        m_lastShutdownQueueError = taskName.isEmpty() ? error
+                                   : i18nc("name of the failed task, then its error message", "%1: %2", taskName, error);
+    };
 
     if (moduleState()->startupState() == STARTUP_PRE_DEVICES_RUNNING
             || moduleState()->startupState() == STARTUP_POST_DEVICES_RUNNING)
@@ -3446,6 +3695,8 @@ void SchedulerProcess::queueItemFailed(QueueItem *item, const QString &error)
     if (moduleState()->shutdownState() == SHUTDOWN_PRE_QUEUE_RUNNING)
     {
         appendLogText(i18n("Pre-shutdown queue failed: %1", error));
+        latchShutdownQueueError();
+        m_preShutdownQueueFailed = true;
         moduleState()->setShutdownState(SHUTDOWN_ERROR);
         return;
     }
@@ -3453,6 +3704,7 @@ void SchedulerProcess::queueItemFailed(QueueItem *item, const QString &error)
     if (moduleState()->shutdownState() == SHUTDOWN_POST_QUEUE_RUNNING)
     {
         appendLogText(i18n("Post-shutdown queue failed: %1", error));
+        latchShutdownQueueError();
         moduleState()->setShutdownState(SHUTDOWN_ERROR);
         return;
     }

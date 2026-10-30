@@ -11,6 +11,10 @@ ADD_CUSTOM_COMMAND( TARGET testschedulerunit POST_BUILD
             ${CMAKE_CURRENT_BINARY_DIR}/9filters.esq)
 ADD_TEST( NAME SchedulerunitTest COMMAND testschedulerunit )
 SET_TESTS_PROPERTIES( SchedulerunitTest PROPERTIES LABELS "stable" TIMEOUT 600)
+ADD_EXECUTABLE( testsetaction testsetaction.cpp )
+TARGET_LINK_LIBRARIES( testsetaction ${TEST_LIBRARIES})
+ADD_TEST( NAME SetActionTest COMMAND testsetaction )
+SET_TESTS_PROPERTIES( SetActionTest PROPERTIES LABELS "stable" TIMEOUT 600)
 
 ADD_EXECUTABLE( testtasktemplate testtasktemplate.cpp )
 TARGET_LINK_LIBRARIES( testtasktemplate ${TEST_LIBRARIES})

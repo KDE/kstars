@@ -933,6 +933,11 @@ Comment[uk]=Обсерваторія виконує процедуру заве�
 Comment[zh_CN]=天文台处于关闭流程中
 Comment[zh_TW]=天文台在關閉程序中
 Action=None
+[Event/ObservatoryShutdownFailed]
+Name=Observatory Shutdown Failed
+Comment=The observatory shutdown procedure failed
+Sound=dialog-warning
+Action=Sound
 [Event/SchedulerAborted]
 Name=Scheduler Aborted
 Name[ar]=أُجهض المجدول

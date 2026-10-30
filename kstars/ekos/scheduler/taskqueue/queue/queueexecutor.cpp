@@ -138,6 +138,17 @@ void QueueExecutor::stop()
 
     m_running = false;
     m_paused = false;
+
+    // Abort the running action, so that it sends nothing once the queue is given up (e.g. a SET action that waits
+    // to send its retry). Disconnect it first: its ABORTED status must not fail the item and abort the queue again.
+    if (m_currentAction && m_currentAction->status() == TaskAction::Status::RUNNING)
+    {
+        disconnect(m_currentAction, nullptr, this, nullptr);
+        qCInfo(KSTARS_EKOS_SCHEDULER) << "Aborting the running action" << (m_currentActionIndex + 1)
+                                      << "- Type:" << m_currentAction->type();
+        m_currentAction->abort();
+    }
+
     m_currentItem = nullptr;
     m_currentAction = nullptr;
     m_currentActionIndex = -1;
@@ -153,12 +164,7 @@ void QueueExecutor::abort()
 
     m_abortRequested = true;
 
-    // Stop current action if running
-    if (m_currentAction && m_currentAction->status() == TaskAction::Status::RUNNING)
-    {
-        // Action will handle abort in its own way
-        // We'll catch it in onActionStatusChanged
-    }
+    // stop() below aborts the running action
 
     m_manager->setState(QueueManager::ABORTED);
     Q_EMIT aborted();

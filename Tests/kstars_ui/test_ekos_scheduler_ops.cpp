@@ -6,6 +6,7 @@
 
 #include <QFile>
 #include <QDir>
+#include <QScopeGuard>
 #include <QSignalSpy>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -13,6 +14,7 @@
 
 #include <chrono>
 #include <ctime>
+#include <iterator>
 
 #include "../testhelpers.h"
 #include "test_ekos_scheduler_ops.h"
@@ -23,6 +25,7 @@
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerprocess.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/manager/meridianflipstate.h"
 #include "ekos/scheduler/taskqueue/actions/delayaction.h"
 
 #include "skymapcomposite.h"
@@ -43,6 +46,7 @@
 #define DEFAULT_ITERATIONS 50
 
 using Ekos::Scheduler;
+using Ekos::MeridianFlipState;
 
 // Use this class to temporarily modify the scheduler's update interval
 // by creating a WithInterval variable in a scope.
@@ -1629,6 +1633,1192 @@ void TestEkosSchedulerOps::testPreemptiveShutdownTimerSwitchOnQueueComplete()
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Shutdown and park wait for a meridian flip or a slew (mock modules, simulated clock)
+//
+// When a meridian flip comes due during the last frame, capture releases it when the
+// sequence ends, and the flip slew starts while the scheduler begins the shutdown. A park
+// sent then is refused by the driver ("Can not park while slewing"). The scheduler must
+// wait until the flip (planned, waiting, accepted or running) or the slew is over before
+// it starts the shutdown or parks the mount until the next job, at most 5 minutes (2 minutes
+// during a weather shutdown, see testMountMotionWaitTimeout and
+// testWeatherShutdownWaitsForMountMotion).
+//
+// The mock mount reports the flip state through the read property meridianFlipStatus
+// (MeridianFlipState::MeridianFlipMountState as int) and the slew through status.
+// No pre-shutdown queue is configured (see init()), so "the shutdown started" is the log
+// line "No pre-shutdown tasks, proceeding to stop Ekos/INDI.". A wait shows as timer state
+// RUN_SHUTDOWN with shutdown state SHUTDOWN_IDLE.
+//
+// That no flip is planned or started while the pre-shutdown queue parks the mount
+// (Requirement 1.5) is decided by MeridianFlipState, which the mock mount doesn't have:
+// see TestEkosMeridianFlipState::testNoFlipWhileParking.
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace
+{
+enum MountMotionScenario
+{
+    // The last job ends (capture complete), the scheduler shuts down at the end of the schedule
+    MOTION_AT_JOB_END,
+    // Dawn interrupts the job, the scheduler parks the mount until the next night (testDawnShutdown)
+    MOTION_AT_PARK_UNTIL_NEXT_JOB,
+    // Dawn interrupts the job, the scheduler shuts down until the next night (testPreemptiveShutdown)
+    MOTION_AT_PREEMPTIVE_SHUTDOWN
+};
+
+const QString kFlipWaitLog("Waiting for the meridian flip to finish before parking the mount...");
+const QString kSlewWaitLog("Waiting for the mount to stop slewing before parking...");
+const QString kMotionTimeoutLog("Warning: the mount is still busy after 5 minutes, continuing.");
+const QString kShutdownStartLog("No pre-shutdown tasks, proceeding to stop Ekos/INDI.");
+const QString kShutdownCompleteLog("Shutdown complete.");
+const QString kParkUntilNextJobLog("Parking the mount until the job is ready.");
+
+// Iteration period of the job end rows: the 5 minute wait timeout takes 30 iterations.
+constexpr int kJobEndIntervalMs = 10000;
+
+// Index of the first log line that contains text, -1 if there is none.
+int logIndex(const QStringList &log, const QString &text)
+{
+    for (int i = 0; i < log.size(); ++i)
+        if (log[i].contains(text))
+            return i;
+    return -1;
+}
+}
+
+void TestEkosSchedulerOps::testShutdownWaitsForMountMotion_data()
+{
+    QTest::addColumn<int>("scenario");
+    // Mount status and flip state while the mount is busy
+    QTest::addColumn<int>("busyMountStatus");
+    QTest::addColumn<int>("busyFlipStatus");
+    // Flip state once the motion is over (the mount status is then MOUNT_TRACKING)
+    QTest::addColumn<int>("doneFlipStatus");
+    // The expected wait message, empty if the scheduler must not wait
+    QTest::addColumn<QString>("waitLog");
+    // The motion never ends: the scheduler must go on after the wait timeout
+    QTest::addColumn<bool>("neverDone");
+
+    const int tracking = ISD::Mount::MOUNT_TRACKING;
+    QTest::newRow("Slewing") << int(MOTION_AT_JOB_END) << int(ISD::Mount::MOUNT_SLEWING)
+                             << int(MeridianFlipState::MOUNT_FLIP_NONE) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                             << kSlewWaitLog << false;
+    QTest::newRow("FlipPlanned") << int(MOTION_AT_JOB_END) << tracking
+                                 << int(MeridianFlipState::MOUNT_FLIP_PLANNED) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                                 << kFlipWaitLog << false;
+    QTest::newRow("FlipAccepted") << int(MOTION_AT_JOB_END) << tracking
+                                  << int(MeridianFlipState::MOUNT_FLIP_ACCEPTED) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                                  << kFlipWaitLog << false;
+    // The flip ends with COMPLETED, which must not block (it goes to NONE on the next mount update)
+    QTest::newRow("FlipRunning") << int(MOTION_AT_JOB_END) << tracking
+                                 << int(MeridianFlipState::MOUNT_FLIP_RUNNING) << int(MeridianFlipState::MOUNT_FLIP_COMPLETED)
+                                 << kFlipWaitLog << false;
+    // No motion: the shutdown starts as on master, without any wait
+    QTest::newRow("NotMoving") << int(MOTION_AT_JOB_END) << tracking
+                               << int(MeridianFlipState::MOUNT_FLIP_NONE) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                               << QString() << false;
+    QTest::newRow("NotMovingFlipCompleted") << int(MOTION_AT_JOB_END) << tracking
+                                            << int(MeridianFlipState::MOUNT_FLIP_COMPLETED)
+                                            << int(MeridianFlipState::MOUNT_FLIP_COMPLETED) << QString() << false;
+    QTest::newRow("NotMovingFlipError") << int(MOTION_AT_JOB_END) << tracking
+                                        << int(MeridianFlipState::MOUNT_FLIP_ERROR) << int(MeridianFlipState::MOUNT_FLIP_ERROR)
+                                        << QString() << false;
+    QTest::newRow("Timeout") << int(MOTION_AT_JOB_END) << tracking
+                             << int(MeridianFlipState::MOUNT_FLIP_ACCEPTED) << int(MeridianFlipState::MOUNT_FLIP_ACCEPTED)
+                             << kFlipWaitLog << true;
+    QTest::newRow("ParkUntilNextJob") << int(MOTION_AT_PARK_UNTIL_NEXT_JOB) << tracking
+                                      << int(MeridianFlipState::MOUNT_FLIP_ACCEPTED) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                                      << kFlipWaitLog << false;
+    QTest::newRow("PreemptiveShutdown") << int(MOTION_AT_PREEMPTIVE_SHUTDOWN) << tracking
+                                        << int(MeridianFlipState::MOUNT_FLIP_ACCEPTED) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                                        << kFlipWaitLog << false;
+}
+
+void TestEkosSchedulerOps::testShutdownWaitsForMountMotion()
+{
+    QFETCH(int, scenario);
+    QFETCH(int, busyMountStatus);
+    QFETCH(int, busyFlipStatus);
+    QFETCH(int, doneFlipStatus);
+    QFETCH(QString, waitLog);
+    QFETCH(bool, neverDone);
+
+    const bool keepPreemptiveShutdown = Options::preemptiveShutdown();
+    const double keepPreemptiveShutdownTime = Options::preemptiveShutdownTime();
+    auto restoreOptions = qScopeGuard([ = ]()
+    {
+        Options::setPreemptiveShutdown(keepPreemptiveShutdown);
+        Options::setPreemptiveShutdownTime(keepPreemptiveShutdownTime);
+    });
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    if (scenario == MOTION_AT_JOB_END)
+        checkShutdownWaitAtJobEnd(busyMountStatus, busyFlipStatus, doneFlipStatus, waitLog, neverDone);
+    else
+        checkMountWaitAtDawn(scenario == MOTION_AT_PREEMPTIVE_SHUTDOWN, busyFlipStatus, doneFlipStatus, waitLog);
+}
+
+// Number of scheduler log lines (since the last clear) that contain text.
+int TestEkosSchedulerOps::schedulerLogCount(const QString &text) const
+{
+    return m_schedulerLog.filter(text).size();
+}
+
+// Run an Altair job from 3:10am local in Silicon Valley (as the weather tests do) and end it
+// with the mount in the given state. The shutdown at the end of the schedule must wait until
+// the motion is over, or until the wait timeout, and then run as before.
+void TestEkosSchedulerOps::checkShutdownWaitAtJobEnd(int busyMountStatus, int busyFlipStatus, int doneFlipStatus,
+        const QString &waitLog, bool neverDone)
+{
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject *> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    capture->setStatus(Ekos::CAPTURE_CAPTURING);
+    QCOMPARE(scheduler->moduleState()->startupState(), Ekos::STARTUP_COMPLETE);
+
+    WithInterval interval(kJobEndIntervalMs, scheduler);
+    auto state = scheduler->moduleState();
+    const auto busyText = QString("mount status %1, meridian flip state %2").arg(busyMountStatus).arg(busyFlipStatus);
+
+    // The last frame ends while the mount is busy, e.g. with the flip that capture released when its sequence ended
+    mount->setStatus(static_cast<ISD::Mount::Status>(busyMountStatus));
+    mount->setMeridianFlipStatus(busyFlipStatus);
+    m_schedulerLog.clear();
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+
+    // An iteration that ends waiting: the shutdown is due (RUN_SHUTDOWN) but has not started
+    int waitingIterations = 0;
+    auto countWaiting = [&]()
+    {
+        if (state->timerState() == Ekos::RUN_SHUTDOWN && state->shutdownState() == Ekos::SHUTDOWN_IDLE &&
+                state->schedulerState() == Ekos::SCHEDULER_RUNNING)
+            waitingIterations++;
+    };
+
+    if (waitLog.isEmpty())
+    {
+        // Nothing moves: the shutdown starts right after the job, as on master
+        QVERIFY2(iterateScheduler("Shutdown without mount motion", 5, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            countWaiting();
+            return schedulerLogCount(kShutdownStartLog) > 0;
+        }), "The shutdown didn't start after the last job");
+        QCOMPARE(waitingIterations, 0);
+        QCOMPARE(schedulerLogCount(kFlipWaitLog), 0);
+        QCOMPARE(schedulerLogCount(kSlewWaitLog), 0);
+    }
+    else
+    {
+        // Two minutes with the mount busy, well within the wait timeout: the job completes, the shutdown waits
+        QDateTime waitStartUTime;
+        iterateScheduler("Mount busy at the end of the job", 12, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            countWaiting();
+            if (!waitStartUTime.isValid() && schedulerLogCount(waitLog) > 0)
+                waitStartUTime = KStarsData::Instance()->ut();
+            return schedulerLogCount(kShutdownStartLog) > 0;
+        });
+        QCOMPARE(state->jobs()[0]->getState(), Ekos::SCHEDJOB_COMPLETE);
+        QVERIFY2(schedulerLogCount(kShutdownStartLog) == 0,
+                 qPrintable(QString("The shutdown started while the mount was busy (%1)").arg(busyText)));
+        QVERIFY2(schedulerLogCount(waitLog) == 1,
+                 qPrintable(QString("Expected the wait message \"%1\" once, got %2 times")
+                            .arg(waitLog).arg(schedulerLogCount(waitLog))));
+        QVERIFY(waitStartUTime.isValid());
+        QVERIFY(waitingIterations > 0);
+        QCOMPARE(state->timerState(), Ekos::RUN_SHUTDOWN);
+        QCOMPARE(state->shutdownState(), Ekos::SHUTDOWN_IDLE);
+        QCOMPARE(ekos->ekosStatus(), Ekos::Success);
+
+        if (neverDone)
+        {
+            // The flip never ends: after 5 minutes the scheduler warns once and shuts down anyway
+            QVERIFY2(iterateScheduler("Mount busy until the wait timeout", 30, &sleepMs, &currentUTime, [&]() -> bool
+            {
+                return schedulerLogCount(kShutdownStartLog) > 0;
+            }), "The shutdown didn't start after the wait timeout");
+            QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 1);
+            const qint64 waitedSecs = waitStartUTime.secsTo(KStarsData::Instance()->ut());
+            QVERIFY2(waitedSecs >= 300 && waitedSecs <= 300 + 2 * kJobEndIntervalMs / 1000,
+                     qPrintable(QString("The shutdown started %1 s after the wait started, expected 300 s").arg(waitedSecs)));
+        }
+        else
+        {
+            // The motion is over: the shutdown starts in the next iteration
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+            mount->setMeridianFlipStatus(doneFlipStatus);
+            QVERIFY2(iterateScheduler("Mount motion finished", 1, &sleepMs, &currentUTime, [&]() -> bool
+            {
+                return schedulerLogCount(kShutdownStartLog) > 0;
+            }), qPrintable(QString("The shutdown didn't start once the motion was over (flip state %1)").arg(doneFlipStatus)));
+            QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 0);
+        }
+    }
+
+    // The rest of the shutdown runs as before: INDI disconnected, Ekos stopped, scheduler stopped
+    QVERIFY(iterateScheduler("Wait for Shutdown", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (state->schedulerState() == Ekos::SCHEDULER_IDLE);
+    }));
+    QCOMPARE(state->timerState(), Ekos::RUN_NOTHING);
+    QCOMPARE(ekos->ekosStatus(), Ekos::Idle);
+    QCOMPARE(state->jobs()[0]->getState(), Ekos::SCHEDJOB_COMPLETE);
+    QCOMPARE(schedulerLogCount(kShutdownStartLog), 1);
+    QCOMPARE(schedulerLogCount(kShutdownCompleteLog), 1);
+    // The log is in order of arrival: the wait (if any), the shutdown start, the end of the shutdown
+    const int shutdownStartIndex = logIndex(m_schedulerLog, kShutdownStartLog);
+    if (!waitLog.isEmpty())
+        QVERIFY(logIndex(m_schedulerLog, waitLog) < shutdownStartIndex);
+    QVERIFY(shutdownStartIndex < logIndex(m_schedulerLog, kShutdownCompleteLog));
+}
+
+// Dawn interrupts the job while a meridian flip is accepted. Without preemptive shutdown the
+// scheduler parks the mount until the next night (as in testDawnShutdown), with it the scheduler
+// shuts down until then (as in testPreemptiveShutdown). Both must wait until the flip is over,
+// and the scheduler must still wake up at the time of the next job.
+void TestEkosSchedulerOps::checkMountWaitAtDawn(bool preemptive, int busyFlipStatus, int doneFlipStatus,
+        const QString &waitLog)
+{
+    if (preemptive)
+    {
+        // The next window is ~19 hours away, more than the 2 hour threshold. FINISH_LOOP: the job never
+        // completes, so the next window is the next evening (see testPreemptiveShutdown).
+        Options::setPreemptiveShutdown(true);
+        Options::setPreemptiveShutdownTime(2.0);
+        m_completionCondition.type = Ekos::FINISH_LOOP;
+    }
+
+    // 40 simulated seconds per iteration (as testDawnShutdown): the dawn wait below lasts at most
+    // 5 iterations, well within the 5 minute wait timeout.
+    WithInterval interval(40000, scheduler);
+    auto state = scheduler->moduleState();
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject *> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+    const QDateTime startJobUTime = startUTime.addSecs(180);
+    const QDateTime preDawnUTime(QDate(2021, 6, 14), QTime(10, 53, 0), QTimeZone::utc());
+    // Altair rises above 30 degrees at about 06:31 UTC on 2021-06-15.
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), QTimeZone::utc());
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+
+    // The scheduler reads the flip state only before it shuts down or parks, so it can be set for the whole job
+    mount->setMeridianFlipStatus(busyFlipStatus);
+    m_schedulerLog.clear();
+    slewAndRun(targetObjects[0], startJobUTime, preDawnUTime, currentUTime, sleepMs, DEFAULT_TOLERANCE);
+    if (QTest::currentTestFailed())
+        return;
+
+    // A few more iterations with the flip accepted: no park, no shutdown
+    const QString parkOrShutdownLog = preemptive ? kShutdownStartLog : kParkUntilNextJobLog;
+    iterateScheduler("Flip accepted at dawn", 4, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return schedulerLogCount(parkOrShutdownLog) > 0 || mount->parkStatus() != ISD::PARK_UNPARKED;
+    });
+    QVERIFY2(schedulerLogCount(parkOrShutdownLog) == 0 && mount->parkStatus() == ISD::PARK_UNPARKED,
+             qPrintable(QString("The scheduler %1 during the meridian flip (flip state %2, park status %3)")
+                        .arg(preemptive ? "shut down" : "parked the mount").arg(busyFlipStatus).arg(mount->parkStatus())));
+    QVERIFY2(schedulerLogCount(waitLog) == 1,
+             qPrintable(QString("Expected the wait message \"%1\" once, got %2 times")
+                        .arg(waitLog).arg(schedulerLogCount(waitLog))));
+    QCOMPARE(state->schedulerState(), Ekos::SCHEDULER_RUNNING);
+    QCOMPARE(ekos->ekosStatus(), Ekos::Success);
+
+    if (!preemptive)
+    {
+        // The scheduler checks again every iteration
+        QCOMPARE(state->timerState(), Ekos::RUN_SCHEDULER);
+
+        // The flip is over: the mount is parked, the scheduler sleeps and wakes up for the next night
+        mount->setMeridianFlipStatus(doneFlipStatus);
+        parkAndSleep(currentUTime, sleepMs);
+        if (QTest::currentTestFailed())
+            return;
+        QCOMPARE(schedulerLogCount(kParkUntilNextJobLog), 1);
+        QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 0);
+        QVERIFY(logIndex(m_schedulerLog, waitLog) < logIndex(m_schedulerLog, kParkUntilNextJobLog));
+        wakeupAndRestart(restartTime, currentUTime, sleepMs);
+        return;
+    }
+
+    // Preemptive shutdown decided, wakeup time stored, the shutdown itself waits
+    QVERIFY(state->preemptiveShutdown());
+    const QDateTime wakeupTime = state->preemptiveShutdownWakeupTime();
+    QVERIFY(wakeupTime.isValid());
+    QVERIFY(preDawnUTime < wakeupTime);
+    QCOMPARE(state->timerState(), Ekos::RUN_SHUTDOWN);
+    QCOMPARE(state->shutdownState(), Ekos::SHUTDOWN_IDLE);
+
+    // The flip is over: the shutdown runs (Ekos/INDI stopped), and the scheduler sleeps until the wakeup time
+    mount->setMeridianFlipStatus(doneFlipStatus);
+    QVERIFY(iterateScheduler("Wait for Preemptive Shutdown (RUN_WAKEUP)", DEFAULT_ITERATIONS, &sleepMs, &currentUTime,
+                             [&]() -> bool
+    {
+        return (state->timerState() == Ekos::RUN_WAKEUP && state->schedulerState() == Ekos::SCHEDULER_IDLE);
+    }));
+    QVERIFY(state->preemptiveShutdown());
+    QCOMPARE(state->preemptiveShutdownWakeupTime(), wakeupTime);
+    QCOMPARE(ekos->ekosStatus(), Ekos::Idle);
+    QCOMPARE(schedulerLogCount(kShutdownStartLog), 1);
+    QCOMPARE(schedulerLogCount(kShutdownCompleteLog), 1);
+    QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 0);
+    QVERIFY(logIndex(m_schedulerLog, waitLog) < logIndex(m_schedulerLog, kShutdownStartLog));
+    QVERIFY(logIndex(m_schedulerLog, kShutdownStartLog) < logIndex(m_schedulerLog, kShutdownCompleteLog));
+
+    // The scheduler wakes up at the stored time, at the start of the next window
+    QVERIFY(iterateScheduler("Wait for Automatic Wakeup (RUN_SCHEDULER)", DEFAULT_ITERATIONS, &sleepMs, &currentUTime,
+                             [&]() -> bool
+    {
+        return (state->timerState() == Ekos::RUN_SCHEDULER);
+    }));
+    QVERIFY(!state->preemptiveShutdown());
+    QVERIFY2(std::abs(KStarsData::Instance()->ut().secsTo(wakeupTime)) < timeTolerance(60),
+             qPrintable(QString("Woke up at %1 UTC, the stored wakeup time is %2 UTC")
+                        .arg(KStarsData::Instance()->ut().toString("hh:mm:ss"), wakeupTime.toUTC().toString("hh:mm:ss"))));
+    QVERIFY2(std::abs(KStarsData::Instance()->ut().secsTo(restartTime)) < timeTolerance(DEFAULT_TOLERANCE),
+             qPrintable(QString("Woke up at %1 UTC, expected about %2 UTC")
+                        .arg(KStarsData::Instance()->ut().toString("hh:mm"), restartTime.toString("hh:mm"))));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The wait decision for every mount status x meridian flip state
+//
+// testShutdownWaitsForMountMotion runs whole jobs for a few combinations. This test checks
+// the decision itself, SchedulerProcess::mountMotionPending() and waitForMountMotion(), for
+// all 7 x 7 combinations, read over D-Bus from the mock mount as during a real shutdown.
+// Both call sites (checkShutdownState() and the park in shouldSchedulerSleep()) start the
+// shutdown or the park only when waitForMountMotion() returns true.
+//
+// Property 1, no park while the mount is busy: while the mount slews or moves, or a flip is
+// planned, waiting, accepted or running, waitForMountMotion() returns false until the motion
+// is over or 300 s have passed since the wait started. The wait is logged once per wait, the
+// timeout once.
+// Property 2, no delay when the mount is idle: for every other combination it returns true
+// on the first call and logs nothing.
+//
+// The time comes from SchedulerModuleState::setLocalTime() (the test hook of getLocalTime()),
+// so the KStars clock isn't changed. No jobs are loaded and the scheduler isn't started.
+// ─────────────────────────────────────────────────────────────────────────────
+
+void TestEkosSchedulerOps::testMountMotionWaitDecision_data()
+{
+    QTest::addColumn<int>("mountStatus");
+    QTest::addColumn<int>("flipStatus");
+    // The expected wait message, empty if the scheduler must not wait
+    QTest::addColumn<QString>("waitLog");
+
+    // Every value of both enums, in enum order
+    const char *const mountStatusNames[] = {"Idle", "Moving", "Slewing", "Tracking", "Parking", "Parked", "Error"};
+    static_assert(static_cast<int>(std::size(mountStatusNames)) == ISD::Mount::MOUNT_ERROR + 1,
+                  "Name every ISD::Mount::Status value");
+    const char *const flipStatusNames[] = {"None", "Planned", "Waiting", "Accepted", "Running", "Completed", "Error"};
+    static_assert(static_cast<int>(std::size(flipStatusNames)) == MeridianFlipState::MOUNT_FLIP_ERROR + 1,
+                  "Name every MeridianFlipState::MeridianFlipMountState value");
+
+    // The mount is busy (Requirement 1.1) while it slews or moves, e.g. a goto or the flip slew ...
+    QList<int> busyMountStatuses;
+    busyMountStatuses << ISD::Mount::MOUNT_SLEWING << ISD::Mount::MOUNT_MOVING;
+    // ... or while a flip is planned or active. COMPLETED doesn't block: the flip slew has ended.
+    QList<int> activeFlipStatuses;
+    activeFlipStatuses << MeridianFlipState::MOUNT_FLIP_PLANNED << MeridianFlipState::MOUNT_FLIP_WAITING
+                       << MeridianFlipState::MOUNT_FLIP_ACCEPTED << MeridianFlipState::MOUNT_FLIP_RUNNING;
+
+    for (int mountStatus = ISD::Mount::MOUNT_IDLE; mountStatus <= ISD::Mount::MOUNT_ERROR; ++mountStatus)
+    {
+        for (int flipStatus = MeridianFlipState::MOUNT_FLIP_NONE; flipStatus <= MeridianFlipState::MOUNT_FLIP_ERROR;
+                ++flipStatus)
+        {
+            // The flip is named when both apply: a flip slew is also a slew
+            QString waitLog;
+            if (activeFlipStatuses.contains(flipStatus))
+                waitLog = kFlipWaitLog;
+            else if (busyMountStatuses.contains(mountStatus))
+                waitLog = kSlewWaitLog;
+            QTest::addRow("%s/%s", mountStatusNames[mountStatus], flipStatusNames[flipStatus])
+                    << mountStatus << flipStatus << waitLog;
+        }
+    }
+}
+
+void TestEkosSchedulerOps::testMountMotionWaitDecision()
+{
+    QFETCH(int, mountStatus);
+    QFETCH(int, flipStatus);
+    QFETCH(QString, waitLog);
+    const bool pending = !waitLog.isEmpty();
+    const QString pair = QString("mount status %1, meridian flip state %2").arg(mountStatus).arg(flipStatus);
+
+    // Local time for waitForMountMotion(), seconds after startTime. Back to the KStars clock at the end.
+    const KStarsDateTime startTime(QDate(2021, 6, 14), QTime(3, 10, 0));
+    KStarsDateTime localTime(startTime);
+    Ekos::SchedulerModuleState::setLocalTime(&localTime);
+    auto restoreLocalTime = qScopeGuard([]()
+    {
+        Ekos::SchedulerModuleState::setLocalTime(nullptr);
+    });
+    auto setTime = [&](int secs)
+    {
+        localTime = startTime.addSecs(secs);
+    };
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    // Only the mount module, found by the scheduler over D-Bus (see testBasics)
+    ekos->addModule(QString("Mount"));
+    QTRY_VERIFY_WITH_TIMEOUT(!scheduler->process()->mountInterface().isNull(), 5000);
+    auto process = scheduler->process();
+
+    auto setBusy = [&]()
+    {
+        mount->setStatus(static_cast<ISD::Mount::Status>(mountStatus));
+        mount->setMeridianFlipStatus(flipStatus);
+    };
+    setBusy();
+    m_schedulerLog.clear();
+    QStringList expectedLog;
+
+    // The decision and its reason, the text logged when the wait starts
+    QString reason;
+    QVERIFY2(process->mountMotionPending(reason) == pending,
+             qPrintable(QString("Expected motion %1 (%2)").arg(pending ? "pending" : "not pending", pair)));
+    QCOMPARE(reason, waitLog);
+    QCOMPARE(m_schedulerLog, expectedLog);
+
+    if (!pending)
+    {
+        // Property 2: the shutdown or park goes on at once and nothing is logged, also when asked again
+        QVERIFY2(process->waitForMountMotion(), qPrintable(QString("Waited although the mount is idle (%1)").arg(pair)));
+        setTime(1);
+        QVERIFY2(process->waitForMountMotion(), qPrintable(QString("Waited although the mount is idle (%1)").arg(pair)));
+        QCOMPARE(m_schedulerLog, expectedLog);
+        return;
+    }
+
+    // Property 1, the motion ends before the timeout: wait, logged once, then go on without a warning
+    QVERIFY2(!process->waitForMountMotion(),
+             qPrintable(QString("Didn't wait although the mount is busy (%1)").arg(pair)));
+    expectedLog << waitLog;
+    setTime(120);
+    QVERIFY2(!process->waitForMountMotion(),
+             qPrintable(QString("Stopped waiting after 120 s although the mount is busy (%1)").arg(pair)));
+    QCOMPARE(m_schedulerLog, expectedLog);
+    mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+    mount->setMeridianFlipStatus(MeridianFlipState::MOUNT_FLIP_NONE);
+    QVERIFY2(process->waitForMountMotion(), "Still waiting after the motion was over");
+    QCOMPARE(m_schedulerLog, expectedLog);
+
+    // Property 1, the motion doesn't end: a new wait, logged again, times out 300 s after it started
+    // (not 300 s after the first wait)
+    const int waitStart = 121;
+    setBusy();
+    setTime(waitStart);
+    QVERIFY2(!process->waitForMountMotion(),
+             qPrintable(QString("Didn't wait again although the mount is busy (%1)").arg(pair)));
+    expectedLog << waitLog;
+    setTime(waitStart + 299);
+    QVERIFY2(!process->waitForMountMotion(),
+             qPrintable(QString("Stopped waiting after 299 s although the mount is busy (%1)").arg(pair)));
+    QCOMPARE(m_schedulerLog, expectedLog);
+    setTime(waitStart + 300);
+    QVERIFY2(process->waitForMountMotion(), qPrintable(QString("Still waiting after the 300 s timeout (%1)").arg(pair)));
+    expectedLog << kMotionTimeoutLog;
+    QCOMPARE(m_schedulerLog, expectedLog);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The limit of the wait for mount motion
+//
+// At the end of the schedule, before the park until the next job and before a preemptive
+// shutdown the wait ends after 300 s. During a weather (safety) shutdown it ends after 120 s,
+// and the limit is logged when the wait starts: the pre-shutdown tasks also close the dome,
+// so a mount that keeps reporting a slew must not hold them up for 5 minutes. 120 s is longer
+// than a meridian flip takes. The soft shutdown after an alert runs with the grace period
+// active, the full shutdown after the grace period with weather monitoring on.
+//
+// Same setup as testMountMotionWaitDecision: the time comes from
+// SchedulerModuleState::setLocalTime(), only the mount module is there.
+// ─────────────────────────────────────────────────────────────────────────────
+
+void TestEkosSchedulerOps::testMountMotionWaitTimeout_data()
+{
+    QTest::addColumn<bool>("gracePeriodActive");
+    QTest::addColumn<bool>("weatherMonitoring");
+    QTest::addColumn<int>("mountStatus");
+    QTest::addColumn<int>("flipStatus");
+    QTest::addColumn<QString>("waitLog");
+    // The expected limit in seconds
+    QTest::addColumn<int>("timeout");
+
+    const int slewing = ISD::Mount::MOUNT_SLEWING;
+    const int tracking = ISD::Mount::MOUNT_TRACKING;
+    const int noFlip = MeridianFlipState::MOUNT_FLIP_NONE;
+    const int flipRunning = MeridianFlipState::MOUNT_FLIP_RUNNING;
+    QTest::newRow("NoWeatherSlewing") << false << false << slewing << noFlip << kSlewWaitLog << 300;
+    QTest::newRow("NoWeatherFlip") << false << false << tracking << flipRunning << kFlipWaitLog << 300;
+    QTest::newRow("GracePeriodSlewing") << true << false << slewing << noFlip << kSlewWaitLog << 120;
+    QTest::newRow("GracePeriodFlip") << true << false << tracking << flipRunning << kFlipWaitLog << 120;
+    QTest::newRow("MonitoringSlewing") << false << true << slewing << noFlip << kSlewWaitLog << 120;
+}
+
+void TestEkosSchedulerOps::testMountMotionWaitTimeout()
+{
+    QFETCH(bool, gracePeriodActive);
+    QFETCH(bool, weatherMonitoring);
+    QFETCH(int, mountStatus);
+    QFETCH(int, flipStatus);
+    QFETCH(QString, waitLog);
+    QFETCH(int, timeout);
+
+    const KStarsDateTime startTime(QDate(2021, 6, 14), QTime(3, 10, 0));
+    KStarsDateTime localTime(startTime);
+    Ekos::SchedulerModuleState::setLocalTime(&localTime);
+    auto restoreLocalTime = qScopeGuard([]()
+    {
+        Ekos::SchedulerModuleState::setLocalTime(nullptr);
+    });
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    ekos->addModule(QString("Mount"));
+    QTRY_VERIFY_WITH_TIMEOUT(!scheduler->process()->mountInterface().isNull(), 5000);
+    auto process = scheduler->process();
+
+    // The scheduler is new for every test function, so these flags don't leak
+    scheduler->moduleState()->setWeatherGracePeriodActive(gracePeriodActive);
+    scheduler->moduleState()->setWeatherShutdownMonitoring(weatherMonitoring);
+    mount->setStatus(static_cast<ISD::Mount::Status>(mountStatus));
+    mount->setMeridianFlipStatus(flipStatus);
+    m_schedulerLog.clear();
+
+    // The wait starts, with the weather limit logged right after the reason
+    QStringList expectedLog;
+    expectedLog << waitLog;
+    if (timeout != 300)
+        expectedLog << QString("Safety alert: waiting at most %1 minutes for the mount, then continuing the shutdown.")
+                    .arg(timeout / 60);
+    QVERIFY(!process->waitForMountMotion());
+    QCOMPARE(m_schedulerLog, expectedLog);
+
+    // Still busy one second before the limit
+    localTime = startTime.addSecs(timeout - 1);
+    QVERIFY2(!process->waitForMountMotion(), qPrintable(QString("Stopped waiting after %1 s").arg(timeout - 1)));
+    QCOMPARE(m_schedulerLog, expectedLog);
+
+    // The limit: go on, with a warning that names it
+    localTime = startTime.addSecs(timeout);
+    QVERIFY2(process->waitForMountMotion(), qPrintable(QString("Still waiting after %1 s").arg(timeout)));
+    expectedLog << QString("Warning: the mount is still busy after %1 minutes, continuing.").arg(timeout / 60);
+    QCOMPARE(m_schedulerLog, expectedLog);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// A failed shutdown task is reported as a failure (mock modules, simulated clock)
+//
+// When a task of the pre-shutdown queue fails (e.g. the mount park was refused while the
+// mount slewed), the scheduler goes on with the shutdown as before: it disconnects INDI,
+// stops Ekos and runs the post-shutdown queue. It must then end the shutdown with
+// "Shutdown procedure failed: <task>: <error>" and an alert instead of "Shutdown complete.",
+// also when a post-shutdown queue ran after the failure.
+//
+// Property 5, honest shutdown result: the final shutdown line is "Shutdown complete." if and
+// only if no shutdown queue task failed during that shutdown. The final shutdown line is the
+// last scheduler log line that mentions the shutdown.
+//
+// The queues are queue files in a temporary directory with one task without a device each, so
+// QueueExecutor::start() doesn't need an Ekos profile, which the mock modules don't have:
+// - a failing task, "Execute Script" with a script that exits with code 3, no retries, failure
+//   action ABORT_QUEUE. The failure arrives later through QueueExecutor::itemFailed, as a park
+//   timeout does;
+// - a succeeding task, "Add Delay" of 0 s.
+// No row lets both queues fail: at the end of the schedule the post-shutdown queue then starts
+// again after each failure (an existing problem, not covered here).
+//
+// The alert (KSNotification::event(), which goes to KNotification and EkosLive) can't be
+// observed in this test. The log line checked here carries the same text.
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace
+{
+// The shutdown queues of testShutdownReportsQueueFailure
+enum ShutdownQueue
+{
+    // No queue configured
+    QUEUE_NONE,
+    // One "Add Delay" task of 0 s
+    QUEUE_SUCCEEDS,
+    // One "Execute Script" task whose script exits with code 3
+    QUEUE_FAILS
+};
+
+const QString kFailingTaskName("Failing Script");
+const QString kDelayTaskName("Short Delay");
+const QString kShutdownFailedLog("Shutdown procedure failed");
+
+// The script of the failing task of the queue name in dir
+QString failingScriptPath(const QTemporaryDir &dir, const QString &name)
+{
+    return dir.filePath(name + ".sh");
+}
+
+// Write a queue file as the queue manager saves it, with one task of the given kind and no
+// device. Returns the path of the file, or an empty string if it couldn't be written.
+QString writeShutdownQueue(const QTemporaryDir &dir, const QString &name, int kind)
+{
+    QJsonObject task;
+    QJsonObject action;
+    if (kind == QUEUE_FAILS)
+    {
+        // The script exists and is executable, so the action starts it and fails when it exits
+        QFile script(failingScriptPath(dir, name));
+        if (!script.open(QIODevice::WriteOnly) || script.write("#!/bin/sh\nexit 3\n") < 0)
+            return QString();
+        script.close();
+        if (!script.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner))
+            return QString();
+        task["name"] = kFailingTaskName;
+        task["template_id"] = QStringLiteral("script_execute");
+        action["type"] = QStringLiteral("SCRIPT");
+        action["script_path"] = script.fileName();
+    }
+    else
+    {
+        task["name"] = kDelayTaskName;
+        task["template_id"] = QStringLiteral("delay");
+        action["type"] = QStringLiteral("DELAY");
+        action["duration"] = 0;
+        action["unit"] = static_cast<int>(Ekos::DelayAction::SECONDS);
+    }
+    action["timeout"] = 30;
+    action["retries"] = 0;
+    action["failure_action"] = static_cast<int>(Ekos::TaskAction::ABORT_QUEUE);
+    task["device"] = QString();
+    task["actions"] = QJsonArray{action};
+
+    QJsonObject item;
+    item["id"] = name;
+    item["task"] = task;
+    QJsonObject queue;
+    queue["version"] = QStringLiteral("1.0");
+    queue["items"] = QJsonArray{item};
+
+    const QString path = dir.filePath(name + ".kstarsqueue");
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly) || file.write(QJsonDocument(queue).toJson()) < 0)
+        return QString();
+    return path;
+}
+
+// Shutdown states as text, e.g. "1 5 4 0", for a readable comparison
+QString shutdownStatesText(const QList<int> &states)
+{
+    QStringList text;
+    for (const int oneState : states)
+        text << QString::number(oneState);
+    return text.join(' ');
+}
+}
+
+void TestEkosSchedulerOps::testShutdownReportsQueueFailure_data()
+{
+    QTest::addColumn<int>("preQueue");
+    QTest::addColumn<int>("postQueue");
+
+    // alacant's case: the park task of the pre-shutdown queue fails, no post-shutdown queue
+    QTest::newRow("PreQueueFails") << int(QUEUE_FAILS) << int(QUEUE_NONE);
+    // The post-shutdown queue still runs and succeeds, the shutdown is still a failure
+    QTest::newRow("PreQueueFailsPostQueueRuns") << int(QUEUE_FAILS) << int(QUEUE_SUCCEEDS);
+    // Nothing fails: "Shutdown complete." as before
+    QTest::newRow("PreQueueSucceeds") << int(QUEUE_SUCCEEDS) << int(QUEUE_NONE);
+    // A failed post-shutdown task is reported too
+    QTest::newRow("PostQueueFails") << int(QUEUE_SUCCEEDS) << int(QUEUE_FAILS);
+}
+
+void TestEkosSchedulerOps::testShutdownReportsQueueFailure()
+{
+    QFETCH(int, preQueue);
+    QFETCH(int, postQueue);
+    // At most one of the queues fails (see above)
+    const bool taskFails = preQueue == QUEUE_FAILS || postQueue == QUEUE_FAILS;
+    const QString failedQueue = preQueue == QUEUE_FAILS ? QString("pre-shutdown") : QString("post-shutdown");
+    const QString failedQueueLog = preQueue == QUEUE_FAILS ? QString("Pre-shutdown queue failed: ")
+                                   : QString("Post-shutdown queue failed: ");
+
+    auto state = scheduler->moduleState();
+    const bool keepShutdownEnabled = Options::schedulerShutdownEnabled();
+    const QUrl keepPreShutdownURL = state->preShutdownScriptURL();
+    const QUrl keepPostShutdownURL = state->postShutdownScriptURL();
+    auto restoreOptions = qScopeGuard([ = ]()
+    {
+        Options::setSchedulerShutdownEnabled(keepShutdownEnabled);
+        state->setPreShutdownScriptURL(keepPreShutdownURL);
+        state->setPostShutdownScriptURL(keepPostShutdownURL);
+    });
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+    // The shutdown states in the order they were set, and the job state when the scheduler stopped (the next
+    // clock change re-evaluates the jobs of a stopped scheduler). The context object ends the connections
+    // with this function.
+    QList<int> shutdownStates;
+    int jobStateAtStop = -1;
+    QObject stateContext;
+    connect(state.data(), &Ekos::SchedulerModuleState::shutdownStateChanged, &stateContext,
+            [&shutdownStates](Ekos::ShutdownState newState)
+    {
+        shutdownStates.append(newState);
+    });
+    connect(state.data(), &Ekos::SchedulerModuleState::schedulerStateChanged, &stateContext,
+            [&jobStateAtStop, state](Ekos::SchedulerState newState)
+    {
+        if (newState == Ekos::SCHEDULER_IDLE && !state->jobs().isEmpty())
+            jobStateAtStop = state->jobs()[0]->getState();
+    });
+
+    QTemporaryDir queueDir(KTest::tempDirPattern(QStringLiteral("task-queues")));
+    QVERIFY(queueDir.isValid());
+    QString preQueueFile, postQueueFile;
+    if (preQueue != QUEUE_NONE)
+    {
+        preQueueFile = writeShutdownQueue(queueDir, "pre-queue", preQueue);
+        QVERIFY(!preQueueFile.isEmpty());
+    }
+    if (postQueue != QUEUE_NONE)
+    {
+        postQueueFile = writeShutdownQueue(queueDir, "post-queue", postQueue);
+        QVERIFY(!postQueueFile.isEmpty());
+    }
+    const QString failingScript = failingScriptPath(queueDir, preQueue == QUEUE_FAILS ? "pre-queue" : "post-queue");
+
+    // An Altair job from 3:10am local in Silicon Valley, as in testShutdownWaitsForMountMotion
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject *> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    capture->setStatus(Ekos::CAPTURE_CAPTURING);
+    QCOMPARE(state->startupState(), Ekos::STARTUP_COMPLETE);
+
+    // The queues are set once the job runs, so loading the schedule can't change them (as in the weather tests)
+    Options::setSchedulerShutdownEnabled(true);
+    state->setPreShutdownScriptURL(preQueueFile.isEmpty() ? QUrl() : QUrl::fromLocalFile(preQueueFile));
+    state->setPostShutdownScriptURL(postQueueFile.isEmpty() ? QUrl() : QUrl::fromLocalFile(postQueueFile));
+
+    // The last frame ends, nothing is left to run: the shutdown runs until the scheduler stops
+    m_schedulerLog.clear();
+    shutdownStates.clear();
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+    QVERIFY2(iterateScheduler("Wait for Shutdown", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (state->schedulerState() == Ekos::SCHEDULER_IDLE);
+    }), qPrintable(QString("The scheduler didn't stop, shutdown states %1").arg(shutdownStatesText(shutdownStates))));
+
+    // A failed task doesn't stop the shutdown: same states as without the report, INDI disconnected,
+    // Ekos stopped, the post-shutdown queue run after that, the scheduler stopped
+    QList<int> expectedStates;
+    expectedStates << Ekos::SHUTDOWN_PRE_QUEUE_RUNNING
+                   << (preQueue == QUEUE_FAILS ? Ekos::SHUTDOWN_ERROR : Ekos::SHUTDOWN_STOPPING_EKOS);
+    if (postQueue != QUEUE_NONE)
+        expectedStates << Ekos::SHUTDOWN_POST_QUEUE_RUNNING;
+    expectedStates << (postQueue == QUEUE_FAILS ? Ekos::SHUTDOWN_ERROR : Ekos::SHUTDOWN_COMPLETE) << Ekos::SHUTDOWN_IDLE;
+    QCOMPARE(shutdownStatesText(shutdownStates), shutdownStatesText(expectedStates));
+    QCOMPARE(state->timerState(), Ekos::RUN_NOTHING);
+    QCOMPARE(ekos->indiStatus(), Ekos::Idle);
+    QCOMPARE(ekos->ekosStatus(), Ekos::Idle);
+    QCOMPARE(jobStateAtStop, int(Ekos::SCHEDJOB_COMPLETE));
+
+    // Each queue ran once, with the expected result
+    QCOMPARE(schedulerLogCount(QString("Executing pre-shutdown tasks from %1").arg(preQueueFile)), 1);
+    QCOMPARE(schedulerLogCount("Pre-shutdown queue completed successfully."), preQueue == QUEUE_SUCCEEDS ? 1 : 0);
+    QCOMPARE(schedulerLogCount("Pre-shutdown queue failed: "), preQueue == QUEUE_FAILS ? 1 : 0);
+    QCOMPARE(schedulerLogCount("Executing post-shutdown tasks from "), postQueue != QUEUE_NONE ? 1 : 0);
+    QCOMPARE(schedulerLogCount("Post-shutdown queue completed successfully."), postQueue == QUEUE_SUCCEEDS ? 1 : 0);
+    QCOMPARE(schedulerLogCount("Post-shutdown queue failed: "), postQueue == QUEUE_FAILS ? 1 : 0);
+
+    // The final shutdown line
+    QString finalLine;
+    for (int i = m_schedulerLog.size() - 1; i >= 0 && finalLine.isEmpty(); --i)
+        if (m_schedulerLog[i].contains("shutdown", Qt::CaseInsensitive))
+            finalLine = m_schedulerLog[i];
+
+    if (taskFails)
+    {
+        // The error of the failed task, as logged when its queue failed
+        const QString failureLine = m_schedulerLog.filter(failedQueueLog).value(0);
+        const QString error = failureLine.mid(failureLine.indexOf(failedQueueLog) + failedQueueLog.size());
+        QVERIFY2(error.contains("exit code 3") && error.contains(failingScript),
+                 qPrintable(QString("Unexpected error of the failed task: \"%1\"").arg(error)));
+
+        QVERIFY2(schedulerLogCount(kShutdownCompleteLog) == 0,
+                 qPrintable(QString("\"%1\" logged although the %2 queue failed").arg(kShutdownCompleteLog, failedQueue)));
+        QVERIFY2(schedulerLogCount(kShutdownFailedLog) == 1,
+                 qPrintable(QString("Expected \"%1: ...\" once after the %2 queue failed, got it %3 times")
+                            .arg(kShutdownFailedLog, failedQueue).arg(schedulerLogCount(kShutdownFailedLog))));
+        // The task's name and its error, as the last line of the shutdown
+        QCOMPARE(finalLine, QString("%1: %2: %3").arg(kShutdownFailedLog, kFailingTaskName, error));
+    }
+    else
+    {
+        QCOMPARE(schedulerLogCount(kShutdownFailedLog), 0);
+        QCOMPARE(schedulerLogCount(kShutdownCompleteLog), 1);
+        QCOMPARE(finalLine, kShutdownCompleteLog);
+    }
+    // Property 5 as stated
+    QVERIFY2((finalLine == kShutdownCompleteLog) == !taskFails,
+             qPrintable(QString("Final shutdown line \"%1\", a task %2").arg(finalLine, taskFails ? "failed" : "didn't fail")));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tracking safety net at the end of a failed shutdown (Requirement 6)
+//
+// When a task of the pre-shutdown queue failed and the mount is not parked and is tracking,
+// the scheduler switches tracking off (Mount D-Bus setTracking(false)) before it disconnects
+// INDI or ends the shutdown. It waits until the mount no longer reports tracking, at most
+// 10 s, and then goes on. It logs a warning when tracking can't be switched off or doesn't
+// stop in time.
+//
+// Property 6, tracking off only after a failed park: for any combination of pre-shutdown
+// queue result, park status, mount status and tracking control, setTracking(false) is called
+// if and only if the queue failed and the mount is unparked and tracking, before INDI is
+// disconnected, and no motion command is sent (no slew, abort or park).
+//
+// The queues are those of testShutdownReportsQueueFailure. The mock mount records accepted
+// setTracking() calls in trackingCalls. Without tracking control it returns false and records
+// nothing, so that call shows only as the "can't be switched off" warning.
+// "Before INDI is disconnected": when MockEkos reports INDI Idle (disconnectDevices), the test
+// takes a copy of trackingCalls and of the scheduler log size. Each mount status change is
+// recorded with the INDI status at that moment: MockMount::abort() would show as a change to
+// MOUNT_IDLE without a setTracking() call.
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace
+{
+const QString kTrackingOffDisconnectLog("Warning: the mount is not parked, switching tracking off before disconnecting.");
+const QString kTrackingOffLog("Warning: the mount is not parked, switching tracking off.");
+const QString kTrackingStoppedLog("The mount no longer reports tracking.");
+const QString kTrackingTimeoutLog(
+    "Warning: the mount still reports tracking after 10 seconds, it may keep tracking after the shutdown.");
+const QString kNoTrackingControlLog(
+    "Warning: tracking can't be switched off, the mount may keep tracking after the shutdown.");
+// SchedulerProcess::TRACKING_OFF_TIMEOUT_S
+constexpr int kTrackingOffTimeoutS = 10;
+
+// setTracking() calls as text, e.g. "off", for a readable comparison
+QString trackingCallsText(const QList<bool> &calls)
+{
+    QStringList text;
+    for (const bool enabled : calls)
+        text << (enabled ? QString("on") : QString("off"));
+    return text.isEmpty() ? QString("none") : text.join(' ');
+}
+}
+
+void TestEkosSchedulerOps::testShutdownSafetyNetTrackingOff_data()
+{
+    QTest::addColumn<bool>("queueFails");
+    QTest::addColumn<bool>("parked");
+    QTest::addColumn<bool>("tracking");
+    QTest::addColumn<bool>("canControlTrack");
+    // The mount stops reporting MOUNT_TRACKING when tracking is switched off
+    QTest::addColumn<bool>("trackingStops");
+    // Options::stopEkosAfterShutdown: the shutdown disconnects INDI
+    QTest::addColumn<bool>("stopEkos");
+
+    // Property 6 over every combination of queue result, park status, mount status and tracking control.
+    // The combinations of the task have their own names, the others are named after their values.
+    // A parked mount that reports tracking isn't a real state: it checks that a parked mount is left alone.
+    const bool values[] = {true, false};
+    for (const bool queueFails : values)
+        for (const bool parked : values)
+            for (const bool tracking : values)
+                for (const bool canControlTrack : values)
+                {
+                    QString name;
+                    if (queueFails && !parked && tracking)
+                        name = canControlTrack ? "FailedTracking" : "NoTrackingControl";
+                    else if (queueFails && parked && tracking && canControlTrack)
+                        name = "FailedParked";
+                    else if (queueFails && !parked && !tracking && canControlTrack)
+                        name = "FailedNotTracking";
+                    else if (!queueFails && !parked && tracking && canControlTrack)
+                        name = "SucceededTracking";
+                    else
+                        name = QString("%1-%2-%3-%4").arg(QString(queueFails ? "Failed" : "Succeeded"),
+                                                          QString(parked ? "Parked" : "Unparked"),
+                                                          QString(tracking ? "Tracking" : "NotTracking"),
+                                                          QString(canControlTrack ? "TrackControl" : "NoTrackControl"));
+                    QTest::newRow(qPrintable(name)) << queueFails << parked << tracking << canControlTrack << true << true;
+                }
+
+    // The mount accepts tracking off but keeps tracking: warning after 10 s, then the shutdown goes on
+    QTest::newRow("TrackingDoesntStop") << true << false << true << true << false << true;
+    // INDI stays connected: tracking is switched off before the shutdown ends, the warning doesn't say
+    // "before disconnecting"
+    QTest::newRow("StopEkosOff") << true << false << true << true << true << false;
+}
+
+void TestEkosSchedulerOps::testShutdownSafetyNetTrackingOff()
+{
+    QFETCH(bool, queueFails);
+    QFETCH(bool, parked);
+    QFETCH(bool, tracking);
+    QFETCH(bool, canControlTrack);
+    QFETCH(bool, trackingStops);
+    QFETCH(bool, stopEkos);
+    // Property 6: the safety net acts if and only if the queue failed and the mount is unparked and tracking
+    const bool switchesOff = queueFails && !parked && tracking;
+    // The mock records the call only with tracking control
+    const bool callRecorded = switchesOff && canControlTrack;
+    const QString trackingOffLog = stopEkos ? kTrackingOffDisconnectLog : kTrackingOffLog;
+    // The safety net's last line, the result of the switch
+    QString resultLog;
+    if (switchesOff)
+        resultLog = !canControlTrack ? kNoTrackingControlLog : (trackingStops ? kTrackingStoppedLog : kTrackingTimeoutLog);
+
+    auto state = scheduler->moduleState();
+    const bool keepShutdownEnabled = Options::schedulerShutdownEnabled();
+    const bool keepStopEkos = Options::stopEkosAfterShutdown();
+    const QUrl keepPreShutdownURL = state->preShutdownScriptURL();
+    const QUrl keepPostShutdownURL = state->postShutdownScriptURL();
+    auto restoreOptions = qScopeGuard([ = ]()
+    {
+        Options::setSchedulerShutdownEnabled(keepShutdownEnabled);
+        Options::setStopEkosAfterShutdown(keepStopEkos);
+        state->setPreShutdownScriptURL(keepPreShutdownURL);
+        state->setPostShutdownScriptURL(keepPostShutdownURL);
+    });
+
+    QTemporaryDir queueDir(KTest::tempDirPattern(QStringLiteral("task-queues")));
+    QVERIFY(queueDir.isValid());
+    const QString preQueueFile = writeShutdownQueue(queueDir, "pre-queue", queueFails ? QUEUE_FAILS : QUEUE_SUCCEEDS);
+    QVERIFY(!preQueueFile.isEmpty());
+
+    // The Altair job of testShutdownReportsQueueFailure, run until it is capturing
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject *> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
+    }));
+    capture->setStatus(Ekos::CAPTURE_CAPTURING);
+    QCOMPARE(state->startupState(), Ekos::STARTUP_COMPLETE);
+
+    // The queue is set once the job runs, so loading the schedule can't change it (as in the weather tests)
+    Options::setSchedulerShutdownEnabled(true);
+    Options::setStopEkosAfterShutdown(stopEkos);
+    state->setPreShutdownScriptURL(QUrl::fromLocalFile(preQueueFile));
+    state->setPostShutdownScriptURL(QUrl());
+
+    // The mount as the last frame ends
+    mount->setStatus(tracking ? ISD::Mount::MOUNT_TRACKING : ISD::Mount::MOUNT_IDLE);
+    if (parked)
+        mount->setParkStatus(ISD::PARK_PARKED);
+    mount->canControlTrack = canControlTrack;
+    mount->trackingOffChangesStatus = trackingStops;
+    QVERIFY(mount->trackingCalls.isEmpty());
+    const int slewCountBefore = mount->slewCount;
+    const int parkStatusBefore = mount->parkStatus();
+    const int statusBefore = mount->status();
+
+    // Observers. The context object is declared after the variables they write, so the connections end first.
+    // The scheduler log with the simulated time of each line
+    QList<QDateTime> logTimes;
+    // What had happened when MockEkos::disconnectDevices() disconnected INDI
+    bool indiDisconnected = false;
+    QList<bool> trackingCallsAtDisconnect;
+    int logSizeAtDisconnect = -1;
+    QDateTime disconnectUTime;
+    // Every mount status change, with the number of setTracking() calls and the INDI status at that moment
+    QList<int> statusChanges;
+    QList<int> callsAtStatusChange;
+    QList<int> indiAtStatusChange;
+    int parkStatusChanges = 0;
+    QObject context;
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, &context,
+            [this, &logTimes](const QString & text)
+    {
+        m_schedulerLog.append(text);
+        logTimes.append(KStarsData::Instance()->ut());
+    });
+    connect(ekos.data(), &Ekos::MockEkos::indiStatusChanged, &context, [&](Ekos::CommunicationStatus status)
+    {
+        if (status != Ekos::Idle || indiDisconnected)
+            return;
+        indiDisconnected = true;
+        trackingCallsAtDisconnect = mount->trackingCalls;
+        logSizeAtDisconnect = static_cast<int>(m_schedulerLog.size());
+        disconnectUTime = KStarsData::Instance()->ut();
+    });
+    connect(mount.data(), &Ekos::MockMount::newStatus, &context, [&](ISD::Mount::Status status)
+    {
+        statusChanges.append(status);
+        callsAtStatusChange.append(static_cast<int>(mount->trackingCalls.size()));
+        indiAtStatusChange.append(ekos->indiStatus());
+    });
+    connect(mount.data(), &Ekos::MockMount::newParkStatus, &context, [&parkStatusChanges](ISD::ParkStatus)
+    {
+        parkStatusChanges++;
+    });
+    // Exact matches of a scheduler log line
+    auto logCount = [this](const QString & text)
+    {
+        return static_cast<int>(m_schedulerLog.count(text));
+    };
+
+    // The last frame ends, nothing is left to run: the shutdown runs until the scheduler stops. One second per
+    // iteration, so the 10 s wait for the mount takes 10 iterations.
+    WithInterval interval(1000, scheduler);
+    m_schedulerLog.clear();
+    logTimes.clear();
+    capture->setStatus(Ekos::CAPTURE_COMPLETE);
+    QVERIFY2(iterateScheduler("Wait for Shutdown", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (state->schedulerState() == Ekos::SCHEDULER_IDLE);
+    }), "The scheduler didn't stop");
+
+    // The shutdown went on to the end in every row (Requirements 6.2, 6.3)
+    QCOMPARE(state->timerState(), Ekos::RUN_NOTHING);
+    QCOMPARE(schedulerLogCount("Pre-shutdown queue failed: "), queueFails ? 1 : 0);
+    QCOMPARE(schedulerLogCount("Pre-shutdown queue completed successfully."), queueFails ? 0 : 1);
+    QCOMPARE(indiDisconnected, stopEkos);
+    QCOMPARE(ekos->indiStatus(), stopEkos ? Ekos::Idle : Ekos::Success);
+    QCOMPARE(ekos->ekosStatus(), stopEkos ? Ekos::Idle : Ekos::Success);
+    QString finalLine;
+    for (int i = m_schedulerLog.size() - 1; i >= 0 && finalLine.isEmpty(); --i)
+        if (m_schedulerLog[i].contains("shutdown", Qt::CaseInsensitive))
+            finalLine = m_schedulerLog[i];
+    if (queueFails)
+        QVERIFY2(finalLine.startsWith(QString("%1: %2: ").arg(kShutdownFailedLog, kFailingTaskName)),
+                 qPrintable(QString("Final shutdown line \"%1\"").arg(finalLine)));
+    else
+        QCOMPARE(finalLine, kShutdownCompleteLog);
+
+    // The safety net's lines, each at most once (Requirements 6.1 to 6.4)
+    QCOMPARE(logCount(kTrackingOffDisconnectLog), switchesOff && stopEkos ? 1 : 0);
+    QCOMPARE(logCount(kTrackingOffLog), switchesOff && !stopEkos ? 1 : 0);
+    QCOMPARE(logCount(kNoTrackingControlLog), switchesOff && !canControlTrack ? 1 : 0);
+    QCOMPARE(logCount(kTrackingStoppedLog), callRecorded && trackingStops ? 1 : 0);
+    QCOMPARE(logCount(kTrackingTimeoutLog), callRecorded && !trackingStops ? 1 : 0);
+
+    // setTracking(false) once, and nothing else on tracking
+    QList<bool> expectedCalls;
+    if (callRecorded)
+        expectedCalls << false;
+    QVERIFY2(mount->trackingCalls == expectedCalls,
+             qPrintable(QString("setTracking() calls: %1, expected: %2")
+                        .arg(trackingCallsText(mount->trackingCalls), trackingCallsText(expectedCalls))));
+
+    if (switchesOff)
+    {
+        const int offIndex = static_cast<int>(m_schedulerLog.indexOf(trackingOffLog));
+        const int resultIndex = static_cast<int>(m_schedulerLog.indexOf(resultLog));
+        QVERIFY2(offIndex >= 0 && resultIndex > offIndex,
+                 qPrintable(QString("\"%1\" at %2, \"%3\" at %4").arg(trackingOffLog).arg(offIndex).arg(resultLog)
+                            .arg(resultIndex)));
+        // Before the shutdown ends
+        QVERIFY2(resultIndex < m_schedulerLog.lastIndexOf(finalLine),
+                 qPrintable(QString("\"%1\" logged after the final shutdown line").arg(resultLog)));
+        // Before INDI is disconnected: the call was made and its result logged, nothing was sent after it
+        if (stopEkos)
+        {
+            QVERIFY2(trackingCallsAtDisconnect == expectedCalls,
+                     qPrintable(QString("setTracking() calls when INDI was disconnected: %1, expected: %2")
+                                .arg(trackingCallsText(trackingCallsAtDisconnect), trackingCallsText(expectedCalls))));
+            QVERIFY2(resultIndex < logSizeAtDisconnect,
+                     qPrintable(QString("\"%1\" logged after INDI was disconnected").arg(resultLog)));
+            QVERIFY(logTimes.value(resultIndex).secsTo(disconnectUTime) >= 0);
+        }
+        // The wait for the mount in simulated time: the full 10 s if it keeps tracking, otherwise one iteration
+        const qint64 waitedS = logTimes.value(offIndex).secsTo(logTimes.value(resultIndex));
+        if (callRecorded && !trackingStops)
+            QVERIFY2(waitedS >= kTrackingOffTimeoutS && waitedS <= kTrackingOffTimeoutS + 2,
+                     qPrintable(QString("Waited %1 s for the mount to stop tracking").arg(waitedS)));
+        else
+            QVERIFY2(waitedS <= 2, qPrintable(QString("Waited %1 s for the mount to stop tracking").arg(waitedS)));
+    }
+
+    // No motion command (Requirement 6.5): no slew, park or unpark, and the only status change is the one of
+    // setTracking(false), with INDI still connected (MockMount::abort() would also set MOUNT_IDLE)
+    QCOMPARE(mount->slewCount, slewCountBefore);
+    QCOMPARE(parkStatusChanges, 0);
+    QCOMPARE(static_cast<int>(mount->parkStatus()), parkStatusBefore);
+    if (callRecorded && trackingStops)
+    {
+        QCOMPARE(static_cast<int>(statusChanges.size()), 1);
+        QCOMPARE(statusChanges[0], static_cast<int>(ISD::Mount::MOUNT_IDLE));
+        QCOMPARE(callsAtStatusChange[0], 1);
+        QCOMPARE(indiAtStatusChange[0], static_cast<int>(Ekos::Success));
+        QCOMPARE(static_cast<int>(mount->status()), static_cast<int>(ISD::Mount::MOUNT_IDLE));
+    }
+    else
+    {
+        QVERIFY2(statusChanges.isEmpty(),
+                 qPrintable(QString("Mount status changed %1 times during the shutdown").arg(statusChanges.size())));
+        QCOMPARE(static_cast<int>(mount->status()), statusBefore);
+    }
+
+    // Property 6 as stated: setTracking(false) was called (recorded by the mock, or refused without tracking
+    // control) if and only if the queue failed and the mount was unparked and tracking
+    const bool called = !mount->trackingCalls.isEmpty() || m_schedulerLog.contains(kNoTrackingControlLog);
+    QVERIFY2(called == switchesOff,
+             qPrintable(QString("setTracking(false) %1, queue %2, %3, %4")
+                        .arg(called ? "called" : "not called", queueFails ? "failed" : "succeeded",
+                             parked ? "parked" : "unparked", tracking ? "tracking" : "not tracking")));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Weather soft-shutdown tests (mock modules, simulated clock)
 //
 // These cover the scheduler's behaviour while a weather/safety alert holds the
@@ -1909,6 +3099,158 @@ void TestEkosSchedulerOps::testWeatherAlertBeforeFirstJobCheck()
     QCOMPARE(mount->slewCount, slews);
     QVERIFY(scheduler->moduleState()->weatherGracePeriodActive() ||
             scheduler->moduleState()->weatherShutdownMonitoring());
+}
+
+void TestEkosSchedulerOps::testWeatherShutdownWaitsForMountMotion_data()
+{
+    // Mount status and flip state when the alert arrives
+    QTest::addColumn<int>("busyMountStatus");
+    QTest::addColumn<int>("busyFlipStatus");
+    // The expected wait message
+    QTest::addColumn<QString>("waitLog");
+    // The mount keeps reporting the slew: the soft shutdown must go on after the weather limit of 2 minutes
+    QTest::addColumn<bool>("neverDone");
+
+    QTest::newRow("FlipRunning") << int(ISD::Mount::MOUNT_SLEWING) << int(MeridianFlipState::MOUNT_FLIP_RUNNING)
+                                 << kFlipWaitLog << false;
+    QTest::newRow("StuckSlewing") << int(ISD::Mount::MOUNT_SLEWING) << int(MeridianFlipState::MOUNT_FLIP_NONE)
+                                  << kSlewWaitLog << true;
+}
+
+// A weather alert arrives while a meridian flip runs, or while the mount keeps reporting a slew that never ends
+// (a driver that is stuck). The soft shutdown waits for the motion as the other shutdowns do, but at most
+// 2 minutes instead of 5, since the pre-shutdown tasks also close the dome. After the wait the soft shutdown
+// runs, and the scheduler sleeps until the end of the grace period that the alert set, not longer.
+// With the grace period expired and the alert still on, the full shutdown waits at most 2 minutes too.
+//
+// No pre-shutdown queue is configured (see init()), so "the soft shutdown ran" is the log line
+// "No pre-shutdown tasks during weather grace period; soft shutdown complete.".
+void TestEkosSchedulerOps::testWeatherShutdownWaitsForMountMotion()
+{
+    QFETCH(int, busyMountStatus);
+    QFETCH(int, busyFlipStatus);
+    QFETCH(QString, waitLog);
+    QFETCH(bool, neverDone);
+
+    const QString softShutdownLog("No pre-shutdown tasks during weather grace period; soft shutdown complete.");
+    const QString graceExpiredLog("Weather grace period has expired");
+    const QString weatherLimitLog("Safety alert: waiting at most 2 minutes for the mount, then continuing the shutdown.");
+    const QString weatherTimeoutLog("Warning: the mount is still busy after 2 minutes, continuing.");
+    const int gracePeriodMinutes = 60;
+    const int intervalSecs = kJobEndIntervalMs / 1000;
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    TestEkosSchedulerHelper::CompletionCondition loop;
+    loop.type = Ekos::FINISH_LOOP;
+    startWeatherTestJob(gracePeriodMinutes, loop, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+
+    // 10 simulated seconds per iteration: the weather limit takes 12 iterations, the 5 minute limit 30
+    WithInterval interval(kJobEndIntervalMs, scheduler);
+    auto state = scheduler->moduleState();
+
+    // The alert arrives with the mount busy. The soft shutdown starts from the weather shutdown timer (delay 0),
+    // so the event loop runs it.
+    mount->setStatus(static_cast<ISD::Mount::Status>(busyMountStatus));
+    mount->setMeridianFlipStatus(busyFlipStatus);
+    m_schedulerLog.clear();
+    injectWeather(ISD::Weather::WEATHER_ALERT);
+    QTRY_VERIFY_WITH_TIMEOUT(state->weatherGracePeriodActive(), 5000);
+    const QDateTime alertUTime = KStarsData::Instance()->ut();
+    const QDateTime wakeupTime = state->preemptiveShutdownWakeupTime();
+    QVERIFY(state->preemptiveShutdown());
+    QVERIFY(wakeupTime.isValid());
+    QVERIFY2(std::abs(Ekos::SchedulerModuleState::getLocalTime().secsTo(wakeupTime) - gracePeriodMinutes * 60) <= 1,
+             qPrintable(QString("The grace period ends at %1, the alert came at %2")
+                        .arg(wakeupTime.toString(), Ekos::SchedulerModuleState::getLocalTime().toString())));
+
+    // The soft shutdown waits for the motion, the wait and its limit are logged once
+    QCOMPARE(state->shutdownState(), Ekos::SHUTDOWN_IDLE);
+    QCOMPARE(state->timerState(), Ekos::RUN_SHUTDOWN);
+    QCOMPARE(schedulerLogCount(softShutdownLog), 0);
+    QVERIFY2(schedulerLogCount(waitLog) == 1, qPrintable(m_schedulerLog.join(" | ")));
+    QVERIFY2(schedulerLogCount(weatherLimitLog) == 1, qPrintable(m_schedulerLog.join(" | ")));
+
+    if (neverDone)
+    {
+        // The mount never stops: the soft shutdown runs 2 minutes after the wait started, not 5
+        QVERIFY2(iterateScheduler("Mount stuck slewing at the weather alert", 20, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return schedulerLogCount(softShutdownLog) > 0;
+        }), "The soft shutdown didn't start within 200 s of the alert");
+        const qint64 waitedSecs = alertUTime.secsTo(KStarsData::Instance()->ut());
+        QVERIFY2(waitedSecs >= 120 && waitedSecs <= 120 + 2 * intervalSecs,
+                 qPrintable(QString("The soft shutdown started %1 s after the alert, expected 120 s").arg(waitedSecs)));
+        QCOMPARE(schedulerLogCount(weatherTimeoutLog), 1);
+        QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 0);
+    }
+    else
+    {
+        // A minute with the flip running, as a real flip takes: no shutdown yet
+        iterateScheduler("Flip running at the weather alert", 6, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return schedulerLogCount(softShutdownLog) > 0;
+        });
+        QVERIFY2(schedulerLogCount(softShutdownLog) == 0, "The soft shutdown started during the meridian flip");
+        QCOMPARE(state->shutdownState(), Ekos::SHUTDOWN_IDLE);
+        QCOMPARE(state->timerState(), Ekos::RUN_SHUTDOWN);
+
+        // The flip is over: the soft shutdown runs in the next iteration
+        mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+        mount->setMeridianFlipStatus(MeridianFlipState::MOUNT_FLIP_COMPLETED);
+        QVERIFY2(iterateScheduler("Flip finished", 1, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return schedulerLogCount(softShutdownLog) > 0;
+        }), "The soft shutdown didn't start once the flip was over");
+        QCOMPARE(schedulerLogCount(weatherTimeoutLog), 0);
+    }
+    QCOMPARE(schedulerLogCount(waitLog), 1);
+    QVERIFY(logIndex(m_schedulerLog, waitLog) < logIndex(m_schedulerLog, softShutdownLog));
+
+    // Soft shutdown done, Ekos/INDI still up, the wakeup is still the end of the grace period
+    QCOMPARE(state->shutdownState(), Ekos::SHUTDOWN_COMPLETE);
+    QVERIFY(state->weatherGracePeriodActive());
+    QVERIFY(state->preemptiveShutdown());
+    QCOMPARE(state->preemptiveShutdownWakeupTime(), wakeupTime);
+    QCOMPARE(state->timerState(), Ekos::RUN_WAKEUP);
+    QCOMPARE(ekos->ekosStatus(), Ekos::Success);
+
+    // The alert outlasts the grace period: the scheduler wakes up at its end (the simulated clock jumps by the
+    // iteration's sleep time) and shuts down completely
+    m_schedulerLog.clear();
+    QVERIFY(iterateScheduler("Wait for the end of the grace period", 3, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return schedulerLogCount(graceExpiredLog) > 0;
+    }));
+    const QDateTime expiredUTime = KStarsData::Instance()->ut();
+    const qint64 graceSecs = alertUTime.secsTo(expiredUTime);
+    QVERIFY2(std::abs(graceSecs - gracePeriodMinutes * 60) <= timeTolerance(60),
+             qPrintable(QString("Woke up %1 s after the alert, the grace period is %2 s")
+                        .arg(graceSecs).arg(gracePeriodMinutes * 60)));
+
+    // The full shutdown waits again while the mount is still busy, with the weather limit
+    QVERIFY(iterateScheduler("Wait for the full shutdown", 20, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return schedulerLogCount(kShutdownStartLog) > 0;
+    }));
+    const qint64 fullShutdownSecs = expiredUTime.secsTo(KStarsData::Instance()->ut());
+    if (neverDone)
+    {
+        QVERIFY2(fullShutdownSecs >= 120 && fullShutdownSecs <= 120 + 2 * intervalSecs,
+                 qPrintable(QString("The full shutdown started %1 s after the grace period, expected 120 s")
+                            .arg(fullShutdownSecs)));
+        QCOMPARE(schedulerLogCount(weatherTimeoutLog), 1);
+    }
+    else
+    {
+        QVERIFY2(fullShutdownSecs <= 2 * intervalSecs,
+                 qPrintable(QString("The full shutdown started %1 s after the grace period").arg(fullShutdownSecs)));
+        QCOMPARE(schedulerLogCount(waitLog), 0);
+    }
+    QCOMPARE(schedulerLogCount(kMotionTimeoutLog), 0);
 }
 
 // Expect the job to start running at startJobUTime.

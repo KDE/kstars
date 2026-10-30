@@ -154,6 +154,20 @@ bool MeridianFlipState::checkMeridianFlip(dms lst)
         return false;
     }
 
+    // No flip while the mount parks or unparks: a goto could interrupt the park. The park status
+    // comes directly from the park property, the mount status may still be the previous one.
+    if (m_MountParkStatus == ISD::PARK_PARKING)
+    {
+        publishMFMountStatusText(i18n("Meridian flip inactive (parking)"));
+        return false;
+    }
+
+    if (m_MountParkStatus == ISD::PARK_UNPARKING)
+    {
+        publishMFMountStatusText(i18n("Meridian flip inactive (unparking)"));
+        return false;
+    }
+
     if (targetPosition.valid == false || isEnabled() == false)
     {
         publishMFMountStatusText(i18n("Meridian flip inactive (no target set)"));

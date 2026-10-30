@@ -28,6 +28,7 @@
         <property name="pierSide" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Mount::PierSide"/>
         </property>
+        <property name="meridianFlipStatus" type="i" access="read"/>
         <method name="slew">
             <arg type="b" direction="out"/>
             <arg name="RA" type="d" direction="in"/>
@@ -54,6 +55,10 @@
         </method>
         <method name="unpark">
             <arg type="b" direction="out"/>
+        </method>
+        <method name="setTracking">
+            <arg type="b" direction="out"/>
+            <arg name="enabled" type="b" direction="in"/>
         </method>
         <method name="resetModel">
             <arg type="b" direction="out"/>

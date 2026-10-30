@@ -8,6 +8,7 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
     </property>
     <property name="canPark" type="b" access="read"/>
+    <property name="meridianFlipStatus" type="i" access="read"/>
     <method name="slew">
       <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>
@@ -24,6 +25,10 @@
     </method>
     <method name="unpark">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="setTracking">
+      <arg type="b" direction="out"/>
+      <arg name="enabled" type="b" direction="in"/>
     </method>
     <signal name="newStatus">
       <arg name="status" type="(i)" direction="out"/>

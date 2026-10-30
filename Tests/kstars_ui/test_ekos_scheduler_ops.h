@@ -69,6 +69,22 @@ class TestEkosSchedulerOps : public QObject
         void testPreemptiveWakeupCompletesStartup();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
 
+        // The shutdown and the park before sleeping wait for a meridian flip or a slew to finish.
+        void testShutdownWaitsForMountMotion_data();
+        void testShutdownWaitsForMountMotion();
+        // The same wait decision for every mount status x meridian flip state.
+        void testMountMotionWaitDecision_data();
+        void testMountMotionWaitDecision();
+        // The wait lasts at most 5 minutes, 2 minutes during a weather shutdown.
+        void testMountMotionWaitTimeout_data();
+        void testMountMotionWaitTimeout();
+        // A failed pre- or post-shutdown task is reported instead of "Shutdown complete.".
+        void testShutdownReportsQueueFailure_data();
+        void testShutdownReportsQueueFailure();
+        // A shutdown whose pre-shutdown queue failed switches tracking off if the mount isn't parked.
+        void testShutdownSafetyNetTrackingOff_data();
+        void testShutdownSafetyNetTrackingOff();
+
         // Weather soft-shutdown tests driven through the mock modules and a simulated
         // clock, so the scheduler's 5-minute monitoring wakeups run in milliseconds.
         void testWeatherMonitoringWakeupDuringAlert();
@@ -76,6 +92,10 @@ class TestEkosSchedulerOps : public QObject
         void testWeatherClearsAfterJobEndTime();
         void testWeatherAlertThroughDawn();
         void testWeatherAlertBeforeFirstJobCheck();
+        // A weather alert during a meridian flip, or with a mount stuck slewing: the soft shutdown waits at most
+        // 2 minutes, and the grace period wakeup stays where it was.
+        void testWeatherShutdownWaitsForMountMotion_data();
+        void testWeatherShutdownWaitsForMountMotion();
 
         // Weather tests with the INDI simulators are in test_ekos_scheduler_weather.
 
@@ -115,6 +135,10 @@ class TestEkosSchedulerOps : public QObject
         bool iterateDuringWeatherHold(const QString &label, int iterations, int &sleepMs, KStarsDateTime &currentUTime,
                                       std::function<bool ()> done);
         void wakeupAndRestart(const QDateTime &restartTime, KStarsDateTime &testUTime, int &sleepMs);
+        int schedulerLogCount(const QString &text) const;
+        void checkShutdownWaitAtJobEnd(int busyMountStatus, int busyFlipStatus, int doneFlipStatus,
+                                       const QString &waitLog, bool neverDone);
+        void checkMountWaitAtDawn(bool preemptive, int busyFlipStatus, int doneFlipStatus, const QString &waitLog);
 
 
     private:

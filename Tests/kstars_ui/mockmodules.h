@@ -134,6 +134,7 @@ class MockMount : public QObject
         Q_PROPERTY(ISD::Mount::Status status READ status NOTIFY newStatus)
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(bool canPark READ canPark)
+        Q_PROPERTY(int meridianFlipStatus READ meridianFlipStatus)
     public:
         MockMount();
 
@@ -144,6 +145,11 @@ class MockMount : public QObject
         Q_INVOKABLE Q_SCRIPTABLE ISD::ParkStatus parkStatus() const
         {
             return m_ParkStatus;
+        }
+        // MeridianFlipState::MeridianFlipMountState as int, 0 = MOUNT_FLIP_NONE
+        Q_INVOKABLE Q_SCRIPTABLE int meridianFlipStatus() const
+        {
+            return m_MeridianFlipStatus;
         }
         Q_INVOKABLE Q_SCRIPTABLE bool slew(double RaHours, double DecDegrees)
         {
@@ -180,6 +186,19 @@ class MockMount : public QObject
             setParkStatus(ISD::PARK_UNPARKED);
             return true;
         }
+        // Without tracking control (canControlTrack false) it returns false and records nothing. Otherwise the call
+        // is appended to trackingCalls, and switching off turns MOUNT_TRACKING into MOUNT_IDLE unless
+        // trackingOffChangesStatus is false (a mount that keeps tracking).
+        Q_INVOKABLE Q_SCRIPTABLE bool setTracking(bool enabled)
+        {
+            fprintf(stderr, "%d @@@MockMount::setTracking(%d)\n", __LINE__, enabled);
+            if (!canControlTrack)
+                return false;
+            trackingCalls.append(enabled);
+            if (!enabled && trackingOffChangesStatus && m_Status == ISD::Mount::MOUNT_TRACKING)
+                setStatus(ISD::Mount::MOUNT_IDLE);
+            return true;
+        }
 
         void sendReady()
         {
@@ -195,10 +214,18 @@ class MockMount : public QObject
             m_ParkStatus = parkStatus;
             Q_EMIT newParkStatus(parkStatus);
         }
+        void setMeridianFlipStatus(int status)
+        {
+            m_MeridianFlipStatus = status;
+        }
 
         int slewCount = 0;
         double lastRaHoursSlew = 0;
         double lastDecDegreesSlew = 0;
+        // setTracking() arguments, in call order
+        QList<bool> trackingCalls;
+        bool canControlTrack = true;
+        bool trackingOffChangesStatus = true;
         static const QString mockPath;
 
     Q_SIGNALS:
@@ -215,6 +242,7 @@ class MockMount : public QObject
     private:
         ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNPARKED;
+        int m_MeridianFlipStatus = 0;
 };
 
 // MockCapture returns status() of CAPTURE_CAPTURING, CAPTURE_ABORTED, CAPTURE_IDLE

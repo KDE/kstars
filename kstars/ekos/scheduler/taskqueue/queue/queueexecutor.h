@@ -38,6 +38,7 @@ class QueueExecutor : public QObject
         bool start();
         void pause();
         void resume();
+        // Both abort the running action (TaskAction::abort()), so that it sends nothing after the queue stopped
         void stop();
         void abort();
 

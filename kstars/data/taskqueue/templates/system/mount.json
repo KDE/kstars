@@ -32,6 +32,26 @@
                     "value": true,
                     "timeout": "${wait_timeout}",
                     "retries": 2,
+                    "failure_action": 1
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "TELESCOPE_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 0,
+                    "failure_action": 1
+                },
+                {
+                    "type": "SET",
+                    "property": "TELESCOPE_PARK",
+                    "element": "PARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
                     "failure_action": 0
                 },
                 {

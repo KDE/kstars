@@ -120,6 +120,110 @@ void TestEkosMeridianFlipState::testMeridianFlip_data()
 #endif
 }
 
+void TestEkosMeridianFlipState::testNoFlipWhileParking()
+{
+    // Property 7: with the target past the flip limit and the flip enabled, a meridian flip is planned
+    // if and only if the park status is not PARKED, PARKING or UNPARKING.
+    QFETCH(QList<ISD::ParkStatus>, parkStatuses);
+    QFETCH(bool, expectFlip);
+    QFETCH(QString, expectedText);
+    const int base_offset = 15;
+    // mount should be in tracking mode
+    QVERIFY(m_MountStatus == ISD::Mount::MOUNT_TRACKING);
+    // slew to a target 15 seconds before the meridian, expect SLEW --> TRACK
+    expectedMountStates.append(ISD::Mount::MOUNT_SLEWING);
+    expectedMountStates.append(ISD::Mount::MOUNT_TRACKING);
+    m_Mount->Slew(findMFTestTarget(base_offset, true));
+    QTRY_VERIFY_WITH_TIMEOUT(expectedMountStates.isEmpty(), 10000);
+    QVERIFY(m_currentPosition.pierSide == ISD::Mount::PIER_WEST);
+
+    // the target passes the flip limit: the flip is planned while the park status is still unknown
+    QTRY_VERIFY_WITH_TIMEOUT(m_stateMachine->getMeridianFlipMountState() == Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED,
+                             15000);
+    QVERIFY2(m_currentPosition.ha.HoursHa() >= 0, QString("Current HA=%1").arg(m_currentPosition.ha.HoursHa()).toLatin1());
+
+    // a park starts: the park status update clears the planned flip (existing behaviour)
+    m_stateMachine->setMountParkStatus(ISD::PARK_PARKING);
+    QVERIFY(m_stateMachine->getMeridianFlipMountState() == Ekos::MeridianFlipState::MOUNT_FLIP_NONE);
+    // the park status updates that follow in this row
+    for (const ISD::ParkStatus status : parkStatuses)
+        m_stateMachine->setMountParkStatus(status);
+
+    // Check after the next coordinate update, as the mount's 1 s timer delivers it, and after more updates from
+    // the mount simulator (one per clock tick). The mount status stays MOUNT_TRACKING: the flip check sees the
+    // status of the previous update while the park status already reports the park (run A).
+    for (int round = 0; round < 2; round++)
+    {
+        const bool moreUpdates = (round > 0);
+        if (moreUpdates)
+        {
+            const double haBefore = m_currentPosition.ha.HoursHa();
+            QTest::qWait(1000);
+            QVERIFY(m_currentPosition.ha.HoursHa() > haBefore);
+        }
+        else
+            m_stateMachine->updateTelescopeCoord(m_currentPosition.position, m_currentPosition.pierSide, m_currentPosition.ha);
+
+        QVERIFY(m_MountStatus == ISD::Mount::MOUNT_TRACKING);
+        const Ekos::MeridianFlipState::MeridianFlipMountState state = m_stateMachine->getMeridianFlipMountState();
+        const QString when(moreUpdates ? "after more coordinate updates" : "after the next coordinate update");
+        const QString detail = QString("%1, %2 (state %3 %4)").arg(QString(QTest::currentDataTag()), when)
+                               .arg(static_cast<int>(state)).arg(Ekos::MeridianFlipState::meridianFlipStatusString(state));
+        if (expectFlip)
+            QVERIFY2(state == Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED,
+                     QString("no flip planned with park status %1").arg(detail).toLatin1());
+        else
+            QVERIFY2(state == Ekos::MeridianFlipState::MOUNT_FLIP_NONE,
+                     QString("flip planned while the park status is %1").arg(detail).toLatin1());
+        QCOMPARE(m_stateMachine->getMeridianStatusText(), expectedText);
+    }
+}
+
+void TestEkosMeridianFlipState::testNoFlipWhileParking_data()
+{
+    // columns read by init()
+    QTest::addColumn<QString>("location");      /*!< geographical location? */
+    QTest::addColumn<bool>("enabled");          /*!< meridian flip enabled? */
+    QTest::addColumn<bool>("captureInterface"); /*!< capture interface present? */
+    QTest::addColumn<double>("offset");         /*!< meridian flip offset (in degrees) */
+    // park status updates after the park started (PARKING), in this order
+    QTest::addColumn<QList<ISD::ParkStatus>>("parkStatuses");
+    // flip planned with the last park status?
+    QTest::addColumn<bool>("expectFlip");
+    // meridian flip status text after the coordinate updates
+    QTest::addColumn<QString>("expectedText");
+
+    // With a capture interface a planned flip waits for Capture: it stays PLANNED and no flip slew starts.
+    const QString planned("Meridian flip planned...");
+    // still parking
+    const QList<ISD::ParkStatus> parking;
+    // parked, then the unpark starts
+    QList<ISD::ParkStatus> unparking;
+    unparking << ISD::PARK_PARKED << ISD::PARK_UNPARKING;
+    // the park has finished
+    QList<ISD::ParkStatus> parked;
+    parked << ISD::PARK_PARKED;
+    // parked and unparked again
+    QList<ISD::ParkStatus> unparked;
+    unparked << ISD::PARK_PARKED << ISD::PARK_UNPARKING << ISD::PARK_UNPARKED;
+    // the state machine keeps only the last park status: this is a mount that can't report one
+    QList<ISD::ParkStatus> unknown;
+    unknown << ISD::PARK_UNKNOWN;
+    // the driver refused the park (Alert), e.g. EQMod during a slew
+    QList<ISD::ParkStatus> error;
+    error << ISD::PARK_ERROR;
+
+    QTest::newRow("Parking") << "Greenwich" << true << true << 0.0 << parking << false
+                             << QString("Meridian flip inactive (parking)");
+    QTest::newRow("Unparking") << "Greenwich" << true << true << 0.0 << unparking << false
+                               << QString("Meridian flip inactive (unparking)");
+    QTest::newRow("Parked") << "Greenwich" << true << true << 0.0 << parked << false
+                            << QString("Meridian flip inactive (parked)");
+    QTest::newRow("Unparked") << "Greenwich" << true << true << 0.0 << unparked << true << planned;
+    QTest::newRow("Unknown") << "Greenwich" << true << true << 0.0 << unknown << true << planned;
+    QTest::newRow("Error") << "Greenwich" << true << true << 0.0 << error << true << planned;
+}
+
 void TestEkosMeridianFlipState::connectAdaptor()
 {
     m_Mount = new MountSimulator();
