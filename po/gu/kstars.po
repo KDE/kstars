@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-29 02:30+0000\n"
+"POT-Creation-Date: 2026-10-30 02:22+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -18327,54 +18327,54 @@ msgstr "રેડિઓટેલિસ્કોપ"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "%B, %Y પર પહેલાં"
 
-#: ekos/capture/sequencejobstate.cpp:1058
+#: ekos/capture/sequencejobstate.cpp:1057
 #, fuzzy, kde-format
 msgid "Light box light turned on."
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/capture/sequencejobstate.cpp:1061
+#: ekos/capture/sequencejobstate.cpp:1060
 #, fuzzy, kde-format
 msgid "Light box light turned off."
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/capture/sequencejobstate.cpp:1064
+#: ekos/capture/sequencejobstate.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light box busy."
 msgstr "ઉંચાઇ:"
 
-#: ekos/capture/sequencejobstate.cpp:1067
+#: ekos/capture/sequencejobstate.cpp:1066
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light box error."
 msgstr "ઉંચાઇ:"
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1090
 #, fuzzy, kde-format
 msgid "Dust cap error occurred."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
 
-#: ekos/capture/sequencejobstate.cpp:1097
+#: ekos/capture/sequencejobstate.cpp:1096
 #, fuzzy, kde-format
 msgid "Dust cap is idle."
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/capture/sequencejobstate.cpp:1100
+#: ekos/capture/sequencejobstate.cpp:1099
 #, fuzzy, kde-format
 msgid "Dust cap is parked."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
 
-#: ekos/capture/sequencejobstate.cpp:1103
+#: ekos/capture/sequencejobstate.cpp:1102
 #, fuzzy, kde-format
 msgid "Dust cap is parking..."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
 
-#: ekos/capture/sequencejobstate.cpp:1106
+#: ekos/capture/sequencejobstate.cpp:1105
 #, fuzzy, kde-format
 msgid "Dust cap is unparking..."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"
 
-#: ekos/capture/sequencejobstate.cpp:1109
+#: ekos/capture/sequencejobstate.cpp:1108
 #, fuzzy, kde-format
 msgid "Dust cap status unknown."
 msgstr "અમેરિકા/ડાઉસન_ક્રીક"

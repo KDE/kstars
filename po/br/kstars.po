@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-29 02:30+0000\n"
+"POT-Creation-Date: 2026-10-30 02:22+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -18816,57 +18816,57 @@ msgstr "Pellsellerez radio"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Farmington"
 
-#: ekos/capture/sequencejobstate.cpp:1058
+#: ekos/capture/sequencejobstate.cpp:1057
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Light box light turned on."
 msgstr "Enlinenn eo %1."
 
-#: ekos/capture/sequencejobstate.cpp:1061
+#: ekos/capture/sequencejobstate.cpp:1060
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Light box light turned off."
 msgstr "Enlinenn eo %1."
 
-#: ekos/capture/sequencejobstate.cpp:1064
+#: ekos/capture/sequencejobstate.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light box busy."
 msgstr "Uhelder :"
 
-#: ekos/capture/sequencejobstate.cpp:1067
+#: ekos/capture/sequencejobstate.cpp:1066
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light box error."
 msgstr "Uhelder :"
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1090
 #, fuzzy, kde-format
 msgid "Dust cap error occurred."
 msgstr "Goose Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1097
+#: ekos/capture/sequencejobstate.cpp:1096
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Dust cap is idle."
 msgstr "Enlinenn eo %1."
 
-#: ekos/capture/sequencejobstate.cpp:1100
+#: ekos/capture/sequencejobstate.cpp:1099
 #, fuzzy, kde-format
 msgid "Dust cap is parked."
 msgstr "Goose Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1103
+#: ekos/capture/sequencejobstate.cpp:1102
 #, fuzzy, kde-format
 msgid "Dust cap is parking..."
 msgstr "Goose Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1106
+#: ekos/capture/sequencejobstate.cpp:1105
 #, fuzzy, kde-format
 msgid "Dust cap is unparking..."
 msgstr "Goose Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1109
+#: ekos/capture/sequencejobstate.cpp:1108
 #, fuzzy, kde-format
 msgid "Dust cap status unknown."
 msgstr "Goose Creek"

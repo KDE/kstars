@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-29 02:30+0000\n"
+"POT-Creation-Date: 2026-10-30 02:22+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -20507,61 +20507,61 @@ msgstr "O bloqueio do Dome foi mal-sucedido; a interromper..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "A bloquear o 'dome' antes da captura das imagens de calibração..."
 
-#: ekos/capture/sequencejobstate.cpp:1058
+#: ekos/capture/sequencejobstate.cpp:1057
 #, fuzzy, kde-format
 #| msgid "Turn light box light on..."
 msgid "Light box light turned on."
 msgstr "Ligar a luz da caixa de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:1061
+#: ekos/capture/sequencejobstate.cpp:1060
 #, fuzzy, kde-format
 #| msgid "Turn light box light off..."
 msgid "Light box light turned off."
 msgstr "Desligar a luz da caixa de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:1064
+#: ekos/capture/sequencejobstate.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Light box on."
 msgid "Light box busy."
 msgstr "Caixa de luz ligada."
 
-#: ekos/capture/sequencejobstate.cpp:1067
+#: ekos/capture/sequencejobstate.cpp:1066
 #, fuzzy, kde-format
 #| msgid "Light box on."
 msgid "Light box error."
 msgstr "Caixa de luz ligada."
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Dust cap parked."
 msgid "Dust cap error occurred."
 msgstr "A tampa de pó está bloqueada."
 
-#: ekos/capture/sequencejobstate.cpp:1097
+#: ekos/capture/sequencejobstate.cpp:1096
 #, fuzzy, kde-format
 #| msgid "%1 Dust cap is online."
 msgid "Dust cap is idle."
 msgstr "A tampa de pó %1 está ligada."
 
-#: ekos/capture/sequencejobstate.cpp:1100
+#: ekos/capture/sequencejobstate.cpp:1099
 #, fuzzy, kde-format
 #| msgid "Dust cap parked."
 msgid "Dust cap is parked."
 msgstr "A tampa de pó está bloqueada."
 
-#: ekos/capture/sequencejobstate.cpp:1103
+#: ekos/capture/sequencejobstate.cpp:1102
 #, fuzzy, kde-format
 #| msgid "%1 is parking..."
 msgid "Dust cap is parking..."
 msgstr "O %1 está a bloquear..."
 
-#: ekos/capture/sequencejobstate.cpp:1106
+#: ekos/capture/sequencejobstate.cpp:1105
 #, fuzzy, kde-format
 #| msgid "%1 is unparking..."
 msgid "Dust cap is unparking..."
 msgstr "O %1 está a desbloquear..."
 
-#: ekos/capture/sequencejobstate.cpp:1109
+#: ekos/capture/sequencejobstate.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Dust cap unparked."
 msgid "Dust cap status unknown."
