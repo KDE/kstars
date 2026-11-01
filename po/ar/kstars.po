@@ -5,13 +5,13 @@
 # Ahmad M. Zawawi <zawawi@arabeyes.org>, 2004.
 # Mohamed Saad <metehyi@free.fr>, 2006.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# SPDX-FileCopyrightText: 2022, 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2025-2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 02:18+0000\n"
-"PO-Revision-Date: 2026-09-30 19:23+0400\n"
+"PO-Revision-Date: 2026-10-31 21:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7221,10 +7221,9 @@ msgid "Solving with blind image position..."
 msgstr "أحلّ باستخدام موضع الصورة الأعمى..."
 
 #: ekos/align/align_solver.cpp:582
-#, fuzzy, kde-format
-#| msgid "Solving with blind image position..."
+#, kde-format
 msgid "Solving with blind image scale and position..."
-msgstr "أحلّ باستخدام موضع الصورة الأعمى..."
+msgstr "الحل بمقياس الصورة والموضع الأعمى..."
 
 #: ekos/align/align_solver.cpp:588
 #, kde-format
@@ -7351,10 +7350,9 @@ msgid "Solver failed. Retrying without position constraint."
 msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد الموضع."
 
 #: ekos/align/align_solver.cpp:1153
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without position constraint."
+#, kde-format
 msgid "Solver failed. Retrying without scale and position constraints."
-msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد الموضع."
+msgstr "فشل الحال. إعادة المحاولة دون قيود المقياس والموضع."
 
 #: ekos/align/align_solver.cpp:1160
 #, kde-format
@@ -7598,10 +7596,9 @@ msgid "The Mount Model Tool is Finished."
 msgstr "اِنْتَهَت أداة نموذج الحامل."
 
 #: ekos/align/mountmodel.cpp:1323
-#, fuzzy, kde-format
-#| msgid "Mount model: forcing blind solve and sync for each alignment point."
+#, kde-format
 msgid "Mount model: syncing the mount for each alignment point."
-msgstr "نموذج الحمل: فرض حل أعمى ومزامنة لكل نقطة محاذاة."
+msgstr "نموذج الحامل: مزامنة الحامل لكل نقطة محاذاة."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -10094,7 +10091,7 @@ msgstr "الحامل أُجهِض. اعكس اتجاه محور المطلع ا�
 #, kde-format
 msgid ""
 "Polar alignment requires a mount. Please select a mount in the optical train."
-msgstr ""
+msgstr "تتطلب المحاذاة القطبية حاملًا. الرجاء اختيار حامل في القطار البصري."
 
 #: ekos/align/polaralignmentassistant.cpp:782
 #, kde-format
@@ -14230,22 +14227,19 @@ msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "تشكيلة تهدف لحل الصفائح لصور بحجم المقراب"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:376
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt ""
 "Name of a modified built-in plate solving profile, %1 is the original name"
 msgid "%1 (Custom)"
-msgstr "المعتاد"
+msgstr "%1 (مخصص)"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:380
-#, fuzzy, kde-format
-#| msgctxt "%2 is the value, % is the percent sign"
-#| msgid "%1 (%2%)"
+#, kde-format
 msgctxt ""
 "Name of a modified built-in plate solving profile, %1 is the original name, "
 "%2 a number"
 msgid "%1 (Custom %2)"
-msgstr "%1 (%2٪)"
+msgstr "%1 (مخصص %2)"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:449
 #, kde-format
@@ -16872,10 +16866,9 @@ msgid "DSLR"
 msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:116
-#, fuzzy, kde-format
-#| msgid "Stop &Tracking"
+#, kde-format
 msgid "Stream Tracking"
-msgstr "أوقف ال&تتبع"
+msgstr "تتبع البث"
 
 #: ekos/capture/capture.cpp:540 ekos/focus/focusmodule.cpp:718
 #, kde-format
@@ -17540,53 +17533,49 @@ msgid "Integration time to noise ratio (potential quality)"
 msgstr "نسبة وقت التكامل إلى الضوضاء (الجودة المحتملة)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (update available)"
-msgstr "%1 خصائص متوفرة"
+msgstr "%1 (يتوفر تحديث)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:80
 #, kde-format
 msgctxt "camera name, followed by its status"
 msgid "%1 (installed)"
-msgstr ""
+msgstr "%1 (مثبتة)"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:100
 #, kde-format
 msgid "An update is available for 1 installed camera."
 msgid_plural "Updates are available for %1 installed cameras."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "لا توجد تحديثات متاحة لأي كاميرا مثبتة."
+msgstr[1] "يُتوفر تحديث لكاميرا واحدة مثبتة."
+msgstr[2] "يُتوفر تحديث لكاميرتين مثبتتين."
+msgstr[3] "تتوفر تحديثات لـ %1 كاميرات مثبتة."
+msgstr[4] "تتوفر تحديثات لـ %1 كاميرا مثبتة."
+msgstr[5] "تتوفر تحديثات لـ %1 كاميرا مثبتة."
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:110
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The list of cameras could not be downloaded: %1"
-msgstr "تعذّرت قراءة ملف الأوزان."
+msgstr "تعذر تنزيل قائمة الكاميرات: %1"
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:122
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:146
-#, fuzzy, kde-format
-#| msgid "Downloading Data..."
+#, kde-format
 msgid "Downloading 1 camera..."
 msgid_plural "Downloading %1 cameras..."
-msgstr[0] "تحميل بيانات..."
-msgstr[1] "تحميل بيانات..."
-msgstr[2] "تحميل بيانات..."
-msgstr[3] "تحميل بيانات..."
-msgstr[4] "تحميل بيانات..."
-msgstr[5] "تحميل بيانات..."
+msgstr[0] "لا ينزل أي كاميرا..."
+msgstr[1] "ينزل كاميرا واحدة..."
+msgstr[2] "ينزل كاميرتان اثنتان..."
+msgstr[3] "ينزل %1 كاميرات..."
+msgstr[4] "ينزل %1 كاميراً..."
+msgstr[5] "ينزل %1 كاميرا..."
 
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.cpp:159
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not download: %1"
-msgstr "لم يمكن فتح الملف: %1"
+msgstr "تعذر التنزيل: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -17596,10 +17585,9 @@ msgstr "تنزيل بيانات الكاميرا"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, fuzzy, kde-format
-#| msgid "Select all cameras you wish to use:"
+#, kde-format
 msgid "Select the cameras to download:"
-msgstr "اِختر جميع الكاميرات التي تود استخدامها:"
+msgstr "اختر الكاميرات المراد تنزيلها:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
@@ -18062,13 +18050,14 @@ msgid ""
 "When the camera's stream tracking is turned on, by any client, send guide "
 "pulses to keep the target at the lock point. Turn off to only measure."
 msgstr ""
+"عند تشغيل تتبع البث للكاميرا، من أي عميل، أرسل نبضات توجيه لإبقاء الهدف عند "
+"نقطة القفل. أوقفه للقياس فقط."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StreamTrackingCorrectMount)
 #: ekos/capture/opsstreamtrackingsettings.ui:37
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Correct mount"
-msgstr "مهلة التصحيح:"
+msgstr "صحح الحامل"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingDeadband)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
@@ -18078,13 +18067,13 @@ msgstr "مهلة التصحيح:"
 #, kde-format
 msgid ""
 "No correction is sent while the target is closer than this to the lock point."
-msgstr ""
+msgstr "لا يُرسل أي تصحيح بينما يكون الهدف أقرب من هذا إلى نقطة القفل."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingDeadband)
 #: ekos/capture/opsstreamtrackingsettings.ui:47
 #, kde-format
 msgid "Deadband:"
-msgstr ""
+msgstr "النطاق الميت:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_StreamTrackingDeadband)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -18102,14 +18091,13 @@ msgstr " بكسل"
 #: ekos/capture/opsstreamtrackingsettings.ui:86 kstars.kcfg:2178
 #, kde-format
 msgid "Fraction of the measured offset corrected by each pulse."
-msgstr ""
+msgstr "جزء الإزاحة المقاسة الذي يصححه كل نبض."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingAggressiveness)
 #: ekos/capture/opsstreamtrackingsettings.ui:79
-#, fuzzy, kde-format
-#| msgid "Aggressiveness (0-1.0)"
+#, kde-format
 msgid "Aggressiveness:"
-msgstr "العدوانية (0-1.0)"
+msgstr "الشراسة:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMaxPulse)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
@@ -18117,14 +18105,13 @@ msgstr "العدوانية (0-1.0)"
 #: ekos/capture/opsstreamtrackingsettings.ui:115
 #, kde-format
 msgid "Longest correction pulse sent on each axis."
-msgstr ""
+msgstr "أطول نبض تصحيح يُرسل على كل محور."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMaxPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:108
-#, fuzzy, kde-format
-#| msgid "ra pulse"
+#, kde-format
 msgid "Max pulse:"
-msgstr "نبضة ra"
+msgstr "أقصى نبض:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
@@ -18145,13 +18132,14 @@ msgid ""
 "Calibration repeats pulses of this length on each axis until the target "
 "moves at least 10 pixels."
 msgstr ""
+"تكرر المعايرة نبضات بهذا الطول على كل محور حتى يتحرك الهدف 10 بكسلات على "
+"الأقل."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingCalibrationPulse)
 #: ekos/capture/opsstreamtrackingsettings.ui:137
-#, fuzzy, kde-format
-#| msgid "Calibration started."
+#, kde-format
 msgid "Calibration step:"
-msgstr "بدأت المعايرة."
+msgstr "خطوة المعايرة:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingSettle)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingSettle)
@@ -18160,7 +18148,7 @@ msgstr "بدأت المعايرة."
 #: ekos/capture/opsstreamtrackingsettings.ui:173 kstars.kcfg:2198
 #, kde-format
 msgid "Time to wait after a pulse before using new measurements."
-msgstr ""
+msgstr "مدة الانتظار بعد نبض قبل استخدام قياسات جديدة."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingMinQuality)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_StreamTrackingMinQuality)
@@ -18169,14 +18157,13 @@ msgstr ""
 #: ekos/capture/opsstreamtrackingsettings.ui:205 kstars.kcfg:2205
 #, kde-format
 msgid "Measurements below this quality (0 to 1) are ignored."
-msgstr ""
+msgstr "تُتجاهل القياسات دون هذه الجودة (0 إلى 1)."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingMinQuality)
 #: ekos/capture/opsstreamtrackingsettings.ui:198
-#, fuzzy, kde-format
-#| msgid "Min alt"
+#, kde-format
 msgid "Min quality:"
-msgstr "أدنى ارتفاع"
+msgstr "أدنى جودة:"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
@@ -18522,10 +18509,9 @@ msgid "Complete"
 msgstr "مكتمل"
 
 #: ekos/capture/sequencejobstate.cpp:408
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting temperature to %1 °C. Previews do not wait for it."
-msgstr "اضبِط درجة الحرارة إلى %1 درجة مئوية..."
+msgstr "ضبط الحرارة إلى %1 °م. لا تنتظر المعاينات ذلك."
 
 #: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
@@ -18677,17 +18663,16 @@ msgid "Sequence queue saved to %1"
 msgstr "حُفظ تسلسل الطابور إلى %1"
 
 #: ekos/capture/streamtracker.cpp:65
-#, fuzzy, kde-format
-#| msgid "Pier side change detected. Clearing calibration."
+#, kde-format
 msgid "Pier side changed, stream tracking calibration is cleared."
-msgstr "اكتشف تغيير جانب الركيزة. أزل المعايرة."
+msgstr "تغير جانب العمود، مُسحت معايرة تتبع البث."
 
 #: ekos/capture/streamtracker.cpp:123
 #, kde-format
 msgid ""
 "Stream tracking is on in the camera, but mount correction is disabled in the "
 "options."
-msgstr ""
+msgstr "تتبع البث مفعل في الكاميرا، لكن تصحيح الحامل معطل في الخيارات."
 
 #: ekos/capture/streamtracker.cpp:129
 #, kde-format
@@ -18695,75 +18680,74 @@ msgid ""
 "Stream tracking cannot correct the mount: the optical train has no mount or "
 "guider that accepts guide pulses."
 msgstr ""
+"لا يمكن لتتبع البث تصحيح الحامل: لا يحتوي القطار البصري على حامل أو موجه "
+"يقبل نبضات التوجيه."
 
 #: ekos/capture/streamtracker.cpp:137
 #, kde-format
 msgid "Camera binning changed, stream tracking will calibrate again."
-msgstr ""
+msgstr "تغير تجميع الكاميرا، سيعاير تتبع البث مجددًا."
 
 #: ekos/capture/streamtracker.cpp:154
-#, fuzzy, kde-format
-#| msgid "Guide streaming started."
+#, kde-format
 msgid "Stream tracking started."
-msgstr "بدأ بث التتبع"
+msgstr "بدأ تتبع البث."
 
 #: ekos/capture/streamtracker.cpp:155
 #, kde-format
 msgid "Stream tracking started. Calibrating once the target is locked..."
-msgstr ""
+msgstr "بدأ تتبع البث. المعايرة بمجرد قفل الهدف..."
 
 #: ekos/capture/streamtracker.cpp:165
-#, fuzzy, kde-format
-#| msgid "Park dome on calibration."
+#, kde-format
 msgid "Stream tracking stopped during calibration."
-msgstr "اِجعل القبة تتوقف عند المعايرة."
+msgstr "توقف تتبع البث أثناء المعايرة."
 
 #: ekos/capture/streamtracker.cpp:167
-#, fuzzy, kde-format
-#| msgid "Stacking Stopped"
+#, kde-format
 msgid "Stream tracking stopped."
-msgstr "أُوقف التكديس"
+msgstr "توقف تتبع البث."
 
 #: ekos/capture/streamtracker.cpp:216
 #, kde-format
 msgid "Ekos guiding is active, stream tracking is paused."
-msgstr ""
+msgstr "توجيه Ekos نشط، تتبع البث موقوف مؤقتًا."
 
 #: ekos/capture/streamtracker.cpp:230
 #, kde-format
 msgid ""
 "Stream tracking lost the target (quality %1). Waiting for it to return..."
-msgstr ""
+msgstr "فقد تتبع البث الهدف (الجودة %1). انتظار عودته..."
 
 #: ekos/capture/streamtracker.cpp:240
 #, kde-format
 msgid "Stream tracking found the target again."
-msgstr ""
+msgstr "وجد تتبع البث الهدف مجددًا."
 
 #: ekos/capture/streamtracker.cpp:277
 #, kde-format
 msgid "Stream tracking calibration: moving West..."
-msgstr ""
+msgstr "معايرة تتبع البث: التحرك غربًا..."
 
 #: ekos/capture/streamtracker.cpp:296
 #, kde-format
 msgid "the target did not move in RA after %1 ms of West pulses."
-msgstr ""
+msgstr "لم يتحرك الهدف في المطلع المستقيم بعد %1 مللي ثانية من نبضات الغرب."
 
 #: ekos/capture/streamtracker.cpp:297
 #, kde-format
 msgid "the target did not move in DEC after %1 ms of North pulses."
-msgstr ""
+msgstr "لم يتحرك الهدف في الميل بعد %1 مللي ثانية من نبضات الشمال."
 
 #: ekos/capture/streamtracker.cpp:322
 #, kde-format
 msgid "Stream tracking calibration: moving North..."
-msgstr ""
+msgstr "معايرة تتبع البث: الانتقال شمالًا..."
 
 #: ekos/capture/streamtracker.cpp:341
 #, kde-format
 msgid "RA and DEC pulses moved the target in the same direction."
-msgstr ""
+msgstr "حرّكت نبضات المطلع المستقيم والميل الهدف في الاتجاه نفسه."
 
 #: ekos/capture/streamtracker.cpp:351
 #, kde-format
@@ -18771,6 +18755,8 @@ msgid ""
 "Stream tracking calibration complete: RA %1 px/s, DEC %2 px/s, axes %3° "
 "apart. Tracking..."
 msgstr ""
+"اكتملت معايرة تتبع البث: المطلع المستقيم %1 بكسل/ث، الميل %2 بكسل/ث، "
+"المحوران متباعدان %3°. جارٍ التتبع..."
 
 #: ekos/capture/streamtracker.cpp:355
 #, kde-format
@@ -18778,12 +18764,13 @@ msgid ""
 "Warning: stream tracking axes are far from perpendicular. Check for backlash "
 "or a stalled axis if tracking is poor."
 msgstr ""
+"تحذير: محورا تتبع البث بعيدان عن التعامد. افحص من رد الفعل العكسي أو محورًا "
+"متوقفًا إذا كان التتبع ضعيفًا."
 
 #: ekos/capture/streamtracker.cpp:362
-#, fuzzy, kde-format
-#| msgid "Guiding calibration failed"
+#, kde-format
 msgid "Stream tracking calibration failed: %1"
-msgstr "فشلت معايرة الدليل"
+msgstr "فشلت معايرة تتبع البث: %1"
 
 #: ekos/ekos.h:71
 #, kde-format
@@ -24187,15 +24174,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subframe the image around the guide star. Or for "
-#| "PHD2, receive the Guide Star Image instead of the full image frame. For "
-#| "the Internal Guider, before checking this option, you must <span style=\" "
-#| "font-weight:600;\">first</span> capture an image and select a guide star. "
-#| "Uncheck it to take a full frame again. <br/>Please note: 'SEP Multi Star' "
-#| "<span style=\" font-weight:600;\">cannot</span> use subframe.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -24208,12 +24187,15 @@ msgid ""
 "turn blue on frames that used this local search. This can be changed while "
 "guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>إطار فرعي للصورة حول نجم الدليل. أو لـ PHD2، استقبل "
-"صورة نجم الدليل بدلًا من إطار الصورة الكامل. للدليل الداخلي، قبل اختيار هذا "
-"الخيار، <span style=\" font-weight:600;\">أولًا</span> التقط صورة واختر نجم "
-"دليل. أزل العلامة عنه لالتقاط إطار كامل مجددًا. <br/>يرجى الملاحظة: «SEP نجم "
-"متعدد» <span style=\" font-weight:600;\">لا يستطيع</span> استعمال إطار فرعي."
-"</p></body></html>"
+"<html><head/><body><p>اقتطع إطارًا فرعيًا حول نجم التوجيه. أو في PHD2، استقبل "
+"صورة نجم التوجيه بدلًا من إطار الصورة الكامل. في الموجّه الداخلي، قبل تحديد "
+"هذا الخيار، يجب <span style=\" font-weight:600;\">أولًا</span> التقاط صورة "
+"واختيار نجم توجيه. أزل التحديد لالتقاط إطار كامل مجددًا. <br/>مع 'SEP متعدد "
+"النجوم'، يُلتقط الإطار الكامل ويُعرض، لكن أثناء التوجيه يُبحث عن النجوم فقط حول "
+"نجوم التوجيه والمرجع، وهو أسرع بكثير. ما تزال المعايرة والتذبذب والنجوم "
+"المفقودة تبحث في الإطار الكامل. تتحول مربعات نجم التوجيه إلى الأزرق في "
+"الإطارات التي استخدمت هذا البحث المحلي. يمكن تغيير ذلك أثناء التوجيه.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:155
@@ -30321,11 +30303,10 @@ msgid "(%1) Job %2: has completed."
 msgstr "(%1) المهمة %2: اكتملت."
 
 #: ekos/scheduler/greedyscheduler.cpp:120
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: cannot run because: %3"
+#, kde-format
 msgid ""
 "(%1) Job %2: cannot run because: it failed and errors are not rescheduled"
-msgstr "(%1) المهمة %2: لا يمكن تشغيلها بسبب: %3"
+msgstr "(%1) المهمة %2: لا يمكن تشغيلها لأنها فشلت ولا تُعاد جدولة الأخطاء"
 
 #: ekos/scheduler/greedyscheduler.cpp:122
 #, kde-format
@@ -30333,12 +30314,12 @@ msgid ""
 "(%1) Job %2: cannot run because: it was aborted and aborted jobs are not "
 "rescheduled"
 msgstr ""
+"(%1) المهمة %2: لا يمكن تشغيلها لأنها أُجهضت ولا تُعاد جدولة المهام المُجهضة"
 
 #: ekos/scheduler/greedyscheduler.cpp:130
-#, fuzzy, kde-format
-#| msgid "(%1) Job %2: has completed."
+#, kde-format
 msgid "(%1) Job %2: no constraint violated"
-msgstr "(%1) المهمة %2: اكتملت."
+msgstr "(%1) المهمة %2: لم يُنتهك أي قيد"
 
 #: ekos/scheduler/greedyscheduler.cpp:132
 #, kde-format
@@ -32846,7 +32827,7 @@ msgstr "لم يعثر على جهاز متصل بالواجهات المطلوب
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:323
 #, kde-format
 msgid "Skipping %1: %2 does not support %3"
-msgstr ""
+msgstr "تخطي %1: %2 لا يدعم %3"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
@@ -38991,7 +38972,7 @@ msgstr "خيارات تراكب الموازاة..."
 #: indi/streamform.ui:222
 #, kde-format
 msgid "Keep the planet, Moon or Sun centered by correcting the mount"
-msgstr ""
+msgstr "أبقِ الكوكب أو القمر أو الشمس في الوسط بتصحيح الحامل"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:244
@@ -44144,7 +44125,7 @@ msgstr "اِجعل الحامل يتوقف عند هذا الوقت بتنسيق
 #: kstars.kcfg:2165
 #, kde-format
 msgid "Correct the mount when the camera's stream tracking is on"
-msgstr ""
+msgstr "صحّح الحامل عند تشغيل تتبع بث الكاميرا"
 
 #. i18n: ectx: whatsthis, entry (StreamTrackingCorrectMount), group (Capture)
 #: kstars.kcfg:2166
@@ -44153,42 +44134,44 @@ msgid ""
 "When a camera measures the target position in its video stream "
 "(STREAM_TRACKING), send guide pulses to keep the target at the lock point."
 msgstr ""
+"عندما تقيس كاميرا موضع الهدف في بث الفيديو (STREAM_TRACKING)، أرسل نبضات "
+"توجيه لإبقاء الهدف عند نقطة التثبيت."
 
 #. i18n: ectx: label, entry (StreamTrackingDeadband), group (Capture)
 #: kstars.kcfg:2170
 #, kde-format
 msgid "Stream tracking deadband (pixels)"
-msgstr ""
+msgstr "النطاق الميت لتتبع البث (بكسلات)"
 
 #. i18n: ectx: label, entry (StreamTrackingAggressiveness), group (Capture)
 #: kstars.kcfg:2177
 #, kde-format
 msgid "Stream tracking aggressiveness"
-msgstr ""
+msgstr "عدوانية تتبع البث"
 
 #. i18n: ectx: label, entry (StreamTrackingMaxPulse), group (Capture)
 #: kstars.kcfg:2184
 #, kde-format
 msgid "Stream tracking maximum pulse (ms)"
-msgstr ""
+msgstr "أقصى نبضة لتتبع البث (مللي ثانية)"
 
 #. i18n: ectx: label, entry (StreamTrackingCalibrationPulse), group (Capture)
 #: kstars.kcfg:2190
 #, kde-format
 msgid "Stream tracking calibration pulse step (ms)"
-msgstr ""
+msgstr "خطوة نبضة معايرة تتبع البث (مللي ثانية)"
 
 #. i18n: ectx: label, entry (StreamTrackingSettle), group (Capture)
 #: kstars.kcfg:2197
 #, kde-format
 msgid "Stream tracking settle time (s)"
-msgstr ""
+msgstr "زمن استقرار تتبع البث (ث)"
 
 #. i18n: ectx: label, entry (StreamTrackingMinQuality), group (Capture)
 #: kstars.kcfg:2204
 #, kde-format
 msgid "Stream tracking minimum quality"
-msgstr ""
+msgstr "أدنى جودة لتتبع البث"
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
 #: kstars.kcfg:2211
@@ -86623,6 +86606,10 @@ msgid ""
 "Details may be found in %1. You can also check the service status with:\n"
 "launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 msgstr ""
+"تعذر على نجومك بدء ناقل جلسة D-Bus الخاص به ولا يمكنه التشغيل دونه.\n"
+"\n"
+"يمكن العثور على التفاصيل في %1. يمكنك أيضاً التحقق من حالة الخدمة باستخدام:\n"
+"launchctl print gui/$(id -u)/org.freedesktop.dbus-kstars"
 
 #: main.cpp:125
 #, kde-format

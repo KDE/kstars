@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 02:18+0000\n"
-"PO-Revision-Date: 2026-10-29 07:46+0200\n"
+"PO-Revision-Date: 2026-10-31 12:02+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -27917,16 +27917,14 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Перекладывание меридиана неактивно (припарковано)"
 
 #: ekos/manager/meridianflipstate.cpp:161
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (parking)"
-msgstr "Перекладывание меридиана неактивно (припарковано)"
+msgstr "Перекладывание меридиана неактивно (парковка)"
 
 #: ekos/manager/meridianflipstate.cpp:167
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (unparking)"
-msgstr "Перекладывание меридиана неактивно (припарковано)"
+msgstr "Перекладывание меридиана неактивно (снятие с парковки)"
 
 #: ekos/manager/meridianflipstate.cpp:173
 #, kde-format
@@ -33013,16 +33011,14 @@ msgstr ""
 "Включён режим наблюдения за погодой. Ожидание улучшения погодных условий…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1924
-#, fuzzy, kde-format
-#| msgid "Shutdown procedure failed, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed: %1"
-msgstr "Не удалось выполнить процедуру завершения работы, прерывание…"
+msgstr "Не удалось выполнить процедуру завершения работы: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1964
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount no longer reports tracking."
-msgstr "Запуск инструмента моделирования монтировки."
+msgstr "Монтировка больше не сообщает о ведении."
 
 #: ekos/scheduler/schedulerprocess.cpp:1970
 #, kde-format
@@ -33033,9 +33029,17 @@ msgid_plural ""
 "Warning: the mount still reports tracking after %1 seconds, it may keep "
 "tracking after the shutdown."
 msgstr[0] ""
+"Предупреждение: через %1 секунду монтировка всё ещё сообщает о ведении, оно "
+"может продолжиться после завершения работы."
 msgstr[1] ""
+"Предупреждение: через %1 секунды монтировка всё ещё сообщает о ведении, оно "
+"может продолжиться после завершения работы."
 msgstr[2] ""
+"Предупреждение: через %1 секунд монтировка всё ещё сообщает о ведении, оно "
+"может продолжиться после завершения работы."
 msgstr[3] ""
+"Предупреждение: через %1 секунду монтировка всё ещё сообщает о ведении, оно "
+"может продолжиться после завершения работы."
 
 #: ekos/scheduler/schedulerprocess.cpp:1987
 #, kde-format
@@ -33043,11 +33047,13 @@ msgid ""
 "Warning: the mount is not parked, switching tracking off before "
 "disconnecting."
 msgstr ""
+"Предупреждение: монтировка не припаркована, ведение отключается перед "
+"отключением устройства."
 
 #: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid "Warning: the mount is not parked, switching tracking off."
-msgstr ""
+msgstr "Предупреждение: монтировка не припаркована, ведение отключается."
 
 #: ekos/scheduler/schedulerprocess.cpp:1995
 #, kde-format
@@ -33055,6 +33061,8 @@ msgid ""
 "Warning: tracking can't be switched off, the mount may keep tracking after "
 "the shutdown."
 msgstr ""
+"Предупреждение: не удалось отключить ведение, оно может продолжиться после "
+"завершения работы."
 
 #: ekos/scheduler/schedulerprocess.cpp:2094
 #, kde-format
@@ -33127,12 +33135,12 @@ msgstr ""
 #, kde-format
 msgid "Waiting for the meridian flip to finish before parking the mount..."
 msgstr ""
+"Ожидание завершения перекладывания меридиана перед парковкой монтировки…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2370
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Waiting for the mount to stop slewing before parking..."
-msgstr "Предупреждение: задание «%1» не выполняет наведение, перезапуск."
+msgstr "Ожидание завершения наведения монтировки перед парковкой…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2400
 #, kde-format
@@ -33143,18 +33151,34 @@ msgid_plural ""
 "Safety alert: waiting at most %1 minutes for the mount, then continuing the "
 "shutdown."
 msgstr[0] ""
+"Сигнал безопасности: ожидание монтировки не более %1 минуты, затем "
+"завершение работы продолжится."
 msgstr[1] ""
+"Сигнал безопасности: ожидание монтировки не более %1 минут, затем завершение "
+"работы продолжится."
 msgstr[2] ""
+"Сигнал безопасности: ожидание монтировки не более %1 минут, затем завершение "
+"работы продолжится."
 msgstr[3] ""
+"Сигнал безопасности: ожидание монтировки не более %1 минуты, затем "
+"завершение работы продолжится."
 
 #: ekos/scheduler/schedulerprocess.cpp:2408
 #, kde-format
 msgid "Warning: the mount is still busy after %1 minute, continuing."
 msgid_plural "Warning: the mount is still busy after %1 minutes, continuing."
 msgstr[0] ""
+"Предупреждение: через %1 минуту монтировка всё ещё занята, работа "
+"продолжается."
 msgstr[1] ""
+"Предупреждение: через %1 минуты монтировка всё ещё занята, работа "
+"продолжается."
 msgstr[2] ""
+"Предупреждение: через %1 минут монтировка всё ещё занята, работа "
+"продолжается."
 msgstr[3] ""
+"Предупреждение: через %1 минуту монтировка всё ещё занята, работа "
+"продолжается."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -33325,11 +33349,10 @@ msgid "Post-shutdown queue completed successfully."
 msgstr "Очередь, запускаемая после завершения работы, успешно выполнена."
 
 #: ekos/scheduler/schedulerprocess.cpp:3682
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3690
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 02:18+0000\n"
-"PO-Revision-Date: 2026-10-29 15:06+0200\n"
+"PO-Revision-Date: 2026-10-31 15:18+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28023,16 +28023,14 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Перехід за меридіаном неактивний (паркування)"
 
 #: ekos/manager/meridianflipstate.cpp:161
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (parking)"
 msgstr "Перехід за меридіаном неактивний (паркування)"
 
 #: ekos/manager/meridianflipstate.cpp:167
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (unparking)"
-msgstr "Перехід за меридіаном неактивний (паркування)"
+msgstr "Перехід за меридіаном неактивний (зняття з паркування)"
 
 #: ekos/manager/meridianflipstate.cpp:173
 #, kde-format
@@ -33129,16 +33127,14 @@ msgstr ""
 "погодних умов…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1924
-#, fuzzy, kde-format
-#| msgid "Shutdown procedure failed, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed: %1"
-msgstr "Не вдалося виконати вимикання. Перериваємо обробку…"
+msgstr "Не вдалося виконати вимикання: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1964
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount no longer reports tracking."
-msgstr "Інструмент моделювання лафета запускається."
+msgstr "Лафет припинив звітування про стеження."
 
 #: ekos/scheduler/schedulerprocess.cpp:1970
 #, kde-format
@@ -33149,9 +33145,17 @@ msgid_plural ""
 "Warning: the mount still reports tracking after %1 seconds, it may keep "
 "tracking after the shutdown."
 msgstr[0] ""
+"Попередження: лафет продовжує повідомляти про стеження протягом %1 секунди — "
+"він може продовжити стеження після вимикання."
 msgstr[1] ""
+"Попередження: лафет продовжує повідомляти про стеження протягом %1 секунд — "
+"він може продовжити стеження після вимикання."
 msgstr[2] ""
+"Попередження: лафет продовжує повідомляти про стеження протягом %1 секунд — "
+"він може продовжити стеження після вимикання."
 msgstr[3] ""
+"Попередження: лафет продовжує повідомляти про стеження протягом %1 секунди — "
+"він може продовжити стеження після вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:1987
 #, kde-format
@@ -33159,11 +33163,13 @@ msgid ""
 "Warning: the mount is not parked, switching tracking off before "
 "disconnecting."
 msgstr ""
+"Попередження: лафет не запарковано, вимикаємо стеження перед розірванням "
+"з'єднання."
 
 #: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid "Warning: the mount is not parked, switching tracking off."
-msgstr ""
+msgstr "Попередження: лафет не запарковано, вимикаємо стеження."
 
 #: ekos/scheduler/schedulerprocess.cpp:1995
 #, kde-format
@@ -33171,6 +33177,8 @@ msgid ""
 "Warning: tracking can't be switched off, the mount may keep tracking after "
 "the shutdown."
 msgstr ""
+"Попередження: не можна вимкнути стеження, лафет може продовжити стеження "
+"після вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:2094
 #, kde-format
@@ -33243,12 +33251,12 @@ msgstr ""
 #, kde-format
 msgid "Waiting for the meridian flip to finish before parking the mount..."
 msgstr ""
+"Очікування на завершення переходу за меридіаном перед паркуванням лафета…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2370
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Waiting for the mount to stop slewing before parking..."
-msgstr "Увага! Не виявлено обертання для завдання «%1», перезапускаємо."
+msgstr "Очікуємо на зупинку обертання лафета перед паркуванням…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2400
 #, kde-format
@@ -33259,18 +33267,26 @@ msgid_plural ""
 "Safety alert: waiting at most %1 minutes for the mount, then continuing the "
 "shutdown."
 msgstr[0] ""
+"Попередження щодо безпеки: очікування на лафет щонайбільше %1 хвилину, після "
+"чого буде продовжено процес вимкнення."
 msgstr[1] ""
+"Попередження щодо безпеки: очікування на лафет щонайбільше %1 хвилини, після "
+"чого буде продовжено процес вимкнення."
 msgstr[2] ""
+"Попередження щодо безпеки: очікування на лафет щонайбільше %1 хвилин, після "
+"чого буде продовжено процес вимкнення."
 msgstr[3] ""
+"Попередження щодо безпеки: очікування на лафет щонайбільше %1 хвилину, після "
+"чого буде продовжено процес вимкнення."
 
 #: ekos/scheduler/schedulerprocess.cpp:2408
 #, kde-format
 msgid "Warning: the mount is still busy after %1 minute, continuing."
 msgid_plural "Warning: the mount is still busy after %1 minutes, continuing."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Попередження: лафет все ще зайнято за %1 хвилину, продовжуємо."
+msgstr[1] "Попередження: лафет все ще зайнято за %1 хвилини, продовжуємо."
+msgstr[2] "Попередження: лафет все ще зайнято за %1 хвилин, продовжуємо."
+msgstr[3] "Попередження: лафет все ще зайнято за %1 хвилину, продовжуємо."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -33443,11 +33459,10 @@ msgid "Post-shutdown queue completed successfully."
 msgstr "Успішно завершено чергу завдань після вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:3682
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3690
 #, kde-format

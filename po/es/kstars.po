@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 02:18+0000\n"
-"PO-Revision-Date: 2026-10-29 21:31+0100\n"
+"PO-Revision-Date: 2026-10-31 11:34+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -28077,16 +28077,14 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Inversión de meridiano inactiva (aparcado)"
 
 #: ekos/manager/meridianflipstate.cpp:161
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (parking)"
-msgstr "Inversión de meridiano inactiva (aparcado)"
+msgstr "Inversión de meridiano inactiva (aparcando)"
 
 #: ekos/manager/meridianflipstate.cpp:167
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (unparking)"
-msgstr "Inversión de meridiano inactiva (aparcado)"
+msgstr "Inversión de meridiano inactiva (desaparcando)"
 
 #: ekos/manager/meridianflipstate.cpp:173
 #, kde-format
@@ -32999,7 +32997,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1034
 #, kde-format
 msgid "Job '%1' is slewing to target."
-msgstr "El trabajo «%1» está rotando hacia el objetivo."
+msgstr "El trabajo «%1» está moviendo hacia el objetivo."
 
 #: ekos/scheduler/schedulerprocess.cpp:1115
 #, kde-format
@@ -33206,16 +33204,14 @@ msgstr ""
 "las condiciones meteorológicas…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1924
-#, fuzzy, kde-format
-#| msgid "Shutdown procedure failed, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed: %1"
-msgstr "Ha fallado el procedimiento de apagado. Interrumpiendo…"
+msgstr "El procedimiento de apagado ha fallado: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1964
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount no longer reports tracking."
-msgstr "La herramienta del modelo de montura se está iniciando."
+msgstr "La montura ha dejado de informar sobre el seguimiento."
 
 #: ekos/scheduler/schedulerprocess.cpp:1970
 #, kde-format
@@ -33226,7 +33222,11 @@ msgid_plural ""
 "Warning: the mount still reports tracking after %1 seconds, it may keep "
 "tracking after the shutdown."
 msgstr[0] ""
+"Advertencia: la montura sigue informando sobre seguimiento tras %1 segundo; "
+"puede seguir haciéndolo tras el apagado."
 msgstr[1] ""
+"Advertencia: la montura sigue informando sobre seguimiento tras %1 segundos; "
+"puede seguir haciéndolo tras el apagado."
 
 #: ekos/scheduler/schedulerprocess.cpp:1987
 #, kde-format
@@ -33234,11 +33234,13 @@ msgid ""
 "Warning: the mount is not parked, switching tracking off before "
 "disconnecting."
 msgstr ""
+"Advertencia: la montura no está aparcada; se desactiva el seguimiento antes "
+"de desconectar."
 
 #: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid "Warning: the mount is not parked, switching tracking off."
-msgstr ""
+msgstr "Advertencia: la montura no está aparcada; se desactiva el seguimiento."
 
 #: ekos/scheduler/schedulerprocess.cpp:1995
 #, kde-format
@@ -33246,6 +33248,8 @@ msgid ""
 "Warning: tracking can't be switched off, the mount may keep tracking after "
 "the shutdown."
 msgstr ""
+"Advertencia: el seguimiento no se puede desactivar; la montura podría "
+"continuar realizando el seguimiento tras el apagado."
 
 #: ekos/scheduler/schedulerprocess.cpp:2094
 #, kde-format
@@ -33315,13 +33319,13 @@ msgstr "No hay tareas de preapagado. Se va a detener Ekos/INDI."
 #, kde-format
 msgid "Waiting for the meridian flip to finish before parking the mount..."
 msgstr ""
+"Esperando a que finalice la inversión de meridiano antes de aparcar la "
+"montura…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2370
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Waiting for the mount to stop slewing before parking..."
-msgstr ""
-"Advertencia: el trabajo «%1» no ha encontrado desplazamiento. Se reinicia."
+msgstr "Esperando a que la montura deje de desplazarse antes de aparcarla…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2400
 #, kde-format
@@ -33332,14 +33336,22 @@ msgid_plural ""
 "Safety alert: waiting at most %1 minutes for the mount, then continuing the "
 "shutdown."
 msgstr[0] ""
+"Alerta de seguridad: se esperará a la montura un máximo de %1 minuto antes "
+"de continuar el apagado."
 msgstr[1] ""
+"Alerta de seguridad: se esperará a la montura un máximo de %1 minutos antes "
+"de continuar el apagado."
 
 #: ekos/scheduler/schedulerprocess.cpp:2408
 #, kde-format
 msgid "Warning: the mount is still busy after %1 minute, continuing."
 msgid_plural "Warning: the mount is still busy after %1 minutes, continuing."
 msgstr[0] ""
+"Advertencia: la montura sigue ocupada tras %1 minuto; se continúa la "
+"operación."
 msgstr[1] ""
+"Advertencia: la montura sigue ocupada tras %1 minutos; se continúa la "
+"operación."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -33511,11 +33523,10 @@ msgid "Post-shutdown queue completed successfully."
 msgstr "La cola de postapagado se ha completado con éxito."
 
 #: ekos/scheduler/schedulerprocess.cpp:3682
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3690
 #, kde-format

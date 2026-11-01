@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-31 02:18+0000\n"
-"PO-Revision-Date: 2026-10-29 22:47+0100\n"
+"PO-Revision-Date: 2026-10-31 19:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -28132,16 +28132,14 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Inversió del meridià inactiva (aparcat)"
 
 #: ekos/manager/meridianflipstate.cpp:161
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (parking)"
-msgstr "Inversió del meridià inactiva (aparcat)"
+msgstr "Inversió del meridià inactiva (aparcant)"
 
 #: ekos/manager/meridianflipstate.cpp:167
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (unparking)"
-msgstr "Inversió del meridià inactiva (aparcat)"
+msgstr "Inversió del meridià inactiva (desaparcant)"
 
 #: ekos/manager/meridianflipstate.cpp:173
 #, kde-format
@@ -31676,8 +31674,8 @@ msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Espera aquest nombre de segons abans d'iniciar "
-"l'aturada de l'observatori quan es detecta una alerta meteorològica.</p></"
+"<html><head/><body><p>Espera aquest nombre de segons abans d'iniciar el "
+"tancament de l'observatori quan es detecta una alerta meteorològica.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -32945,7 +32943,7 @@ msgid ""
 "complete shutdown."
 msgstr ""
 "El període de gràcia meteorològic ha vençut mentre que l'estat de seguretat "
-"encara és %1. Es procedeix a l'aturada completa."
+"encara és %1. Es procedeix al tancament complet."
 
 #: ekos/scheduler/schedulerprocess.cpp:574
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -33236,16 +33234,14 @@ msgstr ""
 "la meteorologia..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1924
-#, fuzzy, kde-format
-#| msgid "Shutdown procedure failed, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed: %1"
-msgstr "El procediment de tancament ha fallat. S'interromp..."
+msgstr "El procediment de tancament ha fallat:_ %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1964
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount no longer reports tracking."
-msgstr "S'inicia l'eina per als models de muntura."
+msgstr "La muntura ja no informa del seguiment."
 
 #: ekos/scheduler/schedulerprocess.cpp:1970
 #, kde-format
@@ -33256,7 +33252,11 @@ msgid_plural ""
 "Warning: the mount still reports tracking after %1 seconds, it may keep "
 "tracking after the shutdown."
 msgstr[0] ""
+"Avís: la muntura encara informa del seguiment després de %1 segon, pot "
+"mantenir el seguiment després del tancament."
 msgstr[1] ""
+"Avís: la muntura encara informa del seguiment després de %1 segons, pot "
+"mantenir el seguiment després del tancament."
 
 #: ekos/scheduler/schedulerprocess.cpp:1987
 #, kde-format
@@ -33264,11 +33264,13 @@ msgid ""
 "Warning: the mount is not parked, switching tracking off before "
 "disconnecting."
 msgstr ""
+"Avís: la muntura no està aparcada, s'està desactivant el seguiment abans de "
+"desconnectar."
 
 #: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid "Warning: the mount is not parked, switching tracking off."
-msgstr ""
+msgstr "Avís: la muntura no està aparcada, s'està desactivant el seguiment."
 
 #: ekos/scheduler/schedulerprocess.cpp:1995
 #, kde-format
@@ -33276,6 +33278,8 @@ msgid ""
 "Warning: tracking can't be switched off, the mount may keep tracking after "
 "the shutdown."
 msgstr ""
+"Avís: el seguiment no es pot desactivar, la muntura pot mantenir el "
+"seguiment després del tancament."
 
 #: ekos/scheduler/schedulerprocess.cpp:2094
 #, kde-format
@@ -33335,7 +33339,7 @@ msgid ""
 "No pre-shutdown tasks during weather grace period; soft shutdown complete."
 msgstr ""
 "No hi ha tasques a la cua posterior de tancament durant el període de gràcia "
-"meteorològic; l'aturada suau s'ha completat."
+"meteorològic; s'ha completat el tancament suau."
 
 #: ekos/scheduler/schedulerprocess.cpp:2304
 #, kde-format
@@ -33347,12 +33351,13 @@ msgstr ""
 #, kde-format
 msgid "Waiting for the meridian flip to finish before parking the mount..."
 msgstr ""
+"S'està esperant que acabi la inversió del meridià abans d'aparcar la "
+"muntura..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2370
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Waiting for the mount to stop slewing before parking..."
-msgstr "Avís: La tasca «%1» no ha trobat cap orientació, es reinicia."
+msgstr "S'està esperant que la muntura deixi d'orientar-se abans d'aparcar..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2400
 #, kde-format
@@ -33363,14 +33368,19 @@ msgid_plural ""
 "Safety alert: waiting at most %1 minutes for the mount, then continuing the "
 "shutdown."
 msgstr[0] ""
+"Alerta de seguretat: s'espera com a màxim %1 minut per a la muntura, després "
+"continuarà el tancament."
 msgstr[1] ""
+"Alerta de seguretat: s'espera com a màxim %1 minuts per a la muntura, "
+"després continuarà el tancament."
 
 #: ekos/scheduler/schedulerprocess.cpp:2408
 #, kde-format
 msgid "Warning: the mount is still busy after %1 minute, continuing."
 msgid_plural "Warning: the mount is still busy after %1 minutes, continuing."
-msgstr[0] ""
+msgstr[0] "Avís: la muntura encara està ocupada després de %1 minut, continua."
 msgstr[1] ""
+"Avís: la muntura encara està ocupada després de %1 minuts, continua."
 
 #: ekos/scheduler/schedulerprocess.cpp:2442
 #, kde-format
@@ -33541,11 +33551,10 @@ msgid "Post-shutdown queue completed successfully."
 msgstr "La cua posterior de tancament s'ha completat amb èxit."
 
 #: ekos/scheduler/schedulerprocess.cpp:3682
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3690
 #, kde-format
@@ -33760,8 +33769,8 @@ msgstr "La seguretat ha millorat. Es reprenen les operacions."
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"S'ha detectat una alerta de seguretat. S'iniciarà el procediment d'aturada "
-"suau d'aquí a %1 segons."
+"S'ha detectat una alerta de seguretat. S'iniciarà el procediment de "
+"tancament suau d'aquí a %1 segons."
 
 #: ekos/scheduler/schedulerprocess.cpp:4474
 #, kde-format
@@ -33769,7 +33778,7 @@ msgid ""
 "Observatory scheduled for soft shutdown. Monitoring weather indefinitely "
 "until safety improves."
 msgstr ""
-"Observatori planificat per a l'aturada suau. S'està controlant la "
+"Observatori planificat per al tancament suau. S'està controlant la "
 "meteorologia indefinidament fins que millori la seguretat."
 
 #: ekos/scheduler/schedulerprocess.cpp:4476
@@ -33777,7 +33786,7 @@ msgstr ""
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
-"Observatori planificat per a l'aturada suau fins que millori la seguretat o "
+"Observatori planificat per al tancament suau fins que millori la seguretat o "
 "fins a %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4504
@@ -48560,7 +48569,7 @@ msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Espera aquest nombre de segons abans d'iniciar l'aturada de l'observatori "
+"Espera aquest nombre de segons abans d'iniciar el tancament de l'observatori "
 "quan es detecta una alerta meteorològica."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
