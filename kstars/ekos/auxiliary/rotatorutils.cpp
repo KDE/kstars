@@ -18,6 +18,9 @@
 #include "Options.h"
 
 #include "opticaltrainmanager.h"
+#include "fieldderotation.h"
+#include "kstarsdata.h"
+#include "ekos_debug.h"
 
 #include <indicom.h>
 #include <basedevice.h>
@@ -56,6 +59,29 @@ void RotatorUtils::initRotatorUtils(const QString &train)
         {
             m_flippedMount = (Side != m_CalPierside);
             Q_EMIT changedPierside(Side);
+        });
+    }
+
+    disconnect(m_MountTypeConnection);
+    disconnect(m_CoordsConnection);
+    m_ParallacticAngle = std::numeric_limits<double>::quiet_NaN();
+    m_HasFrameOffset = false;
+    m_AltAz = m_Mount && m_Mount->isAltAz();
+    Q_EMIT altAzChanged(m_AltAz);
+    if (m_Mount)
+    {
+        m_MountTypeConnection = connect(m_Mount, &ISD::Mount::mountTypeChanged, this, [this](ISD::Mount::MountType type)
+        {
+            setAltAz(type == ISD::Mount::MOUNT_TYPE_ALTAZ);
+        });
+        m_CoordsConnection = connect(m_Mount, &ISD::Mount::newCoords, this, [this](const SkyPoint & position,
+                                     ISD::Mount::PierSide, const dms & ha)
+        {
+            if (!m_AltAz)
+                return;
+            updateParallacticAngle(Ekos::FieldDerotation::parallacticAngle(ha.Degrees(), position.dec().Degrees(),
+                                   KStarsData::Instance()->geo()->lat()->Degrees()));
+            Q_EMIT fieldRotationChanged(position, m_Mount->isTracking());
         });
     }
 
@@ -169,6 +195,40 @@ void RotatorUtils::updateOffset(double Angle)
 {
     m_Offset = Angle;
     Options::setPAOffset(Angle);
+    // A new calibration (e.g. from a plate solve) is valid for the current parallactic angle
+    if (m_AltAz && !std::isnan(m_ParallacticAngle))
+    {
+        m_FrameOffset = KSUtils::rangePA(Angle - m_ParallacticAngle);
+        m_HasFrameOffset = true;
+    }
+}
+
+void RotatorUtils::setAltAz(bool altAz)
+{
+    if (altAz == m_AltAz)
+        return;
+    m_AltAz = altAz;
+    m_ParallacticAngle = std::numeric_limits<double>::quiet_NaN();
+    m_HasFrameOffset = false;
+    qCInfo(KSTARS_EKOS) << "Rotator: mount is" << (altAz ? "Alt-Az, following field rotation." : "equatorial.");
+    Q_EMIT altAzChanged(m_AltAz);
+}
+
+void RotatorUtils::updateParallacticAngle(double ParallacticAngle)
+{
+    m_ParallacticAngle = ParallacticAngle;
+    if (!m_AltAz)
+        return;
+
+    if (!m_HasFrameOffset)
+    {
+        m_FrameOffset = KSUtils::rangePA(m_Offset - ParallacticAngle);
+        m_HasFrameOffset = true;
+        return;
+    }
+
+    m_Offset = KSUtils::rangePA(m_FrameOffset + ParallacticAngle);
+    Options::setPAOffset(m_Offset);
 }
 
 ISD::Mount::PierSide RotatorUtils::getMountPierside()

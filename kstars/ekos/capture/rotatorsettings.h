@@ -9,6 +9,7 @@
 
 #include "ui_rotatorsettings.h"
 #include "indi/indimount.h"
+#include "ekos/auxiliary/fieldderotation.h"
 #include "qloggingcategory.h"
 #include <QDialog>
 
@@ -55,6 +56,11 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
          */
         void   commandRotator(double targetPA);
 
+        /**
+         * @brief updateAltAzMode Enable the field derotation controls when the mount is Alt-Az.
+         */
+        void   updateAltAzMode(bool AltAz);
+
     private:
         // Capture adaptor instance to access functions
         QSharedPointer<Ekos::CaptureDeviceAdaptor> m_CaptureDA;
@@ -67,6 +73,17 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
         void   activateRotator(double Angle);
         void   commitRotatorDirection(bool Reverse);
         void   syncFOV(double PA);
+
+        // Field derotation for Alt-Az mounts
+        Ekos::FieldDerotation m_Derotation;
+        // Last mount position reported with the field rotation (of date, degrees)
+        bool   m_HasPosition { false };
+        double m_PositionRA { 0 };
+        double m_PositionDec { 0 };
+        /// Called for every coordinate update of an Alt-Az mount
+        void   derotate(const SkyPoint &position, bool tracking);
+        /// A rotation to this PA was requested: hold it while derotating
+        void   holdPA(double PAngle);
 
     Q_SIGNALS:
         void   newLog(const QString &text);

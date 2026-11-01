@@ -2,9 +2,9 @@
 
 This document describes the unit tests in `Tests/ekos/auxiliary/`. The
 `darkprocessor/` subdirectory tests the dark frame processing and defect map
-subsystem, `solver/` tests the plate solving defaults, `diagnosis/` tests the
-failure diagnosis types and runner, and `imageanalysis/` tests the star shape analysis
-of a frame in `kstars/ekos/auxiliary/`.
+subsystem, `fieldderotation/` tests Alt-Az field derotation, `solver/` tests the
+plate solving defaults, `diagnosis/` tests the failure diagnosis types and runner,
+and `imageanalysis/` tests the star shape analysis of a frame in `kstars/ekos/auxiliary/`.
 
 ---
 
@@ -13,6 +13,7 @@ of a frame in `kstars/ekos/auxiliary/`.
 | Subdirectory | What it tests |
 |---|---|
 | [`darkprocessor/`](darkprocessor/) | Dark frame defect detection and hot-pixel correction |
+| [`fieldderotation/`](fieldderotation/) | `FieldDerotation`, the Alt-Az offset model in `RotatorUtils`, `ISD::Mount` mount type |
 | [`solver/`](solver/) | `SolverUtils` threading and blind field width selection, migration of saved align profiles |
 | [`diagnosis/`](diagnosis/) | `Diagnosis` report types and the `DiagnosisManager` runner |
 | [`imageanalysis/`](imageanalysis/) | `ImageAnalysis`: good, too few stars, out of focus, trailed or double images |
@@ -23,6 +24,7 @@ of a frame in `kstars/ekos/auxiliary/`.
 
 - `darkprocessor/`: `INDI_FOUND` + `CFITSIO_FOUND` (parent CMakeLists guards).
   The test loads a FITS file from a relative path; run from the build root.
+- `fieldderotation/`: `INDI_FOUND`. No devices or INDI server are needed.
 - `solver/`: `StellarSolver_FOUND` + `CFITSIO_FOUND`. No index files or images
   are needed; the saved profile fixtures are found with `QFINDTESTDATA`.
 - `diagnosis/`: always built. No devices, no window, no network.
@@ -42,6 +44,7 @@ of a frame in `kstars/ekos/auxiliary/`.
 ./build/Tests/ekos/auxiliary/diagnosis/testdiagnosis -v2
 ./build/Tests/ekos/auxiliary/diagnosis/testdiagnosismanager -v2
 ./build/Tests/ekos/auxiliary/imageanalysis/testimageanalysis -v2
+QT_QPA_PLATFORM=offscreen ./build/Tests/ekos/auxiliary/fieldderotation/test_ekos_fieldderotation -v2
 ```
 
 ---
@@ -156,6 +159,37 @@ valuable targets:
 | `OpticalTrainManager` | `opticaltrainmanager.cpp` | CRUD operations on the SQLite optical train store |
 | `DarkLibrary` | `darklibrary.cpp` | Dark frame matching by temperature, exposure, and binning |
 | `FilterOffsets` | `buildfilteroffsets.cpp` | Focus offset calculation from filter measurements |
+
+---
+
+### `fieldderotation/testfieldderotation.cpp` — Alt-Az field derotation
+
+Tests `Ekos::FieldDerotation`, the Alt-Az offset model in `RotatorUtils`
+(`setAltAz()`, `updateParallacticAngle()`, `updateOffset()`) and the
+`TELESCOPE_MOUNT_TYPE` handling in `ISD::Mount`.
+
+- The parallactic angle formula matches known values and, for a grid of
+  latitudes, declinations and hour angles, the position angle of the zenith
+  computed with the KStars coordinate transforms.
+- For an Alt-Az mount the rotator offset follows the parallactic angle, a new
+  calibration (plate solve) is taken at the current parallactic angle, and
+  equatorial mounts are unaffected.
+- Decision logic: no correction while slewing or while the rotator moves,
+  errors below the threshold accumulate instead of being dropped, the error
+  wraps at ±180°, large jumps are held instead of chased, a slew to a new target
+  holds the new PA while a short re-centering slew keeps the held PA.
+- Closed loop: a simulated Alt-Az mount and rotator (constant speed, shortest
+  path) are run for up to one hour with 1 s updates for several sky positions
+  (setting target, transit between zenith and pole, 5° from the zenith,
+  southern hemisphere) and every combination of driver reversal and parity.
+  The camera PA must stay within the threshold plus one update of field
+  rotation, while the uncorrected field turns by several degrees. A second
+  scenario adds a plate solve with re-centering every two minutes and checks
+  that the error does not accumulate.
+
+The simulated rig assumes the KStars rotator model (normal or reversed) has been
+set up correctly, as Align does through its parity check. It does not prove the
+direction of a particular rotator; that needs a test on a real Alt-Az mount.
 
 ---
 

@@ -8,6 +8,8 @@
 
 #include "indi/indimount.h"
 
+#include <limits>
+
 class RotatorUtils : public QObject
 {
         Q_OBJECT
@@ -23,6 +25,37 @@ class RotatorUtils : public QObject
         double calcCameraAngle(double RotatorAngle, bool flippedImage);
         double calcOffsetAngle(double RotatorAngle, double PositionAngle);
         void   updateOffset(double Angle);
+
+        /**
+         * @brief isAltAz Whether the mount of the active train reports an Alt-Az mount type.
+         */
+        bool   isAltAz() const
+        {
+            return m_AltAz;
+        }
+        /**
+         * @brief setAltAz Set the mount type of the active train. Called when the mount reports
+         *        its TELESCOPE_MOUNT_TYPE; switching the type drops the Alt-Az offset calibration.
+         */
+        void   setAltAz(bool altAz);
+        /**
+         * @brief updateParallacticAngle On an Alt-Az mount the camera keeps its orientation to the
+         *        zenith, so the offset between rotator angle and camera PA changes with the parallactic
+         *        angle q. This keeps the offset in step: offset = (offset - q at calibration) + q.
+         *        The first call after a calibration, a mount type change or initRotatorUtils() takes the
+         *        current offset as valid. Does nothing for equatorial mounts.
+         * @param ParallacticAngle current parallactic angle in degrees
+         */
+        void   updateParallacticAngle(double ParallacticAngle);
+        /// Last parallactic angle passed to updateParallacticAngle(), NaN if none.
+        double parallacticAngle() const
+        {
+            return m_ParallacticAngle;
+        }
+        double offset() const
+        {
+            return m_Offset;
+        }
         /**
          * @brief setReversed Inform RotatorUtils whether the rotator is currently reversed.
          *        This is needed so that calcRotatorAngle() sends the correctly compensated
@@ -79,6 +112,13 @@ class RotatorUtils : public QObject
         // refreshOpticalTrain()) whenever a train is (re)activated. Track the pierSideChanged
         // connection so re-initializing doesn't stack duplicate connections onto the same mount.
         QMetaObject::Connection m_PierSideConnection;
+        QMetaObject::Connection m_MountTypeConnection;
+        QMetaObject::Connection m_CoordsConnection;
+        bool   m_AltAz {false};
+        double m_ParallacticAngle {std::numeric_limits<double>::quiet_NaN()};
+        // Rotator offset with the parallactic angle removed, constant for an Alt-Az mount
+        double m_FrameOffset {0};
+        bool   m_HasFrameOffset {false};
         double m_StartAngle, m_EndAngle {0};
         double m_ShiftAngle, m_DiffAngle {0};
         QTime  m_StartTime, m_CurrentTime;
@@ -89,4 +129,13 @@ class RotatorUtils : public QObject
 
     Q_SIGNALS:
         void   changedPierside(ISD::Mount::PierSide index);
+        /**
+         * @brief fieldRotationChanged Emitted for every coordinate update of an Alt-Az mount, after
+         *        the offset was updated for the new parallactic angle.
+         * @param position mount position (of date)
+         * @param tracking whether the mount is tracking
+         */
+        void   fieldRotationChanged(const SkyPoint &position, bool tracking);
+        /// Emitted when the mount of the active train changes between Alt-Az and equatorial.
+        void   altAzChanged(bool altAz);
 };

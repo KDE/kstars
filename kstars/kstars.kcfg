@@ -2957,6 +2957,16 @@
          <whatsthis>The rotator physically turns opposite to the direction KStars' position-angle math assumes. Learned automatically the first time the auto-reverse wrong-direction check confirms it, or can be set manually.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="RotatorFieldDerotation" type="Bool">
+         <whatsthis>On an Alt-Az mount, turn the rotator while the mount tracks to keep the camera position angle constant.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="RotatorDerotationThreshold" type="Double">
+         <whatsthis>Position angle drift in arcminutes that triggers a field derotation correction.</whatsthis>
+         <default>6</default>
+         <min>0.5</min>
+         <max>60</max>
+      </entry>
       <entry name="AstrometrySolverWCS" type="Bool">
          <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
          <default>true</default>

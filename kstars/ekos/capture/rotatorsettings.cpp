@@ -32,6 +32,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 
     connect(this, &RotatorSettings::newLog, Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::appendLogText);
     connect(RotatorUtils::Instance(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
+    connect(RotatorUtils::Instance(), &RotatorUtils::fieldRotationChanged, this, &RotatorSettings::derotate);
+    connect(RotatorUtils::Instance(), &RotatorUtils::altAzChanged, this, &RotatorSettings::updateAltAzMode);
     connect(FlipPolicy, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RotatorSettings::setFlipPolicy);
     connect(AlignOptions,  &QPushButton::clicked, this, &RotatorSettings::showAlignOptions);
 
@@ -45,7 +47,10 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
         RotatorAngle->setValue(RAngle);
         syncFOV(PAngle);
         if (!m_inhibitActivate)
+        {
+            holdPA(PAngle);
             activateRotator(RAngle);
+        }
         CameraPASlider->setSliderPosition(PAngle * 100); // Prevent rounding to integer
     });
     connect(CameraPASlider, &QSlider::sliderReleased, this, [this]()
@@ -65,6 +70,24 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     {
         commitRotatorDirection(toggled);
     });
+
+    // -- Field derotation (Alt-Az mounts)
+    derotateField->setChecked(Options::rotatorFieldDerotation());
+    derotationThreshold->setValue(Options::rotatorDerotationThreshold());
+    m_Derotation.setThreshold(Options::rotatorDerotationThreshold() / 60.0);
+    connect(derotateField, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        Options::setRotatorFieldDerotation(toggled);
+        // Hold the position angle the camera has when derotation starts
+        m_Derotation.clearHold();
+        Q_EMIT newLog(toggled ? i18n("Field derotation enabled.") : i18n("Field derotation disabled."));
+    });
+    connect(derotationThreshold, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this](double value)
+    {
+        Options::setRotatorDerotationThreshold(value);
+        m_Derotation.setThreshold(value / 60.0);
+    });
+    updateAltAzMode(false);
 
     // Rotator Gauge
     rotatorGauge->setFormat("R");   // dummy format
@@ -109,6 +132,9 @@ void RotatorSettings::initRotator(const QString &train, const QSharedPointer<Eko
 {
     m_CaptureDA = CaptureDA;
     RotatorUtils::Instance()->initRotatorUtils(train);
+    updateAltAzMode(RotatorUtils::Instance()->isAltAz());
+    m_Derotation.clearHold();
+    m_HasPosition = false;
 
     m_Rotator = device;
     RotatorName->setText(m_Rotator->getDeviceName());
@@ -240,6 +266,7 @@ void RotatorSettings::refresh(double PAngle) // Call from setAlignResults() in M
 
 void RotatorSettings::commandRotator(double targetPA)
 {
+    holdPA(targetPA);
     double RAngle = RotatorUtils::Instance()->calcRotatorAngle(targetPA);
     RotatorAngle->setValue(RAngle);
     activateRotator(RAngle);
@@ -269,5 +296,77 @@ void RotatorSettings::syncFOV(double PA)
             oneFOV->setPA(PA);
             break;
         }
+    }
+}
+
+void RotatorSettings::updateAltAzMode(bool AltAz)
+{
+    DerotationGroup->setEnabled(AltAz);
+}
+
+void RotatorSettings::holdPA(double PAngle)
+{
+    if (m_HasPosition)
+        m_Derotation.hold(PAngle, m_PositionRA, m_PositionDec);
+    else
+        m_Derotation.clearHold();
+}
+
+void RotatorSettings::derotate(const SkyPoint &position, bool tracking)
+{
+    m_PositionRA = position.ra().Degrees();
+    m_PositionDec = position.dec().Degrees();
+    m_HasPosition = true;
+
+    if (m_Rotator == nullptr || m_CaptureDA.isNull())
+        return;
+
+    // The offset follows the field rotation, so the camera PA changes even if the rotator does not move.
+    // Only refresh the display here: no rotator command, and the sensor FOV is not forced visible.
+    const double RAngle = m_CaptureDA->getRotatorAngle();
+    const bool rotatorIdle = m_CaptureDA->getRotatorAngleState() < IPS_BUSY;
+    const double PAngle = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
+    CameraOffset->setValue(Options::pAOffset());
+    CameraPA->blockSignals(true);
+    CameraPA->setValue(PAngle);
+    CameraPA->blockSignals(false);
+    CameraPASlider->blockSignals(true);
+    CameraPASlider->setSliderPosition(PAngle * 100);
+    CameraPASlider->blockSignals(false);
+    paGauge->setValue(-PAngle);
+    if (Options::showSensorFOV())
+        syncFOV(PAngle);
+
+    if (!Options::rotatorFieldDerotation())
+        return;
+
+    Ekos::FieldDerotation::Sample sample;
+    sample.cameraPA = PAngle;
+    sample.tracking = tracking;
+    sample.rotatorIdle = rotatorIdle;
+    sample.ra = m_PositionRA;
+    sample.dec = m_PositionDec;
+
+    const auto decision = m_Derotation.update(sample);
+    switch (decision.action)
+    {
+        case Ekos::FieldDerotation::ROTATE:
+        {
+            const double target = RotatorUtils::Instance()->calcRotatorAngle(decision.targetPA);
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Field derotation: PA" << sample.cameraPA << "held PA" << decision.targetPA
+                                         << "parallactic angle" << RotatorUtils::Instance()->parallacticAngle()
+                                         << "rotator" << RAngle << "->" << target;
+            activateRotator(target);
+            break;
+        }
+        case Ekos::FieldDerotation::LIMIT_EXCEEDED:
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Field derotation: PA error" << decision.error
+                                           << "exceeds the correction limit, holding PA" << decision.targetPA;
+            Q_EMIT newLog(i18n("Field derotation: the position angle changed by %1° at once. "
+                               "Holding the new position angle instead of rotating.",
+                               QString::number(decision.error, 'f', 1)));
+            break;
+        case Ekos::FieldDerotation::NONE:
+            break;
     }
 }

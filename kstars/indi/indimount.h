@@ -51,6 +51,14 @@ class Mount : public ConcreteDevice
             }
         }
 
+        /** Mount type as reported by the driver in TELESCOPE_MOUNT_TYPE (INDI 2.1.6 and later). */
+        typedef enum { MOUNT_TYPE_UNKNOWN = -1, MOUNT_TYPE_ALTAZ, MOUNT_TYPE_EQ_FORK, MOUNT_TYPE_EQ_GEM } MountType;
+        /**
+         * @brief mountTypeFromSwitchName Map a TELESCOPE_MOUNT_TYPE switch name (ALTAZ, EQ_FORK, EQ_GEM)
+         * to MountType. Unknown names map to MOUNT_TYPE_UNKNOWN.
+         */
+        static MountType mountTypeFromSwitchName(const QString &name);
+
         typedef enum
         {
             MOUNT_IDLE,
@@ -108,6 +116,20 @@ class Mount : public ConcreteDevice
             return m_canControlTrack;
         }
         bool isTracking();
+
+        // Mount Type
+        /**
+         * @return the mount type reported by the driver, or MOUNT_TYPE_UNKNOWN if the driver
+         * does not define TELESCOPE_MOUNT_TYPE. Drivers that do not set it explicitly report EQ_GEM.
+         */
+        MountType mountType() const
+        {
+            return m_MountType;
+        }
+        bool isAltAz() const
+        {
+            return m_MountType == MOUNT_TYPE_ALTAZ;
+        }
 
         // Track Mode
         bool hasTrackModes() const
@@ -341,6 +363,7 @@ class Mount : public ConcreteDevice
         void newParkStatus(ISD::ParkStatus status);
         void slewRateChanged(int rate);
         void pierSideChanged(PierSide side);
+        void mountTypeChanged(ISD::Mount::MountType type);
         void axisReversed(INDI_EQ_AXIS axis, bool reversed);
         void newHomeStatus(IPState status);
 
@@ -359,6 +382,8 @@ class Mount : public ConcreteDevice
         IPState NSPreviousState  = IPS_IDLE;
         IPState WEPreviousState  = IPS_IDLE;
         PierSide m_PierSide = PIER_UNKNOWN;
+        MountType m_MountType = MOUNT_TYPE_UNKNOWN;
+        void updateMountType(INDI::Property prop);
 
         KStarsDateTime g_satPassStart;
         KStarsDateTime g_satPassEnd;

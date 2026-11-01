@@ -1,4 +1,5 @@
 add_subdirectory(darkprocessor)
+add_subdirectory(fieldderotation)
 
 # Failure diagnosis types and runner
 add_subdirectory(diagnosis)

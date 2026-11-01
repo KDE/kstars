@@ -130,6 +130,8 @@ void Mount::registerProperty(INDI::Property prop)
             Q_EMIT pierSideChanged(m_PierSide);
         }
     }
+    else if (prop.isNameMatch("TELESCOPE_MOUNT_TYPE"))
+        updateMountType(prop);
     else if (prop.isNameMatch("TELESCOPE_PARK"))
         updateParkStatus();
     else if (prop.isNameMatch("TELESCOPE_TRACK_STATE"))
@@ -351,6 +353,8 @@ void Mount::processSwitch(INDI::Property prop)
             Q_EMIT pierSideChanged(m_PierSide);
         }
     }
+    else if (svp->isNameMatch("TELESCOPE_MOUNT_TYPE"))
+        updateMountType(prop);
     else if (svp->isNameMatch("TELESCOPE_TRACK_MODE"))
     {
         auto sp = svp->findOnSwitch();
@@ -1626,6 +1630,33 @@ ISD::Mount::Status Mount::toMountStatus(const QString &str)
         return ISD::Mount::MOUNT_TRACKING;
     else
         return ISD::Mount::MOUNT_ERROR;
+}
+
+Mount::MountType Mount::mountTypeFromSwitchName(const QString &name)
+{
+    if (name == QLatin1String("ALTAZ"))
+        return MOUNT_TYPE_ALTAZ;
+    if (name == QLatin1String("EQ_FORK"))
+        return MOUNT_TYPE_EQ_FORK;
+    if (name == QLatin1String("EQ_GEM"))
+        return MOUNT_TYPE_EQ_GEM;
+    return MOUNT_TYPE_UNKNOWN;
+}
+
+void Mount::updateMountType(INDI::Property prop)
+{
+    auto svp = prop.getSwitch();
+    if (!svp)
+        return;
+
+    auto sp = svp->findOnSwitch();
+    MountType type = sp ? mountTypeFromSwitchName(QString(sp->getName())) : MOUNT_TYPE_UNKNOWN;
+    if (type != m_MountType)
+    {
+        m_MountType = type;
+        qCInfo(KSTARS_INDI) << getDeviceName() << "mount type is" << (sp ? sp->getName() : "unknown");
+        Q_EMIT mountTypeChanged(m_MountType);
+    }
 }
 
 const dms Mount::hourAngle() const

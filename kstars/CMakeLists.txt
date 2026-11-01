@@ -247,6 +247,7 @@ if (INDI_FOUND)
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
 	        ekos/auxiliary/rotatorutils.cpp
+            ekos/auxiliary/fieldderotation.cpp
             ekos/auxiliary/serialportassistant.cpp
             ekos/auxiliary/portselector.cpp
             ekos/auxiliary/ledstatuswidget.cpp
