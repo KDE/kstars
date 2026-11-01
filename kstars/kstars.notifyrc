@@ -935,7 +935,21 @@ Comment[zh_TW]=天文台在關閉程序中
 Action=None
 [Event/ObservatoryShutdownFailed]
 Name=Observatory Shutdown Failed
+Name[ca]=Ha fallat el tancament de l'observatori
+Name[es]=El apagado del observatorio ha fallado
+Name[nl]=Afsluiten observatorium
+Name[pt_BR]=Desligamento do observatório falhou
+Name[ru]=Сбой выключения обсерватории
+Name[sl]=Izklop opazovalnice je spodletel
+Name[uk]=Не вдалося вимкнути обсерваторію
 Comment=The observatory shutdown procedure failed
+Comment[ca]=Ha fallat el procediment de tancament de l'observatori
+Comment[es]=El procedimiento de apagado del observatorio ha fallado
+Comment[nl]=De afsluitprocedure van het waarneemstation is mislukt
+Comment[pt_BR]=O procedimento de desligamento do observatório falhou
+Comment[ru]=Не удалось выполнить процедуру выключения обсерватории
+Comment[sl]=Postopek za zaustavitev observatorija ni uspel
+Comment[uk]=Помилка під час виконання процедури вимикання обсерваторії
 Sound=dialog-warning
 Action=Sound
 [Event/SchedulerAborted]
