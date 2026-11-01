@@ -38,6 +38,9 @@
 #include "test_ekos_simulator.h"
 #include "linelist.h"
 #include "mockmodules.h"
+#include "ekos/manager.h"
+#include "ekos/scheduler/taskqueue/queue/queuemanager.h"
+#include "ekos/scheduler/taskqueue/templatemanager.h"
 #include "Options.h"
 
 #define QWAIT_TIME 10
@@ -878,6 +881,149 @@ void TestEkosSchedulerOps::testDawnShutdown()
 
     const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), QTimeZone::utc());
     wakeupAndRestart(restartTime, currentUTime, sleepMs);
+}
+
+namespace
+{
+// Turns the startup queue option on for one test and starts it with a template manager that never loaded the
+// task templates, as in a session that didn't run a collection file: the pre- and post-startup queues are empty
+// (the default post-startup collection would load the templates). Restores the option and the template manager
+// at the end of the scope, also when the test fails half way.
+class StartupQueueWithoutTemplates
+{
+    public:
+        explicit StartupQueueWithoutTemplates(QSharedPointer<Ekos::Scheduler> &scheduler)
+            : m_startupEnabled(Options::schedulerStartupEnabled())
+        {
+            Ekos::TemplateManager::release();
+            Options::setSchedulerStartupEnabled(true);
+            scheduler->moduleState()->setPreStartupScriptURL(QUrl());
+            scheduler->moduleState()->setPostStartupScriptURL(QUrl());
+        }
+        ~StartupQueueWithoutTemplates()
+        {
+            Options::setSchedulerStartupEnabled(m_startupEnabled);
+            Ekos::TemplateManager::release();
+        }
+    private:
+        bool m_startupEnabled;
+};
+}
+
+// Regression test: a job that starts with the mount parked (e.g. parked by hand) and the startup queue option on
+// must unpark the mount and slew. The scheduler adds an unpark task from the task templates, but nothing had loaded
+// them in a session without a collection file, so no task was added and the scheduler returned silently on every
+// iteration: the job hung before the slew, without a log line. The mock modules have no Ekos profile, so the queue
+// executor refuses to run the unpark task here too, and the scheduler has to unpark directly.
+void TestEkosSchedulerOps::testParkedSlewWithoutTemplates()
+{
+    StartupQueueWithoutTemplates startupQueue(scheduler);
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    // The mount was parked before the job starts
+    mount->setParkStatus(ISD::PARK_PARKED);
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const TestEkosSchedulerHelper::ScheduleSteps steps = {true, false, false, false};
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               m_completionCondition, steps, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+    if (QTest::currentTestFailed())
+        return;
+
+    // Precondition of the direct unpark: the executor needs an Ekos profile to run a mount task
+    QVERIFY2(Ekos::Manager::Instance()->indiStatus() != Ekos::Success, "The test needs an Ekos manager without a profile");
+
+    WithInterval interval(1000, scheduler);
+    const bool slewing = iterateScheduler("Wait for Unpark and Slew", 30, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return mount->status() == ISD::Mount::MOUNT_SLEWING;
+    });
+    QVERIFY2(slewing, qPrintable(QString("Job did not slew: park status %1, %2 slews, log: %3")
+                                 .arg(static_cast<int>(mount->parkStatus())).arg(mount->slewCount)
+                                 .arg(m_schedulerLog.join(" | "))));
+
+    // No collection ran in this session, so nothing but the unpark task loaded the templates
+    QVERIFY(!m_schedulerLog.filter("No post-startup tasks").isEmpty());
+    QCOMPARE(mount->parkStatus(), ISD::PARK_UNPARKED);
+    QCOMPARE(mount->slewCount, 1);
+    QVERIFY(checkLastSlew(altair));
+    QCOMPARE(static_cast<int>(m_schedulerLog.filter("adding unpark task before slewing").size()), 1);
+    QCOMPARE(static_cast<int>(m_schedulerLog.filter("the unpark task could not be started").size()), 1);
+    // The template was found, and the task the executor refused isn't left in the queue
+    QVERIFY(Ekos::TemplateManager::Instance()->getTemplate("mount_unpark") != nullptr);
+    QCOMPARE(scheduler->m_queueManager->pendingCount(), 0);
+}
+
+// Regression test: with the startup queue option on, the scheduler parks the mount until the next job with a park
+// task from the task templates. Without loaded templates no task was added, but the log still said that the mount
+// was being parked, and the mount kept tracking. The park and the unpark at the next job have to happen also when
+// the task can't be started (the mock modules have no Ekos profile, so the executor refuses it here).
+void TestEkosSchedulerOps::testParkUntilNextJobWithoutTemplates()
+{
+    StartupQueueWithoutTemplates startupQueue(scheduler);
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    // Same schedule as testDawnShutdown
+    Options::setDawnOffset(0);
+    Options::setDuskOffset(0);
+    Options::setPreDawnTime(0);
+    WithInterval interval(40000, scheduler);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject*> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    QVERIFY(targetObjects[0] != nullptr);
+
+    const QDateTime startUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc()));
+    const QDateTime startJobUTime = startUTime.addSecs(180);
+    const QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), QTimeZone::utc()));
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+
+    startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
+    if (QTest::currentTestFailed())
+        return;
+    slewAndRun(targetObjects[0], startJobUTime, preDawnUTime, currentUTime, sleepMs, DEFAULT_TOLERANCE);
+    if (QTest::currentTestFailed())
+        return;
+    parkAndSleep(currentUTime, sleepMs);
+    if (QTest::currentTestFailed())
+    {
+        qWarning() << "Scheduler log:" << m_schedulerLog.join(" | ");
+        return;
+    }
+
+    QVERIFY(!m_schedulerLog.filter("Parking the mount until the job is ready").isEmpty());
+    QCOMPARE(static_cast<int>(m_schedulerLog.filter("the park task could not be started").size()), 1);
+
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), QTimeZone::utc());
+    wakeupAndRestart(restartTime, currentUTime, sleepMs);
+    if (QTest::currentTestFailed())
+    {
+        qWarning() << "Scheduler log:" << m_schedulerLog.join(" | ");
+        return;
+    }
+
+    QCOMPARE(static_cast<int>(m_schedulerLog.filter("the unpark task could not be started").size()), 1);
+    QVERIFY(Ekos::TemplateManager::Instance()->getTemplate("mount_park") != nullptr);
+    QCOMPARE(scheduler->m_queueManager->pendingCount(), 0);
 }
 
 // Regression test: resuming a paused scheduler while Ekos and INDI are still connected must

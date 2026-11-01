@@ -346,6 +346,11 @@ Task *QueueManager::createTaskFromTemplate(const QString &templateId, const QMap
     if (!templateMgr)
         return nullptr;
 
+    // Load the templates on first use. Only running a collection file or the queue UI loaded them before,
+    // so the scheduler's park and unpark tasks found no template in a session without such a collection.
+    if (templateMgr->allTemplates().isEmpty() && !templateMgr->initialize())
+        return nullptr;
+
     // Load the template
     TaskTemplate *tmpl = templateMgr->getTemplate(templateId);
     if (!tmpl)

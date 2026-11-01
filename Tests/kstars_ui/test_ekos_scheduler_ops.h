@@ -61,6 +61,10 @@ class TestEkosSchedulerOps : public QObject
         void testSimpleJob();
         void testTimeZone();
         void testDawnShutdown();
+        // A parked mount is unparked for the slew and parked until the next job also when the startup queue is on
+        // but no collection loaded the task templates.
+        void testParkedSlewWithoutTemplates();
+        void testParkUntilNextJobWithoutTemplates();
         void testPreemptiveShutdown();
         void testResumeCompletesStartup();
         void testResumeAfterJobCompletedWhilePaused_data();

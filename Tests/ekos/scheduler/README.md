@@ -359,7 +359,8 @@ shouldSchedulerSleep() decision tree
 │     → stop() called → timerState = RUN_WAKEUP  (wakeup timer set)
 │
 ├── gap > leadTime (5 min)  AND  can park  (preemptive OFF or gap < threshold):
-│     → mount park task queued (via QueueManager) or direct D-Bus park
+│     → mount park task queued (via QueueManager), or direct D-Bus park when
+│       the startup queue is off or the park task can't be started
 │     → Ekos/INDI remain running
 │     → timerState = RUN_WAKEUP
 │
@@ -367,6 +368,11 @@ shouldSchedulerSleep() decision tree
       → scheduler sleeps, nothing parked
       → timerState = RUN_WAKEUP
 ```
+
+The task templates for the park and unpark tasks load on first use (`testqueuemanager`). A job that starts with the
+mount parked unparks it the same way: unpark task, or a direct D-Bus unpark when the task can't be started.
+`testParkedSlewWithoutTemplates` and `testParkUntilNextJobWithoutTemplates` in `test_ekos_scheduler_ops` cover both
+in a session that never loaded the templates.
 
 ---
 

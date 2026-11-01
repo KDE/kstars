@@ -926,10 +926,22 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
         if (Options::schedulerStartupEnabled() && m_queueManager && m_queueExecutor)
         {
             // Only add a new park task if the executor is not already running one
-            if (!m_queueExecutor->isRunning() && m_queueManager->addMountParkTask())
+            if (!m_queueExecutor->isRunning())
             {
-                qCInfo(KSTARS_EKOS_SCHEDULER) << "Park task added, starting queue executor.";
-                m_queueExecutor->start();
+                bool parkStarted = false;
+                if (m_queueManager->addMountParkTask())
+                {
+                    qCInfo(KSTARS_EKOS_SCHEDULER) << "Park task added, starting queue executor.";
+                    parkStarted = m_queueExecutor->start();
+                    // The executor refused the task: remove it, so that it doesn't run later with another queue
+                    if (!parkStarted)
+                        m_queueManager->removeItem(m_queueManager->count() - 1);
+                }
+                if (!parkStarted)
+                {
+                    appendLogText(i18n("Warning: the park task could not be started, parking the mount directly."));
+                    mountInterface()->call(QDBus::AutoDetect, "park");
+                }
             }
             // else: park task already in progress, fall through to sleep below
         }
@@ -996,9 +1008,14 @@ void SchedulerProcess::startSlew()
             if (m_queueManager->addMountUnparkTask())
             {
                 appendLogText(i18n("Mount is parked, adding unpark task before slewing."));
-                m_queueExecutor->start();  // actually run the unpark task
+                if (m_queueExecutor->start())  // actually run the unpark task
+                    return;
+                // The executor refused the task: remove it, so that it doesn't run later with another queue
+                m_queueManager->removeItem(m_queueManager->count() - 1);
             }
-            return;
+            // Without the unpark task the job would wait here forever: unpark directly and slew
+            appendLogText(i18n("Warning: the unpark task could not be started, unparking the mount directly."));
+            mountInterface()->call(QDBus::AutoDetect, "unpark");
         }
         else
         {
