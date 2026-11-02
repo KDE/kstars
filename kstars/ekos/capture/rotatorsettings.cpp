@@ -188,6 +188,14 @@ void RotatorSettings::updateGauge(double RAngle)
 
 void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
 {
+    // An Alt-Az mount does not flip, so its pier side is only shown. The rotator must not follow it.
+    if (RotatorUtils::Instance()->isAltAz())
+    {
+        MountPierside->setStyleSheet("QComboBox {}");
+        MountPierside->setCurrentIndex(Pierside);
+        return;
+    }
+
     double RAngle = 0;
     if (Pierside == ISD::Mount::PIER_UNKNOWN)
         MountPierside->setStyleSheet("QComboBox {border: 1px solid red;}");
@@ -302,6 +310,9 @@ void RotatorSettings::syncFOV(double PA)
 void RotatorSettings::updateAltAzMode(bool AltAz)
 {
     DerotationGroup->setEnabled(AltAz);
+    // An Alt-Az mount does not flip, so there is no flip policy
+    label_6->setHidden(AltAz);
+    FlipPolicy->setHidden(AltAz);
 }
 
 void RotatorSettings::holdPA(double PAngle)

@@ -48,6 +48,7 @@ class TestFieldDerotation : public QObject
         // RotatorUtils offset model
         void testOffsetUnchangedForEquatorialMount();
         void testOffsetFollowsParallacticAngle();
+        void testPierSideIgnoredForAltAz();
 
         // Decision logic
         void testFirstTrackingSampleHoldsPA();
@@ -134,6 +135,8 @@ void TestFieldDerotation::resetRotatorUtils()
 {
     auto utils = RotatorUtils::Instance();
     utils->setAltAz(false);
+    utils->updatePierSide(ISD::Mount::PIER_WEST);
+    utils->setImagePierside(ISD::Mount::PIER_UNKNOWN);
     utils->setReversed(false);
     utils->revertParity();
     utils->updateOffset(0);
@@ -306,6 +309,37 @@ void TestFieldDerotation::testOffsetFollowsParallacticAngle()
     utils->setAltAz(false);
     utils->updateParallacticAngle(0);
     QCOMPARE(utils->offset(), -175.0);
+}
+
+void TestFieldDerotation::testPierSideIgnoredForAltAz()
+{
+    auto utils = RotatorUtils::Instance();
+    utils->updateOffset(10);
+    const double unflipped = utils->calcRotatorAngle(30);
+
+    // An equatorial mount on the other pier side is flipped by 180°
+    utils->updatePierSide(ISD::Mount::PIER_EAST);
+    QCOMPARE(KSUtils::range360(utils->calcRotatorAngle(30) - unflipped), 180.0);
+    utils->setImagePierside(ISD::Mount::PIER_EAST);
+    utils->updatePierSide(ISD::Mount::PIER_WEST);
+    QVERIFY(utils->checkImageFlip());
+
+    // An Alt-Az mount does not flip, whatever pier side its driver reports
+    utils->setAltAz(true);
+    const QList<ISD::Mount::PierSide> sides { ISD::Mount::PIER_EAST, ISD::Mount::PIER_UNKNOWN, ISD::Mount::PIER_WEST };
+    for (auto side : sides)
+    {
+        utils->updatePierSide(side);
+        QCOMPARE(utils->calcRotatorAngle(30), unflipped);
+        QCOMPARE(utils->calcCameraAngle(unflipped, false), 30.0);
+        QVERIFY(!utils->checkImageFlip());
+    }
+
+    // A flip from before the mount became Alt-Az does not stay
+    utils->setAltAz(false);
+    utils->updatePierSide(ISD::Mount::PIER_EAST);
+    utils->setAltAz(true);
+    QCOMPARE(utils->calcRotatorAngle(30), unflipped);
 }
 
 namespace

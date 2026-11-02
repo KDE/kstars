@@ -14,6 +14,7 @@
 #include "Options.h"
 #include "kspaths.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 #include <KConfigDialog>
 #include <QProcess>
@@ -42,6 +43,16 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
+
+    // An Alt-Az mount does not flip, so there is no flip policy
+    auto showFlipPolicy = [this](bool altAz)
+    {
+        label_3->setHidden(altAz);
+        kcfg_AstrometryFlipRotationAllowed->setHidden(altAz);
+        FlipRotationNotAllowed->setHidden(altAz);
+    };
+    connect(RotatorUtils::Instance(), &RotatorUtils::altAzChanged, this, showFlipPolicy);
+    showFlipPolicy(RotatorUtils::Instance()->isAltAz());
 }
 
 void OpsAlign::setFlipPolicy(const Ekos::OpsAlign::FlipPriority Priority)

@@ -81,6 +81,11 @@ class RotatorUtils : public QObject
         /// Undo an unconfirmed trial, restoring the last persisted parity value.
         void   revertParity();
 
+        /**
+         * @brief updatePierSide Handle a new pier side of the mount. On an Alt-Az mount the pier side
+         * does not flip the camera.
+         */
+        void   updatePierSide(ISD::Mount::PierSide Side);
         void   setImagePierside(ISD::Mount::PierSide ImgPierside);
         ISD::Mount::PierSide getMountPierside();
         double DiffPA(double diff);

@@ -16,6 +16,7 @@
 #include "ksutils.h"
 #include "skymapcomposite.h"
 #include "ekos/align/align.h"
+#include "ekos/align/opsalign.h"
 #include "ekos/mount/mount.h"
 #include "ekos/auxiliary/fieldderotation.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
@@ -185,6 +186,12 @@ bool TestEkosFieldDerotation::setMountType(bool altAz)
 
     KTRY_VERIFY_WITH_TIMEOUT_SUB(mount->isAltAz() == altAz && RotatorUtils::Instance()->isAltAz() == altAz, 10000);
     KVERIFY_SUB(m_RotatorSettings->DerotationGroup->isEnabled() == altAz);
+    // An Alt-Az mount has no flip policy
+    KVERIFY_SUB(m_RotatorSettings->FlipPolicy->isHidden() == altAz);
+    Ekos::OpsAlign *alignOptions = Ekos::Manager::Instance()->alignModule()->getAlignOptionsModule();
+    KVERIFY_SUB(alignOptions != nullptr);
+    KVERIFY_SUB(alignOptions->kcfg_AstrometryFlipRotationAllowed->isHidden() == altAz);
+    KVERIFY_SUB(alignOptions->FlipRotationNotAllowed->isHidden() == altAz);
     return true;
 }
 

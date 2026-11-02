@@ -55,11 +55,7 @@ void RotatorUtils::initRotatorUtils(const QString &train)
     disconnect(m_PierSideConnection);
     if (m_Mount)
     {
-        m_PierSideConnection = connect(m_Mount, &ISD::Mount::pierSideChanged, this, [this] (ISD::Mount::PierSide Side)
-        {
-            m_flippedMount = (Side != m_CalPierside);
-            Q_EMIT changedPierside(Side);
-        });
+        m_PierSideConnection = connect(m_Mount, &ISD::Mount::pierSideChanged, this, &RotatorUtils::updatePierSide);
     }
 
     disconnect(m_MountTypeConnection);
@@ -67,6 +63,8 @@ void RotatorUtils::initRotatorUtils(const QString &train)
     m_ParallacticAngle = std::numeric_limits<double>::quiet_NaN();
     m_HasFrameOffset = false;
     m_AltAz = m_Mount && m_Mount->isAltAz();
+    if (m_AltAz)
+        m_flippedMount = false;
     Q_EMIT altAzChanged(m_AltAz);
     if (m_Mount)
     {
@@ -208,6 +206,8 @@ void RotatorUtils::setAltAz(bool altAz)
     if (altAz == m_AltAz)
         return;
     m_AltAz = altAz;
+    if (m_AltAz)
+        m_flippedMount = false;
     m_ParallacticAngle = std::numeric_limits<double>::quiet_NaN();
     m_HasFrameOffset = false;
     qCInfo(KSTARS_EKOS) << "Rotator: mount is" << (altAz ? "Alt-Az, following field rotation." : "equatorial.");
@@ -231,6 +231,13 @@ void RotatorUtils::updateParallacticAngle(double ParallacticAngle)
     Options::setPAOffset(m_Offset);
 }
 
+void RotatorUtils::updatePierSide(ISD::Mount::PierSide Side)
+{
+    // An Alt-Az mount does not flip, whatever pier side its driver reports
+    m_flippedMount = !m_AltAz && (Side != m_CalPierside);
+    Q_EMIT changedPierside(Side);
+}
+
 ISD::Mount::PierSide RotatorUtils::getMountPierside()
 {
     return(m_Mount->pierSide());
@@ -244,6 +251,9 @@ void RotatorUtils::setImagePierside(ISD::Mount::PierSide ImgPierside)
 bool RotatorUtils::checkImageFlip()
 {
     bool flipped = false;
+    // Images of an Alt-Az mount are never taken on the other side of a meridian flip
+    if (m_AltAz)
+        return flipped;
 
     if (m_ImgPierside != ISD::Mount::PIER_UNKNOWN)
         if (!m_flippedMount != (m_ImgPierside == m_CalPierside)) // XOR
