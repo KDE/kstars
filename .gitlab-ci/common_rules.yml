@@ -8,7 +8,7 @@
 
 .optional-on-draft-merge-requests:
   rules:
-    - if: $CI_MERGE_REQUEST_DRAFT == "true" || $CI_MERGE_REQUEST_TITLE =~ "Draft"
+    - if: $CI_MERGE_REQUEST_DRAFT == "true"
       when: manual
       allow_failure: true
 
