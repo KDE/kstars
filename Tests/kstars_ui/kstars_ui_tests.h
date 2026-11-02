@@ -60,7 +60,8 @@ extern void execute_tests();
                 KTELL_END(); \
             } \
             qDebug("Tests are done."); \
-            app->quit(); \
+            /* not quit(): that closes the windows first and is cancelled if one refuses */ \
+            QCoreApplication::exit(); \
         }); \
         execute_tests(); \
         KTEST_END(); \
@@ -97,7 +98,8 @@ extern void execute_tests();
                 KTELL_END(); \
             } \
             qDebug("Tests are done."); \
-            app->quit(); }); \
+            /* not quit(): that closes the windows first and is cancelled if one refuses */ \
+            QCoreApplication::exit(); }); \
         execute_tests(); \
         KTEST_END(); \
         return failure; }

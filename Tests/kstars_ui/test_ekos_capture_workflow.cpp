@@ -332,16 +332,7 @@ void TestEkosCaptureWorkflow::testCaptureScriptsExecution()
 
     // check the log file if it holds the expected number
     QVERIFY(m_CaptureHelper->checkScriptRuns(count, 2));
-    // clear the scripts to avoid side effects
-    if (m_CaptureHelper->getScripts().size() > 0)
-    {
-        // cleanup scripts
-        m_CaptureHelper->clearScripts();
-        fillCaptureScripts();
-        // wait for a sync
-        QTest::qWait(5000);
-        qCInfo(KSTARS_EKOS_TEST) << "Scripts cleared.";
-    }
+    // the scripts are cleared in cleanup(), also if this test fails
 }
 
 void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
@@ -452,7 +443,8 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     // wait that the guiding deviation is below the limit and
     // verify that capture does not start
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PROGRESS);
-    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() < deviation_limit, 60000);
+    // the simulators add guiding errors per axis, so recovering from the drift may take longer than a minute
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() < deviation_limit, 120000);
 
     QTest::qWait(20000);
     QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0, "Capture has been restarted although aborted.");
@@ -672,6 +664,14 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     // initial and target temperature
     QFETCH(double, initTemp);
     QFETCH(double, targetTemp);
+    QFETCH(bool, scripts);
+
+    // capture scripts, cleared again in cleanup()
+    if (scripts)
+    {
+        QVERIFY(m_CaptureHelper->createAllCaptureScripts(destination));
+        fillCaptureScripts();
+    }
 
     // initialize the CCD temperature and wait until it is reached
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
@@ -1149,6 +1149,8 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     // use the Flip Flat in simulator mode both as light source and as dust cap
     m_CaptureHelper->m_DustCapDevice    = "Flip Flat";
     m_CaptureHelper->m_LightPanelDevice = "Flip Flat";
+    // darks and biases would otherwise ask whether the camera has a shutter, and wait for an answer
+    m_CaptureHelper->ensureCCDShutter(true);
 
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
@@ -2005,9 +2007,12 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature_data()
 {
     QTest::addColumn<double>("initTemp");             /*!< Initial temperature value */
     QTest::addColumn<double>("targetTemp");           /*!< Target temperature value  */
+    QTest::addColumn<bool>("scripts");                /*!< Run capture scripts       */
 
-    QTest::newRow("init=0 target=-5") << 0.0 << -5.0;
-    QTest::newRow("init=0 target=0")  << 0.0 <<  0.0;
+    QTest::newRow("init=0 target=-5") << 0.0 << -5.0 << false;
+    QTest::newRow("init=0 target=0")  << 0.0 <<  0.0 << false;
+    // a pre-capture script must not keep a restarted job from waiting for its temperature
+    QTest::newRow("init=0 target=-5 scripts") << 0.0 << -5.0 << true;
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
@@ -2062,7 +2067,8 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
     QTest::addColumn<bool>("cameraCooling");          /*!< Cooling necessary           */
     QTest::addColumn<int>("fileUploadMode");          /*!< Upload mode (local/remote)  */
 
-    double exposureTime = 2.0, cameraTemperature = -20.0;
+    // within the cooling range of the CCD simulator (-15°C to 25°C)
+    double exposureTime = 2.0, cameraTemperature = -10.0;
     int count = 2, delay = 5000, binX = 2, binY = 2;
     int x = 10, y = 10, w = 480, h = 360;
     int formatSuffix = 4, fileUploadMode = 2;
@@ -2228,6 +2234,16 @@ void TestEkosCaptureWorkflow::cleanup()
     {
         capture->abort();
         capture->clearSequenceQueue();
+    }
+    // Clear the capture scripts, which are kept in the settings and would otherwise
+    // run in all following test cases as well.
+    if (capture != nullptr && m_CaptureHelper->getScripts().size() > 0)
+    {
+        m_CaptureHelper->clearScripts();
+        fillCaptureScripts();
+        // wait for a sync
+        QTest::qWait(5000);
+        qCInfo(KSTARS_EKOS_TEST) << "Scripts cleared.";
     }
     m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());

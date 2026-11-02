@@ -82,9 +82,19 @@ CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
             this, &CameraProcess::scriptFinished);
     connect(&m_CaptureScript, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error)
     {
-        Q_UNUSED(error)
+        // A script that exits without reading its input causes a write error. That is harmless,
+        // and the script still reports through finished().
+        if (error == QProcess::WriteError)
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture script did not read its input:" << m_CaptureScript.errorString();
+            return;
+        }
+
         Q_EMIT newLog(m_CaptureScript.errorString());
-        scriptFinished(-1, QProcess::NormalExit);
+        // Only a script that failed to start never reports through finished(). For any other
+        // error, finishing here would start the next script while this one is still running.
+        if (error == QProcess::FailedToStart)
+            scriptFinished(-1, QProcess::NormalExit);
     });
     connect(&m_CaptureScript, &QProcess::readyReadStandardError, this,
             [this]()
@@ -387,6 +397,8 @@ void CameraProcess::capturePreview(bool loop)
 void CameraProcess::stopCapturing(CaptureState targetState, bool continueSequence)
 {
     clearFlatCache();
+    // a pre-capture script that is still running no longer prepares a job
+    m_PreCaptureScriptPreparesJob = false;
 
     m_CaptureOperationsTimer.invalidate();
 
@@ -745,7 +757,11 @@ void CameraProcess::prepareActiveJobStage2()
      */
     // JM 2020-12-06: Check if we need to execute pre-capture script first.
     if (runCaptureScript(SCRIPT_PRE_CAPTURE) == IPS_BUSY)
+    {
+        // prepare the job once the script has finished
+        m_PreCaptureScriptPreparesJob = true;
         return;
+    }
 
     prepareJobExecution();
 }
@@ -1967,8 +1983,13 @@ void CameraProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
     switch (state()->captureScriptType())
     {
         case SCRIPT_PRE_CAPTURE:
+        {
             Q_EMIT newLog(i18n("Pre capture script finished with code %1.", exitCode));
-            if (activeJob() && activeJob()->getStatus() == JOB_IDLE)
+            // A job that starts is prepared first (temperature, light box, dust cap, ...), whatever its
+            // status: a job that was aborted and is started again is not idle.
+            const bool preparesJob = m_PreCaptureScriptPreparesJob;
+            m_PreCaptureScriptPreparesJob = false;
+            if (activeJob() && preparesJob)
                 prepareJobExecution();
             else
             {
@@ -1976,6 +1997,7 @@ void CameraProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
                 checkNextExposure();
             }
             break;
+        }
 
         case SCRIPT_POST_CAPTURE:
             Q_EMIT newLog(i18n("Post capture script finished with code %1.", exitCode));

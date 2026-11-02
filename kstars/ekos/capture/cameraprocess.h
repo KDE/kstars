@@ -759,6 +759,8 @@ class CameraProcess : public QObject
 
         // Pre-/post capture script process
         QProcess m_CaptureScript;
+        // The running pre-capture script was started while preparing the job, not before its next frame
+        bool m_PreCaptureScriptPreparesJob { false };
         QString m_Scope;
         // Flat field automation
         QVector < double > ExpRaw, ADURaw;

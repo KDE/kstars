@@ -139,12 +139,17 @@ void execute_tests()
 
     app->exec();
 
+    // Delete the objects still waiting for deletion while the application is alive. Left
+    // to the static destructors at exit, they crash (e.g. FITS viewers, style animations).
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
     // Clean our instance up if it is still alive
     if( KStars::Instance() != nullptr)
     {
         KStars::Instance()->close();
         delete KStars::Instance();
     }
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
 }
 
 #if !defined(HAVE_INDI)

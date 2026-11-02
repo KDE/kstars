@@ -1072,19 +1072,19 @@ bool TestEkosHelper::checkScriptRuns(int captures_per_sequence, int sequences)
     int runs = countScriptRuns(Ekos::SCRIPT_PRE_JOB);
     KWRAP_SUB(QVERIFY2(runs == sequences,
                        QString("Pre-job script not executed as often as expected: %1 expected, %2 detected.")
-                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+                       .arg(sequences).arg(runs).toLocal8Bit()));
     runs = countScriptRuns(Ekos::SCRIPT_PRE_CAPTURE);
     KWRAP_SUB( QVERIFY2(runs == sequences * captures_per_sequence,
                         QString("Pre-capture script not executed as often as expected: %1 expected, %2 detected.")
-                        .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+                        .arg(sequences * captures_per_sequence).arg(runs).toLocal8Bit()));
     runs = countScriptRuns(Ekos::SCRIPT_POST_JOB);
     KWRAP_SUB(QVERIFY2(runs == sequences,
                        QString("Post-job script not executed as often as expected: %1 expected, %2 detected.")
-                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+                       .arg(sequences).arg(runs).toLocal8Bit()));
     runs = countScriptRuns(Ekos::SCRIPT_POST_CAPTURE);
     KWRAP_SUB(QVERIFY2(runs == sequences * captures_per_sequence,
                        QString("Post-capture script not executed as often as expected: %1 expected, %2 detected.")
-                       .arg(captures_per_sequence).arg(runs).toLocal8Bit()));
+                       .arg(sequences * captures_per_sequence).arg(runs).toLocal8Bit()));
     // everything succeeded
     return true;
 }

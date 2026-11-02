@@ -203,12 +203,23 @@ pre-existing. Report it rather than fixing it silently.
 - Tests that create widgets (`QTEST_MAIN`) abort with "Authorization required, but no authorization protocol
   specified" when `DISPLAY` is set but the shell has no X authorization, which is common in agent and sandboxed
   shells. `Tests/testhelpers.h` only switches to offscreen when `DISPLAY` is empty, so set it explicitly for
-  non-UI binaries: `QT_QPA_PLATFORM=offscreen ./testfoo`. (Full `kstars_ui` tests need a real display; see
-  Troubleshooting below.)
+  non-UI binaries: `QT_QPA_PLATFORM=offscreen ./testfoo`. (Full `kstars_ui` tests need an X display; see the
+  next point.)
+- Never run UI tests on the user's own display. KStars, Ekos and FITS Viewer windows pop up and take keyboard
+  focus from whatever the user is working on. Run them on a virtual display that has a window manager: the Ekos
+  macros check `isActiveWindow()` whenever `DISPLAY` is set, and bare Xvfb has no window manager to activate
+  windows, so they fail right in `TestEkosWizard`. A headless KWin works and draws nothing on screen:
+  `kwin_wayland --virtual --xwayland --no-lockscreen --width 1920 --height 1080 --socket <short name>
+  --exit-with-session "./test_ekos_foo"` with `QT_QPA_PLATFORM=xcb` and a private, short `XDG_RUNTIME_DIR`
+  (Wayland socket paths are limited to 108 bytes). KWin's own exit code is not the test's: have the session
+  command print the test binary's exit code. Xvfb plus any X window manager works too. If neither is available,
+  ask the maintainer instead of falling back to the real display.
 - Check the test binary's own exit code. `./testfoo | tail` reports `tail`'s status, so an aborted test looks
   like a pass. Redirect to a log file, then check `$?` and the `Totals:` line.
 - Ekos startup in UI tests kills any running `indiserver`. If a real one is running on the machine, run UI
-  tests in an isolated environment (separate PID/network namespace or container), never against it.
+  tests in an isolated environment (separate PID/network namespace or container), never against it. A new
+  network namespace (`unshare -rn`) starts with its loopback down: run `ip link set lo up` inside it, or the
+  test cannot reach the `indiserver` it starts itself.
 - UI tests on the user's own D-Bus session let D-Bus start the *installed* `kstars` for `org.kde.kstars`, on the
   user's desktop. Use a private bus: `dbus-run-session --config-file=<conf>` with a session config that has no
   `<servicedir>` or `<standard_session_servicedirs/>`, together with a fresh `TMPDIR` per run.
@@ -220,6 +231,14 @@ pre-existing. Report it rather than fixing it silently.
     it, so frames become nearly black and every solve fails within a fraction of a second. Set `alignGain`.
   - Simulator features newer than the installed INDI need the INDI build's driver directory first on `PATH`;
     `indiserver` starts drivers by name.
+- Most `test_ekos_capture_workflow` functions prepare the Align module and need astrometry index files. Without
+  them the first function fails in `prepareTestCase()` and the later ones cascade into
+  `Ekos::Manager::Instance()->isActiveWindow()` failures. That is the environment, not a regression: check the
+  first failure of the run before blaming your change. The tests run with a temporary `HOME`, so they ignore the
+  user's configured index folders and only search the defaults (`/usr/share/astrometry`,
+  `/usr/share/astrometry/data`). If the index files live elsewhere, e.g. `/opt/astrometry`, bind-mount that
+  folder over the default for the test process only: `unshare -rnm sh -c 'mount --bind /opt/astrometry
+  /usr/share/astrometry/data && ...'`.
 - Starting Ekos locks the KStars clock to real time, and `SimClock::setUTC()` is ignored in that mode. This
   state leaks between test functions in the same process: keep INDI-simulator tests separate from
   simulated-clock tests, and register one CTest entry per function when simulator tests interfere.
@@ -227,8 +246,8 @@ pre-existing. Report it rather than fixing it silently.
   the running scheduler uses (`KStarsData::Instance()->geo()->TZ()` after the test sets its location, which
   includes DST), not `GeoLocation::TZ()` of a freshly constructed object (standard time only).
 
-**Troubleshooting:** UI tests need a display and a D-Bus session. Under `QT_QPA_PLATFORM=offscreen`, some
-KWidgetsAddons versions crash in `KColorButton`/`KColorMimeData` on a null clipboard `QMimeData` during
+**Troubleshooting:** UI tests need a virtual display with a window manager (see above) and a D-Bus session.
+Offscreen is no substitute: under `QT_QPA_PLATFORM=offscreen`, some KWidgetsAddons versions crash in `KColorButton`/`KColorMimeData` on a null clipboard `QMimeData` during
 KStars startup. If every `kstars_ui` test SIGSEGVs in `TestKStarsStartup::createInstanceTest()`, suspect that
 library bug, not your change.
 
