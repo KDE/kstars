@@ -112,6 +112,13 @@ TARGET_LINK_LIBRARIES(test_ekos_align_diagnosis ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosAlignDiagnosis COMMAND test_ekos_align_diagnosis)
 SET_TESTS_PROPERTIES( TestEkosAlignDiagnosis PROPERTIES LABELS "astrometry;ui" TIMEOUT 900 RESOURCE_LOCK "kstars-ui" )
 
+# needs a CCD simulator with SIM_FIELD_ROTATION and astrometry index files covering the simulator FOV
+ADD_EXECUTABLE(test_ekos_fieldderotation_sim ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_fieldderotation_sim.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_fieldderotation_sim ${KSTARS_UI_EKOS_LIBS})
+# excluded until the INDI simulators with field rotation are released
+# ADD_TEST(NAME TestEkosFieldDerotationSim COMMAND test_ekos_fieldderotation_sim)
+# SET_TESTS_PROPERTIES( TestEkosFieldDerotationSim PROPERTIES LABELS "astrometry;ui" TIMEOUT 1800 )
+
 ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure
