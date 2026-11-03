@@ -40,6 +40,8 @@ class TestFieldDerotation : public QObject
         void testParallacticAngleKnownValues();
         void testParallacticAngleIsZenithPA_data();
         void testParallacticAngleIsZenithPA();
+        void testFramingPAKeepsZenithAngle_data();
+        void testFramingPAKeepsZenithAngle();
 
         // Mount type
         void testMountTypeFromSwitchName();
@@ -112,6 +114,24 @@ struct SimulatedRotator
 double trueCameraPA(double frameAngle, double parallacticAngle, double rotatorAngle, int sign)
 {
     return KSUtils::rangePA(frameAngle + parallacticAngle + sign * rotatorAngle);
+}
+
+// Position angle of the zenith seen from a target, from the KStars coordinate transforms
+double zenithPAFromTransforms(double hourAngle, double declination, double latitude)
+{
+    const dms lat(latitude);
+    const dms lst(100.0);
+    SkyPoint target(dms(KSUtils::range360(lst.Degrees() - hourAngle)), dms(declination));
+    target.EquatorialToHorizontal(&lst, &lat);
+
+    SkyPoint towardsZenith;
+    towardsZenith.setAz(target.az());
+    towardsZenith.setAlt(target.alt().Degrees() + 0.01);
+    towardsZenith.HorizontalToEquatorial(&lst, &lat);
+
+    double zenithPA = 0;
+    target.angularDistanceTo(&towardsZenith, &zenithPA);
+    return zenithPA;
 }
 }
 
@@ -228,6 +248,47 @@ void TestFieldDerotation::testParallacticAngleIsZenithPA()
     const double q = FieldDerotation::parallacticAngle(hourAngle, declination, latitude);
     QVERIFY2(std::abs(KSUtils::rangePA(q - zenithPA)) < 0.05,
              qPrintable(QString("q = %1, zenith PA = %2, alt = %3").arg(q).arg(zenithPA).arg(target.alt().Degrees())));
+}
+
+// The sky map previews the sensor FOV at the map center with framingPA(). On an Alt-Az mount the
+// camera must keep its angle to the zenith there, as measured with the KStars coordinate transforms.
+void TestFieldDerotation::testFramingPAKeepsZenithAngle_data()
+{
+    QTest::addColumn<double>("latitude");
+    QTest::addColumn<double>("hourAngle");
+    QTest::addColumn<double>("declination");
+    QTest::addColumn<double>("previewHourAngle");
+    QTest::addColumn<double>("previewDeclination");
+    QTest::addColumn<double>("cameraPA");
+
+    QTest::newRow("same-pointing") << 45.0 << -30.0 << 40.0 << -30.0 << 40.0 << 25.0;
+    QTest::newRow("east-to-west") << 45.0 << -40.0 << 30.0 << 40.0 << 30.0 << 0.0;
+    QTest::newRow("near-zenith-pass") << 40.0 << -15.0 << 50.0 << 15.0 << 50.0 << -120.0;
+    QTest::newRow("other-dec") << 30.0 << 20.0 << -10.0 << -60.0 << 60.0 << 170.0;
+    QTest::newRow("southern") << -33.0 << -50.0 << -60.0 << 30.0 << -20.0 << -90.0;
+    QTest::newRow("wraps-180") << 45.0 << -40.0 << 30.0 << 40.0 << 30.0 << 179.0;
+}
+
+void TestFieldDerotation::testFramingPAKeepsZenithAngle()
+{
+    QFETCH(double, latitude);
+    QFETCH(double, hourAngle);
+    QFETCH(double, declination);
+    QFETCH(double, previewHourAngle);
+    QFETCH(double, previewDeclination);
+    QFETCH(double, cameraPA);
+
+    const double q = FieldDerotation::parallacticAngle(hourAngle, declination, latitude);
+    const double previewQ = FieldDerotation::parallacticAngle(previewHourAngle, previewDeclination, latitude);
+    const double previewPA = FieldDerotation::framingPA(cameraPA, q, previewQ);
+    QVERIFY(previewPA > -180 && previewPA <= 180);
+
+    const double zenithAngle = KSUtils::rangePA(cameraPA - zenithPAFromTransforms(hourAngle, declination, latitude));
+    const double previewZenithAngle = KSUtils::rangePA(previewPA - zenithPAFromTransforms(previewHourAngle,
+                                      previewDeclination, latitude));
+    QVERIFY2(std::abs(KSUtils::rangePA(previewZenithAngle - zenithAngle)) < 0.1,
+             qPrintable(QString("preview PA %1, angle to zenith %2 at the camera, %3 at the preview")
+                        .arg(previewPA).arg(zenithAngle).arg(previewZenithAngle)));
 }
 
 void TestFieldDerotation::testMountTypeFromSwitchName()

@@ -36,6 +36,16 @@ class FieldDerotation
          */
         static double parallacticAngle(double hourAngle, double declination, double latitude);
 
+        /**
+         * @brief framingPA Position angle the camera would have at another pointing of the same Alt-Az mount.
+         * The camera keeps its angle to the zenith, so its PA changes by the change of the parallactic angle.
+         * @param cameraPA current camera position angle in degrees
+         * @param cameraParallacticAngle parallactic angle of the current pointing in degrees
+         * @param parallacticAngle parallactic angle of the other pointing in degrees
+         * @return position angle in degrees, in (-180, 180]
+         */
+        static double framingPA(double cameraPA, double cameraParallacticAngle, double parallacticAngle);
+
         /** Mount and rotator state for one update. All angles in degrees. */
         struct Sample
         {

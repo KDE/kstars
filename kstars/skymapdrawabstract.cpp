@@ -44,6 +44,8 @@
 #include "indi/indistd.h"
 #include "indi/indimount.h"
 #include "indi/indidome.h"
+#include "ekos/auxiliary/rotatorutils.h"
+#include "ekos/auxiliary/fieldderotation.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -507,7 +509,21 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
                                    screenSkyPoint.y());
             oneFOV->setCenter(centerSkyPoint);
             oneFOV->setNorthPA(northRotation);
+
+            // On an Alt-Az mount the camera keeps its angle to the zenith, so preview the frame
+            // with the PA it would have when pointed at the center of the map
+            auto rotatorUtils = RotatorUtils::Instance();
+            const double cameraPA = oneFOV->PA();
+            if (rotatorUtils->isAltAz() && !std::isnan(rotatorUtils->parallacticAngle()))
+            {
+                const double hourAngle = KSUtils::rangePA(KStarsData::Instance()->lst()->Degrees() -
+                                         centerSkyPoint.ra().Degrees());
+                const double q = Ekos::FieldDerotation::parallacticAngle(hourAngle, centerSkyPoint.dec().Degrees(),
+                                 KStarsData::Instance()->geo()->lat()->Degrees());
+                oneFOV->setPA(Ekos::FieldDerotation::framingPA(cameraPA, rotatorUtils->parallacticAngle(), q));
+            }
             oneFOV->draw(psky, Options::zoomFactor());
+            oneFOV->setPA(cameraPA);
         }
         else if (oneFOV->objectName() == "solver_fov")
         {

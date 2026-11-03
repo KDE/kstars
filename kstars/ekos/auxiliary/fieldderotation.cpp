@@ -26,6 +26,11 @@ double FieldDerotation::parallacticAngle(double hourAngle, double declination, d
     return KSUtils::rangePA(q * 180.0 / M_PI);
 }
 
+double FieldDerotation::framingPA(double cameraPA, double cameraParallacticAngle, double parallacticAngle)
+{
+    return KSUtils::rangePA(cameraPA + parallacticAngle - cameraParallacticAngle);
+}
+
 void FieldDerotation::hold(double pa, double ra, double dec)
 {
     m_HeldPA = KSUtils::rangePA(pa);
