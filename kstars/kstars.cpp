@@ -110,10 +110,13 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
 
     if (!liveStacker)
     {
-        // The "org.kde.kstars" service name is registered by KDBusService in main.cpp,
-        // which also provides single-instance behavior. Only the /KStars object is
+        // On Linux and macOS the "org.kde.kstars" service name is registered by KDBusService
+        // in main.cpp, which also provides single-instance behavior. Only the /KStars object is
         // registered here so the D-Bus API remains reachable under that name.
         QDBusConnection::sessionBus().registerObject("/KStars", this);
+#ifndef HAVE_DBUSADDONS
+        QDBusConnection::sessionBus().registerService("org.kde.kstars");
+#endif
     }
 
 #ifdef HAVE_CFITSIO

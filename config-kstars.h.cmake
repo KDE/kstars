@@ -16,6 +16,9 @@
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 
+/* Define if KDBusAddons is used (Linux and macOS) */
+#cmakedefine HAVE_DBUSADDONS 1
+
 /* Define if you have Qt Graphs */
 #cmakedefine HAVE_QTGRAPHS 1
 

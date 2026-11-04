@@ -157,7 +157,6 @@ else(BUILD_KSTARS_LITE)
          Config
          ConfigWidgets
          Crash
-         DBusAddons
          WidgetsAddons
          NewStuff
          I18n
@@ -176,7 +175,6 @@ else(BUILD_KSTARS_LITE)
           Config
           ConfigWidgets
           Crash
-          DBusAddons
           WidgetsAddons
           NewStuff
           I18n
@@ -187,6 +185,17 @@ else(BUILD_KSTARS_LITE)
         )
        set(KFX_VERSION ${KF6_VERSION})
     endif(NOT BUILD_WITH_QT6)
+
+    # KDBusService (single-instance support) is only used on Linux and macOS. On Windows,
+    # KStars::KStars() registers the org.kde.kstars service name itself.
+    if(NOT WIN32)
+        if(NOT BUILD_WITH_QT6)
+            find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS DBusAddons)
+        else()
+            find_package(KF6 ${KF5_MIN_VERSION} REQUIRED COMPONENTS DBusAddons)
+        endif()
+        set(HAVE_DBUSADDONS 1)
+    endif()
 endif(BUILD_KSTARS_LITE)
 
 ## Eigen3 Library

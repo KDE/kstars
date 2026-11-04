@@ -21,12 +21,14 @@
 #endif
 #include "fitsviewer/fitsviewer.h"
 
+#include "config-kstars.h"
+
 #if !defined(KSTARS_LITE)
 #include <KAboutData>
+#ifdef HAVE_DBUSADDONS
 #include <KDBusService>
 #endif
-
-#include "config-kstars.h"
+#endif
 #if defined(HAVE_SENTRY) && !defined(KSTARS_LITE) && !defined(ANDROID)
 #include <sentry.h>
 #endif
@@ -429,6 +431,7 @@ int main(int argc, char *argv[])
     QDir(KSPaths::writableLocation(QStandardPaths::TempLocation)).mkpath(qAppName());
 
 #ifndef KSTARS_LITE
+#ifdef HAVE_DBUSADDONS
     // KDBusService derives the well-known D-Bus name (org.kde.kstars) from the
     // organization domain and application name. Set the domain explicitly so it
     // matches the name the desktop file advertises and that scripts already use.
@@ -478,6 +481,7 @@ int main(int argc, char *argv[])
     {
         openRequestedFiles(uris);
     });
+#endif // HAVE_DBUSADDONS
 
     KStars::createInstance(true, !parser.isSet("paused"), datestring);
 
