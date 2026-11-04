@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-03 02:24+0000\n"
-"PO-Revision-Date: 2026-10-31 19:15+0100\n"
+"PO-Revision-Date: 2026-11-03 20:16+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -33007,6 +33007,8 @@ msgstr ""
 msgid ""
 "Warning: the park task could not be started, parking the mount directly."
 msgstr ""
+"Avís: no s'ha pogut iniciar la tasca d'aparcament, s'aparca la muntura "
+"directament."
 
 #: ekos/scheduler/schedulerprocess.cpp:965
 #, kde-format
@@ -33034,6 +33036,8 @@ msgstr ""
 msgid ""
 "Warning: the unpark task could not be started, unparking the mount directly."
 msgstr ""
+"Avís: no s'ha pogut iniciar la tasca de desaparcament, es desaparca la "
+"muntura directament."
 
 #: ekos/scheduler/schedulerprocess.cpp:1051
 #, kde-format
