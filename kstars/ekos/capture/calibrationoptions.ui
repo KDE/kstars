@@ -158,9 +158,6 @@
             <property name="text">
              <string comment="manual flat field ADU">Manual</string>
             </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
             <attribute name="buttonGroup">
              <string notr="true">flatDurationGroup</string>
             </attribute>
@@ -174,6 +171,9 @@
             <property name="text">
              <string>ADU</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
             <attribute name="buttonGroup">
              <string notr="true">flatDurationGroup</string>
             </attribute>
@@ -182,7 +182,10 @@
           <item row="1" column="1">
            <widget class="QSpinBox" name="captureCalibrationADUValue">
             <property name="toolTip">
-             <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.</string>
+             <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness. Auto aims at 40% of the range of the image, with a tolerance of 5%.</string>
+            </property>
+            <property name="specialValueText">
+             <string comment="automatic flat field target ADU">Auto</string>
             </property>
             <property name="maximum">
              <number>65535</number>

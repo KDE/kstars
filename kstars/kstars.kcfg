@@ -2433,7 +2433,7 @@
       </entry>
       <entry name="CaptureCalibrationUseADU" type="Bool">
          <label>Capture calibration frames using ADU threshold.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="CaptureCalibrationADUValue" type="Double">
          <label>Desired flat frame ADU value.</label>

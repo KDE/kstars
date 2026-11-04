@@ -7,11 +7,15 @@
 #pragma once
 
 #include "camerastate.h"
+#include "flatbrightnesscalibration.h"
+#include "flatbrightnesswait.h"
+#include "flatcalibrationmethod.h"
 #include "sequencejob.h"
 
 #include "indiapi.h"
 
 #include <QObject>
+#include <QTimer>
 
 class FITSViewer;
 
@@ -575,6 +579,94 @@ class CameraProcess : public QObject
         double calculateFlatExpTime(double currentADU);
 
         /**
+         * @brief checkFlatCalibrationBrightness reach the target ADU by adjusting the
+         * brightness of the light box while the camera exposure stays exactly as the
+         * user configured it.
+         *
+         * Only the generic light box interface is used: the brightness range, the
+         * current brightness and the request itself all go through
+         * {@see ISD::LightBox}. How the device achieves a requested brightness is the
+         * responsibility of its INDI driver alone.
+         * @param currentADU ADU of the last captured frame
+         * @param saturated true if the last frame is saturated
+         * @return false iff calibration has not been reached yet
+         */
+        bool checkFlatCalibrationBrightness(double currentADU, bool saturated);
+
+        /**
+         * @brief fallBackToExposureCalibration continue the calibration of the active job
+         * by adjusting the exposure, after the brightness range of the light box turned out
+         * not to reach the target ADU. The light box keeps the brightness that came closest
+         * to the target.
+         * @param currentBrightness brightness of the frame that was just measured
+         * @param currentADU ADU of that frame
+         * @param saturated true if that frame is saturated
+         * @return false, since the calibration has not been reached yet
+         */
+        bool fallBackToExposureCalibration(int currentBrightness, double currentADU, bool saturated);
+
+        /**
+         * @brief restoreFlatBrightness set the light box back to the brightness it had when
+         * the flat calibration of the job started, if the calibration changed it.
+         */
+        void restoreFlatBrightness();
+
+        /**
+         * @brief stopAtExposureLimit abort the flat calibration if the frame was taken at an
+         * exposure limit of the camera and the next exposure lies beyond it, since clamping
+         * it would repeat the same frame forever. Sky flats go on, the sky keeps changing.
+         * @param nextExposure exposure the calibration asks for next, before clamping
+         * @param minExposure shortest exposure the camera accepts
+         * @param maxExposure longest exposure the camera accepts
+         * @return true if the calibration has been aborted
+         */
+        bool stopAtExposureLimit(double nextExposure, double minExposure, double maxExposure);
+
+        /**
+         * @brief flatTargetADU target ADU of the active flat job: the target of the job, or
+         * the automatic target if the job's target is 0 (Auto), -1 until that is known.
+         */
+        double flatTargetADU();
+
+        /**
+         * @brief flatTargetTolerance accepted deviation from @see flatTargetADU().
+         */
+        double flatTargetTolerance();
+
+        /**
+         * @brief completeFlatCalibration mark the calibration of the active job as
+         * completed and prepare the capturing of the sequence itself.
+         */
+        void completeFlatCalibration(double currentADU);
+
+        /**
+         * @brief beginFlatBrightnessWait start waiting for the light source before the next
+         * calibration frame.
+         * @param requested true after a new brightness was sent to the light box, which then
+         * has to confirm it before the settle time starts. False before the first calibration
+         * frame of a job, when nothing was sent.
+         */
+        void beginFlatBrightnessWait(bool requested);
+
+        /**
+         * @brief armFlatBrightnessWait (re)start the timer for the next deadline of the wait.
+         */
+        void armFlatBrightnessWait();
+
+        /**
+         * @brief flatBrightnessUpdated the light box reported a brightness update.
+         * @param value brightness value reported by the device
+         * @param propertyState state of the brightness property
+         */
+        void flatBrightnessUpdated(uint16_t value, IPState propertyState);
+
+        /**
+         * @brief handleFlatBrightnessWait act on the outcome of the wait: keep waiting,
+         * capture the next calibration frame, or stop the capture.
+         */
+        void handleFlatBrightnessWait(FlatBrightnessWait::Result result);
+
+        /**
          * @brief clearFlatCache Clear the measured values for flat calibrations
          */
         void clearFlatCache();
@@ -765,6 +857,28 @@ class CameraProcess : public QObject
         // Flat field automation
         QVector < double > ExpRaw, ADURaw;
         ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES };
+        // Flat field automation by light box brightness (fixed camera exposure)
+        FlatBrightnessCalibration m_FlatBrightnessCalibration;
+        // Waits for the light box to confirm a brightness and for the light to settle
+        FlatBrightnessWait m_FlatBrightnessWait;
+        QTimer m_FlatBrightnessWaitTimer;
+        QElapsedTimer m_FlatBrightnessClock;
+        // Brightness that has been requested from the light box, -1 if none is pending
+        int m_RequestedBrightness { -1 };
+        // Whether the flat calibration of the active job adjusts the brightness or the exposure
+        FlatCalibrationMethod::Method m_FlatMethod { FlatCalibrationMethod::METHOD_EXPOSURE };
+        // Light box brightness when the flat calibration of the job started, -1 if unknown
+        int m_FlatStartBrightness { -1 };
+        // Light box brightness when the wait before the current calibration frame ended, -1 if unknown
+        int m_FlatFrameBrightness { -1 };
+        // Calibration frames taken again in a row because the brightness changed during the frame
+        int m_FlatBrightnessRetakes { 0 };
+        // Exposure of the sequence after falling back from brightness control, -1 otherwise
+        double m_FlatSequenceExposure { -1 };
+        // Target ADU derived from the frame when the job's target is Auto, -1 until known
+        double m_FlatAutoTargetADU { -1 };
+        // Stops an exposure calibration whose ADU no longer follows the exposure
+        FlatCalibrationMethod::StallDetector m_FlatStallDetector;
 
 
         /**

@@ -24,6 +24,26 @@ ADD_TEST( NAME TestPlaceholderPath COMMAND test_placeholderpath )
 SET_TESTS_PROPERTIES( TestPlaceholderPath PROPERTIES LABELS "stable" )
 endif()
 
+ADD_EXECUTABLE( test_flatcalibrationmethod test_flatcalibrationmethod.cpp)
+TARGET_LINK_LIBRARIES( test_flatcalibrationmethod ${TEST_LIBRARIES})
+ADD_TEST( NAME TestFlatCalibrationMethod COMMAND test_flatcalibrationmethod )
+SET_TESTS_PROPERTIES( TestFlatCalibrationMethod PROPERTIES LABELS "stable" )
+
+ADD_EXECUTABLE( test_flatcalibrationdefaults test_flatcalibrationdefaults.cpp)
+TARGET_LINK_LIBRARIES( test_flatcalibrationdefaults ${TEST_LIBRARIES})
+ADD_TEST( NAME TestFlatCalibrationDefaults COMMAND test_flatcalibrationdefaults )
+SET_TESTS_PROPERTIES( TestFlatCalibrationDefaults PROPERTIES LABELS "stable" )
+
+ADD_EXECUTABLE( test_flatbrightnesscalibration test_flatbrightnesscalibration.cpp)
+TARGET_LINK_LIBRARIES( test_flatbrightnesscalibration ${TEST_LIBRARIES})
+ADD_TEST( NAME TestFlatBrightnessCalibration COMMAND test_flatbrightnesscalibration )
+SET_TESTS_PROPERTIES( TestFlatBrightnessCalibration PROPERTIES LABELS "stable" )
+
+ADD_EXECUTABLE( test_flatbrightnesswait test_flatbrightnesswait.cpp)
+TARGET_LINK_LIBRARIES( test_flatbrightnesswait ${TEST_LIBRARIES})
+ADD_TEST( NAME TestFlatBrightnessWait COMMAND test_flatbrightnesswait )
+SET_TESTS_PROPERTIES( TestFlatBrightnessWait PROPERTIES LABELS "stable" )
+
 ADD_EXECUTABLE( test_sequencejobstate test_sequencejobstate.cpp)
 TARGET_LINK_LIBRARIES( test_sequencejobstate ${TEST_LIBRARIES})
 ADD_TEST( NAME TestSequenceJobState COMMAND test_sequencejobstate )

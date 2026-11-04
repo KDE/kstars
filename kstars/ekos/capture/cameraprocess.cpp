@@ -59,6 +59,16 @@ CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
     state()->downloadProgressTimer().setInterval(100);
     connect(&state()->downloadProgressTimer(), &QTimer::timeout, this, &CameraProcess::setDownloadProgress);
 
+    // Waiting for a light box to apply and to settle at a new brightness must never
+    // block the GUI, so it is done with a single shot timer that fires at the next
+    // deadline of the wait.
+    m_FlatBrightnessClock.start();
+    m_FlatBrightnessWaitTimer.setSingleShot(true);
+    connect(&m_FlatBrightnessWaitTimer, &QTimer::timeout, this, [this]()
+    {
+        handleFlatBrightnessWait(m_FlatBrightnessWait.check(m_FlatBrightnessClock.elapsed()));
+    });
+
     // configure dark processor
     m_DarkProcessor = new DarkProcessor(this);
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &CameraProcess::newLog);
@@ -170,9 +180,18 @@ bool CameraProcess::setLightBox(ISD::LightBox *device)
     if (devices()->lightBox() == device)
         return false;
 
+    if (devices()->lightBox())
+        disconnect(devices()->lightBox(), &ISD::LightBox::newBrightnessStatus, this,
+                   &CameraProcess::flatBrightnessUpdated);
+
     devices()->setLightBox(device);
     state()->setLightBoxLightState(ISD::LightBox::LIGHT_UNKNOWN);
     state()->setLightBoxLightEnabled(false);
+
+    // Follow the brightness reported by the device so that ADU calibration knows
+    // when a requested brightness has actually been applied.
+    if (device)
+        connect(device, &ISD::LightBox::newBrightnessStatus, this, &CameraProcess::flatBrightnessUpdated);
 
     return true;
 }
@@ -396,6 +415,15 @@ void CameraProcess::capturePreview(bool loop)
 
 void CameraProcess::stopCapturing(CaptureState targetState, bool continueSequence)
 {
+    // A job that ends or is aborted leaves the light box at the brightness it started
+    // with, and its flat calibration method does not carry over to the next capture.
+    // A suspended job continues later at the brightness found so far.
+    if (targetState != CAPTURE_SUSPENDED)
+    {
+        restoreFlatBrightness();
+        m_FlatMethod = FlatCalibrationMethod::METHOD_EXPOSURE;
+        m_FlatSequenceExposure = -1;
+    }
     clearFlatCache();
     // a pre-capture script that is still running no longer prepares a job
     m_PreCaptureScriptPreparesJob = false;
@@ -1298,9 +1326,8 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
             thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
             break;
         case FRAME_FLAT:
-            /* calibration not completed, adapt exposure time */
-            if (thejob->getFlatFieldDuration() == DURATION_ADU
-                    && thejob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0)
+            /* calibration not completed, adapt exposure time; a preview is taken as it is */
+            if (thejob->getFlatFieldDuration() == DURATION_ADU && thejob->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             {
                 if (checkFlatCalibration(state()->imageData(), state()->exposureRange().min, state()->exposureRange().max) == false)
                 {
@@ -1570,10 +1597,11 @@ void CameraProcess::captureImage()
 
     if (activeJob()->getFrameType() == FRAME_FLAT)
     {
-        // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
+        // Only sequence jobs calibrate. A preview captures a single frame at the exposure
+        // and light box brightness currently set, whatever the flat duration is.
         if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
-                && activeJob()->getFlatFieldDuration() == DURATION_ADU &&
-                activeJob()->getCalibrationStage() == SequenceJobState::CAL_NONE)
+                && activeJob()->getFlatFieldDuration() == DURATION_ADU
+                && activeJob()->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
             if (activeCamera()->getEncodingFormat() != "FITS" &&
                     activeCamera()->getEncodingFormat() != "XISF")
@@ -1583,7 +1611,54 @@ void CameraProcess::captureImage()
                 return;
             }
 
+            // Every job calibrates on its own, so start from a clean slate.
+            clearFlatCache();
+            m_FlatStartBrightness = -1;
+            m_FlatSequenceExposure = -1;
+            m_FlatAutoTargetADU = -1;
             activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION);
+
+            // The light box brightness is adjusted if the light box is the flat source and
+            // its brightness can be adjusted, otherwise the exposure. The pre-capture checks
+            // have turned the light box on by now if it is the flat source, and a light box
+            // only offers a usable brightness while its light is on.
+            auto lightBox = devices()->lightBox();
+            m_FlatMethod = FlatCalibrationMethod::select(
+                               activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool(),
+                               lightBox != nullptr && state()->getLightBoxLightState() == ISD::LightBox::LIGHT_ON,
+                               lightBox != nullptr && lightBox->isBrightnessControllable());
+
+            // An automatic target is derived from the first frame, which logs it.
+            const bool autoTarget = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() <= 0;
+            const QString target = QString::number(flatTargetADU(), 'f', 0);
+            const QString tolerance = QString::number(flatTargetTolerance(), 'f', 0);
+            const QString exposure = QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0,
+                                     'f', 3);
+            if (m_FlatMethod == FlatCalibrationMethod::METHOD_BRIGHTNESS && autoTarget)
+                Q_EMIT newLog(i18n("Flat calibration adjusts the light box brightness at an exposure of %1 seconds. "
+                                   "Target ADU: Auto.", exposure));
+            else if (m_FlatMethod == FlatCalibrationMethod::METHOD_BRIGHTNESS)
+                Q_EMIT newLog(i18n("Flat calibration adjusts the light box brightness at an exposure of %1 seconds. "
+                                   "Target ADU: %2 ± %3.", exposure, target, tolerance));
+            else if (autoTarget)
+                Q_EMIT newLog(i18n("Flat calibration adjusts the exposure. Target ADU: Auto."));
+            else
+                Q_EMIT newLog(i18n("Flat calibration adjusts the exposure. Target ADU: %1 ± %2.", target, tolerance));
+
+            // Brightness calibration starts from the brightness the light box reports. It
+            // may still be changing it right now, e.g. after its light was turned on, so
+            // wait for it to finish and grant it the settle time before the first frame.
+            // An INDI light box applies its per-filter brightness preset when the filter
+            // wheel changes, which only happens right before the exposure of the first
+            // frame. A frame taken while that happens is taken again, see
+            // checkFlatCalibrationBrightness().
+            if (m_FlatMethod == FlatCalibrationMethod::METHOD_BRIGHTNESS)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the light box brightness to settle before the first"
+                                             << "flat calibration frame.";
+                beginFlatBrightnessWait(false);
+                return;
+            }
         }
     }
 
@@ -2315,6 +2390,22 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
     if (imageData.isNull())
         return true;
 
+    // An automatic target follows from the bit depth of the first frame.
+    if (flatTargetADU() <= 0)
+    {
+        m_FlatAutoTargetADU = FlatCalibrationMethod::autoTargetADU(imageData->bpp());
+        if (m_FlatAutoTargetADU <= 0)
+        {
+            Q_EMIT newLog(i18n("Flat calibration failed. No automatic target ADU is available for %1-bit images. "
+                               "Set the target ADU manually.", QString::number(imageData->bpp())));
+            Q_EMIT stopCapture(CAPTURE_ABORTED);
+            return false;
+        }
+        Q_EMIT newLog(i18n("Automatic target ADU for %1-bit images: %2 ± %3.", QString::number(imageData->bpp()),
+                           QString::number(flatTargetADU(), 'f', 0), QString::number(flatTargetTolerance(), 'f', 0)));
+    }
+
+    const double targetADU = flatTargetADU();
     double currentADU = imageData->getADU();
     bool outOfRange = false, saturated = false;
 
@@ -2323,21 +2414,21 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
         switch (imageData->bpp())
         {
             case 8:
-                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT8_MAX)
+                if (targetADU > UINT8_MAX)
                     outOfRange = true;
                 else if (currentADU / UINT8_MAX > 0.95)
                     saturated = true;
                 break;
 
             case 16:
-                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT16_MAX)
+                if (targetADU > UINT16_MAX)
                     outOfRange = true;
                 else if (currentADU / UINT16_MAX > 0.95)
                     saturated = true;
                 break;
 
             case 32:
-                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT32_MAX)
+                if (targetADU > UINT32_MAX)
                     outOfRange = true;
                 else if (currentADU / UINT32_MAX > 0.95)
                     saturated = true;
@@ -2352,18 +2443,28 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
     {
         Q_EMIT newLog(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.",
                            QString::number(imageData->bpp())
-                           , QString::number(activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble(), 'f', 2)));
+                           , QString::number(targetADU, 'f', 2)));
         Q_EMIT stopCapture(CAPTURE_ABORTED);
         return false;
     }
-    else if (saturated)
+
+    // In brightness control mode the camera exposure is a constant chosen by the
+    // user and the brightness of the light box is the control variable instead.
+    if (m_FlatMethod == FlatCalibrationMethod::METHOD_BRIGHTNESS)
+        return checkFlatCalibrationBrightness(currentADU, saturated);
+
+    if (saturated)
     {
         double nextExposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() * 0.1;
+        if (stopAtExposureLimit(nextExposure, exp_min, exp_max))
+            return false;
         nextExposure = qBound(exp_min, nextExposure, exp_max);
 
         Q_EMIT newLog(i18n("Current image is saturated (%1). Next exposure is %2 seconds.",
                            QString::number(currentADU, 'f', 0), QString("%L1").arg(nextExposure, 0, 'f', 6)));
 
+        // a saturated frame says nothing about how the ADU follows the exposure
+        m_FlatStallDetector.reset();
         activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION);
         activeJob()->setCoreProperty(SequenceJob::SJ_Exposure, nextExposure);
         if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
@@ -2374,16 +2475,24 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
         return false;
     }
 
-    double ADUDiff = std::abs(currentADU - activeJob()->getCoreProperty(
-                                  SequenceJob::SJ_TargetADU).toDouble());
+    double ADUDiff = std::abs(currentADU - targetADU);
 
     // If it is within tolerance range of target ADU
-    if (ADUDiff <= state()->targetADUTolerance())
+    if (ADUDiff <= flatTargetTolerance())
     {
+        m_FlatStallDetector.reset();
         if (activeJob()->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
         {
             Q_EMIT newLog(
                 i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
+            // The light box brightness could not reach the target at the exposure of the
+            // sequence, so tell the user which exposure the flats are taken at instead.
+            if (m_FlatSequenceExposure > 0)
+            {
+                const double exposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+                Q_EMIT newLog(i18n("Flats are taken at an exposure of %1 seconds instead of %2 seconds.",
+                                   QString("%L1").arg(exposure, 0, 'f', 3), QString("%L1").arg(m_FlatSequenceExposure, 0, 'f', 3)));
+            }
             activeCamera()->setUploadMode(activeJob()->getUploadMode());
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
@@ -2401,6 +2510,24 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
         return true;
     }
 
+    // Stop instead of chasing a target that the exposure cannot reach. Sky flats are
+    // left out, since there the light itself changes between the frames.
+    if (activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() == false
+            && m_FlatStallDetector.update(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), currentADU,
+                                          targetADU))
+    {
+        const QString measured = QString::number(currentADU, 'f', 0);
+        const QString target = QString::number(targetADU, 'f', 0);
+        if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() <= 0)
+            Q_EMIT newLog(i18n("Flat calibration stopped. The ADU stays near %1 while the exposure changes, so the "
+                               "automatic target ADU of %2 cannot be reached. Set the target ADU manually.", measured, target));
+        else
+            Q_EMIT newLog(i18n("Flat calibration stopped. The ADU stays near %1 while the exposure changes, so the "
+                               "target ADU of %2 cannot be reached. Check the target ADU and the flat source.", measured, target));
+        Q_EMIT stopCapture(CAPTURE_ABORTED);
+        return false;
+    }
+
     double nextExposure = -1;
 
     // If value is saturated, try to reduce it to valid range first
@@ -2416,6 +2543,9 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
         Q_EMIT stopCapture(CAPTURE_ABORTED);
         return false;
     }
+
+    if (stopAtExposureLimit(nextExposure, exp_min, exp_max))
+        return false;
 
     // Limit to minimum and maximum values
     nextExposure = qBound(exp_min, nextExposure, exp_max);
@@ -2446,7 +2576,7 @@ double CameraProcess::calculateFlatExpTime(double currentADU)
     }
 
     double nextExposure = 0;
-    double targetADU    = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
+    double targetADU    = flatTargetADU();
     std::vector<double> coeff;
 
     // limit number of points to two so it can calibrate in intensely changing environment like
@@ -2547,10 +2677,435 @@ double CameraProcess::calculateFlatExpTime(double currentADU)
 
 }
 
+bool CameraProcess::checkFlatCalibrationBrightness(double currentADU, bool saturated)
+{
+    const double targetADU = flatTargetADU();
+    // The exposure is only read for logging: in this mode it is a constant chosen by
+    // the user and it must never be modified here.
+    const double exposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+
+    auto lightBox = devices()->lightBox();
+
+    // The generic light box capability is the only contract with the hardware. Note
+    // that it is deliberately evaluated here, at the moment it matters, and not used
+    // to disable anything in the user interface: a device only publishes a usable
+    // brightness property once it is in a state to accept one, so a query made while
+    // the light is still off says nothing about what the device can do.
+    if (lightBox == nullptr)
+    {
+        Q_EMIT newLog(i18n("Flat calibration failed. No light box is configured for this optical train."));
+        Q_EMIT stopCapture(CAPTURE_ABORTED);
+        return false;
+    }
+
+    if (lightBox->isBrightnessControllable() == false)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Light box" << lightBox->getDeviceName()
+                                     << "reports no usable brightness: ready=" << lightBox->isReady()
+                                     << "range=" << lightBox->brightnessMin() << "-" << lightBox->brightnessMax()
+                                     << "state=" << lightBox->brightnessState();
+        Q_EMIT newLog(i18n("Flat calibration failed. %1 does not offer a brightness that can be adjusted "
+                           "(range %2 - %3).", lightBox->getDeviceName(),
+                           QString::number(lightBox->brightnessMin()), QString::number(lightBox->brightnessMax())));
+        Q_EMIT stopCapture(CAPTURE_ABORTED);
+        return false;
+    }
+
+    // Range and current value both come from the device itself: Ekos does not assume
+    // any particular brightness scale. The increment the device advertises is logged
+    // for diagnostics but is not used as a constraint, since in INDI it is a hint for
+    // input widgets rather than a promise that other values are refused.
+    const int minBrightness = lightBox->brightnessMin();
+    const int maxBrightness = lightBox->brightnessMax();
+    const int currentBrightness = lightBox->brightness();
+
+    // A frame taken while the light box changed its brightness on its own, e.g. to apply
+    // a per-filter preset at the filter change right before the exposure, is measured at
+    // neither brightness. Wait for the light box to settle and take it again.
+    switch (FlatCalibrationMethod::checkFrameBrightness(m_FlatFrameBrightness, currentBrightness, m_FlatBrightnessRetakes))
+    {
+        case FlatCalibrationMethod::FRAME_USE:
+            m_FlatBrightnessRetakes = 0;
+            break;
+
+        case FlatCalibrationMethod::FRAME_RETAKE:
+            m_FlatBrightnessRetakes++;
+            Q_EMIT newLog(i18n("The light box brightness changed from %1 to %2 during the frame. Taking it again.",
+                               QString::number(m_FlatFrameBrightness), QString::number(currentBrightness)));
+            beginFlatBrightnessWait(false);
+            return false;
+
+        case FlatCalibrationMethod::FRAME_GIVE_UP:
+            Q_EMIT newLog(i18n("Flat calibration failed. The light box brightness keeps changing on its own, "
+                               "from %1 to %2 during the last frame.", QString::number(m_FlatFrameBrightness),
+                               QString::number(currentBrightness)));
+            Q_EMIT stopCapture(CAPTURE_ABORTED);
+            return false;
+    }
+
+    if (m_FlatBrightnessCalibration.isActive() == false)
+    {
+        if (m_FlatBrightnessCalibration.start(minBrightness, maxBrightness, targetADU,
+                                              flatTargetTolerance()) == false)
+        {
+            Q_EMIT newLog(i18n("Flat calibration failed. The light box does not offer a usable brightness range (%1 - %2).",
+                               QString::number(minBrightness), QString::number(maxBrightness)));
+            Q_EMIT stopCapture(CAPTURE_ABORTED);
+            return false;
+        }
+
+        // The search starts from the brightness of the first frame, which is the per-filter
+        // preset of the INDI driver if one is configured. Presets are never modified, only
+        // the current brightness is.
+        Q_EMIT newLog(i18n("Light box brightness calibration starts at brightness %1.",
+                           QString::number(currentBrightness)));
+    }
+
+    const auto result = m_FlatBrightnessCalibration.update(currentBrightness, currentADU, saturated);
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Flat ADU brightness calibration:"
+                                 << "target=" << targetADU
+                                 << "exposure=" << exposure
+                                 << "brightness=" << currentBrightness
+                                 << "measuredADU=" << currentADU
+                                 << "saturated=" << saturated
+                                 << "range=" << minBrightness << "-" << maxBrightness
+                                 << "advertisedStep=" << lightBox->brightnessStep()
+                                 << "result=" << FlatBrightnessCalibration::resultString(result);
+
+    switch (result)
+    {
+        case FlatBrightnessCalibration::RESULT_TARGET_REACHED:
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Flat ADU brightness calibration complete:"
+                                         << "target=" << targetADU
+                                         << "measuredADU=" << currentADU
+                                         << "brightness=" << currentBrightness
+                                         << "exposure=" << exposure
+                                         << "iterations=" << m_FlatBrightnessCalibration.iterations();
+            // The light box stays at this brightness. Every following frame is still
+            // checked against the target, and the brightness is only adjusted again if
+            // a frame falls outside the tolerance.
+            completeFlatCalibration(currentADU);
+            return true;
+
+        case FlatBrightnessCalibration::RESULT_CONTINUE:
+        {
+            const int nextBrightness = m_FlatBrightnessCalibration.nextBrightness();
+
+            // A frame of the sequence itself fell outside the tolerance after the
+            // calibration had completed: the light source has drifted.
+            if (activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
+                Q_EMIT newLog(i18n("Current ADU %1 is outside the target ADU tolerance range again. Next light box "
+                                   "brightness is %2.", QString::number(currentADU, 'f', 0),
+                                   QString::number(nextBrightness)));
+            else
+                Q_EMIT newLog(i18n("Current ADU is %1. Next light box brightness is %2.",
+                                   QString::number(currentADU, 'f', 0), QString::number(nextBrightness)));
+
+            activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION);
+            if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+                activeCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
+
+            if (lightBox->setBrightness(static_cast<uint16_t>(nextBrightness)) == false)
+            {
+                Q_EMIT newLog(i18n("Flat calibration failed. Unable to set the light box brightness."));
+                Q_EMIT stopCapture(CAPTURE_ABORTED);
+                return false;
+            }
+
+            m_RequestedBrightness = nextBrightness;
+            // Note that the exposure of the job is deliberately left untouched. Wait
+            // for the light box to confirm the new brightness and for the light to
+            // settle before the next frame is captured.
+            beginFlatBrightnessWait(true);
+            return false;
+        }
+
+        case FlatBrightnessCalibration::RESULT_FAILED_MINIMUM:
+            // The frame is at the minimum of the search, or below it when the light box was
+            // there already, so name the brightness it was taken at.
+            Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness. Target: %1, measured: %2, "
+                               "brightness: minimum (%3).", QString::number(targetADU, 'f', 0),
+                               QString::number(currentADU, 'f', 0), QString::number(currentBrightness)));
+            break;
+
+        case FlatBrightnessCalibration::RESULT_FAILED_MAXIMUM:
+            Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness. Target: %1, measured: %2, "
+                               "brightness: maximum (%3).", QString::number(targetADU, 'f', 0),
+                               QString::number(currentADU, 'f', 0), QString::number(maxBrightness)));
+            break;
+
+        case FlatBrightnessCalibration::RESULT_FAILED_INVALID_ADU:
+            Q_EMIT newLog(i18n("Flat calibration failed. No signal measured at maximum light box brightness (%1). "
+                               "Check the light source and the optical path.", QString::number(maxBrightness)));
+            break;
+
+        case FlatBrightnessCalibration::RESULT_FAILED_RESOLUTION:
+            // The target usually lies between two adjacent brightness values. A device
+            // that ignores a request ends the search before both sides are known.
+            if (m_FlatBrightnessCalibration.belowBrightness() >= 0 && m_FlatBrightnessCalibration.aboveBrightness() >= 0)
+                Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness. Target: %1, between "
+                                   "brightness %2 (%3 ADU) and %4 (%5 ADU).", QString::number(targetADU, 'f', 0),
+                                   QString::number(m_FlatBrightnessCalibration.belowBrightness()),
+                                   QString::number(m_FlatBrightnessCalibration.belowADU(), 'f', 0),
+                                   QString::number(m_FlatBrightnessCalibration.aboveBrightness()),
+                                   QString::number(m_FlatBrightnessCalibration.aboveADU(), 'f', 0)));
+            else
+                Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness. Target: %1. The "
+                                   "brightness cannot be adjusted any finer.", QString::number(targetADU, 'f', 0)));
+            break;
+
+        case FlatBrightnessCalibration::RESULT_FAILED_MAX_ITERATIONS:
+            Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness within %1 frames. Target: %2.",
+                               QString::number(m_FlatBrightnessCalibration.attempts()),
+                               QString::number(targetADU, 'f', 0)));
+            break;
+
+        case FlatBrightnessCalibration::RESULT_FAILED_NOT_CONFIGURED:
+            Q_EMIT newLog(i18n("Flat calibration failed. Brightness calibration is not configured."));
+            break;
+    }
+
+    // The brightness range of the light box cannot reach the target: adjust the exposure
+    // instead. Any other result terminates the calibration.
+    if (FlatCalibrationMethod::fallsBackToExposure(result))
+        return fallBackToExposureCalibration(currentBrightness, currentADU, saturated);
+
+    Q_EMIT stopCapture(CAPTURE_ABORTED);
+    return false;
+}
+
+bool CameraProcess::fallBackToExposureCalibration(int currentBrightness, double currentADU, bool saturated)
+{
+    const double exposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    const double targetADU = flatTargetADU();
+
+    // Keep the light box at the dimmest brightness that was too bright, which is lit for
+    // sure, or at the brightest one if every frame was too dark. The first exposure step
+    // is scaled from the ADU measured at that brightness, the exposure calibration
+    // continues from there.
+    const bool hasFallback = m_FlatBrightnessCalibration.fallbackBrightness() >= 0;
+    const int brightness = hasFallback ? m_FlatBrightnessCalibration.fallbackBrightness() : currentBrightness;
+    const double nextExposure = FlatCalibrationMethod::fallbackExposure(exposure,
+                                hasFallback ? m_FlatBrightnessCalibration.fallbackADU() : currentADU,
+                                hasFallback ? m_FlatBrightnessCalibration.fallbackSaturated() : saturated,
+                                targetADU, state()->exposureRange().min, state()->exposureRange().max);
+
+    Q_EMIT newLog(i18n("Continuing with light box brightness %1 and adjusting the exposure instead. Next exposure is "
+                       "%2 seconds.", QString::number(brightness), QString("%L1").arg(nextExposure, 0, 'f', 3)));
+
+    // Measurements of the exposure calibration are only valid at one brightness.
+    ExpRaw.clear();
+    ADURaw.clear();
+    m_FlatBrightnessCalibration.reset();
+    m_FlatMethod = FlatCalibrationMethod::METHOD_EXPOSURE;
+    m_FlatSequenceExposure = exposure;
+
+    activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION);
+    activeJob()->setCoreProperty(SequenceJob::SJ_Exposure, nextExposure);
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+        activeCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
+
+    if (brightness != currentBrightness)
+    {
+        auto lightBox = devices()->lightBox();
+        if (lightBox == nullptr || lightBox->setBrightness(static_cast<uint16_t>(brightness)) == false)
+        {
+            Q_EMIT newLog(i18n("Flat calibration failed. Unable to set the light box brightness."));
+            Q_EMIT stopCapture(CAPTURE_ABORTED);
+            return false;
+        }
+
+        // Wait for the light box to confirm the brightness before the next frame.
+        m_RequestedBrightness = brightness;
+        beginFlatBrightnessWait(true);
+        return false;
+    }
+
+    startNextExposure();
+    return false;
+}
+
+void CameraProcess::restoreFlatBrightness()
+{
+    const int brightness = m_FlatStartBrightness;
+    m_FlatStartBrightness = -1;
+
+    auto lightBox = devices()->lightBox();
+    if (brightness < 0 || lightBox == nullptr || lightBox->brightness() == brightness)
+        return;
+
+    // Nothing waits for the confirmation: the next flat job waits for the light box
+    // anyway before its first calibration frame.
+    if (lightBox->setBrightness(static_cast<uint16_t>(brightness)))
+        Q_EMIT newLog(i18n("Light box brightness restored to %1.", QString::number(brightness)));
+    else
+        Q_EMIT newLog(i18n("Unable to restore the light box brightness to %1.", QString::number(brightness)));
+}
+
+bool CameraProcess::stopAtExposureLimit(double nextExposure, double minExposure, double maxExposure)
+{
+    // The sky keeps changing, so waiting at the limit may still reach the target.
+    if (activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool())
+        return false;
+
+    const double exposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    const QString target = QString::number(flatTargetADU(), 'f', 0);
+    switch (FlatCalibrationMethod::exposureLimit(exposure, nextExposure, minExposure, maxExposure))
+    {
+        case FlatCalibrationMethod::LIMIT_MINIMUM:
+            Q_EMIT newLog(i18n("Flat calibration stopped. The image is still too bright at the shortest exposure of %1 "
+                               "seconds, so the target ADU of %2 cannot be reached. Dim the flat source.",
+                               QString("%L1").arg(exposure, 0, 'f', 6), target));
+            break;
+
+        case FlatCalibrationMethod::LIMIT_MAXIMUM:
+            Q_EMIT newLog(i18n("Flat calibration stopped. The image is still too dark at the longest exposure of %1 "
+                               "seconds, so the target ADU of %2 cannot be reached. Check the flat source.",
+                               QString("%L1").arg(exposure, 0, 'f', 3), target));
+            break;
+
+        case FlatCalibrationMethod::LIMIT_NONE:
+            return false;
+    }
+
+    Q_EMIT stopCapture(CAPTURE_ABORTED);
+    return true;
+}
+
+double CameraProcess::flatTargetADU()
+{
+    const double target = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
+    return target > 0 ? target : m_FlatAutoTargetADU;
+}
+
+double CameraProcess::flatTargetTolerance()
+{
+    if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0)
+        return state()->targetADUTolerance();
+
+    return m_FlatAutoTargetADU > 0 ? FlatCalibrationMethod::autoTolerance(m_FlatAutoTargetADU) : -1;
+}
+
+void CameraProcess::completeFlatCalibration(double currentADU)
+{
+    if (activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
+        return;
+
+    Q_EMIT newLog(i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
+    activeCamera()->setUploadMode(activeJob()->getUploadMode());
+    auto placeholderPath = PlaceholderPath();
+    placeholderPath.processJobInfo(activeJob().get());
+    // Mark calibration as complete
+    activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
+
+    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
+        state()->checkSeqBoundary();
+}
+
+void CameraProcess::beginFlatBrightnessWait(bool requested)
+{
+    const qint64 now = m_FlatBrightnessClock.elapsed();
+    const qint64 settleTime = FlatBrightnessWait::DEFAULT_SETTLE_TIME;
+
+    if (requested)
+    {
+        // A new brightness was sent: wait for the light box to confirm it, then for
+        // the light to settle.
+        m_FlatBrightnessWait.startRequest(now, settleTime);
+    }
+    else
+    {
+        // Nothing was sent, but the light box may still be changing its brightness on
+        // its own, e.g. to apply a per-filter preset.
+        auto lightBox = devices()->lightBox();
+        m_FlatBrightnessWait.startWithoutRequest(now, lightBox ? lightBox->brightnessState() : IPS_IDLE, settleTime);
+    }
+
+    armFlatBrightnessWait();
+}
+
+void CameraProcess::armFlatBrightnessWait()
+{
+    const qint64 remaining = m_FlatBrightnessWait.deadline() - m_FlatBrightnessClock.elapsed();
+    m_FlatBrightnessWaitTimer.start(static_cast<int>(qMax<qint64>(0, remaining)));
+}
+
+void CameraProcess::flatBrightnessUpdated(uint16_t value, IPState propertyState)
+{
+    // Only of interest while waiting for the light source, either after a brightness
+    // change was requested or before the first calibration frame of a job.
+    if (m_FlatBrightnessWait.isActive() == false)
+        return;
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Light box reports brightness" << value << "state" << pstateStr(propertyState)
+                                 << "requested" << m_RequestedBrightness;
+
+    handleFlatBrightnessWait(m_FlatBrightnessWait.report(m_FlatBrightnessClock.elapsed(), value, propertyState));
+}
+
+void CameraProcess::handleFlatBrightnessWait(FlatBrightnessWait::Result result)
+{
+    switch (result)
+    {
+        case FlatBrightnessWait::RESULT_WAIT:
+            // A report may have moved the deadline, and a timer may fire a little early.
+            armFlatBrightnessWait();
+            return;
+
+        case FlatBrightnessWait::RESULT_CAPTURE:
+            m_FlatBrightnessWaitTimer.stop();
+            m_RequestedBrightness = -1;
+            // The first wait of a job ends with the light box at the brightness it had
+            // before the job. That is the brightness to restore when the job ends. A
+            // per-filter preset usually follows only at the filter change right before
+            // the first exposure.
+            if (m_FlatStartBrightness < 0 && devices()->lightBox() != nullptr)
+                m_FlatStartBrightness = devices()->lightBox()->brightness();
+            // The frame is taken at this brightness, see checkFlatCalibrationBrightness().
+            m_FlatFrameBrightness = devices()->lightBox() != nullptr ? devices()->lightBox()->brightness() : -1;
+            checkNextExposure();
+            return;
+
+        case FlatBrightnessWait::RESULT_FAILED_REJECTED:
+            if (m_RequestedBrightness >= 0)
+                Q_EMIT newLog(i18n("Flat calibration failed. The light box rejected the requested brightness %1.",
+                                   QString::number(m_RequestedBrightness)));
+            else
+                Q_EMIT newLog(i18n("Flat calibration failed. The light box reports an error for its brightness."));
+            break;
+
+        case FlatBrightnessWait::RESULT_FAILED_NO_CONFIRMATION:
+        {
+            const QString seconds = QString::number(FlatBrightnessWait::DEFAULT_CONFIRMATION_TIMEOUT / 1000);
+            if (m_RequestedBrightness >= 0)
+                Q_EMIT newLog(i18n("Flat calibration failed. The light box did not confirm the requested brightness %1 "
+                                   "within %2 seconds.", QString::number(m_RequestedBrightness), seconds));
+            else
+                Q_EMIT newLog(i18n("Flat calibration failed. The light box did not finish changing its brightness "
+                                   "within %1 seconds.", seconds));
+            break;
+        }
+    }
+
+    // A light box that rejects or never confirms a brightness cannot be calibrated
+    // against: stop rather than measure frames at an unknown brightness.
+    m_FlatBrightnessWaitTimer.stop();
+    m_RequestedBrightness = -1;
+    Q_EMIT stopCapture(CAPTURE_ABORTED);
+}
+
 void CameraProcess::clearFlatCache()
 {
     ADURaw.clear();
     ExpRaw.clear();
+    m_FlatStallDetector.reset();
+    m_FlatBrightnessCalibration.reset();
+    m_FlatBrightnessWait.reset();
+    m_FlatFrameBrightness = -1;
+    m_FlatBrightnessRetakes = 0;
+    m_FlatBrightnessWaitTimer.stop();
+    m_RequestedBrightness = -1;
 }
 
 QString Ekos::CameraProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)

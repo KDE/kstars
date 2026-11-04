@@ -60,9 +60,12 @@ void LightBox::processSwitch(INDI::Property prop)
 void LightBox::processNumber(INDI::Property prop)
 {
     auto nvp = prop.getNumber();
-    if (nvp->isNameMatch("FLAT_LIGHT_INTENSITY"))
+    if (nvp->isNameMatch("FLAT_LIGHT_INTENSITY") && nvp->count() > 0)
     {
         m_Brightness = static_cast<uint16_t>(nvp->at(0)->getValue());
+        // Report the value along with the property state so that clients can tell
+        // a device that is still settling (IPS_BUSY) from one that is done.
+        Q_EMIT newBrightnessStatus(m_Brightness, nvp->getState());
     }
 }
 
@@ -112,13 +115,66 @@ bool LightBox::setLightEnabled(bool enable)
     return true;
 }
 
+bool LightBox::isBrightnessControllable() const
+{
+    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
+    if (!lightIntensity || lightIntensity.count() == 0)
+        return false;
+
+    // A read-only property can be monitored, but not commanded.
+    if (getPermission("FLAT_LIGHT_INTENSITY") == IP_RO)
+        return false;
+
+    // A device that publishes a degenerate range cannot be adjusted.
+    return lightIntensity[0].getMax() > lightIntensity[0].getMin();
+}
+
+uint16_t LightBox::brightnessMin() const
+{
+    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
+    if (!lightIntensity || lightIntensity.count() == 0)
+        return 0;
+
+    return static_cast<uint16_t>(qBound(0.0, lightIntensity[0].getMin(), 65535.0));
+}
+
+uint16_t LightBox::brightnessMax() const
+{
+    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
+    if (!lightIntensity || lightIntensity.count() == 0)
+        return 0;
+
+    return static_cast<uint16_t>(qBound(0.0, lightIntensity[0].getMax(), 65535.0));
+}
+
+uint16_t LightBox::brightnessStep() const
+{
+    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
+    if (!lightIntensity || lightIntensity.count() == 0)
+        return 1;
+
+    // Not every device publishes a step. Fall back to the smallest sensible one.
+    const double step = lightIntensity[0].getStep();
+    if (step < 1)
+        return 1;
+
+    return static_cast<uint16_t>(qBound(1.0, step, 65535.0));
+}
+
+IPState LightBox::brightnessState() const
+{
+    return getState("FLAT_LIGHT_INTENSITY");
+}
+
 bool LightBox::setBrightness(uint16_t val)
 {
     auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
-    if (!lightIntensity)
+    if (!lightIntensity || lightIntensity.count() == 0)
         return false;
 
-    lightIntensity[0].setValue(val);
+    // Never request a value outside of the range the device published.
+    lightIntensity[0].setValue(qBound(lightIntensity[0].getMin(), static_cast<double>(val),
+                                      lightIntensity[0].getMax()));
     sendNewProperty(lightIntensity);
     return true;
 }

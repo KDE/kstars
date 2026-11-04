@@ -256,6 +256,9 @@ if (INDI_FOUND)
             ekos/capture/cameraprocess.cpp
             ekos/capture/camerastate.cpp
             ekos/capture/capturedeviceadaptor.cpp
+            ekos/capture/flatbrightnesscalibration.cpp
+            ekos/capture/flatbrightnesswait.cpp
+            ekos/capture/flatcalibrationmethod.cpp
             ekos/capture/camera.cpp
             ekos/capture/streamtracker.cpp
             ekos/capture/camera_actions.cpp

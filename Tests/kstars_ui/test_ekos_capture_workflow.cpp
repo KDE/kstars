@@ -20,6 +20,7 @@
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "indi/indifilterwheel.h"
 #include "indi/indilightbox.h"
 #include "fitsviewer/fitsdata.h"
 
@@ -801,6 +802,7 @@ void TestEkosCaptureWorkflow::testFlatManualSource()
 
     // switch capture type to flat so that we can set the calibration
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_MANUAL(capture);
     // ensure that the filter wheel is configured
     KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo);
     // wait until filter combo box is filled
@@ -991,6 +993,7 @@ void TestEkosCaptureWorkflow::testLightPanelConsecutiveFlats()
     QFETCH(QString, secondType);
     QFETCH(QString, secondFilter);
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_MANUAL(capture);
     KTRY_CAPTURE_ADD_FRAME("Flat", 1, 2, 0.0, "Luminance", "test", imagepath);
     KTRY_CAPTURE_ADD_FRAME(secondType, 1, 2, 0.0, secondFilter, "test", imagepath);
 
@@ -1034,6 +1037,7 @@ void TestEkosCaptureWorkflow::testLightPanelStopFlats()
 
     QString imagepath = getImageLocation()->path() + "/test";
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_MANUAL(capture);
     KTRY_CAPTURE_ADD_FRAME("Flat", 1, 4, 0.0, "Luminance", "test", imagepath);
 
     LightPanelRecorder recorder(lightBox, capture);
@@ -1100,6 +1104,7 @@ void TestEkosCaptureWorkflow::testLightPanelRestartFlatsAfterAbort()
 
     QString imagepath = getImageLocation()->path() + "/test";
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_MANUAL(capture);
     KTRY_CAPTURE_ADD_FRAME("Flat", 1, 3, 0.0, "Luminance", "test", imagepath);
 
     LightPanelRecorder recorder(lightBox, capture);
@@ -1202,6 +1207,7 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     // switch capture type to flat so that we can set the calibration
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
     QTRY_VERIFY_WITH_TIMEOUT(captureTypeS->findText("Flat", Qt::MatchExactly) >= 0, 5000);
+    KTRY_SELECT_FLAT_MANUAL(capture);
 
     // select frame type and internal or external flat light
     QFETCH(QString, frametype);
@@ -1286,6 +1292,361 @@ void TestEkosCaptureWorkflow::testWallSource()
 }
 
 
+namespace
+{
+/**
+ * @brief Records the log of the Capture module.
+ */
+class CaptureLogRecorder
+{
+    public:
+        explicit CaptureLogRecorder(Ekos::Capture *capture)
+        {
+            QObject::connect(capture, &Ekos::Capture::newLog, &m_Context, [this](const QString & text)
+            {
+                lines << text;
+            });
+        }
+
+        /** @brief The number of log lines that contain @p text. */
+        int count(const QString &text) const
+        {
+            return lines.filter(text).size();
+        }
+
+        /** @brief The complete log, for failure messages. */
+        const char *message()
+        {
+            m_Message = lines.join(QLatin1Char('\n')).toLocal8Bit();
+            return m_Message.constData();
+        }
+
+        QStringList lines;
+
+    private:
+        QObject m_Context;
+        QByteArray m_Message;
+};
+} // namespace
+
+// Flat ADU tests with the CCD and light panel simulators. The flats of the CCD simulator only
+// depend on the exposure, not on the light panel brightness, so the brightness search can never
+// reach the target there: these tests run into the fallback to the exposure on purpose.
+#define KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox) \
+    m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator"; \
+    m_CaptureHelper->ensureCCDShutter(true); \
+    QVERIFY(prepareTestCase(true)); \
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule(); \
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000); \
+    KTRY_GET_LIGHTBOX(lightBox); \
+    QVERIFY(lightBox->isBrightnessControllable())
+
+// Turn the light on outside of Capture and set its brightness, as a user would before taking flats.
+#define KTRY_LIGHTBOX_ON_AT(lightBox, value) do { \
+    lightBox->setLightEnabled(true); \
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_ON, 5000); \
+    QVERIFY(lightBox->setBrightness(value)); \
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), value, 5000); } while (false)
+
+void TestEkosCaptureWorkflow::testFlatADUPreview_data()
+{
+    QTest::addColumn<int>("target");
+
+    QTest::newRow("manual target") << 20000;
+    QTest::newRow("Auto") << 0;
+}
+
+void TestEkosCaptureWorkflow::testFlatADUPreview()
+{
+    QFETCH(int, target);
+
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SET_COMBO(capture, FilterPosCombo, "Luminance");
+    KTRY_SET_DOUBLESPINBOX(capture, captureExposureN, 1.0);
+    KTRY_SELECT_FLAT_ADU(capture, target, 1000, false);
+
+    // Count the frames and any other brightness the light box reports. The preview status is
+    // recorded here, since the status of the capture helper may still be that of an earlier row.
+    int frames = 0;
+    bool completed = false;
+    QList<int> otherBrightness;
+    QObject context;
+    connect(capture, &Ekos::Capture::newStatus, &context, [&frames, &completed](Ekos::CaptureState status)
+    {
+        if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
+            frames++;
+        else if (status == Ekos::CAPTURE_COMPLETE)
+            completed = true;
+    });
+    connect(lightBox, &ISD::LightBox::newBrightnessStatus, &context, [&otherBrightness](uint16_t value)
+    {
+        if (value != 100)
+            otherBrightness << value;
+    });
+
+    // The simulated flat of one second is saturated, so a calibration would need more frames. A preview
+    // takes a single frame as it is instead, whatever the flat duration and target ADU are.
+    KTRY_CLICK(capture, previewB);
+    QTRY_VERIFY2_WITH_TIMEOUT(completed, log.message(), 120000);
+
+    QCOMPARE(frames, 1);
+    QVERIFY2(log.count("Flat calibration") == 0, log.message());
+    QVERIFY2(log.count("Current ADU") == 0, log.message());
+    QVERIFY2(log.count("Current image is saturated") == 0, log.message());
+    QCOMPARE(captureExposureN->value(), 1.0);
+    QVERIFY2(otherBrightness.isEmpty(), qPrintable(QString("light box brightness changed to %1")
+             .arg(otherBrightness.isEmpty() ? 0 : otherBrightness.first())));
+    QCOMPARE(static_cast<int>(lightBox->brightness()), 100);
+}
+
+void TestEkosCaptureWorkflow::testFlatADUFallbackTooDark()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+
+    // a short exposure that stays far below the target at any brightness
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20000, 1000, false);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 0.02, 1, 0.0, "Luminance", "test", imagepath);
+
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE, log.message(), 120000);
+
+    QVERIFY2(log.count("Flat calibration adjusts the light box brightness") == 1, log.message());
+    QVERIFY2(log.count("brightness: maximum") == 1, log.message());
+    // every frame was too dark, so the brightest one is kept and the exposure grows
+    QVERIFY2(log.count("Continuing with light box brightness 255 and adjusting the exposure instead") == 1,
+             log.message());
+    QVERIFY2(log.count("Flats are taken at an exposure of") == 1, log.message());
+    // the job ends with the light box back at the brightness it started with
+    QVERIFY2(log.count("Light box brightness restored to 100") == 1, log.message());
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), 100, 5000);
+}
+
+void TestEkosCaptureWorkflow::testFlatADURetakeAfterPresetChange()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+
+    // The filter wheel stands on Red, the light box at 5, and Luminance has a preset of 125.
+    // The light box applies that preset when the filter changes, which Capture does right
+    // before the exposure of the first frame.
+    ISD::FilterWheel *filterWheel = Ekos::OpticalTrainManager::Instance()->getFilterWheel(m_CaptureHelper->m_primaryTrain);
+    QVERIFY(filterWheel != nullptr);
+    QVERIFY(filterWheel->setPosition(1));
+    QTRY_VERIFY_WITH_TIMEOUT(filterWheel->getNumber("FILTER_SLOT") &&
+                             filterWheel->getNumber("FILTER_SLOT")[0].getValue() == 1, 10000);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 5);
+
+    // The light box offers presets per filter once it follows the filter wheel of the train.
+    auto activeDevices = lightBox->getText("ACTIVE_DEVICES");
+    QVERIFY(activeDevices);
+    auto activeFilter = activeDevices.findWidgetByName("ACTIVE_FILTER");
+    QVERIFY(activeFilter != nullptr);
+    qInfo() << "Light box follows filter wheel" << activeFilter->getText() << ", train filter wheel"
+            << filterWheel->getDeviceName();
+    if (QString(activeFilter->getText()) != filterWheel->getDeviceName())
+    {
+        activeFilter->setText(filterWheel->getDeviceName().toLatin1().constData());
+        lightBox->sendNewProperty(activeDevices);
+    }
+
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY") &&
+                             lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY").count() > 0, 10000);
+    auto presets = lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY");
+    bool presetSet = false;
+    for (auto &preset : presets)
+    {
+        if (QString(preset.getName()) == "Luminance" || QString(preset.getLabel()) == "Luminance")
+        {
+            preset.setValue(125);
+            presetSet = true;
+        }
+    }
+    QVERIFY2(presetSet, "no brightness preset for Luminance");
+    lightBox->sendNewProperty(presets);
+    // The simulator keeps its presets in its configuration, so remove them again when this
+    // test ends, also when it fails: the following test cases expect a light box without them.
+    auto removePresets = qScopeGuard([lightBox]()
+    {
+        auto presets = lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY");
+        if (!presets)
+            return;
+        for (auto &preset : presets)
+            preset.setValue(0);
+        lightBox->sendNewProperty(presets);
+        const bool removed = QTest::qWaitFor([lightBox]()
+        {
+            for (const auto &preset : lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY"))
+                if (preset.getValue() != 0)
+                    return false;
+            return true;
+        }, 5000);
+        if (!removed)
+            qCWarning(KSTARS_EKOS_TEST) << "The light box did not confirm that its presets were removed.";
+    });
+    auto luminancePreset = [lightBox]()
+    {
+        for (const auto &preset : lightBox->getNumber("FLAT_LIGHT_FILTER_INTENSITY"))
+            if (QString(preset.getName()) == "Luminance" || QString(preset.getLabel()) == "Luminance")
+                return static_cast<int>(preset.getValue());
+        return -1;
+    };
+    QTRY_COMPARE_WITH_TIMEOUT(luminancePreset(), 125, 5000);
+    // setting a preset does not change the brightness while another filter is in place
+    QCOMPARE(static_cast<int>(lightBox->brightness()), 5);
+
+    // A short flat that the simulator brings within the tolerance at any brightness, so that the
+    // first frame taken at the preset completes the calibration.
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20000, 1000, false);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 0.075, 1, 0.0, "Luminance", "test", imagepath);
+
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE, log.message(), 120000);
+
+    // the frame taken while the preset was applied is taken again, and the search starts at the preset
+    QVERIFY2(log.count("The light box brightness changed from 5 to 125 during the frame. Taking it again.") == 1,
+             log.message());
+    QVERIFY2(log.count("Light box brightness calibration starts at brightness 125") == 1, log.message());
+    QVERIFY2(log.count("within target ADU tolerance range") == 1, log.message());
+    // the job ends with the light box back at the brightness it had before the job
+    QVERIFY2(log.count("Light box brightness restored to 5") == 1, log.message());
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), 5, 5000);
+}
+
+void TestEkosCaptureWorkflow::testFlatADUAutoTarget()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+
+    // target 0 is Auto, which brings its own tolerance
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 0, 1000, false);
+    QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration");
+    QVERIFY(calibrationOptions != nullptr);
+    KTRY_GADGET(calibrationOptions, QSpinBox, captureCalibrationADUValue);
+    QCOMPARE(captureCalibrationADUValue->text(), QString("Auto"));
+    KTRY_GADGET(calibrationOptions, QSpinBox, captureCalibrationADUTolerance);
+    QVERIFY(captureCalibrationADUTolerance->isEnabled() == false);
+
+    // The simulated flats ignore the brightness, so the short exposure falls back to the
+    // exposure, which reaches the automatic target of the 16-bit simulator.
+    KTRY_CAPTURE_ADD_FRAME("Flat", 0.02, 1, 0.0, "Luminance", "test", imagepath);
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE, log.message(), 120000);
+
+    QVERIFY2(log.count("Target ADU: Auto.") == 1, log.message());
+    QVERIFY2(log.count("Automatic target ADU for 16-bit images: 26214 ± 1311.") == 1, log.message());
+    QVERIFY2(log.count("within target ADU tolerance range") == 1, log.message());
+
+    // a target set by hand enables the tolerance again
+    captureCalibrationADUValue->setValue(20000);
+    QVERIFY(captureCalibrationADUTolerance->isEnabled());
+}
+
+void TestEkosCaptureWorkflow::testFlatADUStopsAtExposureLimit()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+
+    // A target that even the shortest exposure of the simulator overshoots: the brightness
+    // falls back to the exposure, which stops at the camera limit instead of looping.
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20, 5, false);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 0.01, 1, 0.0, "Luminance", "test", imagepath);
+
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED, log.message(), 120000);
+
+    QVERIFY2(log.count("The image is still too bright at the shortest exposure") == 1, log.message());
+    // the light box returns to the brightness it started with
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), 100, 5000);
+}
+
+void TestEkosCaptureWorkflow::testFlatADUFallbackTooBright()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+
+    // An exposure that saturates at any brightness: the search goes down to 1, never to 0, which
+    // switches some light boxes off, and falls back to the exposure there.
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20000, 1000, false);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1.0, 1, 0.0, "Luminance", "test", imagepath);
+
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE, log.message(), 180000);
+
+    QVERIFY2(log.count("Light box brightness calibration starts at brightness 100") == 1, log.message());
+    QVERIFY2(log.count("brightness: minimum (1)") == 1, log.message());
+    QVERIFY2(log.count("Continuing with light box brightness 1 and adjusting the exposure instead") == 1,
+             log.message());
+    // the saturated frame reduces the exposure right away, without another saturated frame
+    QVERIFY2(log.count("Current image is saturated") == 0, log.message());
+    QVERIFY2(log.count("Flats are taken at an exposure of") == 1, log.message());
+    // the job ends with the light box back at the brightness it started with
+    QVERIFY2(log.count("Light box brightness restored to 100") == 1, log.message());
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), 100, 5000);
+}
+
+void TestEkosCaptureWorkflow::testFlatADUAbortRestoresBrightness()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+    KTRY_LIGHTBOX_ON_AT(lightBox, 100);
+    auto camera = capture->mainCamera();
+    QVERIFY(camera != nullptr);
+
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20000, 1000, false);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1.0, 1, 0.0, "Luminance", "test", imagepath);
+
+    // abort as soon as the search has changed the brightness
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(log.count("Next light box brightness is") > 0, log.message(), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->brightness() != 100, 10000);
+    camera->abort();
+
+    QTRY_VERIFY2_WITH_TIMEOUT(log.count("Light box brightness restored to 100") == 1, log.message(), 10000);
+    QTRY_COMPARE_WITH_TIMEOUT(static_cast<int>(lightBox->brightness()), 100, 5000);
+}
+
+void TestEkosCaptureWorkflow::testFlatADUWallUsesLightBox()
+{
+    KTRY_PREPARE_FLAT_ADU_TEST(capture, lightBox);
+
+    QString imagepath = getImageLocation()->path() + "/test";
+    CaptureLogRecorder log(capture);
+    KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    KTRY_SELECT_FLAT_ADU(capture, 20000, 1000, true);
+    KTRY_CAPTURE_ADD_FRAME("Flat", 1.0, 1, 0.0, "Luminance", "test", imagepath);
+
+    KTRY_CLICK(capture, startB);
+    QTRY_VERIFY2_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE, log.message(), 180000);
+
+    // at the wall position Capture turns the light box on, which makes it the flat source
+    QVERIFY2(log.count("Slew to wall position complete") > 0, log.message());
+    QVERIFY2(log.count("Turn light box light on") == 1, log.message());
+    QVERIFY2(log.count("Flat calibration adjusts the light box brightness") == 1, log.message());
+    QVERIFY2(log.count("within target ADU tolerance range") == 1, log.message());
+    QTRY_VERIFY_WITH_TIMEOUT(lightBox->lightStatus() == ISD::LightBox::LIGHT_OFF, 10000);
+}
+
 //void TestEkosCaptureWorkflow::testPreMountAndDomePark()
 //{
 //    // use the light panel simulator
@@ -1360,6 +1721,8 @@ void TestEkosCaptureWorkflow::testFlatSyncFocus()
 
     // switch capture type to flat so that we can set the calibration
     KTRY_SET_COMBO(capture, captureTypeS, "Flat");
+    // this test is about the focuser, so take the flat at its exposure instead of calibrating it
+    KTRY_SELECT_FLAT_MANUAL(capture);
 
     // build a simple 5xL sequence
     KTRY_CAPTURE_CONFIGURE_FLAT(2, 1, 2.0, "Luminance", imagepath);
@@ -2151,7 +2514,7 @@ void TestEkosCaptureWorkflow::cleanupTestCase()
     // nothing to do since we start the INDI service for each test case
 }
 
-bool TestEkosCaptureWorkflow::prepareTestCase()
+bool TestEkosCaptureWorkflow::prepareTestCase(bool flatsOnly)
 {
     // set logging defaults for alignment
     Options::setVerboseLogging(false);
@@ -2166,12 +2529,15 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     m_CaptureHelper->prepareOpticalTrains();
     // prepare the mount module for testing with OAG guiding
     m_CaptureHelper->prepareMountModule(TestEkosCaptureHelper::SCOPE_FSQ85, TestEkosCaptureHelper::SCOPE_FSQ85);
-    // prepare for focusing tests
-    m_CaptureHelper->prepareFocusModule();
-    // prepare for alignment tests
-    m_CaptureHelper->prepareAlignmentModule();
-    // prepare for guiding tests
-    m_CaptureHelper->prepareGuidingModule();
+    if (flatsOnly == false)
+    {
+        // prepare for focusing tests
+        m_CaptureHelper->prepareFocusModule();
+        // prepare for alignment tests
+        m_CaptureHelper->prepareAlignmentModule();
+        // prepare for guiding tests
+        m_CaptureHelper->prepareGuidingModule();
+    }
     // prepare for capturing tests
     m_CaptureHelper->prepareCaptureModule();
 

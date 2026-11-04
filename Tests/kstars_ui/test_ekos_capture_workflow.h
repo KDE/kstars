@@ -44,6 +44,28 @@
     KTRY_CAPTURE_CLICK(calibrationB); \
     QTRY_VERIFY_WITH_TIMEOUT(completed == true, 5000);  } while (false)
 
+/**
+ * @brief Select the Manual flat duration, so that flats are taken at the exposure of the job
+ * instead of the ADU calibration that new flat jobs use by default.
+ * @param capture capture module
+ */
+#define KTRY_SELECT_FLAT_MANUAL(capture) do { \
+    bool completed = false; \
+    QTimer::singleShot(1000, capture, [&]() { \
+    QDialog *calibrationOptions = nullptr; \
+    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
+        QFAIL(qPrintable("Calibrations options dialog not found!")); } \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationDurationManual);  \
+    captureCalibrationDurationManual->setChecked(true); \
+    QVERIFY(captureCalibrationDurationManual->isChecked()); \
+    QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
+    QVERIFY(nullptr != buttons); \
+    QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
+    completed = true; \
+    }); \
+    KTRY_CLICK(capture, calibrationB); \
+    QTRY_VERIFY_WITH_TIMEOUT(completed == true, 5000); } while (false)
+
 #define KTRY_SELECT_FLAT_WALL(capture, azimuth, altitude) do { \
     bool completed = false; \
     QTimer::singleShot(1000, capture, [&]() { \
@@ -57,6 +79,36 @@
     KTRY_SET_LINEEDIT(calibrationOptions, altBox, altitude); \
     KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationDurationManual);  \
     captureCalibrationDurationManual->setChecked(true); \
+    QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
+    QVERIFY(nullptr != buttons); \
+    QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
+    completed = true; \
+    }); \
+    KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), calibrationB); \
+    QTRY_VERIFY_WITH_TIMEOUT(completed == true, 5000); } while (false)
+
+/** @brief Select ADU as flat duration in the calibration options.
+ * @param capture capture module
+ * @param target target ADU
+ * @param tolerance ADU tolerance
+ * @param wall use the wall at az=90°, alt=0° as flat light source
+ */
+#define KTRY_SELECT_FLAT_ADU(capture, target, tolerance, wall) do { \
+    bool completed = false; \
+    QTimer::singleShot(1000, capture, [&]() { \
+    QDialog *calibrationOptions = nullptr; \
+    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
+        QFAIL(qPrintable("Calibrations options dialog not found!")); } \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationWall); \
+    captureCalibrationWall->setChecked(wall); \
+    QVERIFY(captureCalibrationWall->isChecked() == wall); \
+    if (wall) { \
+        KTRY_SET_LINEEDIT(calibrationOptions, azBox, "90"); \
+        KTRY_SET_LINEEDIT(calibrationOptions, altBox, "0"); } \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationUseADU); \
+    captureCalibrationUseADU->setChecked(true); \
+    KTRY_SET_SPINBOX(calibrationOptions, captureCalibrationADUValue, target); \
+    KTRY_SET_SPINBOX(calibrationOptions, captureCalibrationADUTolerance, tolerance); \
     QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
@@ -86,7 +138,12 @@ class TestEkosCaptureWorkflow : public QObject
         void init();
         void cleanup();
 
-        bool prepareTestCase();
+        /**
+         * @brief prepareTestCase start the profile and prepare the modules for a test case
+         * @param flatsOnly only prepare what capturing flats needs. Focus, alignment and guiding are
+         * left as they are, so that flat tests also run without astrometry index files.
+         */
+        bool prepareTestCase(bool flatsOnly = false);
 
     private:
         // helper class
@@ -322,6 +379,54 @@ class TestEkosCaptureWorkflow : public QObject
 
         /** @brief Test data for {@see testWallSource()} */
         void testWallSource_data();
+
+        /**
+         * @brief A flat preview with ADU as flat duration does not calibrate: it takes a single frame
+         * and leaves the exposure and the light box brightness unchanged, for a manual target and Auto.
+         */
+        void testFlatADUPreview_data();
+        void testFlatADUPreview();
+
+        /**
+         * @brief A flat job that is too dark at the maximum brightness continues at the maximum
+         * brightness with a longer exposure.
+         */
+        void testFlatADUFallbackTooDark();
+
+        /**
+         * @brief A flat job with target 0 (Auto) derives its target and tolerance from the
+         * bit depth of the frame and reaches it.
+         */
+        void testFlatADUAutoTarget();
+
+        /**
+         * @brief A brightness calibration frame taken while the light box applied a per-filter preset
+         * is taken again, and the search starts at the preset.
+         */
+        void testFlatADURetakeAfterPresetChange();
+
+        /**
+         * @brief A flat job whose target cannot be reached within the exposure range of the
+         * camera stops instead of repeating the same frame.
+         */
+        void testFlatADUStopsAtExposureLimit();
+
+        /**
+         * @brief A flat job that is too bright at the minimum brightness continues with a shorter
+         * exposure, and restores the starting brightness of the light box when it ends.
+         */
+        void testFlatADUFallbackTooBright();
+
+        /**
+         * @brief Aborting a flat job during the brightness search restores the starting brightness.
+         */
+        void testFlatADUAbortRestoresBrightness();
+
+        /**
+         * @brief Wall flats with a light box in the train turn the light box on at the wall, so they
+         * adjust its brightness.
+         */
+        void testFlatADUWallUsesLightBox();
 
         /**
          * @brief Check mount and dome parking before capturing flats.

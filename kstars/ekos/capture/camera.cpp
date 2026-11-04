@@ -266,6 +266,13 @@ void Camera::initCamera()
             m_CalibrationUI->captureCalibrationWall->setChecked(false);
     });
 
+    // an automatic target ADU comes with its own tolerance
+    connect(m_CalibrationUI->captureCalibrationADUValue, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value)
+    {
+        m_CalibrationUI->captureCalibrationADUTolerance->setEnabled(value > 0);
+    });
+    m_CalibrationUI->captureCalibrationADUTolerance->setEnabled(m_CalibrationUI->captureCalibrationADUValue->value() > 0);
+
     connect(limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
     connect(darkLibraryB, &QPushButton::clicked, this, [this]
     {
