@@ -2234,6 +2234,11 @@ void TestEkosCaptureWorkflow::cleanup()
     {
         capture->abort();
         capture->clearSequenceQueue();
+        // Turn off the target temperature, which is kept in the settings as well: left
+        // behind, it makes the jobs of all following test cases wait for the cooler.
+        auto temperature = capture->findChild<QDoubleSpinBox *>("cameraTemperatureN");
+        if (temperature != nullptr)
+            temperature->setValue(temperature->minimum());
     }
     // Clear the capture scripts, which are kept in the settings and would otherwise
     // run in all following test cases as well.
