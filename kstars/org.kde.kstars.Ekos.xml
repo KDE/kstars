@@ -72,6 +72,28 @@
     <method name="previewFile">
         <arg name="filePath" type="s" direction="in"/>
     </method>
+    <method name="diagnosis">
+        <arg type="s" direction="out"/>
+        <arg name="module" type="s" direction="in"/>
+    </method>
+    <method name="applyDiagnosisItem">
+        <arg type="b" direction="out"/>
+        <arg name="diagnosisId" type="s" direction="in"/>
+        <arg name="itemId" type="s" direction="in"/>
+    </method>
+    <method name="markDiagnosisItem">
+        <arg type="b" direction="out"/>
+        <arg name="diagnosisId" type="s" direction="in"/>
+        <arg name="itemId" type="s" direction="in"/>
+        <arg name="action" type="s" direction="in"/>
+    </method>
+    <signal name="newDiagnosis">
+        <arg name="module" type="s" direction="out"/>
+        <arg name="json" type="s" direction="out"/>
+    </signal>
+    <signal name="diagnosisUpdated">
+        <arg name="json" type="s" direction="out"/>
+    </signal>
     <signal name="indiStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>

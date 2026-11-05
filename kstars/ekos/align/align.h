@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ui_align.h"
+#include "aligndiagnosis.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
 #include "indi/indistd.h"
@@ -50,6 +51,7 @@ namespace Ekos
 {
 class AstrometryParser;
 class DarkProcessor;
+class DiagnosisManager;
 class FilterManager;
 class RemoteAstrometryParser;
 class OpsAstrometry;
@@ -170,6 +172,15 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE Ekos::AlignState status()
         {
             return state;
+        }
+
+        /** DBUS interface function.
+             * Returns why the last alignment failed or was aborted.
+             * @return Returns an Ekos::AlignFailReason value, 0 (None) if the last alignment did not fail.
+             */
+        Q_SCRIPTABLE int lastFailReason() const
+        {
+            return static_cast<int>(m_FailReason);
         }
 
         /** DBUS interface function.
@@ -419,15 +430,17 @@ class Align : public QWidget, public Ui::Align
         /**
          * @brief Stop aligning
          * @param mode stop mode (abort or suspend)
+         * @param reason why Align stops, recorded when mode is ALIGN_ABORTED or ALIGN_FAILED. A user or a client
+         * stopping Align is AlignFailReason::UserAbort, which gets no diagnosis.
          */
-        void stop(Ekos::AlignState mode);
+        void stop(Ekos::AlignState mode, Ekos::AlignFailReason reason = Ekos::AlignFailReason::UserAbort);
 
         /** DBUS interface function.
              * Aborts the solving operation, handle outside of the align module.
              */
         Q_SCRIPTABLE Q_NOREPLY void abort()
         {
-            stop(ALIGN_ABORTED);
+            stop(ALIGN_ABORTED, AlignFailReason::UserAbort);
         }
 
         /**
@@ -605,6 +618,27 @@ class Align : public QWidget, public Ui::Align
             return opsAlign;
         }
 
+        ////////////////////////////////////////////////////////////////////
+        /// Diagnosis
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief collectDiagnosisFacts What Align knows now, for the failure diagnosis.
+         */
+        AlignFacts collectDiagnosisFacts() const;
+
+        /**
+         * @brief registerDiagnosis Register Align and the actions behind its auto items with the diagnosis manager.
+         * Align submits a report to it whenever it fails for a reason other than a user abort.
+         */
+        void registerDiagnosis(DiagnosisManager *manager);
+
+        /** Solver runs of the current alignment, cleared when a new alignment starts. */
+        const QList<AlignAttempt> &solverAttempts() const
+        {
+            return m_Attempts;
+        }
+
     private Q_SLOTS:
         // Solver timeout
         void checkRemoteAlignmentTimeout();
@@ -688,6 +722,14 @@ class Align : public QWidget, public Ui::Align
 
         // Astrometry index files progress
         void newDownloadProgress(QString info);
+
+        /**
+         * @brief indexDownloadFinished An index file install request ended.
+         * @param series name passed to the install request, e.g. "index-5205-*.fits"
+         * @param ok true if the whole series was written
+         * @param error an IndexFiles::DownloadError value
+         */
+        void indexDownloadFinished(const QString &series, bool ok, int error);
 
         // Mount model progress update
         void mountModelProgressUpdated(const QVariantMap &settings);
@@ -1075,5 +1117,41 @@ class Align : public QWidget, public Ui::Align
 
         void resetDynamicThreshold();
         static constexpr double DYNAMIC_THRESHOLD_STARS {100};
+
+        ////////////////////////////////////////////////////////////////////
+        /// Diagnosis
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief failCaptureAndSolve End a captureAndSolve() call that cannot start: set ALIGN_FAILED with the reason
+         * and diagnose it.
+         * @return false, the value captureAndSolve() returns
+         */
+        bool failCaptureAndSolve(AlignFailReason reason);
+
+        /**
+         * @brief recordFailure Remember why Align failed and submit a diagnosis unless it was a user abort.
+         * Solver failures first measure the failed frame, in a background thread.
+         */
+        void recordFailure(AlignFailReason reason, const std::optional<AlignFacts> &facts = std::nullopt);
+
+        /** Build the report from the facts and submit it. */
+        void submitDiagnosis(const AlignFacts &facts);
+
+        /** Measure the stars of the frame that failed to solve in the background, then submit the diagnosis. */
+        void measureFailedFrame(AlignFailReason reason);
+
+        /** The manager set by registerDiagnosis(), or nullptr. */
+        DiagnosisManager *diagnosisManager() const;
+
+        AlignFailReason m_FailReason { AlignFailReason::None };
+        QList<AlignAttempt> m_Attempts;
+        std::optional<ImageStats> m_FailedImageStats;
+        AlignFacts m_LastDiagnosisFacts;
+        /// Blind pass of the solve that is running: "", "scale", "position", "scale_position" or "dynamic_threshold"
+        QString m_CurrentBlindPass;
+        /// Set by solverDone() when the polar alignment assistant gave up on a failed solve
+        bool m_PahSolveFailed { false };
+        QPointer<DiagnosisManager> m_DiagnosisManager;
 };
 }

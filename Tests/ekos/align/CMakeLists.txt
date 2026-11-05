@@ -16,3 +16,13 @@ ADD_CUSTOM_COMMAND( TARGET test_polaralign POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/../../fitsviewer/ngc4535-autofocus1.fits
             ${CMAKE_CURRENT_BINARY_DIR}/ngc4535-autofocus1.fits)
+
+ADD_EXECUTABLE( testindexfiles testindexfiles.cpp )
+TARGET_LINK_LIBRARIES( testindexfiles ${TEST_LIBRARIES})
+ADD_TEST( NAME IndexFilesTest COMMAND testindexfiles )
+SET_TESTS_PROPERTIES( IndexFilesTest PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testaligndiagnosis testaligndiagnosis.cpp )
+TARGET_LINK_LIBRARIES( testaligndiagnosis ${TEST_LIBRARIES})
+ADD_TEST( NAME AlignDiagnosisTest COMMAND testaligndiagnosis )
+SET_TESTS_PROPERTIES( AlignDiagnosisTest PROPERTIES LABELS "stable")

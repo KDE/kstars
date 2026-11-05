@@ -36,7 +36,7 @@ bool Align::isParserOK()
 void Align::checkRemoteAlignmentTimeout()
 {
     if (m_SolveFromFile || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
-        abort();
+        stop(ALIGN_ABORTED, AlignFailReason::RemoteSolverTimeout);
     else
     {
         appendLogText(i18n("Remote solver timed out."));
@@ -292,7 +292,7 @@ void Align::onDustCapStatusChanged(ISD::DustCap::Status status)
     {
         appendLogText(i18n("Dustcap error detected. Aborting alignment."));
         m_waitingForDustCapUnpark = false;
-        stop(ALIGN_ABORTED); // Abort alignment
+        stop(ALIGN_ABORTED, AlignFailReason::DustCapError);
     }
 }
 
@@ -675,7 +675,7 @@ void Align::checkCameraExposureProgress(ISD::CameraChip * targetChip, double rem
         if (++m_CaptureErrorCounter == 3 && !matchPAHStage(PolarAlignmentAssistant::PAH_REFRESH))
         {
             appendLogText(i18n("Capture error. Aborting..."));
-            abort();
+            stop(ALIGN_ABORTED, AlignFailReason::CaptureError);
             return;
         }
 

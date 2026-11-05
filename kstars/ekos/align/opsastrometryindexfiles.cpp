@@ -2,6 +2,7 @@
 #include "opsastrometryindexfiles.h"
 
 #include "align.h"
+#include "indexfiles.h"
 #include "kstars.h"
 #include "ksutils.h"
 #include "Options.h"
@@ -314,55 +315,31 @@ void OpsAstrometryIndexFiles::slotUpdate()
         checkBox->setStyleSheet("");
     }
 
-    float last_skymarksize = 2;
-
-    for (auto &skymarksize : astrometryIndex.keys())
+    for (int size = 0; size < IndexFiles::SIZE_COUNT; size++)
     {
-        QString indexName1        = "index_41" + astrometryIndex.value(skymarksize);
-        QString indexName2        = "index_42" + astrometryIndex.value(skymarksize);
-        QString indexName3        = "index_52" + astrometryIndex.value(skymarksize);
-        QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
-        QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
-        QCheckBox *indexCheckBox3 = findChild<QCheckBox *>(indexName3);
-        if ((skymarksize >= 0.40 * fov_check && skymarksize <= 0.9 * fov_check) ||
-                (fov_check > last_skymarksize && fov_check < skymarksize))
-        {
-            if (indexCheckBox1)
-            {
-                indexCheckBox1->setIcon(QIcon(":/icons/astrometry-required.svg"));
-                indexCheckBox1->setToolTip(i18n("Required"));
-            }
-            if (indexCheckBox2)
-            {
-                indexCheckBox2->setIcon(QIcon(":/icons/astrometry-required.svg"));
-                indexCheckBox2->setToolTip(i18n("Required"));
-            }
-            if (indexCheckBox3)
-            {
-                indexCheckBox3->setIcon(QIcon(":/icons/astrometry-required.svg"));
-                indexCheckBox3->setToolTip(i18n("Required"));
-            }
-        }
-        else if (skymarksize >= 0.10 * fov_check && skymarksize <= fov_check)
-        {
-            if (indexCheckBox1)
-            {
-                indexCheckBox1->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
-                indexCheckBox1->setToolTip(i18n("Recommended"));
-            }
-            if (indexCheckBox2)
-            {
-                indexCheckBox2->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
-                indexCheckBox2->setToolTip(i18n("Recommended"));
-            }
-            if (indexCheckBox3)
-            {
-                indexCheckBox3->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
-                indexCheckBox3->setToolTip(i18n("Recommended"));
-            }
-        }
+        const auto role = IndexFiles::sizeRole(size, fov_check);
+        if (role == IndexFiles::Optional)
+            continue;
 
-        last_skymarksize = skymarksize;
+        const QString sizeString = QString("%1").arg(size, 2, 10, QLatin1Char('0'));
+        for (const auto &prefix :
+                {"index_41", "index_42", "index_52"
+                })
+        {
+            QCheckBox *indexCheckBox = findChild<QCheckBox *>(prefix + sizeString);
+            if (!indexCheckBox)
+                continue;
+            if (role == IndexFiles::Required)
+            {
+                indexCheckBox->setIcon(QIcon(":/icons/astrometry-required.svg"));
+                indexCheckBox->setToolTip(i18n("Required"));
+            }
+            else
+            {
+                indexCheckBox->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
+                indexCheckBox->setToolTip(i18n("Recommended"));
+            }
+        }
     }
 
     //This loop goes over all the directories and adds a stylesheet to change the look of the checkbox text
@@ -388,24 +365,12 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
 int OpsAstrometryIndexFiles::indexFileCount(QString indexName)
 {
-    int count = 0;
-    if(indexName.contains("4207") || indexName.contains("4206") || indexName.contains("4205"))
-        count = 12;
-    else if(indexName.contains("4204") || indexName.contains("4203") || indexName.contains("4202")
-            || indexName.contains("4201") || indexName.contains("4200") || indexName.contains("5206")
-            || indexName.contains("5205") || indexName.contains("5204") || indexName.contains("5203")
-            || indexName.contains("5202") || indexName.contains("5201") || indexName.contains("5200"))
-        count = 48;
-    else
-        count = 1;
-    return count;
+    return IndexFiles::expectedFileCount(indexName);
 }
 
 bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName)
 {
-    QString indexNameMatch = indexName.left(10) + "*.fits";
-    QStringList list = directory.entryList(QStringList(indexNameMatch));
-    return list.count() == indexFileCount(indexName);
+    return IndexFiles::seriesComplete(directory, indexName);
 }
 
 void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
@@ -507,41 +472,43 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
 
     }
 
-    timeoutTimer.disconnect();
-    connect(&timeoutTimer, &QTimer::timeout, this, [&]()
+    // Each download has its own timer, so parallel downloads of different series do not share one.
+    // The timer belongs to the reply and is deleted with it.
+    QTimer *timeoutTimer = new QTimer(response);
+    timeoutTimer->setSingleShot(true);
+    connect(timeoutTimer, &QTimer::timeout, this, [ = ]()
     {
         KSNotification::error(
             i18n("Download Timed out.  Either the network is not fast enough, the file is not accessible, or you are not connected."),
             i18n("Error"), 10);
         disconnectDownload(cancelConnection, replyConnection, percentConnection);
-        if(response)
-        {
-            response->abort();
-            response->deleteLater();
-        }
+        response->abort();
+        response->deleteLater();
         setDownloadInfoVisible(indexSeriesName, false);
+        Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::Timeout);
     });
-    timeoutTimer.start(timeout);
+    timeoutTimer->start(timeout);
 
-    *cancelConnection = connect(indexDownloadCancel, &QPushButton::clicked,
-                                [ = ]()
+    if (indexDownloadCancel)
     {
-        qDebug() << Q_FUNC_INFO << "Download Cancelled.";
-        timeoutTimer.stop();
-        disconnectDownload(cancelConnection, replyConnection, percentConnection);
-        Q_EMIT newDownloadProgress(i18n("%1 download cancelled.", indexSeriesName));
-        if(response)
+        *cancelConnection = connect(indexDownloadCancel, &QPushButton::clicked, this,
+                                    [ = ]()
         {
+            qDebug() << Q_FUNC_INFO << "Download Cancelled.";
+            timeoutTimer->stop();
+            disconnectDownload(cancelConnection, replyConnection, percentConnection);
+            Q_EMIT newDownloadProgress(i18n("%1 download cancelled.", indexSeriesName));
             response->abort();
             response->deleteLater();
-        }
-        setDownloadInfoVisible(indexSeriesName, false);
-    });
+            setDownloadInfoVisible(indexSeriesName, false);
+            Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::Cancelled);
+        });
+    }
 
     *replyConnection = connect(response, &QNetworkReply::finished, this,
                                [ = ]()
     {
-        timeoutTimer.stop();
+        timeoutTimer->stop();
         if(response)
         {
             disconnectDownload(cancelConnection, replyConnection, percentConnection);
@@ -551,6 +518,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             {
                 Q_EMIT newDownloadProgress(response->errorString());
                 KSNotification::error(response->errorString(), i18n("Error"), 10);
+                Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::NetworkError);
                 return;
             }
 
@@ -566,6 +534,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                 {
                     KSNotification::error(i18n("File Write Error"), i18n("Error"), 10);
                     slotUpdate();
+                    Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::WriteError);
                     return;
                 }
                 else
@@ -585,12 +554,16 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             else
             {
                 KSNotification::error(i18n("Astrometry Folder Permissions Error"), i18n("Error"), 10);
+                // The remaining files of the series cannot be written either
+                Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::PermissionError);
+                return;
             }
 
             if (currentIndex == maxIndex)
             {
                 slotUpdate();
                 logInstalledIndexFiles();
+                Q_EMIT indexDownloadFinished(indexSeriesName, true, IndexFiles::NoError);
             }
             else
                 downloadIndexFile(URL, fileN, indexSeriesName, currentIndex + 1, maxIndex, fileSize);
@@ -653,6 +626,8 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
         if (astrometryDataDir.isEmpty())
         {
             KSNotification::sorry(i18n("No writable index file directory found."), i18n("Error"), 10);
+            if (install)
+                Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::NoWritableDirectory);
             return;
         }
     }
@@ -660,6 +635,8 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
     {
         KSNotification::sorry(
             i18n("The selected Index File directory does not exist. Please either create it or choose another."), i18n("Sorry"), 10);
+        if (install)
+            Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::NoWritableDirectory);
         return;
     }
 
@@ -686,6 +663,7 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
                 if (checkBox)
                     setCheckBoxStateProgrammatically(checkBox, false);
                 slotUpdate();
+                Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::Cancelled);
                 return;
             }
         }
@@ -709,6 +687,12 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
                 URL = BASE_URL + "4200/" + indexSeriesName;
             else if (indexSeriesName.startsWith(QLatin1String("index-52")))
                 URL = "https://portal.nersc.gov/project/cosmo/temp/dstn/index-5200/LITE/" + indexSeriesName;
+            else
+            {
+                qCWarning(KSTARS_EKOS_ALIGN) << "Unknown index series" << indexSeriesName;
+                Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::NetworkError);
+                return;
+            }
 
             int maxIndex = indexFileCount(indexSeriesName) - 1;
 
@@ -723,6 +707,7 @@ void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, b
             if (checkBox)
                 setCheckBoxStateProgrammatically(checkBox, false);
             KSNotification::sorry(i18n("Could not contact Astrometry Index Server."), i18n("Error"), 10);
+            Q_EMIT indexDownloadFinished(indexSeriesName, false, IndexFiles::ServerUnavailable);
         }
     }
     else

@@ -106,6 +106,7 @@ void Align::setupOptions()
 
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     connect(opsAstrometryIndexFiles, &OpsAstrometryIndexFiles::newDownloadProgress, this, &Align::newDownloadProgress);
+    connect(opsAstrometryIndexFiles, &OpsAstrometryIndexFiles::indexDownloadFinished, this, &Align::indexDownloadFinished);
     m_IndexFilesPage = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
     m_IndexFilesPage->setIcon(QIcon::fromTheme("map-flat"));
 }
@@ -221,7 +222,7 @@ void Align::setupFilterManager()
         if (filterPositionPending)
         {
             appendLogText(i18n("Filter operation failed."));
-            abort();
+            stop(ALIGN_ABORTED, AlignFailReason::FilterChangeFailed);
         }
     });
 

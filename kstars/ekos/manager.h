@@ -72,6 +72,7 @@ namespace Ekos
 
 class Analyze;
 class Capture;
+class DiagnosisManager;
 class Scheduler;
 class Focus;
 class FocusModule;
@@ -147,6 +148,12 @@ class Manager : public QDialog, public Ui::Manager
         Mount *mountModule()
         {
             return mountProcess.get();
+        }
+
+        /** The failure diagnoses of the Ekos modules. Never null. */
+        DiagnosisManager *diagnosisManager() const
+        {
+            return m_DiagnosisManager.get();
         }
         FocusModule *focusModule()
         {
@@ -434,6 +441,29 @@ class Manager : public QDialog, public Ui::Manager
          */
         Q_SCRIPTABLE void acceptPortSelection();
 
+        /**
+         * DBUS interface function.
+         * The cached failure diagnoses of a module.
+         * @param module module key, e.g. "align". Empty for all modules.
+         * @return JSON array of diagnosis reports, as sent to EkosLive clients in ekos_diagnosis.
+         */
+        Q_SCRIPTABLE QString diagnosis(const QString &module);
+
+        /**
+         * DBUS interface function.
+         * Apply an auto item of a cached diagnosis. Progress is reported by the diagnosisUpdated signal.
+         * @return true if the item was applied or started, false if it was refused or failed.
+         */
+        Q_SCRIPTABLE bool applyDiagnosisItem(const QString &diagnosisId, const QString &itemId);
+
+        /**
+         * DBUS interface function.
+         * Mark an item of a cached diagnosis.
+         * @param action "done", "dismiss", "dismiss_forever" or "revert"
+         * @return true unless the request was refused.
+         */
+        Q_SCRIPTABLE bool markDiagnosisItem(const QString &diagnosisId, const QString &itemId, const QString &action);
+
     Q_SIGNALS:
         // Have to use full Ekos::CommunicationStatus for DBus signal to work
         void ekosStatusChanged(Ekos::CommunicationStatus status);
@@ -447,6 +477,11 @@ class Manager : public QDialog, public Ui::Manager
         void newLog(const QString &text);
         void newModule(const QString &name);
         void newDevice(const QString &name, int interface);
+
+        /** A module failed and its diagnosis is ready. json is the report, as in ekos_diagnosis. */
+        void newDiagnosis(const QString &module, const QString &json);
+        /** Progress of a diagnosis item, as in ekos_diagnosis_update. */
+        void diagnosisUpdated(const QString &json);
 
     protected:
         void closeEvent(QCloseEvent *event) override;
@@ -658,6 +693,9 @@ class Manager : public QDialog, public Ui::Manager
 
         // All managed drivers
         QList<QSharedPointer<DriverInfo >> managedDrivers;
+
+        // Declared before the modules so it is destroyed after them
+        std::unique_ptr<DiagnosisManager> m_DiagnosisManager;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;

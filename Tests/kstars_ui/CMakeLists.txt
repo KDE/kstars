@@ -100,6 +100,12 @@ TARGET_LINK_LIBRARIES(test_ekos_align_blind ${KSTARS_UI_EKOS_LIBS})
 # ADD_TEST(NAME TestEkosAlignBlind COMMAND test_ekos_align_blind)
 # SET_TESTS_PROPERTIES( TestEkosAlignBlind PROPERTIES LABELS "astrometry;ui" TIMEOUT 1800 )
 
+# needs astrometry index files covering the simulator FOV
+ADD_EXECUTABLE(test_ekos_align_diagnosis ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_align_diagnosis.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_align_diagnosis ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosAlignDiagnosis COMMAND test_ekos_align_diagnosis)
+SET_TESTS_PROPERTIES( TestEkosAlignDiagnosis PROPERTIES LABELS "astrometry;ui" TIMEOUT 900 RESOURCE_LOCK "kstars-ui" )
+
 ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure

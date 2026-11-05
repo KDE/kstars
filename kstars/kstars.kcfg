@@ -2076,6 +2076,9 @@
        <entry name="EkosLiveNotifications" type="Bool">
           <default>true</default>
        </entry>
+       <entry name="DiagnosisDismissedItems" type="StringList">
+          <label>Failure diagnosis items the user dismissed for good, as module:itemId.</label>
+       </entry>
        <entry name="EkosLiveCloud" type="Bool">
           <default>false</default>
        </entry>

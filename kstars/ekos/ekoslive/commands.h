@@ -316,6 +316,13 @@ enum COMMANDS
     NEW_AI_GUIDE_TRAINING_PROGRESS,
     NEW_AI_GUIDE_TRAINING_COMPLETE,
     NEW_AI_GUIDE_TRAINING_ERROR,
+
+    // Failure diagnosis
+    DIAGNOSIS_GET,
+    DIAGNOSIS_APPLY,
+    DIAGNOSIS_MARK,
+    EKOS_DIAGNOSIS,
+    EKOS_DIAGNOSIS_UPDATE,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -589,6 +596,12 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_AI_GUIDE_TRAINING_PROGRESS, "new_ai_guide_training_progress"},
     {NEW_AI_GUIDE_TRAINING_COMPLETE, "new_ai_guide_training_complete"},
     {NEW_AI_GUIDE_TRAINING_ERROR, "new_ai_guide_training_error"},
+
+    {DIAGNOSIS_GET, "diagnosis_get"},
+    {DIAGNOSIS_APPLY, "diagnosis_apply"},
+    {DIAGNOSIS_MARK, "diagnosis_mark"},
+    {EKOS_DIAGNOSIS, "ekos_diagnosis"},
+    {EKOS_DIAGNOSIS_UPDATE, "ekos_diagnosis_update"},
 };
 
 }

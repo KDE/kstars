@@ -27,6 +27,9 @@
 #include "profileeditor.h"
 #include "profilewizard.h"
 #include "auxiliary/darklibrary.h"
+#include "auxiliary/diagnosismanager.h"
+
+#include <QJsonDocument>
 #include "auxiliary/ksmessagebox.h"
 #include "auxiliary/profilesettings.h"
 #include "capture/sequencejob.h"
@@ -168,6 +171,20 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
     // Init EkosLive client
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
+
+    // Failure diagnoses: published on EkosLive, which delivers them even with no client attached, and on D-Bus
+    m_DiagnosisManager.reset(new DiagnosisManager());
+    connect(m_DiagnosisManager.get(), &DiagnosisManager::newDiagnosis, this, [this](const QString & module,
+            const QJsonObject & report)
+    {
+        ekosLiveClient.get()->message()->sendDiagnosis(report);
+        Q_EMIT newDiagnosis(module, QString::fromUtf8(QJsonDocument(report).toJson(QJsonDocument::Compact)));
+    });
+    connect(m_DiagnosisManager.get(), &DiagnosisManager::diagnosisUpdated, this, [this](const QJsonObject & update)
+    {
+        ekosLiveClient.get()->message()->sendDiagnosisUpdate(update);
+        Q_EMIT diagnosisUpdated(QString::fromUtf8(QJsonDocument(update).toJson(QJsonDocument::Compact)));
+    });
     connect(ekosLiveClient.get(), &EkosLive::Client::connected, this, [this]()
     {
         Q_EMIT ekosLiveStatusChanged(true);
@@ -1084,6 +1101,7 @@ void Manager::reset()
     captureProcess.reset();
     focusProcess.reset();
     guideProcess.reset();
+    m_DiagnosisManager->unregisterModule(QStringLiteral("align"));
     alignProcess.reset();
     mountProcess.reset();
     observatoryProcess.reset();
@@ -2585,8 +2603,8 @@ void Manager::initCapture()
 
         ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
     });
-    connect(captureModule(), &Ekos::Capture::newStreamTrackingState, this, [this](const QString &state,
-            const QString &trainname)
+    connect(captureModule(), &Ekos::Capture::newStreamTrackingState, this, [this](const QString & state,
+            const QString & trainname)
     {
         QJsonObject cStatus =
         {
@@ -2649,6 +2667,14 @@ void Manager::initAlign()
         ekosLiveClient.get()->message()->updateAlignStatus(cStatus);
     });
     connect(alignModule(), &Ekos::Align::driverTimedout, this, &Ekos::Manager::restartDriver);
+
+    alignModule()->registerDiagnosis(m_DiagnosisManager.get());
+    connect(alignModule(), &Ekos::Align::newStatus, this, [this](Ekos::AlignState state)
+    {
+        // A success closes the failure chain and reports the item that fixed it
+        if (state == ALIGN_COMPLETE && alignModule())
+            m_DiagnosisManager->moduleSucceeded(QStringLiteral("align"), alignModule()->opticalTrain());
+    });
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -3005,6 +3031,7 @@ void Manager::removeTabs()
     for (int i = numPermanentTabs; i < toolsWidget->count(); i++)
         toolsWidget->removeTab(i);
 
+    m_DiagnosisManager->unregisterModule(QStringLiteral("align"));
     alignProcess.reset();
     captureProcess.reset();
     focusProcess.reset();
@@ -4185,6 +4212,22 @@ void Manager::acceptPortSelection()
 {
     if (m_PortSelector)
         m_PortSelector->accept();
+}
+
+QString Manager::diagnosis(const QString &module)
+{
+    return QString::fromUtf8(QJsonDocument(m_DiagnosisManager->reportsJson(module)).toJson(QJsonDocument::Compact));
+}
+
+bool Manager::applyDiagnosisItem(const QString &diagnosisId, const QString &itemId)
+{
+    const QString state = m_DiagnosisManager->apply(diagnosisId, itemId, true)["state"].toString();
+    return state != QLatin1String("refused") && state != QLatin1String("failed");
+}
+
+bool Manager::markDiagnosisItem(const QString &diagnosisId, const QString &itemId, const QString &action)
+{
+    return m_DiagnosisManager->mark(diagnosisId, itemId, action)["state"].toString() != QLatin1String("refused");
 }
 
 void Manager::setPortSelectionComplete()

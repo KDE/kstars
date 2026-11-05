@@ -539,6 +539,10 @@ void GenericDevice::processNumber(INDI::Property prop)
 void GenericDevice::processText(INDI::Property prop)
 {
     auto tvp = INDI::PropertyText(prop);
+    // Only updates: a driver that has run for hours defines TIME_UTC with the time it was last set
+    if (tvp.isNameMatch("TIME_UTC"))
+        recordReportedTime(tvp);
+
     // If DRIVER_INFO is updated after being defined, make sure to re-generate concrete devices accordingly.
     if (tvp.isNameMatch("DRIVER_INFO"))
     {
@@ -833,6 +837,30 @@ void GenericDevice::createDeviceInit()
         KStars::Instance()->statusBar()->showMessage(i18n("%1 is online.", m_Name), 0);
 
     KStars::Instance()->map()->forceUpdateNow();
+}
+
+void GenericDevice::recordReportedTime(const INDI::PropertyText &tvp)
+{
+    auto utc = tvp.findWidgetByName("UTC");
+    if (!utc)
+        return;
+
+    QDateTime reported = QDateTime::fromString(QString(utc->getText()), Qt::ISODate);
+    if (!reported.isValid())
+        return;
+    reported.setTimeZone(QTimeZone::utc());
+
+    m_ReportedUTC = reported;
+    m_ReportedUTCReceived = QDateTime::currentDateTimeUtc();
+}
+
+bool GenericDevice::reportedTime(QDateTime &reported, QDateTime &received) const
+{
+    if (!m_ReportedUTC.isValid())
+        return false;
+    reported = m_ReportedUTC;
+    received = m_ReportedUTCReceived;
+    return true;
 }
 
 /*********************************************************************************/

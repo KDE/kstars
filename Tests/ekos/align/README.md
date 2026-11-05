@@ -65,3 +65,54 @@ Key scenarios:
   magnitude.
 - **Refresh after correction** — simulates re-solving after the user moves the
   alt-az adjusters and checks that the updated error estimate decreases.
+
+---
+
+### `testindexfiles.cpp` — Astrometry index files
+
+Tests `Ekos::IndexFiles` (`kstars/ekos/align/indexfiles.h`), the pure helpers the Index
+Files page and the Align diagnosis share. No network and no KStars window.
+
+- **`testSizeRoleMatchesIndexPage`** — compares `sizeRole()` with the loop the Index Files
+  page used before, for fields of view from 0.5′ to 3000′.
+- **`testRequiredIndexSizes`** — required sizes for a few fields of view.
+- **`testInstalledIndexSeries`** — complete, partial and duplicate series in temporary folders.
+- **`testInstallName`** — the series the diagnosis installs: 52nn LITE up to size 06, 42nn above.
+- **`testEstimatedDownloadBytes`** — the download estimate shown to the user (about 151 MB for 4207).
+
+---
+
+### `testaligndiagnosis.cpp` — Align failure rules
+
+Tests `Ekos::AlignDiagnosis::diagnose()`, which turns `AlignFacts` into a diagnosis report.
+It is pure: no devices, no options, no widgets.
+
+- **`testRules`** — one data row per rule of the Align catalog: facts in, item ids and their
+  order out (hardware, configuration, data, tuning; blockers before warnings). Every required
+  index size must be installed: an 18 x 14 arcmin field with only 5205 and 5206 still needs 5203
+  and 5204. Out of focus stars are flat discs or rings (`check_focus`); large stars with a bright
+  core are focused and not a cause.
+- **`testItemDetails`** — costs, retry flags, open targets and the index download estimate.
+- **`testTriedAndDismissed`**, **`testFewStarsAfterTries`** — items already tried or dismissed
+  are not offered again; the next item in line is.
+- **`testRuledOut`**, **`testClock`**, **`testEvidence`** — the ruled out and not checked lines
+  (an out of focus frame is not ruled out, and the item says whether the stars are discs or rings),
+  the clock comparison and the evidence. The KStars clock is compared with the client device
+  (EkosLive), or with this computer when there is none; the client time is never applied. The
+  mount clock is the time the mount last reported in `TIME_UTC` against when that report arrived,
+  never against the current time: most drivers report their time once, when KStars sends it.
+- **`testReasonKeys`** — every `AlignFailReason` has a unique key, a title and at least one item;
+  the enum values that go out on D-Bus and EkosLive do not move.
+
+---
+
+The star shapes of the failed frame are measured with `Ekos::ImageAnalysis`, tested in
+`Tests/ekos/auxiliary/imageanalysis/`.
+
+The Align code that records the reasons and runs the fixes is tested with the INDI
+simulators in `Tests/kstars_ui/test_ekos_align_diagnosis.cpp`.
+
+```bash
+./build/Tests/ekos/align/testindexfiles -v2
+./build/Tests/ekos/align/testaligndiagnosis -v2
+```

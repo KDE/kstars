@@ -13,6 +13,7 @@
 #include <indiproperty.h>
 #include <basedevice.h>
 
+#include <QDateTime>
 #include <QObject>
 #include <QPointer>
 #include <QVariant>
@@ -168,6 +169,14 @@ class GenericDevice : public GDInterface
             return m_DriverVersion;
         }
 
+        /**
+         * @brief reportedTime The last time the driver reported in TIME_UTC, and when it arrived, by the clock of
+         * this computer. Most drivers report their time once, e.g. when KStars sends it, so compare the two
+         * rather than the reported time with the current time.
+         * @return false if the driver has not reported a valid time
+         */
+        bool reportedTime(QDateTime &reported, QDateTime &received) const;
+
         virtual bool setConfig(INDIConfig tConfig);
         virtual bool wasConfigLoaded() const;
         virtual bool isConnected() const
@@ -296,6 +305,10 @@ class GenericDevice : public GDInterface
         bool m_TimeSynced {false};
         bool m_LocationSynced {false};
         uint8_t m_TimeSyncRetries {0};
+        /// Last valid TIME_UTC from the driver, and when it arrived (UTC of this computer)
+        QDateTime m_ReportedUTC;
+        QDateTime m_ReportedUTCReceived;
+        void recordReportedTime(const INDI::PropertyText &tvp);
         uint8_t m_LocationSyncRetries {0};
         QString m_Name;
         QSharedPointer<DriverInfo> m_DriverInfo;

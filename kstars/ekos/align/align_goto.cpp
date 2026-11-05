@@ -37,8 +37,18 @@ namespace Ekos
 
 using PAA = PolarAlignmentAssistant;
 
-void Align::stop(Ekos::AlignState mode)
+void Align::stop(Ekos::AlignState mode, Ekos::AlignFailReason reason)
 {
+    const bool failure = mode == ALIGN_ABORTED || mode == ALIGN_FAILED;
+    // Read the facts before the counters below are reset
+    std::optional<AlignFacts> facts;
+    if (failure && AlignDiagnosis::isDiagnosable(reason))
+    {
+        facts = collectDiagnosisFacts();
+        facts->state = mode;
+        facts->reason = reason;
+    }
+
     m_CaptureTimer.stop();
     m_RotatorTimer.invalidate();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -104,6 +114,9 @@ void Align::stop(Ekos::AlignState mode)
     Q_EMIT newStatus(state);
 
     setAlignTableResult(ALIGN_RESULT_FAILED);
+
+    if (failure)
+        recordFailure(reason, facts);
 }
 
 void Align::updateProperty(INDI::Property prop)
@@ -316,7 +329,7 @@ void Align::updateProperty(INDI::Property prop)
 
                     if (++m_SlewErrorCounter == 3)
                     {
-                        abort();
+                        stop(ALIGN_ABORTED, state == ALIGN_SYNCING ? AlignFailReason::SyncAlert : AlignFailReason::SlewAlert);
                         return;
                     }
                     else
@@ -351,6 +364,7 @@ void Align::updateProperty(INDI::Property prop)
             Q_EMIT newStatus(state);
             solveB->setEnabled(true);
             loadSlewB->setEnabled(true);
+            recordFailure(AlignFailReason::RotatorAlert);
             return;
         }
 
@@ -406,6 +420,7 @@ void Align::updateProperty(INDI::Property prop)
                         Q_EMIT newStatus(state);
                         solveB->setEnabled(true);
                         loadSlewB->setEnabled(true);
+                        recordFailure(AlignFailReason::RotatorNotReached);
                     }
                 });
             }
@@ -524,6 +539,7 @@ void Align::Slew()
         Q_EMIT newStatus(state);
         solveB->setEnabled(true);
         loadSlewB->setEnabled(true);
+        recordFailure(AlignFailReason::SlewRejected);
     }
 }
 
@@ -757,6 +773,7 @@ void Align::checkRotatorTimeout()
         Q_EMIT newStatus(state);
         solveB->setEnabled(true);
         loadSlewB->setEnabled(true);
+        recordFailure(AlignFailReason::RotatorTimeout);
     }
     else
     {

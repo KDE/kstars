@@ -49,6 +49,9 @@
     <method name="getLoadAndSlewStatus">
       <arg type="i" direction="out"/>
     </method>
+    <method name="lastFailReason">
+      <arg type="i" direction="out"/>
+    </method>
     <method name="setBinningIndex">
       <arg name="binningIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

@@ -32,6 +32,7 @@
 #include "kspaths.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
+#include "ekos/auxiliary/diagnosismanager.h"
 #include "ksalmanac.h"
 #include "skymapcomposite.h"
 #include "skycomponents/artificialhorizoncomponent.h"
@@ -424,6 +425,12 @@ void Message::onTextReceived(const QString &message)
         // dependency on an active Ekos/INDI session, so it must not be
         // gated behind m_Manager->getEkosStartingStatus() below.
         processPostProcessCommands(command, payload);
+        return;
+    }
+    else if (command.startsWith("diagnosis_"))
+    {
+        // Some failures happen before Ekos runs, so diagnoses are not gated either
+        processDiagnosisCommands(command, payload);
         return;
     }
 
@@ -2850,6 +2857,54 @@ void Message::updateAlignStatus(const QJsonObject &status)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDiagnosis(const QJsonObject &report)
+{
+    sendEvent(commands[EKOS_DIAGNOSIS], report);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDiagnosisUpdate(const QJsonObject &update)
+{
+    sendEvent(commands[EKOS_DIAGNOSIS_UPDATE], update);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processDiagnosisCommands(const QString &command, const QJsonObject &payload)
+{
+    auto diagnosis = m_Manager->diagnosisManager();
+    if (!diagnosis)
+        return;
+
+    if (command == commands[DIAGNOSIS_GET])
+    {
+        const QString module = payload["module"].toString();
+        const QString train = payload["train"].toString();
+
+        // The client time is compared with the mount and KStars clocks, never applied
+        const QDateTime clientUtc = QDateTime::fromString(payload["clientUtc"].toString(), Qt::ISODate);
+        if (clientUtc.isValid())
+        {
+            diagnosis->setClientUtc(clientUtc);
+            diagnosis->refresh(module, false);
+        }
+
+        for (const auto &report : diagnosis->reportsJson(module, train))
+            sendResponse(commands[EKOS_DIAGNOSIS], report.toObject());
+    }
+    // Progress and results go out on ekos_diagnosis_update
+    else if (command == commands[DIAGNOSIS_APPLY])
+        diagnosis->apply(payload["diagnosisId"].toString(), payload["itemId"].toString(), true);
+    else if (command == commands[DIAGNOSIS_MARK])
+        diagnosis->mark(payload["diagnosisId"].toString(), payload["itemId"].toString(), payload["action"].toString());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendConnection()
 {
     QJsonObject connectionState =
@@ -2929,6 +2984,13 @@ void Message::sendStates()
             };
             sendResponse(commands[NEW_POLAR_STATE], polarState);
         }
+    }
+
+    // Failures may have happened while no client was attached
+    if (auto diagnosis = m_Manager->diagnosisManager())
+    {
+        for (const auto &report : diagnosis->reportsJson())
+            sendResponse(commands[EKOS_DIAGNOSIS], report.toObject());
     }
 
     // Scheduler only emits its status on change, so a client connecting

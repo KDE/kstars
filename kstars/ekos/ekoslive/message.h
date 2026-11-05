@@ -59,6 +59,14 @@ class Message : public QObject
         void updateCapStatus(const QJsonObject &status);
         void updateAlignStatus(const QJsonObject &status);
 
+        /**
+         * @brief sendDiagnosis Send a failure diagnosis report (ekos_diagnosis). Delivered even when no client is
+         * attached, like notifications; clients that connect later get it from get_states or diagnosis_get.
+         */
+        void sendDiagnosis(const QJsonObject &report);
+        /** @brief sendDiagnosisUpdate Send the progress of a diagnosis item (ekos_diagnosis_update). */
+        void sendDiagnosisUpdate(const QJsonObject &update);
+
         // Send devices as they come
         void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
         void sendScopes();
@@ -264,6 +272,8 @@ class Message : public QObject
         // Ha + OIII for a narrowband blend) — see postprocess_stack's "channels" and
         // postprocess_blend_channels.
         void processPostProcessCommands(const QString &command, const QJsonObject &payload);
+        // Failure diagnosis: diagnosis_get, diagnosis_apply and diagnosis_mark. Handled before Ekos is started.
+        void processDiagnosisCommands(const QString &command, const QJsonObject &payload);
         // Parses control points from a payload array of {"x":.., "y":..} objects.
         QVector<QPointF> parseCurvePoints(const QJsonArray &points) const;
         // Resolves payload["sessionId"] (defaulting to the single-session key used when

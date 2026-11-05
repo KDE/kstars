@@ -46,6 +46,15 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
     Q_SIGNALS:
         void newDownloadProgress(QString info);
 
+        /**
+         * @brief indexDownloadFinished Emitted once per installIndexFile()/processIndexFile() install request,
+         * after the last file of the series was written or when the download stopped.
+         * @param series the name passed to the install request, e.g. "index-5205-*.fits"
+         * @param ok true if every file of the series was written
+         * @param error an IndexFiles::DownloadError value
+         */
+        void indexDownloadFinished(const QString &series, bool ok, int error);
+
     private:
         void downloadIndexFile(const QString &URL, const QString &fileN, const QString &indexSeriesName, int currentIndex,
                                int maxIndex, double fileSize);
@@ -62,7 +71,6 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
         Align *alignModule { nullptr };
         QNetworkAccessManager *manager { nullptr };
         QMap<float, QString> astrometryIndex;
-        QTimer timeoutTimer;
         int downloadSpeed { 0 }; //bytes per millisecond
         int actualdownloadSpeed { 0 }; //bytes per millisecond
 };

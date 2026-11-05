@@ -26,6 +26,7 @@
 #include "fitsviewer/fitsview.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
+#include "ksmessagebox.h"
 #include "ksnotification.h"
 #include "kspaths.h"
 #include "kstars.h"
@@ -46,6 +47,14 @@ using PAA = PolarAlignmentAssistant;
 
 bool Align::captureAndSolve(bool initialCall)
 {
+    if (initialCall)
+    {
+        m_FailReason = AlignFailReason::None;
+        m_Attempts.clear();
+        m_FailedImageStats.reset();
+        m_PahSolveFailed = false;
+    }
+
     // Set target to current telescope position, if no object is selected yet.
     if (m_TargetCoord.ra().degree() < 0) // see default constructor skypoint()
     {
@@ -54,7 +63,7 @@ bool Align::captureAndSolve(bool initialCall)
             appendLogText(i18n("Mount coordinates are invalid. Check mount connection and try again."));
             KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align,
                                   KSNotification::Alert);
-            return false;
+            return failCaptureAndSolve(AlignFailReason::NoMountCoords);
         }
 
         m_TargetCoord = m_TelescopeCoord;
@@ -78,7 +87,7 @@ bool Align::captureAndSolve(bool initialCall)
     if (m_Camera == nullptr)
     {
         appendLogText(i18n("Error: No camera detected."));
-        return false;
+        return failCaptureAndSolve(AlignFailReason::NoCamera);
     }
 
     if (m_Camera->isConnected() == false)
@@ -86,7 +95,7 @@ bool Align::captureAndSolve(bool initialCall)
         appendLogText(i18n("Error: lost connection to camera."));
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align,
                               KSNotification::Alert);
-        return false;
+        return failCaptureAndSolve(AlignFailReason::CameraDisconnected);
     }
 
     if (m_Camera->isBLOBEnabled() == false)
@@ -94,17 +103,29 @@ bool Align::captureAndSolve(bool initialCall)
         m_Camera->setBLOBEnabled(true);
     }
 
-    if (m_FocalLength == -1 || m_Aperture == -1)
+    // A value of 0 is as unusable as a missing value
+    if (m_FocalLength <= 0 || m_Aperture <= 0)
     {
-        KSNotification::error(
-            i18n("Telescope aperture and focal length are missing. Please check your optical train settings and try again."));
-        return false;
+        const QString message =
+            i18n("Telescope aperture and focal length are missing. Please check your optical train settings and try again.");
+        appendLogText(message);
+        KSNotification::error(message);
+        return failCaptureAndSolve(AlignFailReason::MissingOptics);
     }
 
-    if (m_CameraPixelWidth == -1 || m_CameraPixelHeight == -1)
+    if (m_CameraPixelWidth <= 0 || m_CameraPixelHeight <= 0)
     {
-        KSNotification::error(i18n("Camera pixel size is missing. Please check your driver settings and try again."));
-        return false;
+        const QString message = i18n("Camera pixel size is missing. Please check your driver settings and try again.");
+        appendLogText(message);
+        KSNotification::error(message);
+        return failCaptureAndSolve(AlignFailReason::MissingPixelSize);
+    }
+
+    // A parked mount can neither sync nor slew. Check before capturing instead of failing after the solve.
+    if (m_Mount && m_Mount->isParked() && m_CurrentGotoMode != GOTO_NOTHING && matchPAHStage(PAA::PAH_IDLE))
+    {
+        appendLogText(i18n("Error: the mount is parked. Unpark the mount, or select Nothing as the solver action."));
+        return failCaptureAndSolve(AlignFailReason::MountParked);
     }
 
     if (m_FilterWheel != nullptr)
@@ -112,7 +133,7 @@ bool Align::captureAndSolve(bool initialCall)
         if (m_FilterWheel->isConnected() == false)
         {
             appendLogText(i18n("Error: lost connection to filter wheel."));
-            return false;
+            return failCaptureAndSolve(AlignFailReason::FilterWheelDisconnected);
         }
 
         int targetPosition = alignFilter->currentIndex() + 1;
@@ -129,17 +150,28 @@ bool Align::captureAndSolve(bool initialCall)
     auto clientManager = m_Camera->getDriverInfo()->getClientManager();
     if (clientManager && clientManager->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(), "CCD1") == B_NEVER)
     {
-        if (KMessageBox::warningContinueCancel(
-                    nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
-                KMessageBox::Continue)
+        // Ask without blocking: a modal dialog would stall an unattended session. Align fails now and starts
+        // again if the user enables image transfer. Clients get the camera_enable_blob diagnosis item.
+        appendLogText(i18n("Error: image transfer is disabled for camera %1.", m_Camera->getDeviceName()));
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
-            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD1");
-            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD2");
-        }
-        else
+            KSMessageBox::Instance()->disconnect(this);
+            if (!m_Camera)
+                return;
+            auto manager = m_Camera->getDriverInfo()->getClientManager();
+            if (manager)
+            {
+                manager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD1");
+                manager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD2");
+            }
+            captureAndSolve();
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
         {
-            return false;
-        }
+            KSMessageBox::Instance()->disconnect(this);
+        });
+        KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"));
+        return failCaptureAndSolve(AlignFailReason::BlobDisabled);
     }
 
     // Check dustcap status before proceeding with capture
@@ -558,11 +590,13 @@ void Align::startSolving()
         // External solvers need the image in a file, SolverUtils writes and removes it
         m_Solver.reset(new SolverUtils(params, Options::astrometryTimeout()));
 
+        m_CurrentBlindPass.clear();
         bool useImageScale = Options::astrometryUseImageScale();
         if (useBlindScale == BLIND_ENGAGNED)
         {
             useImageScale = false;
             useBlindScale = BLIND_USED;
+            m_CurrentBlindPass = QStringLiteral("scale");
             appendLogText(i18n("Solving with blind image scale..."));
         }
 
@@ -571,6 +605,7 @@ void Align::startSolving()
         {
             useImagePosition = false;
             useBlindPosition = BLIND_USED;
+            m_CurrentBlindPass = QStringLiteral("position");
             appendLogText(i18n("Solving with blind image position..."));
         }
 
@@ -579,12 +614,14 @@ void Align::startSolving()
             useImageScale = false;
             useImagePosition = false;
             useBlindScaleAndPosition = BLIND_USED;
+            m_CurrentBlindPass = QStringLiteral("scale_position");
             appendLogText(i18n("Solving with blind image scale and position..."));
         }
 
         if (useBlindDynamicThreshold == BLIND_ENGAGNED)
         {
             useBlindDynamicThreshold = BLIND_USED;
+            m_CurrentBlindPass = QStringLiteral("dynamic_threshold");
             appendLogText(i18n("Solving with blind dynamic threshold..."));
         }
 
@@ -681,6 +718,28 @@ void Align::startSolving()
 void Align::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
 {
     disconnect(m_Solver.get(), &SolverUtils::done, this, &Align::solverDone);
+
+    // Keep a record of each solver run for the failure diagnosis
+    AlignAttempt attempt;
+    attempt.timedOut = timedOut;
+    attempt.success = success && !timedOut;
+    attempt.elapsed = elapsedSeconds;
+    attempt.starsFound = m_Solver ? m_Solver->getNumStarsFound() : -1;
+    attempt.usedScale = m_UsedScale;
+    attempt.scaleLow = m_UsedScale ? Options::astrometryImageScaleLow() : 0;
+    attempt.scaleHigh = m_UsedScale ? Options::astrometryImageScaleHigh() : 0;
+    attempt.usedPosition = m_UsedPosition;
+    attempt.ra = m_RAUsed;
+    attempt.dec = m_DECUsed;
+    attempt.blindPass = m_CurrentBlindPass;
+    attempt.dynamicThreshold = m_dynamicThreshold;
+    attempt.profile = selectedSolverProfile().listName;
+    attempt.solverType = static_cast<int>(Options::solverType());
+    attempt.binning = alignBinning->currentIndex() + 1;
+    attempt.exposure = alignExposure->value();
+    attempt.gain = alignGain->isEnabled() ? alignGain->value() : -1;
+    m_Attempts.append(attempt);
+
     if (timedOut || !success)
     {
         if (elapsedSeconds > 0)
@@ -703,7 +762,10 @@ void Align::solverDone(bool timedOut, bool success, const FITSImage::Solution &s
             if (CHECK_PAH(processSolverFailure()))
                 return;
             else
+            {
+                m_PahSolveFailed = true;
                 setState(ALIGN_ABORTED);
+            }
         }
         solverFailed();
         return;
@@ -939,6 +1001,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         emit newStatus(state);
                         solveB->setEnabled(true);
                         loadSlewB->setEnabled(true);
+                        recordFailure(AlignFailReason::RotatorWrongDirection);
                         return;
                     }
                     // PA error did not increase — rotation was in the correct direction.
@@ -1080,6 +1143,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
+    // ALIGN_ABORTED here means the solve ended after stop(), or the polar alignment assistant gave up
+    const bool afterAbort = state == ALIGN_ABORTED && !m_PahSolveFailed;
+
     if (Options::saveFailedAlignImages())
     {
         QDir dir;
@@ -1186,6 +1252,20 @@ void Align::solverFailed()
     solverFOV->setProperty("visible", false);
 
     setAlignTableResult(ALIGN_RESULT_FAILED);
+
+    if (!afterAbort)
+    {
+        AlignFailReason reason = AlignFailReason::SolverFailed;
+        if (m_PahSolveFailed)
+            reason = AlignFailReason::PahSolverFailed;
+        else if (m_FOVWidth < 1 || m_FOVWidth > 60 * 180 || m_FOVHeight < 1 || m_FOVHeight > 60 * 180)
+            reason = AlignFailReason::FovOutOfBounds;
+        else if (!m_Attempts.isEmpty() && m_Attempts.last().timedOut)
+            reason = AlignFailReason::SolverTimeout;
+        m_PahSolveFailed = false;
+        recordFailure(reason);
+    }
+    m_PahSolveFailed = false;
 }
 
 SSolver::Parameters Align::selectedSolverProfile() const
@@ -1233,10 +1313,11 @@ void Align::processCaptureTimeout()
     if (m_DeviceRestartCounter >= 3)
     {
         m_CaptureTimeoutCounter = 0;
-        m_DeviceRestartCounter = 0;
         appendLogText(i18n("Exposure timeout. Aborting..."));
         m_CaptureTimer.stop();
-        abort();
+        // Reset after stop() so the diagnosis sees how many driver restarts were tried
+        stop(ALIGN_ABORTED, AlignFailReason::CaptureTimeout);
+        m_DeviceRestartCounter = 0;
         return;
     }
 

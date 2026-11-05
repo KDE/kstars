@@ -237,6 +237,8 @@ if (INDI_FOUND)
             ekos/auxiliary/defectmap.cpp
             ekos/auxiliary/opticaltrainmanager.cpp
             ekos/auxiliary/opticaltraindbusinterface.cpp
+            ekos/auxiliary/diagnosis.cpp
+            ekos/auxiliary/diagnosismanager.cpp
             ekos/auxiliary/devicecleanupdialog.cpp
             ekos/auxiliary/profilesettings.cpp
             ekos/auxiliary/opticaltrainsettings.cpp
@@ -371,6 +373,9 @@ if (INDI_FOUND)
             ekos/align/align.cpp
             ekos/align/align_components.cpp
             ekos/align/align_devices.cpp
+            ekos/align/align_diagnosis.cpp
+            ekos/align/aligndiagnosis.cpp
+            ekos/align/indexfiles.cpp
             ekos/align/align_fov.cpp
             ekos/align/align_goto.cpp
             ekos/align/align_settings.cpp
@@ -557,6 +562,7 @@ if (CFITSIO_FOUND)
 	ekos/auxiliary/stellarsolverprofileeditor.cpp
         ekos/auxiliary/stellarsolverprofile.cpp
         ekos/auxiliary/solverutils.cpp
+        ekos/auxiliary/imageanalysis.cpp
         )
     set (ekosui_SRCS
 	${ekosui_SRCS}
