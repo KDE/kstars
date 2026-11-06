@@ -901,17 +901,18 @@ void MountModel::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZW
 const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
 {
     double maxSearch = 5.0;
+    SkyPoint searchPoint{dms(ra), dms(dec)};
     switch (alignTypeBox->currentIndex())
     {
         case OBJECT_ANY_OBJECT:
-            return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+            return KStarsData::Instance()->skyComposite()->objectNearest(&searchPoint, maxSearch);
         case OBJECT_FIXED_DEC:
         case OBJECT_FIXED_GRID:
         case OBJECT_HALTON_SEQUENCE:
             return nullptr;
 
         case OBJECT_ANY_STAR:
-            return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+            return KStarsData::Instance()->skyComposite()->starNearest(&searchPoint, maxSearch);
     }
 
     //If they want named stars, then try to search for and return the closest Align Star to the requested location
@@ -936,7 +937,7 @@ const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
         }
     }
     if (index == -1)
-        return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
+        return KStarsData::Instance()->skyComposite()->starNearest(&searchPoint, maxSearch);
     return alignStars.value(index);
 }
 
