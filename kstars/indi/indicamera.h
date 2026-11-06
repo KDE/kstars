@@ -206,6 +206,11 @@ class Camera : public ConcreteDevice
         bool startDurationRecording(double duration);
         bool startFramesRecording(uint32_t frames);
         bool stopRecording();
+        /**
+         * @brief isRecording Check whether the driver reports a video recording in progress.
+         * @return true if RECORD_STREAM is busy with one of its record switches on.
+         */
+        bool isRecording();
 
         // Update FITS Header
         bool setFITSHeaders(const QList<FITSData::Record> &values);

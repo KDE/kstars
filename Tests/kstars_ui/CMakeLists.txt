@@ -67,6 +67,12 @@ TARGET_LINK_LIBRARIES(test_ekos_capture ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosCapture COMMAND test_ekos_capture)
 SET_TESTS_PROPERTIES( TestEkosCapture PROPERTIES LABELS "stable;ui" TIMEOUT 600)
 
+# Video recordings run in real time, kept apart from TestEkosCapture
+ADD_EXECUTABLE(test_ekos_capture_video ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture_video.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_capture_video ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosCaptureVideo COMMAND test_ekos_capture_video)
+SET_TESTS_PROPERTIES( TestEkosCaptureVideo PROPERTIES LABELS "stable;ui" TIMEOUT 600 RESOURCE_LOCK "kstars-ui")
+
 ADD_EXECUTABLE(test_ekos_filterwheel ${KSTARS_UI_EKOS_SRC} test_ekos_filterwheel.cpp test_ekos_helper.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_filterwheel ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosFilterWheel COMMAND test_ekos_filterwheel)

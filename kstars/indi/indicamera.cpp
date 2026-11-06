@@ -1457,6 +1457,17 @@ bool Camera::startFramesRecording(uint32_t frames)
     return true;
 }
 
+bool Camera::isRecording()
+{
+    INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");
+
+    if (!svp || svp.getState() != IPS_BUSY)
+        return false;
+
+    auto recordSwitch = svp.findOnSwitch();
+    return recordSwitch != nullptr && !recordSwitch->isNameMatch("RECORD_OFF");
+}
+
 bool Camera::stopRecording()
 {
     INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");

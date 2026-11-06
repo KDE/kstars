@@ -34,6 +34,9 @@
 #include "auxiliary/ksutils.h"
 #include <ekos_capture_debug.h>
 
+#include <algorithm>
+#include <limits>
+
 #include <QJsonDocument>
 #include <QJsonObject>
 
@@ -970,9 +973,10 @@ void CameraProcess::captureStarted(CaptureResult rc)
         case CAPTURE_OK:
         {
             state()->setCaptureState(CAPTURE_CAPTURING);
-            state()->getCaptureTimeout().start(static_cast<int>(activeJob()->getCoreProperty(
-                                                   SequenceJob::SJ_Exposure).toDouble()) * 1000 +
-                                               CAPTURE_TIMEOUT_THRESHOLD);
+            state()->getCaptureTimeout().start(captureTimeoutMS(
+                                                   activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                                                   activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt(),
+                                                   activeJob()->isVideo()));
             // calculate remaining capture time for the current job
             state()->imageCountDown().setHMS(0, 0, 0);
             double ms_left = std::ceil(activeJob()->getExposeLeft() * 1000.0);
@@ -2283,8 +2287,24 @@ void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
     }
 }
 
+int CameraProcess::captureTimeoutMS(double exposure, int frameCount, bool isVideo)
+{
+    // A video job records all of its frames before reporting back
+    const double duration = std::max(0.0, exposure) * (isVideo ? std::max(1, frameCount) : 1);
+    const double timeout = duration * 1000.0 + CAPTURE_TIMEOUT_THRESHOLD;
+    return static_cast<int>(std::min(timeout, static_cast<double>(std::numeric_limits<int>::max())));
+}
+
 void CameraProcess::processCaptureTimeout()
 {
+    // The driver reports no progress while recording a video. The camera may record slower
+    // than one frame per exposure, so keep waiting as long as the recording is in progress.
+    if (activeJob() && activeJob()->isVideo() && activeCamera() && activeCamera()->isRecording())
+    {
+        state()->getCaptureTimeout().start(CAPTURE_TIMEOUT_THRESHOLD);
+        return;
+    }
+
     state()->setCaptureTimeoutCounter(state()->captureTimeoutCounter() + 1);
 
     if (state()->deviceRestartCounter() >= 3)
@@ -2315,7 +2335,14 @@ void CameraProcess::processCaptureTimeout()
     else
     {
         // Double check that m_Camera is valid in case it was reset due to driver restart.
-        if (activeCamera() && activeJob())
+        if (activeCamera() && activeJob() && activeJob()->isVideo())
+        {
+            // Restart the recording, a still exposure would neither record the video nor complete the job
+            setCamera(true);
+            Q_EMIT newLog(i18n("Video recording timeout. Restarting recording..."));
+            activeJob()->capture(FITS_NORMAL);
+        }
+        else if (activeCamera() && activeJob())
         {
             setCamera(true);
             Q_EMIT newLog(i18n("Exposure timeout. Restarting exposure..."));
@@ -3441,6 +3468,7 @@ void CameraProcess::updateVideoRecordStatus(bool enabled)
     // video capturing job is completed
     if (enabled == false)
     {
+        state()->getCaptureTimeout().stop();
         updatedCaptureCompleted(activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt());
         processJobCompletion1();
     }

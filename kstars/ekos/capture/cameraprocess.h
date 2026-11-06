@@ -138,6 +138,15 @@ class CameraProcess : public QObject
 
         CameraProcess(QSharedPointer < CameraState > newModuleState, QSharedPointer < CaptureDeviceAdaptor > newDeviceAdaptor);
 
+        /**
+         * @brief captureTimeoutMS Time to wait for a capture before the capture timeout handling starts.
+         * @param exposure exposure time in seconds of a single frame
+         * @param frameCount number of frames of a video recording
+         * @param isVideo true for a video recording, which records all its frames in one go
+         * @return timeout in milliseconds, CAPTURE_TIMEOUT_THRESHOLD after the expected end of the capture
+         */
+        static int captureTimeoutMS(double exposure, int frameCount, bool isVideo);
+
         // ////////////////////////////////////////////////////////////////////
         // handle connectivity to modules and devices
         // ////////////////////////////////////////////////////////////////////
