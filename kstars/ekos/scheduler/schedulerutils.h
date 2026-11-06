@@ -114,6 +114,18 @@ class SchedulerUtils
         static QString writeJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
 
         /**
+             * @brief readFITSTarget Reads the target of an image from the primary header of a FITS file.
+             * The coordinates come from OBJCTRA/OBJCTDEC (sexagesimal) or else RA/DEC (degrees), the name from OBJECT.
+             * @param filename path of the FITS file
+             * @param ra right ascension of the target
+             * @param dec declination of the target
+             * @param objectName value of OBJECT, or empty if the header has none
+             * @param error why the target could not be read
+             * @return true if the coordinates were read, false otherwise
+             */
+        static bool readFITSTarget(const QString &filename, dms &ra, dms &dec, QString &objectName, QString &error);
+
+        /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
              * @param job target job
              * @param capturedFramesCount a map of what's been captured already

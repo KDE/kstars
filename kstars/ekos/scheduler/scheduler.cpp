@@ -46,7 +46,6 @@
 #include <QFileDialog>
 #include <QScrollBar>
 
-#include <fitsio.h>
 #include <ekos_scheduler_debug.h>
 #include <indicom.h>
 #include "ekos/capture/sequenceeditor.h"
@@ -822,79 +821,17 @@ void Scheduler::processFITSSelection(const QUrl &url)
     setDirty();
 
     const QString filename = fitsEdit->text();
-    int status = 0;
-    double ra = 0, dec = 0;
-    dms raDMS, deDMS;
-    char comment[128], error_status[512];
-    fitsfile *fptr = nullptr;
-
-    if (fits_open_diskfile(&fptr, QFile::encodeName(filename).constData(), READONLY, &status))
+    dms ra, dec;
+    QString objectName, error;
+    if (!SchedulerUtils::readFITSTarget(filename, ra, dec, objectName, error))
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString::fromUtf8(error_status);
+        qCCritical(KSTARS_EKOS_SCHEDULER) << error;
+        process()->appendLogText(error);
         return;
     }
 
-    status = 0;
-    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
-    {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString::fromUtf8(error_status);
-        return;
-    }
-
-    status = 0;
-    char objectra_str[32] = {0};
-    if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
-    {
-        if (fits_read_key(fptr, TDOUBLE, "RA", &ra, comment, &status))
-        {
-            fits_report_error(stderr, status);
-            fits_get_errstatus(status, error_status);
-            process()->appendLogText(i18n("FITS header: cannot find OBJCTRA (%1).", QString(error_status)));
-            return;
-        }
-
-        raDMS.setD(ra);
-    }
-    else
-    {
-        raDMS = dms::fromString(objectra_str, false);
-    }
-
-    status = 0;
-    char objectde_str[32] = {0};
-    if (fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
-    {
-        if (fits_read_key(fptr, TDOUBLE, "DEC", &dec, comment, &status))
-        {
-            fits_report_error(stderr, status);
-            fits_get_errstatus(status, error_status);
-            process()->appendLogText(i18n("FITS header: cannot find OBJCTDEC (%1).", QString(error_status)));
-            return;
-        }
-
-        deDMS.setD(dec);
-    }
-    else
-    {
-        deDMS = dms::fromString(objectde_str, true);
-    }
-
-    setTargetCoords(raDMS, deDMS);
-
-    char object_str[256] = {0};
-    if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status))
-    {
-        QFileInfo info(filename);
-        nameEdit->setText(info.completeBaseName());
-    }
-    else
-    {
-        nameEdit->setText(object_str);
-    }
+    setTargetCoords(ra, dec);
+    nameEdit->setText(objectName.isEmpty() ? QFileInfo(filename).completeBaseName() : objectName);
 }
 
 bool Scheduler::processCoordinates(dms &ra, dms &dec)

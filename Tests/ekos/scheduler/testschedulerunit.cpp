@@ -33,6 +33,9 @@
 #include <QFileInfo>
 #include <QTemporaryDir>
 
+#include <fitsio.h>
+#include <cmath>
+
 using Ekos::SequenceJob;
 using Ekos::Scheduler;
 
@@ -54,6 +57,9 @@ class TestSchedulerUnit : public QObject
         void loadSequenceQueueTest();
         void writeJobSequenceTest_data();
         void writeJobSequenceTest();
+        void readFITSTargetTest_data();
+        void readFITSTargetTest();
+        void readFITSTargetClosesFileTest();
         void estimateJobTimeTest();
         void evaluateJobsTest();
 
@@ -421,6 +427,129 @@ void TestSchedulerUnit::writeJobSequenceTest()
     QCOMPARE(jobs.first()->getCoreProperty(SequenceJob::SJ_TargetName).toString(), prefix);
     for (const auto &job : jobs)
         QCOMPARE(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString(), outputDir);
+}
+
+namespace
+{
+// Writes a small FITS image with the given header keywords. Empty strings and NaN values are left out.
+bool writeTestFITS(const QString &path, const QString &objctra, const QString &objctdec, double ra, double dec,
+                   const QString &object)
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    long naxes[2] = {4, 4};
+    if (fits_create_diskfile(&fptr, QFile::encodeName(path).constData(), &status))
+        return false;
+    fits_create_img(fptr, SHORT_IMG, 2, naxes, &status);
+
+    auto updateString = [&](const char *key, const QString &value)
+    {
+        QByteArray bytes = value.toUtf8();
+        if (!value.isEmpty())
+            fits_update_key(fptr, TSTRING, key, bytes.data(), nullptr, &status);
+    };
+    updateString("OBJCTRA", objctra);
+    updateString("OBJCTDEC", objctdec);
+    updateString("OBJECT", object);
+    if (!std::isnan(ra))
+        fits_update_key(fptr, TDOUBLE, "RA", &ra, nullptr, &status);
+    if (!std::isnan(dec))
+        fits_update_key(fptr, TDOUBLE, "DEC", &dec, nullptr, &status);
+
+    fits_close_file(fptr, &status);
+    return status == 0;
+}
+
+int openFileDescriptors()
+{
+    return QDir("/proc/self/fd").entryList(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::System).size();
+}
+}
+
+void TestSchedulerUnit::readFITSTargetTest_data()
+{
+    QTest::addColumn<QString>("dirName");
+    QTest::addColumn<bool>("create");
+    QTest::addColumn<QString>("objctra");
+    QTest::addColumn<QString>("objctdec");
+    QTest::addColumn<double>("raKey");
+    QTest::addColumn<double>("decKey");
+    QTest::addColumn<QString>("object");
+    QTest::addColumn<bool>("expectedOk");
+
+    const double none = std::nan("");
+    // M 42: RA 05h35m17.3s = 83.8221 degrees, DEC -05d23m28s = -5.3911 degrees.
+    QTest::newRow("sexagesimal keywords") << QString("fits") << true << QString("05 35 17.3") << QString("-05 23 28")
+                                          << none << none << QString("M 42") << true;
+    QTest::newRow("degree keywords only") << QString("fits") << true << QString() << QString() << 83.8221 << -5.3911
+                                          << QString() << true;
+    QTest::newRow("RA in degrees, OBJCTDEC") << QString("fits") << true << QString() << QString("-05 23 28") << 83.8221
+            << none << QString("M 42") << true;
+    // FITS header values are ASCII only, so only the path is accented.
+    QTest::newRow("accented path") << QString::fromUtf8("Vénus") << true << QString("05 35 17.3")
+                                   << QString("-05 23 28") << none << none << QString("Venus") << true;
+    QTest::newRow("no coordinates") << QString("fits") << true << QString() << QString() << none << none
+                                    << QString("M 42") << false;
+    QTest::newRow("missing file") << QString("fits") << false << QString() << QString() << none << none << QString()
+                                  << false;
+}
+
+void TestSchedulerUnit::readFITSTargetTest()
+{
+    QFETCH(QString, dirName);
+    QFETCH(bool, create);
+    QFETCH(QString, objctra);
+    QFETCH(QString, objctdec);
+    QFETCH(double, raKey);
+    QFETCH(double, decKey);
+    QFETCH(QString, object);
+    QFETCH(bool, expectedOk);
+
+    QTemporaryDir tmpDir;
+    QVERIFY(tmpDir.isValid());
+    const QString dir = QDir(tmpDir.path()).filePath(dirName);
+    QVERIFY(QDir().mkpath(dir));
+    const QString path = QDir(dir).filePath("target.fits");
+    if (create)
+        QVERIFY(writeTestFITS(path, objctra, objctdec, raKey, decKey, object));
+
+    dms ra, dec;
+    QString objectName, error;
+    const bool ok = Ekos::SchedulerUtils::readFITSTarget(path, ra, dec, objectName, error);
+
+    QCOMPARE(ok, expectedOk);
+    if (!expectedOk)
+    {
+        QVERIFY(!error.isEmpty());
+        return;
+    }
+    QVERIFY2(error.isEmpty(), qPrintable(error));
+    QVERIFY2(std::fabs(ra.Degrees() - 83.8221) < 1e-3, qPrintable(QString::number(ra.Degrees())));
+    QVERIFY2(std::fabs(dec.Degrees() + 5.3911) < 1e-3, qPrintable(QString::number(dec.Degrees())));
+    QCOMPARE(objectName, object);
+}
+
+void TestSchedulerUnit::readFITSTargetClosesFileTest()
+{
+#ifndef Q_OS_LINUX
+    QSKIP("Counting open file descriptors needs /proc/self/fd.");
+#endif
+    QTemporaryDir tmpDir;
+    QVERIFY(tmpDir.isValid());
+    const QString valid = QDir(tmpDir.path()).filePath("valid.fits");
+    const QString noCoordinates = QDir(tmpDir.path()).filePath("nocoords.fits");
+    QVERIFY(writeTestFITS(valid, "05 35 17.3", "-05 23 28", std::nan(""), std::nan(""), "M 42"));
+    QVERIFY(writeTestFITS(noCoordinates, QString(), QString(), std::nan(""), std::nan(""), "M 42"));
+
+    dms ra, dec;
+    QString objectName, error;
+    const int before = openFileDescriptors();
+    for (int i = 0; i < 20; i++)
+    {
+        QVERIFY(Ekos::SchedulerUtils::readFITSTarget(valid, ra, dec, objectName, error));
+        QVERIFY(!Ekos::SchedulerUtils::readFITSTarget(noCoordinates, ra, dec, objectName, error));
+    }
+    QCOMPARE(openFileDescriptors(), before);
 }
 
 namespace

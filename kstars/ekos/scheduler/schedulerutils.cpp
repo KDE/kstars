@@ -18,6 +18,10 @@
 
 #include "schedulerprocess.h"
 
+#include <QScopeGuard>
+
+#include <fitsio.h>
+
 namespace Ekos
 {
 
@@ -403,6 +407,85 @@ static QMap<QString, SequenceQueueCacheEntry> s_sequenceQueueCache;
 void SchedulerUtils::clearSequenceQueueCache()
 {
     s_sequenceQueueCache.clear();
+}
+
+bool SchedulerUtils::readFITSTarget(const QString &filename, dms &ra, dms &dec, QString &objectName, QString &error)
+{
+    int status = 0;
+    char comment[128], error_status[512];
+    fitsfile *fptr = nullptr;
+
+    objectName.clear();
+    error.clear();
+
+    if (fits_open_diskfile(&fptr, QFile::encodeName(filename).constData(), READONLY, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        error = i18n("Unable to open FITS file %1: %2", filename, QString::fromUtf8(error_status));
+        return false;
+    }
+
+    const auto closeFile = qScopeGuard([fptr]
+    {
+        int closeStatus = 0;
+        fits_close_file(fptr, &closeStatus);
+    });
+
+    status = 0;
+    if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
+    {
+        fits_get_errstatus(status, error_status);
+        error = i18n("Unable to open FITS file %1: %2", filename, QString::fromUtf8(error_status));
+        return false;
+    }
+
+    status = 0;
+    char objectra_str[32] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status))
+    {
+        // CFITSIO calls do nothing while status reports an error, so clear the failed OBJCTRA lookup.
+        status = 0;
+        double raDegrees = 0;
+        if (fits_read_key(fptr, TDOUBLE, "RA", &raDegrees, comment, &status))
+        {
+            fits_get_errstatus(status, error_status);
+            error = i18n("FITS header: cannot find OBJCTRA (%1).", QString(error_status));
+            return false;
+        }
+
+        ra.setD(raDegrees);
+    }
+    else
+    {
+        ra = dms::fromString(objectra_str, false);
+    }
+
+    status = 0;
+    char objectde_str[32] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status))
+    {
+        status = 0;
+        double decDegrees = 0;
+        if (fits_read_key(fptr, TDOUBLE, "DEC", &decDegrees, comment, &status))
+        {
+            fits_get_errstatus(status, error_status);
+            error = i18n("FITS header: cannot find OBJCTDEC (%1).", QString(error_status));
+            return false;
+        }
+
+        dec.setD(decDegrees);
+    }
+    else
+    {
+        dec = dms::fromString(objectde_str, true);
+    }
+
+    status = 0;
+    char object_str[256] = {0};
+    if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status) == 0)
+        objectName = QString::fromUtf8(object_str);
+
+    return true;
 }
 
 QString SchedulerUtils::writeJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
