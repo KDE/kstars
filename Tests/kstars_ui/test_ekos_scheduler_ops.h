@@ -118,6 +118,7 @@ class TestEkosSchedulerOps : public QObject
         void testEstimateTimeBug();
         void testGreedyMessier();
         void testGreedyStartAt();
+        void testGreedyStartAtFinishAt();
 
         // test data
         void testCulminationStartup_data();

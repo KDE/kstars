@@ -244,6 +244,14 @@ Two jobs with explicit `START_AT` conditions; verifies both start within
 
 ---
 
+### `testGreedyStartAtFinishAt`
+
+Two jobs with `START_AT` + `FINISH_AT` conditions and contiguous windows (1am → 2am, 2am → 3am),
+like mosaic tiles. Verifies both are in the plan and that each runs from its start time until its
+finish time (bug 528291).
+
+---
+
 ### `testGroups`
 
 Three jobs share `group1`; greedy scheduler interleaves them round-robin:

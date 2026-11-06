@@ -4165,6 +4165,26 @@ void TestEkosSchedulerOps::testGreedy()
         {"Altair", "2021/06/14 23:30", "2021/06/15 01:31"}},
     scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
+
+    // Both jobs use On + Until (START_AT + FINISH_AT) with contiguous windows, like mosaic tiles:
+    // Altair 1am -> 2am, then Deneb 2am -> 3am. Each runs from its start time to its finish time.
+    // Bug 528291: such jobs were estimated at 0s in the simulation and left out of the schedule.
+    TestEkosSchedulerHelper::StartupCondition at2amStartupCondition;
+    at2amStartupCondition.type = Ekos::START_AT;
+    at2amStartupCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(2, 0, 0), geoTZ);
+    TestEkosSchedulerHelper::CompletionCondition at2amCompletionCondition, at3amCompletionCondition;
+    at2amCompletionCondition.type = Ekos::FINISH_AT;
+    at2amCompletionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(2, 0, 0), geoTZ);
+    at3amCompletionCondition.type = Ekos::FINISH_AT;
+    at3amCompletionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(3, 0, 0), geoTZ);
+    loadGreedySchedule(true, "Altair", atStartupCondition, at2amCompletionCondition, dir, schedJob200x60, 30);
+    loadGreedySchedule(false, "Deneb", at2amStartupCondition, at3amCompletionCondition, dir, schedJob400x60, 30);
+    scheduler->process()->evaluateJobs(false);
+    QVERIFY(checkSchedule(
+    {
+        {"Altair", "2021/06/14 01:00", "2021/06/14 02:00"},
+        {"Deneb",  "2021/06/14 02:00", "2021/06/14 03:00"}},
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
 void TestEkosSchedulerOps::testMaxMoonAltitude()
@@ -4271,6 +4291,85 @@ void TestEkosSchedulerOps::testGreedyStartAt()
     slewAndRun(targetObjects[denebIndex], d1Start, d1End, currentUTime, sleepMs, 600, "Greedy job #2", d1End);
 
     Options::setGreedyScheduling(true);
+}
+
+// Bug 528291: two On + Until (START_AT + FINISH_AT) jobs with contiguous windows, like mosaic tiles.
+// Both must be in the plan, and the scheduler must run the first one from its start time to its
+// finish time, then the second one from its start time to its finish time.
+void TestEkosSchedulerOps::testGreedyStartAtFinishAt()
+{
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
+
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
+    Options::setGreedyScheduling(true);
+    WithInterval interval(40000, scheduler);
+
+    ArtificialHorizon horizon;
+    Ekos::SchedulerJob::setHorizon(&horizon);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+
+    // Start the scheduler about 9pm local
+    const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), QTimeZone::utc());
+    initTimeGeo(geo, startUTime);
+    // Local times below use the scheduler's UTC offset for this date, which includes DST.
+    const QTimeZone geoTZ(static_cast<int>(KStarsData::Instance()->geo()->TZ() * 3600));
+
+    // Sequences much longer than the windows, so the finish times stop the jobs.
+    auto schedJob200x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {200, 60, "Red", "."});
+
+    TestEkosSchedulerHelper::StartupCondition at1amStartupCondition, at2amStartupCondition;
+    TestEkosSchedulerHelper::CompletionCondition at2amCompletionCondition, at3amCompletionCondition;
+    at1amStartupCondition.type = Ekos::START_AT;
+    at1amStartupCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(1, 0, 0), geoTZ);
+    at2amStartupCondition.type = Ekos::START_AT;
+    at2amStartupCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(2, 0, 0), geoTZ);
+    at2amCompletionCondition.type = Ekos::FINISH_AT;
+    at2amCompletionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(2, 0, 0), geoTZ);
+    at3amCompletionCondition.type = Ekos::FINISH_AT;
+    at3amCompletionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(3, 0, 0), geoTZ);
+
+    // Write the scheduler and sequence files.
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+
+    loadGreedySchedule(true, "Altair", at1amStartupCondition, at2amCompletionCondition, dir, schedJob200x60, 30);
+    loadGreedySchedule(false, "Deneb", at2amStartupCondition, at3amCompletionCondition, dir, schedJob200x60, 30);
+    scheduler->process()->evaluateJobs(false);
+    QVERIFY(checkSchedule(
+    {
+        {"Altair", "2021/06/14 01:00", "2021/06/14 02:00"},
+        {"Deneb",  "2021/06/14 02:00", "2021/06/14 03:00"}},
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+
+    // Neither job may be left idle or complete.
+    QCOMPARE(scheduler->moduleState()->jobs().size(), 2);
+    for (const auto job : scheduler->moduleState()->jobs())
+        QVERIFY2(job->getState() == Ekos::SCHEDJOB_SCHEDULED,
+                 QString("Job %1 has state %2").arg(job->getName()).arg(job->getState()).toLocal8Bit());
+
+    scheduler->moduleState()->init();
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
+    int sleepMs = 0;
+    KStarsDateTime currentUTime;
+    const QDateTime wakeupTime;  // Not valid--it starts up right away.
+
+    startupJobs2(startUTime, wakeupTime, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVector<SkyObject*> targetObjects;
+    constexpr int altairIndex = 0, denebIndex = 1;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Deneb"));
+    const QDateTime a1Start (QDateTime(QDate(2021, 6, 14), QTime( 8, 0, 0), QTimeZone::utc())); // 1am
+    const QDateTime d1Start (QDateTime(QDate(2021, 6, 14), QTime( 9, 0, 0), QTimeZone::utc())); // 2am
+    const QDateTime d1End   (QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), QTimeZone::utc())); // 3am
+
+    // Altair runs until its finish time, then Deneb starts right away and runs until its own finish time.
+    slewAndRun(targetObjects[altairIndex], a1Start, d1Start, currentUTime, sleepMs, 600, "On+Until job #1");
+    startModules(currentUTime, sleepMs);
+    slewAndRun(targetObjects[denebIndex], d1Start, d1End, currentUTime, sleepMs, 600, "On+Until job #2");
 }
 
 void TestEkosSchedulerOps::testGroups()

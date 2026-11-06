@@ -442,7 +442,9 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     /* If startup and completion times are fixed, estimated time cannot change - disregard the argument */
     if (START_ASAP != fileStartupCondition && FINISH_AT == completionCondition)
     {
-        estimatedTime = startupTime.secsTo(finishAtTime);
+        // The scheduler's simulation clears the startup time of its job copies, so fall back to the
+        // configured start time. Otherwise the job would be estimated at 0s and marked complete.
+        estimatedTime = (startupTime.isValid() ? startupTime : startAtTime).secsTo(finishAtTime);
     }
     /* If completion time isn't fixed, estimated time adjusts completion time */
     else if (FINISH_AT != completionCondition && FINISH_LOOP != completionCondition)

@@ -62,6 +62,7 @@ class TestSchedulerUnit : public QObject
         void readFITSTargetClosesFileTest();
         void estimateJobTimeTest();
         void evaluateJobsTest();
+        void startAtFinishAtScheduleTest();
 
     private:
         void runSetupJob(Ekos::SchedulerJob &job,
@@ -819,6 +820,65 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(compareTimes(jobs[1]->getFinishAtTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
 
     jobs.clear();
+}
+
+// Regression test for bug 528291: jobs with a START_AT startup and a FINISH_AT completion condition
+// must be estimated to run from their start time to their finish time inside the scheduler's
+// simulation, which clears the job copies' startup times. They used to be estimated at 0 seconds,
+// marked complete, left idle, and omitted from the simulated schedule.
+void TestSchedulerUnit::startAtFinishAtScheduleTest()
+{
+    Options::setMaximumAltLimit(100);
+    Options::setRememberJobProgress(false);
+    Options::setSchedulerRepeatEverything(false);
+    auto now = midNight.addSecs(-30 * 60);
+    Ekos::SchedulerModuleState::setLocalTime(&now);
+    Ekos::GreedyScheduler scheduler;
+    scheduler.setParams(true, true, true, 3600, 3600);
+    const Ekos::CapturedFramesMap capturedFrames;
+
+    // Two contiguous windows, like two mosaic tiles: 00:00 -> 01:00 and 01:00 -> 02:00.
+    const QDateTime start1 = midNight, stop1 = midNight.addSecs(3600);
+    const QDateTime start2 = stop1, stop2 = midNight.addSecs(2 * 3600);
+
+    Ekos::SchedulerJob job1(nullptr), job2(nullptr);
+    runSetupJob(job1, &siliconValley, &now, "Tile1",
+                midnightRA, testDEC, 0.0,
+                QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
+                Ekos::START_AT, start1,
+                Ekos::FINISH_AT, stop1, 1,
+                30.0, 0, 90, false, false);
+    runSetupJob(job2, &siliconValley, &now, "Tile2",
+                midnightRA, testDEC, 0.0,
+                QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
+                Ekos::START_AT, start2,
+                Ekos::FINISH_AT, stop2, 1,
+                30.0, 0, 90, false, false);
+    QList<Ekos::SchedulerJob *> jobs = {&job1, &job2};
+
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+
+    // The first job is the next one to run, at its START_AT time.
+    QCOMPARE(scheduler.getScheduledJob(), &job1);
+    QCOMPARE(job1.getState(), Ekos::SCHEDJOB_SCHEDULED);
+    QVERIFY(compareTimes(job1.getStartupTime(), start1, 60));
+
+    // The second job is scheduled too, at its own START_AT time, not left idle.
+    // The simulation resumes one minute after a job stops, hence the 2-minute tolerance.
+    QCOMPARE(job2.getState(), Ekos::SCHEDJOB_SCHEDULED);
+    QVERIFY(compareTimes(job2.getStartupTime(), start2, 120));
+    QCOMPARE(job2.getEstimatedTime(), job2.getStartupTime().secsTo(stop2));
+    QVERIFY(job2.getEstimatedTime() > 0);
+
+    // Both jobs are in the simulated schedule, each running until its FINISH_AT time.
+    const auto &schedule = scheduler.getSchedule();
+    QCOMPARE(schedule.size(), 2);
+    QCOMPARE(schedule[0].job, &job1);
+    QVERIFY(compareTimes(schedule[0].startTime, start1, 60));
+    QVERIFY(compareTimes(schedule[0].stopTime, stop1, 60));
+    QCOMPARE(schedule[1].job, &job2);
+    QVERIFY(compareTimes(schedule[1].startTime, start2, 120));
+    QVERIFY(compareTimes(schedule[1].stopTime, stop2, 60));
 }
 
 QTEST_GUILESS_MAIN(TestSchedulerUnit)

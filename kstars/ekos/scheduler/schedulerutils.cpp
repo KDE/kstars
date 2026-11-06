@@ -835,7 +835,9 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
              schedJob->getCompletionCondition() == FINISH_AT)
     {
         // FIXME: SchedulerJob is probably doing this already
-        qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getFinishAtTime());
+        // The startup time is cleared during the scheduler's simulation, use the configured start time then.
+        QDateTime const start = schedJob->getStartupTime().isValid() ? schedJob->getStartupTime() : schedJob->getStartAtTime();
+        qint64 const diff = start.secsTo(schedJob->getFinishAtTime());
         schedJob->setEstimatedTime(diff);
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a startup time and fixed completion time, will run for %2.")
