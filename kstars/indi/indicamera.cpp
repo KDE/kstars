@@ -1024,12 +1024,12 @@ void Camera::updateUploadSettings(const QString &uploadDirectory, const QString 
             auto posixDirectory = uploadDirectory;
             // N.B. Need to convert any Windows directory separators / to Posix separators /
             posixDirectory.replace(QDir::separator(), "/");
-            dirT->setText(posixDirectory.toLatin1().constData());
+            dirT->setText(posixDirectory.toUtf8().constData());
         }
 
         auto prefixT = uploadSettingsTP.findWidgetByName("UPLOAD_PREFIX");
         if (prefixT)
-            prefixT->setText(uploadFile.toLatin1().constData());
+            prefixT->setText(uploadFile.toUtf8().constData());
 
         sendNewProperty(uploadSettingsTP);
     }

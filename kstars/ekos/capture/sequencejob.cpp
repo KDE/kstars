@@ -279,7 +279,7 @@ QString SequenceJob::setCameraDeviceProperties()
                         j.next();
                         auto oneText = tp->findWidgetByName(j.key().toLatin1().data());
                         if (oneText)
-                            oneText->setText(j.value().toString().toLatin1().constData());
+                            oneText->setText(j.value().toString().toUtf8().constData());
                     }
                     devices.data()->getActiveCamera()->sendNewProperty(tp);
                 }

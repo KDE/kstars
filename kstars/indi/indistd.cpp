@@ -1139,7 +1139,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                         QJsonObject oneElementObject = oneElement.toObject();
                         auto tp = tvp.findWidgetByName(oneElementObject["name"].toString().toLatin1().constData());
                         if (tp)
-                            tp->setText(oneElementObject["text"].toString().toLatin1().constData());
+                            tp->setText(oneElementObject["text"].toString().toUtf8().constData());
                     }
 
                     sendNewProperty(tvp);

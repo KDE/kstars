@@ -276,7 +276,7 @@ void INDI_E::updateTP()
     if (tp == nullptr)
         return;
 
-    IUSaveText(tp, write_w->text().toHtmlEscaped().toLatin1().constData());
+    IUSaveText(tp, write_w->text().toHtmlEscaped().toUtf8().constData());
 }
 
 void INDI_E::updateNP()
@@ -311,7 +311,7 @@ void INDI_E::setText(const QString &newText)
         case IP_WO:
         case IP_RW:
             text = newText;
-            IUSaveText(tp, newText.toLatin1().constData());
+            IUSaveText(tp, newText.toUtf8().constData());
             read_w->setText(newText);
             write_w->setText(newText);
             break;

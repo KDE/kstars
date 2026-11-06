@@ -381,7 +381,7 @@ bool INDIDBus::setText(const QString &device, const QString &property, const QSt
                 auto t = tp.findWidgetByName(textName.toLatin1());
                 if (t)
                 {
-                    t->setText(text.toLatin1());
+                    t->setText(text.toUtf8().constData());
                     return true;
                 }
 
