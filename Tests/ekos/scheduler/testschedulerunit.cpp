@@ -63,6 +63,7 @@ class TestSchedulerUnit : public QObject
         void estimateJobTimeTest();
         void evaluateJobsTest();
         void startAtFinishAtScheduleTest();
+        void startAtRestartAfterAbortTest();
 
     private:
         void runSetupJob(Ekos::SchedulerJob &job,
@@ -879,6 +880,60 @@ void TestSchedulerUnit::startAtFinishAtScheduleTest()
     QCOMPARE(schedule[1].job, &job2);
     QVERIFY(compareTimes(schedule[1].startTime, start2, 120));
     QVERIFY(compareTimes(schedule[1].stopTime, stop2, 60));
+}
+
+// Regression test for bug 528417: a START_AT job that started on time and was then aborted (or stopped by
+// an error) may be restarted until its FINISH_AT time. The scheduler used to consider its start missed once
+// the start time was more than about 8 minutes ago, so the job never ran again.
+void TestSchedulerUnit::startAtRestartAfterAbortTest()
+{
+    Options::setMaximumAltLimit(100);
+    Options::setRememberJobProgress(false);
+    const QDateTime start = midNight, stop = midNight.addSecs(2 * 3600);
+    KStarsDateTime now = midNight;
+    const Ekos::CapturedFramesMap capturedFrames;
+
+    Ekos::SchedulerJob job(nullptr);
+    runSetupJob(job, &siliconValley, &now, "Job",
+                midnightRA, testDEC, 0.0,
+                QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
+                Ekos::START_AT, start,
+                Ekos::FINISH_AT, stop, 1,
+                30.0, 0, 90, false, false);
+
+    // A job that never ran has missed its start 15 minutes after the start time.
+    const QDateTime later = start.addSecs(15 * 60);
+    QVERIFY(!job.getNextPossibleStartTime(later).isValid());
+
+    // So has a job that was aborted before its start time.
+    now = KStarsDateTime(start.addSecs(-20 * 60));
+    job.setState(Ekos::SCHEDJOB_ABORTED);
+    QVERIFY(!job.getNextPossibleStartTime(later).isValid());
+
+    // The job started on time and was aborted 10 minutes later. It may start again until its end-at time.
+    now = KStarsDateTime(start.addSecs(10 * 60));
+    job.setState(Ekos::SCHEDJOB_ABORTED);
+    const QDateTime restart = job.getNextPossibleStartTime(later);
+    QVERIFY(restart.isValid());
+    QVERIFY(compareTimes(restart, later, 60));
+    QVERIFY(!job.getNextPossibleStartTime(stop.addSecs(60)).isValid());
+
+    // The scheduler restarts it right away with "Restart immediately".
+    now = KStarsDateTime(later);
+    Ekos::GreedyScheduler scheduler;
+    scheduler.setParams(true, false, true, 0, 0);
+    QList<Ekos::SchedulerJob *> jobs = {&job};
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    QCOMPARE(scheduler.getScheduledJob(), &job);
+    QCOMPARE(job.getState(), Ekos::SCHEDJOB_SCHEDULED);
+    QVERIFY(job.getStartupTime().isValid());
+    QVERIFY(compareTimes(job.getStartupTime(), later, 120));
+
+    // It is not restarted when aborted jobs aren't rescheduled.
+    job.setState(Ekos::SCHEDJOB_ABORTED);
+    scheduler.setParams(false, false, true, 0, 0);
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    QVERIFY(scheduler.getScheduledJob() == nullptr);
 }
 
 QTEST_GUILESS_MAIN(TestSchedulerUnit)

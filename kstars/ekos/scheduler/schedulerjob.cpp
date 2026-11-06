@@ -1033,8 +1033,16 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
 
     if (!runningJob && START_AT == getFileStartupCondition())
     {
+        constexpr int missedStartSecs = 500;
+        // A job that started on time and was then aborted or stopped by an error did not miss its start.
+        // Whether and when it may restart is decided by the aborted job management settings, and the
+        // constraints below, e.g. its end-at time.
+        auto stoppedAfterStart = [this](const QDateTime & stopTime)
+        {
+            return stopTime.isValid() && stopTime.secsTo(getStartAtTime()) < missedStartSecs;
+        };
         int secondsFromNow = ltWhen.secsTo(getStartAtTime());
-        if (secondsFromNow < -500)
+        if (secondsFromNow < -missedStartSecs && !stoppedAfterStart(lastAbortTime) && !stoppedAfterStart(lastErrorTime))
             // We missed it.
             return QDateTime();
         ltWhen = secondsFromNow > 0 ? getStartAtTime() : ltWhen;

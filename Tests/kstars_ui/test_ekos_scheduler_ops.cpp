@@ -600,7 +600,7 @@ void TestEkosSchedulerOps::startupJobs2(
     }
 }
 
-void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleepMs)
+void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleepMs, bool waitForGuiding)
 {
     WithInterval interval(1000, scheduler);
     QVERIFY(iterateScheduler("Wait for MountSlewing", 30, &sleepMs, &currentUTime, [&]() -> bool
@@ -642,6 +642,9 @@ void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleep
             return true;
         return false;
     }));
+
+    if (!waitForGuiding)
+        return;
 
     QVERIFY(iterateScheduler("Wait for Guide", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
@@ -974,6 +977,109 @@ void TestEkosSchedulerOps::testDawnShutdown()
 
     const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), QTimeZone::utc());
     wakeupAndRestart(restartTime, currentUTime, sleepMs);
+}
+
+void TestEkosSchedulerOps::testRescheduleErrorsRetriesJob_data()
+{
+    QTest::addColumn<bool>("startAt");
+
+    QTest::newRow("ASAP") << false;
+    QTest::newRow("On") << true;
+}
+
+// Regression test for bug 528417: a job whose guiding never converges (guide scope obstructed) exceeds the
+// guiding stage timeout and ends with an error. With "Restart immediately" and "Re-schedule errors" checked
+// in the UI, the scheduler must wait the error delay and restart the job, since it may run until its end-at
+// time. A job with an "On" startup time was never restarted: once its start time was more than about 8 minutes
+// ago, the scheduler considered it missed.
+void TestEkosSchedulerOps::testRescheduleErrorsRetriesJob()
+{
+    QFETCH(bool, startAt);
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    constexpr int errorDelaySecs = 180;
+    // The job fails about 10 minutes after its start, and is restarted 13 minutes after it.
+    constexpr int guidingTimeoutSecs = 600;
+    const auto oldOperationsTimeout = Options::captureOperationsTimeout();
+    const auto restoreOptions = qScopeGuard([oldOperationsTimeout]()
+    {
+        Options::setCaptureOperationsTimeout(oldOperationsTimeout);
+        Options::setRescheduleErrors(false);
+    });
+    Options::setCaptureOperationsTimeout(guidingTimeoutSecs);
+    // The option starts unchecked, as it does when the checkbox was never saved.
+    Options::setRescheduleErrors(false);
+
+    // Altair is well above 30 degrees at 3:10am local time, before dawn at 3:53am (see testDawnShutdown).
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(10, 10, 0), QTimeZone::utc());
+    const QTimeZone pdt(-7 * 3600);
+    if (startAt)
+    {
+        // On 3:10am local time, which is when the scheduler starts.
+        m_startupCondition.type = Ekos::START_AT;
+        m_startupCondition.atLocalDateTime = startUTime.toTimeZone(pdt);
+    }
+    // Repeat until 3:45am local time.
+    m_completionCondition.type = Ekos::FINISH_AT;
+    m_completionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(3, 45, 0), pdt);
+
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    // The file sets the error delay, without re-scheduling errors.
+    const TestEkosSchedulerHelper::ScheduleSteps steps {true, true, true, true};
+    const TestEkosSchedulerHelper::ShutdownProcedure shutdown {false, false, true, false};
+    const QString esl = TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition, m_completionCondition, steps,
+                        true, false, 30, 90, nullptr, shutdown, errorDelaySecs);
+    initScheduler(geo, startUTime, &dir, {esl}, {TestEkosSchedulerHelper::getDefaultEsqContent()});
+    QCOMPARE(scheduler->errorHandlingStrategyDelay->value(), errorDelaySecs);
+    QVERIFY(!scheduler->errorHandlingRescheduleErrorsCB->isChecked());
+
+    // The user then selects "Immediate" and checks "Re-schedule errors" in the aborted job management box.
+    scheduler->errorHandlingRestartImmediatelyButton->click();
+    scheduler->errorHandlingRescheduleErrorsCB->click();
+    QCOMPARE(Options::errorHandlingStrategy(), static_cast<uint>(Ekos::ERROR_RESTART_IMMEDIATELY));
+    QVERIFY(scheduler->errorHandlingRescheduleErrorsCB->isChecked());
+
+    guider->calibrationStuck = true;
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    startupJobs2(startUTime, QDateTime(), currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs, false);
+
+    WithInterval interval(1000, scheduler);
+    QVERIFY(iterateScheduler("Wait for Calibration", 30, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (guider->status() == Ekos::GUIDE_CALIBRATING);
+    }));
+    QCOMPARE(guider->guideCalls, 1);
+
+    // Guiding never converges, and the guiding stage timeout ends the job with an error.
+    QVERIFY(iterateScheduler("Wait for Guiding Timeout", guidingTimeoutSecs + 60, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return !m_schedulerLog.filter("terminated due to errors").isEmpty();
+    }));
+    const KStarsDateTime errorUTime = KStarsData::Instance()->ut();
+
+    // The obstruction is gone. The scheduler should restart the job after the error delay, and guide again.
+    guider->calibrationStuck = false;
+    QVERIFY2(iterateScheduler("Wait for Job Restart", errorDelaySecs + 120, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr && scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_SLEWING);
+    }), qPrintable(QString("Job was not restarted after the error: %1").arg(m_schedulerLog.join(" | "))));
+
+    const qint64 restartDelay = errorUTime.secsTo(KStarsData::Instance()->ut());
+    QVERIFY2(restartDelay >= errorDelaySecs - 5 && restartDelay <= errorDelaySecs + 60,
+             qPrintable(QString("The job restarted %1 s after the error, expected about %2 s.").arg(restartDelay).arg(
+                            errorDelaySecs)));
+
+    startModules(currentUTime, sleepMs);
+    QCOMPARE(guider->guideCalls, 2);
 }
 
 namespace

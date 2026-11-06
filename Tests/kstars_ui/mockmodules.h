@@ -460,6 +460,11 @@ class MockGuide : public QObject
         // I believe this is really autoStar in general!
         bool calAutoStar { false };
 
+        // When set, guide() keeps calibrating and never reaches GUIDE_GUIDING,
+        // e.g. because the guide scope is obstructed.
+        bool calibrationStuck { false };
+        int guideCalls { 0 };
+
         static const QString mockPath;
 
     public Q_SLOTS:
@@ -467,7 +472,8 @@ class MockGuide : public QObject
         Q_SCRIPTABLE bool guide()
         {
             fprintf(stderr, "%d @@@MockGuide::guide()\n", __LINE__);
-            setStatus(Ekos::GUIDE_GUIDING);
+            guideCalls++;
+            setStatus(calibrationStuck ? Ekos::GUIDE_CALIBRATING : Ekos::GUIDE_GUIDING);
             return true;
         }
         Q_SCRIPTABLE bool abort()

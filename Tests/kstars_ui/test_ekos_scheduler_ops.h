@@ -67,6 +67,10 @@ class TestEkosSchedulerOps : public QObject
         void testSimpleJob();
         void testTimeZone();
         void testDawnShutdown();
+        // A job that fails with an error is restarted after the error delay when "Re-schedule errors"
+        // is checked, also when it has an "On" startup time that has passed (bug 528417).
+        void testRescheduleErrorsRetriesJob_data();
+        void testRescheduleErrorsRetriesJob();
         // A parked mount is unparked for the slew and parked until the next job also when the startup queue is on
         // but no collection loaded the task templates.
         void testParkedSlewWithoutTemplates();
@@ -178,7 +182,9 @@ class TestEkosSchedulerOps : public QObject
             const GeoLocation &geo, const QDateTime &startUTime,
             QTemporaryDir *dir, const QString &esl, const QString &esq,
             const QDateTime &wakeupTime, KStarsDateTime &endTestUTime, int &endSleepMs);
-        void startModules(KStarsDateTime &testUTime, int &sleepMs);
+        // Runs the mount, focus and align modules through the job startup. Waits for guiding too
+        // unless waitForGuiding is false.
+        void startModules(KStarsDateTime &testUTime, int &sleepMs, bool waitForGuiding = true);
 
         void disableSkyMap();
         int timeTolerance(int seconds);
