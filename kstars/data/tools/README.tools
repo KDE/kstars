@@ -54,6 +54,16 @@ fix-star-catalogs.py Repairs the star catalogs in place (bug 309164): fixes the
                      Running it again is a no-op. Tests/skyobjects/test_starcatalogs
                      checks the result.
 
+release-kns-data.py  Prepares a release of the downloadable data (KNewStuff:
+                     main.xml, dso.xml and the files they list) on the KDE CDN,
+                     https://cdn.kde.org/edu/kstars/, where all of it must be
+                     hosted. Like releaseme's tarme.rb it publishes nothing itself:
+                     it checks the URLs, checksums and sizes, signs the files with
+                     gpg2, then prints the kdecp upload commands and a prefilled
+                     sysadmin ticket. "mirror" moves files hosted elsewhere to the
+                     CDN. Run any version change of a payload as a new file name
+                     (e.g. tycho2_mag_12.5-1.2.tar.gz), never replace a published one.
+
 hipdatatomysql.pl    Reads Hipparcos star catalog text files and puts them into
                      a MySQL database (server on localhost). CAUTION: This script
                      will empty the table that it is writing into.
