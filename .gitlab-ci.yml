@@ -9,7 +9,6 @@ include:
       - /gitlab-templates/json-validation.yml
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/linux-qt6-lts.yml
-      - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/flatpak-arm64.yml
       - /gitlab-templates/craft-windows-x86-64-qt6.yml
@@ -54,13 +53,6 @@ suse_tumbleweed_qt612:
 
 # These jobs are automatically defined by the included templates
 # We just need to override their rules - no need to extend anything
-
-windows_qt612:
-  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT6 IS INCLUDED IN CI IMAGE
-  rules:
-    - !reference [.standard-build-recipes, rules]
-  needs:
-    - suse_tumbleweed_qt612 # Wait for a success of the fast job
 
 json-validation:
   stage: validate
@@ -110,7 +102,7 @@ astyle-check:
 # These craft jobs are also automatically defined by the included templates
 craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
   needs:
-    - windows_qt612
+    - suse_tumbleweed_qt612 # no Windows check build: the KDE CI Windows image has no KStars deps
   rules:
     - !reference [.craft-recipes, rules]
 
