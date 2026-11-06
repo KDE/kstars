@@ -652,13 +652,7 @@ void FramingAssistantUI::createJobs()
     // Start by removing any jobs.
     scheduler->process()->removeAllJobs();
 
-    QJsonObject completionSettings;
-    if (m_CompletionCondition == "FinishSequence")
-        completionSettings = {{"sequenceCheck", true}};
-    else if (m_CompletionCondition == "FinishRepeat")
-        completionSettings = {{"repeatCheck", true}, {"repeatRuns", m_CompletionConditionArg}};
-    else if (m_CompletionCondition == "FinishLoop")
-        completionSettings = {{"loopCheck", true}};
+    const QVariantMap jobCompletionSettings = completionSettings(m_CompletionCondition, m_CompletionConditionArg);
 
     int batchCount = 0;
     for (auto oneTile : tiles->tiles())
@@ -695,6 +689,7 @@ void FramingAssistantUI::createJobs()
             {"schedulerAlignStep", shouldAlign},
             {"schedulerGuideStep", m_IsGuideChecked}
         };
+        settings.insert(jobCompletionSettings);
 
         scheduler->setAllSettings(settings);
         scheduler->saveJob();
@@ -705,6 +700,19 @@ void FramingAssistantUI::createJobs()
     accept();
     Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
     scheduler->updateJobTable();
+}
+
+QVariantMap FramingAssistantUI::completionSettings(const QString &condition, const QString &conditionArg)
+{
+    // Keys are the object names of the scheduler job completion widgets.
+    if (condition == "FinishSequence")
+        return {{"schedulerCompleteSequences", true}};
+    else if (condition == "FinishRepeat")
+        return {{"schedulerRepeatSequences", true}, {"schedulerRepeatSequencesLimit", qMax(1, conditionArg.toInt())}};
+    else if (condition == "FinishLoop")
+        return {{"schedulerUntilTerminated", true}};
+
+    return {};
 }
 
 void FramingAssistantUI::setMountState(ISD::Mount::Status value)
@@ -1058,10 +1066,14 @@ void FramingAssistantUI::setIsGuideChecked(bool value)
 
 void FramingAssistantUI::setCompletionCondition(const QString &value)
 {
-    if (m_CompletionCondition == value)
+    // The planner always has one completion option selected. A new mosaic, or a mosaic import
+    // without a completion condition, uses the default shown in the planner.
+    const QString condition = (value == "FinishRepeat" || value == "FinishLoop") ? value : QString("FinishSequence");
+
+    if (m_CompletionCondition == condition)
         return;
 
-    m_CompletionCondition = value;
+    m_CompletionCondition = condition;
 
     if (m_CompletionCondition == "FinishSequence")
         ui->sequenceCompletionR->setChecked(true);

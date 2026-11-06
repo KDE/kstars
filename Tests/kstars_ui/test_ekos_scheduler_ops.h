@@ -58,6 +58,12 @@ class TestEkosSchedulerOps : public QObject
 
         void testBasics();
         void testKeepOpticalTrainSelection();
+        // Jobs created by the mosaic planner get the completion condition chosen in the planner (bug 528292).
+        void testMosaicJobCompletion_data();
+        void testMosaicJobCompletion();
+        // The planner's completion condition matches its selected option when no condition was stored yet.
+        void testMosaicDefaultCompletion_data();
+        void testMosaicDefaultCompletion();
         void testSimpleJob();
         void testTimeZone();
         void testDawnShutdown();

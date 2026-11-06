@@ -64,6 +64,15 @@ class FramingAssistantUI : public QDialog
         // Import Mosaic JSON Data
         bool importMosaic(const QJsonObject &payload);
 
+        /**
+         * @brief completionSettings Map a mosaic completion condition to scheduler job settings.
+         * @param condition FinishSequence, FinishRepeat or FinishLoop.
+         * @param conditionArg number of repeats for FinishRepeat.
+         * @return Scheduler widget settings, to be passed to Scheduler::setAllSettings(). Empty for an
+         * unknown condition.
+         */
+        static QVariantMap completionSettings(const QString &condition, const QString &conditionArg);
+
     public:
         Q_INVOKABLE void setGridSize(const QSize &value);
         const QSize &gridSize() const

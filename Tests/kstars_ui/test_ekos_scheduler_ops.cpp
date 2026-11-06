@@ -24,6 +24,9 @@
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerprocess.h"
+#include "ekos/scheduler/framingassistantui.h"
+#include "mosaiccomponent.h"
+#include "mosaictiles.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/scheduler/taskqueue/actions/delayaction.h"
@@ -805,6 +808,96 @@ void TestEkosSchedulerOps::testKeepOpticalTrainSelection()
     scheduler->moduleState()->setIndiState(Ekos::INDI_READY);
     QCOMPARE(combo->count(), managerTrains.count() + 1);
     QCOMPARE(combo->currentText(), expected);
+}
+
+void TestEkosSchedulerOps::testMosaicJobCompletion_data()
+{
+    QTest::addColumn<QString>("condition");
+    QTest::addColumn<QString>("conditionArg");
+    QTest::addColumn<int>("expectedCondition");
+    QTest::addColumn<int>("expectedRepeats");
+
+    QTest::newRow("sequence") << "FinishSequence" << "1" << static_cast<int>(Ekos::FINISH_SEQUENCE) << 1;
+    QTest::newRow("repeat") << "FinishRepeat" << "3" << static_cast<int>(Ekos::FINISH_REPEAT) << 3;
+    QTest::newRow("loop") << "FinishLoop" << "1" << static_cast<int>(Ekos::FINISH_LOOP) << 0;
+}
+
+void TestEkosSchedulerOps::testMosaicJobCompletion()
+{
+    QFETCH(QString, condition);
+    QFETCH(QString, conditionArg);
+    QFETCH(int, expectedCondition);
+    QFETCH(int, expectedRepeats);
+
+    QTemporaryDir dir(QDir::tempPath() + "/test-mosaic-XXXXXX");
+    QVERIFY(dir.isValid());
+    const QString esqFile = dir.filePath("mosaic-Part_1.esq");
+    QVERIFY(TestEkosSchedulerHelper::writeFile(esqFile, TestEkosSchedulerHelper::getDefaultEsqContent()));
+
+    // Leave the job editor with a different completion condition, as left behind by the last edited job.
+    scheduler->schedulerUntil->setChecked(true);
+    scheduler->schedulerRepeatSequencesLimit->setValue(7);
+
+    // Same settings as FramingAssistantUI::createJobs() passes for one tile.
+    QVariantMap settings =
+    {
+        {"nameEdit", "mosaic-Part_1"},
+        {"groupEdit", ""},
+        {"raBox", dms(83.82).toHMSString()},
+        {"decBox", dms(-5.39).toDMSString()},
+        {"positionAngleSpin", 0.0},
+        {"sequenceEdit", esqFile},
+        {"schedulerTrackStep", true},
+        {"schedulerFocusStep", false},
+        {"schedulerAlignStep", false},
+        {"schedulerGuideStep", false}
+    };
+    settings.insert(Ekos::FramingAssistantUI::completionSettings(condition, conditionArg));
+
+    scheduler->setAllSettings(settings);
+    scheduler->saveJob();
+
+    QCOMPARE(scheduler->moduleState()->jobs().size(), 1);
+    const Ekos::SchedulerJob *job = scheduler->moduleState()->jobs().first();
+    QCOMPARE(static_cast<int>(job->getCompletionCondition()), expectedCondition);
+    if (expectedCondition == Ekos::FINISH_REPEAT)
+        QCOMPARE(job->getRepeatsRequired(), expectedRepeats);
+}
+
+void TestEkosSchedulerOps::testMosaicDefaultCompletion_data()
+{
+    QTest::addColumn<QString>("stored");
+    QTest::addColumn<QString>("expected");
+
+    // The stored condition is empty until a mosaic was created in this session.
+    QTest::newRow("none") << "" << "FinishSequence";
+    QTest::newRow("unknown") << "FinishAt" << "FinishSequence";
+    QTest::newRow("sequence") << "FinishSequence" << "FinishSequence";
+    QTest::newRow("repeat") << "FinishRepeat" << "FinishRepeat";
+    QTest::newRow("loop") << "FinishLoop" << "FinishLoop";
+}
+
+void TestEkosSchedulerOps::testMosaicDefaultCompletion()
+{
+    QFETCH(QString, stored);
+    QFETCH(QString, expected);
+
+    auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
+    const QString oldCondition = tiles->completionCondition();
+    const QString oldConditionArg = tiles->completionConditionArg();
+    auto restore = qScopeGuard([&]()
+    {
+        tiles->setCompletionCondition(oldCondition);
+        tiles->setCompletionConditionArg(oldConditionArg);
+    });
+    tiles->setCompletionCondition(stored);
+    tiles->setCompletionConditionArg("2");
+
+    QScopedPointer<Ekos::FramingAssistantUI> assistant(new Ekos::FramingAssistantUI());
+    QCOMPARE(assistant->completionCondition(), expected);
+    // Jobs created from this state get a completion condition instead of the job editor's one.
+    QVERIFY(!Ekos::FramingAssistantUI::completionSettings(assistant->completionCondition(),
+            assistant->completionConditionArg()).isEmpty());
 }
 
 void TestEkosSchedulerOps::testSimpleJob()
