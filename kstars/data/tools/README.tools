@@ -43,6 +43,17 @@ max-length.pl        Find the longest line in a file
 
 sort-hip-by-pm.pl    Sort the Hipparcos catalog data by proper motion
 
+fix-star-catalogs.py Repairs the star catalogs in place (bug 309164): fixes the
+                     rounding errors of stars.dat (stars-dat), moves the records of
+                     namedstars.dat / unnamedstars.dat still at the Hipparcos epoch
+                     J1991.25 to J2000.0 (epoch), and removes stars listed twice and
+                     proper-motion-less "ghosts" of moving stars, also from the
+                     downloadable deepstars.dat (dedupe), and fixes stale epochs and
+                     lost proper motions from XHIP (xhip). Uses the pre-2012
+                     stars.dat as the J1991.25 reference; see the script for usage.
+                     Running it again is a no-op. Tests/skyobjects/test_starcatalogs
+                     checks the result.
+
 hipdatatomysql.pl    Reads Hipparcos star catalog text files and puts them into
                      a MySQL database (server on localhost). CAUTION: This script
                      will empty the table that it is writing into.

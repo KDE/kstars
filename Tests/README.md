@@ -249,6 +249,7 @@ These are set automatically by `Tests/testhelpers.h` via the `KTest::setupTestEn
 |---|---|
 | `KSTARS_TEST_SOURCEDIR` | Path to the repository root; used to locate `kstars/data/` at runtime.  Set by CMake via `add_compile_definitions`. |
 | `KSTARS_TEST_DATADIR` | Override the KStars data directory independently of the source tree. |
+| `KSTARS_TEST_DEEPSTARS` | Path to the downloadable Tycho-2 `deepstars.dat`; `test_starcatalogs` then checks it for duplicate and ghost stars (skipped otherwise). |
 | `KSTARS_TEST_NO_NETWORK=1` | Block all outbound network connections (loopback is always allowed).  Useful in sandboxed environments. |
 | `KSTARS_TEST_ENABLE_NETWORK=1` | Explicitly allow outbound connections even when `KSTARS_TEST_NO_NETWORK` would otherwise be set by CI. |
 | `HOME` / `XDG_DATA_HOME` / `XDG_CONFIG_HOME` | Redirected to a per-test-run temp dir (`/tmp/kstars-tests-<pid>/`) so tests never touch the real user profile. |

@@ -12,3 +12,8 @@ if (TARGET ERFA::ERFA)
 endif()
 ADD_TEST( NAME TestStarobject COMMAND test_starobject )
 SET_TESTS_PROPERTIES( TestStarobject PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( test_starcatalogs test_starcatalogs.cpp )
+TARGET_LINK_LIBRARIES( test_starcatalogs ${TEST_LIBRARIES} )
+ADD_TEST( NAME TestStarCatalogs COMMAND test_starcatalogs )
+SET_TESTS_PROPERTIES( TestStarCatalogs PROPERTIES LABELS "stable")
