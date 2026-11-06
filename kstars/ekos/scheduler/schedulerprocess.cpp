@@ -4866,44 +4866,12 @@ void SchedulerProcess::registerNewDevice(const QString &name, int interface)
 
 bool SchedulerProcess::createJobSequence(XMLEle * root, const QString &prefix, const QString &outputDir)
 {
-    XMLEle *ep    = nullptr;
-    XMLEle *subEP = nullptr;
-
-    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
+    if (SchedulerUtils::writeJobSequence(root, prefix, outputDir).isEmpty())
     {
-        if (!strcmp(tagXMLEle(ep), "Job"))
-        {
-            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
-            {
-                if (!strcmp(tagXMLEle(subEP), "TargetName"))
-                {
-                    // Set the target name in sequence file, though scheduler will overwrite this later
-                    editXMLEle(subEP, prefix.toLatin1().constData());
-                }
-                else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
-                {
-                    editXMLEle(subEP, outputDir.toLatin1().constData());
-                }
-            }
-        }
-    }
-
-    QDir().mkpath(outputDir);
-
-    QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
-    FILE *outputFile = fopen(filename.toLatin1().constData(), "w");
-
-    if (outputFile == nullptr)
-    {
-        QString message = i18n("Unable to write to file %1", filename);
+        QString message = i18n("Unable to write to file %1", QString("%1/%2.esq").arg(outputDir, prefix));
         KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
-
-    fprintf(outputFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-    prXMLEle(outputFile, root, 0);
-
-    fclose(outputFile);
 
     return true;
 }

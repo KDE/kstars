@@ -405,6 +405,41 @@ void SchedulerUtils::clearSequenceQueueCache()
     s_sequenceQueueCache.clear();
 }
 
+QString SchedulerUtils::writeJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
+{
+    for (XMLEle *ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Job"))
+        {
+            for (XMLEle *subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
+            {
+                // Set the target name in sequence file, though scheduler will overwrite this later
+                if (!strcmp(tagXMLEle(subEP), "TargetName"))
+                    editXMLEle(subEP, prefix.toUtf8().constData());
+                else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
+                    editXMLEle(subEP, outputDir.toUtf8().constData());
+            }
+        }
+    }
+
+    QDir().mkpath(outputDir);
+
+    // Let QFile map the name to the file system encoding, as every reader of the file does.
+    const QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
+    QFile outputFile(filename);
+    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return QString();
+
+    QByteArray content(static_cast<int>(sprlXMLEle(root, 0)) + 1, '\0');
+    content.truncate(static_cast<int>(sprXMLEle(content.data(), root, 0)));
+    content.prepend("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+    if (outputFile.write(content) != content.size() || !outputFile.flush())
+        return QString();
+
+    return filename;
+}
+
 bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob,
                                        QList<QSharedPointer<SequenceJob>> &jobs, bool &hasAutoFocus, ModuleLogger * logger)
 {

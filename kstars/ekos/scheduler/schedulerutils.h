@@ -103,6 +103,17 @@ class SchedulerUtils
         static void clearSequenceQueueCache();
 
         /**
+             * @brief writeJobSequence Sets the target name and FITS directory of every job in a capture sequence and saves it
+             * as <outputDir>/<prefix>.esq. The text and the file name are written in UTF-8, the encoding that the readers
+             * of sequence and scheduler files expect.
+             * @param root root element of the capture sequence, modified in place
+             * @param prefix target name, also used as the base name of the sequence file
+             * @param outputDir directory for the captured frames and the sequence file, created if missing
+             * @return path of the saved sequence file, or an empty string if it could not be written
+             */
+        static QString writeJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+
+        /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
              * @param job target job
              * @param capturedFramesCount a map of what's been captured already

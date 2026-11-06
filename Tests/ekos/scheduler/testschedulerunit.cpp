@@ -29,6 +29,9 @@
 #include <memory>
 
 #include <QObject>
+#include <QDir>
+#include <QFileInfo>
+#include <QTemporaryDir>
 
 using Ekos::SequenceJob;
 using Ekos::Scheduler;
@@ -49,6 +52,8 @@ class TestSchedulerUnit : public QObject
         void setupJobTest_data();
         void setupJobTest();
         void loadSequenceQueueTest();
+        void writeJobSequenceTest_data();
+        void writeJobSequenceTest();
         void estimateJobTimeTest();
         void evaluateJobsTest();
 
@@ -354,6 +359,68 @@ void TestSchedulerUnit::loadSequenceQueueTest()
     QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(seqFile9Filters, &schedJob, jobs, hasAutoFocus, nullptr));
     // Makes sure we have the basic details of the capture sequence were read properly.
     compareCaptureSequence(details9Filters, jobs);
+}
+
+void TestSchedulerUnit::writeJobSequenceTest_data()
+{
+    QTest::addColumn<QString>("targetName");
+    QTest::addColumn<QString>("outputSubDir");
+
+    const QString venus = QString::fromUtf8("V\u00e9nus");
+    const QString mars = QString::fromUtf8("\u041c\u0430\u0440\u0441 \u2116 1");
+
+    QTest::newRow("ascii") << QString("Venus") << QString("Venus");
+    // Bug 528289: an accented target name gave a Latin-1 file name and Latin-1 XML text,
+    // while the scheduler file refers to the sequence with the UTF-8 path.
+    QTest::newRow("accented name, ascii directory") << venus << QString("mosaic");
+    QTest::newRow("accented name and directory") << venus << venus;
+    QTest::newRow("non-latin1 name and directory") << mars << mars;
+}
+
+void TestSchedulerUnit::writeJobSequenceTest()
+{
+    QFETCH(QString, targetName);
+    QFETCH(QString, outputSubDir);
+
+    QTemporaryDir tmpDir;
+    QVERIFY(tmpDir.isValid());
+
+    const QString outputDir = QString("%1/%2").arg(tmpDir.path(), outputSubDir);
+    const QString prefix = QString("%1-Part_%2").arg(targetName).arg(1);
+
+    // Read the template sequence the same way the framing assistant does.
+    QFile templateFile(seqFile9Filters);
+    QVERIFY(templateFile.open(QIODevice::ReadOnly));
+    const QByteArray templateContent = templateFile.readAll();
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF] = {0};
+    XMLEle *root = nullptr;
+    for (int i = 0; i < templateContent.size() && root == nullptr; ++i)
+        root = readXMLEle(xmlParser, templateContent[i], errmsg);
+    delLilXML(xmlParser);
+    QVERIFY2(root != nullptr, errmsg);
+
+    const QString written = Ekos::SchedulerUtils::writeJobSequence(root, prefix, outputDir);
+    delXMLEle(root);
+
+    // The sequence must be found with the same path the scheduler job stores.
+    const QString expected = QString("%1/%2.esq").arg(outputDir, prefix);
+    QCOMPARE(written, expected);
+    QVERIFY(QFileInfo::exists(expected));
+    QCOMPARE(QDir(outputDir).entryList(QDir::Files), QStringList() << QString("%1.esq").arg(prefix));
+    // No directory or file with another spelling of the target name may appear next to it.
+    QCOMPARE(QDir(tmpDir.path()).entryList(QDir::AllEntries | QDir::NoDotAndDotDot), QStringList() << outputSubDir);
+
+    // The XML text of the saved sequence must decode to the same target name and directory.
+    Ekos::SchedulerJob schedJob(nullptr);
+    QList<QSharedPointer<Ekos::SequenceJob>> jobs;
+    bool hasAutoFocus = false;
+    QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(expected, &schedJob, jobs, hasAutoFocus, nullptr));
+    QCOMPARE(jobs.size(), details9Filters.size());
+    // Only the first job of the template sequence has a TargetName element.
+    QCOMPARE(jobs.first()->getCoreProperty(SequenceJob::SJ_TargetName).toString(), prefix);
+    for (const auto &job : jobs)
+        QCOMPARE(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString(), outputDir);
 }
 
 namespace
