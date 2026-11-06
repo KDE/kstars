@@ -1990,7 +1990,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
     LibRaw RawProcessor;
 
     // Let us open the file
-    if ((ret = RawProcessor.open_file(rawImage.toLatin1().data())) != LIBRAW_SUCCESS)
+    if ((ret = RawProcessor.open_file(QFile::encodeName(rawImage).constData())) != LIBRAW_SUCCESS)
     {
         errorMessage = i18n("Cannot open %1: %2", rawImage, libraw_strerror(ret));
         RawProcessor.recycle();
@@ -2009,7 +2009,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
     {
         //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
         if (LIBRAW_SUCCESS !=
-                (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
+                (ret = RawProcessor.dcraw_thumb_writer(QFile::encodeName(output).constData())))
         {
             errorMessage = i18n("Cannot write %s %1: %2", output, libraw_strerror(ret));
             RawProcessor.recycle();
@@ -2149,7 +2149,7 @@ MPCParser::MPCParser(const QString &path)
         throw std::runtime_error("Could not open file.");
     }
 
-    gzFile file = gzopen(path.toLatin1().constData(), "r");
+    gzFile file = gzopen(QFile::encodeName(path).constData(), "r");
     if (file)
     {
 

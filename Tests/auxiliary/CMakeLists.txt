@@ -89,3 +89,8 @@ ADD_EXECUTABLE( testkslogging testkslogging.cpp )
 TARGET_LINK_LIBRARIES( testkslogging ${TEST_LIBRARIES})
 ADD_TEST( NAME TestKSLogging COMMAND testkslogging )
 SET_TESTS_PROPERTIES( TestKSLogging PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testmpcparser testmpcparser.cpp )
+TARGET_LINK_LIBRARIES( testmpcparser ${TEST_LIBRARIES})
+ADD_TEST( NAME TestMPCParser COMMAND testmpcparser )
+SET_TESTS_PROPERTIES( TestMPCParser PROPERTIES LABELS "stable")

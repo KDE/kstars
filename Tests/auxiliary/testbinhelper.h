@@ -31,6 +31,9 @@ class TestBinHelper : public QObject
 
         void testLoadBinary_data();
         void testLoadBinary();
+
+        void testOpenFileAtNonAsciiPath_data();
+        void testOpenFileAtNonAsciiPath();
 };
 
 #endif // TESTBINHELPER_H

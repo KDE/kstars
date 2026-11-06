@@ -802,7 +802,7 @@ bool XPlanetImageViewer::setupOutputFile()
         kstarsTempDir.mkpath(".");
         m_File.setFileName(kstarsTempDir.filePath(QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1,
                            8)).toLatin1()));
-        if (mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0)
+        if (mkfifo(QFile::encodeName(m_File.fileName()).constData(), S_IRUSR | S_IWUSR) < 0)
         {
             KSNotification::error(i18n("Error making FIFO file %1: %2.", m_File.fileName(), strerror(errno)));
             return false;

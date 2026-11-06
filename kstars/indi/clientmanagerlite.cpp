@@ -1034,7 +1034,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
         //Add support for batch mode
     }
 
-    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    strncpy(BLOBFilename, QFile::encodeName(filename).constData(), MAXINDIFILENAME);
     bp->aux2 = BLOBFilename;
 
     /* Test images
@@ -1069,10 +1069,10 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
             jpgPreview.close();
             QString jpeg_filename = jpgPreview.fileName();
 
-            RawProcessor.open_file(filename.toLatin1());
+            RawProcessor.open_file(QFile::encodeName(filename).constData());
             RawProcessor.unpack();
             RawProcessor.dcraw_process();
-            RawProcessor.dcraw_ppm_tiff_writer(jpeg_filename.toLatin1());
+            RawProcessor.dcraw_ppm_tiff_writer(QFile::encodeName(jpeg_filename).constData());
             QFile::remove(filename);
             filename = jpeg_filename;
 #else

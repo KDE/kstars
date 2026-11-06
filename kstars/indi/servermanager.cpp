@@ -98,7 +98,7 @@ bool ServerManager::start()
 
     QString fifoFile = QString("%1/indififo%2").arg(QDir::tempPath(), QUuid::createUuid().toString().mid(1, 8));
 
-    if (mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0)
+    if (mkfifo(QFile::encodeName(fifoFile).constData(), S_IRUSR | S_IWUSR) < 0)
     {
         Q_EMIT failed(i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;

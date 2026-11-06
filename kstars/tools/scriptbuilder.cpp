@@ -909,7 +909,7 @@ void ScriptBuilder::slotSave()
 
 #ifndef _WIN32
         //set rwx for owner, rx for group, rx for other
-        chmod(fname.toLatin1(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        chmod(QFile::encodeName(fname).constData(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 #endif
 
         if (tmpfile.fileName() == fname)
