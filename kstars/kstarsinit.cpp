@@ -589,10 +589,8 @@ void KStars::initActions()
     // Add actions for the timestep widget's functions
     actionCollection()->addAction("timestep_control", wa) << i18n("Time step control");
     const auto unitbox = m_TimeStepBox->unitbox();
-    ka = actionCollection()->addAction("timestep_increase_units", unitbox->increaseUnitsAction());
-    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::Key_Plus));
-    ka = actionCollection()->addAction("timestep_decrease_units", unitbox->decreaseUnitsAction());
-    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::Key_Underscore));
+    actionCollection()->addAction("timestep_increase_units", unitbox->increaseUnitsAction());
+    actionCollection()->addAction("timestep_decrease_units", unitbox->decreaseUnitsAction());
 
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT(slotViewToolBar()))
