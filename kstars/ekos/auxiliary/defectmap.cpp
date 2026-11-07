@@ -7,6 +7,9 @@
 #include "defectmap.h"
 #include <QJsonDocument>
 
+#include <algorithm>
+#include <vector>
+
 //////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////
@@ -217,28 +220,54 @@ void DefectMap::initBadPixelsInternal(double hotPixelThreshold,
     T const *buffer  = reinterpret_cast<T const*>(m_DarkData->getImageBuffer());
     const uint32_t width = m_DarkData->width();
     const uint32_t height = m_DarkData->height();
+    const uint32_t planeSize = m_DarkData->samplesPerChannel();
+    const int channels = std::max(1, m_DarkData->channels());
 
-    const uint32_t maxSize = 500000;
-    uint32_t samples = m_DarkData->samplesPerChannel();
-    uint8_t downsample = 1;
-    if (samples > maxSize)
+    // Every pixel must be examined: a defect map lists each bad pixel individually, so any pixel that is
+    // skipped stays defective in every corrected frame. The candidates are collected first, and only the
+    // most extreme ones are kept: with a noisy dark, most pixels lie beyond the most aggressive threshold,
+    // and the map would otherwise hold millions of pixels.
+    std::vector<BadPixel> hot, cold;
+    for (uint32_t y = 4; y + 4 < height; y++)
     {
-        downsample = (static_cast<double>(samples) / maxSize) + 0.999;
-        samples /= downsample;
-    }
-
-    // Need templated function
-    for (uint32_t y = 4; y < height - 4; y += downsample)
-    {
-        for (uint32_t x = 4; x < width - 4; x += downsample)
+        for (uint32_t x = 4; x + 4 < width; x++)
         {
-            uint32_t offset = x + y * width;
-            if (buffer[offset] > hotPixelThreshold)
-                m_HotPixels.insert(BadPixel(x, y, buffer[offset]));
-            else if (buffer[offset] < coldPixelThreshold)
-                m_ColdPixels.insert(BadPixel(x, y, buffer[offset]));
+            const uint32_t offset = x + y * width;
+            // A debayered dark has three planes: a defect shows up in at least one of them
+            double highest = buffer[offset], lowest = buffer[offset];
+            for (int channel = 1; channel < channels; channel++)
+            {
+                highest = std::max(highest, static_cast<double>(buffer[offset + channel * planeSize]));
+                lowest = std::min(lowest, static_cast<double>(buffer[offset + channel * planeSize]));
+            }
+
+            if (highest > hotPixelThreshold)
+                hot.emplace_back(x, y, highest);
+            else if (lowest < coldPixelThreshold)
+                cold.emplace_back(x, y, lowest);
         }
     }
+
+    const size_t limit = std::max<size_t>(MinimumCandidates, static_cast<size_t>(width) * height / 100);
+    if (hot.size() > limit)
+    {
+        std::nth_element(hot.begin(), hot.begin() + limit, hot.end(), [](const BadPixel & a, const BadPixel & b)
+        {
+            return a.value > b.value;
+        });
+        hot.resize(limit);
+    }
+    if (cold.size() > limit)
+    {
+        std::nth_element(cold.begin(), cold.begin() + limit, cold.end(), [](const BadPixel & a, const BadPixel & b)
+        {
+            return a.value < b.value;
+        });
+        cold.resize(limit);
+    }
+
+    m_HotPixels.insert(hot.cbegin(), hot.cend());
+    m_ColdPixels.insert(cold.cbegin(), cold.cend());
 
     filterPixels();
 }

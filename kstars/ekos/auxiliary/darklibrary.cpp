@@ -739,9 +739,14 @@ void DarkLibrary::updateProperty(INDI::Property prop)
 
     uint32_t totalElements = m_CurrentDarkFrame->channels() * m_CurrentDarkFrame->samplesPerChannel();
     if (totalElements != m_DarkMasterBuffer.size())
+    {
+        // A frame of another size cannot be added to the frames summed so far
+        resetMasterBuffer();
         m_DarkMasterBuffer.assign(totalElements, 0);
+    }
 
     aggregate(m_CurrentDarkFrame);
+    m_DarkMasterFrames++;
     darkProgress->setValue(darkProgress->value() + 1);
     m_StatusLabel->setText(i18n("Received %1/%2 images.", darkProgress->value(), darkProgress->maximum()));
 }
@@ -1417,6 +1422,8 @@ void DarkLibrary::generateDarkJobs()
 void DarkLibrary::execute()
 {
     m_DarkImagesCounter = 0;
+    // Frames left over from a run that was stopped must not be averaged into this run's master darks
+    resetMasterBuffer();
     darkProgress->setValue(0);
     darkProgress->setTextVisible(true);
     connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
@@ -1443,6 +1450,7 @@ void DarkLibrary::stop()
     cam->abort();
     darkProgress->setValue(0);
     m_DarkView->reset();
+    resetMasterBuffer();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1562,9 +1570,16 @@ void DarkLibrary::generateMasterFrame(const QSharedPointer<FITSData> &data, cons
     }
 
     Q_EMIT newImage(data);
-    // Reset Master Buffer
-    m_DarkMasterBuffer.assign(m_DarkMasterBuffer.size(), 0);
+    resetMasterBuffer();
+}
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::resetMasterBuffer()
+{
+    m_DarkMasterBuffer.assign(m_DarkMasterBuffer.size(), 0);
+    m_DarkMasterFrames = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1574,8 +1589,11 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
         const QJsonObject &metadata)
 {
     T *writableBuffer = reinterpret_cast<T *>(data->getWritableImageBuffer());
-    const uint32_t count = metadata["count"].toInt();
-    // Average the values
+    // Average over the frames that were actually summed, which is the job's frame count unless frames went missing
+    const uint32_t expected = metadata["count"].toInt();
+    if (m_DarkMasterFrames != expected)
+        qCWarning(KSTARS_EKOS) << "Master dark averages" << m_DarkMasterFrames << "frames, the job captured" << expected;
+    const uint32_t count = m_DarkMasterFrames > 0 ? m_DarkMasterFrames : std::max(1u, expected);
     for (uint32_t i = 0; i < m_DarkMasterBuffer.size(); i++)
         writableBuffer[i] = m_DarkMasterBuffer[i] / count;
 
@@ -1629,6 +1647,7 @@ void DarkLibrary::setCaptureState(CaptureState state)
     {
         case CAPTURE_ABORTED:
             setCompleted();
+            resetMasterBuffer();
             m_StatusLabel->setText(i18n("Capture aborted."));
             break;
         case CAPTURE_COMPLETE:

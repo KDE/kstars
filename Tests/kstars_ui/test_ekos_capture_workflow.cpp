@@ -18,6 +18,8 @@
 #include "ekos/capture/capture.h"
 #include "ekos/focus/focusmodule.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "indi/indifilterwheel.h"
@@ -26,9 +28,92 @@
 
 #include <QScopeGuard>
 
+#include <algorithm>
+
 #define SHUTTER_UNKNOWN -1
 #define SHUTTER_NO       0
 #define SHUTTER_YES      1
+
+namespace
+{
+template <typename T>
+void appendPixels(const QSharedPointer<FITSData> &data, QVector<double> &values)
+{
+    const T *buffer = reinterpret_cast<const T *>(data->getImageBuffer());
+    const uint32_t count = data->width() * data->height();
+    for (uint32_t i = 0; i < count; i++)
+        values.append(static_cast<double>(buffer[i]));
+}
+
+// The values of the first channel, row by row, whatever the data type of the image.
+QVector<double> pixelValues(const QSharedPointer<FITSData> &data)
+{
+    QVector<double> values;
+    values.reserve(data->width() * data->height());
+    switch (data->dataType())
+    {
+        case TBYTE:
+            appendPixels<uint8_t>(data, values);
+            break;
+        case TSHORT:
+            appendPixels<int16_t>(data, values);
+            break;
+        case TUSHORT:
+            appendPixels<uint16_t>(data, values);
+            break;
+        case TLONG:
+            appendPixels<int32_t>(data, values);
+            break;
+        case TULONG:
+            appendPixels<uint32_t>(data, values);
+            break;
+        case TFLOAT:
+            appendPixels<float>(data, values);
+            break;
+        case TDOUBLE:
+            appendPixels<double>(data, values);
+            break;
+        default:
+            break;
+    }
+    return values;
+}
+
+double medianOf(QVector<double> values)
+{
+    if (values.isEmpty())
+        return 0;
+    auto middle = values.begin() + values.size() / 2;
+    std::nth_element(values.begin(), middle, values.end());
+    return *middle;
+}
+
+QSharedPointer<FITSData> loadFITS(const QString &filename)
+{
+    QSharedPointer<FITSData> data(new FITSData());
+    QFuture<bool> result = data->loadFromFile(filename);
+    result.waitForFinished();
+    if (!result.result())
+        data.clear();
+    return data;
+}
+
+// The newest master dark recorded for the camera, empty if there is none
+QString newestMasterDark(const QString &camera)
+{
+    QList<QVariantMap> darkFrames;
+    if (!KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames))
+        return QString();
+
+    QVariantMap newest;
+    for (const auto &oneFrame : darkFrames)
+    {
+        if (oneFrame["ccd"].toString() == camera && (newest.isEmpty() || oneFrame["id"].toInt() > newest["id"].toInt()))
+            newest = oneFrame;
+    }
+    return newest["filename"].toString();
+}
+}
 
 
 TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QObject *parent) :
@@ -1945,6 +2030,178 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     chip->setBinning(1, 1);
 }
 
+void TestEkosCaptureWorkflow::testDarksLibraryAfterAbortedRun()
+{
+    // only capture is needed
+    QVERIFY(prepareTestCase(true));
+    m_CaptureHelper->ensureCCDShutter(true);
+
+    auto camera = Ekos::OpticalTrainManager::Instance()->getCamera(m_CaptureHelper->m_primaryTrain);
+    QVERIFY(camera != nullptr);
+
+    // A clear bias level, so that a wrongly scaled master dark stands out. The simulator only adds the
+    // bias together with the readout noise, which other test cases switch off.
+    QVERIFY(setCameraNumber("SIMULATOR_SETTINGS", "SIM_NOISE", 10));
+    QVERIFY(setCameraNumber("CCD_OFFSET", "OFFSET", 500));
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    QWidget *darkLibraryDialog = nullptr;
+    QVERIFY(openDarkLibrary(4, darkLibraryDialog));
+
+    // Stop the first run after two frames
+    m_CaptureHelper->expectedCaptureStates.clear();
+    for (int i = 0; i < 2; i++)
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    KTRY_CLICK(darkLibraryDialog, startB);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 30000);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(darkLibraryDialog, stopB);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 10000);
+    KTRY_GADGET(darkLibraryDialog, QPushButton, startB);
+    QTRY_VERIFY_WITH_TIMEOUT(startB->isEnabled(), 5000);
+
+    // Then run it again to completion
+    QString master;
+    QVERIFY(runDarkLibrary(darkLibraryDialog, 4, master));
+
+    // Every simulated dark pixel is bias + uniform noise in [0, SIM_NOISE)
+    const double bias = camera->getNumber("CCD_OFFSET").findWidgetByName("OFFSET")->getValue();
+    const double noise = camera->getNumber("SIMULATOR_SETTINGS").findWidgetByName("SIM_NOISE")->getValue();
+    const double expected = bias + std::max(0.0, noise - 1) / 2;
+
+    auto masterData = loadFITS(master);
+    QVERIFY2(masterData, qPrintable(QString("Failed to load the master dark %1").arg(master)));
+    const double median = medianOf(pixelValues(masterData));
+
+    QVERIFY2(std::abs(median - expected) <= std::max(3.0, 0.03 * expected),
+             qPrintable(QString("The master dark median is %1 ADU, but a single dark frame has %2 ADU: frames of the "
+                       "stopped run were averaged into the next master dark.").arg(median).arg(expected)));
+}
+
+void TestEkosCaptureWorkflow::testDarksLibraryDefectMap()
+{
+    // only capture is needed
+    QVERIFY(prepareTestCase(true));
+    m_CaptureHelper->ensureCCDShutter(true);
+
+    auto camera = Ekos::OpticalTrainManager::Instance()->getCamera(m_CaptureHelper->m_primaryTrain);
+    QVERIFY(camera != nullptr);
+    if (!camera->getNumber("SIM_DEFECTS").isValid())
+        QSKIP("The CCD simulator cannot simulate hot and cold pixels (SIM_DEFECTS), INDI is too old.");
+
+    // Hot pixels must stand out from a flat, noisy bias, and cold pixels read half the bias.
+    // Gain 0 keeps the simulated dark current at the configured rate. The simulator only adds the
+    // bias together with the readout noise, which other test cases switch off.
+    QVERIFY(setCameraNumber("SIMULATOR_SETTINGS", "SIM_NOISE", 10));
+    QVERIFY(setCameraNumber("CCD_OFFSET", "OFFSET", 500));
+    QVERIFY(setCameraNumber("CCD_GAIN", "GAIN", 0));
+    QVERIFY(setCameraNumber("SIM_DEFECTS", "SIM_HOT_RATE", 2000));
+    QVERIFY(setCameraNumber("SIM_DEFECTS", "SIM_HOT_PIXELS", 300));
+    QVERIFY(setCameraNumber("SIM_DEFECTS", "SIM_COLD_PIXELS", 100));
+    auto restoreDefects = qScopeGuard([this]()
+    {
+        setCameraNumber("SIM_DEFECTS", "SIM_HOT_PIXELS", 0);
+        setCameraNumber("SIM_DEFECTS", "SIM_COLD_PIXELS", 0);
+    });
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    QWidget *darkLibraryDialog = nullptr;
+    QVERIFY(openDarkLibrary(3, darkLibraryDialog));
+    QString master;
+    QVERIFY(runDarkLibrary(darkLibraryDialog, 3, master));
+
+    // Find the defects in the master dark independently from the defect map code.
+    // KStars leaves a 4 pixel border alone, since the median filter needs the neighbours.
+    auto masterData = loadFITS(master);
+    QVERIFY2(masterData, qPrintable(QString("Failed to load the master dark %1").arg(master)));
+    const int width = masterData->width();
+    const int height = masterData->height();
+    const QVector<double> masterValues = pixelValues(masterData);
+    const double median = medianOf(masterValues);
+    QList<int> hot, cold;
+    for (int y = 4; y < height - 4; y++)
+        for (int x = 4; x < width - 4; x++)
+        {
+            const double value = masterValues[x + y * width];
+            if (value - median > 300)
+                hot << x + y * width;
+            else if (median - value > 150)
+                cold << x + y * width;
+        }
+    QVERIFY2(hot.size() > 250 && cold.size() > 80,
+             qPrintable(QString("Expected about 300 hot and 100 cold pixels in the master dark, found %1 and %2")
+                        .arg(hot.size()).arg(cold.size())));
+
+    // Generate and save the defect map of the new master dark in the Dark Library, as a user does
+    KTRY_GADGET(darkLibraryDialog, QTabWidget, darkTabsWidget);
+    darkTabsWidget->setCurrentIndex(1);
+    KTRY_GADGET(darkLibraryDialog, QComboBox, masterDarksCombo);
+    QVERIFY(masterDarksCombo->count() > 0);
+    bool masterLoaded = false;
+    auto loadedConnection = connect(Ekos::DarkLibrary::Instance(), &Ekos::DarkLibrary::newImage, this,
+                                    [&masterLoaded, &master](const QSharedPointer<FITSData> &data)
+    {
+        if (data && data->filename() == master)
+            masterLoaded = true;
+    });
+    auto disconnectLoaded = qScopeGuard([loadedConnection]()
+    {
+        disconnect(loadedConnection);
+    });
+    // The newest master is the last entry. Select another one first so that selecting it loads it.
+    if (masterDarksCombo->count() > 1)
+        masterDarksCombo->setCurrentIndex(0);
+    masterDarksCombo->setCurrentIndex(masterDarksCombo->count() - 1);
+    QTRY_VERIFY_WITH_TIMEOUT(masterLoaded, 10000);
+    KTRY_CLICK(darkLibraryDialog, saveMapB);
+
+    auto chip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    QVERIFY(chip != nullptr);
+    QSharedPointer<DefectMap> defectMap;
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::DarkLibrary::Instance()->findDefectMap(chip, 1.0, defectMap), 5000);
+
+    // Prefer the defect map, so the correction below cannot fall back to subtracting the master dark
+    KTRY_GADGET(darkLibraryDialog, QRadioButton, preferDefectsRadio);
+    QTest::mouseClick(preferDefectsRadio, Qt::LeftButton);
+    const int trainID = Ekos::OpticalTrainManager::Instance()->id(m_CaptureHelper->m_primaryTrain);
+    QTRY_VERIFY_WITH_TIMEOUT([trainID]()
+    {
+        Ekos::OpticalTrainSettings::Instance()->setOpticalTrainID(trainID);
+        return Ekos::OpticalTrainSettings::Instance()->getOneSetting(Ekos::OpticalTrainSettings::DarkLibrary)
+               .toMap().contains("preferDefectsRadio");
+    }
+    (), 5000);
+    auto restorePreference = qScopeGuard([darkLibraryDialog]()
+    {
+        if (auto darks = darkLibraryDialog->findChild<QRadioButton *>("preferDarksRadio"))
+            darks->setChecked(true);
+    });
+
+    // Correct a copy of the master dark through the same path as Capture, Focus and Guide
+    auto frame = loadFITS(master);
+    QVERIFY(frame);
+    Ekos::DarkProcessor processor;
+    QVERIFY(processor.denoiseSynchronous(trainID, chip, frame, 1.0, 0, 0));
+    const QVector<double> corrected = pixelValues(frame);
+    QVERIFY2(medianOf(corrected) > median / 2, "The defect map was not used: the master dark was subtracted instead");
+
+    int survivingHot = 0, survivingCold = 0;
+    for (const int index : std::as_const(hot))
+        if (corrected[index] - median > 300)
+            survivingHot++;
+    for (const int index : std::as_const(cold))
+        if (median - corrected[index] > 150)
+            survivingCold++;
+
+    QVERIFY2(survivingHot == 0 && survivingCold == 0,
+             qPrintable(QString("The defect map of a %1x%2 master dark left %3 of %4 hot and %5 of %6 cold pixels")
+                        .arg(width).arg(height).arg(survivingHot).arg(hot.size()).arg(survivingCold).arg(cold.size())));
+}
+
 void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
 {
     // default initialization
@@ -2512,6 +2769,57 @@ void TestEkosCaptureWorkflow::initTestCase()
 void TestEkosCaptureWorkflow::cleanupTestCase()
 {
     // nothing to do since we start the INDI service for each test case
+}
+
+bool TestEkosCaptureWorkflow::setCameraNumber(const QString &property, const QString &element, double value)
+{
+    auto camera = Ekos::OpticalTrainManager::Instance()->getCamera(m_CaptureHelper->m_primaryTrain);
+    KVERIFY_SUB(camera != nullptr);
+
+    auto number = camera->getNumber(property.toLatin1().constData());
+    KVERIFY2_SUB(number.isValid(), qPrintable(QString("The camera has no %1 property").arg(property)));
+    auto widget = number.findWidgetByName(element.toLatin1().constData());
+    KVERIFY2_SUB(widget != nullptr, qPrintable(QString("%1 has no element %2").arg(property, element)));
+    widget->setValue(value);
+    camera->sendNewProperty(number);
+
+    // wait until the driver confirms the new value
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(std::abs(camera->getNumber(property.toLatin1().constData())
+                                          .findWidgetByName(element.toLatin1().constData())->getValue() - value) < 1e-6, 5000);
+    return true;
+}
+
+bool TestEkosCaptureWorkflow::openDarkLibrary(int count, QWidget *&darkLibraryDialog)
+{
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KVERIFY_SUB(capture != nullptr);
+    KTRY_CLICK_SUB(capture, darkLibraryB);
+    darkLibraryDialog = nullptr;
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(darkLibraryDialog = Ekos::Manager::Instance()->findChild<QWidget *>("DarkLibrary"), 2000);
+
+    KTRY_SET_COMBO_SUB(darkLibraryDialog, opticalTrainCombo, m_CaptureHelper->m_primaryTrain);
+    KTRY_SET_DOUBLESPINBOX_SUB(darkLibraryDialog, minExposureSpin, 1);
+    KTRY_SET_DOUBLESPINBOX_SUB(darkLibraryDialog, maxExposureSpin, 1);
+    KTRY_SET_SPINBOX_SUB(darkLibraryDialog, countSpin, count);
+    return true;
+}
+
+bool TestEkosCaptureWorkflow::runDarkLibrary(QWidget *darkLibraryDialog, int count, QString &master)
+{
+    auto camera = Ekos::OpticalTrainManager::Instance()->getCamera(m_CaptureHelper->m_primaryTrain);
+    KVERIFY_SUB(camera != nullptr);
+    const QString previous = newestMasterDark(camera->getDeviceName());
+
+    m_CaptureHelper->expectedCaptureStates.clear();
+    for (int i = 0; i < count; i++)
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+    KTRY_CLICK_SUB(darkLibraryDialog, startB);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates.isEmpty(), 30000 + count * 5000);
+
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(!(master = newestMasterDark(camera->getDeviceName())).isEmpty() && master != previous,
+                                 5000);
+    return true;
 }
 
 bool TestEkosCaptureWorkflow::prepareTestCase(bool flatsOnly)

@@ -103,6 +103,9 @@ class DefectMap : public QObject
         template <typename T>
         void initBadPixelsInternal(double hotPixelThreshold, double coldPixelThreshold);
 
+        // At most 1% of the pixels of the dark, but at least this many, are kept as hot and as cold candidates
+        static constexpr size_t MinimumCandidates {1000};
+
         BadPixelSet m_ColdPixels, m_HotPixels;
         BadPixelSet::const_iterator m_ColdPixelsThreshold, m_HotPixelsThreshold;
         uint8_t m_HotPixelsAggressiveness {75}, m_ColdPixelsAggressiveness {75};

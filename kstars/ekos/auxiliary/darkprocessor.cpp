@@ -78,39 +78,43 @@ void DarkProcessor::normalizeDefectsInternal(const QSharedPointer<DefectMap> &de
 {
 
     T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer());
-    const uint32_t width = lightData->width();
+    const int32_t width = lightData->width();
+    const int32_t height = lightData->height();
+    const uint32_t planeSize = lightData->samplesPerChannel();
+    const int channels = std::max(1, lightData->channels());
 
-    // Account for offset X and Y
-    // e.g. if we send a subframed light frame 100x100 pixels wide
-    // but the source defect map covers 1000x1000 pixels array, then we need to only compensate
-    // for the 100x100 region.
+    // On a raw colour frame the neighbours of a pixel have other colours, which have other levels. Replacing
+    // a defect with them would leave a pixel of the wrong colour, so use the same colour, two pixels away.
+    // A debayered frame keeps BAYERPAT in its header, but has a value of each colour for every pixel, even
+    // when only its first plane is in use (Guide, Focus and Align with the DC1394 engine).
+    QVariant bayerPattern;
+    const int32_t stride = (channels == 1 && !lightData->hasDebayer() && lightData->getRecordValue("BAYERPAT", bayerPattern) &&
+                            !bayerPattern.toString().trimmed().isEmpty()) ? 2 : 1;
+
+    // The defect map covers the whole sensor, while the light frame may be a subframe starting at
+    // offsetX, offsetY. Only the defects inside it are corrected, and only where all neighbours are
+    // inside it as well.
+    const auto correct = [&](const BadPixel & onePixel)
+    {
+        const int32_t x = static_cast<int32_t>(onePixel.x) - offsetX;
+        const int32_t y = static_cast<int32_t>(onePixel.y) - offsetY;
+        if (x < stride || y < stride || x >= width - stride || y >= height - stride)
+            return;
+
+        for (int channel = 0; channel < channels; channel++)
+        {
+            T *plane = lightBuffer + channel * planeSize;
+            plane[x + y * width] = medianFilter(x, y, width, stride, plane);
+        }
+    };
+
     for (BadPixelSet::const_iterator onePixel = defectMap->hotThreshold();
             onePixel != defectMap->hotPixels().cend(); ++onePixel)
-    {
-        const uint16_t x = (*onePixel).x;
-        const uint16_t y = (*onePixel).y;
-
-        if (x <= offsetX || y <= offsetY)
-            continue;
-
-        uint32_t offset = (x - offsetX) + (y - offsetY) * width;
-
-        lightBuffer[offset] = median3x3Filter(x - offsetX, y - offsetY, width, lightBuffer);
-    }
+        correct(*onePixel);
 
     for (BadPixelSet::const_iterator onePixel = defectMap->coldPixels().cbegin();
             onePixel != defectMap->coldThreshold(); ++onePixel)
-    {
-        const uint16_t x = (*onePixel).x;
-        const uint16_t y = (*onePixel).y;
-
-        if (x <= offsetX || y <= offsetY)
-            continue;
-
-        uint32_t offset = (x - offsetX) + (y - offsetY) * width;
-
-        lightBuffer[offset] = median3x3Filter(x - offsetX, y - offsetY, width, lightBuffer);
-    }
+        correct(*onePixel);
 
     lightData->calculateStats(true);
 
@@ -120,26 +124,20 @@ void DarkProcessor::normalizeDefectsInternal(const QSharedPointer<DefectMap> &de
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
 template <typename T>
-T DarkProcessor::median3x3Filter(uint16_t x, uint16_t y, uint32_t width, T *buffer)
+T DarkProcessor::medianFilter(int32_t x, int32_t y, uint32_t width, int32_t stride, const T *buffer)
 {
-    T *top = buffer + (y - 1) * width + (x - 1);
-    T *mid = buffer + (y - 0) * width + (x - 1);
-    T *bot = buffer + (y + 1) * width + (x - 1);
-
     std::array<T, 8> elements;
-
-    // Top
-    elements[0] = *(top + 0);
-    elements[1] = *(top + 1);
-    elements[2] = *(top + 2);
-    // Mid
-    elements[3] = *(mid + 0);
-    // Mid+1 is the defective value, so we skip and go for + 2
-    elements[4] = *(mid + 2);
-    // Bottom
-    elements[5] = *(bot + 0);
-    elements[6] = *(bot + 1);
-    elements[7] = *(bot + 2);
+    int i = 0;
+    for (int32_t dy = -stride; dy <= stride; dy += stride)
+    {
+        const T *row = buffer + (y + dy) * static_cast<int64_t>(width);
+        for (int32_t dx = -stride; dx <= stride; dx += stride)
+        {
+            // The center is the defective value
+            if (dx != 0 || dy != 0)
+                elements[i++] = row[x + dx];
+        }
+    }
 
     std::sort(elements.begin(), elements.end());
     auto median = (elements[3] + elements[4]) / 2;
@@ -149,9 +147,31 @@ T DarkProcessor::median3x3Filter(uint16_t x, uint16_t y, uint32_t width, T *buff
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkProcessor::subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData,
-                                     uint16_t offsetX, uint16_t offsetY)
+bool DarkProcessor::subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData,
+                                     uint16_t offsetX, uint16_t offsetY, QString *reason)
 {
+    // The buffers are walked plane by plane with the same element type, so the dark must provide every plane
+    // of the light. It may have more: Guide, Focus and Align use only the first plane of a debayered colour
+    // frame with the DC1394 engine, while the master dark is loaded for calibration with all three planes.
+    // A raw colour dark cannot be subtracted from a debayered light.
+    QString mismatch;
+    if (darkData->channels() < lightData->channels())
+        mismatch = i18n("The dark frame has %1 color channels while the frame being calibrated has %2.",
+                        darkData->channels(), lightData->channels());
+    else if (darkData->dataType() != lightData->dataType())
+        mismatch = i18n("The dark frame and the frame being calibrated have different data types.");
+    else if (offsetX + lightData->width() > darkData->width() || offsetY + lightData->height() > darkData->height())
+        mismatch = i18n("The dark frame is %1x%2 pixels and does not cover the %3x%4 frame at %5,%6.",
+                        darkData->width(), darkData->height(), lightData->width(), lightData->height(), offsetX, offsetY);
+
+    if (!mismatch.isEmpty())
+    {
+        qCWarning(KSTARS_EKOS) << "Dark frame not subtracted:" << mismatch;
+        if (reason)
+            *reason = mismatch;
+        return false;
+    }
+
     switch (darkData->dataType())
     {
         case TBYTE:
@@ -187,8 +207,12 @@ void DarkProcessor::subtractDarkData(const QSharedPointer<FITSData> &darkData, c
             break;
 
         default:
-            break;
+            if (reason)
+                *reason = i18n("Unsupported data type of the dark frame.");
+            return false;
     }
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -200,19 +224,27 @@ void DarkProcessor::subtractInternal(const QSharedPointer<FITSData> &darkData, c
 {
     const uint32_t width = lightData->width();
     const uint32_t height = lightData->height();
-    T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer());
+    const uint32_t lightPlaneSize = lightData->samplesPerChannel();
+    const uint32_t darkPlaneSize = darkData->samplesPerChannel();
+    const int channels = std::max(1, lightData->channels());
 
     const uint32_t darkStride = darkData->width();
     const uint32_t darkoffset = offsetX + offsetY * darkStride;
-    T const *darkBuffer  = reinterpret_cast<T const*>(darkData->getImageBuffer()) + darkoffset;
 
-    for (uint32_t y = 0; y < height; y++)
+    // A debayered frame has one plane per color, all of them are calibrated
+    for (int channel = 0; channel < channels; channel++)
     {
-        for (uint32_t x = 0; x < width; x++)
-            lightBuffer[x] = (lightBuffer[x] > darkBuffer[x]) ? (lightBuffer[x] - darkBuffer[x]) : 0;
+        T *lightBuffer = reinterpret_cast<T *>(lightData->getWritableImageBuffer()) + channel * lightPlaneSize;
+        T const *darkBuffer  = reinterpret_cast<T const*>(darkData->getImageBuffer()) + channel * darkPlaneSize + darkoffset;
 
-        lightBuffer += width;
-        darkBuffer += darkStride;
+        for (uint32_t y = 0; y < height; y++)
+        {
+            for (uint32_t x = 0; x < width; x++)
+                lightBuffer[x] = (lightBuffer[x] > darkBuffer[x]) ? (lightBuffer[x] - darkBuffer[x]) : 0;
+
+            lightBuffer += width;
+            darkBuffer += darkStride;
+        }
     }
 
     lightData->calculateStats(true);
@@ -311,7 +343,11 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
             emitNoDarkMessage();
             return false;
         }
-        subtractDarkData(darkData, info.targetData, info.offsetX, info.offsetY);
+        if (!subtractDarkData(darkData, info.targetData, info.offsetX, info.offsetY, &darkFailureReason))
+        {
+            emitNoDarkMessage();
+            return false;
+        }
         qCDebug(KSTARS_EKOS) << "Dark frame subtraction applied";
         return true;
     }

@@ -189,6 +189,13 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void aggregate(const QSharedPointer<FITSData> &data);
 
         /**
+         * @brief resetMasterBuffer Discard the frames summed for the master dark being built. Called when a run starts,
+         * is stopped or aborted, and after a master dark was generated, so that frames of one run never end up in the
+         * master dark of another.
+         */
+        void resetMasterBuffer();
+
+        /**
          * @brief aggregate Aggregate the data as per the selected algorithm. Each time a new dark frame is received, this function
          * adds the frame data to the dark buffer.
          * @param data Dark frame data.
@@ -295,7 +302,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QSqlTableModel *darkFramesModel = nullptr;
         QSortFilterProxyModel *sortFilter = nullptr;
 
+        // Sum of the dark frames of the master being built, and how many frames it holds
         std::vector<uint32_t> m_DarkMasterBuffer;
+        uint32_t m_DarkMasterFrames {0};
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};

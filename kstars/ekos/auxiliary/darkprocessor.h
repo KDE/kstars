@@ -67,9 +67,12 @@ class DarkProcessor : public QObject
         * @param lightData passes list frame data to templerated subtract function.
         * @param offsetX passes offsetX to templerated subtract function.
         * @param offsetY passes offsetY to templerated subtract function.
+        * @param reason if not null, set to why the dark could not be subtracted
+        * @return false if the dark does not match the light (fewer color channels, data type or size), which is then left
+        * unchanged. Only the light's channels are subtracted, so a dark with more channels than the light is accepted.
         */
-        void subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData,
-                              uint16_t offsetX, uint16_t offsetY);
+        bool subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData,
+                              uint16_t offsetX, uint16_t offsetY, QString *reason = nullptr);
 
         /**
         * @brief subtract Subtracts dark pixels from light pixels given the supplied parameters
@@ -87,8 +90,9 @@ class DarkProcessor : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         /**
-        * @brief normalizeDefects Remove defects from LIGHT image by replacing bad pixels with a 3x3 median filter around
-        * them.
+        * @brief normalizeDefects Remove defects from LIGHT image by replacing bad pixels with the median of their
+        * 8 neighbours. On a raw colour (Bayer) frame the neighbours of the same colour are used, two pixels away.
+        * A debayered frame is corrected in all its color planes.
         * @param defectMap Defect Map containing a list of hot and cold pixels.
         * @param lightData Target light data to remove noise from.
         * @param offsetX Only apply filtering beyond offsetX in X-axis.
@@ -101,8 +105,13 @@ class DarkProcessor : public QObject
         void normalizeDefectsInternal(const QSharedPointer<DefectMap> &defectMap, const QSharedPointer<FITSData> &lightData,
                                       uint16_t offsetX, uint16_t offsetY);
 
+        /**
+        * @brief medianFilter Median of the 8 neighbours of a pixel at the given distance
+        * @param stride distance of the neighbours: 1 for adjacent pixels, 2 for the same colour on a Bayer frame.
+        * The caller makes sure that all neighbours lie inside the frame.
+        */
         template <typename T>
-        T median3x3Filter(uint16_t x, uint16_t y, uint32_t width, T *buffer);
+        T medianFilter(int32_t x, int32_t y, uint32_t width, int32_t stride, const T *buffer);
 
     Q_SIGNALS:
         void darkFrameCompleted(bool);

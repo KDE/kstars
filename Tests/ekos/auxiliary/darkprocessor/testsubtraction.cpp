@@ -16,6 +16,14 @@
 #include <QObject>
 #include "fitsviewer/fitsdata.h"
 #include "ekos/auxiliary/darkprocessor.h"
+#include "darkframes.h"
+#include "Options.h"
+
+#include <QScopeGuard>
+#include "../../../testhelpers.h"
+
+using DarkFrames::makeFrame;
+using DarkFrames::pixel;
 
 class TestSubtraction : public QObject
 {
@@ -26,8 +34,94 @@ class TestSubtraction : public QObject
         ~TestSubtraction() override = default;
 
     private Q_SLOTS:
+        void initTestCase();
+        void cleanupTestCase();
+
         void basicTest();
+        /** @brief A debayered light must have the dark subtracted from all three planes */
+        void multiChannelTest();
+        /** @brief A dark with a different number of channels than the light must not be subtracted */
+        void channelMismatchTest();
+        /** @brief A colour guide frame (debayered, one plane in use) must still get its 3-plane master dark subtracted */
+        void guideModeColourTest();
 };
+
+void TestSubtraction::guideModeColourTest()
+{
+    // Guide, Focus and Align debayer a colour frame but only use its first plane, while the master dark
+    // is loaded for calibration with all three planes
+    // With the DC1394 engine they keep only the first plane; the OpenCV engine keeps all three.
+    const bool autoDebayer = Options::autoDebayer();
+    const int engine = Options::imageDebayerEngine();
+    Options::setAutoDebayer(true);
+    Options::setImageDebayerEngine(static_cast<int>(DebayerEngine::DC1394));
+    auto restore = qScopeGuard([autoDebayer, engine]()
+    {
+        Options::setAutoDebayer(autoDebayer);
+        Options::setImageDebayerEngine(engine);
+    });
+
+    const int width = 64, height = 48;
+    auto dark = makeFrame(width, height, QVector<quint16>(width * height, 100), 1, "RGGB", FITS_CALIBRATE);
+    auto light = makeFrame(width, height, QVector<quint16>(width * height, 1000), 1, "RGGB", FITS_GUIDE);
+    QVERIFY(dark && light);
+    QCOMPARE(dark->channels(), 3);
+    QCOMPARE(light->channels(), 1);
+
+    Ekos::DarkProcessor processor;
+    QVERIFY(processor.subtractDarkData(dark, light, 0, 0));
+    QCOMPARE(static_cast<int>(pixel(light, 0, 20, 20)), 900);
+}
+
+void TestSubtraction::initTestCase()
+{
+    KTEST_BEGIN();
+}
+
+void TestSubtraction::cleanupTestCase()
+{
+    KTEST_END();
+}
+
+void TestSubtraction::multiChannelTest()
+{
+    const int width = 32, height = 24;
+    QVector<quint16> darkValues(width * height * 3), lightValues(width * height * 3);
+    for (int plane = 0; plane < 3; plane++)
+        for (int i = 0; i < width * height; i++)
+        {
+            darkValues[plane * width * height + i] = 100 + plane;
+            lightValues[plane * width * height + i] = 1000 * (plane + 1);
+        }
+
+    auto dark = makeFrame(width, height, darkValues, 3);
+    auto light = makeFrame(width, height, lightValues, 3);
+    QVERIFY(dark && light);
+    QCOMPARE(light->channels(), 3);
+
+    Ekos::DarkProcessor processor;
+    QVERIFY(processor.subtractDarkData(dark, light, 0, 0));
+
+    const QList<QPoint> points { QPoint(0, 0), QPoint(17, 9), QPoint(width - 1, height - 1) };
+    for (int plane = 0; plane < 3; plane++)
+        for (const auto &p : points)
+            QCOMPARE(static_cast<int>(pixel(light, plane, p.x(), p.y())), 1000 * (plane + 1) - (100 + plane));
+}
+
+void TestSubtraction::channelMismatchTest()
+{
+    const int width = 32, height = 24;
+    auto dark = makeFrame(width, height, QVector<quint16>(width * height, 100), 1);
+    auto light = makeFrame(width, height, QVector<quint16>(width * height * 3, 1000), 3);
+    QVERIFY(dark && light);
+
+    Ekos::DarkProcessor processor;
+    QVERIFY(!processor.subtractDarkData(dark, light, 0, 0));
+
+    // the light is left as it was
+    for (int plane = 0; plane < 3; plane++)
+        QCOMPARE(static_cast<int>(pixel(light, plane, 5, 5)), 1000);
+}
 
 #include "testsubtraction.moc"
 

@@ -145,6 +145,24 @@ class TestEkosCaptureWorkflow : public QObject
          */
         bool prepareTestCase(bool flatsOnly = false);
 
+        /**
+         * @brief Set one element of a number property of the primary train's camera and wait until
+         *        the driver confirms it.
+         */
+        bool setCameraNumber(const QString &property, const QString &element, double value);
+
+        /**
+         * @brief Open the Dark Library dialog for the primary train, set to capture count 1 s darks at 1x1.
+         * @param darkLibraryDialog set to the dialog
+         */
+        bool openDarkLibrary(int count, QWidget * &darkLibraryDialog);
+
+        /**
+         * @brief Start a Dark Library run of count frames and wait until its master dark is recorded.
+         * @param master set to the file name of the new master dark
+         */
+        bool runDarkLibrary(QWidget *darkLibraryDialog, int count, QString &master);
+
     private:
         // helper class
         TestEkosCaptureHelper *m_CaptureHelper = nullptr;
@@ -456,6 +474,18 @@ class TestEkosCaptureWorkflow : public QObject
          * @brief Test capturing a simple darks library
          */
         void testDarksLibrary();
+
+        /**
+         * @brief A Dark Library run that was stopped must not leave its frames behind: the master dark of the
+         *        next run must have the bias level of a single dark frame.
+         */
+        void testDarksLibraryAfterAbortedRun();
+
+        /**
+         * @brief A defect map generated in the Dark Library from a master dark of a sensor with hot and cold
+         *        pixels (simulated by the CCD simulator) must remove all of them.
+         */
+        void testDarksLibraryDefectMap();
 
         /**
          * @brief testLoadEsqFile Test for correctly loading a capture sequence file. This test case concentrates
