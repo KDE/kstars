@@ -1886,6 +1886,113 @@ void TestEkosSchedulerOps::testSlewRestartLimit()
     }
 }
 
+// Regression test: the guiding stage timeout (CaptureOperationsTimeout) must count each job run on its own.
+// A scheduler stop during the guiding stage (e.g. during a long calibration) doesn't go through findNextJob(),
+// which used to be the only place apart from a successful guiding start that reset the timer. The next run
+// then aborted its guiding right after "Starting guiding procedure", as the time since the stopped run's
+// guiding start was already over the limit. The timeout itself must still work in the new run.
+void TestEkosSchedulerOps::testGuidingTimeoutAfterStopDuringGuiding()
+{
+    const uint timeoutS = Options::captureOperationsTimeout();
+    Options::setCaptureOperationsTimeout(300);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, this, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    // The guider calibrates and never gets to guiding, as with a slow calibration on a new mount.
+    guider->calibrationStuck = true;
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               m_completionCondition, {true, true, true, true}, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+    Ekos::SchedulerJob *job = nullptr;
+
+    // Answer the mount, focus and align steps until the job is in its guiding stage.
+    const auto runUntilGuiding = [&](const QString & label) -> bool
+    {
+        WithInterval interval(1000, scheduler);
+        return iterateScheduler(label, DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+                mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+            if (focuser->status() == Ekos::FOCUS_PROGRESS)
+                focuser->setStatus(Ekos::FOCUS_COMPLETE);
+            if (align->status() == Ekos::ALIGN_PROGRESS)
+                align->setStatus(Ekos::ALIGN_COMPLETE);
+            if (scheduler->activeJob() == nullptr || scheduler->activeJob()->getStage() != Ekos::SCHEDSTAGE_GUIDING ||
+                    guider->status() != Ekos::GUIDE_CALIBRATING)
+                return false;
+            job = scheduler->activeJob();
+            return true;
+        });
+    };
+    const QString timeoutLine = QString("Warning: job '%1' guiding stage exceeded operations timeout").arg(altair->name());
+    const auto timedOut = [&]()
+    {
+        return !m_schedulerLog.filter(timeoutLine).isEmpty();
+    };
+
+    // First run: calibrate for a minute, then stop the scheduler, as the user does.
+    QVERIFY(runUntilGuiding("Wait for Guiding Stage"));
+    {
+        WithInterval interval(1000, scheduler);
+        QVERIFY(!iterateScheduler("Calibrate before Stop", 60, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return (job->getStage() != Ekos::SCHEDSTAGE_GUIDING);
+        }));
+    }
+    scheduler->process()->stop();
+    QCOMPARE(scheduler->moduleState()->schedulerState(), Ekos::SCHEDULER_IDLE);
+    QCOMPARE(job->getState(), Ekos::SCHEDJOB_ABORTED);
+    QVERIFY(!timedOut());
+
+    // Restart more than the timeout after the first guiding start, as Start does. start() also arms the
+    // scheduler's own iteration timer; disconnect it so that the test keeps stepping the scheduler alone.
+    currentUTime = currentUTime.addSecs(Options::captureOperationsTimeout() + 60);
+    KStarsData::Instance()->changeDateTime(currentUTime);
+    guider->setStatus(Ekos::GUIDE_IDLE);
+    scheduler->process()->start();
+    QObject::disconnect(&scheduler->moduleState()->iterationTimer(), &QTimer::timeout,
+                        scheduler->process().data(), &Ekos::SchedulerProcess::iterate);
+
+    // Second run: the job gets to its guiding stage again and calibrates without being aborted.
+    Ekos::SchedulerJob * const firstRunJob = job;
+    job = nullptr;
+    QVERIFY(runUntilGuiding("Wait for Guiding Stage after Restart"));
+    QCOMPARE(job, firstRunJob);
+    {
+        WithInterval interval(1000, scheduler);
+        QVERIFY2(!iterateScheduler("Calibrate after Restart", 60, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return timedOut() || job->getStage() != Ekos::SCHEDSTAGE_GUIDING;
+        }), qPrintable(QString("Guiding of the restarted job ended early: state %1, stage %2, log: %3")
+                       .arg(Ekos::SchedulerJob::jobStatusString(job->getState()),
+                            Ekos::SchedulerJob::jobStageString(job->getStage()), m_schedulerLog.join(" | "))));
+        QCOMPARE(job->getState(), Ekos::SCHEDJOB_BUSY);
+
+        // The safety net still ends a guiding stage that takes longer than the timeout in this run.
+        QVERIFY2(iterateScheduler("Wait for Guiding Timeout", Options::captureOperationsTimeout() + 30, &sleepMs,
+                                  &currentUTime, [&]() -> bool
+        {
+            return timedOut();
+        }), "The guiding stage timeout didn't end the restarted job's calibration.");
+    }
+    QCOMPARE(job->getState(), Ekos::SCHEDJOB_ERROR);
+
+    Options::setCaptureOperationsTimeout(timeoutS);
+}
+
 void TestEkosSchedulerOps::testPreemptiveShutdown()
 {
     // Verifies the preemptive shutdown + automatic wakeup cycle for a FINISH_LOOP job.

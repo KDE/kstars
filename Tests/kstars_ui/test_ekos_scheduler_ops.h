@@ -85,6 +85,7 @@ class TestEkosSchedulerOps : public QObject
         void testSlewSwitchesTrackingOn();
         void testSlewRestartLimit_data();
         void testSlewRestartLimit();
+        void testGuidingTimeoutAfterStopDuringGuiding();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
 
         // The shutdown and the park before sleeping wait for a meridian flip or a slew to finish.

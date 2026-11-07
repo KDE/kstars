@@ -3243,6 +3243,11 @@ bool SchedulerProcess::executeJob(SchedulerJob * job)
     // so that the next shutdown or park gets its full wait time
     m_mountMotionWaitStart = QDateTime();
 
+    // Each job run gets the full guiding stage time. A stop or pause during the guiding stage doesn't go
+    // through findNextJob(), so the timer of the interrupted run would otherwise still be running and the
+    // next run would abort its guiding at once.
+    moduleState()->resetGuidingStageTimer();
+
     if (job->getCompletionCondition() == FINISH_SEQUENCE && Options::rememberJobProgress())
         captureInterface()->setProperty("targetName", job->getName());
 
