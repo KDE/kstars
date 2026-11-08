@@ -2879,7 +2879,7 @@ void Message::processDiagnosisCommands(const QString &command, const QJsonObject
     if (!diagnosis)
         return;
 
-    if (command == commands[DIAGNOSIS_GET])
+    if (command == commands[DIAGNOSIS_GET] || command == commands[DIAGNOSIS_CHECK])
     {
         const QString module = payload["module"].toString();
         const QString train = payload["train"].toString();
@@ -2892,7 +2892,10 @@ void Message::processDiagnosisCommands(const QString &command, const QJsonObject
             diagnosis->refresh(module, false);
         }
 
-        for (const auto &report : diagnosis->reportsJson(module, train))
+        // A check-up when nothing failed: the module's failure report if it has one, else a new check-up
+        const QJsonArray reports = command == commands[DIAGNOSIS_CHECK] ? diagnosis->checkup(module, train)
+                                   : diagnosis->reportsJson(module, train);
+        for (const auto &report : reports)
             sendResponse(commands[EKOS_DIAGNOSIS], report.toObject());
     }
     // Progress and results go out on ekos_diagnosis_update

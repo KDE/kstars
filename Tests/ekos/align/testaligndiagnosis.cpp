@@ -6,7 +6,8 @@
 
 /*
  * Tests for the Align failure rules: one data row per rule of the catalog, facts in, item ids and order out.
- * Also the evidence, the ruled out and not checked lines, the tried and dismissed filtering and the reason keys.
+ * Also the evidence, the ruled out and not checked lines, the tried and dismissed filtering and the reason keys,
+ * how likely each item is, and the check-up when nothing failed.
  */
 
 #include "ekos/align/aligndiagnosis.h"
@@ -36,6 +37,10 @@ class TestAlignDiagnosis : public QObject
         void testClock();
         void testEvidence();
         void testReasonKeys();
+        void testLikelihood();
+        void testCheckup();
+        void testCheckupItems_data();
+        void testCheckupItems();
 
     private:
         /** Facts of a working setup: every check passes. */
@@ -340,7 +345,8 @@ void TestAlignDiagnosis::testRules_data()
     facts.reducer = 0.3;
     QTest::newRow("AL3 reducer") << facts << QStringList({"train_check_reducer"});
 
-    // Order: hardware, then configuration, then data, then tuning; blockers before warnings
+    // Order: likely causes first (here the trails and the missing index files), then possible ones;
+    // within the same likelihood blockers before warnings, then hardware, configuration, data and tuning
     facts = withReason(AlignFailReason::SolverFailed);
     facts.image->verdict = ImageVerdict::Trailed;
     facts.image->trailLength = 75;
@@ -351,12 +357,55 @@ void TestAlignDiagnosis::testRules_data()
     facts.mountUtc = facts.mountUtcReceived.addSecs(600);
     facts.installedSizes.clear();
     {
-        QStringList expected({"mount_tracking_on", "mount_time_sync"});
+        QStringList expected({"mount_tracking_on"});
         for (int size : facts.requiredSizes)
             expected << QString("index_install_%1").arg(size, 2, 10, QLatin1Char('0'));
-        expected << "solver_profile_default" << "train_check_reducer";
+        expected << "mount_time_sync" << "solver_profile_default" << "train_check_reducer";
         QTest::newRow("order") << facts << expected;
     }
+
+    // Few stars in a short exposure explain the failure better than a clock that is off: they come first,
+    // although the clock is a configuration item and the exposure a data item
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.exposure = 2;
+    facts.image->verdict = ImageVerdict::FewStars;
+    facts.image->stars = 4;
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.profile = "2-SingleThreadSolving";
+    QTest::newRow("order by likelihood") << facts
+                                         << QStringList({"align_exposure_5s", "align_bin_max", "mount_time_sync", "solver_profile_default"});
+
+    // A mount that disconnected keeps its last position: Align goes on and fails later
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountConnected = false;
+    QTest::newRow("solver failed, mount disconnected") << facts << QStringList({"mount_connect"});
+
+    facts = withReason(AlignFailReason::SlewAlert);
+    facts.slewErrors = 3;
+    facts.mountConnected = false;
+    QTest::newRow("slew alerts, mount disconnected") << facts << QStringList({"mount_connect", "slew_rejected_by_mount"});
+
+    facts = withReason(AlignFailReason::CaptureError);
+    facts.captureErrors = 3;
+    facts.cameraConnected = false;
+    QTest::newRow("capture errors, camera disconnected") << facts << QStringList({"camera_connect", "check_camera_usb_power"});
+
+    // The default profile also for a timeout
+    facts = withReason(AlignFailReason::SolverTimeout);
+    facts.attempts.last().timedOut = true;
+    facts.profile = "2-SingleThreadSolving";
+    QTest::newRow("solver timeout, custom profile") << facts << QStringList({"solver_timeout_raise", "solver_profile_default"});
+
+    // KStars does not keep the mount time: it becomes the time source
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.timeSource = "Mount";
+    QTest::newRow("mount clock off, time source mount") << facts << QStringList({"mount_time_source_kstars"});
+
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.timeUpdate = false;
+    QTest::newRow("mount clock off, no time updates") << facts << QStringList({"mount_time_source_kstars"});
 
     // Nothing specific
     facts = withReason(AlignFailReason::SolverFailed);
@@ -628,6 +677,259 @@ void TestAlignDiagnosis::testReasonKeys()
     QCOMPARE(static_cast<int>(AlignFailReason::MountParked), 23);
     QCOMPARE(static_cast<int>(AlignFailReason::UserAbort), 29);
     QCOMPARE(alignFailReasonKey(AlignFailReason::MountParked), QString("mount_parked"));
+}
+
+void TestAlignDiagnosis::testLikelihood()
+{
+    auto likelihoodOf = [](const Report & report, const QString & id)
+    {
+        const Item *item = findItem(report, id);
+        return item ? likelihoodKey(item->likelihood) : QString("missing");
+    };
+
+    // The failure reason names the device
+    auto facts = withReason(AlignFailReason::CameraDisconnected);
+    facts.cameraConnected = false;
+    QCOMPARE(likelihoodOf(AlignDiagnosis::diagnose(facts), "camera_connect"), QString("likely"));
+
+    facts = withReason(AlignFailReason::SyncAlert);
+    facts.canSync = false;
+    Report report = AlignDiagnosis::diagnose(facts);
+    QCOMPARE(likelihoodOf(report, "slew_rejected_by_mount"), QString("likely"));
+    QCOMPARE(likelihoodOf(report, "mount_no_sync"), QString("possible"));
+
+    // A missing value is the cause; plausible values are only suspects
+    facts = withReason(AlignFailReason::MissingOptics);
+    facts.focalLength = 0;
+    QCOMPARE(likelihoodOf(AlignDiagnosis::diagnose(facts), "train_set_optics"), QString("likely"));
+    facts = withReason(AlignFailReason::FovOutOfBounds);
+    facts.pixelW = facts.pixelH = 0.001;
+    report = AlignDiagnosis::diagnose(facts);
+    QCOMPARE(likelihoodOf(report, "train_set_optics"), QString("possible"));
+    QCOMPARE(likelihoodOf(report, "camera_set_pixel_size"), QString("possible"));
+
+    // Missing index files and a frame known to hold few stars
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.installedSizes.clear();
+    facts.exposure = 1;
+    facts.image->verdict = ImageVerdict::FewStars;
+    facts.image->stars = 4;
+    report = AlignDiagnosis::diagnose(facts);
+    QCOMPARE(likelihoodOf(report, QString("index_install_%1").arg(facts.requiredSizes.first(), 2, 10, QLatin1Char('0'))),
+             QString("likely"));
+    QCOMPARE(likelihoodOf(report, "align_exposure_5s"), QString("likely"));
+    QCOMPARE(likelihoodOf(report, "align_bin_max"), QString("likely"));
+
+    // Unknown star count: only possible
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.exposure = 1;
+    facts.image.reset();
+    facts.attempts.clear();
+    report = AlignDiagnosis::diagnose(facts);
+    QCOMPARE(likelihoodOf(report, "align_exposure_5s"), QString("possible"));
+    QCOMPARE(likelihoodOf(report, "align_bin_max"), QString("possible"));
+
+    // The measured frame shows the problem
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::OutOfFocus;
+    facts.image->concentration = 2.1;
+    QCOMPARE(likelihoodOf(AlignDiagnosis::diagnose(facts), "check_focus"), QString("likely"));
+
+    // Clocks, profile and reducer fit a failure but do not prove it; a narrow field is advice
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.profile = "2-SingleThreadSolving";
+    facts.reducer = 0.3;
+    facts.fovW = 12;
+    facts.fovH = 8;
+    facts.requiredSizes = IndexFiles::requiredIndexSizes(12);
+    facts.installedSizes = facts.requiredSizes;
+    report = AlignDiagnosis::diagnose(facts);
+    QCOMPARE(likelihoodOf(report, "mount_time_sync"), QString("possible"));
+    QCOMPARE(likelihoodOf(report, "solver_profile_default"), QString("possible"));
+    QCOMPARE(likelihoodOf(report, "train_check_reducer"), QString("possible"));
+    QCOMPARE(likelihoodOf(report, "fov_narrow"), QString("check"));
+
+    // A solver timeout: raising the timeout is likely
+    facts = withReason(AlignFailReason::SolverTimeout);
+    facts.attempts.last().timedOut = true;
+    QCOMPARE(likelihoodOf(AlignDiagnosis::diagnose(facts), "solver_timeout_raise"), QString("likely"));
+
+    // The first item of every report is its most likely one
+    for (int value = static_cast<int>(AlignFailReason::NoMountCoords); value < static_cast<int>(AlignFailReason::UserAbort);
+            value++)
+    {
+        report = AlignDiagnosis::diagnose(withReason(static_cast<AlignFailReason>(value)));
+        for (int i = 1; i < report.items.size(); i++)
+            QVERIFY2(report.items[i - 1].likelihood <= report.items[i].likelihood, qPrintable(report.reasonKey));
+    }
+}
+
+void TestAlignDiagnosis::testCheckup()
+{
+    // A setup that just solved with these settings: nothing to suggest
+    auto facts = healthy();
+    facts.attempts.last().success = true;
+    facts.attempts.last().exposure = facts.exposure;
+    facts.attempts.last().binning = facts.binIndex + 1;
+    facts.attempts.last().profile = facts.profile;
+    Report report = AlignDiagnosis::checkup(facts);
+    QVERIFY(isCheckup(report));
+    QCOMPARE(report.reasonKey, QString("checkup"));
+    QCOMPARE(report.reason, 0);
+    QCOMPARE(report.module, QString("align"));
+    QCOMPARE(report.train, QString("Primary"));
+    QVERIFY(report.items.isEmpty());
+    QCOMPARE(report.title, QString("Align looks ready"));
+    const QString ruledOut = report.ruledOut.join(" ");
+    QVERIFY(ruledOut.contains("camera CCD Simulator is connected"));
+    QVERIFY(ruledOut.contains("mount is connected"));
+    QVERIFY(ruledOut.contains("Focal length, aperture and pixel size are set"));
+    QVERIFY(ruledOut.contains("Index files for this field of view are installed"));
+    QVERIFY(ruledOut.contains("mount clock matches"));
+    QVERIFY(ruledOut.contains("Align solved"));
+
+    // A failure reason in the facts does not matter
+    facts.reason = AlignFailReason::SolverFailed;
+    QVERIFY(AlignDiagnosis::checkup(facts).items.isEmpty());
+
+    // The same exposure no longer solved with: suggestions again
+    facts.exposure = 2;
+    report = AlignDiagnosis::checkup(facts);
+    QCOMPARE(ids(report), QStringList({"align_exposure_5s", "align_bin_max"}));
+    QCOMPARE(report.title, QString("2 things to check"));
+    for (const auto &item : report.items)
+    {
+        // Nothing failed: suggestions only, and Align is never started by itself
+        QVERIFY2(!item.autoRetry, qPrintable(item.id));
+        QCOMPARE(item.likelihood, Likelihood::Possible);
+    }
+
+    // Dismissed items are not offered
+    report = AlignDiagnosis::checkup(facts, {"align_bin_max"});
+    QCOMPARE(ids(report), QStringList({"align_exposure_5s"}));
+
+    // Evidence of what was looked at
+    QHash<QString, Evidence> byKey;
+    for (const auto &evidence : report.evidence)
+        byKey.insert(evidence.key, evidence);
+    QCOMPARE(byKey["exposure"].value.toDouble(), 2.0);
+    QCOMPARE(byKey["binning"].value.toString(), QString("1x1"));
+    QVERIFY(byKey.contains("fov"));
+}
+
+void TestAlignDiagnosis::testCheckupItems_data()
+{
+    QTest::addColumn<AlignFacts>("facts");
+    QTest::addColumn<QStringList>("expected");
+
+    // Solved with these settings, so only the setup itself is checked
+    AlignFacts solved = healthy();
+    solved.attempts.last().success = true;
+    solved.attempts.last().exposure = solved.exposure;
+    solved.attempts.last().binning = 1;
+    solved.attempts.last().profile = solved.profile;
+
+    AlignFacts facts = solved;
+    facts.hasCamera = false;
+    QTest::newRow("no camera") << facts << QStringList({"train_select_camera"});
+
+    facts = solved;
+    facts.cameraConnected = false;
+    facts.pixelW = facts.pixelH = 0;
+    // The driver reports the pixel size once connected: connect first
+    QTest::newRow("camera disconnected") << facts << QStringList({"camera_connect"});
+
+    // A mount is optional, a disconnected one is not; its clock is not checked
+    facts = solved;
+    facts.hasMount = false;
+    QTest::newRow("no mount") << facts << QStringList();
+
+    facts = solved;
+    facts.mountConnected = false;
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    QTest::newRow("mount disconnected") << facts << QStringList({"mount_connect"});
+
+    facts = solved;
+    facts.mountCoordsValid = false;
+    QTest::newRow("mount without coordinates") << facts << QStringList({"mount_check_coords"});
+
+    facts = solved;
+    facts.focalLength = 0;
+    facts.pixelW = facts.pixelH = -1;
+    QTest::newRow("optics and pixel size missing") << facts << QStringList({"train_set_optics", "camera_set_pixel_size"});
+
+    facts = solved;
+    facts.externalSolverMissing = true;
+    QTest::newRow("external solver missing") << facts << QStringList({"solver_check_external"});
+
+    facts = solved;
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    QTest::newRow("mount clock off") << facts << QStringList({"mount_time_sync"});
+
+    facts = solved;
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.timeSource = "Mount";
+    QTest::newRow("mount clock off, time source mount") << facts << QStringList({"mount_time_source_kstars"});
+
+    facts = solved;
+    facts.clientUtc = facts.kstarsUtc.addSecs(600);
+    QTest::newRow("KStars clock off") << facts << QStringList({"kstars_clock_wrong"});
+
+    // Not solved with these settings: the settings of the Doc's table
+    facts = healthy();
+    facts.exposure = 1;
+    facts.profile = "2-SingleThreadSolving";
+    QTest::newRow("settings") << facts << QStringList({"align_exposure_5s", "align_bin_max", "solver_profile_default"});
+
+    // The reducer and a narrow field are checked even after a solve
+    facts = solved;
+    facts.reducer = 0.3;
+    QTest::newRow("reducer") << facts << QStringList({"train_check_reducer"});
+
+    facts = solved;
+    facts.fovW = 12;
+    facts.fovH = 8;
+    facts.requiredSizes = IndexFiles::requiredIndexSizes(12);
+    facts.installedSizes = facts.requiredSizes;
+    QTest::newRow("narrow field") << facts << QStringList({"fov_narrow"});
+
+    // Most likely first: the disconnected camera and the missing index files, then the clock, then the hints
+    facts = healthy();
+    facts.cameraConnected = false;
+    facts.installedSizes.clear();
+    facts.mountUtc = facts.mountUtcReceived.addSecs(600);
+    facts.exposure = 1;
+    facts.reducer = 3;
+    {
+        QStringList expected({"camera_connect"});
+        for (int size : facts.requiredSizes)
+            expected << QString("index_install_%1").arg(size, 2, 10, QLatin1Char('0'));
+        expected << "mount_time_sync" << "align_exposure_5s" << "align_bin_max" << "train_check_reducer";
+        QTest::newRow("order") << facts << expected;
+    }
+}
+
+void TestAlignDiagnosis::testCheckupItems()
+{
+    QFETCH(AlignFacts, facts);
+    QFETCH(QStringList, expected);
+
+    const Report report = AlignDiagnosis::checkup(facts);
+    QCOMPARE(ids(report), expected);
+    QVERIFY(isCheckup(report));
+    QVERIFY(!report.title.isEmpty());
+
+    for (const auto &item : report.items)
+    {
+        QVERIFY2(!item.autoRetry, qPrintable(item.id));
+        QVERIFY2(!item.title.isEmpty(), qPrintable(item.id));
+        QVERIFY2(!item.why.isEmpty(), qPrintable(item.id));
+        if (item.kind == Kind::Manual)
+            QVERIFY2(!item.steps.isEmpty(), qPrintable(item.id));
+        if (item.kind == Kind::Open)
+            QVERIFY2(!item.openTarget.isEmpty(), qPrintable(item.id));
+    }
 }
 
 QTEST_GUILESS_MAIN(TestAlignDiagnosis)

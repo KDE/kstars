@@ -17,15 +17,42 @@ namespace Ekos
 namespace Diagnosis
 {
 
+namespace
+{
+// What applying an item costs: settings first, then downloads, then moving equipment
+int costRank(const Item &item)
+{
+    if (item.cost.testFlag(MovesHardware))
+        return 2;
+    if (item.cost.testFlag(NeedsInternet))
+        return 1;
+    return 0;
+}
+}
+
 void order(QList<Item> &items)
 {
     std::stable_sort(items.begin(), items.end(), [](const Item & a, const Item & b)
     {
+        if (a.likelihood != b.likelihood)
+            return static_cast<int>(a.likelihood) < static_cast<int>(b.likelihood);
+        // Blockers before warnings
+        if (a.blocker != b.blocker)
+            return a.blocker;
         if (a.tier != b.tier)
             return static_cast<int>(a.tier) < static_cast<int>(b.tier);
-        // Blockers before warnings
-        return a.blocker && !b.blocker;
+        return costRank(a) < costRank(b);
     });
+}
+
+QString checkupReasonKey()
+{
+    return QStringLiteral("checkup");
+}
+
+bool isCheckup(const Report &report)
+{
+    return report.reasonKey == checkupReasonKey();
 }
 
 const Item *findItem(const Report &report, const QString &itemId)
@@ -54,6 +81,20 @@ QString kindKey(Kind kind)
             break;
     }
     return QStringLiteral("info");
+}
+
+QString likelihoodKey(Likelihood likelihood)
+{
+    switch (likelihood)
+    {
+        case Likelihood::Likely:
+            return QStringLiteral("likely");
+        case Likelihood::Possible:
+            break;
+        case Likelihood::Check:
+            return QStringLiteral("check");
+    }
+    return QStringLiteral("possible");
 }
 
 QString levelKey(Evidence::Level level)
@@ -111,6 +152,7 @@ QJsonObject toJson(const Item &item)
     {
         {"id", item.id},
         {"kind", kindKey(item.kind)},
+        {"likelihood", likelihoodKey(item.likelihood)},
         {"tier", static_cast<int>(item.tier)},
         {"blocker", item.blocker},
         {"autoRetry", item.autoRetry},
@@ -168,7 +210,15 @@ QStringList toLogLines(const Report &report, const QString &moduleName)
 {
     QStringList lines;
 
-    if (report.summary.isEmpty())
+    if (isCheckup(report))
+    {
+        if (report.summary.isEmpty())
+            lines << i18nc("%1 module name, %2 result", "%1 check-up: %2", moduleName, report.title);
+        else
+            lines << i18nc("%1 module name, %2 result, %3 explanation", "%1 check-up: %2. %3", moduleName, report.title,
+                           report.summary);
+    }
+    else if (report.summary.isEmpty())
         lines << i18nc("%1 module name, %2 cause", "%1 failed: %2", moduleName, report.title);
     else
         lines << i18nc("%1 module name, %2 cause, %3 explanation", "%1 failed: %2. %3", moduleName, report.title,
@@ -187,6 +237,8 @@ QStringList toLogLines(const Report &report, const QString &moduleName)
         for (const auto &item : report.items)
         {
             QStringList notes;
+            if (item.likelihood == Likelihood::Likely)
+                notes << i18n("likely cause");
             if (item.cost.testFlag(MovesHardware))
                 notes << i18n("moves equipment");
             if (item.cost.testFlag(NeedsInternet))

@@ -22,6 +22,7 @@ class TestDiagnosis : public QObject
 
     private slots:
         void testOrder();
+        void testOrderByLikelihood();
         void testFindItem();
         void testItemJson();
         void testReportJson();
@@ -58,8 +59,39 @@ void TestDiagnosis::testOrder()
     for (const auto &oneItem : items)
         ids << oneItem.id;
 
-    // Tier first, blockers before warnings, and equal items keep their order
-    QCOMPARE(ids, QStringList({"hw_blocker_1", "hw_blocker_2", "hw_warning", "config", "config_warning", "data", "tuning"}));
+    // Same likelihood: blockers before warnings, then the tier, and equal items keep their order
+    QCOMPARE(ids, QStringList({"hw_blocker_1", "hw_blocker_2", "config", "data", "tuning", "hw_warning", "config_warning"}));
+}
+
+void TestDiagnosis::testOrderByLikelihood()
+{
+    auto make = [](const QString & id, Likelihood likelihood, Tier tier, Costs cost = NoCost, bool blocker = true)
+    {
+        Item oneItem = item(id, tier, blocker);
+        oneItem.likelihood = likelihood;
+        oneItem.cost = cost;
+        return oneItem;
+    };
+
+    QList<Item> items;
+    items << make("check_hw", Likelihood::Check, Tier::Hardware)
+          << make("possible_config", Likelihood::Possible, Tier::Configuration)
+          << make("likely_data_download", Likelihood::Likely, Tier::Data, NeedsInternet)
+          << make("likely_warning", Likelihood::Likely, Tier::Hardware, NoCost, false)
+          << make("likely_data_setting", Likelihood::Likely, Tier::Data, ChangesSettings)
+          << make("likely_hw_moves", Likelihood::Likely, Tier::Hardware, MovesHardware)
+          << make("likely_data_moves", Likelihood::Likely, Tier::Data, MovesHardware);
+
+    order(items);
+
+    QStringList ids;
+    for (const auto &oneItem : items)
+        ids << oneItem.id;
+
+    // The most likely cause first, whatever its tier; then blockers before warnings, then the tier,
+    // then the cheapest fix: a setting before a download before moving equipment
+    QCOMPARE(ids, QStringList({"likely_hw_moves", "likely_data_setting", "likely_data_download", "likely_data_moves",
+                               "likely_warning", "possible_config", "check_hw"}));
 }
 
 void TestDiagnosis::testFindItem()
@@ -82,6 +114,7 @@ void TestDiagnosis::testItemJson()
     QJsonObject json = toJson(plain);
     QCOMPARE(json["id"].toString(), QString("align_bin_max"));
     QCOMPARE(json["kind"].toString(), QString("auto"));
+    QCOMPARE(json["likelihood"].toString(), QString("possible"));
     QVERIFY(json["tier"].isDouble());
     QCOMPARE(json["tier"].toInt(), 2);
     QVERIFY(json["blocker"].isBool());
@@ -123,6 +156,10 @@ void TestDiagnosis::testItemJson()
     QCOMPARE(json["verify"].toObject()["threshold"].toDouble(), 1.0);
     QCOMPARE(json["openTarget"].toString(), QString("optical_train"));
     QCOMPARE(json["linkModule"].toString(), QString("guide"));
+
+    full.likelihood = Likelihood::Likely;
+    QCOMPARE(toJson(full)["likelihood"].toString(), QString("likely"));
+    QCOMPARE(likelihoodKey(Likelihood::Check), QString("check"));
 
     QCOMPARE(kindKey(Kind::Open), QString("open"));
     QCOMPARE(kindKey(Kind::Link), QString("link"));
@@ -187,6 +224,7 @@ void TestDiagnosis::testLogLines()
 
     Item unpark = item("mount_unpark", Tier::Hardware);
     unpark.title = "Unpark the mount";
+    unpark.likelihood = Likelihood::Likely;
     unpark.cost = MovesHardware;
     Item index = item("index_install_07", Tier::Data);
     index.title = "Install index files 4207";
@@ -199,7 +237,7 @@ void TestDiagnosis::testLogLines()
     QCOMPARE(lines[0], QString("Align failed: The mount is parked. Align was asked to sync, but the mount is parked."));
     QCOMPARE(lines[1], QString("Checked: Camera, optics and pixel size are set."));
     QCOMPARE(lines[2], QString("Suggested:"));
-    QCOMPARE(lines[3], QString(" 1. Unpark the mount (moves equipment)"));
+    QCOMPARE(lines[3], QString(" 1. Unpark the mount (likely cause, moves equipment)"));
     QCOMPARE(lines[4], QString(" 2. Install index files 4207 (download about 151 MB)"));
 
     // Not checked lines, no summary, no items
@@ -210,6 +248,16 @@ void TestDiagnosis::testLogLines()
     QCOMPARE(minimalLines.size(), 2);
     QCOMPARE(minimalLines[0], QString("Align failed: Align failed"));
     QVERIFY(minimalLines[1].startsWith("Not checked: Mount clock"));
+
+    // A check-up did not fail
+    Report checkup;
+    checkup.reasonKey = checkupReasonKey();
+    checkup.title = "1 thing to check";
+    checkup.items << index;
+    QVERIFY(isCheckup(checkup));
+    QVERIFY(!isCheckup(report));
+    const QStringList checkupLines = toLogLines(checkup, "Align");
+    QCOMPARE(checkupLines[0], QString("Align check-up: 1 thing to check"));
 }
 
 QTEST_GUILESS_MAIN(TestDiagnosis)

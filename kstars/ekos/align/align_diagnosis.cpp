@@ -317,6 +317,8 @@ AlignFacts Align::collectDiagnosisFacts() const
         facts.clientUtc = m_DiagnosisManager->clientUtc();
     facts.systemUtc = QDateTime::currentDateTimeUtc();
     facts.kstarsUtc = KStarsData::Instance()->ut();
+    facts.timeUpdate = Options::useTimeUpdate();
+    facts.timeSource = Options::timeSource();
 
     facts.rotatorThresholdArcmin = Options::astrometryRotatorThreshold();
 
@@ -346,6 +348,16 @@ void Align::registerDiagnosis(DiagnosisManager *manager)
     {
         if (!guard || !guard->m_DiagnosisManager)
             return std::nullopt;
+        // A check-up looks at the setup as it is now
+        if (Diagnosis::isCheckup(report))
+        {
+            auto facts = guard->collectDiagnosisFacts();
+            if (facts.train != report.train)
+                return std::nullopt;
+            auto rebuilt = AlignDiagnosis::checkup(facts, guard->m_DiagnosisManager->dismissed(MODULE));
+            rebuilt.status = report.status;
+            return rebuilt;
+        }
         auto facts = guard->m_LastDiagnosisFacts;
         if (facts.train != report.train || static_cast<int>(facts.reason) != report.reason)
             return std::nullopt;
@@ -355,6 +367,18 @@ void Align::registerDiagnosis(DiagnosisManager *manager)
         auto rebuilt = AlignDiagnosis::diagnose(facts, report.tried, guard->m_DiagnosisManager->dismissed(MODULE));
         rebuilt.status = report.status;
         return rebuilt;
+    };
+    hooks.checkup = [guard](const QString & train) -> std::optional<Diagnosis::Report>
+    {
+        if (!guard || !guard->m_DiagnosisManager)
+            return std::nullopt;
+        // Align checks the train it uses now
+        auto facts = guard->collectDiagnosisFacts();
+        if (!train.isEmpty() && facts.train != train)
+            return std::nullopt;
+        auto report = AlignDiagnosis::checkup(facts, guard->m_DiagnosisManager->dismissed(MODULE));
+        report.status = getAlignStatusString(static_cast<AlignState>(guard->state), false);
+        return report;
     };
     manager->registerModule(MODULE, hooks);
 
@@ -424,22 +448,56 @@ void Align::registerDiagnosis(DiagnosisManager *manager)
         return done();
     });
 
-    manager->registerAction(MODULE, "mount_time_sync", [guard](const Diagnosis::Item &, const Diagnosis::Report &)
+    // Sends the KStars clock to the mount, as GenericDevice::updateTime() does when the
+    // time source is KStars. The time of the client is never applied.
+    auto sendTime = [](ISD::Mount * mount) -> bool
     {
-        if (!guard || !guard->m_Mount)
-            return failed(i18n("No mount is available."));
-        auto timeUTC = guard->m_Mount->getText("TIME_UTC");
+        auto timeUTC = mount->getText("TIME_UTC");
         auto utc = timeUTC ? timeUTC.findWidgetByName("UTC") : nullptr;
         auto offset = timeUTC ? timeUTC.findWidgetByName("OFFSET") : nullptr;
         if (!utc || !offset)
-            return failed(i18n("The mount does not accept a time."));
-        // Sends the KStars clock to the mount, as GenericDevice::updateTime() does when the
-        // time source is KStars. The time of the client is never applied.
+            return false;
         const QString isoTS = KStarsData::Instance()->ut().addMSecs(500).toString(Qt::ISODate).remove('Z');
         utc->setText(isoTS.toLatin1().constData());
         offset->setText(QString::number(KStarsData::Instance()->geo()->TZ(), 'g', 2).toLatin1().constData());
-        guard->m_Mount->sendNewProperty(timeUTC);
+        mount->sendNewProperty(timeUTC);
+        return true;
+    };
+
+    manager->registerAction(MODULE, "mount_time_sync", [guard, sendTime](const Diagnosis::Item &, const Diagnosis::Report &)
+    {
+        if (!guard || !guard->m_Mount)
+            return failed(i18n("No mount is available."));
+        if (!sendTime(guard->m_Mount))
+            return failed(i18n("The mount does not accept a time."));
         return done();
+    });
+
+    // KStars becomes the time source and keeps the mount clock right from now on
+    manager->registerAction(MODULE, "mount_time_source_kstars", [guard, sendTime](const Diagnosis::Item &,
+                            const Diagnosis::Report &)
+    {
+        if (!guard || !guard->m_Mount)
+            return failed(i18n("No mount is available."));
+        const bool oldUpdate = Options::useTimeUpdate();
+        const QString oldSource = Options::timeSource();
+        Options::setUseTimeUpdate(true);
+        Options::setTimeSource(QStringLiteral("KStars"));
+        if (!sendTime(guard->m_Mount))
+        {
+            Options::setUseTimeUpdate(oldUpdate);
+            Options::setTimeSource(oldSource);
+            return failed(i18n("The mount does not accept a time."));
+        }
+        auto result = done();
+        result.oldValue = oldUpdate ? oldSource : i18n("none");
+        result.newValue = QStringLiteral("KStars");
+        result.revert = [oldUpdate, oldSource]()
+        {
+            Options::setUseTimeUpdate(oldUpdate);
+            Options::setTimeSource(oldSource);
+        };
+        return result;
     });
 
     // Index files

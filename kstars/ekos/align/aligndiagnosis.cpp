@@ -98,6 +98,276 @@ int knownStars(const AlignFacts &facts)
     return -1;
 }
 
+// Items shared by the failure rules and the check-up
+
+Item selectCameraItem()
+{
+    auto item = makeItem("train_select_camera", Kind::Open, Tier::Hardware, i18n("Select a camera in the optical train"),
+                         i18n("The optical train of Align has no camera."));
+    item.likelihood = Likelihood::Likely;
+    item.openTarget = QStringLiteral("optical_train");
+    return item;
+}
+
+Item connectCameraItem(const AlignFacts &facts)
+{
+    auto item = makeItem("camera_connect", Kind::Auto, Tier::Hardware, i18n("Connect the camera"),
+                         i18n("The camera %1 is disconnected.", facts.cameraName));
+    item.likelihood = Likelihood::Likely;
+    item.verify = makeVerify("device_state", "connected", "==", 1);
+    return item;
+}
+
+Item connectMountItem()
+{
+    auto item = makeItem("mount_connect", Kind::Auto, Tier::Hardware, i18n("Connect the mount"),
+                         i18n("The mount is disconnected, so its position is unknown."));
+    item.likelihood = Likelihood::Likely;
+    item.verify = makeVerify("device_state", "connected", "==", 1);
+    return item;
+}
+
+Item mountCoordsItem()
+{
+    auto item = makeItem("mount_check_coords", Kind::Manual, Tier::Hardware, i18n("Check the mount connection"),
+                         i18n("The mount is connected but sends no valid coordinates."));
+    item.likelihood = Likelihood::Likely;
+    item.steps << i18n("Open the mount control panel and check that it shows RA and DEC.")
+               << i18n("If it does not, disconnect and reconnect the mount.");
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+Item opticsItem(const AlignFacts &facts, Likelihood likelihood)
+{
+    auto item = makeItem("train_set_optics", Kind::Open, Tier::Configuration,
+                         i18n("Set the telescope focal length and aperture"),
+                         i18n("Focal length %1 mm, aperture %2 mm.", QString::number(facts.focalLength, 'f', 0),
+                              QString::number(facts.aperture, 'f', 0)));
+    item.likelihood = likelihood;
+    item.cost = ChangesSettings;
+    item.openTarget = QStringLiteral("optical_train");
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+Item pixelSizeItem(const AlignFacts &facts, Likelihood likelihood)
+{
+    auto item = makeItem("camera_set_pixel_size", Kind::Open, Tier::Configuration, i18n("Set the camera pixel size"),
+                         i18n("The camera driver reports a pixel size of %1 x %2 um.", facts.pixelW, facts.pixelH));
+    item.likelihood = likelihood;
+    item.cost = ChangesSettings;
+    item.openTarget = QString("indi_panel:%1:Image Info").arg(facts.cameraName);
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+Item externalSolverItem()
+{
+    auto item = makeItem("solver_check_external", Kind::Open, Tier::Configuration, i18n("Install or locate the solver program"),
+                         i18n("The selected external solver program was not found."));
+    item.likelihood = Likelihood::Likely;
+    item.openTarget = QStringLiteral("align_settings:solver");
+    return item;
+}
+
+// Index files: every size the field needs, as the Index Files page marks them. A field can hold quads of
+// the larger sizes and still need the smaller ones, especially when it has few stars.
+void indexItems(const AlignFacts &facts, QList<Item> &items, Report &report)
+{
+    if (!facts.indexSolver || facts.requiredSizes.isEmpty())
+        return;
+
+    QList<int> missing;
+    for (int size : facts.requiredSizes)
+    {
+        if (!facts.installedSizes.contains(size))
+            missing << size;
+    }
+
+    if (missing.isEmpty())
+    {
+        report.ruledOut << i18n("Index files for this field of view are installed.");
+        return;
+    }
+
+    for (int size : missing)
+    {
+        const int series = IndexFiles::installSeries(size);
+        auto item = makeItem(QString("index_install_%1").arg(sizeString(size)), Kind::Auto, Tier::Data,
+                             // A series is a name, not a number to format with digit grouping
+                             i18n("Install index files %1", QString::number(series)),
+                             i18n("Your %1 x %2 arcmin field needs index files %3; %4 are missing or incomplete.",
+                                  QString::number(facts.fovW, 'f', 1), QString::number(facts.fovH, 'f', 1),
+                                  seriesList(facts.requiredSizes), seriesList(missing)));
+        // Without the index files of its field, the solver cannot solve it
+        item.likelihood = Likelihood::Likely;
+        item.cost = NeedsInternet;
+        item.downloadBytes = IndexFiles::estimatedDownloadBytes(size);
+        item.verify = makeVerify("index_scan", "series_installed", "==", 1);
+        items << item;
+    }
+}
+
+bool canRaiseExposure(const AlignFacts &facts)
+{
+    return facts.exposure < AlignDiagnosis::SUGGESTED_EXPOSURE;
+}
+
+bool canBinMore(const AlignFacts &facts)
+{
+    return facts.canBin && facts.binIndex == 0 && facts.binCount > 1;
+}
+
+/**
+ * @param stars stars found in the failed frame, or -1 if unknown. A known low count makes it a likely cause.
+ */
+Item exposureItem(const AlignFacts &facts, int stars)
+{
+    auto item = makeItem("align_exposure_5s", Kind::Auto, Tier::Data,
+                         i18n("Raise the Align exposure to %1 seconds", AlignDiagnosis::SUGGESTED_EXPOSURE),
+                         stars >= 0 ? i18n("Only %1 stars were found in a %2 second exposure.", stars, facts.exposure)
+                         : i18n("A %1 second exposure may be too short to show enough stars.", facts.exposure));
+    item.likelihood = stars >= 0 ? Likelihood::Likely : Likelihood::Possible;
+    item.cost = ChangesSettings;
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+/** @param starsKnown the failed frame had too few stars */
+Item binItem(const AlignFacts &facts, bool starsKnown)
+{
+    auto item = makeItem("align_bin_max", Kind::Auto, Tier::Data, i18n("Bin the Align camera %1x%1", facts.binCount),
+                         i18n("Binning collects more light per pixel and speeds up solving."));
+    item.likelihood = starsKnown ? Likelihood::Likely : Likelihood::Possible;
+    item.cost = ChangesSettings;
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+bool customProfile(const AlignFacts &facts)
+{
+    return !facts.profile.isEmpty() && facts.profile != AlignDiagnosis::defaultProfileName();
+}
+
+// The default profile sizes its search from the field of view, so it suits every field
+Item profileItem(const AlignFacts &facts)
+{
+    auto item = makeItem("solver_profile_default", Kind::Auto, Tier::Tuning, i18n("Use the default solver profile"),
+                         i18n("The solver profile %1 is selected. The default profile adapts its search to your field of view.",
+                              facts.profile));
+    item.likelihood = Likelihood::Possible;
+    item.cost = ChangesSettings;
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+bool narrowField(const AlignFacts &facts)
+{
+    return facts.fovW > 0 && facts.fovH > 0 && std::min(facts.fovW, facts.fovH) < AlignDiagnosis::NARROW_FOV_ARCMIN;
+}
+
+Item narrowFovItem(const AlignFacts &facts)
+{
+    auto item = makeItem("fov_narrow", Kind::Info, Tier::Tuning, i18n("The field of view is narrow"),
+                         i18n("A %1 x %2 arcmin field holds few stars. Use binning and longer exposures, or solve with a wider camera.",
+                              QString::number(facts.fovW, 'f', 1), QString::number(facts.fovH, 'f', 1)));
+    item.likelihood = Likelihood::Check;
+    item.blocker = false;
+    return item;
+}
+
+bool unusualReducer(const AlignFacts &facts)
+{
+    return facts.reducer > 0 && (facts.reducer < 0.5 || facts.reducer > 2);
+}
+
+Item reducerItem(const AlignFacts &facts)
+{
+    auto item = makeItem("train_check_reducer", Kind::Open, Tier::Tuning, i18n("Check the reducer setting"),
+                         i18n("The optical train uses a reducer of %1x. A wrong value gives the solver a wrong field of view.",
+                              QString::number(facts.reducer, 'f', 2)));
+    item.likelihood = Likelihood::Possible;
+    item.blocker = false;
+    item.openTarget = QStringLiteral("optical_train");
+    return item;
+}
+
+bool timeSourceIsKStars(const AlignFacts &facts)
+{
+    return facts.timeUpdate && facts.timeSource == QLatin1String("KStars");
+}
+
+/**
+ * The KStars clock against the client device (or this computer), then the mount clock.
+ * Needs a connected mount.
+ */
+void clockChecks(const AlignFacts &facts, QList<Item> &items, Report &report)
+{
+    // The client time is compared only, never applied (Q3).
+    const QDateTime reference = facts.clientUtc ? *facts.clientUtc : facts.systemUtc;
+    if (reference.isValid() && facts.kstarsUtc.isValid())
+    {
+        const double kstarsDiff = std::abs(facts.kstarsUtc.secsTo(reference));
+        if (kstarsDiff > AlignDiagnosis::MAX_CLOCK_DIFF_SEC)
+        {
+            auto item = makeItem("kstars_clock_wrong", Kind::Manual, Tier::Configuration, i18n("Check the KStars clock"),
+                                 facts.clientUtc ?
+                                 i18n("The KStars time differs from your device by %1 seconds.", QString::number(kstarsDiff, 'f', 0)) :
+                                 i18n("The KStars time differs from this computer by %1 seconds.", QString::number(kstarsDiff, 'f', 0)));
+            item.likelihood = Likelihood::Possible;
+            item.steps << i18n("Check the date, time and time zone of the computer that runs KStars.")
+                       << i18n("Check the location and time zone set in KStars.");
+            // KStars takes its time from a device: a wrong device clock makes the KStars clock wrong
+            if (facts.timeUpdate && !timeSourceIsKStars(facts))
+                item.steps <<
+                           i18n("KStars takes its time from %1. Check the clock of that device, or set the time source to KStars in the INDI settings.",
+                                facts.timeSource);
+            item.verify = makeVerify("retry");
+            items << item;
+            // Do not send a wrong KStars time to the mount: the KStars clock comes first
+            return;
+        }
+    }
+
+    if (!facts.mountUtc || !facts.mountUtcReceived.isValid())
+    {
+        report.notChecked << i18n("Mount clock: the mount does not report its time.");
+        return;
+    }
+
+    // Most drivers report their time once, e.g. when KStars sends it: compare the reported time with when it
+    // arrived, not with the current time
+    const double mountDiff = std::abs(facts.mountUtc->secsTo(facts.mountUtcReceived));
+    if (mountDiff <= AlignDiagnosis::MAX_CLOCK_DIFF_SEC)
+    {
+        report.ruledOut << i18n("The mount clock matches this computer.");
+        return;
+    }
+
+    if (timeSourceIsKStars(facts))
+    {
+        auto item = makeItem("mount_time_sync", Kind::Auto, Tier::Configuration, i18n("Send the KStars time to the mount"),
+                             i18n("The mount clock was %1 seconds off when it last reported its time.",
+                                  QString::number(mountDiff, 'f', 0)));
+        item.likelihood = Likelihood::Possible;
+        item.verify = makeVerify("retry");
+        items << item;
+    }
+    else
+    {
+        // KStars does not keep the mount time: send it once and keep sending it from now on
+        auto item = makeItem("mount_time_source_kstars", Kind::Auto, Tier::Configuration,
+                             i18n("Let KStars keep the mount time"),
+                             i18n("The mount clock was %1 seconds off when it last reported its time, and KStars does not send its time to the mount.",
+                                  QString::number(mountDiff, 'f', 0)));
+        item.likelihood = Likelihood::Possible;
+        item.cost = ChangesSettings;
+        item.verify = makeVerify("retry");
+        items << item;
+    }
+}
+
 void describeCause(const AlignFacts &facts, Report &report)
 {
     const QString gotoAction = facts.gotoMode == GOTO_SLEW ? i18n("slew to the target") : i18n("sync");
@@ -329,25 +599,18 @@ void addEvidence(const AlignFacts &facts, Report &report)
 
 void hardwareItems(const AlignFacts &facts, QList<Item> &items)
 {
+    // Every item here follows from the failure reason itself, so each is a likely cause
+    const int first = items.size();
+
     switch (facts.reason)
     {
         case AlignFailReason::NoCamera:
-        {
-            auto item = makeItem("train_select_camera", Kind::Open, Tier::Hardware, i18n("Select a camera in the optical train"),
-                                 i18n("The optical train of Align has no camera."));
-            item.openTarget = QStringLiteral("optical_train");
-            items << item;
+            items << selectCameraItem();
             break;
-        }
 
         case AlignFailReason::CameraDisconnected:
-        {
-            auto item = makeItem("camera_connect", Kind::Auto, Tier::Hardware, i18n("Connect the camera"),
-                                 i18n("The camera %1 is disconnected.", facts.cameraName));
-            item.verify = makeVerify("device_state", "connected", "==", 1);
-            items << item;
+            items << connectCameraItem(facts);
             break;
-        }
 
         case AlignFailReason::NoMountCoords:
         {
@@ -359,21 +622,9 @@ void hardwareItems(const AlignFacts &facts, QList<Item> &items)
                 items << item;
             }
             else if (!facts.mountConnected)
-            {
-                auto item = makeItem("mount_connect", Kind::Auto, Tier::Hardware, i18n("Connect the mount"),
-                                     i18n("The mount is disconnected, so its position is unknown."));
-                item.verify = makeVerify("device_state", "connected", "==", 1);
-                items << item;
-            }
+                items << connectMountItem();
             else
-            {
-                auto item = makeItem("mount_check_coords", Kind::Manual, Tier::Hardware, i18n("Check the mount connection"),
-                                     i18n("The mount is connected but sends no valid coordinates."));
-                item.steps << i18n("Open the mount control panel and check that it shows RA and DEC.")
-                           << i18n("If it does not, disconnect and reconnect the mount.");
-                item.verify = makeVerify("retry");
-                items << item;
-            }
+                items << mountCoordsItem();
             break;
         }
 
@@ -529,6 +780,26 @@ void hardwareItems(const AlignFacts &facts, QList<Item> &items)
         default:
             break;
     }
+
+    for (int i = first; i < items.size(); i++)
+        items[i].likelihood = Likelihood::Likely;
+    // Unless the mount truly cannot sync, which only matters when Align syncs
+    for (auto &item : items)
+    {
+        if (item.id == QLatin1String("mount_no_sync"))
+            item.likelihood = Likelihood::Possible;
+    }
+
+    // A device that dropped out explains a failure further down the line too, e.g. a mount that disconnected
+    // keeps its last position, so Align goes on and fails at the solve or the slew
+    const bool needsMount = isPointingFailure(facts.reason) || facts.reason == AlignFailReason::SyncRejected
+                            || facts.reason == AlignFailReason::SlewRejected;
+    if (needsMount && facts.hasMount && !facts.mountConnected)
+        items.prepend(connectMountItem());
+
+    const bool needsCamera = facts.reason == AlignFailReason::CaptureError || facts.reason == AlignFailReason::CaptureTimeout;
+    if (needsCamera && facts.hasCamera && !facts.cameraConnected)
+        items.prepend(connectCameraItem(facts));
 }
 
 void configurationItems(const AlignFacts &facts, QList<Item> &items)
@@ -537,37 +808,19 @@ void configurationItems(const AlignFacts &facts, QList<Item> &items)
     const bool opticsWrong = facts.focalLength <= 0 || facts.aperture <= 0;
     const bool pixelWrong = facts.pixelW <= 0 || facts.pixelH <= 0;
 
-    if (reason == AlignFailReason::MissingOptics || (reason == AlignFailReason::FovOutOfBounds && opticsWrong)
-            || (reason == AlignFailReason::FovOutOfBounds && !pixelWrong))
-    {
-        auto item = makeItem("train_set_optics", Kind::Open, Tier::Configuration,
-                             i18n("Set the telescope focal length and aperture"),
-                             i18n("Focal length %1 mm, aperture %2 mm.", QString::number(facts.focalLength, 'f', 0),
-                                  QString::number(facts.aperture, 'f', 0)));
-        item.cost = ChangesSettings;
-        item.openTarget = QStringLiteral("optical_train");
-        item.verify = makeVerify("retry");
-        items << item;
-    }
+    // A value that is missing or zero is the cause; a plausible value is only a suspect
+    if (reason == AlignFailReason::MissingOptics || (reason == AlignFailReason::FovOutOfBounds && opticsWrong))
+        items << opticsItem(facts, Likelihood::Likely);
+    else if (reason == AlignFailReason::FovOutOfBounds && !pixelWrong)
+        items << opticsItem(facts, Likelihood::Possible);
 
-    if (reason == AlignFailReason::MissingPixelSize || (reason == AlignFailReason::FovOutOfBounds && pixelWrong)
-            || (reason == AlignFailReason::FovOutOfBounds && !opticsWrong))
-    {
-        auto item = makeItem("camera_set_pixel_size", Kind::Open, Tier::Configuration, i18n("Set the camera pixel size"),
-                             i18n("The camera driver reports a pixel size of %1 x %2 um.", facts.pixelW, facts.pixelH));
-        item.cost = ChangesSettings;
-        item.openTarget = QString("indi_panel:%1:Image Info").arg(facts.cameraName);
-        item.verify = makeVerify("retry");
-        items << item;
-    }
+    if (reason == AlignFailReason::MissingPixelSize || (reason == AlignFailReason::FovOutOfBounds && pixelWrong))
+        items << pixelSizeItem(facts, Likelihood::Likely);
+    else if (reason == AlignFailReason::FovOutOfBounds && !opticsWrong)
+        items << pixelSizeItem(facts, Likelihood::Possible);
 
     if (isSolveFailure(reason) && facts.localSolver && facts.externalSolverMissing)
-    {
-        auto item = makeItem("solver_check_external", Kind::Open, Tier::Configuration, i18n("Install or locate the solver program"),
-                             i18n("The selected external solver program was not found."));
-        item.openTarget = QStringLiteral("align_settings:solver");
-        items << item;
-    }
+        items << externalSolverItem();
 }
 
 void clockItems(const AlignFacts &facts, QList<Item> &items, Report &report)
@@ -575,45 +828,7 @@ void clockItems(const AlignFacts &facts, QList<Item> &items, Report &report)
     if (!isPointingFailure(facts.reason) || !facts.hasMount || !facts.mountConnected)
         return;
 
-    // The KStars clock against the client device, or against this computer when there is none.
-    // The client time is compared only, never applied (Q3).
-    const QDateTime reference = facts.clientUtc ? *facts.clientUtc : facts.systemUtc;
-    if (reference.isValid() && facts.kstarsUtc.isValid())
-    {
-        const double kstarsDiff = std::abs(facts.kstarsUtc.secsTo(reference));
-        if (kstarsDiff > AlignDiagnosis::MAX_CLOCK_DIFF_SEC)
-        {
-            auto item = makeItem("kstars_clock_wrong", Kind::Manual, Tier::Configuration, i18n("Check the KStars clock"),
-                                 facts.clientUtc ?
-                                 i18n("The KStars time differs from your device by %1 seconds.", QString::number(kstarsDiff, 'f', 0)) :
-                                 i18n("The KStars time differs from this computer by %1 seconds.", QString::number(kstarsDiff, 'f', 0)));
-            item.steps << i18n("Check the date, time and time zone of the computer that runs KStars.")
-                       << i18n("Check the location and time zone set in KStars.");
-            item.verify = makeVerify("retry");
-            items << item;
-            return;
-        }
-    }
-
-    if (!facts.mountUtc || !facts.mountUtcReceived.isValid())
-    {
-        report.notChecked << i18n("Mount clock: the mount does not report its time.");
-        return;
-    }
-
-    // Most drivers report their time once, e.g. when KStars sends it: compare the reported time with when it
-    // arrived, not with the current time
-    const double mountDiff = std::abs(facts.mountUtc->secsTo(facts.mountUtcReceived));
-    if (mountDiff > AlignDiagnosis::MAX_CLOCK_DIFF_SEC)
-    {
-        auto item = makeItem("mount_time_sync", Kind::Auto, Tier::Configuration, i18n("Send the KStars time to the mount"),
-                             i18n("The mount clock was %1 seconds off when it last reported its time.",
-                                  QString::number(mountDiff, 'f', 0)));
-        item.verify = makeVerify("retry");
-        items << item;
-    }
-    else
-        report.ruledOut << i18n("The mount clock matches this computer.");
+    clockChecks(facts, items, report);
 }
 
 void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &items, Report &report)
@@ -622,62 +837,22 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
     if (!isSolveFailure(reason))
         return;
 
-    // Index files: every size the field needs, as the Index Files page marks them. A field can hold quads of
-    // the larger sizes and still need the smaller ones, especially when it has few stars.
-    if (facts.indexSolver && !facts.requiredSizes.isEmpty())
-    {
-        QList<int> missing;
-        for (int size : facts.requiredSizes)
-        {
-            if (!facts.installedSizes.contains(size))
-                missing << size;
-        }
-
-        if (missing.isEmpty())
-            report.ruledOut << i18n("Index files for this field of view are installed.");
-        else
-        {
-            for (int size : missing)
-            {
-                const int series = IndexFiles::installSeries(size);
-                auto item = makeItem(QString("index_install_%1").arg(sizeString(size)), Kind::Auto, Tier::Data,
-                                     // A series is a name, not a number to format with digit grouping
-                                     i18n("Install index files %1", QString::number(series)),
-                                     i18n("Your %1 x %2 arcmin field needs index files %3; %4 are missing or incomplete.",
-                                          QString::number(facts.fovW, 'f', 1), QString::number(facts.fovH, 'f', 1),
-                                          seriesList(facts.requiredSizes), seriesList(missing)));
-                item.cost = NeedsInternet;
-                item.downloadBytes = IndexFiles::estimatedDownloadBytes(size);
-                item.verify = makeVerify("index_scan", "series_installed", "==", 1);
-                items << item;
-            }
-        }
-    }
+    indexItems(facts, items, report);
 
     const int stars = knownStars(facts);
     const bool fewStars = stars < 0 || stars < AlignDiagnosis::MIN_STARS;
 
-    // Exposure and binning, one per retry
+    // Exposure and binning, one per retry. A frame known to hold few stars makes them likely causes.
     bool signalItemOffered = false;
-    if (fewStars && facts.exposure < AlignDiagnosis::SUGGESTED_EXPOSURE && !skip.contains("align_exposure_5s"))
+    if (fewStars && canRaiseExposure(facts) && !skip.contains("align_exposure_5s"))
     {
-        auto item = makeItem("align_exposure_5s", Kind::Auto, Tier::Data,
-                             i18n("Raise the Align exposure to %1 seconds", AlignDiagnosis::SUGGESTED_EXPOSURE),
-                             stars >= 0 ? i18n("Only %1 stars were found in a %2 second exposure.", stars, facts.exposure)
-                             : i18n("A %1 second exposure may be too short to show enough stars.", facts.exposure));
-        item.cost = ChangesSettings;
-        item.verify = makeVerify("retry");
-        items << item;
+        items << exposureItem(facts, stars);
         signalItemOffered = true;
     }
 
-    if (fewStars && facts.canBin && facts.binIndex == 0 && facts.binCount > 1 && !skip.contains("align_bin_max"))
+    if (fewStars && canBinMore(facts) && !skip.contains("align_bin_max"))
     {
-        auto item = makeItem("align_bin_max", Kind::Auto, Tier::Data, i18n("Bin the Align camera %1x%1", facts.binCount),
-                             i18n("Binning collects more light per pixel and speeds up solving."));
-        item.cost = ChangesSettings;
-        item.verify = makeVerify("retry");
-        items << item;
+        items << binItem(facts, stars >= 0);
         signalItemOffered = true;
     }
 
@@ -690,20 +865,15 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
         auto item = makeItem("solver_timeout_raise", Kind::Auto, Tier::Data,
                              i18n("Raise the solver timeout to %1 seconds", QString::number(newTimeout, 'f', 0)),
                              i18n("The solver stopped after %1 seconds.", QString::number(facts.timeoutSec, 'f', 0)));
+        item.likelihood = reason == AlignFailReason::SolverTimeout ? Likelihood::Likely : Likelihood::Possible;
         item.cost = ChangesSettings;
         item.verify = makeVerify("retry");
         items << item;
     }
 
-    if (reason == AlignFailReason::SolverFailed && !facts.profile.isEmpty() &&
-            facts.profile != AlignDiagnosis::defaultProfileName())
-    {
-        auto item = makeItem("solver_profile_default", Kind::Auto, Tier::Tuning, i18n("Use the default solver profile"),
-                             i18n("The solver profile %1 is selected.", facts.profile));
-        item.cost = ChangesSettings;
-        item.verify = makeVerify("retry");
-        items << item;
-    }
+    // Missing index files are not a profile problem
+    if (reason != AlignFailReason::NoIndexFiles && customProfile(facts))
+        items << profileItem(facts);
 
     // The failed frame: if the image itself is the problem, say what is wrong with it
     if (facts.image && facts.image->verdict != ImageVerdict::Unknown)
@@ -721,6 +891,7 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                 {
                     auto item = makeItem("check_sky_and_cap", Kind::Manual, Tier::Data, i18n("Check the sky and the dust cap"),
                                          i18n("Only %1 stars were found in the failed frame.", image.stars));
+                    item.likelihood = Likelihood::Likely;
                     item.steps << i18n("Check that the dust cap or cover is open.")
                                << i18n("Check for clouds, dew on the optics, or an obstruction in front of the telescope.")
                                << i18n("Take a test exposure and look for stars.");
@@ -738,6 +909,7 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                                      i18n("The stars are flat discs without a bright core, as stars are when the telescope is out of focus. "
                      "Their median HFR is %1 pixels.", QString::number(image.hfr, 'f', 1));
                 auto item = makeItem("check_focus", Kind::Manual, Tier::Data, i18n("Focus the telescope"), text);
+                item.likelihood = Likelihood::Likely;
                 item.steps << i18n("Run autofocus in the Focus module, or focus by hand.");
                 item.verify = makeVerify("test_frame", "concentration", ">=", ImageAnalysis::MIN_FOCUSED_CONCENTRATION);
                 items << item;
@@ -759,6 +931,7 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                     auto item = makeItem("mount_tracking_on", Kind::Auto, Tier::Hardware, i18n("Turn on mount tracking"),
                                          i18n("The stars trailed %1 pixels, as far as they drift in %2 seconds when the mount does not track.",
                                               QString::number(image.trailLength, 'f', 0), facts.exposure));
+                    item.likelihood = Likelihood::Likely;
                     item.cost = MovesHardware;
                     item.autoRetry = false;
                     item.verify = makeVerify("device_state", "tracking", "==", 1);
@@ -769,6 +942,7 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                     auto item = makeItem("check_tracking", Kind::Manual, Tier::Data, i18n("Check the mount tracking"),
                                          i18n("All stars trailed %1 pixels in the same direction.",
                                               QString::number(image.trailLength, 'f', 0)));
+                    item.likelihood = Likelihood::Likely;
                     item.steps << i18n("Check that the mount is tracking at the sidereal rate.")
                                << i18n("Check the balance, and that nothing touches the telescope during the exposure, e.g. wind or cables.")
                                << i18n("Use a shorter exposure.");
@@ -783,6 +957,7 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                 auto item = makeItem("check_mount_jump", Kind::Manual, Tier::Data, i18n("Check the mount for a sudden jump"),
                                      i18n("Every star appears twice, %1 pixels apart: the mount jumped during the exposure.",
                                           QString::number(image.doubleOffset, 'f', 0)));
+                item.likelihood = Likelihood::Likely;
                 item.steps << i18n("Check the balance of both axes, and that the clutches are tight.")
                            << i18n("Check that no cable snags or pulls on the telescope.")
                            << i18n("Check the gear backlash of the mount.");
@@ -799,23 +974,11 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
         report.notChecked << i18n("Image: the star shapes in the failed frame were not measured.");
 
     // Field of view and reducer warnings
-    if (facts.fovW > 0 && facts.fovH > 0 && std::min(facts.fovW, facts.fovH) < AlignDiagnosis::NARROW_FOV_ARCMIN)
-    {
-        auto item = makeItem("fov_narrow", Kind::Info, Tier::Tuning, i18n("The field of view is narrow"),
-                             i18n("A %1 x %2 arcmin field holds few stars. Use binning and longer exposures, or solve with a wider camera.",
-                                  QString::number(facts.fovW, 'f', 1), QString::number(facts.fovH, 'f', 1)));
-        item.blocker = false;
-        items << item;
-    }
+    if (narrowField(facts))
+        items << narrowFovItem(facts);
 
-    if (facts.reducer > 0 && (facts.reducer < 0.5 || facts.reducer > 2))
-    {
-        auto item = makeItem("train_check_reducer", Kind::Open, Tier::Tuning, i18n("Check the reducer setting"),
-                             i18n("The optical train uses a reducer of %1x.", QString::number(facts.reducer, 'f', 2)));
-        item.blocker = false;
-        item.openTarget = QStringLiteral("optical_train");
-        items << item;
-    }
+    if (unusualReducer(facts))
+        items << reducerItem(facts);
 }
 
 void addRuledOut(const AlignFacts &facts, Report &report)
@@ -958,6 +1121,7 @@ Report AlignDiagnosis::diagnose(const AlignFacts &facts, const QStringList &trie
     {
         auto item = makeItem("align_check_log", Kind::Info, Tier::Tuning, i18n("Check the Align log"),
                              i18n("No specific cause was found."));
+        item.likelihood = Likelihood::Check;
         item.blocker = false;
         item.steps << i18n("Check the focal length, reducer and pixel size: a wrong field of view stops the solver.")
                    << i18n("Check the time, time zone and location of KStars and the mount: a wrong position hint stops the solver.")
@@ -967,6 +1131,122 @@ Report AlignDiagnosis::diagnose(const AlignFacts &facts, const QStringList &trie
     }
 
     order(report.items);
+    return report;
+}
+
+Report AlignDiagnosis::checkup(const AlignFacts &facts, const QStringList &dismissed)
+{
+    Report report;
+    report.module = QStringLiteral("align");
+    report.train = facts.train;
+    report.state = facts.state;
+    report.reason = static_cast<int>(AlignFailReason::None);
+    report.reasonKey = checkupReasonKey();
+
+    QList<Item> items;
+
+    // Devices
+    if (!facts.hasCamera)
+        items << selectCameraItem();
+    else if (!facts.cameraConnected)
+        items << connectCameraItem(facts);
+    else
+        report.ruledOut << i18n("The camera %1 is connected.", facts.cameraName);
+
+    // Align can solve without a mount, so only a mount that is there is checked
+    if (facts.hasMount)
+    {
+        if (!facts.mountConnected)
+            items << connectMountItem();
+        else if (!facts.mountCoordsValid)
+            items << mountCoordsItem();
+        else
+            report.ruledOut << i18n("The mount is connected and reports its position.");
+    }
+
+    // Optics and pixel size give the field of view the solver searches
+    const bool opticsMissing = facts.focalLength <= 0 || facts.aperture <= 0;
+    const bool pixelMissing = facts.pixelW <= 0 || facts.pixelH <= 0;
+    if (opticsMissing)
+        items << opticsItem(facts, Likelihood::Likely);
+    // The driver reports the pixel size once the camera is connected
+    if (pixelMissing && facts.hasCamera && facts.cameraConnected)
+        items << pixelSizeItem(facts, Likelihood::Likely);
+    if (!opticsMissing && !pixelMissing)
+        report.ruledOut << i18n("Focal length, aperture and pixel size are set.");
+
+    if (facts.localSolver && facts.externalSolverMissing)
+        items << externalSolverItem();
+    indexItems(facts, items, report);
+
+    if (facts.hasMount && facts.mountConnected)
+        clockChecks(facts, items, report);
+
+    // Settings that make solving hard, unless Align just solved with them
+    bool solved = false;
+    if (!facts.attempts.isEmpty())
+    {
+        const auto &last = facts.attempts.last();
+        solved = last.success && std::abs(last.exposure - facts.exposure) < 1e-3 && last.binning == facts.binIndex + 1
+                 && last.profile == facts.profile;
+    }
+    if (solved)
+        report.ruledOut << i18n("Align solved with the current exposure, binning and solver profile.");
+    else
+    {
+        if (canRaiseExposure(facts))
+            items << exposureItem(facts, -1);
+        if (canBinMore(facts))
+            items << binItem(facts, false);
+        if (customProfile(facts))
+            items << profileItem(facts);
+    }
+    if (unusualReducer(facts))
+        items << reducerItem(facts);
+    if (narrowField(facts))
+        items << narrowFovItem(facts);
+
+    QStringList seen;
+    for (auto item : items)
+    {
+        if (seen.contains(item.id) || dismissed.contains(item.id))
+            continue;
+        seen << item.id;
+        // Nothing failed: applying a suggestion never starts Align by itself
+        item.autoRetry = false;
+        report.items << item;
+    }
+    order(report.items);
+
+    // What the check-up looked at
+    auto add = [&report](const QString & key, const QString & label, const QVariant & value, const QString & unit)
+    {
+        Evidence evidence;
+        evidence.key = key;
+        evidence.label = label;
+        evidence.value = value;
+        evidence.unit = unit;
+        report.evidence << evidence;
+    };
+    if (facts.hasCamera)
+        add("camera", i18n("Camera"), facts.cameraName, QString());
+    if (facts.fovW > 0 && facts.fovH > 0)
+        add("fov", i18n("Field of view"), QString("%1 x %2").arg(facts.fovW, 0, 'f', 1).arg(facts.fovH, 0, 'f', 1),
+            QStringLiteral("arcmin"));
+    add("exposure", i18n("Exposure"), facts.exposure, QStringLiteral("s"));
+    add("binning", i18n("Binning"), QString("%1x%1").arg(facts.binIndex + 1), QString());
+
+    if (report.items.isEmpty())
+    {
+        report.title = i18n("Align looks ready");
+        report.summary = i18n("No problems were found in the Align setup.");
+    }
+    else
+    {
+        report.title = i18np("%1 thing to check", "%1 things to check", report.items.size());
+        report.summary = i18n("Start with the first suggestion, it is the most likely to matter.");
+    }
+
     return report;
 }
 

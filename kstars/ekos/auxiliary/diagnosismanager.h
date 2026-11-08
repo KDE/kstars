@@ -78,6 +78,8 @@ class DiagnosisManager : public QObject
             std::function<void(const QString &text)> log;
             /// Rebuild a cached report, e.g. after a client sent its time. May return nothing.
             std::function<std::optional<Diagnosis::Report>(const Diagnosis::Report &report)> refresh;
+            /// Check the module setup when nothing failed. May return nothing.
+            std::function<std::optional<Diagnosis::Report>(const QString &train)> checkup;
         };
 
         explicit DiagnosisManager(QObject *parent = nullptr);
@@ -106,6 +108,17 @@ class DiagnosisManager : public QObject
          * The manager fills the id, the creation time, the attempt number and the tried list.
          */
         void submit(Diagnosis::Report report);
+
+        /**
+         * @brief checkup Check the setup of a module, e.g. when a user opens the troubleshooter while nothing failed.
+         * A cached failure report explains more than a check-up, so it is kept and returned instead.
+         * The check-up report is cached like a failure report, so its auto items can be applied, but applying them
+         * never retries the module. It is not published with newDiagnosis: the caller sends the result.
+         * @param module module key, e.g. "align"
+         * @param train optical train, empty for the one the module uses now
+         * @return the reports of the module: its failure report, or the new check-up, or nothing
+         */
+        QJsonArray checkup(const QString &module, const QString &train = QString());
 
         /** The module succeeded: close its failure chain and drop its cached report. */
         void moduleSucceeded(const QString &module, const QString &train);
@@ -144,6 +157,7 @@ class DiagnosisManager : public QObject
 
         /**
          * @brief refresh Rebuild the cached reports of a module (all modules if empty).
+         * A failure report keeps its id. A check-up with new findings gets a new id, unless its item is running.
          * @param publish emit newDiagnosis for the reports that changed
          */
         void refresh(const QString &module = QString(), bool publish = true);
@@ -154,7 +168,10 @@ class DiagnosisManager : public QObject
     Q_SIGNALS:
         /** A report was created or replaced. */
         void newDiagnosis(const QString &module, const QJsonObject &report);
-        /** Progress of an item: {diagnosisId, itemId, state, message?, value?, reason?}. */
+        /**
+         * Progress of an item: {diagnosisId, itemId, state, message?, reason?}. A setting change that is done also
+         * carries oldValue and newValue, and canRevert when mark(..., "revert") can undo it.
+         */
         void diagnosisUpdated(const QJsonObject &update);
 
     private:
@@ -189,7 +206,8 @@ class DiagnosisManager : public QObject
         const Action *findAction(const QString &module, const QString &itemId) const;
         QString keyOfReport(const QString &diagnosisId) const;
         QJsonObject update(const QString &diagnosisId, const QString &itemId, const QString &state,
-                           const QString &message = QString(), const QString &reason = QString());
+                           const QString &message = QString(), const QString &reason = QString(),
+                           const QJsonObject &extra = QJsonObject());
         QJsonObject refuse(const QString &diagnosisId, const QString &itemId, const QString &reason);
         void itemApplied(const QString &key, const QString &diagnosisId, const QString &itemId, const ApplyResult &result);
         void log(const QString &module, const QString &text) const;

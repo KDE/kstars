@@ -9,7 +9,8 @@
  * - unknown items and stale reports are refused,
  * - one change per retry, the tried list carries over to the next report,
  * - hardware items need a confirmation and never retry by themselves,
- * - revert, manual done with verify, dismiss, timeouts.
+ * - revert, manual done with verify, dismiss, timeouts,
+ * - check-ups when nothing failed, and the change a done item reports.
  */
 
 #include "ekos/auxiliary/diagnosismanager.h"
@@ -48,6 +49,10 @@ class TestDiagnosisManager : public QObject
         void testUnregister();
         void testClientUtc();
         void testRefresh();
+        void testCheckup();
+        void testCheckupKeepsRunningReport();
+        void testRefreshCheckup();
+        void testDoneCarriesChange();
 
     private:
         Report makeReport(const QString &train = "Primary") const;
@@ -59,6 +64,8 @@ class TestDiagnosisManager : public QObject
         bool m_RetryResult { true };
         int m_Reverts { 0 };
         std::optional<Report> m_Refreshed;
+        std::optional<Report> m_Checkup;
+        int m_CheckupCalls { 0 };
 };
 
 void TestDiagnosisManager::initTestCase()
@@ -74,6 +81,8 @@ void TestDiagnosisManager::init()
     m_RetryResult = true;
     m_Reverts = 0;
     m_Refreshed.reset();
+    m_Checkup.reset();
+    m_CheckupCalls = 0;
 
     m_Manager.reset(new DiagnosisManager());
 
@@ -91,6 +100,11 @@ void TestDiagnosisManager::init()
     hooks.refresh = [this](const Report &) -> std::optional<Report>
     {
         return m_Refreshed;
+    };
+    hooks.checkup = [this](const QString &) -> std::optional<Report>
+    {
+        m_CheckupCalls++;
+        return m_Checkup;
     };
     m_Manager->registerModule("fake", hooks);
 
@@ -543,6 +557,168 @@ void TestDiagnosisManager::testRefresh()
     m_Manager->refresh(QString(), false);
     QVERIFY(spy.isEmpty());
     QCOMPARE(m_Manager->reports().first().title, QString("Changed again"));
+}
+
+namespace
+{
+// A check-up of the fake module: its items never retry the module
+Report checkupOf(Report report)
+{
+    report.reasonKey = checkupReasonKey();
+    report.title = "Fake check-up";
+    for (auto &item : report.items)
+        item.autoRetry = false;
+    return report;
+}
+}
+
+void TestDiagnosisManager::testCheckup()
+{
+    // Nothing to check and nothing cached
+    QVERIFY(m_Manager->checkup("fake").isEmpty());
+    QCOMPARE(m_CheckupCalls, 1);
+    // A module without a check-up
+    QVERIFY(m_Manager->checkup("unknown").isEmpty());
+
+    Report check = checkupOf(makeReport());
+    m_Checkup = check;
+    QSignalSpy published(m_Manager.get(), &DiagnosisManager::newDiagnosis);
+
+    QJsonArray reports = m_Manager->checkup("fake");
+    QCOMPARE(reports.size(), 1);
+    const QString id = reports.first().toObject()["id"].toString();
+    QVERIFY(!id.isEmpty());
+    QCOMPARE(reports.first().toObject()["reasonKey"].toString(), QString("checkup"));
+    // The caller sends it: no newDiagnosis
+    QVERIFY(published.isEmpty());
+    // Cached, so its items can be applied
+    QCOMPARE(m_Manager->reports().size(), 1);
+    QVERIFY(m_Log.first().startsWith("Fake check-up: Fake check-up"));
+
+    // Same findings: the same report, and the log is not repeated
+    m_Log.clear();
+    QCOMPARE(m_Manager->checkup("fake").first().toObject()["id"].toString(), id);
+    QVERIFY(m_Log.isEmpty());
+
+    // Applying a suggestion never retries the module
+    QCOMPARE(m_Manager->apply(id, "fake_setting")["state"].toString(), QString("done"));
+    QVERIFY(m_Retries.isEmpty());
+
+    // New findings: a new report
+    check.items.removeFirst();
+    m_Checkup = check;
+    const QString secondId = m_Manager->checkup("fake").first().toObject()["id"].toString();
+    QVERIFY(secondId != id);
+    QCOMPARE(m_Manager->reports().size(), 1);
+
+    // A setup that is fine is not logged
+    m_Log.clear();
+    Report fine = check;
+    fine.items.clear();
+    m_Checkup = fine;
+    QCOMPARE(m_Manager->checkup("fake").first().toObject()["items"].toArray().size(), 0);
+    QVERIFY(m_Log.isEmpty());
+
+    // A failure replaces the check-up, and a check-up returns the failure instead
+    m_Manager->submit(makeReport());
+    const QString failureId = m_Manager->reports().first().id;
+    QCOMPARE(m_Manager->reports().size(), 1);
+    m_Checkup = check;
+    reports = m_Manager->checkup("fake");
+    QCOMPARE(reports.size(), 1);
+    QCOMPARE(reports.first().toObject()["id"].toString(), failureId);
+    QCOMPARE(reports.first().toObject()["reasonKey"].toString(), QString("fake_failure"));
+
+    // Once the module succeeded, the check-up runs again
+    m_Manager->moduleSucceeded("fake", "Primary");
+    QCOMPARE(m_Manager->checkup("fake").first().toObject()["reasonKey"].toString(), QString("checkup"));
+}
+
+void TestDiagnosisManager::testRefreshCheckup()
+{
+    // Refreshing before a check-up, as EkosLive does when the client sends its time
+    m_Checkup = checkupOf(makeReport());
+    const QString id = m_Manager->checkup("fake").first().toObject()["id"].toString();
+    QSignalSpy published(m_Manager.get(), &DiagnosisManager::newDiagnosis);
+
+    // Same findings keep the id
+    m_Refreshed = m_Checkup;
+    m_Manager->refresh("fake", false);
+    QCOMPARE(m_Manager->reports().first().id, id);
+
+    // A suggestion was applied, so the findings changed: a new check-up, not the old id with other items
+    QVERIFY(m_Manager->apply(id, "fake_setting")["state"].toString() == QString("done"));
+    Report applied = *m_Checkup;
+    applied.items.removeFirst();
+    m_Refreshed = applied;
+    m_Checkup = applied;
+    m_Manager->refresh("fake", false);
+    const QString secondId = m_Manager->reports().first().id;
+    QVERIFY(secondId != id);
+    QCOMPARE(m_Manager->reports().first().items.size(), applied.items.size());
+    QVERIFY(published.isEmpty());
+    // The check-up that follows returns it
+    QCOMPARE(m_Manager->checkup("fake").first().toObject()["id"].toString(), secondId);
+    // The applied change can still be undone by its old id
+    QCOMPARE(m_Manager->mark(id, "fake_setting", "revert")["state"].toString(), QString("reverted"));
+    QCOMPARE(m_Reverts, 1);
+
+    // While an item runs, the check-up stays
+    QCOMPARE(m_Manager->apply(secondId, "fake_async_07")["state"].toString(), QString("running"));
+    Report running = applied;
+    running.items.removeLast();
+    m_Refreshed = running;
+    m_Manager->refresh("fake", false);
+    QCOMPARE(m_Manager->reports().first().id, secondId);
+    m_Manager->finishItem(secondId, "fake_async_07", true);
+}
+
+void TestDiagnosisManager::testCheckupKeepsRunningReport()
+{
+    m_Checkup = checkupOf(makeReport());
+    const QString id = m_Manager->checkup("fake").first().toObject()["id"].toString();
+    QCOMPARE(m_Manager->apply(id, "fake_async_07")["state"].toString(), QString("running"));
+
+    // While its item runs, the report stays
+    Report changed = *m_Checkup;
+    changed.items.removeLast();
+    m_Checkup = changed;
+    QCOMPARE(m_Manager->checkup("fake").first().toObject()["id"].toString(), id);
+
+    m_Manager->finishItem(id, "fake_async_07", true);
+    QVERIFY(m_Retries.isEmpty());
+    QVERIFY(m_Manager->checkup("fake").first().toObject()["id"].toString() != id);
+}
+
+void TestDiagnosisManager::testDoneCarriesChange()
+{
+    m_Manager->registerAction("fake", "fake_setting", [](const Item &, const Report &)
+    {
+        DiagnosisManager::ApplyResult result;
+        result.outcome = DiagnosisManager::Outcome::Done;
+        result.oldValue = 1.0;
+        result.newValue = 5.0;
+        result.revert = []() {};
+        return result;
+    });
+
+    m_Manager->submit(makeReport());
+    const QString id = m_Manager->reports().first().id;
+    QSignalSpy spy(m_Manager.get(), &DiagnosisManager::diagnosisUpdated);
+
+    const QJsonObject done = m_Manager->apply(id, "fake_setting");
+    QCOMPARE(done["state"].toString(), QString("done"));
+    QCOMPARE(done["oldValue"].toDouble(), 1.0);
+    QCOMPARE(done["newValue"].toDouble(), 5.0);
+    QCOMPARE(done["canRevert"].toBool(), true);
+    // The signal carries the same
+    QCOMPARE(spy.first().first().toJsonObject()["newValue"].toDouble(), 5.0);
+
+    // Nothing changed, nothing to undo
+    const QJsonObject hardware = m_Manager->apply(id, "fake_hardware", true);
+    QCOMPARE(hardware["state"].toString(), QString("done"));
+    QVERIFY(!hardware.contains("oldValue"));
+    QVERIFY(!hardware.contains("canRevert"));
 }
 
 QTEST_GUILESS_MAIN(TestDiagnosisManager)

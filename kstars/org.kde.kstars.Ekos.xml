@@ -76,6 +76,10 @@
         <arg type="s" direction="out"/>
         <arg name="module" type="s" direction="in"/>
     </method>
+    <method name="diagnosisCheckup">
+        <arg type="s" direction="out"/>
+        <arg name="module" type="s" direction="in"/>
+    </method>
     <method name="applyDiagnosisItem">
         <arg type="b" direction="out"/>
         <arg name="diagnosisId" type="s" direction="in"/>

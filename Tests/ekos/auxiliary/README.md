@@ -84,9 +84,11 @@ pixel values within tolerance.
 
 ### `diagnosis/testdiagnosis.cpp` — Diagnosis report types
 
-Tests `kstars/ekos/auxiliary/diagnosis.h`: `order()` (tier, then blockers before
-warnings, stable), the JSON field names and types sent to EkosLive and D-Bus, and the
-log lines written to the module log.
+Tests `kstars/ekos/auxiliary/diagnosis.h`: `order()` (from the most likely cause to the
+least likely, then blockers before warnings, then the tier, then the cheapest fix: a setting
+before a download before moving equipment; stable), the JSON field names and types sent to
+EkosLive and D-Bus (including `likelihood`), and the log lines written to the module log
+(likely causes are marked, a check-up does not say "failed").
 
 ---
 
@@ -102,7 +104,11 @@ Tests `DiagnosisManager` with a fake module and a fake action table:
   arrives before `apply()` returns;
 - revert of a setting change, manual Done with `verified` and `verify_failed`,
   `fixed` on success, dismiss for the session and for good (`DiagnosisDismissedItems`);
-- the client time offset and the rebuild of cached reports.
+- the client time offset and the rebuild of cached reports;
+- check-ups: a check-up is cached but not published, its items never retry the module, the
+  same findings keep the same report, a failure report is kept and returned instead, and a
+  report whose item is running is not replaced;
+- a done setting change carries `oldValue`, `newValue` and `canRevert`.
 
 ---
 

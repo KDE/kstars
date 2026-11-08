@@ -4219,6 +4219,11 @@ QString Manager::diagnosis(const QString &module)
     return QString::fromUtf8(QJsonDocument(m_DiagnosisManager->reportsJson(module)).toJson(QJsonDocument::Compact));
 }
 
+QString Manager::diagnosisCheckup(const QString &module)
+{
+    return QString::fromUtf8(QJsonDocument(m_DiagnosisManager->checkup(module)).toJson(QJsonDocument::Compact));
+}
+
 bool Manager::applyDiagnosisItem(const QString &diagnosisId, const QString &itemId)
 {
     const QString state = m_DiagnosisManager->apply(diagnosisId, itemId, true)["state"].toString();

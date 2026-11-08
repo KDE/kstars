@@ -451,6 +451,14 @@ class Manager : public QDialog, public Ui::Manager
 
         /**
          * DBUS interface function.
+         * Check the setup of a module when nothing failed. A failure report of the module is returned instead.
+         * @param module module key, e.g. "align"
+         * @return JSON array of diagnosis reports, as sent to EkosLive clients in ekos_diagnosis.
+         */
+        Q_SCRIPTABLE QString diagnosisCheckup(const QString &module);
+
+        /**
+         * DBUS interface function.
          * Apply an auto item of a cached diagnosis. Progress is reported by the diagnosisUpdated signal.
          * @return true if the item was applied or started, false if it was refused or failed.
          */

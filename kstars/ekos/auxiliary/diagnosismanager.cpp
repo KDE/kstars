@@ -164,6 +164,52 @@ void DiagnosisManager::submit(Report report)
     Q_EMIT newDiagnosis(report.module, toJson(report));
 }
 
+QJsonArray DiagnosisManager::checkup(const QString &module, const QString &train)
+{
+    const auto hooks = m_Modules.value(module);
+    if (!hooks.checkup)
+        return reportsJson(module, train);
+
+    auto report = hooks.checkup(train);
+    if (!report)
+        return reportsJson(module, train);
+
+    const QString reportKey = key(report->module, report->train);
+    const auto cached = m_Reports.constFind(reportKey);
+    if (cached != m_Reports.constEnd())
+    {
+        // A failure report explains more, and an item that is running belongs to the cached report
+        const bool busyHere = m_Running && m_Running->key == reportKey;
+        if (!isCheckup(*cached) || busyHere)
+            return QJsonArray{toJson(*cached)};
+
+        // Same findings: keep the cached report, so the items a client shows stay valid
+        Report same = *report;
+        same.id = cached->id;
+        same.created = cached->created;
+        same.attempt = cached->attempt;
+        same.tried = cached->tried;
+        if (toJson(same) == toJson(*cached))
+            return QJsonArray{toJson(*cached)};
+    }
+
+    report->id = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    report->created = QDateTime::currentDateTimeUtc();
+    report->attempt = 1;
+    report->tried.clear();
+    m_Reports.insert(reportKey, *report);
+
+    // Only findings go to the log, not every look at a setup that is fine
+    if (!report->items.isEmpty())
+    {
+        for (const auto &line : toLogLines(*report, hooks.name.isEmpty() ? module : hooks.name))
+            log(module, line);
+    }
+    qCInfo(KSTARS_EKOS) << "Diagnosis check-up" << module << report->train << "items" << report->items.size();
+
+    return QJsonArray{toJson(*report)};
+}
+
 void DiagnosisManager::moduleSucceeded(const QString &module, const QString &train)
 {
     const QString reportKey = key(module, train);
@@ -232,14 +278,12 @@ QString DiagnosisManager::keyOfReport(const QString &diagnosisId) const
 }
 
 QJsonObject DiagnosisManager::update(const QString &diagnosisId, const QString &itemId, const QString &state,
-                                     const QString &message, const QString &reason)
+                                     const QString &message, const QString &reason, const QJsonObject &extra)
 {
-    QJsonObject object =
-    {
-        {"diagnosisId", diagnosisId},
-        {"itemId", itemId},
-        {"state", state}
-    };
+    QJsonObject object = extra;
+    object.insert("diagnosisId", diagnosisId);
+    object.insert("itemId", itemId);
+    object.insert("state", state);
     if (!message.isEmpty())
         object.insert("message", message);
     if (!reason.isEmpty())
@@ -308,7 +352,15 @@ QJsonObject DiagnosisManager::apply(const QString &diagnosisId, const QString &i
         case Outcome::Done:
         {
             m_Running.reset();
-            QJsonObject done = update(diagnosisId, itemId, QStringLiteral("done"), result.message);
+            // What changed, so a client can show it and offer to undo it
+            QJsonObject change;
+            if (result.oldValue.isValid())
+                change.insert("oldValue", QJsonValue::fromVariant(result.oldValue));
+            if (result.newValue.isValid())
+                change.insert("newValue", QJsonValue::fromVariant(result.newValue));
+            if (result.revert)
+                change.insert("canRevert", true);
+            QJsonObject done = update(diagnosisId, itemId, QStringLiteral("done"), result.message, QString(), change);
             itemApplied(reportKey, diagnosisId, itemId, result);
             return done;
         }
@@ -340,7 +392,10 @@ void DiagnosisManager::finishItem(const QString &diagnosisId, const QString &ite
         return;
     }
 
-    update(diagnosisId, itemId, QStringLiteral("done"), message);
+    QJsonObject change;
+    if (m_Reverts.contains(diagnosisId + QLatin1Char('|') + itemId))
+        change.insert("canRevert", true);
+    update(diagnosisId, itemId, QStringLiteral("done"), message, QString(), change);
     ApplyResult result;
     result.outcome = Outcome::Done;
     itemApplied(reportKey, diagnosisId, itemId, result);
@@ -493,6 +548,18 @@ void DiagnosisManager::refresh(const QString &module, bool publish)
 
         if (toJson(*rebuilt) == toJson(it.value()))
             continue;
+
+        // A check-up with new findings is a new check-up, as in checkup(): clients tell them apart by id. One whose
+        // item is running stays.
+        if (isCheckup(it.value()))
+        {
+            if (m_Running && m_Running->key == it.key())
+                continue;
+            rebuilt->id = QUuid::createUuid().toString(QUuid::WithoutBraces);
+            rebuilt->created = QDateTime::currentDateTimeUtc();
+            rebuilt->attempt = 1;
+            rebuilt->tried.clear();
+        }
 
         it.value() = *rebuilt;
         if (publish)

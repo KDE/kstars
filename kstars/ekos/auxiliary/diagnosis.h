@@ -41,7 +41,18 @@ enum class Kind
     Info    ///< Explains something; nothing to apply.
 };
 
-/** Order of the items: hardware problems first, tuning last. */
+/**
+ * How strongly the evidence points at an item. Items are shown from the most likely cause to the least likely,
+ * so the user tries the most promising fix first.
+ */
+enum class Likelihood
+{
+    Likely = 0,   ///< The failure reason or the measured evidence points straight at it.
+    Possible = 1, ///< Fits the evidence, but is not proven by it.
+    Check = 2     ///< General advice, or a suggestion when nothing failed.
+};
+
+/** Within the same likelihood: hardware problems first, tuning last. */
 enum class Tier
 {
     Hardware = 0,
@@ -92,6 +103,7 @@ struct Item
 {
     QString id;             ///< Stable id, e.g. "align_bin_max" or "index_install_07".
     Kind kind {Kind::Info};
+    Likelihood likelihood {Likelihood::Possible};
     Tier tier {Tier::Tuning};
     bool blocker {true};    ///< False for warnings.
     bool autoRetry {true};  ///< Retry the module after an auto item is applied.
@@ -115,7 +127,7 @@ struct Report
     int state {0};          ///< Module state enum value.
     QString status;         ///< Untranslated module state name, e.g. "Failed".
     int reason {0};         ///< Module reason enum value.
-    QString reasonKey;      ///< Stable machine key, e.g. "solver_failed".
+    QString reasonKey;      ///< Stable machine key, e.g. "solver_failed", or "checkup" when nothing failed.
     QString title;          ///< Translated.
     QString summary;        ///< Translated.
     QList<Evidence> evidence;
@@ -128,14 +140,23 @@ struct Report
 };
 
 /**
- * @brief order Sort items by tier, then blockers before warnings. Items that compare equal keep their order.
+ * @brief order Sort items from the most likely cause to the least likely: by likelihood, then blockers before
+ * warnings, then by tier, then the cheapest fix first (settings, then downloads, then moving equipment).
+ * Items that compare equal keep their order.
  */
 void order(QList<Item> &items);
 
 /** Find an item by id. Returns nullptr if the report has no such item. */
 const Item *findItem(const Report &report, const QString &itemId);
 
+/** Reason key of a report made by a check-up, when nothing failed. */
+QString checkupReasonKey();
+
+/** True if the report comes from a check-up, not from a failure. */
+bool isCheckup(const Report &report);
+
 QString kindKey(Kind kind);
+QString likelihoodKey(Likelihood likelihood);
 QString levelKey(Evidence::Level level);
 
 QJsonObject toJson(const Evidence &evidence);

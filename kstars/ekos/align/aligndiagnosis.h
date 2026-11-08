@@ -158,6 +158,10 @@ struct AlignFacts
     /// The clock of this computer, the reference when there is no client device
     QDateTime systemUtc;
     QDateTime kstarsUtc;
+    /// KStars syncs the time with INDI devices (Options::useTimeUpdate())
+    bool timeUpdate {true};
+    /// The master source of the time: "KStars", or a device that sets the KStars clock (Options::timeSource())
+    QString timeSource {QStringLiteral("KStars")};
 
     // Rotator
     double rotatorThresholdArcmin {0};
@@ -195,6 +199,15 @@ class AlignDiagnosis
          */
         static Diagnosis::Report diagnose(const AlignFacts &facts, const QStringList &tried = QStringList(),
                                           const QStringList &dismissed = QStringList());
+
+        /**
+         * @brief checkup Check the Align setup when nothing failed: devices, optics, index files, clocks and the
+         * settings that make solving hard. Every item is a suggestion: it never retries Align by itself.
+         * @param facts what Align knows now; the reason is ignored
+         * @param dismissed item ids the user dismissed; they are not offered
+         * @return the report, with the reason key "checkup" and no items when everything looks right
+         */
+        static Diagnosis::Report checkup(const AlignFacts &facts, const QStringList &dismissed = QStringList());
 
         /** True if a failure with this reason gets a diagnosis (not a user abort). */
         static bool isDiagnosable(AlignFailReason reason);

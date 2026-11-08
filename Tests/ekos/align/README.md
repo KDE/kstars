@@ -84,11 +84,16 @@ Files page and the Align diagnosis share. No network and no KStars window.
 
 ### `testaligndiagnosis.cpp` — Align failure rules
 
-Tests `Ekos::AlignDiagnosis::diagnose()`, which turns `AlignFacts` into a diagnosis report.
+Tests `Ekos::AlignDiagnosis::diagnose()`, which turns `AlignFacts` into a diagnosis report, and
+`Ekos::AlignDiagnosis::checkup()`, which checks the setup when nothing failed.
 It is pure: no devices, no options, no widgets.
 
 - **`testRules`** — one data row per rule of the Align catalog: facts in, item ids and their
-  order out (hardware, configuration, data, tuning; blockers before warnings). Every required
+  order out. Items go from the most likely cause to the least likely (`likely`, `possible`,
+  `check`); within the same likelihood blockers come before warnings, then hardware,
+  configuration, data and tuning, then the cheapest fix. Few stars in a short exposure come
+  before a mount clock that is off. A mount or camera that disconnected is offered for the
+  failures further down the line too, e.g. a solve or slew failure. Every required
   index size must be installed: an 18 x 14 arcmin field with only 5205 and 5206 still needs 5203
   and 5204. Out of focus stars are flat discs or rings (`check_focus`); large stars with a bright
   core are focused and not a cause.
@@ -103,6 +108,13 @@ It is pure: no devices, no options, no widgets.
   never against the current time: most drivers report their time once, when KStars sends it.
 - **`testReasonKeys`** — every `AlignFailReason` has a unique key, a title and at least one item;
   the enum values that go out on D-Bus and EkosLive do not move.
+- **`testLikelihood`** — which items are likely (the failure reason or the measured frame names
+  them, missing index files, few stars) and which are only possible (clocks, solver profile,
+  reducer) or advice (a narrow field).
+- **`testCheckup`**, **`testCheckupItems`** — the check-up: devices, optics, index files, clocks,
+  reducer and field of view always; exposure, binning and solver profile only when Align has not
+  solved with the current settings. Its items never retry Align by themselves, and a setup that is
+  fine gets no items and the lines of what was checked.
 
 ---
 

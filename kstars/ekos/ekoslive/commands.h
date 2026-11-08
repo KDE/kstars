@@ -321,6 +321,7 @@ enum COMMANDS
     DIAGNOSIS_GET,
     DIAGNOSIS_APPLY,
     DIAGNOSIS_MARK,
+    DIAGNOSIS_CHECK,
     EKOS_DIAGNOSIS,
     EKOS_DIAGNOSIS_UPDATE,
 };
@@ -600,6 +601,7 @@ static QMap<COMMANDS, QString> const commands =
     {DIAGNOSIS_GET, "diagnosis_get"},
     {DIAGNOSIS_APPLY, "diagnosis_apply"},
     {DIAGNOSIS_MARK, "diagnosis_mark"},
+    {DIAGNOSIS_CHECK, "diagnosis_check"},
     {EKOS_DIAGNOSIS, "ekos_diagnosis"},
     {EKOS_DIAGNOSIS_UPDATE, "ekos_diagnosis_update"},
 };
