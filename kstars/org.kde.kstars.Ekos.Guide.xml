@@ -80,6 +80,15 @@
         <arg name="ra" type="d" direction="out"/>
         <arg name="de" type="d" direction="out"/>
     </signal>
+    <signal name="guideStats">
+        <arg name="raError" type="d" direction="out"/>
+        <arg name="decError" type="d" direction="out"/>
+        <arg name="raPulse" type="i" direction="out"/>
+        <arg name="decPulse" type="i" direction="out"/>
+        <arg name="snr" type="d" direction="out"/>
+        <arg name="skyBg" type="d" direction="out"/>
+        <arg name="numStars" type="i" direction="out"/>
+    </signal>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>

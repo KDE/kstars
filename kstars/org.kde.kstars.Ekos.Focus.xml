@@ -27,6 +27,10 @@
       <arg type="(i)" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
     </method>
+    <method name="getHFR">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="d" direction="out"/>
+    </method>
     <method name="start">
       <arg name="trainname" type="s" direction="in"/>
       <arg type="b" direction="out"/>
