@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 04:36+0000\n"
+"POT-Creation-Date: 2026-11-09 02:16+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -2665,7 +2665,7 @@ msgid "Resource Type"
 msgstr "Jenis Pemasangan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ImageRadio)
-#: dialogs/addlinkdialog.ui:34 ekos/align/aligndiagnosis.cpp:285
+#: dialogs/addlinkdialog.ui:34 ekos/align/aligndiagnosis.cpp:555
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:63
 #, kde-format, kde-kuit-format
 msgid "Image"
@@ -5226,8 +5226,9 @@ msgstr "Bandar nama"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433 ekos/align/aligndiagnosis.cpp:247
-#: ekos/analyze/analyze.cpp:2807 ekos/auxiliary/opticaltrainmanager.cpp:1414
+#: dialogs/newfov.ui:433 ekos/align/aligndiagnosis.cpp:517
+#: ekos/align/aligndiagnosis.cpp:1232 ekos/analyze/analyze.cpp:2807
+#: ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #: ekos/manager.cpp:2586
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
@@ -6697,7 +6698,7 @@ msgstr "Tidak dapat memuatkan fail!"
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/align/align_diagnosis.cpp:335 ekos/align/pushtoassistant.ui:199
+#: ekos/align/align_diagnosis.cpp:337 ekos/align/pushtoassistant.ui:199
 #: ekos/analyze/analyze.cpp:2915 ekos/manager.cpp:2649
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:582
@@ -6705,57 +6706,63 @@ msgstr "Tidak dapat memuatkan fail!"
 msgid "Align"
 msgstr "Pada Ahli:"
 
-#: ekos/align/align_diagnosis.cpp:382 ekos/align/align_diagnosis.cpp:430
+#: ekos/align/align_diagnosis.cpp:406 ekos/align/align_diagnosis.cpp:470
+#: ekos/align/align_diagnosis.cpp:481
 #, kde-format
 msgid "No mount is available."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:399
+#: ekos/align/align_diagnosis.cpp:423
 #, kde-format
 msgid "The mount reported an error while unparking."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:405
+#: ekos/align/align_diagnosis.cpp:429
 #, kde-format
 msgid "The mount rejected the unpark command."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:417
+#: ekos/align/align_diagnosis.cpp:441
 #, kde-format
 msgid "No camera is available."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:420
+#: ekos/align/align_diagnosis.cpp:444
 #, fuzzy, kde-format
 msgid "The camera driver is not connected."
 msgstr "s."
 
-#: ekos/align/align_diagnosis.cpp:435
+#: ekos/align/align_diagnosis.cpp:472 ekos/align/align_diagnosis.cpp:490
 #, kde-format
 msgid "The mount does not accept a time."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:453
+#: ekos/align/align_diagnosis.cpp:493
+#, fuzzy, kde-format
+msgid "none"
+msgstr "Bandar nama"
+
+#: ekos/align/align_diagnosis.cpp:511
 #, kde-format
 msgid "Unknown index file size."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:455
+#: ekos/align/align_diagnosis.cpp:513
 #, fuzzy, kde-format
 msgid "The index file manager is not available."
 msgstr "Tidak dapat memuatkan fail!"
 
-#: ekos/align/align_diagnosis.cpp:500
+#: ekos/align/align_diagnosis.cpp:558
 #, fuzzy, kde-format
 msgid "The camera cannot bin."
 msgstr "Kepastian Pemadaman"
 
-#: ekos/align/align_diagnosis.cpp:520
+#: ekos/align/align_diagnosis.cpp:578
 #, kde-format
 msgid "The solver timeout is already at its limit."
 msgstr ""
 
-#: ekos/align/align_diagnosis.cpp:546
+#: ekos/align/align_diagnosis.cpp:604
 #, kde-format
 msgid "The default solver profile was not found."
 msgstr ""
@@ -7343,314 +7350,537 @@ msgstr "Mula Kamera ialah inci saat."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Mula Kamera ialah inci saat."
 
-#: ekos/align/aligndiagnosis.cpp:103
+#: ekos/align/aligndiagnosis.cpp:105
+#, fuzzy, kde-format
+msgid "Select a camera in the optical train"
+msgstr "Lanjutan URL uketerangan atau"
+
+#: ekos/align/aligndiagnosis.cpp:106
+#, kde-format
+msgid "The optical train of Align has no camera."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:114
+#, fuzzy, kde-format
+#| msgid "Connect"
+msgid "Connect the camera"
+msgstr "Sambung"
+
+#: ekos/align/aligndiagnosis.cpp:115
+#, fuzzy, kde-format
+#| msgid "Disconnect"
+msgid "The camera %1 is disconnected."
+msgstr "Putus"
+
+#: ekos/align/aligndiagnosis.cpp:123
+#, fuzzy, kde-format
+msgid "Connect the mount"
+msgstr "Sambungan Masatamat:"
+
+#: ekos/align/aligndiagnosis.cpp:124
+#, kde-format
+msgid "The mount is disconnected, so its position is unknown."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:132
+#, fuzzy, kde-format
+msgid "Check the mount connection"
+msgstr "Perhubungan"
+
+#: ekos/align/aligndiagnosis.cpp:133
+#, fuzzy, kde-format
+msgid "The mount is connected but sends no valid coordinates."
+msgstr "Paparan buka"
+
+#: ekos/align/aligndiagnosis.cpp:135
+#, kde-format
+msgid "Open the mount control panel and check that it shows RA and DEC."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:136
+#, kde-format
+msgid "If it does not, disconnect and reconnect the mount."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:144
+#, fuzzy, kde-format
+msgid "Set the telescope focal length and aperture"
+msgstr "inci"
+
+#: ekos/align/aligndiagnosis.cpp:145
+#, kde-format
+msgid "Focal length %1 mm, aperture %2 mm."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:156
+#, kde-format
+msgid "Set the camera pixel size"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:157
+#, kde-format
+msgid "The camera driver reports a pixel size of %1 x %2 um."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:167
+#, kde-format
+msgid "Install or locate the solver program"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:168
+#, kde-format
+msgid "The selected external solver program was not found."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:190
+#, kde-format
+msgid "Index files for this field of view are installed."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:199
+#, fuzzy, kde-format
+msgid "Install index files %1"
+msgstr "%s: fail saiz tidak sah"
+
+#: ekos/align/aligndiagnosis.cpp:200
+#, kde-format
+msgid ""
+"Your %1 x %2 arcmin field needs index files %3; %4 are missing or incomplete."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:228
+#, fuzzy, kde-format
+msgid "Raise the Align exposure to %1 seconds"
+msgstr "Mula Kamera ialah inci saat."
+
+#: ekos/align/aligndiagnosis.cpp:229
+#, kde-format
+msgid "Only %1 stars were found in a %2 second exposure."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:230
+#, kde-format
+msgid "A %1 second exposure may be too short to show enough stars."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:240
+#, kde-format
+msgid "Bin the Align camera %1x%1"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:241
+#, kde-format
+msgid "Binning collects more light per pixel and speeds up solving."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:256
+#, kde-format
+msgid "Use the default solver profile"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:257
+#, kde-format
+msgid ""
+"The solver profile %1 is selected. The default profile adapts its search to "
+"your field of view."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:272
+#, fuzzy, kde-format
+msgid "The field of view is narrow"
+msgstr "fail ialah fail?"
+
+#: ekos/align/aligndiagnosis.cpp:273
+#, kde-format
+msgid ""
+"A %1 x %2 arcmin field holds few stars. Use binning and longer exposures, or "
+"solve with a wider camera."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:287
+#, kde-format
+msgid "Check the reducer setting"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:288
+#, kde-format
+msgid ""
+"The optical train uses a reducer of %1x. A wrong value gives the solver a "
+"wrong field of view."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:314
+#, kde-format
+msgid "Check the KStars clock"
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:316
+#, kde-format
+msgid "The KStars time differs from your device by %1 seconds."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:317
+#, kde-format
+msgid "The KStars time differs from this computer by %1 seconds."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:319
+#, kde-format
+msgid "Check the date, time and time zone of the computer that runs KStars."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:320
+#, kde-format
+msgid "Check the location and time zone set in KStars."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:324
+#, kde-format
+msgid ""
+"KStars takes its time from %1. Check the clock of that device, or set the "
+"time source to KStars in the INDI settings."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:335
+#, kde-format
+msgid "Mount clock: the mount does not report its time."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:344
+#, kde-format
+msgid "The mount clock matches this computer."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:350
+#, fuzzy, kde-format
+msgid "Send the KStars time to the mount"
+msgstr "Pudar latar belakang?"
+
+#: ekos/align/aligndiagnosis.cpp:351
+#, kde-format
+msgid "The mount clock was %1 seconds off when it last reported its time."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:361
+#, fuzzy, kde-format
+msgid "Let KStars keep the mount time"
+msgstr "Pudar latar belakang?"
+
+#: ekos/align/aligndiagnosis.cpp:362
+#, kde-format
+msgid ""
+"The mount clock was %1 seconds off when it last reported its time, and "
+"KStars does not send its time to the mount."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:373
 #, fuzzy, kde-format
 msgid "slew to the target"
 msgstr "%s bukan objek prosedur"
 
-#: ekos/align/aligndiagnosis.cpp:103
+#: ekos/align/aligndiagnosis.cpp:373
 #, kde-format
 msgid "sync"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:107
+#: ekos/align/aligndiagnosis.cpp:377
 #, kde-format
 msgid "The mount position is unknown"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:108
+#: ekos/align/aligndiagnosis.cpp:378
 #, kde-format
 msgid ""
 "Align needs the mount position to set its target, but the mount reports no "
 "valid coordinates."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:111
+#: ekos/align/aligndiagnosis.cpp:381
 #, fuzzy, kde-format
 msgid "No camera is selected"
 msgstr "s."
 
-#: ekos/align/aligndiagnosis.cpp:112
+#: ekos/align/aligndiagnosis.cpp:382
 #, kde-format
 msgid "The optical train has no camera for Align to capture with."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:115
+#: ekos/align/aligndiagnosis.cpp:385
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The camera is disconnected"
 msgstr "Putus"
 
-#: ekos/align/aligndiagnosis.cpp:116
+#: ekos/align/aligndiagnosis.cpp:386
 #, fuzzy, kde-format
 msgid "Align lost the connection to the camera %1."
 msgstr "Perhubungan"
 
-#: ekos/align/aligndiagnosis.cpp:119
+#: ekos/align/aligndiagnosis.cpp:389
 #, kde-format
 msgid "The focal length or aperture is missing"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:120
+#: ekos/align/aligndiagnosis.cpp:390
 #, kde-format
 msgid ""
 "The optical train has no focal length or aperture, so the field of view is "
 "unknown."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:123
+#: ekos/align/aligndiagnosis.cpp:393
 #, fuzzy, kde-format
 msgid "The camera pixel size is missing"
 msgstr "Pemandu ALSA (versi %s) telah dilaksanakan."
 
-#: ekos/align/aligndiagnosis.cpp:124
+#: ekos/align/aligndiagnosis.cpp:394
 #, kde-format
 msgid ""
 "The camera driver reports no pixel size, so the field of view is unknown."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:127
+#: ekos/align/aligndiagnosis.cpp:397
 #, fuzzy, kde-format
 #| msgid "Function index out of bounds."
 msgid "The field of view is out of bounds"
 msgstr "Indeks fungsi luar dari julat."
 
-#: ekos/align/aligndiagnosis.cpp:128
+#: ekos/align/aligndiagnosis.cpp:398
 #, fuzzy, kde-format
 msgid "The calculated field of view is %1 x %2 arcmin."
 msgstr "bagi saiz inci"
 
-#: ekos/align/aligndiagnosis.cpp:132
+#: ekos/align/aligndiagnosis.cpp:402
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The filter wheel is disconnected"
 msgstr "Putus"
 
-#: ekos/align/aligndiagnosis.cpp:133
+#: ekos/align/aligndiagnosis.cpp:403
 #, fuzzy, kde-format
 msgid "Align could not select its filter."
 msgstr "Tidak dapat memadam konteks fail untuk %s"
 
-#: ekos/align/aligndiagnosis.cpp:136
+#: ekos/align/aligndiagnosis.cpp:406
 #, fuzzy, kde-format
 msgid "The filter change failed"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: ekos/align/aligndiagnosis.cpp:137 ekos/align/aligndiagnosis.cpp:472
+#: ekos/align/aligndiagnosis.cpp:407 ekos/align/aligndiagnosis.cpp:723
 #, kde-format
 msgid "The filter wheel did not reach the Align filter."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:140
+#: ekos/align/aligndiagnosis.cpp:410
 #, fuzzy, kde-format
 msgid "Image transfer is disabled"
 msgstr "Format imej natif GIMP"
 
-#: ekos/align/aligndiagnosis.cpp:141
+#: ekos/align/aligndiagnosis.cpp:411
 #, kde-format
 msgid "The camera does not send its images to KStars."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:144
+#: ekos/align/aligndiagnosis.cpp:414
 #, kde-format
 msgid "The dust cap reports an error"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:145
+#: ekos/align/aligndiagnosis.cpp:415
 #, kde-format
 msgid "Align cannot capture until the dust cap is open."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:148
+#: ekos/align/aligndiagnosis.cpp:418
 #, fuzzy, kde-format
 msgid "The camera failed to capture"
 msgstr "Saya mempunyai nombor langganan untuk diaktifkan"
 
-#: ekos/align/aligndiagnosis.cpp:149
+#: ekos/align/aligndiagnosis.cpp:419
 #, kde-format
 msgid "The exposure failed %1 times."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:152
+#: ekos/align/aligndiagnosis.cpp:422
 #, kde-format
 msgid "The camera stopped responding"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:153
+#: ekos/align/aligndiagnosis.cpp:423
 #, kde-format
 msgid "Exposures timed out after the camera driver was restarted %1 times."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:156
+#: ekos/align/aligndiagnosis.cpp:426
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Another device stayed busy"
 msgstr "Pelayan"
 
-#: ekos/align/aligndiagnosis.cpp:157
+#: ekos/align/aligndiagnosis.cpp:427
 #, kde-format
 msgid "Align waited too long for another device to finish."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:160
+#: ekos/align/aligndiagnosis.cpp:430
 #, kde-format
 msgid "No index files are installed"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:161
+#: ekos/align/aligndiagnosis.cpp:431
 #, kde-format
 msgid "The solver needs index files for this field of view."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:164
+#: ekos/align/aligndiagnosis.cpp:434
 #, fuzzy, kde-format
 msgid "The image could not be solved"
 msgstr "fail."
 
-#: ekos/align/aligndiagnosis.cpp:165
+#: ekos/align/aligndiagnosis.cpp:435
 #, kde-format
 msgid "The solver found no solution after %1 attempt."
 msgid_plural "The solver found no solution after %1 attempts."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/align/aligndiagnosis.cpp:169
+#: ekos/align/aligndiagnosis.cpp:439
 #, fuzzy, kde-format
 msgid "The solver timed out"
 msgstr "Padanan kurungan"
 
-#: ekos/align/aligndiagnosis.cpp:170
+#: ekos/align/aligndiagnosis.cpp:440
 #, fuzzy, kde-format
 msgid "The solver did not finish within %1 seconds."
 msgstr "Tidak dapat memuatkan fail!"
 
-#: ekos/align/aligndiagnosis.cpp:173
+#: ekos/align/aligndiagnosis.cpp:443
 #, fuzzy, kde-format
 msgid "Polar alignment could not solve the image"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:174
+#: ekos/align/aligndiagnosis.cpp:444
 #, kde-format
 msgid "The polar alignment assistant needs a solved image at each step."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:177
+#: ekos/align/aligndiagnosis.cpp:447
 #, fuzzy, kde-format
 msgid "The remote solver timed out"
 msgstr "Padanan kurungan"
 
-#: ekos/align/aligndiagnosis.cpp:178 ekos/align/aligndiagnosis.cpp:498
+#: ekos/align/aligndiagnosis.cpp:448 ekos/align/aligndiagnosis.cpp:749
 #, kde-format
 msgid "The remote astrometry driver sent no solution."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:181
+#: ekos/align/aligndiagnosis.cpp:451
 #, kde-format
 msgid "The mount rejected the sync"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:182
+#: ekos/align/aligndiagnosis.cpp:452
 #, kde-format
 msgid "The image was solved, but the mount did not accept the solved position."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:185
+#: ekos/align/aligndiagnosis.cpp:455
 #, kde-format
 msgid "The mount failed to sync"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:186
+#: ekos/align/aligndiagnosis.cpp:456
 #, kde-format
 msgid ""
 "The image was solved, but the mount reported an error %1 times while syncing."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:190
+#: ekos/align/aligndiagnosis.cpp:460
 #, kde-format
 msgid "The slew was rejected"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:191
+#: ekos/align/aligndiagnosis.cpp:461
 #, kde-format
 msgid "The image was solved, but KStars refused to slew to the target."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:194
+#: ekos/align/aligndiagnosis.cpp:464
 #, kde-format
 msgid "The mount failed to slew"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:195
+#: ekos/align/aligndiagnosis.cpp:465
 #, kde-format
 msgid ""
 "The image was solved, but the mount reported an error %1 times while slewing."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:199
+#: ekos/align/aligndiagnosis.cpp:469
 #, fuzzy, kde-format
 msgid "The mount is parked"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:200
+#: ekos/align/aligndiagnosis.cpp:470
 #, kde-format
 msgctxt "%1 is the action, e.g. sync"
 msgid "Align was asked to %1, but the mount is parked."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:203
+#: ekos/align/aligndiagnosis.cpp:473
 #, kde-format
 msgid "The rotator reports an error"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:204
+#: ekos/align/aligndiagnosis.cpp:474
 #, kde-format
 msgid "The rotator stopped with an error while turning the camera."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:207
+#: ekos/align/aligndiagnosis.cpp:477
 #, fuzzy, kde-format
 msgid "The rotator did not reach the position angle"
 msgstr "Papar posisi kursor"
 
-#: ekos/align/aligndiagnosis.cpp:208
+#: ekos/align/aligndiagnosis.cpp:478
 #, kde-format
 msgid ""
 "The camera position angle is outside the rotator threshold of %1 arcmin."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:212
+#: ekos/align/aligndiagnosis.cpp:482
 #, fuzzy, kde-format
 msgid "The rotator timed out"
 msgstr "Padanan kurungan"
 
-#: ekos/align/aligndiagnosis.cpp:213 ekos/align/aligndiagnosis.cpp:516
+#: ekos/align/aligndiagnosis.cpp:483 ekos/align/aligndiagnosis.cpp:767
 #, kde-format
 msgid "The rotator did not finish turning in time."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:216
+#: ekos/align/aligndiagnosis.cpp:486
 #, kde-format
 msgid "The rotator turns the wrong way"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:217
+#: ekos/align/aligndiagnosis.cpp:487
 #, kde-format
 msgid ""
 "The position angle error grew after the rotation, also with the direction "
 "reversed."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:220
+#: ekos/align/aligndiagnosis.cpp:490
 #, kde-format
 msgid "The target accuracy was not reached"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:221
+#: ekos/align/aligndiagnosis.cpp:491
 #, kde-format
 msgid "Solving works, but the mount did not get close enough to the target."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:225
+#: ekos/align/aligndiagnosis.cpp:495
 #, fuzzy, kde-format
 msgid "Align failed"
 msgstr "Lanjutan URL uketerangan atau"
@@ -7659,7 +7889,7 @@ msgstr "Lanjutan URL uketerangan atau"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/align/aligndiagnosis.cpp:251 ekos/align/pushtoassistant.ui:206
+#: ekos/align/aligndiagnosis.cpp:521 ekos/align/pushtoassistant.ui:206
 #: ekos/analyze/analyze.cpp:2918 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/auxiliary/opticaltrainmanager.cpp:1413
 #: ekos/manager.cpp:2866 ekos/manager.ui:778
@@ -7668,720 +7898,564 @@ msgstr "Lanjutan URL uketerangan atau"
 msgid "Mount"
 msgstr "Kira:"
 
-#: ekos/align/aligndiagnosis.cpp:254
+#: ekos/align/aligndiagnosis.cpp:524 ekos/align/aligndiagnosis.cpp:1234
 #, fuzzy, kde-format
 msgid "Field of view"
 msgstr "Lihat status faks"
 
-#: ekos/align/aligndiagnosis.cpp:259
+#: ekos/align/aligndiagnosis.cpp:529
 #, fuzzy, kde-format
 msgid "Focal length"
 msgstr "Panjang Katalaluan"
 
-#: ekos/align/aligndiagnosis.cpp:261
+#: ekos/align/aligndiagnosis.cpp:531
 #, fuzzy, kde-format
 msgid "Aperture"
 msgstr "Bukaan:"
 
-#: ekos/align/aligndiagnosis.cpp:266
+#: ekos/align/aligndiagnosis.cpp:536
 #, fuzzy, kde-format
 #| msgid "Size:"
 msgid "Pixel size"
 msgstr "Saiz:"
 
-#: ekos/align/aligndiagnosis.cpp:271 ekos/auxiliary/filtermanager.cpp:122
+#: ekos/align/aligndiagnosis.cpp:541 ekos/align/aligndiagnosis.cpp:1236
+#: ekos/auxiliary/filtermanager.cpp:122
 #: ekos/capture/capturecountswidget.cpp:212
 #, fuzzy, kde-format
 msgid "Exposure"
 msgstr "Pendedahan:"
 
-#: ekos/align/aligndiagnosis.cpp:273
+#: ekos/align/aligndiagnosis.cpp:543 ekos/align/aligndiagnosis.cpp:1237
 #, fuzzy, kde-format
 msgid "Binning"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:277
+#: ekos/align/aligndiagnosis.cpp:547
 #, fuzzy, kde-format
 msgid "Stars found"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:281
+#: ekos/align/aligndiagnosis.cpp:551
 #, fuzzy, kde-format
 msgid "Median HFR"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:287
+#: ekos/align/aligndiagnosis.cpp:557
 #, fuzzy, kde-format
 msgid "Star elongation"
 msgstr "Lokasi Baru"
 
-#: ekos/align/aligndiagnosis.cpp:291
+#: ekos/align/aligndiagnosis.cpp:561
 #, fuzzy, kde-format
 msgid "Trail length"
 msgstr "Panjang Katalaluan"
 
-#: ekos/align/aligndiagnosis.cpp:293
+#: ekos/align/aligndiagnosis.cpp:563
 #, fuzzy, kde-format
 msgid "Trail direction"
 msgstr "Lokasi Baru"
 
-#: ekos/align/aligndiagnosis.cpp:297
+#: ekos/align/aligndiagnosis.cpp:567
 #, fuzzy, kde-format
 msgid "Double image offset"
 msgstr "Imej NFS"
 
-#: ekos/align/aligndiagnosis.cpp:301
+#: ekos/align/aligndiagnosis.cpp:571
 #, kde-format
 msgid "Star concentration (R80/R20)"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:304
+#: ekos/align/aligndiagnosis.cpp:574
 #, fuzzy, kde-format
 #| msgid "Brightness:"
 msgid "Star centre brightness"
 msgstr "Kecerahan:"
 
-#: ekos/align/aligndiagnosis.cpp:309
+#: ekos/align/aligndiagnosis.cpp:579
 #, fuzzy, kde-format
 msgid "Solver attempts"
 msgstr "Padanan kurungan"
 
-#: ekos/align/aligndiagnosis.cpp:312
+#: ekos/align/aligndiagnosis.cpp:582
 #, fuzzy, kde-format
 msgid "Solver timeout"
 msgstr "Padanan kurungan"
 
-#: ekos/align/aligndiagnosis.cpp:319
+#: ekos/align/aligndiagnosis.cpp:589
 #, fuzzy, kde-format
 msgid "Index files needed"
 msgstr "%s: fail saiz tidak sah"
 
-#: ekos/align/aligndiagnosis.cpp:325
+#: ekos/align/aligndiagnosis.cpp:595
 #, fuzzy, kde-format
 msgid "Capture errors"
 msgstr "Imej NFS"
 
-#: ekos/align/aligndiagnosis.cpp:327
+#: ekos/align/aligndiagnosis.cpp:597
 #, fuzzy, kde-format
 msgid "Driver restarts"
 msgstr "Star Voyager"
 
-#: ekos/align/aligndiagnosis.cpp:336
-#, fuzzy, kde-format
-msgid "Select a camera in the optical train"
-msgstr "Lanjutan URL uketerangan atau"
-
-#: ekos/align/aligndiagnosis.cpp:337
-#, kde-format
-msgid "The optical train of Align has no camera."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:345
-#, fuzzy, kde-format
-#| msgid "Connect"
-msgid "Connect the camera"
-msgstr "Sambung"
-
-#: ekos/align/aligndiagnosis.cpp:346
-#, fuzzy, kde-format
-#| msgid "Disconnect"
-msgid "The camera %1 is disconnected."
-msgstr "Putus"
-
-#: ekos/align/aligndiagnosis.cpp:356
+#: ekos/align/aligndiagnosis.cpp:619
 #, fuzzy, kde-format
 msgid "Select a mount in the optical train"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: ekos/align/aligndiagnosis.cpp:357
+#: ekos/align/aligndiagnosis.cpp:620
 #, kde-format
 msgid "Align needs a mount to know where the telescope points."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:363
-#, fuzzy, kde-format
-msgid "Connect the mount"
-msgstr "Sambungan Masatamat:"
-
-#: ekos/align/aligndiagnosis.cpp:364
-#, kde-format
-msgid "The mount is disconnected, so its position is unknown."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:370
-#, fuzzy, kde-format
-msgid "Check the mount connection"
-msgstr "Perhubungan"
-
-#: ekos/align/aligndiagnosis.cpp:371
-#, fuzzy, kde-format
-msgid "The mount is connected but sends no valid coordinates."
-msgstr "Paparan buka"
-
-#: ekos/align/aligndiagnosis.cpp:372
-#, kde-format
-msgid "Open the mount control panel and check that it shows RA and DEC."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:373
-#, kde-format
-msgid "If it does not, disconnect and reconnect the mount."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:382
+#: ekos/align/aligndiagnosis.cpp:633
 #, fuzzy, kde-format
 msgid "Unpark the mount"
 msgstr "Tetapan Rangkaian"
 
-#: ekos/align/aligndiagnosis.cpp:383
+#: ekos/align/aligndiagnosis.cpp:634
 #, kde-format
 msgid "The mount reports PARKED."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:397
+#: ekos/align/aligndiagnosis.cpp:648
 #, kde-format
 msgid "Check the mount altitude limits"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:398
+#: ekos/align/aligndiagnosis.cpp:649
 #, kde-format
 msgid "The target altitude %1° is outside the limits of %2° to %3°."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:407
+#: ekos/align/aligndiagnosis.cpp:658
 #, kde-format
 msgid "Check the slew target"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:408
+#: ekos/align/aligndiagnosis.cpp:659
 #, kde-format
 msgid "KStars refused the slew, see the notifications for the reason."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:409
+#: ekos/align/aligndiagnosis.cpp:660
 #, kde-format
 msgid "Check that the target is above the horizon."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:410
+#: ekos/align/aligndiagnosis.cpp:661
 #, kde-format
 msgid "Check the mount limits in the Mount module."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:421
+#: ekos/align/aligndiagnosis.cpp:672
 #, fuzzy, kde-format
 msgid "Check the mount"
 msgstr "Sambungan Masatamat:"
 
-#: ekos/align/aligndiagnosis.cpp:422
+#: ekos/align/aligndiagnosis.cpp:673
 #, fuzzy, kde-format
 msgid "The mount reported an error while slewing."
 msgstr "Sorok?"
 
-#: ekos/align/aligndiagnosis.cpp:423
+#: ekos/align/aligndiagnosis.cpp:674
 #, kde-format
 msgid "The mount reported an error while syncing."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:424
+#: ekos/align/aligndiagnosis.cpp:675
 #, kde-format
 msgid "Check that the mount is unparked and tracking."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:425
+#: ekos/align/aligndiagnosis.cpp:676
 #, kde-format
 msgid "Check the slew limits set in the mount driver or its hand controller."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:426
+#: ekos/align/aligndiagnosis.cpp:677
 #, kde-format
 msgid "Check the mount cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:433
+#: ekos/align/aligndiagnosis.cpp:684
 #, kde-format
 msgid "The mount cannot sync"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:434
+#: ekos/align/aligndiagnosis.cpp:685
 #, kde-format
 msgid ""
 "The mount driver does not support sync. Use Slew to Target or Nothing "
 "instead."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:443
+#: ekos/align/aligndiagnosis.cpp:694
 #, fuzzy, kde-format
 msgid "Enable image transfer"
 msgstr "Format imej natif GIMP"
 
-#: ekos/align/aligndiagnosis.cpp:444
+#: ekos/align/aligndiagnosis.cpp:695
 #, fuzzy, kde-format
 msgid "Image transfer is disabled for the camera %1."
 msgstr "Format imej natif GIMP"
 
-#: ekos/align/aligndiagnosis.cpp:451
+#: ekos/align/aligndiagnosis.cpp:702
 #, fuzzy, kde-format
 msgid "Open the dust cap"
 msgstr "Nama Gugusan:"
 
-#: ekos/align/aligndiagnosis.cpp:452
+#: ekos/align/aligndiagnosis.cpp:703
 #, fuzzy, kde-format
 msgid "The dust cap reports an error."
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:453
+#: ekos/align/aligndiagnosis.cpp:704
 #, kde-format
 msgid "Open or remove the dust cap by hand."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:454
+#: ekos/align/aligndiagnosis.cpp:705
 #, kde-format
 msgid "Check the dust cap cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:462
+#: ekos/align/aligndiagnosis.cpp:713
 #, fuzzy, kde-format
 msgid "Connect the filter wheel"
 msgstr "Perhubungan"
 
-#: ekos/align/aligndiagnosis.cpp:463
+#: ekos/align/aligndiagnosis.cpp:714
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The filter wheel is disconnected."
 msgstr "Putus"
 
-#: ekos/align/aligndiagnosis.cpp:471
+#: ekos/align/aligndiagnosis.cpp:722
 #, fuzzy, kde-format
 msgid "Check the filter wheel"
 msgstr "Tapisan Sendiri"
 
-#: ekos/align/aligndiagnosis.cpp:473
+#: ekos/align/aligndiagnosis.cpp:724
 #, kde-format
 msgid "Change the filter from the Filter Manager and check that it arrives."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:474
+#: ekos/align/aligndiagnosis.cpp:725
 #, kde-format
 msgid "Check the filter wheel cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:484
+#: ekos/align/aligndiagnosis.cpp:735
 #, kde-format
 msgid "Check the camera cable and power"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:485
+#: ekos/align/aligndiagnosis.cpp:736
 #, kde-format
 msgid "The camera reported %1 exposure errors."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:486
+#: ekos/align/aligndiagnosis.cpp:737
 #, kde-format
 msgid "No image arrived, even after restarting the camera driver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:487
+#: ekos/align/aligndiagnosis.cpp:738
 #, kde-format
 msgid ""
 "Check the camera USB cable and use a powered hub if the camera shares one."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:488
+#: ekos/align/aligndiagnosis.cpp:739
 #, kde-format
 msgid "Check the camera power supply."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:489
+#: ekos/align/aligndiagnosis.cpp:740
 #, kde-format
 msgid "Take a test exposure from the Capture module."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:497
+#: ekos/align/aligndiagnosis.cpp:748
 #, fuzzy, kde-format
 msgid "Check the remote solver"
 msgstr "Bandar nama"
 
-#: ekos/align/aligndiagnosis.cpp:499
+#: ekos/align/aligndiagnosis.cpp:750
 #, kde-format
 msgid "Check that the remote astrometry driver is running."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:500
+#: ekos/align/aligndiagnosis.cpp:751
 #, kde-format
 msgid "Check that the remote computer has index files for this field of view."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:501
+#: ekos/align/aligndiagnosis.cpp:752
 #, kde-format
 msgid "Or switch Align to the local solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:514
+#: ekos/align/aligndiagnosis.cpp:765
 #, fuzzy, kde-format
 msgid "The rotator turned away from the target position angle."
 msgstr "Papar posisi kursor"
 
-#: ekos/align/aligndiagnosis.cpp:518
+#: ekos/align/aligndiagnosis.cpp:769
 #, fuzzy, kde-format
 msgid "The rotator did not reach the target position angle."
 msgstr "Papar posisi kursor"
 
-#: ekos/align/aligndiagnosis.cpp:519
+#: ekos/align/aligndiagnosis.cpp:770
 #, fuzzy, kde-format
 msgid "Check the rotator"
 msgstr "Buang Fakto&r Terakhir"
 
-#: ekos/align/aligndiagnosis.cpp:520
+#: ekos/align/aligndiagnosis.cpp:771
 #, kde-format
 msgid "Check that the rotator turns freely and its cables do not snag."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:521
+#: ekos/align/aligndiagnosis.cpp:772
 #, kde-format
 msgid "Check the reverse direction setting of the rotator driver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:522
+#: ekos/align/aligndiagnosis.cpp:773
 #, kde-format
 msgid "Rotate and solve again."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:544
-#, fuzzy, kde-format
-msgid "Set the telescope focal length and aperture"
-msgstr "inci"
-
-#: ekos/align/aligndiagnosis.cpp:545
-#, kde-format
-msgid "Focal length %1 mm, aperture %2 mm."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:556
-#, kde-format
-msgid "Set the camera pixel size"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:557
-#, kde-format
-msgid "The camera driver reports a pixel size of %1 x %2 um."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:566
-#, kde-format
-msgid "Install or locate the solver program"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:567
-#, kde-format
-msgid "The selected external solver program was not found."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:586
-#, kde-format
-msgid "Check the KStars clock"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:588
-#, kde-format
-msgid "The KStars time differs from your device by %1 seconds."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:589
-#, kde-format
-msgid "The KStars time differs from this computer by %1 seconds."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:590
-#, kde-format
-msgid "Check the date, time and time zone of the computer that runs KStars."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:591
-#, kde-format
-msgid "Check the location and time zone set in KStars."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:600
-#, kde-format
-msgid "Mount clock: the mount does not report its time."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:609
-#, fuzzy, kde-format
-msgid "Send the KStars time to the mount"
-msgstr "Pudar latar belakang?"
-
-#: ekos/align/aligndiagnosis.cpp:610
-#, kde-format
-msgid "The mount clock was %1 seconds off when it last reported its time."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:616
-#, kde-format
-msgid "The mount clock matches this computer."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:637
-#, kde-format
-msgid "Index files for this field of view are installed."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:645
-#, fuzzy, kde-format
-msgid "Install index files %1"
-msgstr "%s: fail saiz tidak sah"
-
-#: ekos/align/aligndiagnosis.cpp:646
-#, kde-format
-msgid ""
-"Your %1 x %2 arcmin field needs index files %3; %4 are missing or incomplete."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:665
-#, fuzzy, kde-format
-msgid "Raise the Align exposure to %1 seconds"
-msgstr "Mula Kamera ialah inci saat."
-
-#: ekos/align/aligndiagnosis.cpp:666
-#, kde-format
-msgid "Only %1 stars were found in a %2 second exposure."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:667
-#, kde-format
-msgid "A %1 second exposure may be too short to show enough stars."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:676
-#, kde-format
-msgid "Bin the Align camera %1x%1"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:677
-#, kde-format
-msgid "Binning collects more light per pixel and speeds up solving."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:691
+#: ekos/align/aligndiagnosis.cpp:866
 #, fuzzy, kde-format
 msgid "Raise the solver timeout to %1 seconds"
 msgstr "Tidak dapat memuatkan fail!"
 
-#: ekos/align/aligndiagnosis.cpp:692
+#: ekos/align/aligndiagnosis.cpp:867
 #, fuzzy, kde-format
 msgid "The solver stopped after %1 seconds."
 msgstr "Selesai"
 
-#: ekos/align/aligndiagnosis.cpp:701
-#, kde-format
-msgid "Use the default solver profile"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:702
-#, fuzzy, kde-format
-msgid "The solver profile %1 is selected."
-msgstr "Tiada Objek Dipilih"
-
-#: ekos/align/aligndiagnosis.cpp:715
+#: ekos/align/aligndiagnosis.cpp:885
 #, kde-format
 msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:722
+#: ekos/align/aligndiagnosis.cpp:892
 #, kde-format
 msgid "Check the sky and the dust cap"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:723
+#: ekos/align/aligndiagnosis.cpp:893
 #, kde-format
 msgid "Only %1 stars were found in the failed frame."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:724
+#: ekos/align/aligndiagnosis.cpp:895
 #, kde-format
 msgid "Check that the dust cap or cover is open."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:725
+#: ekos/align/aligndiagnosis.cpp:896
 #, kde-format
 msgid ""
 "Check for clouds, dew on the optics, or an obstruction in front of the "
 "telescope."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:726
+#: ekos/align/aligndiagnosis.cpp:897
 #, kde-format
 msgid "Take a test exposure and look for stars."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:736
+#: ekos/align/aligndiagnosis.cpp:907
 #, kde-format
 msgid ""
 "The stars are rings, darker in the middle, as stars are when the telescope "
 "is out of focus. Their median HFR is %1 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:738
+#: ekos/align/aligndiagnosis.cpp:909
 #, kde-format
 msgid ""
 "The stars are flat discs without a bright core, as stars are when the "
 "telescope is out of focus. Their median HFR is %1 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:740
+#: ekos/align/aligndiagnosis.cpp:911
 #, fuzzy, kde-format
 msgid "Focus the telescope"
 msgstr "Port tempatan:"
 
-#: ekos/align/aligndiagnosis.cpp:741
+#: ekos/align/aligndiagnosis.cpp:913
 #, kde-format
 msgid "Run autofocus in the Focus module, or focus by hand."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:759
+#: ekos/align/aligndiagnosis.cpp:931
 #, fuzzy, kde-format
 msgid "Turn on mount tracking"
 msgstr "Trek Seterusnya"
 
-#: ekos/align/aligndiagnosis.cpp:760
+#: ekos/align/aligndiagnosis.cpp:932
 #, kde-format
 msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
 "mount does not track."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:769
+#: ekos/align/aligndiagnosis.cpp:942
 #, fuzzy, kde-format
 msgid "Check the mount tracking"
 msgstr "Trek Seterusnya"
 
-#: ekos/align/aligndiagnosis.cpp:770
+#: ekos/align/aligndiagnosis.cpp:943
 #, kde-format
 msgid "All stars trailed %1 pixels in the same direction."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:772
+#: ekos/align/aligndiagnosis.cpp:946
 #, kde-format
 msgid "Check that the mount is tracking at the sidereal rate."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:773
+#: ekos/align/aligndiagnosis.cpp:947
 #, kde-format
 msgid ""
 "Check the balance, and that nothing touches the telescope during the "
 "exposure, e.g. wind or cables."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:774
+#: ekos/align/aligndiagnosis.cpp:948
 #, fuzzy, kde-format
 msgid "Use a shorter exposure."
 msgstr "Default Pilihan Direktori:"
 
-#: ekos/align/aligndiagnosis.cpp:783
+#: ekos/align/aligndiagnosis.cpp:957
 #, kde-format
 msgid "Check the mount for a sudden jump"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:784
+#: ekos/align/aligndiagnosis.cpp:958
 #, kde-format
 msgid ""
 "Every star appears twice, %1 pixels apart: the mount jumped during the "
 "exposure."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:786
+#: ekos/align/aligndiagnosis.cpp:961
 #, kde-format
 msgid "Check the balance of both axes, and that the clutches are tight."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:787
+#: ekos/align/aligndiagnosis.cpp:962
 #, kde-format
 msgid "Check that no cable snags or pulls on the telescope."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:788
+#: ekos/align/aligndiagnosis.cpp:963
 #, kde-format
 msgid "Check the gear backlash of the mount."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:799
+#: ekos/align/aligndiagnosis.cpp:974
 #, kde-format
 msgid "Image: the star shapes in the failed frame were not measured."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:804
-#, fuzzy, kde-format
-msgid "The field of view is narrow"
-msgstr "fail ialah fail?"
-
-#: ekos/align/aligndiagnosis.cpp:805
-#, kde-format
-msgid ""
-"A %1 x %2 arcmin field holds few stars. Use binning and longer exposures, or "
-"solve with a wider camera."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:813
-#, kde-format
-msgid "Check the reducer setting"
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:814
-#, kde-format
-msgid "The optical train uses a reducer of %1x."
-msgstr ""
-
-#: ekos/align/aligndiagnosis.cpp:824
+#: ekos/align/aligndiagnosis.cpp:987
 #, kde-format
 msgid "Camera, optics and pixel size are set."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:827
+#: ekos/align/aligndiagnosis.cpp:990
 #, kde-format
 msgid "The image reached KStars."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:837
+#: ekos/align/aligndiagnosis.cpp:1000
 #, kde-format
 msgid ""
 "The solver also ran without the scale and position hints, so a wrong focal "
 "length or a wrong mount position alone is not the cause."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:959
+#: ekos/align/aligndiagnosis.cpp:1122
 #, fuzzy, kde-format
 msgid "Check the Align log"
 msgstr "Baki masa: %s minit"
 
-#: ekos/align/aligndiagnosis.cpp:960
+#: ekos/align/aligndiagnosis.cpp:1123
 #, fuzzy, kde-format
 msgid "No specific cause was found."
 msgstr "s."
 
-#: ekos/align/aligndiagnosis.cpp:962
+#: ekos/align/aligndiagnosis.cpp:1126
 #, kde-format
 msgid ""
 "Check the focal length, reducer and pixel size: a wrong field of view stops "
 "the solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:963
+#: ekos/align/aligndiagnosis.cpp:1127
 #, kde-format
 msgid ""
 "Check the time, time zone and location of KStars and the mount: a wrong "
 "position hint stops the solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:964
+#: ekos/align/aligndiagnosis.cpp:1128
 #, kde-format
 msgid "Check that the index files for this field of view are installed."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:965
+#: ekos/align/aligndiagnosis.cpp:1129
 #, kde-format
 msgid ""
 "Enable Alignment Logging in Setup Tab -> Logs to get details on the failure."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:1154
+#, fuzzy, kde-format
+#| msgid "Disconnect"
+msgid "The camera %1 is connected."
+msgstr "Putus"
+
+#: ekos/align/aligndiagnosis.cpp:1164
+#, fuzzy, kde-format
+msgid "The mount is connected and reports its position."
+msgstr "Paparan buka"
+
+#: ekos/align/aligndiagnosis.cpp:1176
+#, kde-format
+msgid "Focal length, aperture and pixel size are set."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:1194
+#, kde-format
+msgid "Align solved with the current exposure, binning and solver profile."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:1241
+#, fuzzy, kde-format
+msgid "Align looks ready"
+msgstr "Lanjutan URL uketerangan atau"
+
+#: ekos/align/aligndiagnosis.cpp:1242
+#, kde-format
+msgid "No problems were found in the Align setup."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:1246
+#, fuzzy, kde-format
+msgid "%1 thing to check"
+msgid_plural "%1 things to check"
+msgstr[0] "imej boot"
+msgstr[1] "imej boot"
+
+#: ekos/align/aligndiagnosis.cpp:1247
+#, kde-format
+msgid "Start with the first suggestion, it is the most likely to matter."
 msgstr ""
 
 #: ekos/align/alignmentplot.cpp:158
@@ -13557,51 +13631,68 @@ msgstr "Kordinat Bulan"
 msgid "Remove this stored device reference"
 msgstr ""
 
-#: ekos/auxiliary/diagnosis.cpp:172
+#: ekos/auxiliary/diagnosis.cpp:216
+#, kde-format
+msgctxt "%1 module name, %2 result"
+msgid "%1 check-up: %2"
+msgstr ""
+
+#: ekos/auxiliary/diagnosis.cpp:218
+#, fuzzy, kde-format
+msgctxt "%1 module name, %2 result, %3 explanation"
+msgid "%1 check-up: %2. %3"
+msgstr "Tiada katalaluan"
+
+#: ekos/auxiliary/diagnosis.cpp:222
 #, fuzzy, kde-format
 msgctxt "%1 module name, %2 cause"
 msgid "%1 failed: %2"
 msgstr "Tiada katalaluan"
 
-#: ekos/auxiliary/diagnosis.cpp:174
+#: ekos/auxiliary/diagnosis.cpp:224
 #, fuzzy, kde-format
 msgctxt "%1 module name, %2 cause, %3 explanation"
 msgid "%1 failed: %2. %3"
 msgstr "Tiada katalaluan"
 
-#: ekos/auxiliary/diagnosis.cpp:178
+#: ekos/auxiliary/diagnosis.cpp:228
 #, fuzzy, kde-format
 msgctxt "%1 list of things that were checked"
 msgid "Checked: %1"
 msgstr "Peranti:"
 
-#: ekos/auxiliary/diagnosis.cpp:180
+#: ekos/auxiliary/diagnosis.cpp:230
 #, fuzzy, kde-format
 msgctxt "%1 list of things that could not be checked"
 msgid "Not checked: %1"
 msgstr "tidak terbit"
 
-#: ekos/auxiliary/diagnosis.cpp:185
+#: ekos/auxiliary/diagnosis.cpp:235
 #, kde-format
 msgid "Suggested:"
 msgstr ""
 
-#: ekos/auxiliary/diagnosis.cpp:191
+#: ekos/auxiliary/diagnosis.cpp:241
+#, kde-format
+msgid "likely cause"
+msgstr ""
+
+#: ekos/auxiliary/diagnosis.cpp:243
 #, fuzzy, kde-format
 msgid "moves equipment"
 msgstr "Spring"
 
-#: ekos/auxiliary/diagnosis.cpp:195
+#: ekos/auxiliary/diagnosis.cpp:247
 #, kde-format
 msgid "download about %1 MB"
 msgstr ""
 
-#: ekos/auxiliary/diagnosis.cpp:197
+#: ekos/auxiliary/diagnosis.cpp:249
 #, fuzzy, kde-format
 msgid "needs internet"
 msgstr "Hasil carian"
 
-#: ekos/auxiliary/diagnosis.cpp:200
+#: ekos/auxiliary/diagnosis.cpp:252
 #, kde-format
 msgid "stops another activity"
 msgstr ""
@@ -13611,40 +13702,40 @@ msgstr ""
 msgid "Timed out."
 msgstr "Sambungan Masatamat:"
 
-#: ekos/auxiliary/diagnosismanager.cpp:179
-#: ekos/auxiliary/diagnosismanager.cpp:184
+#: ekos/auxiliary/diagnosismanager.cpp:225
+#: ekos/auxiliary/diagnosismanager.cpp:230
 #, kde-format
 msgid "Diagnosis: the fix worked."
 msgstr ""
 
-#: ekos/auxiliary/diagnosismanager.cpp:282
+#: ekos/auxiliary/diagnosismanager.cpp:326
 #, kde-format
 msgid "Diagnosis: applying \"%1\"..."
 msgstr ""
 
-#: ekos/auxiliary/diagnosismanager.cpp:321
+#: ekos/auxiliary/diagnosismanager.cpp:373
 #, kde-format
 msgid "Diagnosis: \"%1\" failed. %2"
 msgstr ""
 
-#: ekos/auxiliary/diagnosismanager.cpp:338
+#: ekos/auxiliary/diagnosismanager.cpp:390
 #, fuzzy, kde-format
 msgid "Diagnosis: the fix failed. %1"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: ekos/auxiliary/diagnosismanager.cpp:372
-#: ekos/auxiliary/diagnosismanager.cpp:424
+#: ekos/auxiliary/diagnosismanager.cpp:427
+#: ekos/auxiliary/diagnosismanager.cpp:479
 #, kde-format
 msgid "Diagnosis: retrying..."
 msgstr ""
 
-#: ekos/auxiliary/diagnosismanager.cpp:375
-#: ekos/auxiliary/diagnosismanager.cpp:427
+#: ekos/auxiliary/diagnosismanager.cpp:430
+#: ekos/auxiliary/diagnosismanager.cpp:482
 #, kde-format
 msgid "The retry could not start."
 msgstr ""
 
-#: ekos/auxiliary/diagnosismanager.cpp:389
+#: ekos/auxiliary/diagnosismanager.cpp:444
 #, kde-format
 msgid "Diagnosis: the change was reverted."
 msgstr ""
@@ -26767,17 +26858,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:4517
+#: ekos/manager.cpp:4522
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:4524
+#: ekos/manager.cpp:4529
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:4531
+#: ekos/manager.cpp:4536
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -97279,6 +97370,10 @@ msgid "Set the color for the background."
 msgstr "Pudar latar belakang?"
 
 #, fuzzy
+#~ msgid "The solver profile %1 is selected."
+#~ msgstr "Tiada Objek Dipilih"
+
+#, fuzzy
 #~| msgid "Sunset: %1"
 #~ msgid "Executing post-startup tasks from %1 after safety recovery..."
 #~ msgstr "Terbenam matahari: %1"
@@ -99365,11 +99460,6 @@ msgstr "Pudar latar belakang?"
 #~ msgctxt "Asteroid name (optional)"
 #~ msgid "Aschera"
 #~ msgstr "Nama Volum _Logikal:"
-
-#, fuzzy
-#~ msgctxt "Asteroid name (optional)"
-#~ msgid "Oenone"
-#~ msgstr "Bandar nama"
 
 #, fuzzy
 #~ msgctxt "Asteroid name (optional)"
