@@ -436,7 +436,8 @@ void FITSTab::copyFITS()
 
 void FITSTab::histoFITS()
 {
-    fitsTools->setCurrentIndex(1);
+    if (fitsTools && m_HistogramEditor)
+        fitsTools->setCurrentWidget(m_HistogramEditor);
     if(m_View->width() > 200)
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
     else
@@ -496,7 +497,8 @@ void FITSTab::displayStats(bool roi)
 
 void FITSTab::statFITS()
 {
-    fitsTools->setCurrentIndex(0);
+    if (fitsTools && statWidget)
+        fitsTools->setCurrentWidget(statWidget);
     if(m_View->width() > 200)
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
     else
@@ -1546,7 +1548,8 @@ void FITSTab::typeFilterItemChanged(QTreeWidgetItem *item, int column)
 
 void FITSTab::headerFITS()
 {
-    fitsTools->setCurrentIndex(2);
+    if (fitsTools && fitsHeaderDialog)
+        fitsTools->setCurrentWidget(fitsHeaderDialog);
     if(m_View->width() > 200)
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
     else
