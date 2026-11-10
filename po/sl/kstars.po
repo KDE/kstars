@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 02:16+0000\n"
-"PO-Revision-Date: 2026-11-08 17:17+0100\n"
+"PO-Revision-Date: 2026-11-09 07:20+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6952,7 +6952,7 @@ msgstr "Montaža ne sprejema časa."
 #: ekos/align/align_diagnosis.cpp:493
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "noben"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
@@ -7755,6 +7755,8 @@ msgid ""
 "The solver profile %1 is selected. The default profile adapts its search to "
 "your field of view."
 msgstr ""
+"Izbran je profil reševalnika %1. Privzeti profil prilagodi svoje iskanje "
+"vašemu vidnemu polju."
 
 #: ekos/align/aligndiagnosis.cpp:272
 #, kde-format
@@ -7782,6 +7784,8 @@ msgid ""
 "The optical train uses a reducer of %1x. A wrong value gives the solver a "
 "wrong field of view."
 msgstr ""
+"Optični vlak uporablja reduktor z vrednostjo %1x. Napačna vrednost posreduje "
+"reševalniku napačno vidno polje."
 
 #: ekos/align/aligndiagnosis.cpp:314
 #, kde-format
@@ -7839,18 +7843,18 @@ msgid "The mount clock was %1 seconds off when it last reported its time."
 msgstr "Ura na montaži je ob zadnjem sporočanju časa odstopala za %1 sekund."
 
 #: ekos/align/aligndiagnosis.cpp:361
-#, fuzzy, kde-format
-#| msgid "Send the KStars time to the mount"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Pošlji čas iz programa KStars na montažo"
+msgstr "Naj ima KStars čas montaže"
 
 #: ekos/align/aligndiagnosis.cpp:362
-#, fuzzy, kde-format
-#| msgid "The mount clock was %1 seconds off when it last reported its time."
+#, kde-format
 msgid ""
 "The mount clock was %1 seconds off when it last reported its time, and "
 "KStars does not send its time to the mount."
-msgstr "Ura na montaži je ob zadnjem sporočanju časa odstopala za %1 sekund."
+msgstr ""
+"Ura na montaži je ob zadnjem sporočanju časa odstopala za %1 sekund, KStars "
+"pa svojega časa ne pošilja na montažo."
 
 #: ekos/align/aligndiagnosis.cpp:373
 #, kde-format
@@ -8735,53 +8739,50 @@ msgstr ""
 "podrobnosti o napaki."
 
 #: ekos/align/aligndiagnosis.cpp:1154
-#, fuzzy, kde-format
-#| msgid "The camera %1 is disconnected."
+#, kde-format
 msgid "The camera %1 is connected."
-msgstr "Kamera %1 ni povezana."
+msgstr "Kamera %1 je povezana."
 
 #: ekos/align/aligndiagnosis.cpp:1164
-#, fuzzy, kde-format
-#| msgid "The mount is disconnected, so its position is unknown."
+#, kde-format
 msgid "The mount is connected and reports its position."
-msgstr "Montaža je odklopljena, zato je njen položaj neznan."
+msgstr "Montaža je povezana in sporoča svoj položaj."
 
 #: ekos/align/aligndiagnosis.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Camera, optics and pixel size are set."
+#, kde-format
 msgid "Focal length, aperture and pixel size are set."
-msgstr "Kamera, optika in velikost pikslov so nastavljeni."
+msgstr "Goriščna razdalja, zaslonka in velikost pikslov so nastavljeni."
 
 #: ekos/align/aligndiagnosis.cpp:1194
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
+"Poravnava je izvedena glede na trenutno osvetlitev, združevanje pikslov in "
+"profil reševalnika."
 
 #: ekos/align/aligndiagnosis.cpp:1241
-#, fuzzy, kde-format
-#| msgid "Align failed"
+#, kde-format
 msgid "Align looks ready"
-msgstr "Poravnava ni uspela"
+msgstr "Poravnava je videti pripravljena"
 
 #: ekos/align/aligndiagnosis.cpp:1242
 #, kde-format
 msgid "No problems were found in the Align setup."
-msgstr ""
+msgstr "Pri poravnavi niso bile zaznane nobene težave."
 
 #: ekos/align/aligndiagnosis.cpp:1246
-#, fuzzy, kde-format
-#| msgid "Capturing to check HFR..."
+#, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "Zajemanje za preverjanje PPT…"
-msgstr[1] "Zajemanje za preverjanje PPT…"
-msgstr[2] "Zajemanje za preverjanje PPT…"
-msgstr[3] "Zajemanje za preverjanje PPT…"
+msgstr[0] "%1 stvari za preveriti"
+msgstr[1] "%1 stvar za preveriti"
+msgstr[2] "%1 stvari za preveriti"
+msgstr[3] "%1 stvari za preveriti"
 
 #: ekos/align/aligndiagnosis.cpp:1247
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
-msgstr ""
+msgstr "Začnite s prvim predlogom; ta bo najverjetneje pomemben."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -14506,15 +14507,13 @@ msgstr "Odstrani to shranjeno referenco naprave"
 #, kde-format
 msgctxt "%1 module name, %2 result"
 msgid "%1 check-up: %2"
-msgstr ""
+msgstr "%1 pregled: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "%1 module name, %2 cause, %3 explanation"
-#| msgid "%1 failed: %2. %3"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "%1 neuspel: %2. %3"
+msgstr "%1 pregled: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
 #, kde-format
@@ -14548,7 +14547,7 @@ msgstr "Predlagan:"
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "verjeten vzrok"
 
 #: ekos/auxiliary/diagnosis.cpp:243
 #, kde-format
@@ -20067,7 +20066,7 @@ msgstr "Popravi montažo"
 msgid ""
 "No correction is sent while the target is closer than this to the lock point."
 msgstr ""
-"Popravek ne pošlje dokler je cilj bližje točki zaklepanja od te razdalje"
+"Popravek ne pošlje dokler je cilj bližje točki zaklepanja od te razdalje."
 
 #. i18n: ectx: property (text), widget (QLabel, labelStreamTrackingDeadband)
 #: ekos/capture/opsstreamtrackingsettings.ui:47

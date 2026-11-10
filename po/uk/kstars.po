@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 02:16+0000\n"
-"PO-Revision-Date: 2026-11-08 11:43+0200\n"
+"PO-Revision-Date: 2026-11-09 08:20+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6944,11 +6944,9 @@ msgid "The mount does not accept a time."
 msgstr "Лафет не приймає даних часу."
 
 #: ekos/align/align_diagnosis.cpp:493
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Oenone"
+#, kde-format
 msgid "none"
-msgstr "Енона"
+msgstr "немає"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
@@ -7763,6 +7761,8 @@ msgid ""
 "The solver profile %1 is selected. The default profile adapts its search to "
 "your field of view."
 msgstr ""
+"Вибрано профіль розв'язувача %1. Типовий профіль адаптує свій пошук до "
+"вашого поля зору."
 
 #: ekos/align/aligndiagnosis.cpp:272
 #, kde-format
@@ -7790,6 +7790,8 @@ msgid ""
 "The optical train uses a reducer of %1x. A wrong value gives the solver a "
 "wrong field of view."
 msgstr ""
+"Оптичний тракт використовує зменшувач у %1 разів. Помилкове значення надає "
+"розв'язувачу помилкове поле зору."
 
 #: ekos/align/aligndiagnosis.cpp:314
 #, kde-format
@@ -7823,6 +7825,8 @@ msgid ""
 "KStars takes its time from %1. Check the clock of that device, or set the "
 "time source to KStars in the INDI settings."
 msgstr ""
+"KStars бере дані щодо часу з %1. Перевірте годинник на пристрої або "
+"встановіть джерело часу для KStars у параметрах INDI."
 
 #: ekos/align/aligndiagnosis.cpp:335
 #, kde-format
@@ -7847,20 +7851,18 @@ msgstr ""
 "від лафета."
 
 #: ekos/align/aligndiagnosis.cpp:361
-#, fuzzy, kde-format
-#| msgid "Send the KStars time to the mount"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Надішліть час KStars на лафет"
+msgstr "Дозволити KStars зберегти час лафета"
 
 #: ekos/align/aligndiagnosis.cpp:362
-#, fuzzy, kde-format
-#| msgid "The mount clock was %1 seconds off when it last reported its time."
+#, kde-format
 msgid ""
 "The mount clock was %1 seconds off when it last reported its time, and "
 "KStars does not send its time to the mount."
 msgstr ""
 "Різниця з часом лафета складала %1 секунд під час останнього повідомлення "
-"від лафета."
+"від лафета, KStars не надіслала свій час лафету."
 
 #: ekos/align/aligndiagnosis.cpp:373
 #, kde-format
@@ -8762,53 +8764,51 @@ msgstr ""
 "щоб дізнатися більше про помилку."
 
 #: ekos/align/aligndiagnosis.cpp:1154
-#, fuzzy, kde-format
-#| msgid "The camera %1 is disconnected."
+#, kde-format
 msgid "The camera %1 is connected."
-msgstr "Камеру %1 від'єднано."
+msgstr "Камеру %1 з'єднано."
 
 #: ekos/align/aligndiagnosis.cpp:1164
-#, fuzzy, kde-format
-#| msgid "The mount is disconnected, so its position is unknown."
+#, kde-format
 msgid "The mount is connected and reports its position."
-msgstr "Лафет від'єднано, тому його позиція невідома."
+msgstr "Лафет з'єднано, він повідомляє про свою позицію."
 
 #: ekos/align/aligndiagnosis.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Camera, optics and pixel size are set."
+#, kde-format
 msgid "Focal length, aperture and pixel size are set."
-msgstr "Встановлено камеру, оптику та розмір пікселя."
+msgstr "Встановлено фокусну відстань, діафрагму та розмір пікселя."
 
 #: ekos/align/aligndiagnosis.cpp:1194
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
+"Вирівнювання виконано з поточною експозицією, групуванням та профілем "
+"розв'язувача."
 
 #: ekos/align/aligndiagnosis.cpp:1241
-#, fuzzy, kde-format
-#| msgid "Align failed"
+#, kde-format
 msgid "Align looks ready"
-msgstr "Помилка засобу вирівнювання"
+msgstr "Засіб вирівнювання виглядає готовим"
 
 #: ekos/align/aligndiagnosis.cpp:1242
 #, kde-format
 msgid "No problems were found in the Align setup."
-msgstr ""
+msgstr "У налаштуваннях засобу вирівнювання не знайдено проблем."
 
 #: ekos/align/aligndiagnosis.cpp:1246
-#, fuzzy, kde-format
-#| msgid "Capturing to check HFR..."
+#, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "Захоплення для перевірки РПП…"
-msgstr[1] "Захоплення для перевірки РПП…"
-msgstr[2] "Захоплення для перевірки РПП…"
-msgstr[3] "Захоплення для перевірки РПП…"
+msgstr[0] "%1 річ для перевірки"
+msgstr[1] "%1 речі для перевірки"
+msgstr[2] "%1 речей для перевірки"
+msgstr[3] "%1 річ для перевірки"
 
 #: ekos/align/aligndiagnosis.cpp:1247
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
 msgstr ""
+"Почніть з першої пропозиції — вона найімовірніше близька до правильної."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -14608,15 +14608,13 @@ msgstr "Вилучити це збережене посилання на при�
 #, kde-format
 msgctxt "%1 module name, %2 result"
 msgid "%1 check-up: %2"
-msgstr ""
+msgstr "Перевірка %1: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "%1 module name, %2 cause, %3 explanation"
-#| msgid "%1 failed: %2. %3"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "Помилка %1: %2. %3"
+msgstr "Перевірка %1: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
 #, kde-format
@@ -14650,7 +14648,7 @@ msgstr "Пропозиція:"
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "ймовірна причина"
 
 #: ekos/auxiliary/diagnosis.cpp:243
 #, kde-format

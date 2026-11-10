@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 02:16+0000\n"
-"PO-Revision-Date: 2026-11-08 15:58+0100\n"
+"PO-Revision-Date: 2026-11-09 15:24+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4803,7 +4803,7 @@ msgstr "inch"
 #: dialogs/fovdialog.cpp:419
 #, kde-format
 msgid "Aperture diameter: "
-msgstr "Diafragma:"
+msgstr "Diafragma-diameter:"
 
 #: dialogs/fovdialog.cpp:422
 #, kde-format
@@ -6948,11 +6948,9 @@ msgid "The mount does not accept a time."
 msgstr "De opstelling accepteert geen tijd."
 
 #: ekos/align/align_diagnosis.cpp:493
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Oenone"
+#, kde-format
 msgid "none"
-msgstr "Oenone"
+msgstr "geen"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
@@ -7325,8 +7323,8 @@ msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
 "train settings and try again."
 msgstr ""
-"Opening en brandpuntsafstand telescoop ontbreken. Controleer de instellingen "
-"van uw optische keten en probeer het opnieuw."
+"Diafragma en brandpuntsafstand telescoop ontbreken. Controleer de "
+"instellingen van uw optische keten en probeer het opnieuw."
 
 #: ekos/align/align_solver.cpp:118
 #, kde-format
@@ -7634,7 +7632,7 @@ msgstr "Selecteer een camera in de optische keten"
 #: ekos/align/aligndiagnosis.cpp:106
 #, kde-format
 msgid "The optical train of Align has no camera."
-msgstr ""
+msgstr "De optische keten heeft geen camera voor Uitlijnen."
 
 #: ekos/align/aligndiagnosis.cpp:114
 #, kde-format
@@ -7654,7 +7652,7 @@ msgstr "De opstelling verbinden"
 #: ekos/align/aligndiagnosis.cpp:124
 #, kde-format
 msgid "The mount is disconnected, so its position is unknown."
-msgstr ""
+msgstr "De opstelling is losgekoppeld, dus de positie ervan is onbekend."
 
 #: ekos/align/aligndiagnosis.cpp:132
 #, kde-format
@@ -7670,21 +7668,24 @@ msgstr "De opstelling is verbonden maar stuurt geen geldige coördinaten."
 #, kde-format
 msgid "Open the mount control panel and check that it shows RA and DEC."
 msgstr ""
+"Open het bedieningspaneel van de opstelling en controleer of RK en DEC "
+"worden weergegeven."
 
 #: ekos/align/aligndiagnosis.cpp:136
 #, kde-format
 msgid "If it does not, disconnect and reconnect the mount."
 msgstr ""
+"Als dat niet werkt, ontkoppel dan de opstelling en sluit deze opnieuw aan."
 
 #: ekos/align/aligndiagnosis.cpp:144
 #, kde-format
 msgid "Set the telescope focal length and aperture"
-msgstr "Stel de brandpuntsafstand en opening van de telescoop in."
+msgstr "Stel de brandpuntsafstand en diafragma van de telescoop in."
 
 #: ekos/align/aligndiagnosis.cpp:145
 #, kde-format
 msgid "Focal length %1 mm, aperture %2 mm."
-msgstr ""
+msgstr "Brandpuntsafstand %1 mm, diafragma %2 mm."
 
 #: ekos/align/aligndiagnosis.cpp:156
 #, kde-format
@@ -7694,22 +7695,23 @@ msgstr "Stel de grootte van de camerapixels in"
 #: ekos/align/aligndiagnosis.cpp:157
 #, kde-format
 msgid "The camera driver reports a pixel size of %1 x %2 um."
-msgstr ""
+msgstr "Het camerastuurprogramma meldt een pixelgrootte van %1 x %2 µm."
 
 #: ekos/align/aligndiagnosis.cpp:167
 #, kde-format
 msgid "Install or locate the solver program"
-msgstr ""
+msgstr "Installeer of zoek het programma oplosser (solver)"
 
 #: ekos/align/aligndiagnosis.cpp:168
 #, kde-format
 msgid "The selected external solver program was not found."
 msgstr ""
+"Het geselecteerde externe programma oplosser (solver) is niet gevonden."
 
 #: ekos/align/aligndiagnosis.cpp:190
 #, kde-format
 msgid "Index files for this field of view are installed."
-msgstr ""
+msgstr "Indexbestanden voor dit gezichtsveld zijn geïnstalleerd."
 
 #: ekos/align/aligndiagnosis.cpp:199
 #, kde-format
@@ -7836,10 +7838,9 @@ msgid "The mount clock was %1 seconds off when it last reported its time."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:361
-#, fuzzy, kde-format
-#| msgid "Send the KStars time to the mount"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Stuur de tijd van KStars naar de opstelling"
+msgstr "Laat KStars de tijd van de opstelling houden"
 
 #: ekos/align/aligndiagnosis.cpp:362
 #, kde-format
@@ -7895,7 +7896,7 @@ msgstr "Uitlijnen verloor verbinding met de camera %1."
 #: ekos/align/aligndiagnosis.cpp:389
 #, kde-format
 msgid "The focal length or aperture is missing"
-msgstr "De brandpuntsafstand of opening ontbreekt"
+msgstr "De brandpuntsafstand of diafragma ontbreekt"
 
 #: ekos/align/aligndiagnosis.cpp:390
 #, kde-format
@@ -7903,7 +7904,7 @@ msgid ""
 "The optical train has no focal length or aperture, so the field of view is "
 "unknown."
 msgstr ""
-"De optische keten heeft geen brandpuntsafstand of opening, dus is het "
+"De optische keten heeft geen brandpuntsafstand of diafragma, dus is het "
 "gezichtsveld onbekend."
 
 #: ekos/align/aligndiagnosis.cpp:393
@@ -8697,22 +8698,19 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:1154
-#, fuzzy, kde-format
-#| msgid "The camera %1 is disconnected."
+#, kde-format
 msgid "The camera %1 is connected."
-msgstr "De camera %1 is niet verbonden."
+msgstr "De camera %1 is verbonden."
 
 #: ekos/align/aligndiagnosis.cpp:1164
-#, fuzzy, kde-format
-#| msgid "The mount is connected but sends no valid coordinates."
+#, kde-format
 msgid "The mount is connected and reports its position."
-msgstr "De opstelling is verbonden maar stuurt geen geldige coördinaten."
+msgstr "De opstelling is verbonden maar stuurt zijn positie."
 
 #: ekos/align/aligndiagnosis.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Camera, optics and pixel size are set."
+#, kde-format
 msgid "Focal length, aperture and pixel size are set."
-msgstr "Grootte van camera, optiek en pixel zijn ingesteld."
+msgstr "Brandpuntsafstand, diafragma en pixelgrootte zijn ingesteld."
 
 #: ekos/align/aligndiagnosis.cpp:1194
 #, kde-format
@@ -8720,10 +8718,9 @@ msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:1241
-#, fuzzy, kde-format
-#| msgid "Align failed"
+#, kde-format
 msgid "Align looks ready"
-msgstr "Uitlijnen is mislukt"
+msgstr "Uitlijnen zier eruit als gereed"
 
 #: ekos/align/aligndiagnosis.cpp:1242
 #, kde-format
@@ -8731,12 +8728,11 @@ msgid "No problems were found in the Align setup."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:1246
-#, fuzzy, kde-format
-#| msgid "Capturing to check HFR..."
+#, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "Opnemen om HFR te controleren..."
-msgstr[1] "Opnemen om HFR te controleren..."
+msgstr[0] "%1 ding te controleren"
+msgstr[1] "%1 dingen te controleren"
 
 #: ekos/align/aligndiagnosis.cpp:1247
 #, kde-format
@@ -14499,12 +14495,10 @@ msgid "%1 check-up: %2"
 msgstr ""
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "%1 module name, %2 cause, %3 explanation"
-#| msgid "%1 failed: %2. %3"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "%1 mislukt: %2. %3"
+msgstr "%1 controle: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
 #, kde-format
@@ -21688,7 +21682,7 @@ msgstr "<html><head/><body><p>CFZ:</p></body></html>"
 #: ekos/focus/cfz.ui:119
 #, kde-format
 msgid "Aperture (A):"
-msgstr "Opening (A):"
+msgstr "Diafragma (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:138
@@ -21713,7 +21707,7 @@ msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zet de opening van uw telescoop in mm. Dit is de "
+"<html><head/><body><p>Zet het diafragma van uw telescoop in mm. Dit is de "
 "standaard uit de geselecteerde optische keten.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
@@ -21877,7 +21871,7 @@ msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Golflengte,  Opening,  Brandpuntverhouding resetten "
+"<html><head/><body><p>Golflengte, Diafragma, Brandpuntverhouding resetten "
 "naar waarden uit het nu geselecteerde filter en optische keten</p></body></"
 "html>"
 
@@ -46679,7 +46673,7 @@ msgstr "Beschikbaarheid verrekijker"
 #: kstars.kcfg:1995
 #, kde-format
 msgid "Aperture of available binocular"
-msgstr "Opening beschikbare verrekijker"
+msgstr "Diafragma van beschikbare verrekijker"
 
 #. i18n: ectx: label, entry (ScopeListIndex), group (WISettings)
 #: kstars.kcfg:1999
@@ -48014,7 +48008,7 @@ msgstr "De te gebruiken golflengte in nm in het Goud algoritme."
 #: kstars.kcfg:2732
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr "Te gebruiken telescoopopening in nm in CFZ berekeningen."
+msgstr "Te gebruiken telescoopdiafragma in mm in CFZ berekeningen."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2736
@@ -101238,7 +101232,7 @@ msgstr "Verrekijker"
 #: tools/whatsinteresting/wiequipsettings.ui:199
 #, kde-format
 msgid "Specify aperture:"
-msgstr "Opening opgeven:"
+msgstr "Diafragma specificeren:"
 
 #. i18n: ectx: property (text), widget (QLabel, lpText)
 #: tools/whatsinteresting/wilpsettings.ui:34

@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 02:16+0000\n"
-"PO-Revision-Date: 2026-11-07 02:20+0100\n"
+"PO-Revision-Date: 2026-11-10 01:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.2\n"
+"X-Generator: Lokalize 26.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6944,15 +6944,14 @@ msgid "No mount is available."
 msgstr "No hay ninguna montura disponible."
 
 #: ekos/align/align_diagnosis.cpp:423
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount reported an error while unparking."
-msgstr "La montura ha dejado de informar sobre el seguimiento."
+msgstr "La montura ha informado de un error al desaparcar."
 
 #: ekos/align/align_diagnosis.cpp:429
 #, kde-format
 msgid "The mount rejected the unpark command."
-msgstr ""
+msgstr "La montura ha rechazado la orden de desaparcar."
 
 #: ekos/align/align_diagnosis.cpp:441
 #, kde-format
@@ -6960,32 +6959,29 @@ msgid "No camera is available."
 msgstr "No hay ninguna cámara disponible."
 
 #: ekos/align/align_diagnosis.cpp:444
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "The camera driver is not connected."
-msgstr "El controlador remoto de astrometría ya no está conectado."
+msgstr "El controlador de la cámara no está conectado."
 
 #: ekos/align/align_diagnosis.cpp:472 ekos/align/align_diagnosis.cpp:490
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount does not accept a time."
-msgstr "La montura ha dejado de informar sobre el seguimiento."
+msgstr "La montura no acepta un tiempo."
 
 #: ekos/align/align_diagnosis.cpp:493
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "ninguno"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
 msgid "Unknown index file size."
-msgstr ""
+msgstr "Tamaño desconocido del archivo de índice."
 
 #: ekos/align/align_diagnosis.cpp:513
-#, fuzzy, kde-format
-#| msgid "Template manager not available"
+#, kde-format
 msgid "The index file manager is not available."
-msgstr "Gestor de plantillas no disponible"
+msgstr "El gestor del archivo de índice no está disponible."
 
 #: ekos/align/align_diagnosis.cpp:558
 #, fuzzy, kde-format
@@ -6996,12 +6992,13 @@ msgstr "Ganancia de la cámara objetivo"
 #: ekos/align/align_diagnosis.cpp:578
 #, kde-format
 msgid "The solver timeout is already at its limit."
-msgstr ""
+msgstr "El tiempo de espera del sistema de identificación ya está al límite."
 
 #: ekos/align/align_diagnosis.cpp:604
 #, kde-format
 msgid "The default solver profile was not found."
 msgstr ""
+"No se ha encontrado el perfil predeterminado del sistema de identificación."
 
 #: ekos/align/align_fov.cpp:106
 #, kde-format
@@ -7375,6 +7372,8 @@ msgid ""
 "Error: the mount is parked. Unpark the mount, or select Nothing as the "
 "solver action."
 msgstr ""
+"Error: la montura está aparcada. Desaparque la montura o seleccione "
+"«Ninguna» como acción del sistema de identificación."
 
 #: ekos/align/align_solver.cpp:135
 #, kde-format
@@ -7382,13 +7381,10 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: se ha perdido la conexión con la rueda de filtros."
 
 #: ekos/align/align_solver.cpp:155
-#, fuzzy, kde-format
-#| msgid ""
-#| "Image transfer is disabled for this camera. Would you like to enable it?"
+#, kde-format
 msgid "Error: image transfer is disabled for camera %1."
 msgstr ""
-"La transferencia de imágenes se ha desactivado para esta cámara. ¿Desea "
-"activarla?"
+"Error: la transferencia de imágenes está desactivada para la cámara %1."
 
 #: ekos/align/align_solver.cpp:173 ekos/capture/cameraprocess.cpp:296
 #: ekos/capture/cameraprocess.cpp:740 ekos/focus/focus.cpp:6125
@@ -7672,10 +7668,9 @@ msgid "Exposure timeout. Restarting exposure..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición…"
 
 #: ekos/align/aligndiagnosis.cpp:105
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a camera in the optical train"
-msgstr "Seleccionar tren óptico"
+msgstr "Seleccionar una cámara del tren óptico"
 
 #: ekos/align/aligndiagnosis.cpp:106
 #, kde-format
@@ -7700,7 +7695,7 @@ msgstr "Conectar la montura"
 #: ekos/align/aligndiagnosis.cpp:124
 #, kde-format
 msgid "The mount is disconnected, so its position is unknown."
-msgstr ""
+msgstr "La montura está desconectada, por lo que se desconoce su posición."
 
 #: ekos/align/aligndiagnosis.cpp:132
 #, kde-format
@@ -7708,10 +7703,9 @@ msgid "Check the mount connection"
 msgstr "Compruebe la conexión de la montura"
 
 #: ekos/align/aligndiagnosis.cpp:133
-#, fuzzy, kde-format
-#| msgid "Mount is synced to solution coordinates."
+#, kde-format
 msgid "The mount is connected but sends no valid coordinates."
-msgstr "La montura se ha sincronizado con las coordenadas de la solución."
+msgstr "La montura está conectada, pero envía coordenadas no válidas."
 
 #: ekos/align/aligndiagnosis.cpp:135
 #, kde-format
@@ -7724,21 +7718,19 @@ msgid "If it does not, disconnect and reconnect the mount."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:144
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid "Set the telescope focal length and aperture"
-msgstr "Distancia focal del telescopio, en milímetros."
+msgstr "Definir la distancia focal y la apertura del telescopio"
 
 #: ekos/align/aligndiagnosis.cpp:145
 #, kde-format
 msgid "Focal length %1 mm, aperture %2 mm."
-msgstr ""
+msgstr "Distancia focal %1 mm, apertura %2 mm."
 
 #: ekos/align/aligndiagnosis.cpp:156
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Set the camera pixel size"
-msgstr "Tamaño de píxel de la cámara, en micrómetros"
+msgstr "Definir el tamaño de píxel de la cámara"
 
 #: ekos/align/aligndiagnosis.cpp:157
 #, kde-format
@@ -7754,6 +7746,8 @@ msgstr ""
 #, kde-format
 msgid "The selected external solver program was not found."
 msgstr ""
+"No se ha encontrado el programa externo seleccionado del sistema de "
+"identificación."
 
 #: ekos/align/aligndiagnosis.cpp:190
 #, kde-format
@@ -7761,10 +7755,9 @@ msgid "Index files for this field of view are installed."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:199
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Install index files %1"
-msgstr "Archivo no válido: %1"
+msgstr "Instalar archivos de índice %1"
 
 #: ekos/align/aligndiagnosis.cpp:200
 #, kde-format
@@ -7802,7 +7795,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:256
 #, kde-format
 msgid "Use the default solver profile"
-msgstr ""
+msgstr "Usar el perfil predeterminado del sistema de identificación"
 
 #: ekos/align/aligndiagnosis.cpp:257
 #, kde-format
@@ -7879,10 +7872,9 @@ msgid "The mount clock matches this computer."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:350
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Send the KStars time to the mount"
-msgstr "Definir el tamaño del elemento"
+msgstr "Enviar la hora de KStars a la montura"
 
 #: ekos/align/aligndiagnosis.cpp:351
 #, kde-format
@@ -7927,10 +7919,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:381
-#, fuzzy, kde-format
-#| msgid "No camera connected."
+#, kde-format
 msgid "No camera is selected"
-msgstr "No hay ninguna cámara conectada."
+msgstr "No hay ninguna cámara seleccionada"
 
 #: ekos/align/aligndiagnosis.cpp:382
 #, kde-format
@@ -7938,10 +7929,9 @@ msgid "The optical train has no camera for Align to capture with."
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:385
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The camera is disconnected"
-msgstr "Se ha desconectado el servidor."
+msgstr "La cámara está desconectada"
 
 #: ekos/align/aligndiagnosis.cpp:386
 #, fuzzy, kde-format
@@ -7952,7 +7942,7 @@ msgstr "Error: se ha perdido la conexión con la cámara."
 #: ekos/align/aligndiagnosis.cpp:389
 #, kde-format
 msgid "The focal length or aperture is missing"
-msgstr ""
+msgstr "Falta la distancia focal o la apertura"
 
 #: ekos/align/aligndiagnosis.cpp:390
 #, kde-format
@@ -7962,10 +7952,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:393
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "The camera pixel size is missing"
-msgstr "Tamaño de píxel de la cámara, en micrómetros"
+msgstr "Falta el tamaño de píxel de la cámara"
 
 #: ekos/align/aligndiagnosis.cpp:394
 #, kde-format
@@ -7974,10 +7963,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:397
-#, fuzzy, kde-format
-#| msgid "Function index out of bounds."
+#, kde-format
 msgid "The field of view is out of bounds"
-msgstr "Índice de la función fuera de límites."
+msgstr "El campo de visión está fuera de límites"
 
 #: ekos/align/aligndiagnosis.cpp:398
 #, fuzzy, kde-format
@@ -7986,10 +7974,9 @@ msgid "The calculated field of view is %1 x %2 arcmin."
 msgstr "Campo de visión efectivo, en minutos de arco."
 
 #: ekos/align/aligndiagnosis.cpp:402
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The filter wheel is disconnected"
-msgstr "Se ha desconectado el servidor."
+msgstr "La rueda de filtros está desconectada"
 
 #: ekos/align/aligndiagnosis.cpp:403
 #, fuzzy, kde-format
@@ -8017,12 +8004,12 @@ msgstr "Formato de transferencia de imágenes"
 #: ekos/align/aligndiagnosis.cpp:411
 #, kde-format
 msgid "The camera does not send its images to KStars."
-msgstr ""
+msgstr "La cámara no envía sus imágenes a KStars."
 
 #: ekos/align/aligndiagnosis.cpp:414
 #, kde-format
 msgid "The dust cap reports an error"
-msgstr ""
+msgstr "La cubierta antipolvo informa de un error"
 
 #: ekos/align/aligndiagnosis.cpp:415
 #, kde-format
@@ -8479,21 +8466,19 @@ msgstr ""
 "activarla?"
 
 #: ekos/align/aligndiagnosis.cpp:702
-#, fuzzy, kde-format
-#| msgid "Open the WUT dialog"
+#, kde-format
 msgid "Open the dust cap"
-msgstr "Abrir el diálogo «Qué ocurre esta noche»"
+msgstr "Abrir la cubierta antipolvo"
 
 #: ekos/align/aligndiagnosis.cpp:703
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "The dust cap reports an error."
-msgstr "Error de la cubierta antipolvo."
+msgstr "La cubierta antipolvo informa de un error."
 
 #: ekos/align/aligndiagnosis.cpp:704
 #, kde-format
 msgid "Open or remove the dust cap by hand."
-msgstr ""
+msgstr "Abra o quite la cubierta antipolvo a mano."
 
 #: ekos/align/aligndiagnosis.cpp:705
 #, kde-format
@@ -8646,7 +8631,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:895
 #, kde-format
 msgid "Check that the dust cap or cover is open."
-msgstr ""
+msgstr "Compruebe que la cubierta antipolvo o la tapa está abierta."
 
 #: ekos/align/aligndiagnosis.cpp:896
 #, kde-format
@@ -8675,10 +8660,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:911
-#, fuzzy, kde-format
-#| msgid "Add new telescope"
+#, kde-format
 msgid "Focus the telescope"
-msgstr "Añadir nuevo telescopio"
+msgstr "Enfocar el telescopio"
 
 #: ekos/align/aligndiagnosis.cpp:913
 #, kde-format
@@ -103339,13 +103323,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#, fuzzy
-#~| msgid "No profile selected"
-#~ msgid "The solver profile %1 is selected."
-#~ msgstr "Ningún perfil seleccionado"
-
-#, fuzzy
-#~| msgid "No optical trains for profile: %1"
-#~ msgid "The optical train uses a reducer of %1x."
-#~ msgstr "No hay trenes ópticos para el perfil: %1"

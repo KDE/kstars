@@ -6765,7 +6765,7 @@ msgstr ""
 #: ekos/align/align_diagnosis.cpp:493
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "žádný"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format

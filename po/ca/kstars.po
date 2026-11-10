@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-09 02:16+0000\n"
-"PO-Revision-Date: 2026-11-08 20:24+0100\n"
+"PO-Revision-Date: 2026-11-09 17:41+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6990,7 +6990,7 @@ msgstr "La muntura no accepta una hora."
 #: ekos/align/align_diagnosis.cpp:493
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "sense"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
@@ -7810,6 +7810,8 @@ msgid ""
 "The solver profile %1 is selected. The default profile adapts its search to "
 "your field of view."
 msgstr ""
+"El perfil del solucionador %1 està seleccionat. El perfil predeterminat "
+"adapta la seva cerca al camp de visió."
 
 #: ekos/align/aligndiagnosis.cpp:272
 #, kde-format
@@ -7836,6 +7838,8 @@ msgid ""
 "The optical train uses a reducer of %1x. A wrong value gives the solver a "
 "wrong field of view."
 msgstr ""
+"El tren òptic utilitza un reductor de %1x. Un valor incorrecte dona al "
+"solucionador un camp de visió incorrecte."
 
 #: ekos/align/aligndiagnosis.cpp:314
 #, kde-format
@@ -7870,6 +7874,8 @@ msgid ""
 "KStars takes its time from %1. Check the clock of that device, or set the "
 "time source to KStars in the INDI settings."
 msgstr ""
+"El KStars obté la seva hora des de %1. Comproveu el rellotge d'aquest "
+"dispositiu o establiu la font de temps al KStars a la configuració INDI."
 
 #: ekos/align/aligndiagnosis.cpp:335
 #, kde-format
@@ -7894,20 +7900,18 @@ msgstr ""
 "darrera vegada la seva hora."
 
 #: ekos/align/aligndiagnosis.cpp:361
-#, fuzzy, kde-format
-#| msgid "Send the KStars time to the mount"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Envieu l'hora del KStars a la muntura"
+msgstr "Permet que el KStars mantingui l'hora de la muntura"
 
 #: ekos/align/aligndiagnosis.cpp:362
-#, fuzzy, kde-format
-#| msgid "The mount clock was %1 seconds off when it last reported its time."
+#, kde-format
 msgid ""
 "The mount clock was %1 seconds off when it last reported its time, and "
 "KStars does not send its time to the mount."
 msgstr ""
 "El rellotge de la muntura estava %1 segons endarrerit quan va informar per "
-"darrera vegada la seva hora."
+"darrera vegada la seva hora, i el KDtars no envia la seva hora a la muntura."
 
 #: ekos/align/aligndiagnosis.cpp:373
 #, kde-format
@@ -8810,52 +8814,49 @@ msgstr ""
 "obtenir detalls sobre la fallada."
 
 #: ekos/align/aligndiagnosis.cpp:1154
-#, fuzzy, kde-format
-#| msgid "The camera %1 is disconnected."
+#, kde-format
 msgid "The camera %1 is connected."
-msgstr "La càmera %1 està desconnectada."
+msgstr "La càmera %1 està connectada."
 
 #: ekos/align/aligndiagnosis.cpp:1164
-#, fuzzy, kde-format
-#| msgid "The mount is disconnected, so its position is unknown."
+#, kde-format
 msgid "The mount is connected and reports its position."
-msgstr ""
-"La muntura està desconnectada, de manera que la seva posició és desconeguda."
+msgstr "La muntura està connectada i informa de la seva posició."
 
 #: ekos/align/aligndiagnosis.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Camera, optics and pixel size are set."
+#, kde-format
 msgid "Focal length, aperture and pixel size are set."
-msgstr "S'ha definit la càmera, l'òptica i la mida dels píxels."
+msgstr "S'ha definit la distància focal, l'obertura i la mida dels píxels."
 
 #: ekos/align/aligndiagnosis.cpp:1194
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
+"L'alineació s'ha resolt amb l'exposició, l'agrupació i el perfil del "
+"solucionador actual."
 
 #: ekos/align/aligndiagnosis.cpp:1241
-#, fuzzy, kde-format
-#| msgid "Align failed"
+#, kde-format
 msgid "Align looks ready"
-msgstr "Ha fallat l'alineació"
+msgstr "L'alineació està preparada"
 
 #: ekos/align/aligndiagnosis.cpp:1242
 #, kde-format
 msgid "No problems were found in the Align setup."
-msgstr ""
+msgstr "No s'ha trobat cap problema a la configuració de l'alineació."
 
 #: ekos/align/aligndiagnosis.cpp:1246
-#, fuzzy, kde-format
-#| msgid "Capturing to check HFR..."
+#, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "S'està capturant per a la comprovació HFR..."
-msgstr[1] "S'està capturant per a la comprovació HFR..."
+msgstr[0] "%1 cosa a comprovar"
+msgstr[1] "%1 coses a comprovar"
 
 #: ekos/align/aligndiagnosis.cpp:1247
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
 msgstr ""
+"Comença amb el primer suggeriment, és el més probable que sigui important."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -14677,15 +14678,13 @@ msgstr "Elimina aquesta referència de dispositiu emmagatzemat"
 #, kde-format
 msgctxt "%1 module name, %2 result"
 msgid "%1 check-up: %2"
-msgstr ""
+msgstr "Comprovació de %1: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "%1 module name, %2 cause, %3 explanation"
-#| msgid "%1 failed: %2. %3"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "Ha fallat %1: %2. %3"
+msgstr "Comprovació de %1: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
 #, kde-format
@@ -14719,7 +14718,7 @@ msgstr "Se suggereix:"
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "causa probable"
 
 #: ekos/auxiliary/diagnosis.cpp:243
 #, kde-format
@@ -20739,7 +20738,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.ui:592
 #, kde-format
 msgid "Alt-Az Field Derotation"
-msgstr "Desrotació de camp de la Alt-Az"
+msgstr "Desrotació de camp de l'Alt-Az"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, derotateField)
 #: ekos/capture/rotatorsettings.ui:613
