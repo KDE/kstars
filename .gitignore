@@ -41,6 +41,7 @@ CMakeLists.txt.user
 **/.sentry-native/
 .flatpak-builder
 build
+build-testing
 repo
 moc_*.cpp
 kstars/ui_*.h

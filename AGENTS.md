@@ -60,18 +60,22 @@ imaging or put equipment at risk (mount slews, dome/cap motion, cooling). Change
 
 ## 3. Building
 
-Use the existing CMake build directory (`build/`, Ninja, Debug) when there is one. Don't create new build
-trees without a reason.
+**Agents build and test only in `build-testing/`, never in `build/`.** `build/` belongs to the maintainer's IDE:
+VS Code configures it from `.vscode/settings.json` (with `BUILD_TESTING=OFF` and Sentry on) and rebuilds it on its own
+after file edits. Don't configure, reconfigure or build `build/`, and don't change its `CMakeCache.txt`. Passing
+`-DBUILD_TESTING=ON` there changes the maintainer's configuration, and two builds of the same tree at once corrupt
+`libKStarsLib.a`. Reuse `build-testing/` when it exists. Don't create other build trees without a reason.
 
 ```bash
-# Configure (only if build/ does not exist yet). Enable tests.
-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DBUILD_WITH_QT6=ON -DBUILD_TESTING=ON
+# Configure (only if build-testing/ does not exist yet). Tests on, Sentry off (the default),
+# so test binaries never send crash reports.
+cmake -B build-testing -G Ninja -DCMAKE_BUILD_TYPE=Debug -DBUILD_WITH_QT6=ON -DBUILD_TESTING=ON -DCCACHE_SUPPORT=ON
 
 # Build — never use all CPU cores; leave headroom (see below).
 JOBS=$(( $(nproc) * 3 / 4 ))
-cmake --build build -j"$JOBS"       # everything
-ninja -C build -j"$JOBS" kstars     # just the app
-ninja -C build -j"$JOBS" testfocus  # a single test binary
+cmake --build build-testing -j"$JOBS"       # everything
+ninja -C build-testing -j"$JOBS" kstars     # just the app
+ninja -C build-testing -j"$JOBS" testfocus  # a single test binary
 ```
 
 - **Always set the job count explicitly, below the number of CPU cores.** A bare `ninja`/`make`/`cmake --build`
@@ -79,17 +83,18 @@ ninja -C build -j"$JOBS" testfocus  # a single test binary
   to compile. Running too many at once can exhaust RAM and trigger the OOM killer. Using about ¾ of the cores
   is a sensible default. Go lower on machines with limited RAM (roughly 2 GB per job). If the maintainer or the
   local agent memory/config gives a specific cap for this machine, use that instead.
-- If `BUILD_TESTING` is `OFF` in `build/CMakeCache.txt`, reconfigure with `-DBUILD_TESTING=ON` before
-  building tests: `cmake -B build -DBUILD_TESTING=ON`. An IDE sharing `build/` may reconfigure it with
-  tests off whenever a `CMakeLists.txt` changes, even mid-build. After editing CMake files, re-check the
-  cache, and if a test binary fails to execute, check that it is a valid executable before debugging it.
+- If `BUILD_TESTING` is `OFF` in `build-testing/CMakeCache.txt`, reconfigure that tree with
+  `cmake -B build-testing -DBUILD_TESTING=ON`. If a test binary fails to execute, check that it is a valid
+  executable before debugging it.
+- The IDE may still be building `build/` while you build `build-testing/`. The trees don't share files, but they
+  share CPU and RAM: check `pgrep -af ninja` and lower your job count if another build is running.
 - Only build targets you name explicitly, taken from the `ADD_EXECUTABLE` lines of the folder's `CMakeLists.txt`.
   Never build a list derived from `ninja -t targets`: it contains the `all`, `install` and `test` meta targets, and
   `test` runs ctest outside any sandbox, which starts UI tests on the user's desktop (see §4.3).
-- If a build or test command was killed, check `build/Testing/Temporary/LastTest.log.tmp*` and
+- If a build or test command was killed, check `build-testing/Testing/Temporary/LastTest.log.tmp*` and
   `journalctl --user` for `test_ekos_*` processes before reporting that no tests ran.
 - For a fast check of one file, compile it with `-fsyntax-only`, using its command from
-  `build/compile_commands.json`.
+  `build-testing/compile_commands.json`.
 - A change must build with **no new warnings** in the files you touched.
 - Optional dependencies (INDI, CFITSIO, StellarSolver, WCSLIB, libraw, …) are guarded by `HAVE_*` macros from
   `config-kstars.h`. Keep new code behind the same guards so builds without them still compile.
@@ -155,28 +160,28 @@ To add a test:
 ### 4.3 How to run and validate
 
 Tests are run as **Qt Test** executables, directly. Don't use `ctest`. Each test binary lands in
-`build/Tests/<subdirectory>/` and accepts the standard Qt Test command-line options.
+`build-testing/Tests/<subdirectory>/` and accepts the standard Qt Test command-line options.
 
 ```bash
 # Build the test target(s) you touched (with a capped job count, see §3)
-ninja -C build -j"$JOBS" testfocus
+ninja -C build-testing -j"$JOBS" testfocus
 
 # Run the whole test binary
-./build/Tests/ekos/focus/testfocus
+./build-testing/Tests/ekos/focus/testfocus
 
 # Verbose output (-v1 / -v2), or log signal emissions (-vs)
-./build/Tests/ekos/focus/testfocus -v2
+./build-testing/Tests/ekos/focus/testfocus -v2
 
 # Run a single test function, or a single data row of a data-driven test
-./build/Tests/auxiliary/testksalmanac testDawnDusk -v2
-./build/Tests/auxiliary/testksalmanac testDawnDusk:<data-tag>
+./build-testing/Tests/auxiliary/testksalmanac testDawnDusk -v2
+./build-testing/Tests/auxiliary/testksalmanac testDawnDusk:<data-tag>
 
 # List the test functions and data tags in a binary
-./build/Tests/ekos/focus/testfocus -functions
-./build/Tests/ekos/focus/testfocus -datatags
+./build-testing/Tests/ekos/focus/testfocus -functions
+./build-testing/Tests/ekos/focus/testfocus -datatags
 
 # Machine-readable results (for reporting)
-./build/Tests/ekos/focus/testfocus -o results.xml,xml -o -,txt
+./build-testing/Tests/ekos/focus/testfocus -o results.xml,xml -o -,txt
 ```
 
 A binary passes only if it exits with code 0 and prints `Totals: N passed, 0 failed`. Check both. A
@@ -188,7 +193,8 @@ Before calling a change done:
    temporarily, run it, then restore).
 3. The existing Qt Test binaries for the module you touched still pass. For changes to shared code
    (`auxiliary/`, `skyobjects/`, `fitsviewer/`, `indi/`, Ekos state/sequence classes), run every non-UI
-   test binary that depends on it (e.g. all binaries under `build/Tests/auxiliary/`, `build/Tests/ekos/`, …).
+   test binary that depends on it (e.g. all binaries under `build-testing/Tests/auxiliary/`,
+   `build-testing/Tests/ekos/`, …).
 4. Run UI tests (`Tests/kstars_ui`) when you changed UI flows they cover and a display is available. If you
    can't run them, say so.
 5. Your final report lists the exact commands you ran and their pass/fail results.
@@ -198,7 +204,7 @@ versions of the files you changed, rebuild, and run the failing function; if it 
 pre-existing. Report it rather than fixing it silently.
 
 **Test pitfalls learned the hard way:**
-- Run test binaries from their own build directory (e.g. `build/Tests/kstars_ui`). Some tests find their
+- Run test binaries from their own build directory (e.g. `build-testing/Tests/kstars_ui`). Some tests find their
   fixtures by relative path and otherwise skip.
 - Tests that create widgets (`QTEST_MAIN`) abort with "Authorization required, but no authorization protocol
   specified" when `DISPLAY` is set but the shell has no X authorization, which is common in agent and sandboxed
