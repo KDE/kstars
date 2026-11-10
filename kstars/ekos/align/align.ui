@@ -313,6 +313,9 @@
             <property name="toolTip">
              <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
             </property>
+            <property name="suffix">
+             <string> ms</string>
+            </property>
             <property name="maximum">
              <number>15000</number>
             </property>
