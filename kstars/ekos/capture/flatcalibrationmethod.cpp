@@ -60,6 +60,17 @@ FrameCheck checkFrameBrightness(int brightnessAtStart, int brightnessNow, int re
     return retakesSoFar < MAX_BRIGHTNESS_RETAKES ? FRAME_RETAKE : FRAME_GIVE_UP;
 }
 
+RestoreAction restoreBrightness(int startBrightness, int currentBrightness, int minBrightness, int maxBrightness)
+{
+    if (startBrightness < 0 || startBrightness == currentBrightness)
+        return RESTORE_NONE;
+
+    if (startBrightness < FlatBrightnessCalibration::searchMinimum(minBrightness, maxBrightness))
+        return RESTORE_KEEP;
+
+    return RESTORE_SET;
+}
+
 ExposureLimit exposureLimit(double exposure, double nextExposure, double minExposure, double maxExposure)
 {
     // The exposure of the job was clamped to the limit before, so it equals the limit

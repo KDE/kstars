@@ -62,7 +62,9 @@ class FlatBrightnessCalibration
          * A light box at its maximum brightness gives no light if its ADU rose by less than
          * NO_SIGNAL_ADU_RISE compared to a frame at a brightness at least
          * NO_SIGNAL_BRIGHTNESS_FACTOR times lower. Without light, every frame only shows the
-         * bias of the camera, and lengthening the exposure would not help either.
+         * bias of the camera, and lengthening the exposure would not help either. If the
+         * search reaches the maximum without such a frame, it asks for one at the search
+         * minimum, @see checksLight().
          */
         static constexpr double NO_SIGNAL_BRIGHTNESS_FACTOR = 4.0;
         static constexpr double NO_SIGNAL_ADU_RISE = 0.01;
@@ -80,10 +82,9 @@ class FlatBrightnessCalibration
          * on the brightness the device reports back, which keeps it correct even for
          * a device that really does snap to a coarser grid.
          *
-         * A brightness of 0 switches some light boxes off, and some only switch on again
-         * when their light is turned on. A device range that starts at 0 is therefore
-         * searched from 1, unless 1 is also its maximum. A frame the light box reports
-         * below that, e.g. because it was at 0 already, is kept at its real brightness.
+         * The search never asks for less than @see searchMinimum(). A frame the light box
+         * reports below that, e.g. because it was at 0 already, is kept at its real
+         * brightness.
          * @param minBrightness lowest brightness the device accepts
          * @param maxBrightness highest brightness the device accepts
          * @param targetADU the ADU value that should be reached
@@ -125,6 +126,32 @@ class FlatBrightnessCalibration
         int nextBrightness() const
         {
             return m_NextBrightness;
+        }
+
+        /**
+         * @brief checksLight whether the frame at @see nextBrightness() checks that the light
+         * box gives light, valid after @see update() returned RESULT_CONTINUE.
+         *
+         * The search was still too dark at the maximum brightness, and it had no frame at a
+         * brightness NO_SIGNAL_BRIGHTNESS_FACTOR times lower to compare with. It asks for one
+         * at the search minimum, once. The next @see update() then ends the search: with
+         * RESULT_FAILED_INVALID_ADU if the ADU at the maximum is less than NO_SIGNAL_ADU_RISE
+         * above that frame, with RESULT_FAILED_MAXIMUM otherwise. The fallback keeps the
+         * maximum brightness either way.
+         */
+        bool checksLight() const
+        {
+            return m_ChecksLight;
+        }
+
+        /**
+         * @brief lightCheckMeasured whether the last @see update() measured the frame that checks
+         * that the light box gives light, @see checksLight(). The ADU at the maximum it was
+         * compared with is @see belowADU().
+         */
+        bool lightCheckMeasured() const
+        {
+            return m_LightCheckMeasured;
         }
 
         /**
@@ -197,8 +224,18 @@ class FlatBrightnessCalibration
         bool fallbackSaturated() const;
 
         /**
-         * @brief minBrightness lowest brightness the search asks for, which is 1 for a
-         * device range that starts at 0.
+         * @brief searchMinimum lowest brightness the search asks for in a device range.
+         *
+         * A brightness of 0 switches some light boxes off, and some only switch on again
+         * when their light is turned on. A device range that starts at 0 is therefore
+         * searched from 1, unless 1 is also its maximum.
+         * @param minBrightness lowest brightness the device accepts
+         * @param maxBrightness highest brightness the device accepts
+         */
+        static int searchMinimum(int minBrightness, int maxBrightness);
+
+        /**
+         * @brief minBrightness lowest brightness the search asks for, @see searchMinimum().
          */
         int minBrightness() const
         {
@@ -230,6 +267,13 @@ class FlatBrightnessCalibration
          * searched again as it is now instead of as it was before it drifted.
          */
         void restartAfterDrift();
+        /**
+         * @brief endAtMaximum end a search that is still too dark at the maximum, or ask for
+         * a frame at the search minimum first, @see checksLight().
+         */
+        Result endAtMaximum(double measuredADU);
+        /** @brief compare the frame at the search minimum with the one at the maximum */
+        Result checkLight(int currentBrightness, double measuredADU, bool saturated);
 
         // configuration
         bool m_Active { false };
@@ -264,6 +308,12 @@ class FlatBrightnessCalibration
         // the frame at the lowest brightness measured, to tell a light box without light
         int m_DimmestBrightness { -1 };
         double m_DimmestADU { 0 };
+
+        // the frame at the search minimum that checks for light, @see checksLight()
+        bool m_ChecksLight { false };
+        bool m_LightCheckMeasured { false };
+        bool m_LightChecked { false };
+        double m_MaxADU { 0 };
 };
 
 } // namespace Ekos

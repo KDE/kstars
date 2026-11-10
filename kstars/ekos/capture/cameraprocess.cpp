@@ -677,7 +677,7 @@ void CameraProcess::prepareJob(const QSharedPointer<SequenceJob> &job)
             updatedCaptureCompleted(activeJob()->getCoreProperty(
                                         SequenceJob::SJ_Count).toInt());
             Q_EMIT newLog(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
-                               QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               exposureString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()),
                                job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                activeJob()->getCompleted(),
                                activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
@@ -692,7 +692,7 @@ void CameraProcess::prepareJob(const QSharedPointer<SequenceJob> &job)
             {
                 // There are captures to process
                 Q_EMIT newLog(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
-                                   QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                                   exposureString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()),
                                    job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                    activeJob()->getCompleted(),
                                    activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
@@ -706,7 +706,7 @@ void CameraProcess::prepareJob(const QSharedPointer<SequenceJob> &job)
             {
                 Q_EMIT newLog(i18n("Job requires %1 x %2-second %3 video and will be processed.",
                                    activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt(),
-                                   QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                                   exposureString(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()),
                                    activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
             }
         }
@@ -1607,10 +1607,13 @@ void CameraProcess::captureImage()
                 && activeJob()->getFlatFieldDuration() == DURATION_ADU
                 && activeJob()->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
-            if (activeCamera()->getEncodingFormat() != "FITS" &&
-                    activeCamera()->getEncodingFormat() != "XISF")
+            // the job sets its transfer format on the camera only further down
+            const QString encoding = activeJob()->getCoreProperty(SequenceJob::SJ_Encoding).toString();
+            if (encoding != "FITS" && encoding != "XISF")
             {
-                Q_EMIT newLog(i18n("Cannot calculate ADU levels in non-FITS images."));
+                Q_EMIT newLog(i18n("Cannot calculate the ADU of flat frames in %1 images. Select Manual flat duration "
+                                   "in the Calibration options, or set the image transfer format to FITS or XISF.",
+                                   encoding));
                 Q_EMIT stopCapture(CAPTURE_ABORTED);
                 return;
             }
@@ -1636,8 +1639,7 @@ void CameraProcess::captureImage()
             const bool autoTarget = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() <= 0;
             const QString target = QString::number(flatTargetADU(), 'f', 0);
             const QString tolerance = QString::number(flatTargetTolerance(), 'f', 0);
-            const QString exposure = QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0,
-                                     'f', 3);
+            const QString exposure = exposureString(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             if (m_FlatMethod == FlatCalibrationMethod::METHOD_BRIGHTNESS && autoTarget)
                 Q_EMIT newLog(i18n("Flat calibration adjusts the light box brightness at an exposure of %1 seconds. "
                                    "Target ADU: Auto.", exposure));
@@ -2518,7 +2520,7 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
             {
                 const double exposure = activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
                 Q_EMIT newLog(i18n("Flats are taken at an exposure of %1 seconds instead of %2 seconds.",
-                                   QString("%L1").arg(exposure, 0, 'f', 3), QString("%L1").arg(m_FlatSequenceExposure, 0, 'f', 3)));
+                                   exposureString(exposure), exposureString(m_FlatSequenceExposure)));
             }
             activeCamera()->setUploadMode(activeJob()->getUploadMode());
             auto placeholderPath = PlaceholderPath();
@@ -2800,6 +2802,14 @@ bool CameraProcess::checkFlatCalibrationBrightness(double currentADU, bool satur
                                  << "advertisedStep=" << lightBox->brightnessStep()
                                  << "result=" << FlatBrightnessCalibration::resultString(result);
 
+    // The frame that checked for light decides between the two messages below, so show
+    // what it was compared with.
+    if (m_FlatBrightnessCalibration.lightCheckMeasured())
+        Q_EMIT newLog(i18n("Current ADU is %1 at light box brightness %2, and %3 at the maximum brightness (%4).",
+                           QString::number(currentADU, 'f', 0), QString::number(currentBrightness),
+                           QString::number(m_FlatBrightnessCalibration.belowADU(), 'f', 0),
+                           QString::number(maxBrightness)));
+
     switch (result)
     {
         case FlatBrightnessCalibration::RESULT_TARGET_REACHED:
@@ -2819,9 +2829,15 @@ bool CameraProcess::checkFlatCalibrationBrightness(double currentADU, bool satur
         {
             const int nextBrightness = m_FlatBrightnessCalibration.nextBrightness();
 
+            // Still too dark at the maximum: a frame at the search minimum tells whether the
+            // light box gives light at all, before the exposure is adjusted instead.
+            if (m_FlatBrightnessCalibration.checksLight())
+                Q_EMIT newLog(i18n("Current ADU %1 is below the target at the maximum light box brightness. Checking "
+                                   "at brightness %2 that the light box gives light.",
+                                   QString::number(currentADU, 'f', 0), QString::number(nextBrightness)));
             // A frame of the sequence itself fell outside the tolerance after the
             // calibration had completed: the light source has drifted.
-            if (activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
+            else if (activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
                 Q_EMIT newLog(i18n("Current ADU %1 is outside the target ADU tolerance range again. Next light box "
                                    "brightness is %2.", QString::number(currentADU, 'f', 0),
                                    QString::number(nextBrightness)));
@@ -2857,9 +2873,12 @@ bool CameraProcess::checkFlatCalibrationBrightness(double currentADU, bool satur
             break;
 
         case FlatBrightnessCalibration::RESULT_FAILED_MAXIMUM:
+            // The last frame may be the one that checked for light at the search minimum, so
+            // name the ADU measured at the maximum.
             Q_EMIT newLog(i18n("Unable to reach target ADU using light box brightness. Target: %1, measured: %2, "
                                "brightness: maximum (%3).", QString::number(targetADU, 'f', 0),
-                               QString::number(currentADU, 'f', 0), QString::number(maxBrightness)));
+                               QString::number(m_FlatBrightnessCalibration.belowADU(), 'f', 0),
+                               QString::number(maxBrightness)));
             break;
 
         case FlatBrightnessCalibration::RESULT_FAILED_INVALID_ADU:
@@ -2919,7 +2938,7 @@ bool CameraProcess::fallBackToExposureCalibration(int currentBrightness, double 
                                 targetADU, state()->exposureRange().min, state()->exposureRange().max);
 
     Q_EMIT newLog(i18n("Continuing with light box brightness %1 and adjusting the exposure instead. Next exposure is "
-                       "%2 seconds.", QString::number(brightness), QString("%L1").arg(nextExposure, 0, 'f', 3)));
+                       "%2 seconds.", QString::number(brightness), exposureString(nextExposure)));
 
     // Measurements of the exposure calibration are only valid at one brightness.
     ExpRaw.clear();
@@ -2959,8 +2978,26 @@ void CameraProcess::restoreFlatBrightness()
     m_FlatStartBrightness = -1;
 
     auto lightBox = devices()->lightBox();
-    if (brightness < 0 || lightBox == nullptr || lightBox->brightness() == brightness)
+    if (lightBox == nullptr)
         return;
+
+    const int current = lightBox->brightness();
+    switch (FlatCalibrationMethod::restoreBrightness(brightness, current, lightBox->brightnessMin(),
+            lightBox->brightnessMax()))
+    {
+        case FlatCalibrationMethod::RESTORE_NONE:
+            return;
+
+        case FlatCalibrationMethod::RESTORE_KEEP:
+            // 0 could switch the light off without the next flat job noticing in time.
+            Q_EMIT newLog(i18n("Light box brightness left at %1 instead of restoring it to %2, since some light "
+                               "boxes switch their light off at that brightness.", QString::number(current),
+                               QString::number(brightness)));
+            return;
+
+        case FlatCalibrationMethod::RESTORE_SET:
+            break;
+    }
 
     // Nothing waits for the confirmation: the next flat job waits for the light box
     // anyway before its first calibration frame.
@@ -2989,7 +3026,7 @@ bool CameraProcess::stopAtExposureLimit(double nextExposure, double minExposure,
         case FlatCalibrationMethod::LIMIT_MAXIMUM:
             Q_EMIT newLog(i18n("Flat calibration stopped. The image is still too dark at the longest exposure of %1 "
                                "seconds, so the target ADU of %2 cannot be reached. Check the flat source.",
-                               QString("%L1").arg(exposure, 0, 'f', 3), target));
+                               exposureString(exposure), target));
             break;
 
         case FlatCalibrationMethod::LIMIT_NONE:

@@ -137,6 +137,31 @@ constexpr int MAX_BRIGHTNESS_RETAKES = 3;
  */
 FrameCheck checkFrameBrightness(int brightnessAtStart, int brightnessNow, int retakesSoFar);
 
+/**
+ * @brief What to do with the light box brightness when a flat job ends or is aborted.
+ */
+typedef enum
+{
+    RESTORE_NONE,  /*!< nothing to restore: the brightness is unknown or unchanged */
+    RESTORE_SET,   /*!< set the light box back to the brightness it had before the job */
+    RESTORE_KEEP   /*!< keep the current brightness, the one before the job would switch the light off */
+} RestoreAction;
+
+/**
+ * @brief restoreBrightness how to restore the light box brightness after a flat job.
+ *
+ * The light box returns to the brightness it had before the job, unless that is below
+ * the lowest brightness the search asks for, @see FlatBrightnessCalibration::searchMinimum().
+ * A brightness of 0 switches some light boxes off, and they ignore other brightness
+ * values until their light is turned on again. A flat job that follows right away could
+ * start before the light box reports its light off, and then run in the dark.
+ * @param startBrightness brightness before the job, -1 if unknown
+ * @param currentBrightness brightness the light box reports now
+ * @param minBrightness lowest brightness the light box accepts
+ * @param maxBrightness highest brightness the light box accepts
+ */
+RestoreAction restoreBrightness(int startBrightness, int currentBrightness, int minBrightness, int maxBrightness);
+
 /** Fraction of the full range of the frame that an automatic target ADU aims at. */
 constexpr double AUTO_TARGET_FRACTION = 0.4;
 /** Tolerance of an automatic target ADU, as a fraction of that target. */

@@ -54,6 +54,12 @@ class TestFlatBrightnessCalibration : public QObject
          */
         void testNoSignalAtMaximum_data();
         void testNoSignalAtMaximum();
+        /**
+         * @brief A search that reaches the maximum brightness without a frame at a quarter of it
+         * or lower takes one at its minimum, and stops if the light box gives no light.
+         */
+        void testLightCheckAtSearchMinimum_data();
+        void testLightCheckAtSearchMinimum();
         /** @brief 5. Still too dark at the highest brightness the device accepts. */
         void testMaximumBrightness();
         /** @brief 6. A frame without any signal. */
@@ -72,6 +78,9 @@ class TestFlatBrightnessCalibration : public QObject
         void testArbitraryDeviceRanges();
         /** @brief An unusable configuration is rejected instead of misbehaving. */
         void testInvalidConfiguration();
+        /** @brief A device range that starts at 0 is searched from 1. */
+        void testSearchMinimum_data();
+        void testSearchMinimum();
         /** @brief Noisy measurements still converge. */
         void testNoisyMeasurements();
         /** @brief The increment a device advertises must not constrain the search. */

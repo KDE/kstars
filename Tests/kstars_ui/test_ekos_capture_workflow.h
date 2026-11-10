@@ -406,10 +406,11 @@ class TestEkosCaptureWorkflow : public QObject
         void testFlatADUPreview();
 
         /**
-         * @brief A flat job that is too dark at the maximum brightness continues at the maximum
-         * brightness with a longer exposure.
+         * @brief A flat job that starts high and is too dark at the maximum brightness takes a frame
+         * at the search minimum, and stops instead of lengthening the exposure when the light box
+         * gives no light.
          */
-        void testFlatADUFallbackTooDark();
+        void testFlatADUNoLightStops();
 
         /**
          * @brief A flat job with target 0 (Auto) derives its target and tolerance from the
@@ -436,9 +437,17 @@ class TestEkosCaptureWorkflow : public QObject
         void testFlatADUFallbackTooBright();
 
         /**
-         * @brief Aborting a flat job during the brightness search restores the starting brightness.
+         * @brief Aborting a flat job during the brightness search restores the starting brightness,
+         * unless that is 0, which switches some light boxes off.
          */
+        void testFlatADUAbortRestoresBrightness_data();
         void testFlatADUAbortRestoresBrightness();
+
+        /**
+         * @brief A flat job with ADU duration stops before its first frame when the camera does not
+         * transfer FITS or XISF, and says how to go on.
+         */
+        void testFlatADUNativeEncodingStops();
 
         /**
          * @brief Wall flats with a light box in the train turn the light box on at the wall, so they

@@ -13,6 +13,13 @@
 namespace Ekos
 {
 
+int FlatBrightnessCalibration::searchMinimum(int minBrightness, int maxBrightness)
+{
+    // Brightness 0 switches some light boxes off, and some only switch on again when
+    // their light is turned on, so the search never asks for it.
+    return (minBrightness == 0 && maxBrightness > 1) ? 1 : minBrightness;
+}
+
 bool FlatBrightnessCalibration::start(int minBrightness, int maxBrightness, double targetADU,
                                       double tolerance, int maxIterations)
 {
@@ -22,10 +29,8 @@ bool FlatBrightnessCalibration::start(int minBrightness, int maxBrightness, doub
     if (maxBrightness <= minBrightness || targetADU <= 0 || maxIterations < 1)
         return false;
 
-    // Brightness 0 switches some light boxes off, and some only switch on again when
-    // their light is turned on, so the search never asks for it.
     m_DeviceMin     = minBrightness;
-    m_Min           = (minBrightness == 0 && maxBrightness > 1) ? 1 : minBrightness;
+    m_Min           = searchMinimum(minBrightness, maxBrightness);
     m_Max           = maxBrightness;
     m_Target        = targetADU;
     m_Tolerance     = qMax(0.0, tolerance);
@@ -53,6 +58,10 @@ void FlatBrightnessCalibration::reset()
     m_DimmestBrightness = -1;
     m_DimmestADU     = 0;
     m_Reached        = false;
+    m_ChecksLight    = false;
+    m_LightCheckMeasured   = false;
+    m_LightChecked   = false;
+    m_MaxADU         = 0;
 }
 
 int FlatBrightnessCalibration::belowBrightness() const
@@ -100,6 +109,8 @@ void FlatBrightnessCalibration::restartAfterDrift()
     m_HasHigh        = false;
     m_DimmestBrightness = -1;
     m_Reached        = false;
+    m_ChecksLight    = false;
+    m_LightChecked   = false;
 }
 
 int FlatBrightnessCalibration::quantize(double value) const
@@ -130,6 +141,47 @@ int FlatBrightnessCalibration::stepUp(int from) const
     return qMin(m_Max, from + 1);
 }
 
+FlatBrightnessCalibration::Result FlatBrightnessCalibration::endAtMaximum(double measuredADU)
+{
+    // Still too dark at the maximum. A light box without light only shows the bias of the
+    // camera, which a frame at a much lower brightness reveals. Without one, e.g. when the
+    // search started at a high preset, take it at the search minimum before the exposure
+    // is lengthened in vain.
+    if (!m_LightChecked && m_Max >= NO_SIGNAL_BRIGHTNESS_FACTOR * m_Min
+            && (m_DimmestBrightness < 0 || NO_SIGNAL_BRIGHTNESS_FACTOR * m_DimmestBrightness > m_Max))
+    {
+        m_ChecksLight    = true;
+        m_LightChecked   = true;
+        m_MaxADU         = measuredADU;
+        m_NextBrightness = m_Min;
+        m_HasRequested   = true;
+        return RESULT_CONTINUE;
+    }
+
+    return RESULT_FAILED_MAXIMUM;
+}
+
+FlatBrightnessCalibration::Result FlatBrightnessCalibration::checkLight(int currentBrightness, double measuredADU,
+        bool saturated)
+{
+    m_ChecksLight = false;
+    m_LightCheckMeasured = true;
+
+    // The frame is only compared with the one at the maximum, the search itself ended
+    // there. A light box that did not go low enough says nothing about the light, nor
+    // does a frame that is brighter than the target although the one at the maximum was
+    // too dark. The exposure is then adjusted as it would have been without this frame.
+    // Without light, noise can make this frame a little brighter than the one at the
+    // maximum, which still counts as no rise.
+    const bool usable = !saturated && std::isfinite(measuredADU) && measuredADU > 0
+                        && measuredADU <= m_Target
+                        && NO_SIGNAL_BRIGHTNESS_FACTOR * currentBrightness <= m_Max;
+    if (usable && m_MaxADU < measuredADU * (1 + NO_SIGNAL_ADU_RISE))
+        return RESULT_FAILED_INVALID_ADU;
+
+    return RESULT_FAILED_MAXIMUM;
+}
+
 FlatBrightnessCalibration::Result FlatBrightnessCalibration::update(int currentBrightness, double measuredADU,
         bool saturated)
 {
@@ -143,6 +195,12 @@ FlatBrightnessCalibration::Result FlatBrightnessCalibration::update(int currentB
 
     m_Iterations++;
     m_Attempts++;
+    m_LightCheckMeasured = false;
+
+    // The frame at the search minimum that checks for light after the search ended at the
+    // maximum, @see endAtMaximum().
+    if (m_ChecksLight)
+        return checkLight(currentBrightness, measuredADU, saturated);
 
     // A frame without any signal cannot be classified by its ADU. A saturated
     // frame is by definition too bright, whatever its ADU happens to read.
@@ -287,7 +345,7 @@ FlatBrightnessCalibration::Result FlatBrightnessCalibration::update(int currentB
     {
         // Every measurement so far is below the target, we have to go up.
         if (currentBrightness >= m_Max)
-            return RESULT_FAILED_MAXIMUM;
+            return endAtMaximum(measuredADU);
 
         double candidate;
         if (noSignal)

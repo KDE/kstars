@@ -7,10 +7,27 @@
 #pragma once
 
 #include <QMap>
+#include <QString>
 
 #define CAPTURE_TYPE_VIDEO "Video"
 namespace Ekos
 {
+
+/**
+ * @brief exposureString an exposure in seconds for the log, in the current locale.
+ *
+ * An exposure of a millisecond or longer has three decimals. A shorter one has as many as it
+ * needs for two significant digits, down to a microsecond, so that it does not show as 0.000.
+ */
+inline QString exposureString(double seconds)
+{
+    int decimals = 3;
+    if (seconds > 0 && seconds < 0.0001)
+        decimals = 6;
+    else if (seconds > 0 && seconds < 0.001)
+        decimals = 5;
+    return QString("%L1").arg(seconds, 0, 'f', decimals);
+}
 
 /** @brief mapping signature --> frames count */
 typedef QMap<QString, uint16_t> CapturedFramesMap;

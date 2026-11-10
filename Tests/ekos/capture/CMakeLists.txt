@@ -24,6 +24,11 @@ ADD_TEST( NAME TestPlaceholderPath COMMAND test_placeholderpath )
 SET_TESTS_PROPERTIES( TestPlaceholderPath PROPERTIES LABELS "stable" )
 endif()
 
+ADD_EXECUTABLE( test_capturetypes test_capturetypes.cpp)
+TARGET_LINK_LIBRARIES( test_capturetypes ${TEST_LIBRARIES})
+ADD_TEST( NAME TestCaptureTypes COMMAND test_capturetypes )
+SET_TESTS_PROPERTIES( TestCaptureTypes PROPERTIES LABELS "stable" )
+
 ADD_EXECUTABLE( test_flatcalibrationmethod test_flatcalibrationmethod.cpp)
 TARGET_LINK_LIBRARIES( test_flatcalibrationmethod ${TEST_LIBRARIES})
 ADD_TEST( NAME TestFlatCalibrationMethod COMMAND test_flatcalibrationmethod )

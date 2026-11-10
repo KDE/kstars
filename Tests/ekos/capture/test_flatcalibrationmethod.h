@@ -43,6 +43,9 @@ class TestFlatCalibrationMethod : public QObject
         /** @brief A frame taken while the light box changed its brightness is taken again. */
         void testCheckFrameBrightness_data();
         void testCheckFrameBrightness();
+        /** @brief The light box returns to its brightness from before the job, unless that is 0. */
+        void testRestoreBrightness_data();
+        void testRestoreBrightness();
 
         /** @brief A calibration stuck at an exposure limit of the camera is detected. */
         void testExposureLimit_data();

@@ -153,6 +153,37 @@ void TestFlatCalibrationMethod::testCheckFrameBrightness()
     QCOMPARE(int(Method::checkFrameBrightness(atStart, now, retakesSoFar)), expected);
 }
 
+void TestFlatCalibrationMethod::testRestoreBrightness_data()
+{
+    QTest::addColumn<int>("start");
+    QTest::addColumn<int>("current");
+    QTest::addColumn<int>("minBrightness");
+    QTest::addColumn<int>("maxBrightness");
+    QTest::addColumn<int>("expected");
+
+    QTest::newRow("changed") << 100 << 52 << 0 << 255 << int(Method::RESTORE_SET);
+    QTest::newRow("unchanged") << 52 << 52 << 0 << 255 << int(Method::RESTORE_NONE);
+    QTest::newRow("unknown") << -1 << 52 << 0 << 255 << int(Method::RESTORE_NONE);
+    QTest::newRow("search minimum") << 1 << 52 << 0 << 255 << int(Method::RESTORE_SET);
+    // 0 switches some light boxes off, so the next flat job would run in the dark
+    QTest::newRow("0") << 0 << 52 << 0 << 255 << int(Method::RESTORE_KEEP);
+    QTest::newRow("0, unchanged") << 0 << 0 << 0 << 255 << int(Method::RESTORE_NONE);
+    // a range of only 0 and 1 is searched from 0, so 0 is restored as well
+    QTest::newRow("0 of 0..1") << 0 << 1 << 0 << 1 << int(Method::RESTORE_SET);
+    QTest::newRow("minimum of 5..100") << 5 << 52 << 5 << 100 << int(Method::RESTORE_SET);
+}
+
+void TestFlatCalibrationMethod::testRestoreBrightness()
+{
+    QFETCH(int, start);
+    QFETCH(int, current);
+    QFETCH(int, minBrightness);
+    QFETCH(int, maxBrightness);
+    QFETCH(int, expected);
+
+    QCOMPARE(int(Method::restoreBrightness(start, current, minBrightness, maxBrightness)), expected);
+}
+
 void TestFlatCalibrationMethod::testExposureLimit_data()
 {
     QTest::addColumn<double>("exposure");

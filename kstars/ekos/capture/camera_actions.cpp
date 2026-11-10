@@ -194,12 +194,12 @@ void Camera::captureRunning()
         if (activeJob()->getFrameType() == FRAME_VIDEO)
             appendLogText(i18n("Capturing %1 x %2-second %3 video...",
                                activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt(),
-                               QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               exposureString(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()),
                                activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
 
         else if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             appendLogText(i18n("Capturing %1-second %2 image...",
-                               QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               exposureString(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()),
                                activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
     }
 }

@@ -292,9 +292,12 @@ void TestFlatBrightnessCalibration::testNoSignalAtMaximum_data()
     QTest::newRow("very short exposure") << 500.0 << -1 << 8.0 << 10 << tooDark;
     // A panel that only gives light above 100, measured first in its dark part.
     QTest::newRow("dark up to 100") << 500.0 << 100 << 200.0 << 10 << tooDark;
-    // Without a frame at a much lower brightness there is nothing to compare with.
-    QTest::newRow("no light, started at 100") << 500.0 << 255 << 0.0 << 100 << tooDark;
-    QTest::newRow("no light, started at maximum") << 500.0 << 255 << 0.0 << 255 << tooDark;
+    // Without a frame at a much lower brightness, the search takes one at its minimum
+    // once it reaches the maximum (review by Andreas R.).
+    QTest::newRow("no light, started at 100") << 500.0 << 255 << 0.0 << 100 << noSignal;
+    QTest::newRow("no light, started at maximum") << 500.0 << 255 << 0.0 << 255 << noSignal;
+    QTest::newRow("dim panel, started at 100") << 500.0 << -1 << 300.0 << 100 << tooDark;
+    QTest::newRow("dim panel, started at maximum") << 500.0 << -1 << 300.0 << 255 << tooDark;
 }
 
 void TestFlatBrightnessCalibration::testNoSignalAtMaximum()
@@ -328,6 +331,107 @@ void TestFlatBrightnessCalibration::testNoSignalAtMaximum()
     // Without light the calibration stops, it does not fall back to the exposure.
     QCOMPARE(Ekos::FlatCalibrationMethod::fallsBackToExposure(result),
              expected == FlatBrightnessCalibration::RESULT_FAILED_MAXIMUM);
+}
+
+void TestFlatBrightnessCalibration::testLightCheckAtSearchMinimum_data()
+{
+    // The light box range, the brightness the search starts at, and the ADU at full
+    // brightness, all frames below it scaled linearly from the bias. The frame at the
+    // search minimum can be overridden: the brightness the light box reports for it
+    // (-1 for the one asked for) and its ADU (-1 for the linear response).
+    QTest::addColumn<int>("minBrightness");
+    QTest::addColumn<int>("maxBrightness");
+    QTest::addColumn<int>("startBrightness");
+    QTest::addColumn<double>("aduAtMax");
+    QTest::addColumn<int>("reportedBrightness");
+    QTest::addColumn<double>("checkADU");
+    QTest::addColumn<bool>("checksLight");
+    QTest::addColumn<int>("expected");
+
+    const int noSignal = FlatBrightnessCalibration::RESULT_FAILED_INVALID_ADU;
+    const int tooDark = FlatBrightnessCalibration::RESULT_FAILED_MAXIMUM;
+
+    // A dark panel at a high preset (review by Andreas R.).
+    QTest::newRow("no light, preset at half") << 0 << 3000 << 1500 << 500.0 << -1 << -1.0 << true << noSignal;
+    // Noise can make the frame at the minimum a little brighter than the one at the maximum.
+    QTest::newRow("no light, noisy") << 0 << 3000 << 1500 << 500.0 << -1 << 502.0 << true << noSignal;
+    // A dim panel gives a little less at the minimum, and the exposure grows.
+    QTest::newRow("dim panel, preset at half") << 0 << 3000 << 1500 << 800.0 << -1 << -1.0 << true << tooDark;
+    // A rise of a little more than 1% counts as light.
+    QTest::newRow("rise of 1.2%") << 0 << 3000 << 3000 << 506.0 << -1 << 500.0 << true << tooDark;
+    // A frame at a quarter of the maximum was taken already, no frame is added.
+    QTest::newRow("started at a quarter") << 0 << 3000 << 750 << 500.0 << -1 << -1.0 << false << noSignal;
+    // The check needs a search minimum of at most a quarter of the maximum.
+    QTest::newRow("range of 10 - 30") << 10 << 30 << 20 << 500.0 << -1 << -1.0 << false << tooDark;
+    // A light box that does not go low enough, or a frame at the minimum that is brighter
+    // than the target, says nothing about the light, and the exposure grows as before.
+    QTest::newRow("minimum not reached") << 0 << 3000 << 1500 << 500.0 << 1000 << -1.0 << true << tooDark;
+    QTest::newRow("too bright at the minimum") << 0 << 3000 << 1500 << 500.0 << -1 << 40000.0 << true << tooDark;
+    QTest::newRow("no signal at the minimum") << 0 << 3000 << 1500 << 500.0 << -1 << 0.0 << true << tooDark;
+}
+
+void TestFlatBrightnessCalibration::testLightCheckAtSearchMinimum()
+{
+    QFETCH(int, minBrightness);
+    QFETCH(int, maxBrightness);
+    QFETCH(int, startBrightness);
+    QFETCH(double, aduAtMax);
+    QFETCH(int, reportedBrightness);
+    QFETCH(double, checkADU);
+    QFETCH(bool, checksLight);
+    QFETCH(int, expected);
+
+    // Without light the frames show a bias of 500 at every brightness.
+    const double bias = 500.0;
+    auto adu = [&](int brightness)
+    {
+        return bias + (aduAtMax - bias) * (brightness - minBrightness) / (maxBrightness - minBrightness);
+    };
+
+    FlatBrightnessCalibration calibration;
+    QVERIFY(calibration.start(minBrightness, maxBrightness, 30000, 1500));
+    const int searchMinimum = calibration.minBrightness();
+
+    int brightness = startBrightness;
+    int checks = 0;
+    bool checking = false;
+    auto result = FlatBrightnessCalibration::RESULT_CONTINUE;
+    for (int i = 0; i < 30; i++)
+    {
+        double measured = adu(brightness);
+        if (checking && checkADU >= 0)
+            measured = checkADU;
+
+        result = calibration.update(brightness, measured, false);
+        if (result != FlatBrightnessCalibration::RESULT_CONTINUE)
+            break;
+        QVERIFY(calibration.lightCheckMeasured() == false);
+
+        // Only the frame right after the maximum checks for light, at the search minimum.
+        checking = calibration.checksLight();
+        if (checking)
+        {
+            checks++;
+            QCOMPARE(brightness, maxBrightness);
+            QCOMPARE(calibration.nextBrightness(), searchMinimum);
+        }
+        brightness = calibration.nextBrightness();
+        if (checking && reportedBrightness >= 0)
+            brightness = reportedBrightness;
+    }
+
+    QCOMPARE(int(result), expected);
+    QCOMPARE(checks, checksLight ? 1 : 0);
+    QVERIFY(calibration.checksLight() == false);
+    // the search ends with the frame that checked for light, if it took one
+    QCOMPARE(calibration.lightCheckMeasured(), checksLight);
+    // The exposure grows from the maximum brightness, whatever the frame at the minimum showed.
+    if (expected == FlatBrightnessCalibration::RESULT_FAILED_MAXIMUM)
+    {
+        QCOMPARE(calibration.fallbackBrightness(), maxBrightness);
+        QCOMPARE(calibration.fallbackADU(), aduAtMax);
+        QCOMPARE(calibration.belowADU(), aduAtMax);
+    }
 }
 
 void TestFlatBrightnessCalibration::testMaximumBrightness()
@@ -521,6 +625,32 @@ void TestFlatBrightnessCalibration::testInvalidConfiguration()
     QVERIFY(!calibration.start(0, 255, 0, 500));
     // Feeding an inactive loop is reported instead of silently doing something.
     QCOMPARE(calibration.update(10, 1000, false), FlatBrightnessCalibration::RESULT_FAILED_NOT_CONFIGURED);
+}
+
+void TestFlatBrightnessCalibration::testSearchMinimum_data()
+{
+    QTest::addColumn<int>("minBrightness");
+    QTest::addColumn<int>("maxBrightness");
+    QTest::addColumn<int>("expected");
+
+    QTest::newRow("0..255") << 0 << 255 << 1;
+    QTest::newRow("0..1") << 0 << 1 << 0;
+    QTest::newRow("1..100") << 1 << 100 << 1;
+    QTest::newRow("5..100") << 5 << 100 << 5;
+}
+
+void TestFlatBrightnessCalibration::testSearchMinimum()
+{
+    QFETCH(int, minBrightness);
+    QFETCH(int, maxBrightness);
+    QFETCH(int, expected);
+
+    QCOMPARE(FlatBrightnessCalibration::searchMinimum(minBrightness, maxBrightness), expected);
+
+    // the search itself uses the same minimum
+    FlatBrightnessCalibration calibration;
+    QVERIFY(calibration.start(minBrightness, maxBrightness, 30000, 500));
+    QCOMPARE(calibration.minBrightness(), expected);
 }
 
 void TestFlatBrightnessCalibration::testNoisyMeasurements()

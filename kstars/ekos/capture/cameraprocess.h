@@ -616,7 +616,8 @@ class CameraProcess : public QObject
 
         /**
          * @brief restoreFlatBrightness set the light box back to the brightness it had when
-         * the flat calibration of the job started, if the calibration changed it.
+         * the flat calibration of the job started, if the calibration changed it. A brightness
+         * that would switch the light off is not restored, @see FlatCalibrationMethod::restoreBrightness().
          */
         void restoreFlatBrightness();
 
