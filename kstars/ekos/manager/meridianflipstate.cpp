@@ -233,7 +233,11 @@ bool MeridianFlipState::checkMeridianFlip(dms lst)
         case MOUNT_FLIP_NONE:
             publishMFMountStatusText(message);
 
-            if (hrsToFlip <= 0)
+            // Only a tracking mount can need a flip, and a flip only runs while tracking. Without this check a
+            // flip was planned from the position update that arrives right after a goto is sent: it still has the
+            // old position (e.g. the home position at HA 6h with an unknown pier side) and the mount isn't slewing
+            // yet, so the flip ran right after the slew to the new target.
+            if (hrsToFlip <= 0 && m_MountStatus == ISD::Mount::MOUNT_TRACKING)
             {
                 // signal that a flip can be done
                 qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<

@@ -64,6 +64,12 @@ class TestEkosMeridianFlipState : public QObject
         /** @brief Test data for {@see testNoFlipWhileParking()} */
         void testNoFlipWhileParking_data();
 
+        /** @brief No flip may be planned from a position update while the mount isn't tracking (e.g. right after a goto) */
+        void testNoFlipWhileNotTracking();
+
+        /** @brief Test data for {@see testNoFlipWhileNotTracking()} */
+        void testNoFlipWhileNotTracking_data();
+
     private:
         // helper functions
         TestEkosHelper m_Helper;

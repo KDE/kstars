@@ -224,6 +224,66 @@ void TestEkosMeridianFlipState::testNoFlipWhileParking_data()
     QTest::newRow("Error") << "Greenwich" << true << true << 0.0 << error << true << planned;
 }
 
+void TestEkosMeridianFlipState::testNoFlipWhileNotTracking()
+{
+    // Regression test: a goto has just been sent to a target east of the meridian. The next position update
+    // still carries the old position past the meridian (e.g. an OnStep mount at its home position: HA 6h, no pier
+    // side) while the mount isn't reported as slewing yet. No flip may be planned from it; the flip ran right after
+    // the slew. A tracking mount past the flip limit still gets its flip planned.
+    QFETCH(int, mountStatus);
+    QFETCH(int, pierSide);
+    QFETCH(double, haHours);
+    QFETCH(bool, expectFlip);
+
+    // drive the state machine directly, without the mount simulator's own updates
+    disconnect(m_Mount, nullptr, m_stateMachine, nullptr);
+
+    // the new target, 4 hours east of the meridian, as set when the goto is sent
+    const dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    SkyPoint target(range360(lst.Degrees() + 60.0) / 15.0, 57.5);
+    m_stateMachine->setTargetPosition(&target);
+    QVERIFY(m_stateMachine->initialPositionHA() < 0);
+
+    // the old position past the meridian
+    m_stateMachine->setMountStatus(static_cast<ISD::Mount::Status>(mountStatus));
+    const dms ha(haHours * 15.0);
+    SkyPoint position(range360(lst.Degrees() - ha.Degrees()) / 15.0, pierSide == ISD::Mount::PIER_UNKNOWN ? 90.0 : 57.5);
+    m_stateMachine->updateTelescopeCoord(position, static_cast<ISD::Mount::PierSide>(pierSide), ha);
+
+    const Ekos::MeridianFlipState::MeridianFlipMountState state = m_stateMachine->getMeridianFlipMountState();
+    if (expectFlip)
+        QVERIFY2(state != Ekos::MeridianFlipState::MOUNT_FLIP_NONE,
+                 QString("no flip planned for a tracking mount (state %1)")
+                 .arg(Ekos::MeridianFlipState::meridianFlipStatusString(state)).toLatin1());
+    else
+        QVERIFY2(state == Ekos::MeridianFlipState::MOUNT_FLIP_NONE,
+                 QString("flip planned for a mount that isn't tracking (state %1)")
+                 .arg(Ekos::MeridianFlipState::meridianFlipStatusString(state)).toLatin1());
+}
+
+void TestEkosMeridianFlipState::testNoFlipWhileNotTracking_data()
+{
+    // columns read by init()
+    QTest::addColumn<QString>("location");      /*!< geographical location? */
+    QTest::addColumn<bool>("enabled");          /*!< meridian flip enabled? */
+    QTest::addColumn<bool>("captureInterface"); /*!< capture interface present? */
+    QTest::addColumn<double>("offset");         /*!< meridian flip offset (in degrees) */
+    // mount status and position of the update
+    QTest::addColumn<int>("mountStatus");
+    QTest::addColumn<int>("pierSide");
+    QTest::addColumn<double>("haHours");
+    // flip planned?
+    QTest::addColumn<bool>("expectFlip");
+
+    const int idle = static_cast<int>(ISD::Mount::MOUNT_IDLE);
+    const int tracking = static_cast<int>(ISD::Mount::MOUNT_TRACKING);
+    const int unknown = static_cast<int>(ISD::Mount::PIER_UNKNOWN);
+    const int west = static_cast<int>(ISD::Mount::PIER_WEST);
+    QTest::newRow("IdleAtHomeUnknownPier") << "Greenwich" << true << true << 0.0 << idle << unknown << 6.0 << false;
+    QTest::newRow("IdlePastMeridianWest") << "Greenwich" << true << true << 0.0 << idle << west << 1.0 << false;
+    QTest::newRow("TrackingPastMeridianWest") << "Greenwich" << true << true << 0.0 << tracking << west << 1.0 << true;
+}
+
 void TestEkosMeridianFlipState::connectAdaptor()
 {
     m_Mount = new MountSimulator();
