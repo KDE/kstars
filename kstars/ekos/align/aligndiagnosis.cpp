@@ -490,6 +490,10 @@ void describeCause(const AlignFacts &facts, Report &report)
             report.title = i18n("The target accuracy was not reached");
             report.summary = i18n("Solving works, but the mount did not get close enough to the target.");
             break;
+        case AlignFailReason::SlewEndedIdle:
+            report.title = i18n("The mount stopped without tracking");
+            report.summary = i18n("The image was solved, but the mount stopped after the slew and did not start tracking.");
+            break;
         case AlignFailReason::None:
         case AlignFailReason::UserAbort:
             report.title = i18n("Align failed");
@@ -689,6 +693,18 @@ void hardwareItems(const AlignFacts &facts, QList<Item> &items)
             break;
         }
 
+        case AlignFailReason::SlewEndedIdle:
+        {
+            auto item = makeItem("slew_ended_idle_check", Kind::Manual, Tier::Hardware, i18n("Check why the mount stopped"),
+                                 i18n("The mount stopped after the slew and did not track."));
+            item.steps << i18n("Check the mount driver or hand controller for a limit error, e.g. the meridian limit.")
+                       << i18n("Switch tracking on: some mounts end a slew without tracking when tracking was off before it.")
+                       << i18n("Check that the slew was not stopped by hand.");
+            item.cost = MovesHardware;
+            item.verify = makeVerify("retry");
+            items << item;
+            break;
+        }
         case AlignFailReason::BlobDisabled:
         {
             auto item = makeItem("camera_enable_blob", Kind::Auto, Tier::Hardware, i18n("Enable image transfer"),
@@ -793,7 +809,7 @@ void hardwareItems(const AlignFacts &facts, QList<Item> &items)
     // A device that dropped out explains a failure further down the line too, e.g. a mount that disconnected
     // keeps its last position, so Align goes on and fails at the solve or the slew
     const bool needsMount = isPointingFailure(facts.reason) || facts.reason == AlignFailReason::SyncRejected
-                            || facts.reason == AlignFailReason::SlewRejected;
+                            || facts.reason == AlignFailReason::SlewRejected || facts.reason == AlignFailReason::SlewEndedIdle;
     if (needsMount && facts.hasMount && !facts.mountConnected)
         items.prepend(connectMountItem());
 
@@ -1066,6 +1082,8 @@ QString alignFailReasonKey(AlignFailReason reason)
             return QStringLiteral("accuracy_not_met");
         case AlignFailReason::UserAbort:
             return QStringLiteral("user_abort");
+        case AlignFailReason::SlewEndedIdle:
+            return QStringLiteral("slew_ended_idle");
     }
     return QStringLiteral("none");
 }

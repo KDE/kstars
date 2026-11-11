@@ -184,6 +184,9 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_RemoteAlignTimer.setSingleShot(true);
     m_RemoteAlignTimer.setInterval(Options::astrometryTimeout() * 1000);
     connect(&m_RemoteAlignTimer, &QTimer::timeout, this, &Ekos::Align::checkRemoteAlignmentTimeout);
+    m_SlewEndedIdleTimer.setSingleShot(true);
+    m_SlewEndedIdleTimer.setInterval(MAX_WAIT_FOR_TRACKING_MSEC);
+    connect(&m_SlewEndedIdleTimer, &QTimer::timeout, this, &Ekos::Align::checkSlewEndedIdle);
 
     pi.reset(new QProgressIndicator(this));
     stopLayout->addWidget(pi.get());

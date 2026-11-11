@@ -95,6 +95,10 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_align POST_BUILD
             ${CMAKE_CURRENT_SOURCE_DIR}/Kocab.fits
             ${CMAKE_CURRENT_BINARY_DIR}/Kocab.fits)
 
+ADD_EXECUTABLE(test_ekos_align_slew ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_align_slew.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_align_slew ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosAlignSlew COMMAND test_ekos_align_slew)
+SET_TESTS_PROPERTIES( TestEkosAlignSlew PROPERTIES LABELS "ui" TIMEOUT 600 )
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosAlign COMMAND test_ekos_align)
 # SET_TESTS_PROPERTIES( TestEkosAlign PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )

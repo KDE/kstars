@@ -53,7 +53,9 @@ enum class AlignFailReason
     RotatorTimeout,
     RotatorWrongDirection,
     AccuracyNotMet,
-    UserAbort
+    UserAbort,
+    // The mount ended Align's slew stopped instead of tracking, e.g. at a limit
+    SlewEndedIdle
 };
 
 /** Stable machine name of a reason, e.g. "solver_failed". */

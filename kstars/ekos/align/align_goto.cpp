@@ -50,6 +50,7 @@ void Align::stop(Ekos::AlignState mode, Ekos::AlignFailReason reason)
     }
 
     m_CaptureTimer.stop();
+    m_SlewEndedIdleTimer.stop();
     m_RotatorTimer.invalidate();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
@@ -106,7 +107,8 @@ void Align::stop(Ekos::AlignState mode, Ekos::AlignFailReason reason)
             targetChip->abortExposure();
             appendLogText(i18n("Capture aborted."));
         }
-        else
+        // Nothing was solving when the slew ended idle, the failure is already logged
+        else if (reason != AlignFailReason::SlewEndedIdle)
             appendLogText(i18n("Solver aborted."));
     }
 
@@ -135,6 +137,12 @@ void Align::updateProperty(INDI::Property prop)
         {
             // Idle --> Mount not tracking or slewing
             case IPS_IDLE:
+                // The slew is only complete when the mount tracks. A mount that stopped without tracking
+                // (e.g. at a limit) never gets there: give it some time, then fail the alignment.
+                // The polar alignment handles its own mount rotations.
+                if (state == ALIGN_SLEWING && !m_SlewEndedIdleTimer.isActive() &&
+                        (!m_PolarAlignmentAssistant || matchPAHStage(PAA::PAH_IDLE)) && didSlewStart())
+                    m_SlewEndedIdleTimer.start();
                 m_wasSlewStarted = false;
                 break;
 
@@ -142,6 +150,7 @@ void Align::updateProperty(INDI::Property prop)
             // then it just finished slewing
             case IPS_OK:
             {
+                m_SlewEndedIdleTimer.stop();
                 // Update the boxes as the mount just finished slewing
                 if (m_wasSlewStarted && Options::astrometryAutoUpdatePosition())
                 {
@@ -298,6 +307,7 @@ void Align::updateProperty(INDI::Property prop)
             // Busy --> Mount Slewing or Moving (NSWE buttons)
             case IPS_BUSY:
             {
+                m_SlewEndedIdleTimer.stop();
                 m_wasSlewStarted = true;
                 // Mount is slewing — the camera PA will change relative to the sky,
                 // so any previously stored PA error is no longer valid for comparing
@@ -318,6 +328,7 @@ void Align::updateProperty(INDI::Property prop)
             // Alert --> Mount has problem moving or communicating.
             case IPS_ALERT:
             {
+                m_SlewEndedIdleTimer.stop();
                 m_wasSlewStarted = false;
 
                 if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
@@ -509,6 +520,7 @@ void Align::Sync()
 
 void Align::Slew()
 {
+    m_SlewEndedIdleTimer.stop();
     setState(ALIGN_SLEWING);
     Q_EMIT newStatus(state);
 
@@ -780,6 +792,21 @@ void Align::checkRotatorTimeout()
         // Check again in 1 second
         QTimer::singleShot(1000, this, &Align::checkRotatorTimeout);
     }
+}
+
+// The slew ended with the mount idle and it didn't start tracking since: fail the alignment.
+void Align::checkSlewEndedIdle()
+{
+    if (state != ALIGN_SLEWING || m_Mount == nullptr)
+        return;
+    auto nvp = m_Mount->getNumber(m_Mount->isJ2000() ? "EQUATORIAL_COORD" : "EQUATORIAL_EOD_COORD");
+    if (!nvp || nvp.getState() != IPS_IDLE)
+        return;
+
+    appendLogText(i18n("Slewing failed: the mount stopped without tracking."));
+    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
+                          KSNotification::Align, KSNotification::Alert);
+    stop(ALIGN_FAILED, AlignFailReason::SlewEndedIdle);
 }
 
 // m_wasSlewStarted can't be false for more than 10s after a slew starts.

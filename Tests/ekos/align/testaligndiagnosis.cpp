@@ -174,6 +174,11 @@ void TestAlignDiagnosis::testRules_data()
     facts.slewErrors = 3;
     facts.canSync = false;
     QTest::newRow("row 32 sync alerts, no sync") << facts << QStringList({"slew_rejected_by_mount", "mount_no_sync"});
+    facts = withReason(AlignFailReason::SlewEndedIdle);
+    QTest::newRow("slew ended idle") << facts << QStringList({"slew_ended_idle_check"});
+    facts = withReason(AlignFailReason::SlewEndedIdle);
+    facts.mountConnected = false;
+    QTest::newRow("slew ended idle, mount disconnected") << facts << QStringList({"mount_connect", "slew_ended_idle_check"});
 
     facts = withReason(AlignFailReason::BlobDisabled);
     QTest::newRow("row 10 image transfer") << facts << QStringList({"camera_enable_blob"});
@@ -652,7 +657,8 @@ void TestAlignDiagnosis::testEvidence()
 void TestAlignDiagnosis::testReasonKeys()
 {
     QSet<QString> keys;
-    for (int value = static_cast<int>(AlignFailReason::None); value <= static_cast<int>(AlignFailReason::UserAbort); value++)
+    for (int value = static_cast<int>(AlignFailReason::None); value <= static_cast<int>(AlignFailReason::SlewEndedIdle);
+            value++)
     {
         const auto reason = static_cast<AlignFailReason>(value);
         const QString key = alignFailReasonKey(reason);
@@ -676,6 +682,7 @@ void TestAlignDiagnosis::testReasonKeys()
     // Values go out on D-Bus and EkosLive and must not move
     QCOMPARE(static_cast<int>(AlignFailReason::MountParked), 23);
     QCOMPARE(static_cast<int>(AlignFailReason::UserAbort), 29);
+    QCOMPARE(static_cast<int>(AlignFailReason::SlewEndedIdle), 30);
     QCOMPARE(alignFailReasonKey(AlignFailReason::MountParked), QString("mount_parked"));
 }
 
@@ -756,9 +763,12 @@ void TestAlignDiagnosis::testLikelihood()
     QCOMPARE(likelihoodOf(AlignDiagnosis::diagnose(facts), "solver_timeout_raise"), QString("likely"));
 
     // The first item of every report is its most likely one
-    for (int value = static_cast<int>(AlignFailReason::NoMountCoords); value < static_cast<int>(AlignFailReason::UserAbort);
+    for (int value = static_cast<int>(AlignFailReason::NoMountCoords);
+            value <= static_cast<int>(AlignFailReason::SlewEndedIdle);
             value++)
     {
+        if (!AlignDiagnosis::isDiagnosable(static_cast<AlignFailReason>(value)))
+            continue;
         report = AlignDiagnosis::diagnose(withReason(static_cast<AlignFailReason>(value)));
         for (int i = 1; i < report.items.size(); i++)
             QVERIFY2(report.items[i - 1].likelihood <= report.items[i].likelihood, qPrintable(report.reasonKey));

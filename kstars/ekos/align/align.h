@@ -970,6 +970,11 @@ class Align : public QWidget, public Ui::Align
         // Only wait this many milliseconds for slew to start.
         // Otherwise assume it has begun.
         static constexpr int MAX_WAIT_FOR_SLEW_START_MSEC = 10000;
+        // A slew that ends with the mount idle instead of tracking (e.g. stopped at a limit) gets this long to
+        // start tracking. Then the alignment fails instead of waiting for tracking forever.
+        static constexpr int MAX_WAIT_FOR_TRACKING_MSEC = 10000;
+        QTimer m_SlewEndedIdleTimer;
+        void checkSlewEndedIdle();
         // Mount's reported RA/DE (raw property values) right before the last Slew() was
         // commanded. Lets the ALIGN_SLEWING/IPS_OK handler recognize a fresh completion even
         // when no IPS_BUSY was ever observed for that slew.
