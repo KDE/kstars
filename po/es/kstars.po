@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-09 02:16+0000\n"
+"POT-Creation-Date: 2026-11-11 02:33+0000\n"
 "PO-Revision-Date: 2026-11-10 01:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1424,7 +1424,7 @@ msgid "Recenters the XPlanet image once it has been moved"
 msgstr "Volver a centrar la imagen de XPlanet tras moverla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: auxiliary/xplanetimageviewer.cpp:302 ekos/align/align.ui:371
+#: auxiliary/xplanetimageviewer.cpp:302 ekos/align/align.ui:374
 #, kde-format
 msgid "FOV:"
 msgstr "Campo de visión:"
@@ -1950,7 +1950,7 @@ msgstr "1x"
 #. i18n: ectx: property (text), widget (QCheckBox, RACheckBatch)
 #: data/qml/mount/mountbox.qml:548 data/qml/mount/mountbox.qml:742
 #: data/qml/mount/mountbox.qml:837 dialogs/catalogcsvimport.ui:178
-#: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
+#: dialogs/focusdialog.ui:107 ekos/align/align.ui:330 ekos/align/align.ui:418
 #: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:143
 #: ekos/mount/mounttargetwidget.ui:41 tools/altvstime.ui:97
 #: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
@@ -1974,7 +1974,7 @@ msgstr "AC:"
 #. i18n: ectx: property (text), widget (QLabel, targetDECLabel)
 #: data/qml/mount/mountbox.qml:588 data/qml/mount/mountbox.qml:775
 #: data/qml/mount/mountbox.qml:838 data/qml/mount/mountbox.qml:926
-#: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
+#: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:388
 #: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:261
 #: ekos/mount/mounttargetwidget.ui:86
 #, kde-format, kde-kuit-format
@@ -3022,7 +3022,7 @@ msgstr "Mapeado del tipo"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
-#: ekos/capture/cameraprocess.cpp:3149 ekos/capture/capturecountswidget.cpp:325
+#: ekos/capture/cameraprocess.cpp:3186 ekos/capture/capturecountswidget.cpp:325
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, kde-format
@@ -3263,7 +3263,7 @@ msgstr "Editar"
 #. i18n: ectx: property (text), widget (QLabel, l_01)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverRALabel)
-#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:909
+#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:912
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:472
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:228
 #: ekos/scheduler/scheduler.ui:606 fitsviewer/platesolve.ui:200
@@ -6405,7 +6405,7 @@ msgstr "Coordenadas del telescopio (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/align/align.ui:264 ekos/align/align.ui:334
+#: ekos/align/align.ui:264 ekos/align/align.ui:337
 #, kde-format
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates. "
@@ -6435,28 +6435,38 @@ msgstr ""
 msgid "Settle:"
 msgstr "Posicionar:"
 
+#. i18n: ectx: property (suffix), widget (QSpinBox, alignSettlingTime)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
+#. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
+#: ekos/align/align.ui:317 ekos/capture/opsstreamtrackingsettings.ui:118
+#: ekos/capture/opsstreamtrackingsettings.ui:147 ekos/guide/manualpulse.ui:93
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/align/align.ui:337
+#: ekos/align/align.ui:340
 #, kde-format
 msgid "Accuracy:"
 msgstr "Precisión:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
-#: ekos/align/align.ui:347
+#: ekos/align/align.ui:350
 #, kde-format
 msgid "Solution Coordinates (JNow)"
 msgstr "Coordenadas de la solución (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVOut)
-#: ekos/align/align.ui:368 ekos/align/align.ui:503
+#: ekos/align/align.ui:371 ekos/align/align.ui:506
 #, kde-format
 msgid "Effective field of view size in arcminutes."
 msgstr "Campo de visión efectivo, en minutos de arco."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
-#: ekos/align/align.ui:392 ekos/align/align.ui:402
+#: ekos/align/align.ui:395 ekos/align/align.ui:405
 #, kde-format
 msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
@@ -6465,50 +6475,50 @@ msgstr ""
 "segundos de arco"
 
 #. i18n: ectx: property (text), widget (QLabel, err)
-#: ekos/align/align.ui:395
+#: ekos/align/align.ui:398
 #, kde-format
 msgid "Err:"
 msgstr "Error:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pixScaleOut)
-#: ekos/align/align.ui:422 ekos/align/align.ui:459
+#: ekos/align/align.ui:425 ekos/align/align.ui:462
 #, kde-format
 msgid "Image scale in arcsecs/pixel"
 msgstr "Escala de la imagen en segundos de arco/píxel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/align/align.ui:425
+#: ekos/align/align.ui:428
 #, kde-format
 msgid "Pix:"
 msgstr "Pix:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
-#: ekos/align/align.ui:439
+#: ekos/align/align.ui:442
 #, kde-format
 msgid "Image rotation angle, East of North"
 msgstr "Ángulo de rotación de la imagen, al Este del Norte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/align/align.ui:442
+#: ekos/align/align.ui:445
 #, kde-format
 msgid "PA:"
 msgstr "AP:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
-#: ekos/align/align.ui:449
+#: ekos/align/align.ui:452
 #, kde-format
 msgid "Position angle in degrees, East of North"
 msgstr "Ángulo de posición en grados, al Este del Norte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: ekos/align/align.ui:469
+#: ekos/align/align.ui:472
 #, kde-format
 msgid "FL:"
 msgstr "LF:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
-#: ekos/align/align.ui:476
+#: ekos/align/align.ui:479
 #, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
@@ -6520,13 +6530,13 @@ msgstr ""
 "resolución de placas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/align/align.ui:486
+#: ekos/align/align.ui:489
 #, kde-format
 msgid "F/:"
 msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
-#: ekos/align/align.ui:493
+#: ekos/align/align.ui:496
 #, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
@@ -6536,19 +6546,19 @@ msgstr ""
 "La proporción focal efectiva se toma de Astrometry.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/align/align.ui:516
+#: ekos/align/align.ui:519
 #, kde-format
 msgid "R:"
 msgstr "R:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
-#: ekos/align/align.ui:523
+#: ekos/align/align.ui:526
 #, kde-format
 msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
 msgstr "<html><head/><body><p>Reductor o factor de Barlow.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
-#: ekos/align/align.ui:533
+#: ekos/align/align.ui:536
 #, kde-format
 msgid "Plate Solve Capture Options"
 msgstr "Opciones de captura para resolver placas"
@@ -6556,7 +6566,7 @@ msgstr "Opciones de captura para resolver placas"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
-#: ekos/align/align.ui:554 ekos/auxiliary/darklibrary.ui:477
+#: ekos/align/align.ui:557 ekos/auxiliary/darklibrary.ui:477
 #: ekos/capture/camera.ui:995 ekos/capture/captureprocessoverlay.ui:296
 #: ekos/focus/focus.ui:513 ekos/guide/guide.ui:409
 #, kde-format
@@ -6566,20 +6576,20 @@ msgstr "Ganancia:"
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, focusBinningLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:561 ekos/focus/focus.ui:561 ekos/guide/guide.ui:449
+#: ekos/align/align.ui:564 ekos/focus/focus.ui:561 ekos/guide/guide.ui:449
 #, kde-format
 msgid "Bin:"
 msgstr "Bin:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:583 ekos/focus/focus.ui:660 ekos/guide/guide.ui:168
+#: ekos/align/align.ui:586 ekos/focus/focus.ui:660 ekos/guide/guide.ui:168
 #, kde-format
 msgid "Show in FITS Viewer..."
 msgstr "Mostrar en el visor FITS…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
+#: ekos/align/align.ui:602 ekos/focus/opsfocussettings.ui:166
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
@@ -6592,27 +6602,27 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:602 ekos/capture/camera.ui:2592 ekos/guide/guide.ui:145
+#: ekos/align/align.ui:605 ekos/capture/camera.ui:2592 ekos/guide/guide.ui:145
 #, kde-format
 msgid "Dark"
 msgstr "Oscuro"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignBinning)
-#: ekos/align/align.ui:609
+#: ekos/align/align.ui:612
 #, kde-format
 msgid "Camera binning"
 msgstr "Binning de la cámara"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, fullScreenB)
-#: ekos/align/align.ui:628 ekos/focus/focus.ui:638 indi/streamform.ui:469
+#: ekos/align/align.ui:631 ekos/focus/focus.ui:638 indi/streamform.ui:469
 #: indi/streamwg.cpp:429
 #, kde-format
 msgid "Toggle Full Screen"
 msgstr "Conmutar pantalla completa"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignExposure)
-#: ekos/align/align.ui:644
+#: ekos/align/align.ui:647
 #, kde-format
 msgid "Exposure duration in seconds"
 msgstr "Duración de la exposición en segundos"
@@ -6621,7 +6631,7 @@ msgstr "Duración de la exposición en segundos"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/align/align.ui:669 ekos/auxiliary/darklibrary.ui:471
+#: ekos/align/align.ui:672 ekos/auxiliary/darklibrary.ui:471
 #: ekos/auxiliary/darklibrary.ui:490 ekos/capture/camera.ui:989
 #: ekos/guide/guide.ui:406
 #, kde-format
@@ -6631,7 +6641,7 @@ msgstr "Ganancia de la cámara"
 #. i18n: ectx: property (text), widget (QLabel, FilterPosLabel)
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:685 ekos/capture/camera.ui:714 ekos/focus/focus.ui:719
+#: ekos/align/align.ui:688 ekos/capture/camera.ui:714 ekos/focus/focus.ui:719
 #: fitsviewer/fitsdebayer.ui:97 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -6639,7 +6649,7 @@ msgstr "Filtro de ciudad:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
-#: ekos/align/align.ui:692 ekos/auxiliary/darklibrary.ui:516
+#: ekos/align/align.ui:695 ekos/auxiliary/darklibrary.ui:516
 #: ekos/capture/camera.ui:829
 #, kde-format
 msgid "Camera ISO"
@@ -6648,28 +6658,28 @@ msgstr "ISO de la cámara"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, focusExposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:699 ekos/focus/focus.ui:538 ekos/guide/guide.ui:419
+#: ekos/align/align.ui:702 ekos/focus/focus.ui:538 ekos/guide/guide.ui:419
 #, kde-format
 msgid "Exp:"
 msgstr "Exp:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.ui:715 ekos/align/opsalign.ui:273
+#: ekos/align/align.ui:718 ekos/align/opsalign.ui:273
 #, kde-format
 msgid "Rotator Settings"
 msgstr "Preferencias del rotador"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
-#: ekos/align/align.ui:734 ekos/auxiliary/darklibrary.ui:506
+#: ekos/align/align.ui:737 ekos/auxiliary/darklibrary.ui:506
 #: ekos/capture/camera.ui:819 ekos/focus/focus.ui:854
 #, kde-format
 msgid "ISO:"
 msgstr "ISO:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignUseCurrentFilter)
-#: ekos/align/align.ui:741
+#: ekos/align/align.ui:744
 #, kde-format
 msgid ""
 "<html><head/><body><p>If checked, the currently selected filter will be used "
@@ -6682,37 +6692,37 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
-#: ekos/align/align.ui:744
+#: ekos/align/align.ui:747
 #, kde-format
 msgid "Use current"
 msgstr "Usar el actual"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
-#: ekos/align/align.ui:754
+#: ekos/align/align.ui:757
 #, kde-format
 msgid "Solver Mode"
 msgstr "Modo del sistema de identificación"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localSolverR)
-#: ekos/align/align.ui:775
+#: ekos/align/align.ui:778
 #, kde-format
 msgid "StellarSolver"
 msgstr "StellarSolver"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteSolverR)
-#: ekos/align/align.ui:791
+#: ekos/align/align.ui:794
 #, kde-format
 msgid "Remote"
 msgstr "Remoto"
 
 #. i18n: ectx: attribute (title), widget (QWidget, solutionResults)
-#: ekos/align/align.ui:846
+#: ekos/align/align.ui:849
 #, kde-format
 msgid "Solution Results"
 msgstr "Resultado de la solución"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/align/align.ui:873
+#: ekos/align/align.ui:876
 #, kde-format
 msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
@@ -6730,7 +6740,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, l_02)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverDECLabel)
-#: ekos/align/align.ui:914 ekos/align/opsastrometry.ui:389
+#: ekos/align/align.ui:917 ekos/align/opsastrometry.ui:389
 #: ekos/guide/guide.ui:386 ekos/guide/guide.ui:1338
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:218
 #: ekos/scheduler/scheduler.ui:626 fitsviewer/platesolve.ui:245
@@ -6740,32 +6750,32 @@ msgid "DEC"
 msgstr "Dec"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:919
+#: ekos/align/align.ui:922
 #, kde-format
 msgid "Obj Name"
 msgstr "Nombre de objeto"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:483
+#: ekos/align/align.ui:927 ekos/align/mountmodel.ui:483
 #, kde-format
 msgid "~~"
 msgstr "~~"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:929
+#: ekos/align/align.ui:932
 #, kde-format
 msgid "dRA"
 msgstr "dAR"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:934
+#: ekos/align/align.ui:937
 #, kde-format
 msgid "dDE"
 msgstr "dDE"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllSolutionsB)
-#: ekos/align/align.ui:959
+#: ekos/align/align.ui:962
 #, kde-format
 msgid ""
 "Clear all of the solutions from the solutions table.  Be careful because you "
@@ -6774,7 +6784,7 @@ msgstr ""
 "Borrar la tabla de soluciones. Tenga cuidado, ya que no podrá recuperarlas."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeSolutionB)
-#: ekos/align/align.ui:981
+#: ekos/align/align.ui:984
 #, kde-format
 msgid ""
 "Remove the selected row from the solutions table.  This can be useful for "
@@ -6788,7 +6798,7 @@ msgstr ""
 "tabla."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportSolutionsCSV)
-#: ekos/align/align.ui:1003
+#: ekos/align/align.ui:1006
 #, kde-format
 msgid ""
 "Export all of the solutions in the Solution Results table to CSV file of "
@@ -6798,14 +6808,14 @@ msgstr ""
 "su elección para su posterior análisis en una hoja de cálculo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoScaleGraphB)
-#: ekos/align/align.ui:1025
+#: ekos/align/align.ui:1028
 #, kde-format
 msgid "Auto scale and center the Solution Results graph."
 msgstr ""
 "Escalar y centrar automáticamente el gráfico del resultado de la solución."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1048
+#: ekos/align/align.ui:1051
 #, kde-format
 msgid ""
 "Launch the mount model tool. This tool enables you to create pre-programmed "
@@ -6817,7 +6827,7 @@ msgstr ""
 "servir de ayuda para construir un modelo de apunte para mayor precisión."
 
 #. i18n: ectx: property (text), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1051
+#: ekos/align/align.ui:1054
 #, kde-format
 msgid "Mount Model"
 msgstr "Modelo de montura"
@@ -6878,8 +6888,8 @@ msgstr "%1: El sistema de coordenadas mundial (WCS) está desactivado."
 msgid "Capture error. Aborting..."
 msgstr "Error de captura. Interrumpiendo…"
 
-#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1807
-#: ekos/capture/cameraprocess.cpp:2401
+#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1809
+#: ekos/capture/cameraprocess.cpp:2403
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando intento de captura #%1"
@@ -7286,7 +7296,7 @@ msgstr "No se puede escribir en el archivo %1 "
 
 #: ekos/align/align_solution.cpp:463 ekos/align/mountmodel.cpp:292
 #: ekos/align/mountmodel.cpp:410 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:3294 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:3331 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:3271
 #: ekos/scheduler/schedulerprocess.cpp:3753
 #: ekos/scheduler/schedulerprocess.cpp:4872
@@ -7647,7 +7657,7 @@ msgstr ""
 "«Configuración -> Registros» para obtener información detallada sobre el "
 "fallo."
 
-#: ekos/align/align_solver.cpp:1316 ekos/capture/cameraprocess.cpp:2314
+#: ekos/align/align_solver.cpp:1316 ekos/capture/cameraprocess.cpp:2316
 #: ekos/focus/focus.cpp:6180
 #, kde-format
 msgid "Exposure timeout. Aborting..."
@@ -7661,7 +7671,7 @@ msgstr ""
 "El tiempo de exposición se ha agotado. Detectado muchas veces. Reiniciando "
 "el controlador…"
 
-#: ekos/align/align_solver.cpp:1346 ekos/capture/cameraprocess.cpp:2348
+#: ekos/align/align_solver.cpp:1346 ekos/capture/cameraprocess.cpp:2350
 #: ekos/focus/focus.cpp:6201 ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -8934,7 +8944,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Abrir lista de alineación de Ekos"
 
 #: ekos/align/mountmodel.cpp:291 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:3293 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:3330 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3752
 #: ekos/scheduler/schedulerprocess.cpp:4886
 #, kde-format
@@ -17345,7 +17355,7 @@ msgstr "Opciones de calibración automática de fotogramas oscuros y planos"
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1349 ekos/capture/cameraprocess.cpp:3162
+#: ekos/capture/camera.ui:1349 ekos/capture/cameraprocess.cpp:3199
 #: ekos/guide/guide.cpp:83 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
@@ -18213,7 +18223,7 @@ msgstr "Aplicados los cambios del trabajo #%1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "¿Seguro que desea reiniciar el estado de todos los trabajos?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:3414
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:3451
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar el estado de los trabajos"
@@ -18432,12 +18442,15 @@ msgstr "Secuencia de captura de la cámara completada"
 msgid "Error: Lost connection to camera."
 msgstr "Error: Se ha perdido la conexión con la cámara."
 
-#: ekos/capture/cameraprocess.cpp:1613
+#: ekos/capture/cameraprocess.cpp:1614
 #, kde-format
-msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr "No se pueden calcular los niveles de ADU en imágenes que no sean FITS."
+msgid ""
+"Cannot calculate the ADU of flat frames in %1 images. Select Manual flat "
+"duration in the Calibration options, or set the image transfer format to "
+"FITS or XISF."
+msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1642
+#: ekos/capture/cameraprocess.cpp:1644
 #, kde-format
 msgid ""
 "Flat calibration adjusts the light box brightness at an exposure of %1 "
@@ -18446,7 +18459,7 @@ msgstr ""
 "La calibración de fotogramas planos ajusta el brillo de la caja de luz con "
 "un tiempo de exposición de %1 segundos. ADU objetivo: Automático."
 
-#: ekos/capture/cameraprocess.cpp:1645
+#: ekos/capture/cameraprocess.cpp:1647
 #, kde-format
 msgid ""
 "Flat calibration adjusts the light box brightness at an exposure of %1 "
@@ -18455,101 +18468,101 @@ msgstr ""
 "La calibración de fotogramas planos ajusta el brillo de la caja de luz con "
 "un tiempo de exposición de %1 segundos. ADU objetivo: %2 ± %3."
 
-#: ekos/capture/cameraprocess.cpp:1648
+#: ekos/capture/cameraprocess.cpp:1650
 #, kde-format
 msgid "Flat calibration adjusts the exposure. Target ADU: Auto."
 msgstr ""
 "La calibración de fotogramas planos ajusta la exposición. ADU objetivo: "
 "Automático."
 
-#: ekos/capture/cameraprocess.cpp:1650
+#: ekos/capture/cameraprocess.cpp:1652
 #, kde-format
 msgid "Flat calibration adjusts the exposure. Target ADU: %1 ± %2."
 msgstr ""
 "La calibración de fotogramas planos ajusta la exposición. ADU objetivo: %1 ± "
 "%2."
 
-#: ekos/capture/cameraprocess.cpp:1799 ekos/capture/cameraprocess.cpp:2393
+#: ekos/capture/cameraprocess.cpp:1801 ekos/capture/cameraprocess.cpp:2395
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "La captura ha fallado. Compruebe el panel de control de INDI para más "
 "detalles."
 
-#: ekos/capture/cameraprocess.cpp:1899
+#: ekos/capture/cameraprocess.cpp:1901
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 "Tiempo de descarga: %1 s, Nueva estimación del tiempo de descarga: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1965
+#: ekos/capture/cameraprocess.cpp:1967
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Recibida imagen %1 de %2."
 
-#: ekos/capture/cameraprocess.cpp:2002
+#: ekos/capture/cameraprocess.cpp:2004
 #, kde-format
 msgid "Captured %1"
 msgstr "Se ha capturado %1"
 
-#: ekos/capture/cameraprocess.cpp:2008
+#: ekos/capture/cameraprocess.cpp:2010
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "Advertencia: etiquetas de sustitución restantes y potencialmente "
 "desconocidas %1 en %2"
 
-#: ekos/capture/cameraprocess.cpp:2050
+#: ekos/capture/cameraprocess.cpp:2052
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Ejecutando guion de captura %1"
 
-#: ekos/capture/cameraprocess.cpp:2066
+#: ekos/capture/cameraprocess.cpp:2068
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "El guion previo a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2082
+#: ekos/capture/cameraprocess.cpp:2084
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "El guion posterior a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2094
+#: ekos/capture/cameraprocess.cpp:2096
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando la inversión de meridiano…"
 
-#: ekos/capture/cameraprocess.cpp:2104
+#: ekos/capture/cameraprocess.cpp:2106
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "El guion previo al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2109
+#: ekos/capture/cameraprocess.cpp:2111
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "El guion posterior al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2321
+#: ekos/capture/cameraprocess.cpp:2323
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado más de 3 veces. Se "
 "reiniciará el controlador."
 
-#: ekos/capture/cameraprocess.cpp:2342
+#: ekos/capture/cameraprocess.cpp:2344
 #, fuzzy, kde-format
 #| msgid "Exposure timeout. Restarting exposure..."
 msgid "Video recording timeout. Restarting recording..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición…"
 
-#: ekos/capture/cameraprocess.cpp:2374
+#: ekos/capture/cameraprocess.cpp:2376
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado muchas veces. "
 "Interrumpiendo…"
 
-#: ekos/capture/cameraprocess.cpp:2426
+#: ekos/capture/cameraprocess.cpp:2428
 #, kde-format
 msgid ""
 "Flat calibration failed. No automatic target ADU is available for %1-bit "
@@ -18559,12 +18572,12 @@ msgstr ""
 "objetivo automático disponible para imágenes de %1 bits. Defina el valor ADU "
 "objetivo manualmente."
 
-#: ekos/capture/cameraprocess.cpp:2431
+#: ekos/capture/cameraprocess.cpp:2433
 #, kde-format
 msgid "Automatic target ADU for %1-bit images: %2 ± %3."
 msgstr "ADU objetivo automático para imágenes de %1 bits: %2 ± %3."
 
-#: ekos/capture/cameraprocess.cpp:2471
+#: ekos/capture/cameraprocess.cpp:2473
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -18573,28 +18586,28 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La imagen capturada es de "
 "solo %1 bits, mientras que el valor ADU necesario es %2."
 
-#: ekos/capture/cameraprocess.cpp:2490
+#: ekos/capture/cameraprocess.cpp:2492
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "La imagen actual está saturada (%1). La siguiente exposición es de %2 "
 "segundos."
 
-#: ekos/capture/cameraprocess.cpp:2514 ekos/capture/cameraprocess.cpp:3022
+#: ekos/capture/cameraprocess.cpp:2516 ekos/capture/cameraprocess.cpp:3059
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "El valor ADU actual de %1 está en el intervalo de tolerancia del ADU "
 "objetivo."
 
-#: ekos/capture/cameraprocess.cpp:2520
+#: ekos/capture/cameraprocess.cpp:2522
 #, kde-format
 msgid "Flats are taken at an exposure of %1 seconds instead of %2 seconds."
 msgstr ""
 "Los fotogramas planos se toman con una exposición de %1 segundos en lugar de "
 "%2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:2549
+#: ekos/capture/cameraprocess.cpp:2551
 #, kde-format
 msgid ""
 "Flat calibration stopped. The ADU stays near %1 while the exposure changes, "
@@ -18606,7 +18619,7 @@ msgstr ""
 "alcanzar el valor ADU objetivo automático de %2. Defina el valor ADU "
 "objetivo de forma manual."
 
-#: ekos/capture/cameraprocess.cpp:2552
+#: ekos/capture/cameraprocess.cpp:2554
 #, kde-format
 msgid ""
 "Flat calibration stopped. The ADU stays near %1 while the exposure changes, "
@@ -18618,7 +18631,7 @@ msgstr ""
 "alcanzar el valor ADU objetivo de %2. Compruebe el valor ADU objetivo y la "
 "fuente de fotograma plano."
 
-#: ekos/capture/cameraprocess.cpp:2569
+#: ekos/capture/cameraprocess.cpp:2571
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -18627,13 +18640,13 @@ msgstr ""
 "No ha sido posible calcular los ajustes de exposición óptimos. Capture los "
 "fotogramas planos de forma manual."
 
-#: ekos/capture/cameraprocess.cpp:2580
+#: ekos/capture/cameraprocess.cpp:2582
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "El valor ADU actual es de %1. La siguiente exposición es de %2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:2723
+#: ekos/capture/cameraprocess.cpp:2725
 #, kde-format
 msgid ""
 "Flat calibration failed. No light box is configured for this optical train."
@@ -18641,7 +18654,7 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. No se ha configurado ninguna "
 "caja de luz para este tren óptico."
 
-#: ekos/capture/cameraprocess.cpp:2734
+#: ekos/capture/cameraprocess.cpp:2736
 #, kde-format
 msgid ""
 "Flat calibration failed. %1 does not offer a brightness that can be adjusted "
@@ -18650,7 +18663,7 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. %1 no ofrece un brillo que "
 "se pueda ajustar (intervalo %2 - %3)."
 
-#: ekos/capture/cameraprocess.cpp:2760
+#: ekos/capture/cameraprocess.cpp:2762
 #, kde-format
 msgid ""
 "The light box brightness changed from %1 to %2 during the frame. Taking it "
@@ -18659,7 +18672,7 @@ msgstr ""
 "El brillo de la caja de luz ha cambiado de %1 a %2 durante el fotograma. Se "
 "va a realizar una nueva toma."
 
-#: ekos/capture/cameraprocess.cpp:2766
+#: ekos/capture/cameraprocess.cpp:2768
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box brightness keeps changing on its own, "
@@ -18669,7 +18682,7 @@ msgstr ""
 "sigue cambiando por sí solo, pasando del %1 al %2 durante el último "
 "fotograma."
 
-#: ekos/capture/cameraprocess.cpp:2778
+#: ekos/capture/cameraprocess.cpp:2780
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box does not offer a usable brightness "
@@ -18678,12 +18691,28 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La caja de luz no ofrece un "
 "intervalo de brillo que se pueda usar (%1 - %2)."
 
-#: ekos/capture/cameraprocess.cpp:2787
+#: ekos/capture/cameraprocess.cpp:2789
 #, kde-format
 msgid "Light box brightness calibration starts at brightness %1."
 msgstr "La calibración del brillo de la caja de luz comienza en el brillo %1."
 
-#: ekos/capture/cameraprocess.cpp:2825
+#: ekos/capture/cameraprocess.cpp:2808
+#, fuzzy, kde-format
+#| msgid "Current ADU is %1. Next light box brightness is %2."
+msgid ""
+"Current ADU is %1 at light box brightness %2, and %3 at the maximum "
+"brightness (%4)."
+msgstr ""
+"El valor ADU actual es %1. El siguiente brillo de la caja de luz es %2."
+
+#: ekos/capture/cameraprocess.cpp:2835
+#, kde-format
+msgid ""
+"Current ADU %1 is below the target at the maximum light box brightness. "
+"Checking at brightness %2 that the light box gives light."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:2841
 #, kde-format
 msgid ""
 "Current ADU %1 is outside the target ADU tolerance range again. Next light "
@@ -18692,20 +18721,20 @@ msgstr ""
 "El valor ADU actual %1 vuelve a estar fuera del intervalo de tolerancia de "
 "ADU objetivo. El siguiente brillo de la caja de luz es %2."
 
-#: ekos/capture/cameraprocess.cpp:2829
+#: ekos/capture/cameraprocess.cpp:2845
 #, kde-format
 msgid "Current ADU is %1. Next light box brightness is %2."
 msgstr ""
 "El valor ADU actual es %1. El siguiente brillo de la caja de luz es %2."
 
-#: ekos/capture/cameraprocess.cpp:2838 ekos/capture/cameraprocess.cpp:2941
+#: ekos/capture/cameraprocess.cpp:2854 ekos/capture/cameraprocess.cpp:2960
 #, kde-format
 msgid "Flat calibration failed. Unable to set the light box brightness."
 msgstr ""
 "La calibración de fotogramas planos ha fallado. No se puede definir el "
 "brillo de la caja de luz."
 
-#: ekos/capture/cameraprocess.cpp:2854
+#: ekos/capture/cameraprocess.cpp:2870
 #, kde-format
 msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, measured: "
@@ -18714,7 +18743,7 @@ msgstr ""
 "No es posible alcanzar el valor ADU objetivo usando el brillo de la caja de "
 "luz. Objetivo: %1, medido: %2, brillo: mínimo (%3)."
 
-#: ekos/capture/cameraprocess.cpp:2860
+#: ekos/capture/cameraprocess.cpp:2878
 #, kde-format
 msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, measured: "
@@ -18723,7 +18752,7 @@ msgstr ""
 "No es posible alcanzar el valor ADU objetivo usando el brillo de la caja de "
 "luz. Objetivo: %1, medido: %2, brillo: máximo (%3)."
 
-#: ekos/capture/cameraprocess.cpp:2866
+#: ekos/capture/cameraprocess.cpp:2885
 #, kde-format
 msgid ""
 "Flat calibration failed. No signal measured at maximum light box brightness "
@@ -18733,7 +18762,7 @@ msgstr ""
 "brillo de la caja de luz al máximo (%1). Compruebe la fuente de luz y el "
 "trayecto óptico."
 
-#: ekos/capture/cameraprocess.cpp:2874
+#: ekos/capture/cameraprocess.cpp:2893
 #, kde-format
 msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, between "
@@ -18742,7 +18771,7 @@ msgstr ""
 "No es posible alcanzar el valor ADU objetivo usando el brillo de la caja de "
 "luz. Objetivo: %1, entre el brillo %2 (%3 ADU) y el %4 (%5 ADU)."
 
-#: ekos/capture/cameraprocess.cpp:2881
+#: ekos/capture/cameraprocess.cpp:2900
 #, kde-format
 msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1. The "
@@ -18751,7 +18780,7 @@ msgstr ""
 "No es posible alcanzar el valor ADU objetivo usando el brillo de la caja de "
 "luz. Obtejivo: %1. El brillo no se puede ajustar con mayor precisión."
 
-#: ekos/capture/cameraprocess.cpp:2886
+#: ekos/capture/cameraprocess.cpp:2905
 #, kde-format
 msgid ""
 "Unable to reach target ADU using light box brightness within %1 frames. "
@@ -18760,14 +18789,14 @@ msgstr ""
 "No es posible alcanzar el valor ADU objetivo usando el brillo de la caja de "
 "luz dentro de %1 fotogramas. Objetivo: %2"
 
-#: ekos/capture/cameraprocess.cpp:2892
+#: ekos/capture/cameraprocess.cpp:2911
 #, kde-format
 msgid "Flat calibration failed. Brightness calibration is not configured."
 msgstr ""
 "La calibración de fotogramas planos ha fallado. La calibración del brillo no "
 "está configurada."
 
-#: ekos/capture/cameraprocess.cpp:2921
+#: ekos/capture/cameraprocess.cpp:2940
 #, kde-format
 msgid ""
 "Continuing with light box brightness %1 and adjusting the exposure instead. "
@@ -18776,17 +18805,24 @@ msgstr ""
 "Se continúa con el brillo de la caja de luz al %1 y ajustando la exposición. "
 "La siguiente exposición es de %2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:2968
+#: ekos/capture/cameraprocess.cpp:2993
+#, kde-format
+msgid ""
+"Light box brightness left at %1 instead of restoring it to %2, since some "
+"light boxes switch their light off at that brightness."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:3005
 #, kde-format
 msgid "Light box brightness restored to %1."
 msgstr "Brillo de la caja de luz restaurado a %1."
 
-#: ekos/capture/cameraprocess.cpp:2970
+#: ekos/capture/cameraprocess.cpp:3007
 #, kde-format
 msgid "Unable to restore the light box brightness to %1."
 msgstr "No se ha podido restaurar el brillo de la caja de luz a %1."
 
-#: ekos/capture/cameraprocess.cpp:2984
+#: ekos/capture/cameraprocess.cpp:3021
 #, kde-format
 msgid ""
 "Flat calibration stopped. The image is still too bright at the shortest "
@@ -18798,7 +18834,7 @@ msgstr ""
 "por lo que no es posible alcanzar el valor ADU objetivo de %2. Atenúe la "
 "fuente de los fotogramas planos."
 
-#: ekos/capture/cameraprocess.cpp:2990
+#: ekos/capture/cameraprocess.cpp:3027
 #, kde-format
 msgid ""
 "Flat calibration stopped. The image is still too dark at the longest "
@@ -18810,7 +18846,7 @@ msgstr ""
 "lo que no es posible alcanzar el valor ADU objetivo de %2. Compruebe la "
 "fuente de los fotogramas planos."
 
-#: ekos/capture/cameraprocess.cpp:3099
+#: ekos/capture/cameraprocess.cpp:3136
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box rejected the requested brightness %1."
@@ -18818,7 +18854,7 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La caja de luz ha rechazado "
 "el brillo solicitado de %1."
 
-#: ekos/capture/cameraprocess.cpp:3102
+#: ekos/capture/cameraprocess.cpp:3139
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box reports an error for its brightness."
@@ -18826,7 +18862,7 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La caja de luz informa de un "
 "error para su brillo."
 
-#: ekos/capture/cameraprocess.cpp:3109
+#: ekos/capture/cameraprocess.cpp:3146
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box did not confirm the requested "
@@ -18835,7 +18871,7 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La caja de luz no ha "
 "confirmado el brillo solicitado de %1 en %2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:3112
+#: ekos/capture/cameraprocess.cpp:3149
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box did not finish changing its "
@@ -18844,22 +18880,22 @@ msgstr ""
 "La calibración de fotogramas planos ha fallado. La caja de luz no ha "
 "terminado de cambiar su brillo en %1 segundos."
 
-#: ekos/capture/cameraprocess.cpp:3146
+#: ekos/capture/cameraprocess.cpp:3183
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista previa de %1"
 
-#: ekos/capture/cameraprocess.cpp:3157 ekos/capture/cameraprocess.cpp:3159
+#: ekos/capture/cameraprocess.cpp:3194 ekos/capture/cameraprocess.cpp:3196
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Calibración de fotogramas planos"
 
-#: ekos/capture/cameraprocess.cpp:3363
+#: ekos/capture/cameraprocess.cpp:3400
 #, kde-format
 msgid "Sequence paused."
 msgstr "Secuencia en pausa."
 
-#: ekos/capture/cameraprocess.cpp:3413
+#: ekos/capture/cameraprocess.cpp:3450
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -18868,7 +18904,7 @@ msgstr ""
 "Se han completado todos los trabajos. ¿Seguro que desea reiniciar el estado "
 "de todos los trabajos y de la captura?"
 
-#: ekos/capture/cameraprocess.cpp:3427
+#: ekos/capture/cameraprocess.cpp:3464
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -18877,17 +18913,17 @@ msgstr ""
 "Advertencia: la opción «Reiniciar siempre la secuencia al empezar» está "
 "activada y reinicia los contadores de la secuencia."
 
-#: ekos/capture/cameraprocess.cpp:3664
+#: ekos/capture/cameraprocess.cpp:3701
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "¿Está seguro de que desea reiniciar el controlador de la cámara %1?"
 
-#: ekos/capture/cameraprocess.cpp:3665
+#: ekos/capture/cameraprocess.cpp:3702
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicio del controlador"
 
-#: ekos/capture/cameraprocess.cpp:3812 ekos/capture/sequencejobstate.cpp:72
+#: ekos/capture/cameraprocess.cpp:3849 ekos/capture/sequencejobstate.cpp:72
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Las operaciones de captura han expirado tras %1 segundos."
@@ -20391,15 +20427,6 @@ msgstr "Mayor pulso de corrección enviado en cada eje."
 #, kde-format
 msgid "Max pulse:"
 msgstr "Pulso máx.:"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingMaxPulse)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
-#. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
-#: ekos/capture/opsstreamtrackingsettings.ui:118
-#: ekos/capture/opsstreamtrackingsettings.ui:147 ekos/guide/manualpulse.ui:93
-#, kde-format
-msgid " ms"
-msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, labelStreamTrackingCalibrationPulse)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StreamTrackingCalibrationPulse)
@@ -29895,7 +29922,7 @@ msgid "Meridian flip inactive (flip not requested)"
 msgstr "Inversión de meridiano inactiva (inversión no solicitada)"
 
 #: ekos/manager/meridianflipstate.cpp:153
-#: ekos/manager/meridianflipstate.cpp:572
+#: ekos/manager/meridianflipstate.cpp:576
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Inversión de meridiano inactiva (aparcado)"
@@ -29925,36 +29952,36 @@ msgstr "Inversión de meridiano inactiva (desplazamiento tras meridiano)"
 msgid "Meridian flip in %1"
 msgstr "Inversión de meridiano en %1"
 
-#: ekos/manager/meridianflipstate.cpp:279
+#: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Se supone que inversión de meridiano ha terminado, aunque se desconoce el "
 "lado de la columna."
 
-#: ekos/manager/meridianflipstate.cpp:303
+#: ekos/manager/meridianflipstate.cpp:307
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr ""
 "La inversión de meridiano ha fallado. Se vuelve a intentar en 4 minutos."
 
-#: ekos/manager/meridianflipstate.cpp:307
+#: ekos/manager/meridianflipstate.cpp:311
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "No se ha realizado una inversión de meridiano con éxito: demora excesiva."
 
-#: ekos/manager/meridianflipstate.cpp:314
+#: ekos/manager/meridianflipstate.cpp:318
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Inversión de meridiano completada con éxito."
 
-#: ekos/manager/meridianflipstate.cpp:390
+#: ekos/manager/meridianflipstate.cpp:394
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "El telescopio ha completado la inversión de meridiano."
 
-#: ekos/manager/meridianflipstate.cpp:445 ekos/observatory/observatory.cpp:1124
+#: ekos/manager/meridianflipstate.cpp:449 ekos/observatory/observatory.cpp:1124
 #: ekos/observatory/observatory.cpp:1135
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -29962,27 +29989,27 @@ msgstr "El telescopio ha completado la inversión de meridiano."
 msgid "Status: inactive"
 msgstr "Estado: inactivo"
 
-#: ekos/manager/meridianflipstate.cpp:449
+#: ekos/manager/meridianflipstate.cpp:453
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Inversión de meridiano planificada…"
 
-#: ekos/manager/meridianflipstate.cpp:453
+#: ekos/manager/meridianflipstate.cpp:457
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Inversión de meridiano en espera…"
 
-#: ekos/manager/meridianflipstate.cpp:457
+#: ekos/manager/meridianflipstate.cpp:461
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Inversión de meridiano lista para iniciar…"
 
-#: ekos/manager/meridianflipstate.cpp:461
+#: ekos/manager/meridianflipstate.cpp:465
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Inversión de meridiano en marcha…"
 
-#: ekos/manager/meridianflipstate.cpp:465
+#: ekos/manager/meridianflipstate.cpp:469
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Inversión de meridiano completada."
@@ -103323,3 +103350,7 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~ msgid "Cannot calculate ADU levels in non-FITS images."
+#~ msgstr ""
+#~ "No se pueden calcular los niveles de ADU en imágenes que no sean FITS."
