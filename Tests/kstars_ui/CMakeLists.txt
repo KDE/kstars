@@ -223,6 +223,11 @@ SET_TESTS_PROPERTIES( TestArtificialHorizon PROPERTIES LABELS "stable;ui" TIMEOU
 #ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
 #SET_TESTS_PROPERTIES( TestEkosGuide PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )
 
+ADD_EXECUTABLE(test_ekos_guide_gpgperiod ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_guide_gpgperiod.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_guide_gpgperiod ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosGuideGPGPeriod COMMAND test_ekos_guide_gpgperiod)
+SET_TESTS_PROPERTIES( TestEkosGuideGPGPeriod PROPERTIES LABELS "ui" TIMEOUT 600 )
+
 ADD_EXECUTABLE(test_ekos_mount ${KSTARS_UI_EKOS_SRC} test_ekos_mount.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_mount ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosMount COMMAND test_ekos_mount)

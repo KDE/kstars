@@ -4039,6 +4039,8 @@ void Guide::setAllSettings(const QVariantMap &settings)
         }
         optionValues[key] = KSUtils::comboValueForGlobalSettings(cb);
     }
+    // The GPG period is restored in refreshOpticalTrain(), and only while it is estimated.
+    optionValues.remove("gPGPeriod");
     KSUtils::setGlobalSettings(optionValues);
 
     // m_Settings and m_GlobalSettings keep the original string values
@@ -4210,7 +4212,10 @@ void Guide::refreshOpticalTrain()
         // learned and stored for this optical train. Storing it per train lets a worm-gear
         // mount and a harmonic-drive mount (which have very different periodic-error periods)
         // each keep their own value instead of sharing a single global setting.
-        if (m_Settings.contains("gPGPeriod"))
+        // The value is only stored while the period is estimated (see saveGPGPeriod()), so only
+        // restore it then: with the estimation off the user's own period must not be overwritten
+        // by a period learned earlier, e.g. with another mount.
+        if (m_Settings.contains("gPGPeriod") && Options::gPGEstimatePeriod())
             Options::setGPGPeriod(m_Settings["gPGPeriod"].toDouble());
     }
 
