@@ -191,6 +191,11 @@ void TestEkosMount::cleanupTestCase()
 
 void TestEkosMount::init()
 {
+    // A test may end while the mount is still slewing, since the goto checks accept positions near the target.
+    // The next test, e.g. a sync, must not run into that slew: the mount would end up at the old slew target.
+    Ekos::Mount * const mount = Ekos::Manager::Instance()->mountModule();
+    if (mount != nullptr)
+        QTRY_VERIFY_WITH_TIMEOUT(mount->status() != ISD::Mount::MOUNT_SLEWING, 120000);
 }
 
 void TestEkosMount::cleanup()

@@ -67,7 +67,8 @@ void TestEkosAlign::testSlewDriftAlign()
 void TestEkosAlign::testFitsAlign()
 {
     // check the FITS file
-    QString const fits_file = "../Tests/kstars_ui/Kocab.fits";
+    // copied next to the test binary by CMake, QFINDTESTDATA also looks in the source directory
+    QString const fits_file = QFINDTESTDATA("Kocab.fits");
     QFileInfo target_fits(fits_file);
     QVERIFY(target_fits.exists());
 
@@ -104,7 +105,8 @@ void TestEkosAlign::testAlignTargetScheduledJob()
 void TestEkosAlign::testFitsAlignTargetScheduledJob()
 {
     // check the FITS file
-    QString const fits_file = "../Tests/kstars_ui/Kocab.fits";
+    // copied next to the test binary by CMake, QFINDTESTDATA also looks in the source directory
+    QString const fits_file = QFINDTESTDATA("Kocab.fits");
     QFileInfo target_fits(fits_file);
     QVERIFY(target_fits.exists());
 

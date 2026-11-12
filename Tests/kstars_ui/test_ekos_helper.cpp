@@ -24,6 +24,7 @@
 #include "../testhelpers.h"
 
 #include <QDir>
+#include <cmath>
 #include <QJsonArray>
 #include <QJsonObject>
 
@@ -615,9 +616,13 @@ void TestEkosHelper::prepareGuidingModule()
     // preserve guiding calibration as good as possible
     Options::setReuseGuideCalibration(true);
     Options::setResetGuideCalibration(false);
-    // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
+    // guide calibration captured with the CCD and telescope simulators (west pier side). The restored calibration
+    // keeps its own pixel size and angle, so it must come from the simulator, not from a real guiding setup.
     // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
-    Options::setSerializedCalibration("Cal v1.1,bx=1,by=1,pw=0.0024,ph=0.0024,fl=450,ang=269.014,angR=268.755,angD=359.273,ramspas=125.814,decmspas=134.457,swap=0,ra= 80:21:17,dec=00:25:52,side=0,when=2025-12-21 00:13:11,calEnd");
+    Options::setSerializedCalibration("Cal v1.1,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=359.836,angR=359.828,angD=89.8434,ramspas=174.026,decmspas=133.393,swap=0,ra= 308:58:03,dec=02:40:00,side=0,when=2026-11-12 18:10:00,calEnd");
+    // The telescope simulator keeps GUIDE_NORTH pointing to sky north on both pier sides, so a
+    // calibration reused after a pier side change must keep its DEC direction.
+    Options::setReverseDecOnPierSideChange(true);
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
     // auto star select
@@ -754,19 +759,17 @@ void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)
 
 bool TestEkosHelper::slewTo(double RA, double DEC, bool fast)
 {
+    Ekos::Mount * const mount = Ekos::Manager::Instance()->mountModule();
+    // Without alignment points the mount goes where it is sent. A sync close to the target does not help:
+    // the Telescope Simulator stores a sync as an alignment point and keeps the mount physically where it is,
+    // e.g. at the pole, where the CCD Simulator's rendered star field jumps between frames.
     if (fast)
-    {
-        // reset mount model
-        Ekos::Manager::Instance()->mountModule()->resetModel();
-        // sync to a point close before the meridian to speed up slewing
-        Ekos::Manager::Instance()->mountModule()->sync(RA + 0.002, DEC);
-    }
-    // now slew very close before the meridian
-    Ekos::Manager::Instance()->mountModule()->slew(RA, DEC);
-    // wait a certain time until the mount slews
-    QTest::qWait(3000);
-    // wait until the mount is tracking
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_TRACKING, 10000);
+        mount->resetModel();
+    KVERIFY_SUB(mount->slew(RA, DEC));
+    // wait until the mount tracks at the target, not just until it tracks (it may not have started slewing yet)
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(mount->status() == ISD::Mount::MOUNT_TRACKING &&
+                                 std::abs(std::remainder(mount->equatorialCoords()[0] - RA, 24.0)) < 0.05 &&
+                                 std::abs(mount->equatorialCoords()[1] - DEC) < 0.1, 120000);
 
     // everything succeeded
     return true;

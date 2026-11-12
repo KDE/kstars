@@ -584,9 +584,10 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
 
 void TestEkosFocus::testFocusWhenMountFlips()
 {
-    KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
+    KTELL("Slew high, east of the meridian.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_MOUNT_SYNC(60.0, true, +10.0 / 3600);
+    // far enough east that the slew and the focus configuration complete before the meridian
+    KTRY_MOUNT_SYNC(60.0, true, +90.0 / 3600);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 5);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -612,6 +613,11 @@ void TestEkosFocus::testFocusWhenMountFlips()
     QVERIFY(!autofocus.started);
     QVERIFY(!autofocus.aborted);
     QVERIFY(!autofocus.complete);
+    // The mount must still be east of the meridian, otherwise the flip already happened before autofocus.
+    // Start autofocus a few seconds before the meridian, so that the flip occurs while it is running.
+    QVERIFY2(Ekos::Manager::Instance()->mountModule()->hourAngle() < -8.0 / 3600,
+             "Mount reached the meridian before autofocus could be configured");
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->hourAngle() >= -8.0 / 3600, 120000);
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 5000);
 
@@ -872,13 +878,13 @@ void TestEkosFocus::testStarDetection()
     QFETCH(QString, RA);
     QFETCH(QString, DEC);
 
-    KTELL(QString(NAME + "\nSync to %1/%2 to make the mount teleport to the object.").arg(qPrintable(RA)).arg(qPrintable(DEC)));
+    KTELL(QString(NAME + "\nSlew to %1/%2.").arg(qPrintable(RA)).arg(qPrintable(DEC)));
     QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000);
     ekos->mountModule()->setMeridianFlipValues(false, 0);
     dms ra = dms::fromString(RA, false);
     dms de = dms::fromString(DEC, true);
-    QVERIFY(ekos->mountModule()->sync(ra.Hours(), de.Degrees()));
-    ekos->mountModule()->setTrackEnabled(true);
+    // a sync does not move the simulated mount to the object, it has to slew
+    KTRY_MOUNT_SLEW_AND_TRACK(ra.Hours(), de.Degrees());
 
     KTELL(NAME + "\nWait for Focus to come up\nSwitch to Focus tab.");
     KTRY_FOCUS_SHOW();

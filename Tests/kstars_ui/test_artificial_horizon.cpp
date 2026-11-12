@@ -52,9 +52,12 @@ void TestArtificialHorizon::testArtificialHorizon_data()
 namespace
 {
 
+// Click on the sky map. The coordinates are relative to a 600 x 600 area in the center of the sky map: at a low
+// zoom level, the sky map ignores clicks beyond the sky horizon, which may include fixed positions near the corner.
 void skyClick(SkyMap *sky, int x, int y)
 {
-    QTest::mouseClick(sky->viewport(), Qt::LeftButton, Qt::NoModifier, QPoint(x, y), 100);
+    const QPoint center = sky->viewport()->rect().center();
+    QTest::mouseClick(sky->viewport(), Qt::LeftButton, Qt::NoModifier, center + QPoint(x - 300, y - 300), 100);
 }
 
 // Returns the QModelIndex for the nth point in the mth region
@@ -289,7 +292,7 @@ void TestArtificialHorizon::testArtificialHorizon()
     skyClick(skymap, 400, 400);
 
     // Make sure there are 5 points now for region 0.
-    QVERIFY(5 == getRegion(0)->rowCount());
+    QCOMPARE(getRegion(0)->rowCount(), 5);
     QVERIFY(checkForRepeatedAzAlt(0));
 
     // Turn this region into a ceiling, check it was noted, and turn that off.
@@ -303,14 +306,14 @@ void TestArtificialHorizon::testArtificialHorizon()
     QVERIFY(!selectPointsB->isChecked());
 
     // The new region shouldn't have any points, but the first should still have 5.
-    QVERIFY(5 == getRegion(0)->rowCount());
+    QCOMPARE(getRegion(0)->rowCount(), 5);
     QVERIFY(0 == getRegion(1)->rowCount());
 
     // Add 2 points to the 2nd region.
     KTRY_AH_CLICK(selectPointsB);
     skyClick(skymap, 400, 400);
     skyClick(skymap, 450, 450);
-    QVERIFY(5 == getRegion(0)->rowCount());
+    QCOMPARE(getRegion(0)->rowCount(), 5);
     QVERIFY(2 == getRegion(1)->rowCount());
     QVERIFY(checkForRepeatedAzAlt(0));
     QVERIFY(checkForRepeatedAzAlt(1));

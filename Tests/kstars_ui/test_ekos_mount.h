@@ -16,6 +16,7 @@
 #include "indicom.h"
 
 #include <QObject>
+#include <cmath>
 #include <QPushButton>
 #include <QComboBox>
 #include <QAbstractButton>
@@ -81,11 +82,31 @@
         QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::Status::MOUNT_TRACKING, 30000); \
     } while (false)
 
-/** @brief Helper to sync the mount at the meridian for focus tests.
+/** @brief Helper to slew the mount to a position (JNow) and wait until it tracks there.
+ * The alignment model is cleared first, so that the mount goes where it is sent: the Telescope Simulator stores
+ * a sync as an alignment point and keeps the mount physically where it is, which after unparking is the pole.
+ * @param ra right ascension in hours.
+ * @param dec declination in degrees.
+ */
+#define KTRY_MOUNT_SLEW_AND_TRACK(ra, dec) do { \
+    Ekos::Mount * const slewMount = Ekos::Manager::Instance()->mountModule(); \
+    QVERIFY(slewMount != nullptr); \
+    /* fails harmlessly if the mount has no alignment model */ \
+    slewMount->resetModel(); \
+    double const slewRA = (ra), slewDEC = (dec); \
+    QVERIFY(slewMount->slew(slewRA, slewDEC)); \
+    /* wait until the mount tracks at the target, not just until it tracks (it may not have started slewing yet) */ \
+    QTRY_VERIFY_WITH_TIMEOUT(slewMount->status() == ISD::Mount::Status::MOUNT_TRACKING && \
+                             std::abs(std::remainder(slewMount->equatorialCoords()[0] - slewRA, 24.0)) < 0.05 && \
+                             std::abs(slewMount->equatorialCoords()[1] - slewDEC) < 0.1, 120000); \
+    } while (false)
+
+/** @brief Helper to point the mount at the meridian for focus tests.
  * @warning This is needed because the CCD Simulator has much rotation jitter at the celestial pole.
- * @param alt is the altitude to sync to, use 60.0 as degrees for instance.
+ * The mount slews there, see KTRY_MOUNT_SLEW_AND_TRACK.
+ * @param alt is the declination to point to, use 60.0 as degrees for instance.
  * @param track whether to enable track or not.
- * @param ha_ofs is the offset to add to the LST before syncing (east is positive).
+ * @param ha_ofs is the offset to add to the LST before slewing (east is positive).
  */
 #define KTRY_MOUNT_SYNC(alt, track, ha_ofs) do { \
     QVERIFY(KStarsData::Instance()); \
@@ -96,15 +117,14 @@
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
     Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->unpark(), 5000); \
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(range24(LST.Hours()+(ha_ofs+0.002)), (alt))); \
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(range24(LST.Hours()+(ha_ofs)), (alt))); \
+    KTRY_MOUNT_SLEW_AND_TRACK(range24(LST.Hours()+(ha_ofs)), (alt)); \
     if (!track) \
+    { \
         QTimer::singleShot(1000, [&]{ \
-        QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
-        if(dialog != nullptr) Q_EMIT dialog->accept(); }); \
-    Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); \
-    if (track) \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::Status::MOUNT_TRACKING, 30000); \
+            QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
+            if(dialog != nullptr) Q_EMIT dialog->accept(); }); \
+        Ekos::Manager::Instance()->mountModule()->setTrackEnabled(false); \
+    } \
     } while (false)
 
 class TestEkosMount : public QObject

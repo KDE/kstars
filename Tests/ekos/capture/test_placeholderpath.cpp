@@ -10,6 +10,7 @@
 #include "ekos/capture/capturedeviceadaptor.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/capture/placeholderpath.h"
+#include "kspaths.h"
 
 #include <QFile>
 #include <QRegularExpression>
@@ -21,9 +22,23 @@ TestPlaceholderPath::TestPlaceholderPath() : QObject()
 {
 }
 
+// Default directory of a job without FITS directory, as PlaceholderPath determines it. It follows $TMPDIR.
+static QString defaultCaptureDir()
+{
+    return QDir::toNativeSeparators(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars");
+}
+
+// The expected results (regular expressions) of the data tables are written for /tmp/kstars, use the real
+// default directory instead
+static QString withDefaultCaptureDir(QString pattern)
+{
+    return pattern.replace("/tmp/kstars", QRegularExpression::escape(defaultCaptureDir()));
+}
+
 void TestPlaceholderPath::initTestCase()
 {
     QDir("/tmp").mkdir("kstars");
+    QDir().mkpath(defaultCaptureDir());
 }
 
 TestPlaceholderPath::~TestPlaceholderPath()
@@ -550,6 +565,7 @@ void TestPlaceholderPath::testFlexibleNaming()
     QFETCH(QString, PlaceholderFormat);
     QFETCH(QString, PlaceholderSuffix);
     QFETCH(QString, result);
+    result = withDefaultCaptureDir(result);
 
     XMLEle *root = buildXML(
                        Exposure,
@@ -617,6 +633,8 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
     QFETCH(QString, PlaceholderFormat);
     QFETCH(QString, PlaceholderSuffix);
     QFETCH(QString, result);
+    // compared literally, not as a regular expression
+    result.replace("/tmp/kstars", defaultCaptureDir());
 
     XMLEle *root = buildXML(
                        "",
@@ -821,6 +839,7 @@ void TestPlaceholderPath::testGetCompletedFilesWithDottedTargetName()
 void TestPlaceholderPath::cleanupTestCase()
 {
     QDir("/tmp/kstars").removeRecursively();
+    QDir(defaultCaptureDir()).removeRecursively();
 }
 
 QTEST_GUILESS_MAIN(TestPlaceholderPath)

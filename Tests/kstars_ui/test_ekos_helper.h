@@ -543,8 +543,9 @@ class TestEkosHelper : public QObject
         void prepareMountModule(ScopeType primary = SCOPE_FSQ85, ScopeType guiding = SCOPE_TAKFINDER10x50);
 
         /**
-         * @brief Slew to a given position
-         * @param fast set to true if slewing should be fast using sync first close to the position
+         * @brief Slew to a given position (JNow) and wait until the mount tracks there
+         * @param fast set to true to clear the mount's alignment model first, so the mount really goes to the
+         *        position. Alignment points from earlier syncs would otherwise correct the slew.
          */
         bool slewTo(double RA, double DEC, bool fast);
 

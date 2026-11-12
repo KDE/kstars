@@ -325,8 +325,9 @@ void TestSetAction::testRetryAfterRefusal()
     // First attempt and two retries, each one refused
     QCOMPARE(sends.size(), 3);
     QCOMPARE(refusals.size(), 3);
-    // Qt's default (coarse) timers may fire up to 5 % early
-    const qint64 minDelay = SetAction::RETRY_DELAY_MS * 95 / 100;
+    // Qt's default (coarse) timers may fire up to 5 % early. Qt rounds the deadline and QElapsedTimer::elapsed()
+    // truncates both timestamps to whole milliseconds, so allow 2 ms for rounding (a 2850 ms retry measured 2849 ms).
+    const qint64 minDelay = SetAction::RETRY_DELAY_MS * 95 / 100 - 2;
     for (int i = 1; i < sends.size(); i++)
     {
         const qint64 delay = sends[i] - refusals[i - 1];

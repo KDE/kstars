@@ -13,6 +13,8 @@
 #include "indicom.h"
 #include "Options.h"
 #include "skymapcomposite.h"
+#include "kstarsdata.h"
+#include "ksuserdb.h"
 #include "ekos/capture/sequencejobstate.h"
 #include "ekos/capture/capturetypes.h"
 #include "ekos/capture/capture.h"
@@ -2244,6 +2246,15 @@ void TestEkosCaptureWorkflow::testDarksLibraryDefectMap()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
 
+    // Start without master darks of this camera, whatever the test cases before left behind. Then the new
+    // master is the only one, and generating it leaves it loaded in the Dark Library.
+    QList<QVariantMap> darkFrames;
+    QVERIFY(KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames));
+    for (const auto &frame : std::as_const(darkFrames))
+        if (frame["ccd"].toString() == camera->getDeviceName())
+            QVERIFY(KStarsData::Instance()->userdb()->DeleteDarkFrame(frame["filename"].toString()));
+    Ekos::DarkLibrary::Instance()->refreshFromDB();
+
     QWidget *darkLibraryDialog = nullptr;
     QVERIFY(openDarkLibrary(3, darkLibraryDialog));
     QString master;
@@ -2275,23 +2286,9 @@ void TestEkosCaptureWorkflow::testDarksLibraryDefectMap()
     KTRY_GADGET(darkLibraryDialog, QTabWidget, darkTabsWidget);
     darkTabsWidget->setCurrentIndex(1);
     KTRY_GADGET(darkLibraryDialog, QComboBox, masterDarksCombo);
-    QVERIFY(masterDarksCombo->count() > 0);
-    bool masterLoaded = false;
-    auto loadedConnection = connect(Ekos::DarkLibrary::Instance(), &Ekos::DarkLibrary::newImage, this,
-                                    [&masterLoaded, &master](const QSharedPointer<FITSData> &data)
-    {
-        if (data && data->filename() == master)
-            masterLoaded = true;
-    });
-    auto disconnectLoaded = qScopeGuard([loadedConnection]()
-    {
-        disconnect(loadedConnection);
-    });
-    // The newest master is the last entry. Select another one first so that selecting it loads it.
-    if (masterDarksCombo->count() > 1)
-        masterDarksCombo->setCurrentIndex(0);
-    masterDarksCombo->setCurrentIndex(masterDarksCombo->count() - 1);
-    QTRY_VERIFY_WITH_TIMEOUT(masterLoaded, 10000);
+    // The new master is the only one, and the one shown
+    QCOMPARE(masterDarksCombo->count(), 1);
+    QCOMPARE(masterDarksCombo->currentIndex(), 0);
     KTRY_CLICK(darkLibraryDialog, saveMapB);
 
     auto chip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
