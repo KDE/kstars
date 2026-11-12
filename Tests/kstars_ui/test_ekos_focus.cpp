@@ -17,6 +17,9 @@
 #include "ekos/focus/focusmodule.h"
 #include "ekos/focus/focusutils.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitsview.h"
+#include "indi/indicamera.h"
 #include "Options.h"
 
 #include <QJsonObject>
@@ -195,6 +198,24 @@ void TestEkosFocus::cleanup()
     KTELL_HIDE();
 }
 
+// Set the noise of the CCD Simulator used for focusing, wait until the driver confirms it, and return the previous value
+static bool setSimulatorNoise(double value, double &previous)
+{
+    auto camera = Ekos::OpticalTrainManager::Instance()->getCamera(
+                      Ekos::Manager::Instance()->focusModule()->mainFocuser()->opticalTrain());
+    KVERIFY_SUB(camera != nullptr);
+    auto settings = camera->getNumber("SIMULATOR_SETTINGS");
+    KVERIFY_SUB(settings.isValid());
+    auto noise = settings.findWidgetByName("SIM_NOISE");
+    KVERIFY_SUB(noise != nullptr);
+    previous = noise->getValue();
+    noise->setValue(value);
+    camera->sendNewProperty(settings);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(std::abs(camera->getNumber("SIMULATOR_SETTINGS").findWidgetByName("SIM_NOISE")->getValue()
+                                          - value) < 1e-6, 5000);
+    return true;
+}
+
 void TestEkosFocus::testCaptureStates()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.");
@@ -255,17 +276,43 @@ void TestEkosFocus::testCaptureStates()
     focusAutoStarEnabled->setCheckState(Qt::CheckState::Unchecked);
     state_list.clear();
 
-    KTELL("Use an unsuccessful automatic star selection (not full-field).\nCapture a frame\nExpect PROGRESS, IDLE.\nCheck star selection.");
+    KTELL("Use an unsuccessful automatic star selection (not full-field).\nCapture a frame without stars and noise\nExpect PROGRESS, WAITING.\nCheck star selection.");
+    // The frame is too short to show stars. Without noise, it does not show a blob either: the star detection
+    // could select it, and Focus would then return to IDLE instead of waiting for a manual star selection.
+    double noise = 0;
+    QVERIFY(setSimulatorNoise(0, noise));
+    auto restoreNoise = qScopeGuard([noise]()
+    {
+        double ignored;
+        setSimulatorNoise(noise, ignored);
+    });
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.0, 3.0);
     focusAutoStarEnabled->setCheckState(Qt::CheckState::Checked);
     KTRY_FOCUS_DETECT(0.01, 1, 1);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 2, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
+    // the tracking box offered for the manual star selection, before the frame reset
+    FITSView * const focusView = Ekos::Manager::Instance()->focusModule()->mainFocuser()->findChild<FITSView *>();
+    QVERIFY(focusView != nullptr && focusView->imageData() != nullptr);
+    const QRect trackingBox = focusView->getTrackingBox();
+    const QSize imageSize(focusView->imageData()->width(), focusView->imageData()->height());
     KTRY_FOCUS_CLICK(resetFrameB);
-    QCOMPARE(state_list[0], Ekos::FocusState::FOCUS_PROGRESS);
-    QCOMPARE(state_list[1], Ekos::FocusState::FOCUS_WAITING);
     focusAutoStarEnabled->setCheckState(Qt::CheckState::Unchecked);
+    const QList<Ekos::FocusState> states = state_list;
     state_list.clear();
+    QCOMPARE(states[0], Ekos::FocusState::FOCUS_PROGRESS);
+    // Regression test: without a detected star, FITSData::getSelectedHFRStar() returns a default star at (0, 0).
+    // Focus took it for a selected star, subframed the image corner, found nothing there and returned to IDLE
+    // instead of waiting for a manual star selection.
+    QCOMPARE(states[1], Ekos::FocusState::FOCUS_WAITING);
+    // Regression test: the tracking box for the manual selection is centered in the frame, it used to be
+    // placed at the bottom right corner, mostly outside of the frame
+    QVERIFY2(QRect(QPoint(0, 0), imageSize).contains(trackingBox),
+             qPrintable(QString("tracking box (%1, %2, %3 x %4) outside of the %5 x %6 frame").arg(trackingBox.x())
+                        .arg(trackingBox.y()).arg(trackingBox.width()).arg(trackingBox.height())
+                        .arg(imageSize.width()).arg(imageSize.height())));
+    QVERIFY(std::abs(trackingBox.center().x() - imageSize.width() / 2) <= 2);
+    QVERIFY(std::abs(trackingBox.center().y() - imageSize.height() / 2) <= 2);
 }
 
 void TestEkosFocus::testDuplicateFocusRequest()

@@ -3279,6 +3279,8 @@ void Focus::setHFRComplete()
 
         // If the user does not select for a timeout period, we abort.
         waitStarSelectTimer.start();
+        // the frame is processed, so the user may capture again while selecting
+        resetButtons();
         return;
     }
     else if (m_OpsFocusSettings->focusSubFrame->isChecked() && isStarMeasureStarBased() && starCenter.isNull())
@@ -3309,13 +3311,15 @@ void Focus::setHFRComplete()
             // Do we have a valid star detected?
             const Edge selectedHFRStar = m_ImageData->getSelectedHFRStar();
 
-            if (selectedHFRStar.x == -1)
+            // Without detected stars, FITSData keeps its default selected star at (0, 0) with an invalid HFR,
+            // so the HFR tells whether a star has been selected
+            if (selectedHFRStar.HFR <= 0)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
                 // Center the tracking box in the frame and display it
-                m_FocusView->setTrackingBox(QRect(w - m_OpsFocusSettings->focusBoxSize->value() / (subBinX * 2),
-                                                  h - m_OpsFocusSettings->focusBoxSize->value() / (subBinY * 2),
+                m_FocusView->setTrackingBox(QRect((w - m_OpsFocusSettings->focusBoxSize->value()) / (subBinX * 2),
+                                                  (h - m_OpsFocusSettings->focusBoxSize->value()) / (subBinY * 2),
                                                   m_OpsFocusSettings->focusBoxSize->value() / subBinX, m_OpsFocusSettings->focusBoxSize->value() / subBinY));
                 m_FocusView->setTrackingBoxEnabled(true);
 
@@ -3324,6 +3328,8 @@ void Focus::setHFRComplete()
 
                 // Start the wait timer so we abort after a timeout if the user does not make a choice
                 waitStarSelectTimer.start();
+                // the frame is processed, so the user may capture again while selecting
+                resetButtons();
 
                 return;
             }
