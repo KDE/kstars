@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-11 02:33+0000\n"
+"POT-Creation-Date: 2026-11-12 02:59+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -2826,7 +2826,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:273 ekos/align/mountmodel.cpp:399
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2175
-#: ekos/scheduler/scheduler.cpp:2285 fitsviewer/fitstab.cpp:1621
+#: ekos/scheduler/scheduler.cpp:2285 fitsviewer/fitstab.cpp:1624
 #: tools/scriptbuilder.cpp:833 tools/scriptbuilder.cpp:931
 #, kde-format
 msgid "Invalid URL"
@@ -2859,7 +2859,7 @@ msgid "Resource Type"
 msgstr "Навъи манбаъ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ImageRadio)
-#: dialogs/addlinkdialog.ui:34 ekos/align/aligndiagnosis.cpp:555
+#: dialogs/addlinkdialog.ui:34 ekos/align/aligndiagnosis.cpp:559
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:63
 #, kde-format, kde-kuit-format
 msgid "Image"
@@ -3300,7 +3300,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:478
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:825
 #, kde-format
 msgid "Object"
 msgstr "Объект"
@@ -4345,7 +4345,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:826 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:828 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:510
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -5583,8 +5583,8 @@ msgstr "Ҳисоб кардани FOV"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433 ekos/align/aligndiagnosis.cpp:517
-#: ekos/align/aligndiagnosis.cpp:1232 ekos/analyze/analyze.cpp:2807
+#: dialogs/newfov.ui:433 ekos/align/aligndiagnosis.cpp:521
+#: ekos/align/aligndiagnosis.cpp:1250 ekos/analyze/analyze.cpp:2807
 #: ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #: ekos/manager.cpp:2586
@@ -6527,7 +6527,7 @@ msgstr ""
 "\n"
 "<p>Як бор шумо шаҳрро интихоб карда будед,зер кунед <b>Навбати</b>.</p>"
 
-#: ekos/align/align.cpp:274 ekos/analyze/analyze.cpp:5141
+#: ekos/align/align.cpp:277 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:359 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2534 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
@@ -7090,8 +7090,8 @@ msgid "Polar Alignment"
 msgstr "Пайвандӣ ба: "
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:265 ekos/align/align_goto.cpp:283
-#: ekos/align/align_goto.cpp:399 ekos/align/polaralignmentassistant.cpp:657
+#: ekos/align/align_goto.cpp:274 ekos/align/align_goto.cpp:292
+#: ekos/align/align_goto.cpp:410 ekos/align/polaralignmentassistant.cpp:657
 #, fuzzy, kde-format
 msgid "Settling..."
 msgstr "Кеттеринг"
@@ -7296,139 +7296,150 @@ msgstr "Талаб кардани андозаи фазои тасаввурот
 msgid "Invalid FOV."
 msgstr "URL-и нодуруст"
 
-#: ekos/align/align_goto.cpp:100
+#: ekos/align/align_goto.cpp:101
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 дастрас."
 
-#: ekos/align/align_goto.cpp:107 ekos/auxiliary/darklibrary.cpp:1651
+#: ekos/align/align_goto.cpp:108 ekos/auxiliary/darklibrary.cpp:1651
 #: ekos/focus/focus.cpp:1733
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
 msgstr "Гирифтани расм"
 
-#: ekos/align/align_goto.cpp:110
+#: ekos/align/align_goto.cpp:112
 #, fuzzy, kde-format
 msgid "Solver aborted."
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/align/align_goto.cpp:168
+#: ekos/align/align_goto.cpp:177
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:190
+#: ekos/align/align_goto.cpp:199
 #, fuzzy, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "Ҷузъиёти тирезаро барои объекти асосӣ нишон диҳед."
 
-#: ekos/align/align_goto.cpp:193 ekos/align/align_solver.cpp:1059
+#: ekos/align/align_goto.cpp:202 ekos/align/align_solver.cpp:1059
 #, fuzzy, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Координатҳои Харитагӣ"
 
-#: ekos/align/align_goto.cpp:253 ekos/align/align_goto.cpp:694
+#: ekos/align/align_goto.cpp:262 ekos/align/align_goto.cpp:706
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:273
+#: ekos/align/align_goto.cpp:282
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:275
+#: ekos/align/align_goto.cpp:284
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:326 ekos/align/align_goto.cpp:506
+#: ekos/align/align_goto.cpp:337 ekos/align/align_goto.cpp:517
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:328
+#: ekos/align/align_goto.cpp:339
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Slewing failed."
 msgstr "Дигар"
 
-#: ekos/align/align_goto.cpp:359
+#: ekos/align/align_goto.cpp:370
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:381
+#: ekos/align/align_goto.cpp:392
 #, fuzzy, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "&Нуқта"
 
-#: ekos/align/align_goto.cpp:416
+#: ekos/align/align_goto.cpp:427
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:456
+#: ekos/align/align_goto.cpp:467
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Slew detected, suspend solving..."
 msgstr "Фармингтон"
 
-#: ekos/align/align_goto.cpp:500
+#: ekos/align/align_goto.cpp:511
 #, fuzzy, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Координатҳои Вурудӣ"
 
-#: ekos/align/align_goto.cpp:530
+#: ekos/align/align_goto.cpp:542
 #, fuzzy, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Координатҳои Вурудӣ"
 
-#: ekos/align/align_goto.cpp:535
+#: ekos/align/align_goto.cpp:547
 #, fuzzy, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr "Координатҳои Вурудӣ"
 
-#: ekos/align/align_goto.cpp:593
+#: ekos/align/align_goto.cpp:605
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Пурборкунии тасвирҳои бадарғашуда"
 
-#: ekos/align/align_goto.cpp:624 ekos/align/align_solver.cpp:300
+#: ekos/align/align_goto.cpp:636 ekos/align/align_solver.cpp:300
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:708
+#: ekos/align/align_goto.cpp:720
 #, fuzzy, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/align/align_goto.cpp:717
+#: ekos/align/align_goto.cpp:729
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align_goto.cpp:729
+#: ekos/align/align_goto.cpp:741
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align_goto.cpp:767
+#: ekos/align/align_goto.cpp:779
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
+
+#: ekos/align/align_goto.cpp:806
+#, kde-format
+msgid "Slewing failed: the mount stopped without tracking."
+msgstr ""
+
+#: ekos/align/align_goto.cpp:807 ekos/align/align_solver.cpp:64
+#: ekos/align/align_solver.cpp:96 ekos/align/align_solver.cpp:1231
+#, kde-format
+msgid "Astrometry alignment failed"
+msgstr ""
 
 #: ekos/align/align_settings.cpp:81
 #, fuzzy, kde-format
@@ -7525,7 +7536,7 @@ msgstr "Пок кардани ҳамаи аломатҳои мадор"
 #: ekos/align/mountmodel.cpp:398 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2174 ekos/scheduler/scheduler.cpp:2284
-#: fitsviewer/fitstab.cpp:1620 tools/scriptbuilder.cpp:833
+#: fitsviewer/fitstab.cpp:1623 tools/scriptbuilder.cpp:833
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL: %1"
@@ -7581,12 +7592,6 @@ msgstr "Пайвандӣ ба: "
 #: ekos/align/align_solver.cpp:63
 #, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
-msgstr ""
-
-#: ekos/align/align_solver.cpp:64 ekos/align/align_solver.cpp:96
-#: ekos/align/align_solver.cpp:1231
-#, kde-format
-msgid "Astrometry alignment failed"
 msgstr ""
 
 #: ekos/align/align_solver.cpp:70
@@ -8204,7 +8209,7 @@ msgstr "Наметавонам файлро нобуд кунам:%1"
 msgid "The filter change failed"
 msgstr "Дигар"
 
-#: ekos/align/aligndiagnosis.cpp:407 ekos/align/aligndiagnosis.cpp:723
+#: ekos/align/aligndiagnosis.cpp:407 ekos/align/aligndiagnosis.cpp:739
 #, kde-format
 msgid "The filter wheel did not reach the Align filter."
 msgstr ""
@@ -8313,7 +8318,7 @@ msgstr ""
 msgid "The remote solver timed out"
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/align/aligndiagnosis.cpp:448 ekos/align/aligndiagnosis.cpp:749
+#: ekos/align/aligndiagnosis.cpp:448 ekos/align/aligndiagnosis.cpp:765
 #, kde-format
 msgid "The remote astrometry driver sent no solution."
 msgstr ""
@@ -8399,7 +8404,7 @@ msgstr ""
 msgid "The rotator timed out"
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/align/aligndiagnosis.cpp:483 ekos/align/aligndiagnosis.cpp:767
+#: ekos/align/aligndiagnosis.cpp:483 ekos/align/aligndiagnosis.cpp:783
 #, kde-format
 msgid "The rotator did not finish turning in time."
 msgstr ""
@@ -8426,7 +8431,20 @@ msgstr ""
 msgid "Solving works, but the mount did not get close enough to the target."
 msgstr ""
 
+#: ekos/align/aligndiagnosis.cpp:494
+#, fuzzy, kde-format
+#| msgid "Track"
+msgid "The mount stopped without tracking"
+msgstr "Нишона"
+
 #: ekos/align/aligndiagnosis.cpp:495
+#, kde-format
+msgid ""
+"The image was solved, but the mount stopped after the slew and did not start "
+"tracking."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:499
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -8437,7 +8455,7 @@ msgstr "Дигар"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/align/aligndiagnosis.cpp:521 ekos/align/pushtoassistant.ui:206
+#: ekos/align/aligndiagnosis.cpp:525 ekos/align/pushtoassistant.ui:206
 #: ekos/analyze/analyze.cpp:2918 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/auxiliary/opticaltrainmanager.cpp:1413
 #: ekos/manager.cpp:2866 ekos/manager.ui:778
@@ -8447,28 +8465,28 @@ msgstr "Дигар"
 msgid "Mount"
 msgstr "Ҳисоб кардан:"
 
-#: ekos/align/aligndiagnosis.cpp:524 ekos/align/aligndiagnosis.cpp:1234
+#: ekos/align/aligndiagnosis.cpp:528 ekos/align/aligndiagnosis.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Field of view (arcmin):"
 msgid "Field of view"
 msgstr "Фазои тасаввурот (arcдақ):"
 
-#: ekos/align/aligndiagnosis.cpp:529
+#: ekos/align/aligndiagnosis.cpp:533
 #, fuzzy, kde-format
 msgid "Focal length"
 msgstr "Рӯзи дароз:"
 
-#: ekos/align/aligndiagnosis.cpp:531
+#: ekos/align/aligndiagnosis.cpp:535
 #, fuzzy, kde-format
 msgid "Aperture"
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/align/aligndiagnosis.cpp:536
+#: ekos/align/aligndiagnosis.cpp:540
 #, fuzzy, kde-format
 msgid "Pixel size"
 msgstr "Баромадани офтоб:"
 
-#: ekos/align/aligndiagnosis.cpp:541 ekos/align/aligndiagnosis.cpp:1236
+#: ekos/align/aligndiagnosis.cpp:545 ekos/align/aligndiagnosis.cpp:1254
 #: ekos/auxiliary/filtermanager.cpp:122
 #: ekos/capture/capturecountswidget.cpp:212
 #, fuzzy, kde-format
@@ -8476,563 +8494,593 @@ msgstr "Баромадани офтоб:"
 msgid "Exposure"
 msgstr "Тасвир кардан:"
 
-#: ekos/align/aligndiagnosis.cpp:543 ekos/align/aligndiagnosis.cpp:1237
+#: ekos/align/aligndiagnosis.cpp:547 ekos/align/aligndiagnosis.cpp:1255
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Finningley"
 msgid "Binning"
 msgstr "Финнинглей"
 
-#: ekos/align/aligndiagnosis.cpp:547
+#: ekos/align/aligndiagnosis.cpp:551
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Stars found"
 msgstr "Равонакунанда"
 
-#: ekos/align/aligndiagnosis.cpp:551
+#: ekos/align/aligndiagnosis.cpp:555
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Meriden"
 msgid "Median HFR"
 msgstr "Мериден"
 
-#: ekos/align/aligndiagnosis.cpp:557
+#: ekos/align/aligndiagnosis.cpp:561
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Star elongation"
 msgstr "Маконро танзим кунед..."
 
-#: ekos/align/aligndiagnosis.cpp:561
+#: ekos/align/aligndiagnosis.cpp:565
 #, fuzzy, kde-format
 msgid "Trail length"
 msgstr "Рӯзи дароз:"
 
-#: ekos/align/aligndiagnosis.cpp:563
+#: ekos/align/aligndiagnosis.cpp:567
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Trail direction"
 msgstr "Маконро танзим кунед..."
 
-#: ekos/align/aligndiagnosis.cpp:567
+#: ekos/align/aligndiagnosis.cpp:571
 #, fuzzy, kde-format
 #| msgid "Show image of "
 msgid "Double image offset"
 msgstr "Намоиши тасвир"
 
-#: ekos/align/aligndiagnosis.cpp:571
+#: ekos/align/aligndiagnosis.cpp:575
 #, kde-format
 msgid "Star concentration (R80/R20)"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:574
+#: ekos/align/aligndiagnosis.cpp:578
 #, fuzzy, kde-format
 #| msgid "Brightness:"
 msgid "Star centre brightness"
 msgstr "Равшанӣ:"
 
-#: ekos/align/aligndiagnosis.cpp:579
+#: ekos/align/aligndiagnosis.cpp:583
 #, fuzzy, kde-format
 msgid "Solver attempts"
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/align/aligndiagnosis.cpp:582
+#: ekos/align/aligndiagnosis.cpp:586
 #, fuzzy, kde-format
 msgid "Solver timeout"
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/align/aligndiagnosis.cpp:589
+#: ekos/align/aligndiagnosis.cpp:593
 #, fuzzy, kde-format
 msgid "Index files needed"
 msgstr "Номи нодурусти файл"
 
-#: ekos/align/aligndiagnosis.cpp:595
+#: ekos/align/aligndiagnosis.cpp:599
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture errors"
 msgstr "Гирифтани расм"
 
-#: ekos/align/aligndiagnosis.cpp:597
+#: ekos/align/aligndiagnosis.cpp:601
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver restarts"
 msgstr "ситора"
 
-#: ekos/align/aligndiagnosis.cpp:619
+#: ekos/align/aligndiagnosis.cpp:623
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Select a mount in the optical train"
 msgstr "Оптикавӣ"
 
-#: ekos/align/aligndiagnosis.cpp:620
+#: ekos/align/aligndiagnosis.cpp:624
 #, kde-format
 msgid "Align needs a mount to know where the telescope points."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:633
+#: ekos/align/aligndiagnosis.cpp:637
 #, fuzzy, kde-format
 msgid "Unpark the mount"
 msgstr "Телескопро танзим кунед"
 
-#: ekos/align/aligndiagnosis.cpp:634
+#: ekos/align/aligndiagnosis.cpp:638
 #, kde-format
 msgid "The mount reports PARKED."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:648
+#: ekos/align/aligndiagnosis.cpp:652
 #, kde-format
 msgid "Check the mount altitude limits"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:649
+#: ekos/align/aligndiagnosis.cpp:653
 #, kde-format
 msgid "The target altitude %1° is outside the limits of %2° to %3°."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:658
+#: ekos/align/aligndiagnosis.cpp:662
 #, kde-format
 msgid "Check the slew target"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:659
+#: ekos/align/aligndiagnosis.cpp:663
 #, kde-format
 msgid "KStars refused the slew, see the notifications for the reason."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:660
+#: ekos/align/aligndiagnosis.cpp:664
 #, kde-format
 msgid "Check that the target is above the horizon."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:661
+#: ekos/align/aligndiagnosis.cpp:665
 #, kde-format
 msgid "Check the mount limits in the Mount module."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:672
+#: ekos/align/aligndiagnosis.cpp:676
 #, fuzzy, kde-format
 msgid "Check the mount"
 msgstr "Вақт"
 
-#: ekos/align/aligndiagnosis.cpp:673
+#: ekos/align/aligndiagnosis.cpp:677
 #, fuzzy, kde-format
 #| msgid "Hide faint stars while slewing?"
 msgid "The mount reported an error while slewing."
 msgstr "Пинҳон кардани ситораҳои суст дар вақти тобхурӣ?"
 
-#: ekos/align/aligndiagnosis.cpp:674
+#: ekos/align/aligndiagnosis.cpp:678
 #, kde-format
 msgid "The mount reported an error while syncing."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:675
+#: ekos/align/aligndiagnosis.cpp:679
 #, kde-format
 msgid "Check that the mount is unparked and tracking."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:676
+#: ekos/align/aligndiagnosis.cpp:680
 #, kde-format
 msgid "Check the slew limits set in the mount driver or its hand controller."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:677
+#: ekos/align/aligndiagnosis.cpp:681
 #, kde-format
 msgid "Check the mount cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:684
+#: ekos/align/aligndiagnosis.cpp:688
 #, kde-format
 msgid "The mount cannot sync"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:685
+#: ekos/align/aligndiagnosis.cpp:689
 #, kde-format
 msgid ""
 "The mount driver does not support sync. Use Slew to Target or Nothing "
 "instead."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:694
+#: ekos/align/aligndiagnosis.cpp:698
+#, fuzzy, kde-format
+msgid "Check why the mount stopped"
+msgstr "Вақт"
+
+#: ekos/align/aligndiagnosis.cpp:699
+#, fuzzy, kde-format
+#| msgid "Hide faint stars while slewing?"
+msgid "The mount stopped after the slew and did not track."
+msgstr "Пинҳон кардани ситораҳои суст дар вақти тобхурӣ?"
+
+#: ekos/align/aligndiagnosis.cpp:700
+#, kde-format
+msgid ""
+"Check the mount driver or hand controller for a limit error, e.g. the "
+"meridian limit."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:701
+#, kde-format
+msgid ""
+"Switch tracking on: some mounts end a slew without tracking when tracking "
+"was off before it."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:702
+#, kde-format
+msgid "Check that the slew was not stopped by hand."
+msgstr ""
+
+#: ekos/align/aligndiagnosis.cpp:710
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Enable image transfer"
 msgstr "Андозаи тасвир"
 
-#: ekos/align/aligndiagnosis.cpp:695
+#: ekos/align/aligndiagnosis.cpp:711
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image transfer is disabled for the camera %1."
 msgstr "Андозаи тасвир"
 
-#: ekos/align/aligndiagnosis.cpp:702
+#: ekos/align/aligndiagnosis.cpp:718
 #, fuzzy, kde-format
 #| msgid "Open Cluster"
 msgid "Open the dust cap"
 msgstr "Дастаро кушоед"
 
-#: ekos/align/aligndiagnosis.cpp:703
+#: ekos/align/aligndiagnosis.cpp:719
 #, fuzzy, kde-format
 msgid "The dust cap reports an error."
 msgstr "Бухтаи Гуз"
 
-#: ekos/align/aligndiagnosis.cpp:704
+#: ekos/align/aligndiagnosis.cpp:720
 #, kde-format
 msgid "Open or remove the dust cap by hand."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:705
+#: ekos/align/aligndiagnosis.cpp:721
 #, kde-format
 msgid "Check the dust cap cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:713
+#: ekos/align/aligndiagnosis.cpp:729
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Connect the filter wheel"
 msgstr "Пайвастшавӣ"
 
-#: ekos/align/aligndiagnosis.cpp:714
+#: ekos/align/aligndiagnosis.cpp:730
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The filter wheel is disconnected."
 msgstr "Ҷудо кардан"
 
-#: ekos/align/aligndiagnosis.cpp:722
+#: ekos/align/aligndiagnosis.cpp:738
 #, fuzzy, kde-format
 msgid "Check the filter wheel"
 msgstr "Филтри тасвир"
 
-#: ekos/align/aligndiagnosis.cpp:724
+#: ekos/align/aligndiagnosis.cpp:740
 #, kde-format
 msgid "Change the filter from the Filter Manager and check that it arrives."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:725
+#: ekos/align/aligndiagnosis.cpp:741
 #, kde-format
 msgid "Check the filter wheel cable and power."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:735
+#: ekos/align/aligndiagnosis.cpp:751
 #, kde-format
 msgid "Check the camera cable and power"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:736
+#: ekos/align/aligndiagnosis.cpp:752
 #, kde-format
 msgid "The camera reported %1 exposure errors."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:737
+#: ekos/align/aligndiagnosis.cpp:753
 #, kde-format
 msgid "No image arrived, even after restarting the camera driver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:738
+#: ekos/align/aligndiagnosis.cpp:754
 #, kde-format
 msgid ""
 "Check the camera USB cable and use a powered hub if the camera shares one."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:739
+#: ekos/align/aligndiagnosis.cpp:755
 #, kde-format
 msgid "Check the camera power supply."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:740
+#: ekos/align/aligndiagnosis.cpp:756
 #, kde-format
 msgid "Take a test exposure from the Capture module."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:748
+#: ekos/align/aligndiagnosis.cpp:764
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Check the remote solver"
 msgstr "Фармингтон"
 
-#: ekos/align/aligndiagnosis.cpp:750
+#: ekos/align/aligndiagnosis.cpp:766
 #, kde-format
 msgid "Check that the remote astrometry driver is running."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:751
+#: ekos/align/aligndiagnosis.cpp:767
 #, kde-format
 msgid "Check that the remote computer has index files for this field of view."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:752
+#: ekos/align/aligndiagnosis.cpp:768
 #, kde-format
 msgid "Or switch Align to the local solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:765
+#: ekos/align/aligndiagnosis.cpp:781
 #, fuzzy, kde-format
 msgid "The rotator turned away from the target position angle."
 msgstr "&Нуқта"
 
-#: ekos/align/aligndiagnosis.cpp:769
+#: ekos/align/aligndiagnosis.cpp:785
 #, fuzzy, kde-format
 msgid "The rotator did not reach the target position angle."
 msgstr "&Нуқта"
 
-#: ekos/align/aligndiagnosis.cpp:770
+#: ekos/align/aligndiagnosis.cpp:786
 #, kde-format
 msgid "Check the rotator"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:771
+#: ekos/align/aligndiagnosis.cpp:787
 #, kde-format
 msgid "Check that the rotator turns freely and its cables do not snag."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:772
+#: ekos/align/aligndiagnosis.cpp:788
 #, kde-format
 msgid "Check the reverse direction setting of the rotator driver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:773
+#: ekos/align/aligndiagnosis.cpp:789
 #, kde-format
 msgid "Rotate and solve again."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:866
+#: ekos/align/aligndiagnosis.cpp:882
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Raise the solver timeout to %1 seconds"
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
-#: ekos/align/aligndiagnosis.cpp:867
+#: ekos/align/aligndiagnosis.cpp:883
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "The solver stopped after %1 seconds."
 msgstr "Комил"
 
-#: ekos/align/aligndiagnosis.cpp:885
+#: ekos/align/aligndiagnosis.cpp:901
 #, kde-format
 msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:892
+#: ekos/align/aligndiagnosis.cpp:908
 #, kde-format
 msgid "Check the sky and the dust cap"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:893
+#: ekos/align/aligndiagnosis.cpp:909
 #, kde-format
 msgid "Only %1 stars were found in the failed frame."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:895
+#: ekos/align/aligndiagnosis.cpp:911
 #, kde-format
 msgid "Check that the dust cap or cover is open."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:896
+#: ekos/align/aligndiagnosis.cpp:912
 #, kde-format
 msgid ""
 "Check for clouds, dew on the optics, or an obstruction in front of the "
 "telescope."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:897
+#: ekos/align/aligndiagnosis.cpp:913
 #, kde-format
 msgid "Take a test exposure and look for stars."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:907
+#: ekos/align/aligndiagnosis.cpp:923
 #, kde-format
 msgid ""
 "The stars are rings, darker in the middle, as stars are when the telescope "
 "is out of focus. Their median HFR is %1 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:909
+#: ekos/align/aligndiagnosis.cpp:925
 #, kde-format
 msgid ""
 "The stars are flat discs without a bright core, as stars are when the "
 "telescope is out of focus. Their median HFR is %1 pixels."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:911
+#: ekos/align/aligndiagnosis.cpp:927
 #, fuzzy, kde-format
 #| msgid "Setup Telescopes"
 msgid "Focus the telescope"
 msgstr "Телескопро танзим кунед"
 
-#: ekos/align/aligndiagnosis.cpp:913
+#: ekos/align/aligndiagnosis.cpp:929
 #, kde-format
 msgid "Run autofocus in the Focus module, or focus by hand."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:931
+#: ekos/align/aligndiagnosis.cpp:947
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Turn on mount tracking"
 msgstr "Нишона"
 
-#: ekos/align/aligndiagnosis.cpp:932
+#: ekos/align/aligndiagnosis.cpp:948
 #, kde-format
 msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
 "mount does not track."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:942
+#: ekos/align/aligndiagnosis.cpp:958
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Check the mount tracking"
 msgstr "Нишона"
 
-#: ekos/align/aligndiagnosis.cpp:943
+#: ekos/align/aligndiagnosis.cpp:959
 #, kde-format
 msgid "All stars trailed %1 pixels in the same direction."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:946
+#: ekos/align/aligndiagnosis.cpp:962
 #, kde-format
 msgid "Check that the mount is tracking at the sidereal rate."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:947
+#: ekos/align/aligndiagnosis.cpp:963
 #, kde-format
 msgid ""
 "Check the balance, and that nothing touches the telescope during the "
 "exposure, e.g. wind or cables."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:948
+#: ekos/align/aligndiagnosis.cpp:964
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Use a shorter exposure."
 msgstr "Каталоги FITS нобаён:"
 
-#: ekos/align/aligndiagnosis.cpp:957
+#: ekos/align/aligndiagnosis.cpp:973
 #, kde-format
 msgid "Check the mount for a sudden jump"
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:958
+#: ekos/align/aligndiagnosis.cpp:974
 #, kde-format
 msgid ""
 "Every star appears twice, %1 pixels apart: the mount jumped during the "
 "exposure."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:961
+#: ekos/align/aligndiagnosis.cpp:977
 #, kde-format
 msgid "Check the balance of both axes, and that the clutches are tight."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:962
+#: ekos/align/aligndiagnosis.cpp:978
 #, kde-format
 msgid "Check that no cable snags or pulls on the telescope."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:963
+#: ekos/align/aligndiagnosis.cpp:979
 #, kde-format
 msgid "Check the gear backlash of the mount."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:974
+#: ekos/align/aligndiagnosis.cpp:990
 #, kde-format
 msgid "Image: the star shapes in the failed frame were not measured."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:987
+#: ekos/align/aligndiagnosis.cpp:1003
 #, kde-format
 msgid "Camera, optics and pixel size are set."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:990
+#: ekos/align/aligndiagnosis.cpp:1006
 #, kde-format
 msgid "The image reached KStars."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1000
+#: ekos/align/aligndiagnosis.cpp:1016
 #, kde-format
 msgid ""
 "The solver also ran without the scale and position hints, so a wrong focal "
 "length or a wrong mount position alone is not the cause."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1122
+#: ekos/align/aligndiagnosis.cpp:1140
 #, fuzzy, kde-format
 #| msgid "Choose time interval"
 msgid "Check the Align log"
 msgstr "Вақти фосила интихоб кунед"
 
-#: ekos/align/aligndiagnosis.cpp:1123
+#: ekos/align/aligndiagnosis.cpp:1141
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "No specific cause was found."
 msgstr "Дастгоҳи INDI %1 дигар васл нашудааст."
 
-#: ekos/align/aligndiagnosis.cpp:1126
+#: ekos/align/aligndiagnosis.cpp:1144
 #, kde-format
 msgid ""
 "Check the focal length, reducer and pixel size: a wrong field of view stops "
 "the solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1127
+#: ekos/align/aligndiagnosis.cpp:1145
 #, kde-format
 msgid ""
 "Check the time, time zone and location of KStars and the mount: a wrong "
 "position hint stops the solver."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1128
+#: ekos/align/aligndiagnosis.cpp:1146
 #, kde-format
 msgid "Check that the index files for this field of view are installed."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1129
+#: ekos/align/aligndiagnosis.cpp:1147
 #, kde-format
 msgid ""
 "Enable Alignment Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1154
+#: ekos/align/aligndiagnosis.cpp:1172
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The camera %1 is connected."
 msgstr "Ҷудо кардан"
 
-#: ekos/align/aligndiagnosis.cpp:1164
+#: ekos/align/aligndiagnosis.cpp:1182
 #, fuzzy, kde-format
 msgid "The mount is connected and reports its position."
 msgstr "Ҷузъиёти тирезаро барои объекти асосӣ нишон диҳед."
 
-#: ekos/align/aligndiagnosis.cpp:1176
+#: ekos/align/aligndiagnosis.cpp:1194
 #, kde-format
 msgid "Focal length, aperture and pixel size are set."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1194
+#: ekos/align/aligndiagnosis.cpp:1212
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1241
+#: ekos/align/aligndiagnosis.cpp:1259
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Align looks ready"
 msgstr "Дигар"
 
-#: ekos/align/aligndiagnosis.cpp:1242
+#: ekos/align/aligndiagnosis.cpp:1260
 #, kde-format
 msgid "No problems were found in the Align setup."
 msgstr ""
 
-#: ekos/align/aligndiagnosis.cpp:1246
+#: ekos/align/aligndiagnosis.cpp:1264
 #, fuzzy, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
 msgstr[0] "Пурборкунии FITS..."
 msgstr[1] "Пурборкунии FITS..."
 
-#: ekos/align/aligndiagnosis.cpp:1247
+#: ekos/align/aligndiagnosis.cpp:1265
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
 msgstr ""
@@ -23068,7 +23116,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:44 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:467
+#: fitsviewer/fitstab.cpp:468
 #, kde-format
 msgid "Value"
 msgstr "Арзиш"
@@ -25805,7 +25853,7 @@ msgid ""
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:4127
+#: ekos/guide/guide.cpp:4129
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -26705,7 +26753,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Тасвирро нигоҳ дашта натавонист:%1 "
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:828
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:830
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -36481,28 +36529,28 @@ msgstr "Бухтаи Гуз"
 msgid "Recent Images"
 msgstr "Пешнамоиши %1"
 
-#: fitsviewer/fitstab.cpp:479
+#: fitsviewer/fitstab.cpp:480
 #, fuzzy, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "RA:"
 
-#: fitsviewer/fitstab.cpp:642
+#: fitsviewer/fitstab.cpp:644
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:657
+#: fitsviewer/fitstab.cpp:659
 #, fuzzy, kde-format
 msgid "Simbad query in progress..."
 msgstr "Телескопро танзим кунед"
 
-#: fitsviewer/fitstab.cpp:819
+#: fitsviewer/fitstab.cpp:821
 #, fuzzy, kde-format
 msgid "Num"
 msgstr "mu"
 
-#: fitsviewer/fitstab.cpp:820
+#: fitsviewer/fitstab.cpp:822
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Portugal"
@@ -36512,7 +36560,7 @@ msgstr "Португалия"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
-#: fitsviewer/fitstab.cpp:821 fitsviewer/opsfits.ui:445
+#: fitsviewer/fitstab.cpp:823 fitsviewer/opsfits.ui:445
 #: tools/imagingplanner.ui:1377 tools/imagingplanner.ui:1714
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
@@ -36520,64 +36568,64 @@ msgstr "Португалия"
 msgid "Simbad"
 msgstr "Симбод"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:824
 #, fuzzy, kde-format
 msgid "NED"
 msgstr ""
 "_: Шимоли шарқ\n"
 "Ш Ш"
 
-#: fitsviewer/fitstab.cpp:824
+#: fitsviewer/fitstab.cpp:826
 #, fuzzy, kde-format
 #| msgid "Type"
 msgid "Type Code"
 msgstr "Шакл"
 
-#: fitsviewer/fitstab.cpp:825
+#: fitsviewer/fitstab.cpp:827
 #, fuzzy, kde-format
 msgid "Type Label"
 msgstr "Lat.:"
 
-#: fitsviewer/fitstab.cpp:827 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:829 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Distance:"
 msgid "Distance"
 msgstr "Масофа:"
 
-#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1649
+#: fitsviewer/fitstab.cpp:831 fitsviewer/fitsviewer.cpp:1649
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Баромадани офтоб:"
 
-#: fitsviewer/fitstab.cpp:834
+#: fitsviewer/fitstab.cpp:836
 #, kde-format
 msgid "Item reference number"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:835
+#: fitsviewer/fitstab.cpp:837
 #, fuzzy, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Тасвирро нигоҳ дашта натавонист:%1 "
 
-#: fitsviewer/fitstab.cpp:837
+#: fitsviewer/fitstab.cpp:839
 #, fuzzy, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Тасвирро нигоҳ дашта натавонист:%1 "
 
-#: fitsviewer/fitstab.cpp:838
+#: fitsviewer/fitstab.cpp:840
 #, fuzzy, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Тасвирро нигоҳ дашта натавонист:%1 "
 
-#: fitsviewer/fitstab.cpp:839
+#: fitsviewer/fitstab.cpp:841
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "Catalog Object"
 msgstr "Объекти IC"
 
-#: fitsviewer/fitstab.cpp:841
+#: fitsviewer/fitstab.cpp:843
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -36585,7 +36633,7 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:844
+#: fitsviewer/fitstab.cpp:846
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -36593,105 +36641,105 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:846
+#: fitsviewer/fitstab.cpp:848
 #, fuzzy, kde-format
 #| msgid "Topocentric coordinates"
 msgid "Object coordinates"
 msgstr "Координатҳои топоценрикӣ"
 
-#: fitsviewer/fitstab.cpp:847
+#: fitsviewer/fitstab.cpp:849
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:849
+#: fitsviewer/fitstab.cpp:851
 #, fuzzy, kde-format
 msgid "Object V magnitude"
 msgstr "Ҷустуҷӯи объект"
 
-#: fitsviewer/fitstab.cpp:850
+#: fitsviewer/fitstab.cpp:852
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:939
+#: fitsviewer/fitstab.cpp:941
 #, fuzzy, kde-format
 msgid "RAM"
 msgstr "RA:"
 
-#: fitsviewer/fitstab.cpp:1326 fitsviewer/fitstab.cpp:1471
+#: fitsviewer/fitstab.cpp:1328 fitsviewer/fitstab.cpp:1473
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgctxt "@title:window"
 msgid "%1"
 msgstr "ПВ (%1):"
 
-#: fitsviewer/fitstab.cpp:1457
+#: fitsviewer/fitstab.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Set Time..."
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Вақтро танзим кунед..."
 
-#: fitsviewer/fitstab.cpp:1574 fitsviewer/fitstab.cpp:1578
+#: fitsviewer/fitstab.cpp:1577 fitsviewer/fitstab.cpp:1581
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Хидматгори номнависӣ"
 
-#: fitsviewer/fitstab.cpp:1610
+#: fitsviewer/fitstab.cpp:1613
 #, fuzzy, kde-format
 msgid "Image save error: %1"
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
-#: fitsviewer/fitstab.cpp:1610
+#: fitsviewer/fitstab.cpp:1613
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Save"
 msgstr "Андозаи тасвир"
 
-#: fitsviewer/fitstab.cpp:1614
+#: fitsviewer/fitstab.cpp:1617
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
-#: fitsviewer/fitstab.cpp:1732
+#: fitsviewer/fitstab.cpp:1735
 #, kde-format
 msgid "RGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1732
+#: fitsviewer/fitstab.cpp:1735
 #, kde-format
 msgid "LRGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1903
+#: fitsviewer/fitstab.cpp:1906
 #, fuzzy, kde-format
 #| msgid "Loading FITS..."
 msgid "(%1) Stopped Watching"
 msgstr "Пурборкунии FITS..."
 
-#: fitsviewer/fitstab.cpp:1904
+#: fitsviewer/fitstab.cpp:1907
 #, fuzzy, kde-format
 #| msgid "Loading FITS..."
 msgid "(%1) Watching"
 msgstr "Пурборкунии FITS..."
 
-#: fitsviewer/fitstab.cpp:1905 fitsviewer/fitstab.cpp:1911
+#: fitsviewer/fitstab.cpp:1908 fitsviewer/fitstab.cpp:1914
 #, fuzzy, kde-format
 #| msgctxt "angular size in arcminutes"
 #| msgid "%1 arcmin"
 msgid "%1 %2"
 msgstr "%1 дақ"
 
-#: fitsviewer/fitstab.cpp:1909
+#: fitsviewer/fitstab.cpp:1912
 #, fuzzy, kde-format
 #| msgid "INDI"
 msgid "(%1) Stopped"
 msgstr "INDI"
 
-#: fitsviewer/fitstab.cpp:1910
+#: fitsviewer/fitstab.cpp:1913
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"
