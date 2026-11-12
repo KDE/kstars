@@ -331,16 +331,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
             [ = ](const QString & text)
     {
         Options::setProfile(text);
-        if (text == "Simulators")
-        {
-            editProfileB->setEnabled(false);
-            deleteProfileB->setEnabled(false);
-        }
-        else
-        {
-            editProfileB->setEnabled(true);
-            deleteProfileB->setEnabled(true);
-        }
+        updateProfileButtons();
     });
 
     // Settle timer
@@ -823,6 +814,16 @@ void Manager::loadProfiles()
     if (index == -1)
         index = 0;
     profileCombo->setCurrentIndex(index);
+    // setCurrentIndex() does not emit currentTextChanged when the index is already selected, e.g. the first
+    // profile after setting the model with blocked signals
+    updateProfileButtons();
+}
+
+void Manager::updateProfileButtons()
+{
+    const bool editable = profileCombo->currentText() != "Simulators";
+    editProfileB->setEnabled(editable);
+    deleteProfileB->setEnabled(editable);
 }
 
 void Manager::syncProfilesFromWebManager(const QSharedPointer<ProfileInfo> &pi)

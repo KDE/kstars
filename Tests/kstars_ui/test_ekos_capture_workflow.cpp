@@ -1295,7 +1295,9 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->setupTab, 1000);
-    QVERIFY(m_CaptureHelper->setupEkosProfile("Simulators", false));
+    // A profile of its own: the built-in "Simulators" profile cannot be edited, so the Flip Flat could
+    // not be added to it, and the shared test profile must not start the Flip Flat for other tests.
+    QVERIFY(m_CaptureHelper->setupEkosProfile("Test profile (Flip Flat)", false));
     // start the profile
     KTRY_EKOS_CLICK(processINDIB);
 
@@ -1326,6 +1328,12 @@ void TestEkosCaptureWorkflow::testDustcapSource()
 
     // receive status updates from all devices
     m_CaptureHelper->connectModules();
+
+    // the Flip Flat has to be the dust cap and the light box, otherwise flats wait for a manual cover
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::OpticalTrainManager::Instance()->getDustCap(m_CaptureHelper->m_primaryTrain) != nullptr,
+                             10000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::OpticalTrainManager::Instance()->getLightBox(m_CaptureHelper->m_primaryTrain) != nullptr,
+                             10000);
 
     // switch to capture module
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
@@ -3015,6 +3023,8 @@ void TestEkosCaptureWorkflow::init()
     KVERIFY_EKOS_IS_OPENED();
     // clear light panel
     m_CaptureHelper->m_LightPanelDevice = nullptr;
+    // clear dust cap, so that later optical trains do not refer to the Flip Flat of testDustcapSource()
+    m_CaptureHelper->m_DustCapDevice = nullptr;
     // clear rotator
     m_CaptureHelper->m_RotatorDevice = nullptr;
     // disable reset jobs warning

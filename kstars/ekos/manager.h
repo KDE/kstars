@@ -647,6 +647,11 @@ class Manager : public QDialog, public Ui::Manager
         void loadDrivers();
         void loadProfiles();
         /**
+         * @brief updateProfileButtons Enable editing and deleting the selected profile, except for the built-in
+         *        Simulators profile.
+         */
+        void updateProfileButtons();
+        /**
          * @brief syncProfilesFromWebManager Fetch all profiles from the INDI Web Manager and import
          *        any that do not already exist in the local KStars database. Profiles that exist in
          *        KStars (matched by name) are never overwritten — KStars takes precedence.

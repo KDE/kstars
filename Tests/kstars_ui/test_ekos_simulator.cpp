@@ -39,6 +39,17 @@ void TestEkosSimulator::initTestCase()
 {
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
+
+    // Regression test: the built-in Simulators profile cannot be edited or deleted. When it was the profile
+    // selected at startup, the Edit and Delete buttons were enabled nevertheless. This has to be checked before
+    // any test selects a profile, which updates the buttons.
+    KTRY_EKOS_GADGET(QComboBox, profileCombo);
+    KTRY_EKOS_GADGET(QPushButton, editProfileB);
+    KTRY_EKOS_GADGET(QPushButton, deleteProfileB);
+    // the fresh test configuration starts with the Simulators profile
+    QCOMPARE(profileCombo->currentText(), QString("Simulators"));
+    QVERIFY(!editProfileB->isEnabled());
+    QVERIFY(!deleteProfileB->isEnabled());
 }
 
 void TestEkosSimulator::cleanupTestCase()
