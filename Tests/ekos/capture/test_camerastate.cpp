@@ -14,6 +14,7 @@
 #include "../../testhelpers.h"
 
 #include <QRegularExpression>
+#include <QSignalSpy>
 #include <QTest>
 
 // Tests the in-sequence focus decisions of CameraState::startFocusIfRequired(), in particular that focusing runs with
@@ -39,6 +40,12 @@ class TestCameraState : public QObject
         void testNoFocusRequired();
         void testFocusFallsBackIfFilterUnchanged();
         void testNewJobClearsFilterRequest();
+
+        void testGuideDeviationTimeout_data();
+        void testGuideDeviationTimeout();
+
+        void testFocusAbortedAbortsOnlyRunningCapture_data();
+        void testFocusAbortedAbortsOnlyRunningCapture();
 
     private:
         enum Trigger
@@ -326,6 +333,94 @@ void TestCameraState::testNewJobClearsFilterRequest()
     QVERIFY(m_State->startFocusIfRequired());
     QCOMPARE(m_Events, QStringList({"filter", "filter"}));
     QCOMPARE(m_FilterPositions, QList<int>({haPosition, haPosition}));
+}
+
+void TestCameraState::testGuideDeviationTimeout_data()
+{
+    QTest::addColumn<int>("captureState");
+    QTest::addColumn<bool>("deviationDetected");
+    QTest::addColumn<bool>("abort");
+
+    // the guider did not bring the deviation below the limit in time
+    QTest::newRow("suspended by guide deviation") << int(Ekos::CAPTURE_SUSPENDED) << true << true;
+    // suspended for another reason, the guide deviation timer has nothing to do with it
+    QTest::newRow("suspended without guide deviation") << int(Ekos::CAPTURE_SUSPENDED) << false << false;
+    // capture continued in the meantime (e.g. meridian flip), nothing to abort
+    QTest::newRow("capturing") << int(Ekos::CAPTURE_CAPTURING) << true << false;
+}
+
+// Regression test: capture suspended because of a guide deviation has to be aborted when the guider does not
+// recover within the guide deviation timeout. Suspending clears the active job, and the timeout used to check
+// for an aborted active job, so it never aborted and the capture stayed suspended forever.
+void TestCameraState::testGuideDeviationTimeout()
+{
+    QFETCH(int, captureState);
+    QFETCH(bool, deviationDetected);
+    QFETCH(bool, abort);
+
+    createState();
+    // suspending ends with no active job
+    m_State->setActiveJob(nullptr);
+    m_State->setCaptureState(static_cast<Ekos::CaptureState>(captureState));
+    m_State->setGuidingDeviationDetected(deviationDetected);
+
+    QSignalSpy abortSpy(m_State.data(), &Ekos::CameraState::abortCapture);
+    m_State->getGuideDeviationTimer().setInterval(10);
+    m_State->getGuideDeviationTimer().start();
+
+    if (abort)
+    {
+        QVERIFY(abortSpy.wait(2000));
+        QCOMPARE(abortSpy.count(), 1);
+        // a guide deviation within the limits must not resume the aborted sequence
+        QVERIFY(!m_State->isGuidingDeviationDetected());
+    }
+    else
+    {
+        QVERIFY(!abortSpy.wait(200));
+        QCOMPARE(m_State->isGuidingDeviationDetected(), deviationDetected);
+    }
+}
+
+void TestCameraState::testFocusAbortedAbortsOnlyRunningCapture_data()
+{
+    QTest::addColumn<bool>("busy");
+    QTest::addColumn<bool>("activeJob");
+    QTest::addColumn<bool>("abort");
+
+    // e.g. the user stops a focus framing loop while no sequence runs
+    QTest::newRow("idle") << false << false << false;
+    // a running sequence depends on the focus result, e.g. in-sequence focusing
+    QTest::newRow("sequence running") << true << true << true;
+    // the sequence is being prepared
+    QTest::newRow("busy without active job") << true << false << true;
+    QTest::newRow("active job") << false << true << true;
+}
+
+// Regression test: Focus reports FOCUS_ABORTED when its framing loop or a manual autofocus run is stopped.
+// An idle capture used to log "Autofocus failed. Aborting exposure..." and abort, which changed its state
+// from IDLE to ABORTED and switched off a light box it did not use.
+void TestCameraState::testFocusAbortedAbortsOnlyRunningCapture()
+{
+    QFETCH(bool, busy);
+    QFETCH(bool, activeJob);
+    QFETCH(bool, abort);
+
+    createState();
+    if (!activeJob)
+        m_State->setActiveJob(nullptr);
+    m_State->setBusy(busy);
+
+    QSignalSpy abortSpy(m_State.data(), &Ekos::CameraState::abortCapture);
+    m_State->updateFocusState(Ekos::FOCUS_ABORTED);
+
+    // A job in preparation reports the failed focus with its own abort, so a running capture may see two
+    if (abort)
+        QVERIFY(abortSpy.count() >= 1);
+    else
+        QCOMPARE(abortSpy.count(), 0);
+    // the focus state is recorded in any case
+    QCOMPARE(m_State->getFocusState(), Ekos::FOCUS_ABORTED);
 }
 
 QTEST_MAIN(TestCameraState)

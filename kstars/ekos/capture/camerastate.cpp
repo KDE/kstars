@@ -160,8 +160,8 @@ void CameraState::setCaptureState(CaptureState value)
         case CAPTURE_SUSPENDED:
         case CAPTURE_PAUSED:
             // meridian flip may take place if requested
-            if (mf_state->getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
-                mf_state->updateMeridianFlipStage(MeridianFlipState::MF_READY);
+            if (getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
+                getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_READY);
             break;
         case CAPTURE_IMAGE_RECEIVED:
             // remember pause planning before receiving an image
@@ -745,8 +745,13 @@ void CameraState::updateFocusState(FocusState state)
                 // Meridian flip will abort focusing. In this case, after the meridian flip has completed capture
                 // will restart the re-focus attempt. Therefore we only abort capture if meridian flip is not running.
                 Q_EMIT newFocusStatus(state);
-                appendLogText(i18n("Autofocus failed. Aborting exposure..."));
-                Q_EMIT abortCapture();
+                // Only a running capture depends on the focus result. Focus also reports an abort when a framing
+                // loop or a manual autofocus run is stopped while the capture is idle.
+                if (isBusy() || m_activeJob != nullptr)
+                {
+                    appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+                    Q_EMIT abortCapture();
+                }
             }
             break;
         case FOCUS_COMPLETE:
@@ -1032,17 +1037,16 @@ bool CameraState::checkAlignmentAfterFlip()
 
 void CameraState::checkGuideDeviationTimeout()
 {
-    if (m_activeJob && m_activeJob->getStatus() == JOB_ABORTED
-            && isGuidingDeviationDetected())
+    // Suspending the capture clears the active job, so the suspension is recognized by the capture state.
+    // A meridian flip changes the capture state, so the timeout does not interfere with it.
+    if (m_CaptureState == CAPTURE_SUSPENDED && isGuidingDeviationDetected())
     {
         appendLogText(i18n("Guide module timed out."));
+        // A later guide deviation within the limits must not resume the aborted sequence
         setGuidingDeviationDetected(false);
 
-        // If capture was suspended, it should be aborted (failed) now.
-        if (m_CaptureState == CAPTURE_SUSPENDED)
-        {
-            setCaptureState(CAPTURE_ABORTED);
-        }
+        // The guider did not recover in time, so the suspended sequence fails now
+        Q_EMIT abortCapture();
     }
 }
 

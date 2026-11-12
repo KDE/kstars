@@ -224,16 +224,18 @@ void TestEkosFocus::testCaptureStates()
     KTRY_FOCUS_GADGET(QPushButton, startLoopB);
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
 
-    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED, ABORTED.");
+    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_CLICK(startLoopB);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 1, 5000);
     KTRY_FOCUS_CLICK(stopFocusB);
-    QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 4, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 3, 5000);
+    // the abort is reported once
+    QTest::qWait(1000);
+    QCOMPARE(state_list.count(), 3);
     QCOMPARE((int)state_list[0], (int)Ekos::FocusState::FOCUS_FRAMING);
     QCOMPARE((int)state_list[1], (int)Ekos::FocusState::FOCUS_PROGRESS);
     QCOMPARE((int)state_list[2], (int)Ekos::FocusState::FOCUS_ABORTED);
-    QCOMPARE((int)state_list[3], (int)Ekos::FocusState::FOCUS_ABORTED);
     state_list.clear();
 
     KTRY_FOCUS_GADGET(QCheckBox, focusAutoStarEnabled);
