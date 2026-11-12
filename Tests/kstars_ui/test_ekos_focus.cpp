@@ -20,6 +20,7 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
 #include "indi/indicamera.h"
+#include "indi/indifocuser.h"
 #include "Options.h"
 
 #include <QJsonObject>
@@ -214,6 +215,31 @@ static bool setSimulatorNoise(double value, double &previous)
     KTRY_VERIFY_WITH_TIMEOUT_SUB(std::abs(camera->getNumber("SIMULATOR_SETTINGS").findWidgetByName("SIM_NOISE")->getValue()
                                           - value) < 1e-6, 5000);
     return true;
+}
+
+// Set the time the Focuser Simulator takes per step, wait until the driver confirms it, and return the previous value
+static bool setFocuserSimulatorDelay(double microseconds, double &previous)
+{
+    auto focuser = Ekos::OpticalTrainManager::Instance()->getFocuser(
+                       Ekos::Manager::Instance()->focusModule()->mainFocuser()->opticalTrain());
+    KVERIFY_SUB(focuser != nullptr);
+    auto delay = focuser->getNumber("DELAY");
+    KVERIFY_SUB(delay.isValid());
+    previous = delay[0].getValue();
+    delay[0].setValue(microseconds);
+    focuser->sendNewProperty(delay);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(std::abs(focuser->getNumber("DELAY")[0].getValue() - microseconds) < 1e-6, 5000);
+    return true;
+}
+
+// Current position reported by the Focuser Simulator
+static int focuserSimulatorPosition()
+{
+    auto focuser = Ekos::OpticalTrainManager::Instance()->getFocuser(
+                       Ekos::Manager::Instance()->focusModule()->mainFocuser()->opticalTrain());
+    if (focuser == nullptr || !focuser->getNumber("ABS_FOCUS_POSITION").isValid())
+        return -1;
+    return static_cast<int>(focuser->getNumber("ABS_FOCUS_POSITION")[0].getValue());
 }
 
 void TestEkosFocus::testCaptureStates()
@@ -435,6 +461,56 @@ void TestEkosFocus::testFocusAbort()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
     QVERIFY(!autofocus.started);
+}
+
+void TestEkosFocus::testFocusAbortWhileFocuserMoves()
+{
+    // Regression test: when autofocus was aborted while the focuser was still moving, the arrival of that move was
+    // taken for the first leg of the overscan move back to the initial position. The overscan correction was
+    // computed from the wrong position, and the focuser ended up near the aborted move's target.
+    KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
+    KTRY_FOCUS_SHOW();
+    KTRY_MOUNT_SYNC(60.0, true, -1);
+    const int initialFocusPosition = 35000;
+    KTRY_FOCUS_MOVETO(initialFocusPosition);
+    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
+    KTRY_FOCUS_EXPOSURE(1, 99);
+
+    KTELL("Slow down the focuser so that each autofocus step takes a few seconds.");
+    // 2 ms per step: the first outward step of 5,100 steps takes about 10 seconds
+    double delay = 0;
+    QVERIFY(setFocuserSimulatorDelay(2000, delay));
+    auto restoreDelay = qScopeGuard([delay]()
+    {
+        double ignored;
+        setFocuserSimulatorDelay(delay, ignored);
+    });
+
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
+
+    KTELL("Start autofocus, abort it as soon as it moves the focuser.");
+    KFocusProcedureSteps autofocus;
+    bool moving = false;
+    auto focuser = Ekos::Manager::Instance()->focusModule()->mainFocuser().get();
+    QMetaObject::Connection logConnection = connect(focuser, &Ekos::Focus::newLog, this, [&moving](const QString & text)
+    {
+        if (text.contains("Focusing outward by") || text.contains("Focusing inward by"))
+            moving = true;
+    });
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(moving, 30000);
+    disconnect(logConnection);
+    KTRY_FOCUS_CLICK(stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 30000);
+
+    KTELL("Expect the focuser back at its initial position, and no further move.");
+    QTRY_COMPARE_WITH_TIMEOUT(focuserSimulatorPosition(), initialFocusPosition, 60000);
+    // a queued stray move would take seconds to complete
+    QTest::qWait(15000);
+    QCOMPARE(focuserSimulatorPosition(), initialFocusPosition);
 }
 
 void TestEkosFocus::testGuidingSuspendWhileFocusing()

@@ -2181,6 +2181,7 @@ bool Focus::changeFocus(int amount, bool updateDir)
     {
         m_LastFocusSteps = newPosition;
         m_Focuser->moveAbs(newPosition);
+        m_AbsMoveInFlight = true;
         appendLogText(i18n("Focusing %2 by %1 steps...", std::abs(absNewAmount), dirStr));
     }
     else if (canRelMove)
@@ -2897,6 +2898,40 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
 
 void Focus::resetFocuser()
 {
+    if (!(m_Focuser && m_Focuser->isConnected() && initialFocuserAbsPosition >= 0))
+        return;
+
+    // A move that is still in flight, e.g. when autofocus is aborted while the focuser moves, would be taken for
+    // the arrival of the move back, and an overscan correction would be computed from the wrong position.
+    // So wait until it has arrived, then move back from the position actually reached.
+    if (m_AbsMoveInFlight || currentPositionState == IPS_BUSY)
+    {
+        if (!m_ResetFocuserPending)
+        {
+            m_ResetFocuserPending = true;
+            qCDebug(KSTARS_EKOS_FOCUS) << "Focuser is moving, moving back to" << initialFocuserAbsPosition
+                                       << "once the move has arrived";
+            // Do not wait forever for a focuser that does not report the end of its move
+            QTimer::singleShot(m_OpsFocusMechanics->focusMotionTimeout->value() * 1000, this, [this]()
+            {
+                if (m_ResetFocuserPending)
+                {
+                    qCWarning(KSTARS_EKOS_FOCUS) << "Focuser did not report the end of its move, moving back anyway";
+                    m_ResetFocuserPending = false;
+                    m_AbsMoveInFlight = false;
+                    focuserAdditionalMovement = 0;
+                    moveFocuserToInitialPosition();
+                }
+            });
+        }
+        return;
+    }
+
+    moveFocuserToInitialPosition();
+}
+
+void Focus::moveFocuserToInitialPosition()
+{
     // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
     if (m_Focuser && m_Focuser->isConnected() && initialFocuserAbsPosition >= 0)
     {
@@ -3430,6 +3465,8 @@ void Focus::setHFRComplete()
 
             // If the user does not select for a timeout period, we abort.
             waitStarSelectTimer.start();
+            // the frame is processed, so the user may capture again while selecting
+            resetButtons();
             return;
         }
     }
@@ -4722,6 +4759,19 @@ void Focus::updateProperty(INDI::Property prop)
             qCDebug(KSTARS_EKOS_FOCUS) << "Can't access FOCUS_ABSOLUTE_POSITION. Current state:"
                                        << pstateStr(currentPositionState) << " New state:" << pstateStr(newState);
 
+        if (newState != IPS_BUSY)
+            m_AbsMoveInFlight = false;
+
+        if (m_ResetFocuserPending && newState != IPS_BUSY)
+        {
+            // The move that was in flight has ended, now move back to the initial position from here.
+            // The overscan of the interrupted move no longer applies.
+            m_ResetFocuserPending = false;
+            focuserAdditionalMovement = 0;
+            moveFocuserToInitialPosition();
+            return;
+        }
+
         if (newState != IPS_OK)
         {
             if (inAutoFocus || inAdjustFocus || adaptFocus->inAdaptiveFocus())
@@ -5526,7 +5576,11 @@ void Focus::checkFocus(double requiredHFR)
         }
 
         appendLogText(i18n("Discarding Check Focus request - %1 in progress.", str));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_INTERNAL);
+        m_StartRetries = 0;
+        // A running autofocus reports its own result, which answers the request. Aborting it here would also
+        // interrupt a focuser move that is still in flight.
+        if (!inAutoFocus)
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_INTERNAL);
         return;
     }
 

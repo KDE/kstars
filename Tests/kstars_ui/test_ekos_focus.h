@@ -175,6 +175,8 @@ class TestEkosFocus : public QObject
         void testDuplicateFocusRequest();
         void testAutofocusSignalEmission();
         void testFocusAbort();
+        /** @brief Regression test: aborting autofocus while the focuser moves returns it to its initial position. */
+        void testFocusAbortWhileFocuserMoves();
         void testGuidingSuspendWhileFocusing();
         void testFocusWhenHFRChecking();
         void testFocusFailure();

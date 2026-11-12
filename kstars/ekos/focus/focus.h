@@ -364,8 +364,14 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
          * @brief Move the focuser to the initial focus position.
+         *        If the focuser is still moving, this waits until the move has arrived.
          */
         void resetFocuser();
+
+        /**
+         * @brief Move the focuser to the initial focus position right away.
+         */
+        void moveFocuserToInitialPosition();
 
         /**
              * @brief checkStopFocus Perform checks before stopping the autofocus operation. Some checks are necessary for in-sequence focusing.
@@ -1427,6 +1433,10 @@ class Focus : public QWidget, public Ui::Focus
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
         int focuserAdditionalMovement { 0 };
         bool focuserAdditionalMovementUpdateDir { true };
+        // An absolute move has been sent and has not arrived yet
+        bool m_AbsMoveInFlight { false };
+        // The move back to the initial position waits until the move in flight has arrived
+        bool m_ResetFocuserPending { false };
         int linearRequestedPosition { 0 };
 
         bool hasDeviation { false };
