@@ -74,6 +74,8 @@ void CameraState::setActiveJob(const QSharedPointer<SequenceJob> &value)
 
     // set the new value
     m_activeJob = value;
+    // a filter change requested for focusing belongs to the previous job
+    m_FocusFilterRequest = INVALID_VALUE;
 
     // create job connections
     if (m_activeJob != nullptr)
@@ -830,31 +832,25 @@ bool CameraState::startFocusIfRequired()
         return false;
     }
 
-    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
+    // Wait until the filter change requested by prepareFocusFilter() has completed
+    if (m_FocusFilterRequest != INVALID_VALUE && m_FilterManagerState != FILTER_IDLE)
+        return true;
 
-    // Post meridian flip we need to reset filter _before_ running in-sequence focusing
-    // as it could have changed for whatever reason (e.g. alignment used a different filter).
-    // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
-    // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-    // Note: By the time this code runs, MF stage has already transitioned to MF_NONE.
-    // We detect a post-MF refocus via the refocus reason instead.
-    if (reason == RefocusState::REFOCUS_POST_MF)
-    {
-        int targetFilterPosition = m_activeJob->getTargetFilter();
-        if (targetFilterPosition > 0 && targetFilterPosition != getCurrentFilterPosition())
-        {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF focus: Resetting filter from position" << getCurrentFilterPosition()
-                                         << "to target position" << targetFilterPosition;
-            Q_EMIT newFilterPosition(targetFilterPosition);
-        }
-    }
+    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
 
     // no focusing necessary
     if (reason == RefocusState::REFOCUS_NONE)
     {
+        m_FocusFilterRequest = INVALID_VALUE;
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: No focus required at this time";
         return false;
     }
+
+    // Focusing and the HFR check capture frames with the filter in place, so it has to be the filter of the job.
+    // Adaptive focus only moves the focuser, and the filter offset applied when the job's filter is set accounts
+    // for the filter.
+    if (reason != RefocusState::REFOCUS_ADAPTIVE && prepareFocusFilter(reason))
+        return true;
 
     qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: Focus required, reason:" << reason
                                  << "refocusAfterMeridianFlip flag:" << m_refocusState->isRefocusAfterMeridianFlip();
@@ -910,6 +906,43 @@ bool CameraState::startFocusIfRequired()
     }
 
     setCaptureState(CAPTURE_FOCUSING);
+    return true;
+}
+
+bool CameraState::prepareFocusFilter(RefocusState::RefocusReason reason)
+{
+    const int targetFilterPosition = m_activeJob->getTargetFilter();
+
+    // Nothing to do without a filter wheel, without a job filter or if the job filter is in place already
+    if (targetFilterPosition <= 0 || m_CurrentFilterPosition <= 0 || targetFilterPosition == m_CurrentFilterPosition)
+    {
+        m_FocusFilterRequest = INVALID_VALUE;
+        return false;
+    }
+
+    // The filter manager is idle but the filter has not changed, so it did not carry out the request (e.g. no filter
+    // wheel in the device adaptor). Focus on the current filter rather than waiting until capture times out.
+    if (m_FocusFilterRequest == targetFilterPosition)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Filter" << targetFilterPosition << "requested for focusing, but the filter is"
+                                       << m_CurrentFilterPosition << "- focusing with the current filter.";
+        m_FocusFilterRequest = INVALID_VALUE;
+        return false;
+    }
+
+    // FilterManager does not need to run its autofocus on filter change before an autofocus. The HFR check runs
+    // autofocus only if the HFR is too high, so it keeps the policy of the filter change at the start of the exposure.
+    const FilterManager::FilterPolicy policy = (reason == RefocusState::REFOCUS_HFR) ? FilterManager::ALL_POLICIES :
+        FilterManager::NO_AUTOFOCUS_POLICY;
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: changing filter from position" << m_CurrentFilterPosition
+                                 << "to job filter position" << targetFilterPosition << "before focusing, reason:" << reason
+                                 << "policy:" << policy;
+    appendLogText(i18n("Changing filter to %1 before focusing...",
+                       m_activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+
+    m_FocusFilterRequest = targetFilterPosition;
+    Q_EMIT newFilterPosition(targetFilterPosition, policy);
     return true;
 }
 

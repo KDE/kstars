@@ -241,6 +241,18 @@ class TestEkosCaptureWorkflow : public QObject
          */
         void testCaptureHFRCheckFilterRestoration();
 
+        /**
+         * @brief Regression test: in-sequence autofocus has to run with the filter of the capture job,
+         *        not with the filter another module (e.g. Align) left in place.
+         *
+         * Steps:
+         * 1. Run autofocus with the Luminance filter, which leaves Luminance in place like an alignment would.
+         * 2. Remove the Luminance lock of the Red filter so that focusing for Red really uses Red.
+         * 3. Add a Red capture sequence and request an in-sequence autofocus.
+         * 4. Start capturing and assert that the autofocus completes with Red in place.
+         */
+        void testCaptureRefocusWithJobFilter();
+
         /** @brief Test if re-focusing is triggered when the temperature changes. */
         void testCaptureRefocusTemperature();
 

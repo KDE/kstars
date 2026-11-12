@@ -238,6 +238,55 @@ void TestEkosCaptureWorkflow::testCaptureHFRCheckFilterRestoration()
     QTRY_COMPARE_WITH_TIMEOUT(filtermanager->getFilterPosition(), redFilterPos, 10000);
 }
 
+void TestEkosCaptureWorkflow::testCaptureRefocusWithJobFilter()
+{
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
+    // default initialization; prepareFocusModule() sets focusFilter = "Luminance"
+    // and locks every filter to "Luminance".
+    QVERIFY(prepareTestCase());
+
+    Ekos::Manager *manager = Ekos::Manager::Instance();
+    Ekos::Capture *capture = manager->captureModule();
+    auto focuser = manager->focusModule()->mainFocuser();
+    auto filtermanager = focuser->filterManager();
+    const int lumFilterPos = filtermanager->getFilterLabels().indexOf("Luminance") + 1;
+    const int redFilterPos = filtermanager->getFilterLabels().indexOf("Red") + 1;
+    QVERIFY2(lumFilterPos > 0 && redFilterPos > 0, "Luminance or Red filter missing in the CCD Simulator filter wheel");
+
+    // Focusing for Red has to use Red itself
+    QVERIFY(filtermanager->setFilterLock(redFilterPos - 1, NULL_FILTER));
+
+    // Autofocus with Luminance leaves Luminance in place, like an alignment with the Luminance filter
+    QVERIFY(m_CaptureHelper->executeFocusing());
+    QTRY_COMPARE_WITH_TIMEOUT(filtermanager->getFilterPosition(), lumFilterPos, 10000);
+
+    // Red capture sequence with an in-sequence autofocus due before its first frame
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_CAPTURE_ADD_LIGHT(5.0, 1, 0.0, "Red", "test", imagepath);
+    capture->inSequenceAFRequested(true, "");
+
+    // Remember the filter in place when the in-sequence autofocus completes
+    int focusFilterPos = -1;
+    connect(focuser.get(), &Ekos::Focus::newStatus, this, [&](Ekos::FocusState state)
+    {
+        if (state == Ekos::FOCUS_COMPLETE && focusFilterPos < 0)
+            focusFilterPos = filtermanager->getFilterPosition();
+    });
+    auto disconnectFocus = qScopeGuard([&]()
+    {
+        disconnect(focuser.get(), &Ekos::Focus::newStatus, this, nullptr);
+    });
+
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+    KTRY_CLICK(capture, startB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 120000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+
+    QCOMPARE(focusFilterPos, redFilterPos);
+}
+
 
 void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
 {

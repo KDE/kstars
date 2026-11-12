@@ -1007,6 +1007,16 @@ class CameraState: public QObject
         // initialize the class
         void init();
 
+        /**
+         * @brief Set the filter of the active job before in-sequence focusing.
+         * Another module may have changed the filter since the last frame, e.g. Align after a meridian flip or after
+         * the scheduler's alignment check. The job's own filter is only set when its next exposure starts, which is
+         * after focusing, so focusing would otherwise run on that other filter.
+         * @param reason why focusing is required
+         * @return true while the filter change is in progress, false when focusing may start
+         */
+        bool prepareFocusFilter(RefocusState::RefocusReason reason);
+
         // Container for the list of SequenceJobs.
         QSharedPointer < SequenceQueue > m_sequenceQueue;
         // Currently active sequence job.
@@ -1027,6 +1037,8 @@ class CameraState: public QObject
         QString m_CurrentFilterName { "--" };
         // holds the filter name used for focusing or "--" if the current one is used
         QString m_CurrentFocusFilterName { "--" };
+        // filter position requested by prepareFocusFilter(), INVALID_VALUE if none is pending
+        int m_FocusFilterRequest { INVALID_VALUE };
         // Captured Frames Map
         CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
