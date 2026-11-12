@@ -8,6 +8,7 @@
 #pragma once
 
 #include <QObject>
+#include <QPointer>
 #include <QWidget>
 #include <QTime>
 
@@ -59,10 +60,7 @@ class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
 
 
     private:
-        void shareCaptureProcess(Ekos::Capture *process)
-        {
-            m_captureProcess = process;
-        }
+        void shareCaptureProcess(Ekos::Capture *process);
         void shareSchedulerState(QSharedPointer < Ekos::SchedulerModuleState > state);
 
         /**
@@ -117,7 +115,8 @@ class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
         bool isCaptureActive(const QString &trainname);
 
         QSharedPointer < Ekos::SchedulerModuleState > m_schedulerModuleState;
-        Ekos::Capture *m_captureProcess = nullptr;
+        // guarded, since Ekos deletes the Capture module when the devices are gone
+        QPointer < Ekos::Capture > m_captureProcess;
 
         // current camera train name
         QString m_currentTrainName = "";

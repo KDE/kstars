@@ -96,6 +96,10 @@ class TestEkosSimulator : public QObject
          *  ServerManager was destroyed. Reproduced by calling Manager::start()
          *  then immediately Manager::stop(), before the drivers finish connecting. */
         void testRapidProfileStartStop();
+
+        /** Regression test for a crash (use after free) when the INDI server drops during a capture: Ekos deleted the
+         *  Capture module while its capture countdown kept running and dereferenced the deleted module every second. */
+        void testServerDropDuringCapture();
 };
 
 #endif // HAVE_INDI

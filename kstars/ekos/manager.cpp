@@ -1098,6 +1098,10 @@ void Manager::reset()
 
     removeTabs();
 
+    // The countdown refreshes the capture preview from the Capture module, which is deleted below. It keeps
+    // running when the INDI server drops during a capture, since then no capture state change stops it.
+    m_CountdownTimer.stop();
+
     captureProcess.reset();
     focusProcess.reset();
     guideProcess.reset();

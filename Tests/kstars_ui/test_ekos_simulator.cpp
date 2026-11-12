@@ -18,8 +18,18 @@
 
 #include "test_ekos.h"
 #include "ksmessagebox.h"
+#include "ekos/capture/camera.h"
+#include "ekos/capture/capture.h"
+#include "indi/driverinfo.h"
+#include "indi/indilistener.h"
+#include "indi/indistd.h"
+#include "indi/servermanager.h"
 
+#include <QDoubleSpinBox>
 #include <QLabel>
+#include <QPointer>
+#include <QPushButton>
+#include <QSignalSpy>
 
 TestEkosSimulator::TestEkosSimulator(QObject *parent) : QObject(parent)
 {
@@ -51,7 +61,9 @@ void TestEkosSimulator::cleanup()
         if (d->isVisible())
             d->hide();
 
-    KTRY_EKOS_STOP_SIMULATORS();
+    // a test may have stopped the INDI server already, starting/stopping Ekos would start it again
+    if (Ekos::Manager::Instance()->indiStatus() != Ekos::Idle)
+        KTRY_EKOS_STOP_SIMULATORS();
 }
 
 
@@ -434,3 +446,45 @@ void TestEkosSimulator::testRapidProfileStartStop()
 QTEST_KSTARS_MAIN(TestEkosSimulator)
 
 #endif // HAVE_INDI
+
+void TestEkosSimulator::testServerDropDuringCapture()
+{
+    Ekos::Manager * const ekos = Ekos::Manager::Instance();
+    QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 5000);
+    QPointer<Ekos::Capture> capture = ekos->captureModule();
+    QTRY_VERIFY_WITH_TIMEOUT(capture->mainCamera() != nullptr, 5000);
+
+    // Start a long preview exposure, capturing starts the countdown in the Ekos Manager
+    QSignalSpy statusSpy(capture.data(), &Ekos::Capture::newStatus);
+    auto exposure = capture->mainCamera()->findChild<QDoubleSpinBox *>("captureExposureN");
+    QVERIFY(exposure != nullptr);
+    exposure->setValue(30);
+    auto previewB = capture->mainCamera()->findChild<QPushButton *>("previewB");
+    QVERIFY(previewB != nullptr);
+    QTRY_VERIFY_WITH_TIMEOUT(previewB->isEnabled(), 10000);
+    previewB->click();
+    QTRY_VERIFY_WITH_TIMEOUT(std::any_of(statusSpy.cbegin(), statusSpy.cend(), [](const QList<QVariant> &args)
+    {
+        return args.at(0).value<Ekos::CaptureState>() == Ekos::CAPTURE_CAPTURING;
+    }), 10000);
+    // let the countdown tick while capturing
+    QTest::qWait(2000);
+
+    // Drop the INDI server that Ekos started, as if it crashed. Only this server is stopped, no other one.
+    ServerManager *server = nullptr;
+    for (const auto &device : INDIListener::devices())
+        if (device->getDriverInfo() != nullptr && device->getDriverInfo()->getServerManager() != nullptr)
+        {
+            server = device->getDriverInfo()->getServerManager();
+            break;
+        }
+    QVERIFY(server != nullptr);
+    server->stop();
+
+    // Ekos removes the devices and with them the Capture module
+    QTRY_VERIFY_WITH_TIMEOUT(capture.isNull(), 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() == nullptr, 5000);
+    // the countdown would tick into the deleted Capture module every second
+    QTest::qWait(5000);
+    QVERIFY(ekos->indiStatus() == Ekos::Idle);
+}

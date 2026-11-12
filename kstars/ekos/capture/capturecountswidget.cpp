@@ -99,6 +99,11 @@ void CaptureCountsWidget::updateDownloadProgress(double timeLeft, const QString 
     frameRemainingTime->setText(imageCounts[trainname].countDown.toString("hh:mm:ss"));
 }
 
+void CaptureCountsWidget::shareCaptureProcess(Ekos::Capture *process)
+{
+    m_captureProcess = process;
+}
+
 void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state)
 {
     m_schedulerModuleState = state;
@@ -129,10 +134,9 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
         overallRemainingTime->setText(totalCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
-    // Guard against a null m_captureProcess: the raw pointer is initialised to nullptr
-    // and the countdown timer can fire before shareCaptureProcess() is called, or after
-    // the Capture module has been torn down during a driver restart.  Dereferencing a
-    // null pointer here causes SIGSEGV deep inside Capture::mainCamera().
+    // Guard against a missing Capture module: the countdown timer can fire before shareCaptureProcess()
+    // is called, or after the Capture module has been torn down during a driver restart. Dereferencing
+    // it here causes SIGSEGV deep inside Capture::mainCamera().
     if (m_captureProcess != nullptr && !m_captureProcess->isActiveJobPreview() && isCaptureActive(m_currentTrainName))
     {
         jobRemainingTime->setText(jobCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
@@ -229,6 +233,10 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
     totalCounts[trainname].remainingTime = 0;
     // update the attribute whether the current capture is a preview
     m_isPreview = isPreview;
+
+    // the Capture module is gone once Ekos removed the devices
+    if (m_captureProcess == nullptr)
+        return;
 
     // find the corresponding camera
     QSharedPointer<Ekos::Camera> selected_cam;

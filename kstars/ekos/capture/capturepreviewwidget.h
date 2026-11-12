@@ -11,6 +11,7 @@
 #include "captureprocessoverlay.h"
 
 #include <QObject>
+#include <QPointer>
 #include <QWidget>
 
 class FITSData;
@@ -111,7 +112,8 @@ class CapturePreviewWidget : public QWidget, public Ui::CapturePreviewWidget
         void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
 
         QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
-        Ekos::Capture *m_captureModule = nullptr;
+        // guarded, since Ekos deletes the Capture module when the devices are gone
+        QPointer<Ekos::Capture> m_captureModule;
         Ekos::Mount *m_mountModule = nullptr;
 
         // cache frame data

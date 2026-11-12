@@ -116,7 +116,8 @@ void CapturePreviewWidget::updateJobProgress(const QSharedPointer<Ekos::Sequence
         }
 
         const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
-        if (ISOIndex >= 0 && ISOIndex <= m_captureModule->mainCamera()->captureISOS->count())
+        if (m_captureModule != nullptr && ISOIndex >= 0
+                && ISOIndex <= m_captureModule->mainCamera()->captureISOS->count())
             m_currentFrame[trainname].iso = m_captureModule->mainCamera()->captureISOS->itemText(ISOIndex);
         else
             m_currentFrame[trainname].iso = "";
