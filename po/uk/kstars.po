@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-12 02:59+0000\n"
-"PO-Revision-Date: 2026-11-11 08:06+0200\n"
+"POT-Creation-Date: 2026-11-13 03:00+0000\n"
+"PO-Revision-Date: 2026-11-12 14:10+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -594,7 +594,7 @@ msgstr "Скасувати"
 #: ekos/align/opsastrometryindexfiles.cpp:709
 #: ekos/align/opsastrometryindexfiles.cpp:731
 #: ekos/align/opsastrometryindexfiles.cpp:742 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1620 ekos/manager.cpp:1635 ekos/manager.cpp:1651
+#: ekos/manager.cpp:1625 ekos/manager.cpp:1640 ekos/manager.cpp:1656
 #: ekos/scheduler/scheduler.cpp:1794
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -2066,7 +2066,7 @@ msgstr "Стан:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1145 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1150 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1787
 #: ekos/scheduler/scheduler.cpp:2434 ekos/scheduler/scheduler.cpp:2605
 #: ekos/scheduler/scheduler.cpp:2613 ekos/scheduler/scheduler.cpp:2623
@@ -3006,7 +3006,7 @@ msgstr "Прив'язка типу"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
-#: ekos/capture/cameraprocess.cpp:3186 ekos/capture/capturecountswidget.cpp:325
+#: ekos/capture/cameraprocess.cpp:3186 ekos/capture/capturecountswidget.cpp:333
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:846
 #, kde-format
@@ -5329,7 +5329,7 @@ msgstr "Обчислення поля зору"
 #: ekos/align/aligndiagnosis.cpp:1250 ekos/analyze/analyze.cpp:2807
 #: ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2586
+#: ekos/manager.cpp:2591
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6248,7 +6248,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:277 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:359 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2534 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1520 ekos/manager.cpp:2539 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3930
 #, kde-format
@@ -6840,7 +6840,7 @@ msgstr ""
 msgid "Dustcap error detected. Aborting alignment."
 msgstr "Виявлено помилку з пилозахисним ковпаком. Перериваємо вирівнювання."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5926
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5986
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Пристрій пилозахисного ковпака %1 вилучено"
@@ -6915,7 +6915,7 @@ msgstr "Пристрій недоступний."
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/align_diagnosis.cpp:337 ekos/align/pushtoassistant.ui:199
-#: ekos/analyze/analyze.cpp:2915 ekos/manager.cpp:2649
+#: ekos/analyze/analyze.cpp:2915 ekos/manager.cpp:2654
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:582
 #, kde-format
@@ -7162,10 +7162,9 @@ msgstr ""
 "Перериваємо вирівнювання."
 
 #: ekos/align/align_goto.cpp:806
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Slewing failed: the mount stopped without tracking."
-msgstr "Попередження: лафет не запарковано, вимикаємо стеження."
+msgstr "Помилка обертання: лафет зупинився без стеження."
 
 #: ekos/align/align_goto.cpp:807 ekos/align/align_solver.cpp:64
 #: ekos/align/align_solver.cpp:96 ekos/align/align_solver.cpp:1231
@@ -7210,7 +7209,7 @@ msgid "dDE (arcsec)"
 msgstr "ΔСхил (кут. сек.)"
 
 #: ekos/align/align_settings.cpp:224 ekos/capture/camera_config.cpp:723
-#: ekos/focus/focus.cpp:6006
+#: ekos/focus/focus.cpp:6066
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Невдала спроба фільтрування."
@@ -7372,7 +7371,7 @@ msgid "Error: image transfer is disabled for camera %1."
 msgstr "Помилка: передавання зображень для камери %1 вимкнено."
 
 #: ekos/align/align_solver.cpp:173 ekos/capture/cameraprocess.cpp:296
-#: ekos/capture/cameraprocess.cpp:740 ekos/focus/focus.cpp:6125
+#: ekos/capture/cameraprocess.cpp:740 ekos/focus/focus.cpp:6185
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7437,7 +7436,7 @@ msgid "Capturing image..."
 msgstr "Захоплення зображення…"
 
 #: ekos/align/align_solver.cpp:447 ekos/auxiliary/ledstatuswidget.cpp:74
-#: ekos/focus/focus.cpp:3208
+#: ekos/focus/focus.cpp:3243
 #, kde-format
 msgid "Image received."
 msgstr "Зображення отримано."
@@ -7625,19 +7624,19 @@ msgstr ""
 "отримати докладні відомості щодо помилки."
 
 #: ekos/align/align_solver.cpp:1316 ekos/capture/cameraprocess.cpp:2316
-#: ekos/focus/focus.cpp:6180
+#: ekos/focus/focus.cpp:6240
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Перевищення часу очікування експонування. Перериваємо обробку…"
 
-#: ekos/align/align_solver.cpp:1326 ekos/focus/focus.cpp:6187
+#: ekos/align/align_solver.cpp:1326 ekos/focus/focus.cpp:6247
 #: ekos/guide/guide.cpp:1232
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Перевищено час експонування. Забагато. Перезапускаємо драйвер."
 
 #: ekos/align/align_solver.cpp:1346 ekos/capture/cameraprocess.cpp:2350
-#: ekos/focus/focus.cpp:6201 ekos/guide/guide.cpp:1197
+#: ekos/focus/focus.cpp:6261 ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Перевищено час експонування. Виконуємо повторну спробу…"
@@ -8208,19 +8207,18 @@ msgid "Solving works, but the mount did not get close enough to the target."
 msgstr "Розв'язування працює, але лафет не дістався достатньо близько до цілі."
 
 #: ekos/align/aligndiagnosis.cpp:494
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount stopped without tracking"
-msgstr "Лафет припинив звітування про стеження."
+msgstr "Лафет зупинився без стеження"
 
 #: ekos/align/aligndiagnosis.cpp:495
-#, fuzzy, kde-format
-#| msgid ""
-#| "The image was solved, but the mount did not accept the solved position."
+#, kde-format
 msgid ""
 "The image was solved, but the mount stopped after the slew and did not start "
 "tracking."
-msgstr "Зображення розв'язано, але лафет не прийняв розв'язаної позиції."
+msgstr ""
+"Зображення розв'язано, але лафет зупинився після обертання і не розпочав "
+"стеження."
 
 #: ekos/align/aligndiagnosis.cpp:499
 #, kde-format
@@ -8234,7 +8232,7 @@ msgstr "Помилка засобу вирівнювання"
 #: ekos/align/aligndiagnosis.cpp:525 ekos/align/pushtoassistant.ui:206
 #: ekos/analyze/analyze.cpp:2918 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/auxiliary/opticaltrainmanager.cpp:1413
-#: ekos/manager.cpp:2866 ekos/manager.ui:778
+#: ekos/manager.cpp:2871 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -8262,7 +8260,7 @@ msgstr "Розмір у пікселях"
 
 #: ekos/align/aligndiagnosis.cpp:545 ekos/align/aligndiagnosis.cpp:1254
 #: ekos/auxiliary/filtermanager.cpp:122
-#: ekos/capture/capturecountswidget.cpp:212
+#: ekos/capture/capturecountswidget.cpp:216
 #, kde-format
 msgid "Exposure"
 msgstr "Експонування"
@@ -8437,16 +8435,14 @@ msgstr ""
 "варіантом «Обертання до цілі» або «Нічого»"
 
 #: ekos/align/aligndiagnosis.cpp:698
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check why the mount stopped"
-msgstr "Перевірте лафет"
+msgstr "Перевірте, чому зупинився лафет"
 
 #: ekos/align/aligndiagnosis.cpp:699
-#, fuzzy, kde-format
-#| msgid "The mount reported an error while slewing."
+#, kde-format
 msgid "The mount stopped after the slew and did not track."
-msgstr "Лафет повідомив про помилку під час обертання."
+msgstr "Лафет зупинився після обертання і не розпочав стеження."
 
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
@@ -8454,24 +8450,22 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"Перевірте, чи не сталося помилки обмеження, наприклад обмеження за "
+"меридіаном, у драйвері лафета або ручному керуванні."
 
 #: ekos/align/aligndiagnosis.cpp:701
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: the mount is not parked, switching tracking off before "
-#| "disconnecting."
+#, kde-format
 msgid ""
 "Switch tracking on: some mounts end a slew without tracking when tracking "
 "was off before it."
 msgstr ""
-"Попередження: лафет не запарковано, вимикаємо стеження перед розірванням "
-"з'єднання."
+"Перемкніть стеження: деякі лафети завершують обертання без стеження, якщо "
+"перед тим стеження було вимкнено."
 
 #: ekos/align/aligndiagnosis.cpp:702
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the slew was not stopped by hand."
-msgstr "Перевірте, чи відкрито пилозахисний ковпак або кришку."
+msgstr "Перевірте, чи не було обертання зупинено вручну."
 
 #: ekos/align/aligndiagnosis.cpp:710
 #, kde-format
@@ -12292,7 +12286,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
-#: ekos/manager.cpp:165 ekos/manager.cpp:291 ekos/manager.cpp:1153
+#: ekos/manager.cpp:165 ekos/manager.cpp:291 ekos/manager.cpp:1158
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -12341,7 +12335,7 @@ msgid "Slew"
 msgstr "Повернути"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:432
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:423
 #, kde-format
 msgid "Setup"
 msgstr "Налаштовування"
@@ -12634,7 +12628,7 @@ msgstr "Фок %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2904 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2702 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2707 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -12646,7 +12640,7 @@ msgstr "Фокус"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2916 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2941
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2946
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -14984,7 +14978,7 @@ msgstr "Приготування…"
 msgid "Waiting..."
 msgstr "Очікуємо…"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:49 ekos/capture/camerastate.cpp:406
+#: ekos/auxiliary/ledstatuswidget.cpp:49 ekos/capture/camerastate.cpp:408
 #, kde-format
 msgid "Dithering requested..."
 msgstr "Надіслано запит на розмиття…"
@@ -15085,7 +15079,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Записувати до журналу дії у модулі планувальника Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:437
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:428
 #: ekos/scheduler/framingassistantui.cpp:701
 #, kde-format
 msgid "Scheduler"
@@ -15270,7 +15264,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:3007
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:3012
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -18930,7 +18924,7 @@ msgstr "Перезапуск драйвера"
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Перевищено час очікування на дію із захоплення знімка за %1 секунд."
 
-#: ekos/capture/camerastate.cpp:145
+#: ekos/capture/camerastate.cpp:147
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
@@ -18938,155 +18932,161 @@ msgstr ""
 "Попередження: вибрано відхилення наведення, але процедуру автоматичного "
 "наведення не розпочато."
 
-#: ekos/capture/camerastate.cpp:214
+#: ekos/capture/camerastate.cpp:216
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "Успішний малий рух."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:221
+#: ekos/capture/camerastate.cpp:223
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Малий рух завершено. Відновлюємо за %1 секунд…"
 
-#: ekos/capture/camerastate.cpp:229
+#: ekos/capture/camerastate.cpp:231
 #, kde-format
 msgid "Dither complete."
 msgstr "Малий рух завершено."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:243
+#: ekos/capture/camerastate.cpp:245
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr ""
 "Попередження: спроба малого руху зазнала невдачі. Відновлюємо за %1 секунд…"
 
-#: ekos/capture/camerastate.cpp:252
+#: ekos/capture/camerastate.cpp:254
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "Попередження: спроба малого руху зазнала невдачі."
 
-#: ekos/capture/camerastate.cpp:292
+#: ekos/capture/camerastate.cpp:294
 #, kde-format
 msgid "Dust cap error."
 msgstr "Помилка при роботі з пилозахисним ковпаком."
 
-#: ekos/capture/camerastate.cpp:295
+#: ekos/capture/camerastate.cpp:297
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Пилозахисний ковпак запарковано."
 
-#: ekos/capture/camerastate.cpp:298
+#: ekos/capture/camerastate.cpp:300
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Пилозахисний ковпак знято з паркування."
 
-#: ekos/capture/camerastate.cpp:497
+#: ekos/capture/camerastate.cpp:499
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Перехід за меридіаном успішно завершено"
 
-#: ekos/capture/camerastate.cpp:639
+#: ekos/capture/camerastate.cpp:641
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Виконуємо повторне калібрування та наведення після переходу…"
 
-#: ekos/capture/camerastate.cpp:653
+#: ekos/capture/camerastate.cpp:655
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 "Помилка під час повторного калібрування після переходу за меридіаном. "
 "Перезапускаємо…"
 
-#: ekos/capture/camerastate.cpp:684
+#: ekos/capture/camerastate.cpp:686
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr ""
 "Автонаведення зупинено. Очікуємо на завершення автоматичного фокусування…"
 
-#: ekos/capture/camerastate.cpp:693
+#: ekos/capture/camerastate.cpp:695
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Автонаведення зупинено. Перериваємо обробку…"
 
-#: ekos/capture/camerastate.cpp:700
+#: ekos/capture/camerastate.cpp:702
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 "Помилка під час повторного калібрування після переходу за меридіаном. "
 "Перериваємо обробку…"
 
-#: ekos/capture/camerastate.cpp:722
+#: ekos/capture/camerastate.cpp:724
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Адаптивне фокусування завершено."
 
-#: ekos/capture/camerastate.cpp:746
+#: ekos/capture/camerastate.cpp:752
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 "Спроба автоматичного фокусування зазнала невдачі. Перериваємо експонування…"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:782
+#: ekos/capture/camerastate.cpp:789
 #, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "Фокусування завершено. Відновлюємо за %1 секунд…"
 
-#: ekos/capture/camerastate.cpp:805
+#: ekos/capture/camerastate.cpp:812
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Обмеження: %1 °C"
 
-#: ekos/capture/camerastate.cpp:809
+#: ekos/capture/camerastate.cpp:816
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Обмеження: %1 хвилин"
 
-#: ekos/capture/camerastate.cpp:985
+#: ekos/capture/camerastate.cpp:946
+#, fuzzy, kde-format
+#| msgid "Changing filter to %1..."
+msgid "Changing filter to %1 before focusing..."
+msgstr "Змінюємо фільтр на %1…"
+
+#: ekos/capture/camerastate.cpp:1023
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Виконуємо повторне вирівнювання після переходу…"
 
-#: ekos/capture/camerastate.cpp:1005
+#: ekos/capture/camerastate.cpp:1044
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Перевищено час очікування на дані модуля наведення."
 
-#: ekos/capture/camerastate.cpp:1037
+#: ekos/capture/camerastate.cpp:1074
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, є нижчим за значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:1046
+#: ekos/capture/camerastate.cpp:1083
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, перевищує граничне значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:1068
+#: ekos/capture/camerastate.cpp:1105
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Повторне калібрування після переходу за меридіаном успішно завершено."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1119
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, перевищує обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1096
+#: ekos/capture/camerastate.cpp:1133
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, є нижчим за обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1123
+#: ekos/capture/camerastate.cpp:1160
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -19096,7 +19096,7 @@ msgstr ""
 "секунд для %4 послідовних вимірювань. Експонування призупинено. Очікуємо на "
 "відновлення працездатності засобу наведення за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1170
+#: ekos/capture/camerastate.cpp:1207
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -19105,7 +19105,7 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування."
 
-#: ekos/capture/camerastate.cpp:1174
+#: ekos/capture/camerastate.cpp:1211
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -19114,24 +19114,24 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1189
+#: ekos/capture/camerastate.cpp:1226
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Зараз відхилення під час наведення %1 усе ще перевищує граничне значення у "
 "%2 кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1569
+#: ekos/capture/camerastate.cpp:1606
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторне вирівнювання після переходу успішно завершено."
 
-#: ekos/capture/camerastate.cpp:1588
+#: ekos/capture/camerastate.cpp:1625
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Невдала спроба вирівнювання після переходу."
 
-#: ekos/capture/camerastate.cpp:1593
+#: ekos/capture/camerastate.cpp:1630
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Невдала спроба вирівнювання після переходу. Повторюємо спробу…"
@@ -19167,7 +19167,7 @@ msgstr "Припинити захоплення"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:157
+#: ekos/capture/capturecountswidget.cpp:161
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -19175,7 +19175,7 @@ msgid "Sequence"
 msgstr "Послідовність"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:160
+#: ekos/capture/capturecountswidget.cpp:164
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -19380,23 +19380,23 @@ msgstr "Наступний запуск автофокусування"
 msgid "Dithering..."
 msgstr "Малий рух…"
 
-#: ekos/capture/capturepreviewwidget.cpp:185 ekos/focus/focus.cpp:1117
+#: ekos/capture/capturepreviewwidget.cpp:186 ekos/focus/focus.cpp:1117
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr "Вилучити безпосередньо, не пересувати до смітника."
 
-#: ekos/capture/capturepreviewwidget.cpp:243
+#: ekos/capture/capturepreviewwidget.cpp:244
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "Ви справді хочете вилучити %1 з файлової системи?"
 
-#: ekos/capture/capturepreviewwidget.cpp:245
+#: ekos/capture/capturepreviewwidget.cpp:246
 #, kde-format
 msgid "Delete %1"
 msgstr "Вилучити %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:245
+#: ekos/capture/capturepreviewwidget.cpp:246
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -22397,7 +22397,7 @@ msgstr "Вилучити кадри фокусування?"
 msgid "No Focuser connected."
 msgstr "Не з'єднано жодного засобу фокусування."
 
-#: ekos/focus/focus.cpp:1170 ekos/focus/focus.cpp:5081
+#: ekos/focus/focus.cpp:1170 ekos/focus/focus.cpp:5137
 #, kde-format
 msgid "No camera connected."
 msgstr "Не з'єднано жодної камери."
@@ -22427,16 +22427,16 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Цикл у фокусуванні, в автоматичному фокусуванні відмовлено."
 
-#: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5508
-#: ekos/focus/focus.cpp:5784
+#: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5564
+#: ekos/focus/focus.cpp:5844
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Коригувальне фокусування"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5510
-#: ekos/focus/focus.cpp:5784 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1210 ekos/focus/focus.cpp:5566
+#: ekos/focus/focus.cpp:5844 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -22469,7 +22469,7 @@ msgstr "Розпочинаємо автоматичне фокусування�
 msgid "Autofocus operation started"
 msgstr "Розпочато дію з автоматичного фокусування"
 
-#: ekos/focus/focus.cpp:1566 ekos/focus/focus.cpp:2383
+#: ekos/focus/focus.cpp:1566 ekos/focus/focus.cpp:2384
 #, kde-format
 msgid "Detection complete."
 msgstr "Виявлення завершено."
@@ -22568,12 +22568,12 @@ msgstr "назовні"
 msgid "inward"
 msgstr "всередину"
 
-#: ekos/focus/focus.cpp:2184
+#: ekos/focus/focus.cpp:2185
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Фокусування %2 у %1 кроків…"
 
-#: ekos/focus/focus.cpp:2190
+#: ekos/focus/focus.cpp:2191
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
@@ -22582,58 +22582,58 @@ msgstr[1] "Фокусування %2 у %1 кроки…"
 msgstr[2] "Фокусування %2 у %1 кроків…"
 msgstr[3] "Фокусування %2 у %1 крок…"
 
-#: ekos/focus/focus.cpp:2196
+#: ekos/focus/focus.cpp:2197
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Фокусування %2 по %1 мс…"
 
-#: ekos/focus/focus.cpp:2231
+#: ekos/focus/focus.cpp:2232
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 "Знову перевищено час очікування на засіб фокусування. Перериваємо роботу…"
 
-#: ekos/focus/focus.cpp:2238
+#: ekos/focus/focus.cpp:2239
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Перевищено час очікування на рух фокусування (%1). Перезапускаємо драйвер "
 "фокусування %2"
 
-#: ekos/focus/focus.cpp:2251
+#: ekos/focus/focus.cpp:2252
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Перевищено час очікування на рух фокусування (%1). Фокусуємося у %2 кроків…"
 
-#: ekos/focus/focus.cpp:2297
+#: ekos/focus/focus.cpp:2298
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Спроба повторного з'єднання із засобом фокусування: %1"
 
-#: ekos/focus/focus.cpp:2306
+#: ekos/focus/focus.cpp:2307
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr ""
 "Не вдалося повторно з'єднатися із засобом фокусування: %1. Перериваємо "
 "обробку…"
 
-#: ekos/focus/focus.cpp:2576
+#: ekos/focus/focus.cpp:2577
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Виявляємо джерела…"
 
-#: ekos/focus/focus.cpp:2712
+#: ekos/focus/focus.cpp:2713
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Дію з автофокусування успішно виконано"
 
-#: ekos/focus/focus.cpp:2726
+#: ekos/focus/focus.cpp:2727
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Не вдалося виконати дію з автоматичного фокусування"
 
-#: ekos/focus/focus.cpp:2799
+#: ekos/focus/focus.cpp:2800
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -22642,161 +22642,161 @@ msgstr[1] "Процедуру фокусування завершено за %1 
 msgstr[2] "Процедуру фокусування завершено за %1 ітерацій."
 msgstr[3] "Процедуру фокусування завершено за одну ітерацію."
 
-#: ekos/focus/focus.cpp:2886
+#: ekos/focus/focus.cpp:2887
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Припинення дій на %1 с…"
 
-#: ekos/focus/focus.cpp:2894
+#: ekos/focus/focus.cpp:2895
 #, kde-format
 msgid "Settling complete."
 msgstr "Фіксацію завершено."
 
-#: ekos/focus/focus.cpp:2907
+#: ekos/focus/focus.cpp:2942
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Спроба автофокусування зазнала невдачі, повертаємося до початкової позиції "
 "фокусування %1."
 
-#: ekos/focus/focus.cpp:2940
+#: ekos/focus/focus.cpp:2975
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Отримано FITS. Зірок не виявлено."
 
-#: ekos/focus/focus.cpp:3273
+#: ekos/focus/focus.cpp:3308
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Зображення захоплено. Виберіть область зацікавлення."
 
-#: ekos/focus/focus.cpp:3314
+#: ekos/focus/focus.cpp:3353
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Вибрати зірку автоматично не вдалося. Будь ласка, виберіть її вручну."
 
-#: ekos/focus/focus.cpp:3408
+#: ekos/focus/focus.cpp:3449
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Зображення захоплено. Виберіть зірку для фокусування."
 
-#: ekos/focus/focus.cpp:3439
+#: ekos/focus/focus.cpp:3482
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Під час перевірки РПП (HFR) не виявлено зірок, повторюємо спробу захоплення…"
 
-#: ekos/focus/focus.cpp:3460
+#: ekos/focus/focus.cpp:3503
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "РПП %1 > Обмеження %2"
 
-#: ekos/focus/focus.cpp:3602
+#: ekos/focus/focus.cpp:3645
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Помилка автофокусування: перевищено максимальну кількість ітерацій, %1"
 
-#: ekos/focus/focus.cpp:3613 ekos/focus/focus.cpp:3877
-#: ekos/focus/focus.cpp:4485
+#: ekos/focus/focus.cpp:3656 ekos/focus/focus.cpp:3920
+#: ekos/focus/focus.cpp:4528
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Не виявлено зірок, повторюємо спробу захоплення…"
 
-#: ekos/focus/focus.cpp:3619 ekos/focus/focus.cpp:4491
+#: ekos/focus/focus.cpp:3662 ekos/focus/focus.cpp:4534
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Не вдалося виявити жодної зірки у позиції %1. Продовжуємо…"
 
-#: ekos/focus/focus.cpp:3625 ekos/focus/focus.cpp:4497
+#: ekos/focus/focus.cpp:3668 ekos/focus/focus.cpp:4540
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Не вдалося знайти жодної зірки. Скиньте кадрування і повторіть спробу."
 
-#: ekos/focus/focus.cpp:3812
+#: ekos/focus/focus.cpp:3855
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Не вдалося виконати прохід %1 Інспектора аберації…"
 
-#: ekos/focus/focus.cpp:3834
+#: ekos/focus/focus.cpp:3877
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Запускаємо прохід %1 Інспектора аберації…"
 
-#: ekos/focus/focus.cpp:3860
+#: ekos/focus/focus.cpp:3903
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Починаємо пошуку початкової позиції фокусування."
 
-#: ekos/focus/focus.cpp:3861
+#: ekos/focus/focus.cpp:3904
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Шукаємо початкову позицію…"
 
-#: ekos/focus/focus.cpp:3883
+#: ekos/focus/focus.cpp:3926
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Не вдалося виявити жодної зірки. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:3892
+#: ekos/focus/focus.cpp:3935
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Початкова позиція сканування: перевищено максимальну кількість ітерацій, %1"
 
-#: ekos/focus/focus.cpp:3911
+#: ekos/focus/focus.cpp:3954
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Шукаємо початкову позицію, %1 з %2"
 
-#: ekos/focus/focus.cpp:3925
+#: ekos/focus/focus.cpp:3968
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Не знайдено мінімуму — розширюємо пошук…"
 
-#: ekos/focus/focus.cpp:3938
+#: ekos/focus/focus.cpp:3981
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Знайдено початкову позицію %1"
 
-#: ekos/focus/focus.cpp:3939
+#: ekos/focus/focus.cpp:3982
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Знайдено початкову позицію %1"
 
-#: ekos/focus/focus.cpp:4008
+#: ekos/focus/focus.cpp:4051
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Перевірка кривої апроксимації зазнала невдачі, R2=%1 focusR2Limit=%2. "
 "Повторюємо спробу…"
 
-#: ekos/focus/focus.cpp:4010
+#: ekos/focus/focus.cpp:4053
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Обмеження=%2"
 
-#: ekos/focus/focus.cpp:4018
+#: ekos/focus/focus.cpp:4061
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Перевірка кривої апроксимації знову зазнала невдачі, R2=%1 focusR2Limit=%2, "
 "втім, продовжуємо…"
 
-#: ekos/focus/focus.cpp:4028
+#: ekos/focus/focus.cpp:4071
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Перервано роботу алгоритму лінійного автофокусування: %1"
 
-#: ekos/focus/focus.cpp:4063
+#: ekos/focus/focus.cpp:4106
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Отримано FITS. РПП (HFR) %1 @ %2. Різниця (%3%)"
 
-#: ekos/focus/focus.cpp:4065
+#: ekos/focus/focus.cpp:4108
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Отримано FITS. РПП (HFR) %1 @ %2."
 
-#: ekos/focus/focus.cpp:4126
+#: ekos/focus/focus.cpp:4169
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -22805,26 +22805,26 @@ msgstr ""
 "Зміна радіуса половинного потоку (HFR) є надто малою. Спробуйте збільшити "
 "крок або зменшити допуск."
 
-#: ekos/focus/focus.cpp:4133
+#: ekos/focus/focus.cpp:4176
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Не вдалося знайти зірку для фокусування у кадрі. Вам слід захопити "
 "зображення і вибрати на ньому зірку для фокусування."
 
-#: ekos/focus/focus.cpp:4239
+#: ekos/focus/focus.cpp:4282
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Знайдено поліноміальний розв'язок @ %1"
 
-#: ekos/focus/focus.cpp:4303
+#: ekos/focus/focus.cpp:4346
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Засіб фокусування не може продовжити рух, перевищено обмеження пристрою. "
 "Автофокусування перервано."
 
-#: ekos/focus/focus.cpp:4314
+#: ekos/focus/focus.cpp:4357
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -22832,22 +22832,22 @@ msgstr ""
 "Нестабільні відхилення. Спробуйте збільшити розмір початкового кроку або час "
 "експонування."
 
-#: ekos/focus/focus.cpp:4324
+#: ekos/focus/focus.cpp:4367
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Заблоковано. Спробуйте змінити параметри."
 
-#: ekos/focus/focus.cpp:4353
+#: ekos/focus/focus.cpp:4396
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Досягнуто максимального обмеження шляху. Автофокусування перервано."
 
-#: ekos/focus/focus.cpp:4470
+#: ekos/focus/focus.cpp:4513
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Отримано FITS. РПП (HFR) %1. Різниця (%2%) Мін. РПП (%3)"
 
-#: ekos/focus/focus.cpp:4474
+#: ekos/focus/focus.cpp:4517
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -22855,112 +22855,112 @@ msgstr ""
 "Засобу автоматичного фокусування не вдалося отримати належне фокусування. "
 "Спробуйте скоригувати значення допуску."
 
-#: ekos/focus/focus.cpp:4588 ekos/focus/focus.cpp:4611
-#: ekos/focus/focus.cpp:4796 ekos/focus/focus.cpp:4889
-#: ekos/focus/focus.cpp:4971 ekos/focus/focus.cpp:5056
+#: ekos/focus/focus.cpp:4631 ekos/focus/focus.cpp:4654
+#: ekos/focus/focus.cpp:4852 ekos/focus/focus.cpp:4945
+#: ekos/focus/focus.cpp:5027 ekos/focus/focus.cpp:5112
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Помилка фокусування. Подробиці викладено на панелі INDI."
 
-#: ekos/focus/focus.cpp:4672 ekos/focus/focus.cpp:4812
+#: ekos/focus/focus.cpp:4715 ekos/focus/focus.cpp:4868
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Імітуємо помилку обміну даними із засобом фокусування…"
 
-#: ekos/focus/focus.cpp:4773 ekos/focus/focus.cpp:4870
-#: ekos/focus/focus.cpp:4952 ekos/focus/focus.cpp:4993
+#: ekos/focus/focus.cpp:4829 ekos/focus/focus.cpp:4926
+#: ekos/focus/focus.cpp:5008 ekos/focus/focus.cpp:5049
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Перезапускаємо процес автофокусування…"
 
-#: ekos/focus/focus.cpp:5097
+#: ekos/focus/focus.cpp:5153
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Розпочинаємо неперервне експонування…"
 
-#: ekos/focus/focus.cpp:5478
+#: ekos/focus/focus.cpp:5534
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Вимикаємо автоматичний вибір зірок, оскільки область вибору зірки було "
 "пересунуто вручну."
 
-#: ekos/focus/focus.cpp:5484
+#: ekos/focus/focus.cpp:5540
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Вибрано зірку для фокусування."
 
-#: ekos/focus/focus.cpp:5486
+#: ekos/focus/focus.cpp:5542
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Вибрано область зацікавлення."
 
-#: ekos/focus/focus.cpp:5506
+#: ekos/focus/focus.cpp:5562
 #, kde-format
 msgid "Autofocus"
 msgstr "Автофокусування"
 
-#: ekos/focus/focus.cpp:5514
+#: ekos/focus/focus.cpp:5570
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Запит на перевірку фокусування — очікуємо 10 секунд на завершення дії %1."
 
-#: ekos/focus/focus.cpp:5522
+#: ekos/focus/focus.cpp:5578
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Відкидаємо запит перевірки фокусування — виконання дії %1."
 
-#: ekos/focus/focus.cpp:5535
+#: ekos/focus/focus.cpp:5595
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Перевірку фокусування проігноровано — вимірювання зірок має бути засновано "
 "на зірках"
 
-#: ekos/focus/focus.cpp:5540
+#: ekos/focus/focus.cpp:5600
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Захоплення для перевірки РПП…"
 
-#: ekos/focus/focus.cpp:5670
+#: ekos/focus/focus.cpp:5730
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Не позначено жодної зірки. Використовуємо останню відому позицію…"
 
-#: ekos/focus/focus.cpp:5676
+#: ekos/focus/focus.cpp:5736
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Не позначено жодної зірки. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:5687
+#: ekos/focus/focus.cpp:5747
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Засіб фокусування вже у %1…"
 
-#: ekos/focus/focus.cpp:5787
+#: ekos/focus/focus.cpp:5847
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Запит на коригування фокусування — очікуємо 10 секунд на завершення дії %1."
 
-#: ekos/focus/focus.cpp:5821
+#: ekos/focus/focus.cpp:5881
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Кадр фокусування"
 
-#: ekos/focus/focus.cpp:6225
+#: ekos/focus/focus.cpp:6285
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Не вдалося зберегти зображення. Перериваємо завдання…"
 
-#: ekos/focus/focus.cpp:6240 ekos/focus/focus.cpp:6265
+#: ekos/focus/focus.cpp:6300 ekos/focus/focus.cpp:6325
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Помилка експонування. Перериваємо обробку…"
 
-#: ekos/focus/focus.cpp:6564
+#: ekos/focus/focus.cpp:6624
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -29312,73 +29312,73 @@ msgid "Logging"
 msgstr "Журналювання"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:472 ekos/opsekos.ui:174
+#: ekos/manager.cpp:463 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Проаналізувати"
 
-#: ekos/manager.cpp:487
+#: ekos/manager.cpp:478
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Не вдалося запустити розширення «%1», перериваємо обробку"
 
-#: ekos/manager.cpp:501
+#: ekos/manager.cpp:492
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Не вдалося зупинити розширення «%1», увімкнено переривання"
 
-#: ekos/manager.cpp:510
+#: ekos/manager.cpp:501
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Роботу розширення «%1» перервано"
 
-#: ekos/manager.cpp:520
+#: ekos/manager.cpp:511
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Надіслано запит щодо запуску розширення «%1»"
 
-#: ekos/manager.cpp:525
+#: ekos/manager.cpp:516
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Розширення «%1» запущено"
 
-#: ekos/manager.cpp:533
+#: ekos/manager.cpp:524
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Надіслано запит щодо зупинення роботи розширення «%1»"
 
-#: ekos/manager.cpp:538
+#: ekos/manager.cpp:529
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Роботу розширення «%1» зупинено"
 
-#: ekos/manager.cpp:554
+#: ekos/manager.cpp:545
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Розширення «%1»: %2"
 
-#: ekos/manager.cpp:694 ekos/opsekos.cpp:116
+#: ekos/manager.cpp:685 ekos/opsekos.cpp:116
 #, kde-format
 msgid "Failed: port in use"
 msgstr "Помилка: порт вже використано"
 
-#: ekos/manager.cpp:1022
+#: ekos/manager.cpp:1023
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Імпортовано профіль «%1» із засобу вебкерування INDI."
 
-#: ekos/manager.cpp:1174
+#: ekos/manager.cpp:1179
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1322 ekos/manager.cpp:1347
+#: ekos/manager.cpp:1327 ekos/manager.cpp:1352
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Для роботи Ekos потрібна принаймні одна камера."
 
-#: ekos/manager.cpp:1410
+#: ekos/manager.cpp:1415
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -29388,17 +29388,17 @@ msgstr ""
 "завадити встановленню з'єднання Ekos із фотокамерами Canon або Nikon. Хочете "
 "розірвати з'єднання із фотоапаратом PTP зараз?"
 
-#: ekos/manager.cpp:1411
+#: ekos/manager.cpp:1416
 #, kde-format
 msgid "PTP Camera"
 msgstr "Фотокамера PTP"
 
-#: ekos/manager.cpp:1425
+#: ekos/manager.cpp:1430
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Запускаємо служби INDI…"
 
-#: ekos/manager.cpp:1456
+#: ekos/manager.cpp:1461
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -29408,50 +29408,50 @@ msgstr ""
 "наявного екземпляра, перш ніж запускати новий?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1458 indi/opsindi.ui:248
+#: ekos/manager.cpp:1463 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Сервер INDI"
 
-#: ekos/manager.cpp:1473
+#: ekos/manager.cpp:1478
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr ""
 "Встановлюємо з'єднання із віддаленим сервером INDI на вузлі %1, порт %2…"
 
-#: ekos/manager.cpp:1494
+#: ekos/manager.cpp:1499
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Не вдалося запустити профіль на віддаленому засобі керування INDI."
 
-#: ekos/manager.cpp:1498
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Запускаємо профіль на віддаленому засобі керування INDI…"
 
-#: ekos/manager.cpp:1511
+#: ekos/manager.cpp:1516
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Встановлюємо зв'язок із засобом керування віддаленим INDI…"
 
-#: ekos/manager.cpp:1530
+#: ekos/manager.cpp:1535
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Помилка: інтернет-керування INDI непридатне до з'єднання о %1:%2"
 
-#: ekos/manager.cpp:1571
+#: ekos/manager.cpp:1576
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Запущено служби INDI на порту %1."
 
-#: ekos/manager.cpp:1574
+#: ekos/manager.cpp:1579
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 "Запущено служби INDI на порту %1. Будь ласка, з'єднайте пристрої з "
 "комп'ютером."
 
-#: ekos/manager.cpp:1579
+#: ekos/manager.cpp:1584
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -29460,27 +29460,27 @@ msgstr ""
 "Запущено служби INDI. Успішно встановлено з'єднання із віддаленим сервером "
 "INDI %1:%2. Очікуємо на дані пристроїв…"
 
-#: ekos/manager.cpp:1611
+#: ekos/manager.cpp:1616
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Не вдалося встановити з'єднання із локальним сервером INDI %1:%2."
 
-#: ekos/manager.cpp:1613
+#: ekos/manager.cpp:1618
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Не вдалося встановити з'єднання із віддаленим сервером INDI %1:%2"
 
-#: ekos/manager.cpp:1626
+#: ekos/manager.cpp:1631
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Втрачено з'єднання із локальним сервером INDI %1:%2"
 
-#: ekos/manager.cpp:1628
+#: ekos/manager.cpp:1633
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Втрачено з'єднання із віддаленим сервером INDI %1:%2"
 
-#: ekos/manager.cpp:1695
+#: ekos/manager.cpp:1700
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -29488,7 +29488,7 @@ msgstr ""
 "Не вдалося з'єднатися із %1. Будь ласка, переконайтеся, що пристрій з'єднано "
 "із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:1697
+#: ekos/manager.cpp:1702
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -29499,7 +29499,7 @@ msgstr ""
 "%1\n"
 "Будь ласка, переконайтеся, що пристрій з'єднано із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:1736
+#: ekos/manager.cpp:1741
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -29510,13 +29510,13 @@ msgstr ""
 "%1\n"
 "Будь ласка, переконайтеся, що пристрій з'єднано із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:1740 ekos/manager.cpp:1748 ekos/manager.cpp:1781
-#: ekos/manager.cpp:1789
+#: ekos/manager.cpp:1745 ekos/manager.cpp:1753 ekos/manager.cpp:1786
+#: ekos/manager.cpp:1794
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Помилка під час запуску Ekos"
 
-#: ekos/manager.cpp:1744
+#: ekos/manager.cpp:1749
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -29528,7 +29528,7 @@ msgstr ""
 "Будь ласка, переконайтеся, що усі пристрої з'єднано із комп'ютером і "
 "увімкнено."
 
-#: ekos/manager.cpp:1777
+#: ekos/manager.cpp:1782
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -29539,7 +29539,7 @@ msgstr ""
 "%1\n"
 "Будь ласка, переконайтеся, що пристрій з'єднано із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:1785
+#: ekos/manager.cpp:1790
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -29551,34 +29551,34 @@ msgstr ""
 "Будь ласка, переконайтеся, що усі пристрої з'єднано із комп'ютером і "
 "увімкнено."
 
-#: ekos/manager.cpp:1878
+#: ekos/manager.cpp:1883
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Встановлюємо з'єднання з пристроями INDI…"
 
-#: ekos/manager.cpp:1897
+#: ekos/manager.cpp:1902
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Від'єднуємо пристрої INDI…"
 
-#: ekos/manager.cpp:1937
+#: ekos/manager.cpp:1942
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Роботу служб INDI завершено."
 
-#: ekos/manager.cpp:2015
+#: ekos/manager.cpp:2020
 #, kde-format
 msgid "Remote devices established."
 msgstr "Роботу з віддаленими пристроями увімкнено."
 
-#: ekos/manager.cpp:2017
+#: ekos/manager.cpp:2022
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 "Роботу з віддаленими пристроями увімкнено. Будь ласка, з'єднайте пристрої з "
 "комп'ютером."
 
-#: ekos/manager.cpp:2081
+#: ekos/manager.cpp:2086
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -29587,119 +29587,119 @@ msgstr ""
 "Не вдалося з'єднатися із %1.\n"
 "Будь ласка, переконайтеся, що пристрій з'єднано із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:2088
+#: ekos/manager.cpp:2093
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 від'єднано."
 
-#: ekos/manager.cpp:2108 ekos/manager.cpp:2117 ekos/manager.cpp:2150
+#: ekos/manager.cpp:2113 ekos/manager.cpp:2122 ekos/manager.cpp:2155
 #: indi/indistd.cpp:837
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 доступний."
 
-#: ekos/manager.cpp:2125
+#: ekos/manager.cpp:2130
 #, kde-format
 msgid "%1 filter is online."
 msgstr "Засіб фільтрування %1 доступний."
 
-#: ekos/manager.cpp:2134
+#: ekos/manager.cpp:2139
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "Засіб фокусування %1 доступний."
 
-#: ekos/manager.cpp:2141
+#: ekos/manager.cpp:2146
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Засіб обертання %1 є працездатним."
 
-#: ekos/manager.cpp:2157
+#: ekos/manager.cpp:2162
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "Засіб прогнозування погоди %1 активний."
 
-#: ekos/manager.cpp:2164
+#: ekos/manager.cpp:2169
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "GPS %1 є працездатним."
 
-#: ekos/manager.cpp:2171
+#: ekos/manager.cpp:2176
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "ВПВ %1 у мережі."
 
-#: ekos/manager.cpp:2180
+#: ekos/manager.cpp:2185
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "Пилозахисний ковпак %1 активний."
 
-#: ekos/manager.cpp:2187
+#: ekos/manager.cpp:2192
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "Підсвітка %1 активна."
 
-#: ekos/manager.cpp:2332
+#: ekos/manager.cpp:2337
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 поза мережею."
 
-#: ekos/manager.cpp:3024
+#: ekos/manager.cpp:3029
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Порт наведення з %1 готовий до роботи."
 
-#: ekos/manager.cpp:3288
+#: ekos/manager.cpp:3293
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ви справді хочете вилучити цей профіль?"
 
-#: ekos/manager.cpp:3289
+#: ekos/manager.cpp:3294
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Підтвердження вилучення"
 
-#: ekos/manager.cpp:3341
+#: ekos/manager.cpp:3346
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Оновлено запис місця до значення %1."
 
-#: ekos/manager.cpp:3343
+#: ekos/manager.cpp:3348
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Не вдалося оновити запис місця до значення %1. Такого міста не знайдено."
 
-#: ekos/manager.cpp:3616
+#: ekos/manager.cpp:3621
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:3624
+#: ekos/manager.cpp:3629
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Вимикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:3652
+#: ekos/manager.cpp:3657
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:3664
+#: ekos/manager.cpp:3669
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно вимикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:4522
+#: ekos/manager.cpp:4527
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Встановлено зовнішнє джерело попереднього перегляду"
 
-#: ekos/manager.cpp:4529
+#: ekos/manager.cpp:4534
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Відновлено внутрішнє джерело попереднього перегляду"
 
-#: ekos/manager.cpp:4536
+#: ekos/manager.cpp:4541
 #, kde-format
 msgid "Received external preview file"
 msgstr "Отримано зовнішній файл попереднього перегляду"
