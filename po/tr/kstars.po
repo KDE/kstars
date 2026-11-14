@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:00+0000\n"
-"PO-Revision-Date: 2026-11-12 19:10+0300\n"
+"PO-Revision-Date: 2026-11-13 19:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6946,7 +6946,7 @@ msgstr "Kaide bir zaman kabul etmiyor."
 #: ekos/align/align_diagnosis.cpp:493
 #, kde-format
 msgid "none"
-msgstr ""
+msgstr "yok"
 
 #: ekos/align/align_diagnosis.cpp:511
 #, kde-format
@@ -7146,10 +7146,9 @@ msgstr ""
 "Döndürücü, %1 saniye sonra zaman aşımına uğradı. Hizalama iptal ediliyor."
 
 #: ekos/align/align_goto.cpp:806
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Slewing failed: the mount stopped without tracking."
-msgstr "Uyarı: Kaide park edilmemiş; izleme kapatılıyor."
+msgstr "Çevirme başarısız: Kaide, izleme olmadan durdu."
 
 #: ekos/align/align_goto.cpp:807 ekos/align/align_solver.cpp:64
 #: ekos/align/align_solver.cpp:96 ekos/align/align_solver.cpp:1231
@@ -7613,77 +7612,69 @@ msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
 
 #: ekos/align/aligndiagnosis.cpp:105
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a camera in the optical train"
-msgstr "Optik katar seç"
+msgstr "Optik katardaki bir kamerayı seçin"
 
 #: ekos/align/aligndiagnosis.cpp:106
 #, kde-format
 msgid "The optical train of Align has no camera."
-msgstr ""
+msgstr "Hizalamanın optik katarında bir kamera yok."
 
 #: ekos/align/aligndiagnosis.cpp:114
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Connect the camera"
-msgstr "Kılavuz kamera ile olan bağlantı kesildi."
+msgstr "Kamerayı bağlayın"
 
 #: ekos/align/aligndiagnosis.cpp:115
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The camera %1 is disconnected."
-msgstr "%1 bağlantısı kesildi."
+msgstr "Kamera %1 bağlantısı kesildi."
 
 #: ekos/align/aligndiagnosis.cpp:123
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Connect the mount"
-msgstr "Kaideyi düzelt"
+msgstr "Kaideyi bağlayın"
 
 #: ekos/align/aligndiagnosis.cpp:124
 #, kde-format
 msgid "The mount is disconnected, so its position is unknown."
-msgstr ""
+msgstr "Kaidenin bağlantısı kesildiğinden, konumu bilinmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:132
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Check the mount connection"
-msgstr "Seçimin türünü değiştirir"
+msgstr "Kaide bağlantısını denetleyin"
 
 #: ekos/align/aligndiagnosis.cpp:133
-#, fuzzy, kde-format
-#| msgid "Mount is synced to solution coordinates."
+#, kde-format
 msgid "The mount is connected but sends no valid coordinates."
-msgstr "Kaide, çözüm koordinatlarıyla eşzamanlıdır."
+msgstr "Kaide bağlı; ancak geçerli koordinatlar göndermiyor."
 
 #: ekos/align/aligndiagnosis.cpp:135
 #, kde-format
 msgid "Open the mount control panel and check that it shows RA and DEC."
-msgstr ""
+msgstr "Kaidenin denetim panelini açın ve RA ve DEC gösterdiğinden emin olun."
 
 #: ekos/align/aligndiagnosis.cpp:136
 #, kde-format
 msgid "If it does not, disconnect and reconnect the mount."
-msgstr ""
+msgstr "Göstermiyorsa kaidenin bağlantısını kesin ve yeniden bağlayın."
 
 #: ekos/align/aligndiagnosis.cpp:144
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid "Set the telescope focal length and aperture"
-msgstr "Milimetre olarak teleskop odak uzaklığı"
+msgstr "Teleskop odak uzaklığını ve açıklığını ayarlayın"
 
 #: ekos/align/aligndiagnosis.cpp:145
 #, kde-format
 msgid "Focal length %1 mm, aperture %2 mm."
-msgstr ""
+msgstr "Odak uzunluğu %1 mm, açıklık %2 mm"
 
 #: ekos/align/aligndiagnosis.cpp:156
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Set the camera pixel size"
-msgstr "Mikron olarak kamera pikseli boyutu"
+msgstr "Kamera piksel boyutunu ayarlayın"
 
 #: ekos/align/aligndiagnosis.cpp:157
 #, kde-format

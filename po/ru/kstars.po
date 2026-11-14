@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:00+0000\n"
-"PO-Revision-Date: 2026-11-12 07:45+0200\n"
+"PO-Revision-Date: 2026-11-13 07:44+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18960,10 +18960,9 @@ msgid "Limit: %1 mins"
 msgstr "Ограничение: %1 мин"
 
 #: ekos/capture/camerastate.cpp:946
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Changing filter to %1 before focusing..."
-msgstr "Изменение фильтра для %1..."
+msgstr "Изменение фильтра на %1 перед фокусировкой..."
 
 #: ekos/capture/camerastate.cpp:1023
 #, kde-format
