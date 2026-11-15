@@ -174,6 +174,7 @@ void SchedulerProcess::findNextJob()
     moduleState()->resetGuidingStageTimer();
     moduleState()->resetFocusFailureCount();
     moduleState()->resetCaptureFailureCount();
+    moduleState()->resetSlewFailureCount();
 
     if (activeJob()->getState() == SCHEDJOB_ERROR || activeJob()->getState() == SCHEDJOB_ABORTED)
     {
@@ -1034,6 +1035,10 @@ void SchedulerProcess::startSlew()
     QList<QVariant> telescopeSlew;
     telescopeSlew.append(target.ra().Hours());
     telescopeSlew.append(target.dec().Degrees());
+
+    // Remembered for a slew that ends without tracking, see switchTrackingOnAtTarget()
+    m_slewTarget = SkyPoint(target.ra().Hours(), target.dec().Degrees());
+    m_slewTrackingRequested = false;
 
     QDBusReply<bool> const slewModeReply = mountInterface()->callWithArgumentList(QDBus::AutoDetect, "slew",
                                            telescopeSlew);
@@ -4315,6 +4320,7 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
             if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' slew is complete.", activeJob()->getName()));
+                moduleState()->resetSlewFailureCount();
                 moduleState()->updateJobStage(SCHEDSTAGE_SLEW_COMPLETE);
                 /* getNextAction is deferred to checkJobStage for dome support */
             }
@@ -4326,6 +4332,17 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
             }
             else if (status == ISD::Mount::MOUNT_IDLE)
             {
+                if (switchTrackingOnAtTarget())
+                    break;
+                // A mount that keeps refusing the goto (e.g. stuck at a limit) would be restarted forever
+                if (!moduleState()->increaseSlewFailureCount())
+                {
+                    appendLogText(i18n("Warning: job '%1' is still not slewing after several restarts, marking terminated due to errors.",
+                                       activeJob()->getName()));
+                    activeJob()->setState(SCHEDJOB_ERROR);
+                    findNextJob();
+                    break;
+                }
                 appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", activeJob()->getName()));
                 moduleState()->updateJobStage(SCHEDSTAGE_IDLE);
                 getNextAction();
@@ -4556,6 +4573,45 @@ SkyPoint SchedulerProcess::mountCoords()
     return SkyPoint(coords[0], coords[1]);
 }
 
+bool SchedulerProcess::switchTrackingOnAtTarget()
+{
+    // Some mounts (e.g. OnStep once tracking has been switched off) end a goto at the target without tracking.
+    // The slewing stage waits for tracking and restarts the slew when the mount is idle, so such a slew was
+    // restarted forever. If the mount stopped at the target, switch tracking on once and wait for it instead.
+    // Tracking is not switched on before the slew: a mount tracking at its home position (pier side unknown)
+    // makes the meridian flip check plan a flip there.
+    constexpr int trackingWaitSecs = 10;
+    constexpr double targetToleranceDeg = 1.0;
+
+    if (activeJob() == nullptr)
+        return false;
+
+    if (m_slewTrackingRequested)
+    {
+        if (m_slewTrackingRequestTime.secsTo(SchedulerModuleState::getLocalTime()) < trackingWaitSecs)
+            return true;
+        appendLogText(i18n("Warning: job '%1': the mount didn't start tracking.", activeJob()->getName()));
+        m_slewTrackingRequested = false;
+        return false;
+    }
+
+    const SkyPoint position = mountCoords();
+    if (position.ra().Degrees() == 0 && position.dec().Degrees() == 0)
+        return false;
+    if (position.angularDistanceTo(&m_slewTarget).Degrees() > targetToleranceDeg)
+        return false;
+
+    QDBusReply<bool> const trackingReply = mountInterface()->call(QDBus::AutoDetect, "setTracking", true);
+    if (!trackingReply.isValid() || !trackingReply.value())
+        return false;
+
+    m_slewTrackingRequested = true;
+    m_slewTrackingRequestTime = SchedulerModuleState::getLocalTime();
+    appendLogText(i18n("Job '%1': the mount reached the target without tracking, switching tracking on.",
+                       activeJob()->getName()));
+    return true;
+}
+
 bool SchedulerProcess::isMountParked()
 {
     if (mountInterface().isNull())
@@ -4590,15 +4646,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-                //            case Mount::PARKING_ERROR:  // INDI switch error
-                //            case Mount::PARKING_BUSY:   // INDI switch busy
-                //            case Mount::UNPARKING_BUSY: // INDI switch busy
+            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            //            case Mount::PARKING_ERROR:  // INDI switch error
+            //            case Mount::PARKING_BUSY:   // INDI switch busy
+            //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }

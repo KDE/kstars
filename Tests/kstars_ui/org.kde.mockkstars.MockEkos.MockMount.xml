@@ -9,6 +9,9 @@
     </property>
     <property name="canPark" type="b" access="read"/>
     <property name="meridianFlipStatus" type="i" access="read"/>
+    <property name="equatorialCoords" type="ad" access="read">
+      <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
+    </property>
     <method name="slew">
       <arg type="b" direction="out"/>
       <arg name="RA" type="d" direction="in"/>

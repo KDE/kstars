@@ -135,8 +135,21 @@ class MockMount : public QObject
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(bool canPark READ canPark)
         Q_PROPERTY(int meridianFlipStatus READ meridianFlipStatus)
+        Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
     public:
         MockMount();
+        // The position {RA hours, DEC degrees}: the last slew target, unless set with setCoords()
+        QList<double> equatorialCoords() const
+        {
+            if (m_hasCoords)
+                return m_Coords;
+            return {lastRaHoursSlew, lastDecDegreesSlew};
+        }
+        void setCoords(double raHours, double decDegrees)
+        {
+            m_Coords = {raHours, decDegrees};
+            m_hasCoords = true;
+        }
 
         ISD::Mount::Status status() const
         {
@@ -241,6 +254,8 @@ class MockMount : public QObject
         }
     private:
         ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
+        QList<double> m_Coords;
+        bool m_hasCoords { false };
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNPARKED;
         int m_MeridianFlipStatus = 0;
 };

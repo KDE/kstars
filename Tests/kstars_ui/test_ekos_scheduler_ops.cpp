@@ -1696,6 +1696,196 @@ void TestEkosSchedulerOps::testPreemptiveWakeupCompletesStartup()
              qPrintable("The end of the schedule didn't run the pre-shutdown queue, " + summary));
 }
 
+void TestEkosSchedulerOps::testSlewSwitchesTrackingOn_data()
+{
+    QTest::addColumn<int>("startStatus");
+    QTest::addColumn<bool>("canControlTrack");
+    QTest::addColumn<bool>("stopsAtTarget");
+
+    QTest::newRow("IdleAtTarget") << static_cast<int>(ISD::Mount::MOUNT_IDLE) << true << true;
+    QTest::newRow("IdleNoTrackControl") << static_cast<int>(ISD::Mount::MOUNT_IDLE) << false << true;
+    QTest::newRow("IdleAwayFromTarget") << static_cast<int>(ISD::Mount::MOUNT_IDLE) << true << false;
+    QTest::newRow("Tracking") << static_cast<int>(ISD::Mount::MOUNT_TRACKING) << true << true;
+}
+
+// Regression test: the slewing stage ends when the mount reports tracking and restarts the slew when it reports idle.
+// An OnStep mount whose tracking was switched off ends a goto at the target without tracking, so the scheduler
+// restarted the slew forever ("found not slewing, restarting"). When the mount stopped at the target, the scheduler
+// now switches tracking on and waits for it. It must not switch tracking on before the slew: tracking at the home
+// position (pier side unknown) makes the meridian flip check plan a flip there. A mount that stopped somewhere else
+// (e.g. a goto that never started) still gets the slew restarted.
+void TestEkosSchedulerOps::testSlewSwitchesTrackingOn()
+{
+    QFETCH(int, startStatus);
+    QFETCH(bool, canControlTrack);
+    QFETCH(bool, stopsAtTarget);
+    const bool startsIdle = (startStatus == ISD::Mount::MOUNT_IDLE);
+    const bool switchesOn = startsIdle && canControlTrack && stopsAtTarget;
+    const QString trackingOnLine = "Job 'Altair': the mount reached the target without tracking, switching tracking on.";
+    const QString notSlewingLine = "Warning: job 'Altair' found not slewing, restarting.";
+    const QString slewCompleteLine = "Job 'Altair' slew is complete.";
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    // The mount at the start of the job, and the tracking calls made when the first slew was sent
+    mount->setStatus(static_cast<ISD::Mount::Status>(startStatus));
+    mount->canControlTrack = canControlTrack;
+    if (!stopsAtTarget)
+        mount->setCoords(6.0, 90.0);
+    bool slewSeen = false;
+    QList<bool> callsAtFirstSlew;
+    QObject context;
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, &context, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+    connect(mount.data(), &Ekos::MockMount::newStatus, &context, [&](ISD::Mount::Status status)
+    {
+        if (status == ISD::Mount::MOUNT_SLEWING && !slewSeen)
+        {
+            slewSeen = true;
+            callsAtFirstSlew = mount->trackingCalls;
+        }
+    });
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const TestEkosSchedulerHelper::ScheduleSteps trackOnly = {true, false, false, false};
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               m_completionCondition, trackOnly, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+
+    // The mount behaves like an OnStep mount: a goto ends tracking only if tracking was on before it, otherwise
+    // idle; an idle mount starts tracking when it is switched on.
+    const bool trackingBefore = !startsIdle;
+    {
+        WithInterval interval(1000, scheduler);
+        QVERIFY2(iterateScheduler("Wait for the Slew", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+                mount->setStatus(trackingBefore ? ISD::Mount::MOUNT_TRACKING : ISD::Mount::MOUNT_IDLE);
+            else if (mount->status() == ISD::Mount::MOUNT_IDLE && mount->trackingCalls.contains(true))
+                mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+            return m_schedulerLog.contains(slewCompleteLine) || m_schedulerLog.count(notSlewingLine) >= 3;
+        }), qPrintable("Neither a completed nor a restarted slew, log: " + m_schedulerLog.join(" | ")));
+    }
+
+    // Never switched on before the slew
+    QVERIFY(slewSeen);
+    QVERIFY2(callsAtFirstSlew.isEmpty(), "Tracking was switched on before the slew");
+    QList<bool> expectedCalls;
+    if (switchesOn)
+        expectedCalls << true;
+    QVERIFY2(mount->trackingCalls == expectedCalls,
+             qPrintable(QString("%1 setTracking() calls, expected %2")
+                        .arg(mount->trackingCalls.size()).arg(expectedCalls.size())));
+    QCOMPARE(static_cast<int>(m_schedulerLog.count(trackingOnLine)), switchesOn ? 1 : 0);
+
+    if (switchesOn || !startsIdle)
+    {
+        // The slew completes without a restart
+        QVERIFY2(m_schedulerLog.contains(slewCompleteLine), qPrintable(m_schedulerLog.join(" | ")));
+        QCOMPARE(static_cast<int>(m_schedulerLog.count(notSlewingLine)), 0);
+        QCOMPARE(mount->slewCount, 1);
+    }
+    else
+    {
+        // No tracking control, or the mount stopped away from the target: the slew is restarted (unchanged)
+        QVERIFY(m_schedulerLog.count(notSlewingLine) >= 3);
+        QVERIFY(!m_schedulerLog.contains(slewCompleteLine));
+    }
+}
+
+void TestEkosSchedulerOps::testSlewRestartLimit_data()
+{
+    QTest::addColumn<int>("slewsBeforeTracking");
+
+    // The mount refuses every goto, e.g. an OnStep mount stuck at its meridian limit (error 7)
+    QTest::newRow("NeverSlews") << -1;
+    // The mount refuses some gotos, then one works: restarts below the limit are unchanged
+    QTest::newRow("SlewsAfterRestarts") << 3;
+}
+
+// Regression test: a slew that ends with the mount idle away from the target is restarted ("found not slewing,
+// restarting"). An OnStep mount stuck at a limit accepts the goto but doesn't move, so the scheduler restarted the slew
+// forever. After 5 restarts the job is now terminated due to errors, so the error handling can reschedule it.
+void TestEkosSchedulerOps::testSlewRestartLimit()
+{
+    QFETCH(int, slewsBeforeTracking);
+    const QString notSlewingLine = "Warning: job 'Altair' found not slewing, restarting.";
+    const QString giveUpLine =
+        "Warning: job 'Altair' is still not slewing after several restarts, marking terminated due to errors.";
+    const QString slewCompleteLine = "Job 'Altair' slew is complete.";
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    // The mount stays at the pole, away from the target, so the slew isn't treated as one that ended at the target
+    mount->setStatus(ISD::Mount::MOUNT_IDLE);
+    mount->setCoords(6.0, 90.0);
+    QObject context;
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, &context, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    const TestEkosSchedulerHelper::ScheduleSteps trackOnly = {true, false, false, false};
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               m_completionCondition, trackOnly, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+    QVERIFY(scheduler->moduleState()->jobs().size() == 1);
+    Ekos::SchedulerJob *job = scheduler->moduleState()->jobs()[0];
+
+    Ekos::SchedulerJobStatus stateAtGiveUp = Ekos::SCHEDJOB_IDLE;
+    {
+        WithInterval interval(1000, scheduler);
+        QVERIFY2(iterateScheduler("Wait for the end of the slew", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+            {
+                const bool tracks = slewsBeforeTracking >= 0 && mount->slewCount > slewsBeforeTracking;
+                mount->setStatus(tracks ? ISD::Mount::MOUNT_TRACKING : ISD::Mount::MOUNT_IDLE);
+            }
+            if (m_schedulerLog.contains(giveUpLine))
+            {
+                stateAtGiveUp = job->getState();
+                return true;
+            }
+            return m_schedulerLog.contains(slewCompleteLine);
+        }), qPrintable("Neither a completed slew nor the restart limit, log: " + m_schedulerLog.join(" | ")));
+    }
+
+    const QString summary = QString("%1 slews, %2 restarts, log: %3").arg(mount->slewCount)
+                            .arg(m_schedulerLog.count(notSlewingLine)).arg(m_schedulerLog.join(" | "));
+    if (slewsBeforeTracking < 0)
+    {
+        // 1 slew + 5 restarts, then the job ends with an error instead of slewing again
+        QVERIFY2(m_schedulerLog.count(notSlewingLine) == 5, qPrintable(summary));
+        QVERIFY2(m_schedulerLog.count(giveUpLine) == 1, qPrintable(summary));
+        QVERIFY2(mount->slewCount == 6, qPrintable(summary));
+        QVERIFY2(stateAtGiveUp == Ekos::SCHEDJOB_ERROR, qPrintable(summary));
+        QVERIFY(!m_schedulerLog.contains(slewCompleteLine));
+    }
+    else
+    {
+        QVERIFY2(m_schedulerLog.contains(slewCompleteLine), qPrintable(summary));
+        QVERIFY2(m_schedulerLog.count(notSlewingLine) == slewsBeforeTracking, qPrintable(summary));
+        QVERIFY2(!m_schedulerLog.contains(giveUpLine), qPrintable(summary));
+        QVERIFY2(scheduler->moduleState()->slewFailureCount() == 0, qPrintable(summary));
+    }
+}
+
 void TestEkosSchedulerOps::testPreemptiveShutdown()
 {
     // Verifies the preemptive shutdown + automatic wakeup cycle for a FINISH_LOOP job.

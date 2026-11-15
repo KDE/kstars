@@ -481,6 +481,20 @@ class SchedulerModuleState : public QObject
         }
         bool increaseAlignFailureCount();
 
+        uint8_t slewFailureCount() const
+        {
+            return m_slewFailureCount;
+        }
+        void resetSlewFailureCount()
+        {
+            m_slewFailureCount = 0;
+        }
+        /**
+         * @brief increaseSlewFailureCount Count a slew that was restarted because the mount was found not slewing
+         * @return true if the slew may be restarted again
+         */
+        bool increaseSlewFailureCount();
+
         int restartGuidingInterval() const
         {
             return m_restartGuidingInterval;
@@ -830,6 +844,8 @@ class SchedulerModuleState : public QObject
         uint8_t m_guideFailureCount { 0 };
         // Keep track of Ekos align module failures
         uint8_t m_alignFailureCount { 0 };
+        // Keep track of slews restarted because the mount was found not slewing
+        uint8_t m_slewFailureCount { 0 };
         // frames count for all signatures
         CapturedFramesMap m_CapturedFramesCount;
 

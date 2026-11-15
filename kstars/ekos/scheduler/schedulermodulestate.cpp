@@ -345,6 +345,7 @@ void SchedulerModuleState::resetFailureCounters()
     resetGuideFailureCount();
     resetAlignFailureCount();
     resetCaptureFailureCount();
+    resetSlewFailureCount();
 }
 
 bool SchedulerModuleState::increaseIndiConnectFailureCount()
@@ -411,6 +412,11 @@ bool SchedulerModuleState::increaseGuideFailureCount()
 bool SchedulerModuleState::increaseAlignFailureCount()
 {
     return (++m_alignFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseSlewFailureCount()
+{
+    return (++m_slewFailureCount <= MAX_FAILURE_ATTEMPTS);
 }
 
 void SchedulerModuleState::setIndiState(INDIState state)

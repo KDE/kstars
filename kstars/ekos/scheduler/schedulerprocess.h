@@ -138,6 +138,13 @@ class SchedulerProcess : public QObject, public ModuleLogger
         SkyPoint mountCoords();
 
         /**
+         * @brief switchTrackingOnAtTarget Handle a slew that ended with the mount idle: if the mount stopped at the
+         * slew target, switch tracking on once and wait for it (at most 10 s).
+         * @return true if the slewing stage should keep waiting, false if the slew should be restarted
+         */
+        bool switchTrackingOnAtTarget();
+
+        /**
          * @brief startSlew DBus call for initiating slew
          */
         Q_SCRIPTABLE Q_NOREPLY void startSlew();
@@ -847,6 +854,10 @@ class SchedulerProcess : public QObject, public ModuleLogger
         static constexpr int WEATHER_MOUNT_MOTION_WAIT_TIMEOUT_S = 120;
         // Start of the current wait for mount motion (simulated clock), invalid if not waiting
         QDateTime m_mountMotionWaitStart;
+        // Target of the current slew (as sent to the mount) and the tracking request for a slew that ended idle
+        SkyPoint m_slewTarget;
+        bool m_slewTrackingRequested { false };
+        QDateTime m_slewTrackingRequestTime;
 
         // Standalone safety monitor monitoring (before equipment profile starts)
         SchedulerSafetyMonitor *m_StandaloneSafetyMonitor {nullptr};
