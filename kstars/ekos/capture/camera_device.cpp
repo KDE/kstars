@@ -133,6 +133,9 @@ void Camera::setRotatorReversed(bool toggled)
     m_RotatorControlPanel->reverseDirection->blockSignals(true);
     m_RotatorControlPanel->reverseDirection->setChecked(toggled);
     m_RotatorControlPanel->reverseDirection->blockSignals(false);
+    // The switch may have been toggled outside the dialog (INDI control panel, EkosLive client):
+    // the angle conversions must use it too, as commitRotatorDirection() does for the dialog's own checkbox
+    RotatorUtils::Instance()->setReversed(toggled);
 }
 
 void Camera::updateCCDTemperature(double value)

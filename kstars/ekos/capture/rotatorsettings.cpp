@@ -59,7 +59,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     });
     connect(CameraPASlider, &QSlider::valueChanged, this, [this](int PAngle100)
     {
-        double PAngle = PAngle100 / 100;
+        double PAngle = PAngle100 / 100.0;
         paGauge->setValue(-(PAngle)); // Preview cameraPA in gauge
         syncFOV(PAngle); // Preview FOV
     });
@@ -72,12 +72,14 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     });
 
     // -- Field derotation (Alt-Az mounts)
-    derotateField->setChecked(Options::rotatorFieldDerotation());
+    m_DerotationEnabled = Options::rotatorFieldDerotation();
+    derotateField->setChecked(m_DerotationEnabled);
     derotationThreshold->setValue(Options::rotatorDerotationThreshold());
     m_Derotation.setThreshold(Options::rotatorDerotationThreshold() / 60.0);
     connect(derotateField, &QCheckBox::toggled, this, [this](bool toggled)
     {
         Options::setRotatorFieldDerotation(toggled);
+        m_DerotationEnabled = toggled;
         // Hold the position angle the camera has when derotation starts
         m_Derotation.clearHold();
         Q_EMIT newLog(toggled ? i18n("Field derotation enabled.") : i18n("Field derotation disabled."));
@@ -87,6 +89,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
         Options::setRotatorDerotationThreshold(value);
         m_Derotation.setThreshold(value / 60.0);
     });
+    // EkosLive clients change these options directly (option_set saves them): follow those changes
+    connect(Options::self(), &Options::configChanged, this, &RotatorSettings::syncOptions);
     updateAltAzMode(false);
 
     // Rotator Gauge
@@ -313,6 +317,32 @@ void RotatorSettings::updateAltAzMode(bool AltAz)
     // An Alt-Az mount does not flip, so there is no flip policy
     label_6->setHidden(AltAz);
     FlipPolicy->setHidden(AltAz);
+}
+
+void RotatorSettings::syncOptions()
+{
+    const bool enabled = Options::rotatorFieldDerotation();
+    if (enabled != m_DerotationEnabled)
+    {
+        m_DerotationEnabled = enabled;
+        derotateField->blockSignals(true);
+        derotateField->setChecked(enabled);
+        derotateField->blockSignals(false);
+        // As when toggled here: hold the position angle the camera has when derotation starts
+        m_Derotation.clearHold();
+        Q_EMIT newLog(enabled ? i18n("Field derotation enabled.") : i18n("Field derotation disabled."));
+    }
+
+    const double threshold = Options::rotatorDerotationThreshold();
+    if (!qFuzzyCompare(threshold, derotationThreshold->value()))
+    {
+        derotationThreshold->blockSignals(true);
+        derotationThreshold->setValue(threshold);
+        derotationThreshold->blockSignals(false);
+    }
+    m_Derotation.setThreshold(threshold / 60.0);
+
+    updateFlipPolicy(Options::astrometryFlipRotationAllowed());
 }
 
 void RotatorSettings::holdPA(double PAngle)

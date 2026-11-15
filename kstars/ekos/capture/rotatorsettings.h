@@ -84,6 +84,13 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
         void   derotate(const SkyPoint &position, bool tracking);
         /// A rotation to this PA was requested: hold it while derotating
         void   holdPA(double PAngle);
+        /// Derotation on/off as last applied, so a change made outside this dialog is noticed
+        bool   m_DerotationEnabled { false };
+        /**
+         * @brief syncOptions Apply rotator options changed outside this dialog, e.g. by an EkosLive client
+         * through option_set: derotation on/off, derotation threshold and flip policy.
+         */
+        void   syncOptions();
 
     Q_SIGNALS:
         void   newLog(const QString &text);
