@@ -17,3 +17,8 @@ ADD_EXECUTABLE( test_starcatalogs test_starcatalogs.cpp )
 TARGET_LINK_LIBRARIES( test_starcatalogs ${TEST_LIBRARIES} )
 ADD_TEST( NAME TestStarCatalogs COMMAND test_starcatalogs )
 SET_TESTS_PROPERTIES( TestStarCatalogs PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( test_satellitegroup test_satellitegroup.cpp )
+TARGET_LINK_LIBRARIES( test_satellitegroup ${TEST_LIBRARIES} )
+ADD_TEST( NAME TestSatelliteGroup COMMAND test_satellitegroup )
+SET_TESTS_PROPERTIES( TestSatelliteGroup PROPERTIES LABELS "stable")

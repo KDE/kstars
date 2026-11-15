@@ -144,6 +144,7 @@ void SatellitesComponent::drawTrails(SkyPainter *skyp)
 void SatellitesComponent::updateTLEs()
 {
     int i = 0;
+    QStringList failures;
     QProgressDialog progressDlg(i18n("Update TLEs..."), i18n("Abort"), 0, m_groups.count());
     progressDlg.setWindowModality(Qt::WindowModal);
     progressDlg.setValue(0);
@@ -167,29 +168,22 @@ void SatellitesComponent::updateTLEs()
         QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
         event.exec();
 
-        if (response->error() == QNetworkReply::NoError)
-        {
-            QFile file(group->tleFilename().toLocalFile());
-            if (file.open(QFile::WriteOnly))
-            {
-                file.write(response->readAll());
-                file.close();
-                group->readTLE();
-                group->updateSatellitesPos();
-                progressDlg.setValue(++i);
-            }
-            else
-            {
-                KSNotification::error(file.errorString());
-                return;
-            }
-        }
-        else
-        {
-            KSNotification::error(response->errorString());
-            return;
-        }
+        // A failed group must not prevent the other groups from being updated
+        QString error;
+        if (response->error() != QNetworkReply::NoError)
+            error = response->errorString();
+        else if (group->saveTLE(response->readAll(), error))
+            group->updateSatellitesPos();
+
+        if (!error.isEmpty())
+            failures << i18nc("satellite group name: error message", "%1: %2", group->name(), error);
+
+        progressDlg.setValue(++i);
     }
+
+    if (!failures.isEmpty())
+        KSNotification::error(i18n("Failed to update the orbital elements of the following satellite groups:\n%1",
+                                   failures.join('\n')));
 }
 
 QList<SatelliteGroup *> SatellitesComponent::groups()

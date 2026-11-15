@@ -10,6 +10,9 @@
 #include "kspaths.h"
 #include "skyobjects/satellite.h"
 
+#include <KLocalizedString>
+
+#include <QFile>
 #include <QTextStream>
 
 SatelliteGroup::SatelliteGroup(const QString &name, const QString &tle_filename, const QUrl &update_url)
@@ -47,6 +50,47 @@ void SatelliteGroup::readTLE()
         }
         file.close();
     }
+}
+
+bool SatelliteGroup::containsTLE(const QByteArray &data)
+{
+    QTextStream stream(data);
+    while (!stream.atEnd())
+    {
+        // Same layout as readTLE(): name line followed by line 1 and line 2
+        stream.readLine();
+        const QString line1 = stream.readLine();
+        const QString line2 = stream.readLine();
+        if (line1.startsWith('1') && line2.startsWith('2'))
+            return true;
+    }
+    return false;
+}
+
+bool SatelliteGroup::saveTLE(const QByteArray &data, QString &error)
+{
+    if (!containsTLE(data))
+    {
+        error = i18n("The server did not return any orbital elements in TLE format.");
+        return false;
+    }
+
+    QFile file(tleFilename().toLocalFile());
+    if (!file.open(QFile::WriteOnly))
+    {
+        error = file.errorString();
+        return false;
+    }
+
+    if (file.write(data) != data.size())
+    {
+        error = file.errorString();
+        return false;
+    }
+    file.close();
+
+    readTLE();
+    return true;
 }
 
 void SatelliteGroup::updateSatellitesPos()

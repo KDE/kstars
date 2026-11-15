@@ -33,6 +33,22 @@ class SatelliteGroup : public QList<Satellite *>
         void readTLE();
 
         /**
+         * @brief Replace the local TLE file of the group with downloaded data and reload the satellites.
+         *
+         * The local file is left untouched when @p data holds no TLE entry, so an error page or an empty
+         * reply from the server never wipes the satellites of the group.
+         * @param data Downloaded TLE data.
+         * @param error Set to a description of the problem on failure.
+         * @return true if the data was saved and reloaded.
+         */
+        bool saveTLE(const QByteArray &data, QString &error);
+
+        /**
+         * @return true if @p data holds at least one TLE entry (name line, line 1 and line 2) that readTLE() can load.
+         */
+        static bool containsTLE(const QByteArray &data);
+
+        /**
          * Compute current position of the each satellites in the group.
          */
         void updateSatellitesPos();
