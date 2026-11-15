@@ -58,11 +58,16 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
     private:
 
         void setPreview(const QString &id, const QString &url);
+        /** @brief requestSources Download the HiPS source list from the current MocServer. */
+        void requestSources();
 
         KConfigDialog *m_ConfigDialog { nullptr };
         FileDownloader *downloadJob { nullptr };
         FileDownloader *previewJob { nullptr };
 
         QList<QMap<QString, QString>> sources;
+        // MocServer base URLs and the one being tried
+        QStringList m_MocServerUrls;
+        int m_MocServerIndex { 0 };
         bool dirty { false };
 };

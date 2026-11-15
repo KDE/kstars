@@ -13,6 +13,7 @@
 #include "artificialhorizoncomponent.h"
 #include "auxiliary/screencapture.h"
 #include "auxiliary/thememanager.h"
+#include "auxiliary/cdsmirrors.h"
 #include "catalogscomponent.h"
 #include "constellationboundarylines.h"
 #include "dialogs/detaildialog.h"
@@ -2698,8 +2699,9 @@ void ImagingPlanner::searchSimbad()
     else
         name.replace(' ', "");
 
-    QString urlStr = QString("https://simbad.cds.unistra.fr/simbad/sim-id?Ident=%1&NbIdent=1"
-                             "&Radius=20&Radius.unit=arcmin&submit=submit+id").arg(name);
+    QString urlStr = QString("%1/simbad/sim-id?Ident=%2&NbIdent=1"
+                             "&Radius=20&Radius.unit=arcmin&submit=submit+id")
+                     .arg(CDSMirrors::preferredBaseUrl(CDSMirrors::Service::Simbad), name);
     QDesktopServices::openUrl(QUrl(urlStr));
 }
 

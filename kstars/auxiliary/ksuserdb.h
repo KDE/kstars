@@ -516,6 +516,12 @@ class KSUserDB
          **/
         bool FirstRun();
 
+        /**
+         * @brief Replace CDS host names that no longer exist in the HiPS sources and add the
+         * default mirrors of the surveys that KStars installs.
+         **/
+        void UpgradeHIPSServiceURLs(QSqlDatabase &db);
+
         /** @brief creates the image overlay table if it doesn't already exist **/
         void CreateImageOverlayTableIfNecessary();
 
@@ -565,5 +571,5 @@ class KSUserDB
 
         QString m_ConnectionName;
 
-        static const uint16_t SCHEMA_VERSION = 317;
+        static const uint16_t SCHEMA_VERSION = 318;
 };

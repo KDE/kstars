@@ -12,6 +12,7 @@
 #include "opships.h"
 #include "pixcache.h"
 #include "urlfiledownload.h"
+#include "auxiliary/cdsmirrors.h"
 
 #include <QObject>
 
@@ -116,6 +117,25 @@ class HIPSManager : public QObject
          */
         static QMap<int, int> computeOfflineLevels(const QStringList &directories);
 
+        /**
+         * @brief parseSourceRecords Parse the HiPS records returned by a MocServer "get=record" query.
+         * Only the keys stored in the user database are kept. The mirror URLs (hips_service_url_1,
+         * hips_service_url_2, ...) are joined into "hips_service_mirrors", and CDS host names that no longer
+         * exist are replaced with the current ones.
+         * @param data Records in "key = value" lines, separated by empty lines.
+         * @return One map per record. Records without any known key are dropped.
+         */
+        static QList<QMap<QString, QString>> parseSourceRecords(const QByteArray &data);
+
+        /**
+         * @brief currentMirror Base URL that tiles of the current source are downloaded from. This is the
+         * hips_service_url of the source until enough tiles failed in a row, then one of its mirrors.
+         */
+        QString currentMirror() const
+        {
+            return m_Mirrors.current();
+        }
+
     public Q_SLOTS:
         bool setCurrentSource(const QString &title);
         void showSettings();
@@ -124,7 +144,7 @@ class HIPSManager : public QObject
         void sigRepaint();
 
     private Q_SLOTS:
-        void slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key);
+        void slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key, const QString &mirror);
         void slotApply();
         void removeTimer(pixCacheKey_t &key);
 
@@ -157,5 +177,7 @@ class HIPSManager : public QObject
         uint8_t m_currentOrder { 0 };
         uint16_t m_currentTileWidth { 0 };
         QUrl m_currentURL;
+        // Main server and mirrors of the current online source
+        CDSMirrors::MirrorFailover m_Mirrors;
         QMap<int, int> m_OfflineLevelsMap;
 };

@@ -10,6 +10,7 @@
 #include "skyobject.h"
 
 // Forward declarations
+class QByteArray;
 class QString;
 class CatalogObject;
 
@@ -45,6 +46,19 @@ namespace NameResolverInternals
  * @return Success value and the object
  */
 std::pair<bool, CatalogObject> sesameResolver(const QString &name);
+
+/**
+ * @short Parse the XML reply of CDS Sesame
+ *
+ * @param reply the XML document returned by Sesame
+ * @param name the name (identifier) that was resolved
+ * @param wellFormed if not null, set to true when the reply is a complete Sesame document,
+ * whether or not it resolved the name. A reply that is not well-formed (an error page, a
+ * truncated document) means the server failed and another mirror should be tried.
+ * @return Success value and the object
+ */
+std::pair<bool, CatalogObject> parseSesameReply(const QByteArray &reply, const QString &name,
+        bool *wellFormed = nullptr);
 
 /*
  * @short Retrieve additional data from SIMBAD

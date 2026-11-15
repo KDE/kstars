@@ -1504,6 +1504,11 @@ class FITSData : public QObject
          */
         void simbadResponseReady(QNetworkReply *reply);
         /**
+         * @brief send the current Simbad query to the current Simbad mirror
+         * @return the network reply
+         */
+        QNetworkReply *sendSimbadQuery();
+        /**
          * @brief called when a Simbad query times out
          */
         void catTimeout();
@@ -1809,6 +1814,10 @@ class FITSData : public QObject
 
         // Catalog Objects
         QSharedPointer < QNetworkAccessManager > m_NetworkAccessManager;
+        // Current Simbad query, Simbad base URLs and the one being tried
+        QUrl m_SimbadQueryURL;
+        QStringList m_SimbadMirrors;
+        int m_SimbadMirrorIndex { 0 };
         QTimer m_CatQueryTimer;
         bool m_CatQueryInProgress { false };
         bool m_CatUpdateTable { false };

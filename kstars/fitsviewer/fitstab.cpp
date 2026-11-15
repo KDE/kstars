@@ -12,6 +12,7 @@
 #include "fitsview.h"
 #include "fitsviewer.h"
 #include "fitsmemmonitor.h"
+#include "auxiliary/cdsmirrors.h"
 #include "ksnotification.h"
 #include "kstars.h"
 #include "Options.h"
@@ -778,7 +779,7 @@ void FITSTab::showCatObjNames(bool enabled)
 
 void FITSTab::launchSimbad(QString name)
 {
-    QUrl url = QUrl("https://simbad.u-strasbg.fr/simbad/sim-id");
+    QUrl url = CDSMirrors::simbadUrl(CDSMirrors::preferredBaseUrl(CDSMirrors::Service::Simbad), "/simbad/sim-id");
     QString ident = QString("Ident=%1").arg(name);
     ident.replace("+", "%2B");
     ident.remove(QRegularExpression("[\\[\\]]+"));
@@ -790,7 +791,7 @@ void FITSTab::launchSimbad(QString name)
 
 void FITSTab::launchCDS(QString name)
 {
-    QUrl url = QUrl("https://cdsportal.u-strasbg.fr/");
+    QUrl url = QUrl("https://cdsportal.cds.unistra.fr/");
     QString ident = QString("target=%1").arg(name);
     ident.replace("+", "%2B");
     ident.remove(QRegularExpression("[\\[\\]]+"));

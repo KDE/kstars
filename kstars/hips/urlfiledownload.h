@@ -18,11 +18,18 @@ class UrlFileDownload : public QObject
         Q_OBJECT
     public:
         explicit UrlFileDownload(QObject *parent, QNetworkDiskCache *cache);
-        void begin(const QUrl &url, const pixCacheKey_t &key);
+        /**
+         * @brief begin Start downloading a tile.
+         * @param url Tile URL.
+         * @param key Cache key of the tile, passed back with sigDownloadDone().
+         * @param mirror Base URL of the server the tile is requested from, passed back with sigDownloadDone().
+         */
+        void begin(const QUrl &url, const pixCacheKey_t &key, const QString &mirror = QString());
         void abortAll();
 
     Q_SIGNALS:
-        void sigDownloadDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key);
+        void sigDownloadDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key,
+                             const QString &mirror);
         void sigAbort();
 
     public Q_SLOTS:

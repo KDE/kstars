@@ -25,6 +25,8 @@
 #include <QNetworkAccessManager>
 #include <QEventLoop>
 
+#include "auxiliary/cdsmirrors.h"
+
 #include <kstars_debug.h>
 
 std::pair<bool, CatalogObject> NameResolver::resolveName(const QString &name)
@@ -47,9 +49,6 @@ std::pair<bool, CatalogObject> NameResolver::resolveName(const QString &name)
 std::pair<bool, CatalogObject>
 NameResolver::NameResolverInternals::sesameResolver(const QString &name)
 {
-    QUrl resolverUrl = QUrl(
-                           QString("http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1").arg(name));
-
     QString msg = xi18n("Attempting to resolve object %1 using CDS Sesame.", name);
     qCDebug(KSTARS) << msg;
 
@@ -57,29 +56,61 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
     KStarsLite::Instance()->notificationMessage(msg);
 #endif
 
+    // CDS is sometimes down, so try its mirrors in turn. A well-formed reply ends the search even
+    // when it does not resolve the name, since all mirrors serve the same data.
     QNetworkAccessManager manager;
-    QNetworkReply *response = manager.get(QNetworkRequest(resolverUrl));
-    Q_ASSERT(response);
-
-    // Wait synchronously
-    QEventLoop event;
-    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
-    event.exec();
-
-    if (response->error() != QNetworkReply::NoError)
+    for (const auto &baseUrl : CDSMirrors::baseUrls(CDSMirrors::Service::Sesame))
     {
-        msg = xi18n("Error trying to get XML response from CDS Sesame server: %1",
-                    response->errorString());
-        qWarning() << msg;
+        const QUrl resolverUrl = CDSMirrors::sesameUrl(baseUrl, name);
+        qCDebug(KSTARS) << "Querying Sesame:" << resolverUrl;
 
-#ifdef KSTARS_LITE
-        KStarsLite::Instance()->notificationMessage(msg);
-#endif
-        return { false, {} };
+        QNetworkReply *response = manager.get(QNetworkRequest(resolverUrl));
+        Q_ASSERT(response);
+        CDSMirrors::abortAfter(response, CDSMirrors::requestTimeoutMs());
+
+        // Wait synchronously
+        QEventLoop event;
+        QObject::connect(response, &QNetworkReply::finished, &event, &QEventLoop::quit);
+        if (response->isRunning())
+            event.exec();
+
+        if (response->error() != QNetworkReply::NoError)
+        {
+            msg = xi18n("Error trying to get XML response from CDS Sesame server: %1",
+                        response->errorString());
+            qCWarning(KSTARS) << msg << resolverUrl.host();
+            response->deleteLater();
+            continue;
+        }
+
+        const QByteArray data = response->readAll();
+        response->deleteLater();
+
+        bool wellFormed = false;
+        const auto result = parseSesameReply(data, name, &wellFormed);
+        if (wellFormed)
+        {
+            CDSMirrors::reportSuccess(CDSMirrors::Service::Sesame, baseUrl);
+            return result;
+        }
+
+        qCWarning(KSTARS) << "Invalid reply from Sesame server" << resolverUrl.host();
     }
 
-    QXmlStreamReader xml(response->readAll());
-    response->deleteLater();
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->notificationMessage(msg);
+#endif
+    return { false, {} };
+}
+
+std::pair<bool, CatalogObject>
+NameResolver::NameResolverInternals::parseSesameReply(const QByteArray &reply, const QString &name, bool *wellFormed)
+{
+    if (wellFormed)
+        *wellFormed = false;
+
+    QString msg;
+    QXmlStreamReader xml(reply);
     if (xml.atEnd())
     {
         // file is empty
@@ -93,6 +124,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
         return { false, {} };
     }
 
+    bool sesameRoot { false };
     CatalogObject data
     {
         CatalogObject::oid{}, SkyObject::STAR, dms{ 0 }, dms{ 0 }, 0, name, name
@@ -109,6 +141,12 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
         if (token == QXmlStreamReader::StartElement)
         {
             qCDebug(KSTARS) << "Parsing token with name " << xml.name();
+
+            if (xml.name().toString() == "Sesame")
+            {
+                sesameRoot = true;
+                continue;
+            }
 
             if (xml.name().toString() == "Resolver")
             {
@@ -226,6 +264,10 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
 #endif
         return { false, {} };
     }
+
+    // A well-formed Sesame document, whether or not it resolved the name
+    if (wellFormed)
+        *wellFormed = sesameRoot;
 
     if (!found)
         return { false, {} };

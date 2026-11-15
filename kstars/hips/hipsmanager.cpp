@@ -24,6 +24,10 @@
 #include <QNetworkDiskCache>
 #include <QPainter>
 #include <QRegularExpression>
+#include <QTextStream>
+
+// Qt version calming
+#include <qtskipemptyparts.h>
 
 static QNetworkDiskCache *g_discCache = nullptr;
 static UrlFileDownload *g_download = nullptr;
@@ -68,8 +72,7 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
     {
         g_download = new UrlFileDownload(this, g_discCache);
 
-        connect(g_download, SIGNAL(sigDownloadDone(QNetworkReply::NetworkError, QByteArray &, pixCacheKey_t &)),
-                this, SLOT(slotDone(QNetworkReply::NetworkError, QByteArray &, pixCacheKey_t &)));
+        connect(g_download, &UrlFileDownload::sigDownloadDone, this, &HIPSManager::slotDone);
     }
 
     g_discCache->setCacheDirectory(QDir(KSPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("hips"));
@@ -234,9 +237,11 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
         path = "/Norder3/Allsky." + m_currentFormat;
     }
 
-    QUrl downloadURL(m_currentURL);
+    // Online sources are downloaded from their current mirror, offline sources from m_currentURL
+    const QString mirror = m_Mirrors.current();
+    QUrl downloadURL(mirror.isEmpty() ? m_currentURL : QUrl(mirror));
     downloadURL.setPath(downloadURL.path() + path);
-    g_download->begin(downloadURL, key);
+    g_download->begin(downloadURL, key, mirror);
     m_downloadMap.insert(key);
 
     return nullptr;
@@ -342,8 +347,11 @@ void HIPSManager::clearDiscCache()
     g_discCache->clear();
 }
 
-void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key)
+void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, pixCacheKey_t &key,
+                           const QString &mirror)
 {
+    bool tileLoaded = false;
+
     if (error == QNetworkReply::NoError)
     {
         m_downloadMap.remove(key);
@@ -363,6 +371,7 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
             qCWarning(KSTARS) << "Exception caught while loading HiPS tile data";
         }
 
+        tileLoaded = loaded;
         if (loaded)
         {
             addToMemoryCache(key, item);
@@ -387,6 +396,14 @@ void HIPSManager::slotDone(QNetworkReply::NetworkError error, QByteArray &data, 
             timer->setKey(key);
             connect(timer, SIGNAL(remove(pixCacheKey_t &)), this, SLOT(removeTimer(pixCacheKey_t &)));
         }
+    }
+
+    // Switch to the next mirror when the current server keeps failing. Failed tiles are requested
+    // again from the new mirror once their RemoveTimer expires.
+    if (error != QNetworkReply::OperationCanceledError && !mirror.isEmpty() &&
+            m_Mirrors.reportResult(mirror, tileLoaded))
+    {
+        qCWarning(KSTARS) << "HiPS server" << mirror << "is not responding, switching to" << m_Mirrors.current();
     }
 }
 
@@ -427,6 +444,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
         m_currentFormat.clear();
         m_currentFrame = HIPS_OTHER_FRAME;
         m_currentURL.clear();
+        m_Mirrors.setUrls({});
         m_currentOrder = 0;
         m_currentTileWidth = 0;
         m_uid = 0;
@@ -440,6 +458,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
         m_currentFrame = HIPS_EQUATORIAL_FRAME;
         m_currentURL = QUrl(Options::hIPSOfflinePath());
         m_currentURL.setScheme("file");
+        m_Mirrors.setUrls({});
         m_currentOrder = m_OfflineLevelsMap.lastKey();
         m_uid = qHash(m_currentURL);
         Options::setShowHIPS(true);
@@ -475,7 +494,12 @@ bool HIPSManager::setCurrentSource(const QString &title)
                 m_currentFrame = HIPS_OTHER_FRAME;
 
             m_currentURL = QUrl(source.value("hips_service_url"));
+            // The cache key only depends on the main URL, so cached tiles stay valid after a mirror switch
             m_uid = qHash(m_currentURL);
+
+            QStringList mirrors { source.value("hips_service_url") };
+            mirrors << source.value("hips_service_mirrors").split(CDSMirrors::HipsMirrorSeparator, Qt::SkipEmptyParts);
+            m_Mirrors.setUrls(mirrors);
 
             Options::setHIPSSource(title);
             Options::setShowHIPS(true);
@@ -561,4 +585,65 @@ int HIPSManager::getUsableOfflineLevel(int level) const
 void RemoveTimer::setKey(const pixCacheKey_t &key)
 {
     m_key = key;
+}
+
+QList<QMap<QString, QString>> HIPSManager::parseSourceRecords(const QByteArray &data)
+{
+    // Keys stored in the hips table of the user database
+    static const QStringList hipsKeys = { "ID", "obs_title", "obs_description", "hips_order", "hips_frame",
+                                          "hips_tile_width", "hips_tile_format", "hips_service_url", "moc_sky_fraction"
+                                        };
+    static const QRegularExpression mirrorKey(QStringLiteral("^hips_service_url_(\\d+)$"));
+
+    QList<QMap<QString, QString>> sources;
+    QMap<QString, QString> oneSource;
+    QMap<int, QString> mirrors;
+
+    auto finishSource = [&]()
+    {
+        if (!oneSource.isEmpty())
+        {
+            if (oneSource.contains("hips_service_url"))
+                oneSource["hips_service_url"] = CDSMirrors::upgradeLegacyUrl(oneSource.value("hips_service_url"));
+
+            QStringList mirrorList;
+            for (const auto &oneMirror : std::as_const(mirrors))
+            {
+                const QString url = CDSMirrors::upgradeLegacyUrl(oneMirror);
+                if (!url.isEmpty() && url != oneSource.value("hips_service_url") && !mirrorList.contains(url))
+                    mirrorList << url;
+            }
+            oneSource["hips_service_mirrors"] = mirrorList.join(CDSMirrors::HipsMirrorSeparator);
+            sources.append(oneSource);
+        }
+        oneSource.clear();
+        mirrors.clear();
+    };
+
+    QTextStream stream(data);
+    while (!stream.atEnd())
+    {
+        const QString line = stream.readLine();
+        if (line.trimmed().isEmpty())
+        {
+            finishSource();
+            continue;
+        }
+
+        const int separator = line.indexOf('=');
+        if (separator < 0)
+            continue;
+
+        const QString key = line.left(separator).simplified();
+        const QString value = line.mid(separator + 1).simplified();
+
+        const auto match = mirrorKey.match(key);
+        if (match.hasMatch())
+            mirrors[match.captured(1).toInt()] = value;
+        else if (hipsKeys.contains(key))
+            oneSource[key] = value;
+    }
+    finishSource();
+
+    return sources;
 }

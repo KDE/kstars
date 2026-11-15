@@ -14,6 +14,8 @@
 #include "auxiliary/ksnotification.h"
 #include "auxiliary/filedownloader.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/cdsmirrors.h"
+#include "kstars_debug.h"
 
 #include <KConfigDialog>
 
@@ -25,8 +27,6 @@
 
 // Qt version calming
 #include <qtkeepemptyparts.h>
-
-static const QStringList hipsKeys = { "ID", "obs_title", "obs_description", "hips_order", "hips_frame", "hips_tile_width", "hips_tile_format", "hips_service_url", "moc_sky_fraction"};
 
 OpsHIPSDisplay::OpsHIPSDisplay() : QFrame(KStars::Instance())
 {
@@ -76,44 +76,45 @@ OpsHIPS::OpsHIPS() : QFrame(KStars::Instance())
 
 void OpsHIPS::slotRefresh()
 {
+    // Try the CDS MocServer first, then its mirror
+    m_MocServerUrls = CDSMirrors::baseUrls(CDSMirrors::Service::MocServer);
+    m_MocServerIndex = 0;
+    requestSources();
+}
+
+void OpsHIPS::requestSources()
+{
+    if (m_MocServerIndex >= m_MocServerUrls.count())
+        return;
+
     downloadJob = new FileDownloader();
 
     downloadJob->setProgressDialogEnabled(true, i18n("HiPS Update"), i18n("Downloading HiPS sources..."));
+    // A maintenance page instead of the source list counts as a failure, so that the next server is tried
+    downloadJob->registerDataVerification([](const QByteArray & data)
+    {
+        return data.contains("hips_service_url");
+    });
 
     connect(downloadJob, &FileDownloader::downloaded, this, &OpsHIPS::downloadReady);
     connect(downloadJob, &FileDownloader::error, this, &OpsHIPS::downloadError);
 
-    downloadJob->get(
-        QUrl("http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&get=record"));
+    downloadJob->get(QUrl(m_MocServerUrls.at(m_MocServerIndex) +
+                          "?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&get=record"));
 }
 
 void OpsHIPS::downloadReady()
 {
-    sources.clear();
+    if (m_MocServerIndex < m_MocServerUrls.count())
+        CDSMirrors::reportSuccess(CDSMirrors::Service::MocServer, m_MocServerUrls.at(m_MocServerIndex));
 
-    QTextStream stream(downloadJob->downloadedData());
+    sources = HIPSManager::parseSourceRecords(downloadJob->downloadedData());
 
     QStringList hipsTitles;
-
-    QMap<QString, QString> oneSource;
-    while (stream.atEnd() == false)
+    for (const auto &oneSource : std::as_const(sources))
     {
-        QString line = stream.readLine();
-        if (line.isEmpty())
-        {
-            sources.append(oneSource);
-            oneSource.clear();
-            continue;
-        }
-
-        QStringList keyvalue = line.split('=', Qt::KeepEmptyParts);
-        QString key   = keyvalue[0].simplified();
-        if (hipsKeys.contains(key) == false)
-            continue;
-        QString value = keyvalue[1].simplified();
-        oneSource[key] = value;
-        if (key == "obs_title")
-            hipsTitles << value;
+        if (oneSource.contains("obs_title"))
+            hipsTitles << oneSource.value("obs_title");
     }
 
     // Get existing database sources
@@ -154,8 +155,17 @@ void OpsHIPS::downloadReady()
 
 void OpsHIPS::downloadError(const QString &errorString)
 {
-    KSNotification::error(i18n("Error downloading HiPS sources: %1", errorString));
     downloadJob->deleteLater();
+
+    if (++m_MocServerIndex < m_MocServerUrls.count())
+    {
+        qCWarning(KSTARS) << "Error downloading HiPS sources:" << errorString << "Trying"
+                          << m_MocServerUrls.at(m_MocServerIndex);
+        requestSources();
+        return;
+    }
+
+    KSNotification::error(i18n("Error downloading HiPS sources: %1", errorString));
 }
 
 void OpsHIPS::slotItemUpdated(QListWidgetItem *item)

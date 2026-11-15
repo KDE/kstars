@@ -1012,6 +1012,7 @@ set(kstars_extra_SRCS
     auxiliary/geolocation.cpp
     auxiliary/ksfilereader.cpp
     auxiliary/ksuserdb.cpp
+    auxiliary/cdsmirrors.cpp
     auxiliary/binfilehelper.cpp
     auxiliary/ksutils.cpp
     auxiliary/ksdssimage.cpp

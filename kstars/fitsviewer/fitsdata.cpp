@@ -37,6 +37,7 @@
 #include "skycomponents/constellationboundarylines.h"
 #include "auxiliary/ksnotification.h"
 #include "auxiliary/robuststatistics.h"
+#include "auxiliary/cdsmirrors.h"
 
 #include <KFormat>
 #include <QApplication>
@@ -6773,7 +6774,9 @@ bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
     m_CatUpdateTable = false;
 
     // Query Simbad
-    QUrl simbadURL = QUrl("https://simbad.cds.unistra.fr/simbad/sim-coo");
+    m_SimbadMirrors = CDSMirrors::baseUrls(CDSMirrors::Service::Simbad);
+    m_SimbadMirrorIndex = 0;
+    QUrl simbadURL = CDSMirrors::simbadUrl(m_SimbadMirrors.value(0), "/simbad/sim-coo");
     QUrlQuery simbadQuery(simbadURL.query());
 
     QString coord = QString("%1 %2").arg(searchCenter.ra0().toHMSString(true, true))
@@ -6804,11 +6807,11 @@ bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
     simbadQuery.addQueryItem("list.bibsel", "off"); // Bibliography
 
     simbadURL.setQuery(simbadQuery);
-    qCDebug(KSTARS_FITS) << "Simbad query:" << simbadURL;
+    m_SimbadQueryURL = simbadURL;
 
     m_NetworkAccessManager.reset(new QNetworkAccessManager(nullptr));
     connect(m_NetworkAccessManager.get(), &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
-    QNetworkReply *response = m_NetworkAccessManager->get(QNetworkRequest(simbadURL));
+    QNetworkReply *response = sendSimbadQuery();
     if (response->error() != QNetworkReply::NoError)
     {
         qCDebug(KSTARS_FITS) << "Error:" << response->errorString() << " occured querying SIMBAD with" << simbadURL;
@@ -6823,6 +6826,24 @@ bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
     m_CatQueryTimer.start(60 * 1000);
     Q_EMIT loadingCatalogData();
     return true;
+}
+
+QNetworkReply * FITSData::sendSimbadQuery()
+{
+    // Send the same query to the current mirror
+    QUrl url = m_SimbadQueryURL;
+    const QUrl mirror(m_SimbadMirrors.value(m_SimbadMirrorIndex));
+    if (mirror.isValid() && !mirror.host().isEmpty())
+    {
+        url.setScheme(mirror.scheme());
+        url.setHost(mirror.host());
+        url.setPort(mirror.port());
+    }
+    qCDebug(KSTARS_FITS) << "Simbad query:" << url;
+
+    QNetworkReply *response = m_NetworkAccessManager->get(QNetworkRequest(url));
+    CDSMirrors::abortAfter(response, CDSMirrors::requestTimeoutMs());
+    return response;
 }
 
 void FITSData::catTimeout()
@@ -6913,15 +6934,30 @@ void FITSData::catTimeout()
 #if !defined(KSTARS_LITE)
 void FITSData::simbadResponseReady(QNetworkReply * simbadReply)
 {
+    // False if the query already timed out
+    const bool queryActive = m_CatQueryInProgress;
     m_CatQueryTimer.stop();
     m_CatQueryInProgress = false;
     if (simbadReply->error() != QNetworkReply::NoError)
     {
         qCDebug(KSTARS_FITS) << "Error:" << simbadReply->errorString() << " occured in SIMBAD query reply";
+        simbadReply->deleteLater();
+
+        // SIMBAD is sometimes down, try its mirror
+        if (queryActive && ++m_SimbadMirrorIndex < m_SimbadMirrors.count())
+        {
+            m_CatQueryInProgress = true;
+            m_CatQueryTimer.start(60 * 1000);
+            sendSimbadQuery();
+            return;
+        }
+
         m_CatQueryInProgress = false;
         Q_EMIT catalogQueryFailed(i18n("Error querying Simbad"));
         return;
     }
+
+    CDSMirrors::reportSuccess(CDSMirrors::Service::Simbad, m_SimbadMirrors.value(m_SimbadMirrorIndex));
 
     auto data = simbadReply->readAll();
     QString dataStr = QString(data);

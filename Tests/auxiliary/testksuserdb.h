@@ -30,6 +30,8 @@ class TestKSUserDB : public QObject
         void cleanup();
 
         void testInitializeDB();
+        void testHIPSDefaults();
+        void testHIPSMigration();
 
         void testCreateScopes_data();
         void testCreateScopes();
