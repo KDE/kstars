@@ -94,6 +94,10 @@ void SimClock::setRealTime(bool on)
     Q_EMIT realtimeToogled(m_RealTime);
     if (m_RealTime)
     {
+        // Jump to the system time before announcing the change. tick() would only catch up on the
+        // next timer interval and emits timeAdvanced(), so timeChanged() listeners (e.g. devices
+        // that follow the KStars time) would otherwise keep the old time.
+        m_UTC = KStarsDateTime(QDateTime::currentDateTimeUtc());
         m_InternalTimer.start(TimerInterval);
         Q_EMIT clockToggled(false);
         Q_EMIT scaleChanged(1.0);
