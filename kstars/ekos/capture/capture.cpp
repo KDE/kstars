@@ -158,7 +158,7 @@ QSharedPointer<Camera> Capture::addCamera()
         if (!device.isEmpty())
             emit cameraDeviceActive(device);
     });
-    connect(newCamera.get(), &Camera::newStreamTrackingState, this, [this](const QString &state)
+    connect(newCamera.get(), &Camera::newStreamTrackingState, this, [this](const QString & state)
     {
         auto *cam = qobject_cast<Camera *>(sender());
         if (cam)

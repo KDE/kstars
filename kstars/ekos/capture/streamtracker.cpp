@@ -244,7 +244,8 @@ void StreamTracker::processReport(INDI::PropertyNumber offset)
     if (!reportUsable())
         return;
 
-    const QPointF position(offset.findWidgetByName("CENTROID_X")->getValue(), offset.findWidgetByName("CENTROID_Y")->getValue());
+    const QPointF position(offset.findWidgetByName("CENTROID_X")->getValue(),
+                           offset.findWidgetByName("CENTROID_Y")->getValue());
     const QPointF error(offset.findWidgetByName("OFFSET_X")->getValue(), offset.findWidgetByName("OFFSET_Y")->getValue());
 
     if (m_State == TRACKER_WAITING)

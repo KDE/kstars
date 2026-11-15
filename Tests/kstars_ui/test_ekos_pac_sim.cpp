@@ -177,7 +177,8 @@ void TestEkosPACSim::testDeadband()
         qCInfo(KSTARS_EKOS_TEST) << "Success threshold" << threshold << "deadband" << threshold * 0.1
                                  << (altSmall ? "for altitude" : "for azimuth");
 
-        auto refreshB = Ekos::Manager::Instance()->alignModule()->polarAlignmentAssistant()->findChild<QPushButton *>("PAHRefreshB");
+        auto refreshB =
+            Ekos::Manager::Instance()->alignModule()->polarAlignmentAssistant()->findChild<QPushButton *>("PAHRefreshB");
         QTRY_VERIFY_WITH_TIMEOUT(refreshB->isEnabled(), 30000);
         QTest::mouseClick(refreshB, Qt::LeftButton);
         QTRY_VERIFY_WITH_TIMEOUT(logContains("PAC: Commanding corrector") || logContains("PAC: Polar alignment successful"),
