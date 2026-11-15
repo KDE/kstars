@@ -3138,7 +3138,7 @@
          <default>30.0</default>
       </entry>
       <entry name="PAHCorrectionTimeout" type="UInt">
-         <label>Timeout in seconds for automatic polar alignment correction. If the system cannot reach the desired threshold within this period, it aborts.</label>
+         <label>Timeout in seconds for automatic polar alignment correction, not counting the time the corrector spends moving. If the system cannot reach the desired threshold within this period, it aborts.</label>
          <default>300</default>
       </entry>
    </group>

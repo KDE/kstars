@@ -1100,10 +1100,13 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 
     // Reset automatic PAC correction state for new refresh session.
     m_CorrectionTimerStarted  = false;
+    m_PACMotionMs             = 0;
     m_AutoCorrectionActive    = false;
     m_HasPrevCorrectionErrors = false;
     m_PrevAzError             = 0.0;
     m_PrevAltError            = 0.0;
+    m_PrevAzCorrected         = false;
+    m_PrevAltCorrected        = false;
     m_AzDirectionFlipped      = false;
     m_AltDirectionFlipped     = false;
     m_ConfirmationPending     = false;
@@ -1382,6 +1385,8 @@ void PolarAlignmentAssistant::onPACStatusChanged(ISD::PAC::Status status)
             break;
 
         case ISD::PAC::PAC_CORRECTED:
+            if (m_AutoCorrectionActive)
+                m_PACMotionMs += m_PACMotionTimer.elapsed();
             m_AutoCorrectionActive = false;
             Q_EMIT newLog(i18n("PAC: Correction applied. Capturing next image to verify alignment..."));
             Q_EMIT captureAndSolve();
@@ -1427,9 +1432,9 @@ void PolarAlignmentAssistant::checkAndApplyAutoCorrection(double azError, double
         return;
     }
 
-    // Check correction timeout.
-    const int timeoutMs = Options::pAHCorrectionTimeout() * 1000;
-    if (m_CorrectionTimer.elapsed() >= timeoutMs)
+    // Check correction timeout. Time spent moving the PAC is not counted, only capturing and solving.
+    const qint64 timeoutMs = static_cast<qint64>(Options::pAHCorrectionTimeout()) * 1000;
+    if (m_CorrectionTimer.elapsed() - m_PACMotionMs >= timeoutMs)
     {
         Q_EMIT newLog(i18n("PAC: Correction timeout (%1s) reached. Total error is %2'. Stopping.",
                            Options::pAHCorrectionTimeout(),
@@ -1457,7 +1462,7 @@ void PolarAlignmentAssistant::checkAndApplyAutoCorrection(double azError, double
         if (Options::pAHAutoChangeDirection())
         {
             // Compare against the same m_Prev* values stored before the confirmation solve.
-            if (std::fabs(azError) > std::fabs(m_PrevAzError) && !m_AzDirectionFlipped)
+            if (m_PrevAzCorrected && std::fabs(azError) > std::fabs(m_PrevAzError) && !m_AzDirectionFlipped)
             {
                 correctedAzError     = -azError;
                 m_AzDirectionFlipped = true;
@@ -1470,7 +1475,7 @@ void PolarAlignmentAssistant::checkAndApplyAutoCorrection(double azError, double
                 Q_EMIT newLog(i18n("PAC: Az error increase not confirmed (likely noise) – keeping original direction."));
             }
 
-            if (std::fabs(altError) > std::fabs(m_PrevAltError) && !m_AltDirectionFlipped)
+            if (m_PrevAltCorrected && std::fabs(altError) > std::fabs(m_PrevAltError) && !m_AltDirectionFlipped)
             {
                 correctedAltError     = -altError;
                 m_AltDirectionFlipped = true;
@@ -1525,14 +1530,14 @@ void PolarAlignmentAssistant::checkAndApplyAutoCorrection(double azError, double
         bool needConfirmation = false;
         if (Options::pAHAutoChangeDirection() && m_HasPrevCorrectionErrors)
         {
-            if (std::fabs(azError) > std::fabs(m_PrevAzError) && !m_AzDirectionFlipped)
+            if (m_PrevAzCorrected && std::fabs(azError) > std::fabs(m_PrevAzError) && !m_AzDirectionFlipped)
             {
                 needConfirmation = true;
                 Q_EMIT newLog(i18n("PAC: Az error increased (%1' → %2') – re-solving to confirm before direction change.",
                                    QString::number(m_PrevAzError * 60.0, 'f', 1),
                                    QString::number(azError       * 60.0, 'f', 1)));
             }
-            if (std::fabs(altError) > std::fabs(m_PrevAltError) && !m_AltDirectionFlipped)
+            if (m_PrevAltCorrected && std::fabs(altError) > std::fabs(m_PrevAltError) && !m_AltDirectionFlipped)
             {
                 needConfirmation = true;
                 Q_EMIT newLog(i18n("PAC: Alt error increased (%1' → %2') – re-solving to confirm before direction change.",
@@ -1557,12 +1562,42 @@ void PolarAlignmentAssistant::checkAndApplyAutoCorrection(double azError, double
         m_HasPrevCorrectionErrors = true;
     }
 
+    // Leave out an axis whose error is negligible compared to the success threshold.
+    const double deadbandArcMin = Options::pAHSuccessThreshold() * PAH_AXIS_DEADBAND_FRACTION;
+    const bool correctAz  = std::fabs(correctedAzError)  * 60.0 >= deadbandArcMin;
+    const bool correctAlt = std::fabs(correctedAltError) * 60.0 >= deadbandArcMin;
+    m_PrevAzCorrected  = correctAz;
+    m_PrevAltCorrected = correctAlt;
+
+    if (!correctAz)
+    {
+        Q_EMIT newLog(i18n("PAC: Az error %1' is below %2', not correcting azimuth.",
+                           QString::number(correctedAzError * 60.0, 'f', 2),
+                           QString::number(deadbandArcMin, 'f', 2)));
+        correctedAzError = 0;
+    }
+    if (!correctAlt)
+    {
+        Q_EMIT newLog(i18n("PAC: Alt error %1' is below %2', not correcting altitude.",
+                           QString::number(correctedAltError * 60.0, 'f', 2),
+                           QString::number(deadbandArcMin, 'f', 2)));
+        correctedAltError = 0;
+    }
+
+    // Both axes inside the deadband cannot exceed the success threshold, but guard anyway.
+    if (!correctAz && !correctAlt)
+    {
+        Q_EMIT captureAndSolve();
+        return;
+    }
+
     // Command the PAC to apply the correction.
     m_AutoCorrectionActive = true;
     Q_EMIT newLog(i18n("PAC: Commanding corrector – Az: %1'  Alt: %2'  Total: %3'",
                        QString::number(correctedAzError  * 60.0, 'f', 1),
                        QString::number(correctedAltError * 60.0, 'f', 1),
                        QString::number(totalErrorArcMin,  'f', 1)));
+    m_PACMotionTimer.start();
     m_PAC->startCorrection(correctedAzError, correctedAltError);
     // The next captureAndSolve() will be emitted by onPACStatusChanged() when PAC_CORRECTED fires.
 }

@@ -314,11 +314,19 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         bool m_CorrectionTimerStarted { false };
         // Elapsed-time tracker to enforce the correction timeout.
         QElapsedTimer m_CorrectionTimer;
+        // Time the PAC spent moving, which does not count against the correction timeout.
+        // Slow correctors (e.g. with backlash compensation) can take minutes for one correction.
+        QElapsedTimer m_PACMotionTimer;
+        qint64 m_PACMotionMs { 0 };
         // Stored errors from the previous correction iteration, used by Auto Change Direction logic.
         // m_HasPrevCorrectionErrors becomes true after the first correction is sent.
         bool m_HasPrevCorrectionErrors { false };
         double m_PrevAzError  { 0.0 };
         double m_PrevAltError { 0.0 };
+        // Whether each axis was actually sent in the previous correction. An axis inside the
+        // deadband was not moved, so a change in its error is noise and must not flip its direction.
+        bool m_PrevAzCorrected  { false };
+        bool m_PrevAltCorrected { false };
         // Direction-reversal may only be applied once per axis per session to prevent oscillation.
         bool m_AzDirectionFlipped  { false };
         bool m_AltDirectionFlipped { false };
@@ -330,5 +338,9 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         double m_BestTotalError     { std::numeric_limits<double>::max() };
         int    m_NoImprovementCount { 0 };
         static constexpr int PAH_MAX_NO_IMPROVEMENT { 3 };
+        // An axis whose error is below this fraction of the success threshold is not corrected.
+        // Correcting the other axis alone can still reach the threshold, and a tiny move would
+        // otherwise cost a full backlash cycle on correctors that compensate backlash.
+        static constexpr double PAH_AXIS_DEADBAND_FRACTION { 0.1 };
 };
 }

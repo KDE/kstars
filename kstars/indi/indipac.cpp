@@ -112,6 +112,15 @@ bool PAC::startCorrection(double azError, double altError)
     altNP->setValue(altError);
     sendNewProperty(manualNP);
 
+    // A driver may finish a correction without ever reporting Busy, e.g. when every axis
+    // is below its minimum move. Mark the correction as started now, so the following Ok
+    // is always a status change and listeners see the correction complete.
+    if (m_Status != PAC_CORRECTING)
+    {
+        m_Status = PAC_CORRECTING;
+        Q_EMIT newStatus(m_Status);
+    }
+
     return true;
 }
 

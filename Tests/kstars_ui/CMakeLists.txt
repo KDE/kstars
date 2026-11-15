@@ -123,6 +123,11 @@ TARGET_LINK_LIBRARIES(test_ekos_fieldderotation_sim ${KSTARS_UI_EKOS_LIBS})
 # ADD_TEST(NAME TestEkosFieldDerotationSim COMMAND test_ekos_fieldderotation_sim)
 # SET_TESTS_PROPERTIES( TestEkosFieldDerotationSim PROPERTIES LABELS "astrometry;ui" TIMEOUT 1800 )
 
+# needs an INDI server on 127.0.0.1 (PAC_TEST_PORT, default 7630) running the telescope, CCD and
+# alignment correction simulators, and astrometry index files covering the simulator FOV
+ADD_EXECUTABLE(test_ekos_pac_sim ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_pac_sim.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_pac_sim ${KSTARS_UI_EKOS_LIBS})
+
 ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})
 # excluded to avoid CI timelimit failure
