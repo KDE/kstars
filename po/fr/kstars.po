@@ -18496,6 +18496,9 @@ msgid ""
 "duration in the Calibration options, or set the image transfer format to "
 "FITS or XISF."
 msgstr ""
+"Impossible de calculer l'ADU des flats pour les images %1. Choisissez "
+"« Manuel » dans « Durée d'exposition du flat » des options de calibration, "
+"ou réglez le format de transfert de l'image sur FITS ou XISF."
 
 #: ekos/capture/cameraprocess.cpp:1644
 #, kde-format
@@ -18729,13 +18732,13 @@ msgstr ""
 "Début de la calibration de luminosité de la boîte à flat à la luminosité %1."
 
 #: ekos/capture/cameraprocess.cpp:2808
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1. Next light box brightness is %2."
+#, kde-format
 msgid ""
 "Current ADU is %1 at light box brightness %2, and %3 at the maximum "
 "brightness (%4)."
 msgstr ""
-"La valeur courante ADU est %1. Prochaine luminosité de la boîte à flat : %2."
+"L'ADU actuel est de %1 à la luminosité %2 de la boîte à flat, et de %3 à la "
+"luminosité maximale (%4)."
 
 #: ekos/capture/cameraprocess.cpp:2835
 #, kde-format
@@ -18743,6 +18746,9 @@ msgid ""
 "Current ADU %1 is below the target at the maximum light box brightness. "
 "Checking at brightness %2 that the light box gives light."
 msgstr ""
+"L'ADU actuel (%1) est inférieur à la cible à la luminosité maximale de la "
+"boîte à flat. Vérification, à la luminosité %2, que la boîte à flat émet "
+"bien de la lumière."
 
 #: ekos/capture/cameraprocess.cpp:2841
 #, kde-format
@@ -18843,6 +18849,8 @@ msgid ""
 "Light box brightness left at %1 instead of restoring it to %2, since some "
 "light boxes switch their light off at that brightness."
 msgstr ""
+"Luminosité de la boîte à flat laissée à %1 au lieu d'être rétablie à %2, car "
+"certaines boîtes à flat s'éteignent à cette luminosité."
 
 #: ekos/capture/cameraprocess.cpp:3005
 #, kde-format

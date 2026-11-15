@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:00+0000\n"
-"PO-Revision-Date: 2026-11-12 11:37+0400\n"
+"PO-Revision-Date: 2026-11-14 17:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7074,10 +7074,9 @@ msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "انتهت مهلة الدوّار بعد %1 ثانية. إيقاف المحاذاة."
 
 #: ekos/align/align_goto.cpp:806
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Slewing failed: the mount stopped without tracking."
-msgstr "تحذير: الحامل غير مُكن، يُطفأ التتبع."
+msgstr "فشل التوجيه: توقف الحامل دون تتبع."
 
 #: ekos/align/align_goto.cpp:807 ekos/align/align_solver.cpp:64
 #: ekos/align/align_solver.cpp:96 ekos/align/align_solver.cpp:1231
@@ -8071,17 +8070,16 @@ msgid "Solving works, but the mount did not get close enough to the target."
 msgstr "الحل يعمل، لكن الحامل لم يقترب بما يكفي من الهدف."
 
 #: ekos/align/aligndiagnosis.cpp:494
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount stopped without tracking"
-msgstr "لم يعد الحامل يبلّغ عن التتبع."
+msgstr "توقف الحامل دون تتبع"
 
 #: ekos/align/aligndiagnosis.cpp:495
 #, kde-format
 msgid ""
 "The image was solved, but the mount stopped after the slew and did not start "
 "tracking."
-msgstr ""
+msgstr "حُلّت الصورة، لكن الحامل توقف بعد التوجيه ولم يبدأ التتبع."
 
 #: ekos/align/aligndiagnosis.cpp:499
 #, kde-format
@@ -8292,16 +8290,14 @@ msgstr ""
 "لا يدعم مشغّل الحامل المزامنة. استخدم التوجيه إلى الهدف أو لا شيء بدلًا من ذلك."
 
 #: ekos/align/aligndiagnosis.cpp:698
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check why the mount stopped"
-msgstr "صحح الحامل"
+msgstr "تحقق من سبب توقف الحامل"
 
 #: ekos/align/aligndiagnosis.cpp:699
-#, fuzzy, kde-format
-#| msgid "Hide faint stars while slewing?"
+#, kde-format
 msgid "The mount stopped after the slew and did not track."
-msgstr "إخفاء النجوم الخافتة خلال التحريك؟"
+msgstr "توقف الحامل بعد التوجيه ولم يتتبع."
 
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
@@ -8309,22 +8305,20 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"تحقق من مشغّل الحامل أو وحدة التحكم اليدوية بحثًا عن خطأ حد، مثل حد خط الزوال."
 
 #: ekos/align/aligndiagnosis.cpp:701
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: the mount is not parked, switching tracking off before "
-#| "disconnecting."
+#, kde-format
 msgid ""
 "Switch tracking on: some mounts end a slew without tracking when tracking "
 "was off before it."
-msgstr "تحذير: الحامل غير مُكن، يُطفأ التتبع قبل قطع الاتصال."
+msgstr ""
+"شغّل التتبع: بعض الحوامل تنهي التوجيه دون تتبع عندما كان التتبع متوقفًا قبله."
 
 #: ekos/align/aligndiagnosis.cpp:702
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Check that the slew was not stopped by hand."
-msgstr "تحذير: الحامل غير مُكن، يُطفأ التتبع."
+msgstr "تحقق من أن التوجيه لم يُوقف يدويًا."
 
 #: ekos/align/aligndiagnosis.cpp:710
 #, kde-format
@@ -18525,10 +18519,9 @@ msgid "Limit: %1 mins"
 msgstr "حد: %1 دقيقة"
 
 #: ekos/capture/camerastate.cpp:946
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Changing filter to %1 before focusing..."
-msgstr "أغيّر المرشح إلى %1..."
+msgstr "تغيير المرشح إلى %1 قبل الضبط البؤري..."
 
 #: ekos/capture/camerastate.cpp:1023
 #, kde-format

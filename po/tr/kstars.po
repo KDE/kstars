@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 03:00+0000\n"
-"PO-Revision-Date: 2026-11-13 19:34+0300\n"
+"PO-Revision-Date: 2026-11-14 18:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7679,28 +7679,27 @@ msgstr "Kamera piksel boyutunu ayarlayın"
 #: ekos/align/aligndiagnosis.cpp:157
 #, kde-format
 msgid "The camera driver reports a pixel size of %1 x %2 um."
-msgstr ""
+msgstr "Kamera sürücüsü, %1 × %2 μm’luk bir piksel boyutu bildiriyor."
 
 #: ekos/align/aligndiagnosis.cpp:167
 #, kde-format
 msgid "Install or locate the solver program"
-msgstr ""
+msgstr "Çözücü programı kurun veya yerini gösterin"
 
 #: ekos/align/aligndiagnosis.cpp:168
 #, kde-format
 msgid "The selected external solver program was not found."
-msgstr ""
+msgstr "Seçili dış çözücü program bulunamadı."
 
 #: ekos/align/aligndiagnosis.cpp:190
 #, kde-format
 msgid "Index files for this field of view are installed."
-msgstr ""
+msgstr "Bu görüş alanı için olan indeks dosyaları kuruldu."
 
 #: ekos/align/aligndiagnosis.cpp:199
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Install index files %1"
-msgstr "Geçersiz dosya: %1"
+msgstr "%1 indeks dosyalarını kur"
 
 #: ekos/align/aligndiagnosis.cpp:200
 #, kde-format
@@ -7745,12 +7744,13 @@ msgid ""
 "The solver profile %1 is selected. The default profile adapts its search to "
 "your field of view."
 msgstr ""
+"%1 çözücü profili seçildi. Öntanımlı profil, aramayı sizin görüş alanınıza "
+"göre uyarlar."
 
 #: ekos/align/aligndiagnosis.cpp:272
-#, fuzzy, kde-format
-#| msgid "The specified file is invalid"
+#, kde-format
 msgid "The field of view is narrow"
-msgstr "Belirtilen Dosya Geçersiz"
+msgstr "Görüş alanı dar"
 
 #: ekos/align/aligndiagnosis.cpp:273
 #, kde-format
@@ -7762,7 +7762,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:287
 #, kde-format
 msgid "Check the reducer setting"
-msgstr ""
+msgstr "Redüktör ayarını denetleyin"
 
 #: ekos/align/aligndiagnosis.cpp:288
 #, kde-format
@@ -7770,6 +7770,8 @@ msgid ""
 "The optical train uses a reducer of %1x. A wrong value gives the solver a "
 "wrong field of view."
 msgstr ""
+"Optik katar, %1× kadar bir redüktör kullanıyor. Yanlış bir değer, çözücüye "
+"yanlış bir görüş alanı verir."
 
 #: ekos/align/aligndiagnosis.cpp:314
 #, kde-format
@@ -7893,6 +7895,8 @@ msgid ""
 "The optical train has no focal length or aperture, so the field of view is "
 "unknown."
 msgstr ""
+"Optik katarda odak uzunluğu veya açıklık yok; bu yüzden görüş alanı "
+"bilinmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:393
 #, fuzzy, kde-format
@@ -7905,18 +7909,18 @@ msgstr "Mikron olarak kamera pikseli boyutu"
 msgid ""
 "The camera driver reports no pixel size, so the field of view is unknown."
 msgstr ""
+"Kamera sürücüsü bir piksel boyutu bildirmiyor; bu yüzden görüş alanı "
+"bilinmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:397
-#, fuzzy, kde-format
-#| msgid "Function index out of bounds."
+#, kde-format
 msgid "The field of view is out of bounds"
-msgstr "İşlev indeksi sınırlar dışında."
+msgstr "Görüş alanı sınırlar dışında"
 
 #: ekos/align/aligndiagnosis.cpp:398
-#, fuzzy, kde-format
-#| msgid "Effective field of view size in arcminutes."
+#, kde-format
 msgid "The calculated field of view is %1 x %2 arcmin."
-msgstr "Yaydakika türünden etkili görüş alanı boyutu"
+msgstr "Hesaplanan görüş alanı %1 × %2 yaydakika"
 
 #: ekos/align/aligndiagnosis.cpp:402
 #, fuzzy, kde-format
@@ -8003,7 +8007,7 @@ msgstr "İndeks dosyalarının depolandığı bir klasör ekleyin"
 #: ekos/align/aligndiagnosis.cpp:431
 #, kde-format
 msgid "The solver needs index files for this field of view."
-msgstr ""
+msgstr "Çözücünün bu görüş alanı için indeks dosyalarına gereksinimi var."
 
 #: ekos/align/aligndiagnosis.cpp:434
 #, fuzzy, kde-format
@@ -8195,10 +8199,9 @@ msgid "Mount"
 msgstr "Kaide"
 
 #: ekos/align/aligndiagnosis.cpp:528 ekos/align/aligndiagnosis.cpp:1252
-#, fuzzy, kde-format
-#| msgid "Field of view:"
+#, kde-format
 msgid "Field of view"
-msgstr "Görüş alanı:"
+msgstr "Görüş alanı"
 
 #: ekos/align/aligndiagnosis.cpp:533
 #, fuzzy, kde-format
@@ -8561,6 +8564,8 @@ msgstr "Uzak astrometri sürücüsü artık bağlı değil."
 #, kde-format
 msgid "Check that the remote computer has index files for this field of view."
 msgstr ""
+"Uzak bilgisayarın bu görüş alanı için indeks dosyaları olup olmadığını "
+"denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:768
 #, kde-format
@@ -8780,6 +8785,8 @@ msgid ""
 "Check the focal length, reducer and pixel size: a wrong field of view stops "
 "the solver."
 msgstr ""
+"Odak uzunluğunu, redüktörü ve piksel boyutunu denetleyin: Yanlış bir görüş "
+"alanı, çözücüyü durdurur."
 
 #: ekos/align/aligndiagnosis.cpp:1145
 #, kde-format
@@ -8792,6 +8799,8 @@ msgstr ""
 #, kde-format
 msgid "Check that the index files for this field of view are installed."
 msgstr ""
+"Bu görüş alanı için olan indeks dosyalarının kurulu olup olmadığını "
+"denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:1147
 #, kde-format
@@ -49375,7 +49384,7 @@ msgstr "Milimetre olarak teleskop odak uzaklığı"
 #: kstars.kcfg:3589
 #, kde-format
 msgid "Focal Reducer ratio"
-msgstr "Odak azaltıcısı oranı"
+msgstr "Odak redüktörü oranı"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:3593
