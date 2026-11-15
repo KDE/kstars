@@ -16,6 +16,12 @@
 #include "skymapcomposite.h"
 #include "kstars_debug.h"
 
+#include <QDate>
+#include <QJsonValue>
+#include <QRegularExpression>
+
+#include <algorithm>
+#include <climits>
 #include <cmath>
 #include <typeinfo>
 
@@ -44,10 +50,154 @@
 #define F       3.35281066474748e-3      // Flattening factor
 #define MFACTOR 7.292115e-5
 
+namespace
+{
+// Alpha-5 prefixes for catalog numbers 100000 to 339999 (I and O are not used)
+const QString kAlpha5Letters = QStringLiteral("ABCDEFGHJKLMNPQRSTUVWXYZ");
+
+// Five-character TLE catalog number, in Alpha-5 above 99999. Empty if the number does not fit.
+QString formatCatalogNumber(int number)
+{
+    if (number < 0)
+        return QString();
+    if (number <= 99999)
+        return QStringLiteral("%1").arg(number, 5, 10, QChar('0'));
+
+    const int prefix = number / 10000 - 10;
+    if (prefix >= kAlpha5Letters.size())
+        return QString();
+    return kAlpha5Letters.at(prefix) + QStringLiteral("%1").arg(number % 10000, 4, 10, QChar('0'));
+}
+
+// Catalog number from a five-character TLE field, including Alpha-5
+int parseCatalogNumber(const QString &field)
+{
+    const QString trimmed = field.trimmed();
+    if (!trimmed.isEmpty() && trimmed.at(0).isLetter())
+    {
+        const int prefix = kAlpha5Letters.indexOf(trimmed.at(0).toUpper());
+        if (prefix < 0)
+            return 0;
+        return (prefix + 10) * 10000 + trimmed.mid(1).toInt();
+    }
+    return trimmed.toInt();
+}
+
+// Reads a numeric OMM field, which may be a JSON number or a numeric string. A missing or empty
+// optional field reads as 0.
+bool ommNumber(const QJsonObject &omm, const QString &key, double &value, bool required)
+{
+    const QJsonValue field = omm.value(key);
+    value = 0;
+
+    if (field.isDouble())
+    {
+        value = field.toDouble();
+        return std::isfinite(value);
+    }
+
+    if (field.isString())
+    {
+        const QString text = field.toString().trimmed();
+        if (text.isEmpty())
+            return !required;
+        bool ok = false;
+        value = text.toDouble(&ok);
+        return ok && std::isfinite(value);
+    }
+
+    return !required && (field.isUndefined() || field.isNull());
+}
+
+// Parses an OMM epoch such as 2026-11-14T22:45:17.822016 (UTC) into its date and fraction of day
+bool parseOMMEpoch(const QString &epoch, QDate &date, double &dayFraction)
+{
+    QString text = epoch.trimmed();
+    if (text.endsWith('Z'))
+        text.chop(1);
+    text.replace(' ', 'T');
+
+    const QStringList parts = text.split('T');
+    if (parts.size() != 2)
+        return false;
+
+    date = QDate::fromString(parts.at(0), Qt::ISODate);
+    const QStringList hms = parts.at(1).split(':');
+    if (!date.isValid() || hms.size() != 3)
+        return false;
+
+    bool okHour = false, okMinute = false, okSecond = false;
+    const int hour      = hms.at(0).toInt(&okHour);
+    const int minute    = hms.at(1).toInt(&okMinute);
+    const double second = hms.at(2).toDouble(&okSecond);
+    if (!okHour || !okMinute || !okSecond || hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 ||
+            second >= 61)
+        return false;
+
+    dayFraction = (hour * 3600 + minute * 60 + second) / 86400.0;
+    return true;
+}
+
+// TLE international designator (e.g. 98067A) from an OMM OBJECT_ID (e.g. 1998-067A)
+QString tleDesignator(const QString &objectId)
+{
+    static const QRegularExpression re(QStringLiteral("^\\d{2}(\\d{2})-(\\d{3})([A-Z]{1,3})$"));
+    const QRegularExpressionMatch match = re.match(objectId.trimmed());
+    if (!match.hasMatch())
+        return QString();
+    return match.captured(1) + match.captured(2) + match.captured(3);
+}
+
+// TLE first derivative of mean motion field, e.g. 9.771e-5 -> " .00009771"
+QString formatTLEFirstDerivative(double value)
+{
+    const long long digits = std::min(std::llround(std::fabs(value) * 1e8), 99999999LL);
+    return QString(value < 0 ? '-' : ' ') + '.' + QStringLiteral("%1").arg(digits, 8, 10, QChar('0'));
+}
+
+// TLE field with an assumed leading decimal point and an exponent, e.g. 0.00018276 -> " 18276-3"
+QString formatTLEExponent(double value)
+{
+    const double absValue = std::fabs(value);
+    if (absValue == 0.0)
+        return QStringLiteral(" 00000+0");
+
+    int exponent       = static_cast<int>(std::floor(std::log10(absValue))) + 1;
+    long long mantissa = std::llround(absValue / std::pow(10.0, exponent) * 1e5);
+    if (mantissa >= 100000)
+    {
+        mantissa /= 10;
+        ++exponent;
+    }
+
+    if (exponent < -9)
+        return QStringLiteral(" 00000+0");
+    if (exponent > 9)
+        return QString(value < 0 ? '-' : ' ') + QStringLiteral("99999+9");
+
+    return QString(value < 0 ? '-' : ' ') + QStringLiteral("%1").arg(mantissa, 5, 10, QChar('0')) +
+           (exponent < 0 ? '-' : '+') + QString::number(std::abs(exponent));
+}
+
+// TLE line checksum: sum of the digits, with each minus sign counting as 1, modulo 10
+int tleChecksum(const QString &line)
+{
+    int sum = 0;
+    for (const QChar c : line)
+    {
+        if (c.isDigit())
+            sum += c.digitValue();
+        else if (c == '-')
+            sum += 1;
+    }
+    return sum % 10;
+}
+}
+
 Satellite::Satellite(const QString &name, const QString &line1, const QString &line2)
 {
     //m_name          = name;
-    m_number      = line1.mid(2, 5).toInt();
+    m_number      = parseCatalogNumber(line1.mid(2, 5));
     m_class       = line1.at(7);
     m_id          = line1.mid(9, 8);
     m_epoch       = line1.mid(18, 14).toDouble();
@@ -66,14 +216,6 @@ Satellite::Satellite(const QString &name, const QString &line1, const QString &l
     m_nb_revolution = line2.mid(63, 5).toInt();
     m_tle           = name + "\n" + line1 + "\n" + line2;
 
-    setName(name);
-    setName2(name);
-    setLongName(name + " (" + m_id + ')');
-    setType(SkyObject::SATELLITE);
-    setMag(0.0);
-
-    m_is_selected = Options::selectedSatellites().contains(name);
-
     // Convert TLE epoch to Julian date
     double day = modf(m_epoch * 1.e-3, &m_epoch_year) * 1.e3;
     if (m_epoch_year < 57.)
@@ -88,6 +230,114 @@ Satellite::Satellite(const QString &name, const QString &line1, const QString &l
     i           = 365.25 * year;
     i += 30.6001 * 14;
     m_tle_jd = i + 1720994.5 + B + day;
+
+    setup(name);
+}
+
+Satellite *Satellite::fromOMM(const QJsonObject &omm)
+{
+    double number = 0, meanMotion = 0, eccentricity = 0, inclination = 0, raan = 0, argPerigee = 0, meanAnomaly = 0;
+    double firstDeriv = 0, secondDeriv = 0, bstar = 0, ephemType = 0, elementNumber = 0, revolutions = 0;
+
+    if (!ommNumber(omm, QStringLiteral("NORAD_CAT_ID"), number, true) ||
+            !ommNumber(omm, QStringLiteral("MEAN_MOTION"), meanMotion, true) ||
+            !ommNumber(omm, QStringLiteral("ECCENTRICITY"), eccentricity, true) ||
+            !ommNumber(omm, QStringLiteral("INCLINATION"), inclination, true) ||
+            !ommNumber(omm, QStringLiteral("RA_OF_ASC_NODE"), raan, true) ||
+            !ommNumber(omm, QStringLiteral("ARG_OF_PERICENTER"), argPerigee, true) ||
+            !ommNumber(omm, QStringLiteral("MEAN_ANOMALY"), meanAnomaly, true) ||
+            !ommNumber(omm, QStringLiteral("MEAN_MOTION_DOT"), firstDeriv, false) ||
+            !ommNumber(omm, QStringLiteral("MEAN_MOTION_DDOT"), secondDeriv, false) ||
+            !ommNumber(omm, QStringLiteral("BSTAR"), bstar, false) ||
+            !ommNumber(omm, QStringLiteral("EPHEMERIS_TYPE"), ephemType, false) ||
+            !ommNumber(omm, QStringLiteral("ELEMENT_SET_NO"), elementNumber, false) ||
+            !ommNumber(omm, QStringLiteral("REV_AT_EPOCH"), revolutions, false))
+        return nullptr;
+
+    QDate epochDate;
+    double dayFraction = 0;
+    if (!parseOMMEpoch(omm.value(QStringLiteral("EPOCH")).toString(), epochDate, dayFraction))
+        return nullptr;
+
+    if (number < 1 || number > INT_MAX || meanMotion <= 0 || eccentricity < 0 || eccentricity >= 1)
+        return nullptr;
+
+    QString name = omm.value(QStringLiteral("OBJECT_NAME")).toString().trimmed();
+    if (name.isEmpty())
+        name = QString::number(static_cast<int>(number));
+
+    const QString classification = omm.value(QStringLiteral("CLASSIFICATION_TYPE")).toString().trimmed();
+
+    auto *sat            = new Satellite();
+    sat->m_number        = static_cast<int>(number);
+    sat->m_class         = classification.isEmpty() ? QChar('U') : classification.at(0);
+    sat->m_id            = tleDesignator(omm.value(QStringLiteral("OBJECT_ID")).toString());
+    sat->m_epoch_year    = epochDate.year();
+    sat->m_epoch         = (epochDate.year() % 100) * 1000 + epochDate.dayOfYear() + dayFraction;
+    sat->m_tle_jd        = epochDate.toJulianDay() - 0.5 + dayFraction;
+    sat->m_first_deriv   = firstDeriv / (XPDOTP * MINPD);
+    sat->m_second_deriv  = secondDeriv / (XPDOTP * MINPD * MINPD);
+    sat->m_bstar         = bstar;
+    sat->m_ephem_type    = static_cast<int>(ephemType);
+    sat->m_elem_number   = static_cast<int>(elementNumber);
+    sat->m_inclination   = inclination * DEG2RAD;
+    sat->m_ra            = raan * DEG2RAD;
+    sat->m_eccentricity  = eccentricity;
+    sat->m_arg_perigee   = argPerigee * DEG2RAD;
+    sat->m_mean_anomaly  = meanAnomaly * DEG2RAD;
+    sat->m_mean_motion   = meanMotion * TWOPI / MINPD;
+    sat->m_nb_revolution = static_cast<int>(revolutions);
+
+    // Keep a TLE for "Copy TLE" and for mounts that track satellites from a TLE
+    const QString catalogNumber = formatCatalogNumber(sat->m_number);
+    if (!catalogNumber.isEmpty())
+    {
+        // Epoch rounded to the 1e-8 day resolution of the TLE format
+        QDate tleDate       = epochDate;
+        long long fraction8 = std::llround(dayFraction * 1e8);
+        if (fraction8 >= 100000000LL)
+        {
+            fraction8 -= 100000000LL;
+            tleDate = tleDate.addDays(1);
+        }
+        const QString epochField = QStringLiteral("%1%2.%3")
+                                   .arg(tleDate.year() % 100, 2, 10, QChar('0'))
+                                   .arg(tleDate.dayOfYear(), 3, 10, QChar('0'))
+                                   .arg(fraction8, 8, 10, QChar('0'));
+
+        QString line1 = QStringLiteral("1 ") + catalogNumber + sat->m_class + ' ' + sat->m_id.leftJustified(8, ' ', true) +
+                        ' ' + epochField + ' ' + formatTLEFirstDerivative(firstDeriv) + ' ' +
+                        formatTLEExponent(secondDeriv) + ' ' + formatTLEExponent(bstar) + ' ' +
+                        QString::number(sat->m_ephem_type % 10) + ' ' +
+                        QStringLiteral("%1").arg(sat->m_elem_number % 10000, 4);
+        line1 += QString::number(tleChecksum(line1));
+
+        // Eccentricity is truncated to 7 digits, like in the TLE served by CelesTrak. The small offset keeps values
+        // such as 0.0007413 from losing a digit to the floating point representation.
+        const long long eccentricity7 = std::min(static_cast<long long>(eccentricity * 1e7 + 1e-6), 9999999LL);
+        QString line2 = QStringLiteral("2 ") + catalogNumber + ' ' +
+                        QString::asprintf("%8.4f %8.4f %07lld %8.4f %8.4f %11.8f%5d", inclination, raan, eccentricity7,
+                                          argPerigee, meanAnomaly, meanMotion, sat->m_nb_revolution % 100000);
+        line2 += QString::number(tleChecksum(line2));
+
+        // The TLE name line holds 24 characters. Longer names are cut like in the TLE served by CelesTrak.
+        const QString nameLine = name.size() > 24 ? name.left(23) + '*' : name;
+        sat->m_tle = nameLine + "\n" + line1 + "\n" + line2;
+    }
+
+    sat->setup(name);
+    return sat;
+}
+
+void Satellite::setup(const QString &name)
+{
+    setName(name);
+    setName2(name);
+    setLongName(m_id.trimmed().isEmpty() ? name : name + " (" + m_id + ')');
+    setType(SkyObject::SATELLITE);
+    setMag(0.0);
+
+    m_is_selected = Options::selectedSatellites().contains(name);
 
     init();
 }

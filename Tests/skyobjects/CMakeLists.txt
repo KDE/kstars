@@ -22,3 +22,8 @@ ADD_EXECUTABLE( test_satellitegroup test_satellitegroup.cpp )
 TARGET_LINK_LIBRARIES( test_satellitegroup ${TEST_LIBRARIES} )
 ADD_TEST( NAME TestSatelliteGroup COMMAND test_satellitegroup )
 SET_TESTS_PROPERTIES( TestSatelliteGroup PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( test_satellite test_satellite.cpp )
+TARGET_LINK_LIBRARIES( test_satellite ${TEST_LIBRARIES} )
+ADD_TEST( NAME TestSatellite COMMAND test_satellite )
+SET_TESTS_PROPERTIES( TestSatellite PROPERTIES LABELS "stable")

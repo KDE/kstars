@@ -13,6 +13,9 @@
 #include <KLocalizedString>
 
 #include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QTextStream>
 
 SatelliteGroup::SatelliteGroup(const QString &name, const QString &tle_filename, const QUrl &update_url)
@@ -21,57 +24,71 @@ SatelliteGroup::SatelliteGroup(const QString &name, const QString &tle_filename,
     m_tle_file = tle_filename;
     m_tle_url  = update_url;
 
-    // Read TLE file and create satellites
-    readTLE();
+    // Read orbital elements file and create satellites
+    readElements();
 }
 
-void SatelliteGroup::readTLE()
+void SatelliteGroup::readElements()
 {
-    QFile file;
-    QString line1, line2;
-
     // Delete all satellites
     qDeleteAll(*this);
     clear();
 
-    // Read TLE file
+    QFile file;
     if (KSUtils::openDataFile(file, m_tle_file))
     {
-        QTextStream stream(&file);
-        while (!stream.atEnd())
-        {
-            // Read satellite name
-            QString sat_name = stream.readLine().trimmed();
-            line1            = stream.readLine();
-            line2            = stream.readLine();
-            // Create a new satellite and add it to the list of satellites
-            if (line1.startsWith('1') && line2.startsWith('2'))
-                append(new Satellite(sat_name, line1, line2));
-        }
+        append(parseElements(file.readAll()));
         file.close();
     }
 }
 
-bool SatelliteGroup::containsTLE(const QByteArray &data)
+QList<Satellite *> SatelliteGroup::parseElements(const QByteArray &data)
 {
+    QList<Satellite *> satellites;
+
+    const QByteArray trimmed = data.trimmed();
+    if (trimmed.startsWith('[') || trimmed.startsWith('{'))
+    {
+        // OMM records in JSON: an array of objects, or a single object
+        const QJsonDocument document = QJsonDocument::fromJson(trimmed);
+        QJsonArray records = document.array();
+        if (document.isObject())
+            records.append(document.object());
+
+        for (const QJsonValue &record : std::as_const(records))
+        {
+            if (Satellite *sat = Satellite::fromOMM(record.toObject()))
+                satellites.append(sat);
+        }
+        return satellites;
+    }
+
+    // Three-line TLE: name line followed by line 1 and line 2
     QTextStream stream(data);
     while (!stream.atEnd())
     {
-        // Same layout as readTLE(): name line followed by line 1 and line 2
-        stream.readLine();
-        const QString line1 = stream.readLine();
-        const QString line2 = stream.readLine();
+        const QString sat_name = stream.readLine().trimmed();
+        const QString line1    = stream.readLine();
+        const QString line2    = stream.readLine();
         if (line1.startsWith('1') && line2.startsWith('2'))
-            return true;
+            satellites.append(new Satellite(sat_name, line1, line2));
     }
-    return false;
+    return satellites;
 }
 
-bool SatelliteGroup::saveTLE(const QByteArray &data, QString &error)
+bool SatelliteGroup::containsElements(const QByteArray &data)
 {
-    if (!containsTLE(data))
+    const QList<Satellite *> satellites = parseElements(data);
+    const bool found = !satellites.isEmpty();
+    qDeleteAll(satellites);
+    return found;
+}
+
+bool SatelliteGroup::saveElements(const QByteArray &data, QString &error)
+{
+    if (!containsElements(data))
     {
-        error = i18n("The server did not return any orbital elements in TLE format.");
+        error = i18n("The server did not return any orbital elements.");
         return false;
     }
 
@@ -89,7 +106,7 @@ bool SatelliteGroup::saveTLE(const QByteArray &data, QString &error)
     }
     file.close();
 
-    readTLE();
+    readElements();
     return true;
 }
 

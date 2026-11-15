@@ -28,25 +28,34 @@ class SatelliteGroup : public QList<Satellite *>
         virtual ~SatelliteGroup() = default;
 
         /**
-         * Read TLE file of the group and create all satellites found in the file.
+         * Read the orbital elements file of the group and create all satellites found in the file.
          */
-        void readTLE();
+        void readElements();
 
         /**
-         * @brief Replace the local TLE file of the group with downloaded data and reload the satellites.
+         * @brief Replace the local orbital elements file of the group with downloaded data and reload the satellites.
          *
-         * The local file is left untouched when @p data holds no TLE entry, so an error page or an empty
-         * reply from the server never wipes the satellites of the group.
-         * @param data Downloaded TLE data.
+         * The local file is left untouched when @p data holds no usable orbital elements, so an error page or an
+         * empty reply from the server never wipes the satellites of the group.
+         * @param data Downloaded orbital elements, in TLE or OMM JSON format.
          * @param error Set to a description of the problem on failure.
          * @return true if the data was saved and reloaded.
          */
-        bool saveTLE(const QByteArray &data, QString &error);
+        bool saveElements(const QByteArray &data, QString &error);
 
         /**
-         * @return true if @p data holds at least one TLE entry (name line, line 1 and line 2) that readTLE() can load.
+         * @brief Create the satellites described by @p data.
+         *
+         * The format is detected from the content: OMM records in JSON (an array of objects or a single object),
+         * otherwise three-line TLE (name line, line 1 and line 2). Invalid entries are skipped.
+         * @return The satellites, owned by the caller.
          */
-        static bool containsTLE(const QByteArray &data);
+        static QList<Satellite *> parseElements(const QByteArray &data);
+
+        /**
+         * @return true if @p data holds at least one satellite that parseElements() can load.
+         */
+        static bool containsElements(const QByteArray &data);
 
         /**
          * Compute current position of the each satellites in the group.

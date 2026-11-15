@@ -172,7 +172,7 @@ void SatellitesComponent::updateTLEs()
         QString error;
         if (response->error() != QNetworkReply::NoError)
             error = response->errorString();
-        else if (group->saveTLE(response->readAll(), error))
+        else if (group->saveElements(response->readAll(), error))
             group->updateSatellitesPos();
 
         if (!error.isEmpty())

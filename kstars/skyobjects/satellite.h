@@ -8,6 +8,7 @@
 
 #include "skyobject.h"
 
+#include <QJsonObject>
 #include <QString>
 
 class KSPopupMenu;
@@ -22,8 +23,20 @@ class KSPopupMenu;
 class Satellite : public SkyObject
 {
     public:
-        /** @short Constructor */
+        /**
+         * @short Create a satellite from Two-Line Elements.
+         * @note Alpha-5 catalog numbers (letter prefix for numbers 100000 to 339999) are accepted.
+         */
         Satellite(const QString &name, const QString &line1, const QString &line2);
+
+        /**
+         * @brief Create a satellite from a CCSDS Orbit Mean-Elements Message (OMM) record, as served in JSON by CelesTrak.
+         *
+         * Unlike TLE, OMM holds catalog numbers above 99999. Numeric fields may be JSON numbers or numeric strings.
+         * @param omm One OMM record (OBJECT_NAME, EPOCH, MEAN_MOTION, NORAD_CAT_ID, ...).
+         * @return The new satellite, owned by the caller, or nullptr if a required field is missing or invalid.
+         */
+        static Satellite *fromOMM(const QJsonObject &omm);
 
         /**
          * @return a clone of this object
@@ -60,7 +73,11 @@ class Satellite : public SkyObject
         /** @return Satellite international designator */
         QString id() const;
 
-        /** @return Satellite TLE */
+        /**
+         * @return Satellite TLE (name line and both element lines). For satellites created from OMM, the TLE is
+         * generated from the elements, using an Alpha-5 catalog number above 99999. Empty if the catalog number
+         * does not fit in Alpha-5.
+         */
         QString tle() const;
 
         /**
@@ -73,6 +90,14 @@ class Satellite : public SkyObject
         void initPopupMenu(KSPopupMenu *pmenu) override;
 
     private:
+        friend class TestSatellite;
+
+        /** @short Used by fromOMM(), which sets the elements itself */
+        Satellite() = default;
+
+        /** @short Set the names and selection state, then compute the non time dependent parameters */
+        void setup(const QString &name);
+
         /** @short Compute non time dependent parameters */
         void init();
 
