@@ -185,6 +185,15 @@ class TestEkosFocus : public QObject
          * the setting and starts autofocus again. Stopping that run is an abort, which gets no diagnosis.
          */
         void testFocusDiagnosis();
+        /**
+         * @brief Autofocus far from focus with a step size that is too small. A run around focus first stores the
+         * in-focus HFR of the train. A run that starts far away and moves too little to reach focus then fails as
+         * "no_minimum", retried like any failure, instead of succeeding far from focus. Its report suggests the position
+         * of the good run, and applying that moves the focuser there.
+         */
+        void testAutofocusNeverReachesFocus();
+        /** @brief The tilt plate settings are kept with the Focus settings of the optical train, and are not an option. */
+        void testTiltSettingsPerTrain();
         void testFocusWhenMountFlips();
         void testCanAutoFocusWithoutFocuser();
 

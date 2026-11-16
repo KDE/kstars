@@ -7,12 +7,16 @@
 #include "focus.h"
 #include "focusmodule.h"
 #include "focusadvisor.h"
+#include "focusalgorithms.h"
 #include "focusfitsview.h"
 #include "opsfocusmechanics.h"
 #include "opsfocusprocess.h"
 
 #include "ekos/auxiliary/diagnosisactions.h"
 #include "ekos/auxiliary/diagnosismanager.h"
+#include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include <ekos_focus_debug.h>
 
@@ -132,6 +136,107 @@ void Focus::submitDiagnosis(const FocusFacts &facts)
     m_DiagnosisManager->submit(report);
 }
 
+FocusRunCheck Focus::checkLinearRun(bool r2Failed)
+{
+    QVector<int> positions;
+    QVector<double> values, weights;
+    QVector<bool> outliers;
+    linearFocuser->getPass1Measurements(&positions, &values, &weights, &outliers);
+    // With Donut Buster the outliers are donuts, whose HFR reads too low. Otherwise they come from a curve fit that is
+    // itself wrong when the run has no V, e.g. the lowest point far from focus: they are kept.
+    const bool dropDonuts = m_OpsFocusProcess->focusDonut->isChecked();
+    QList<FocusPoint> points;
+    for (int i = 0; i < positions.size() && i < values.size(); i++)
+        points << FocusPoint{positions[i], values[i], dropDonuts && i < outliers.size() && outliers[i]};
+
+    // The references are HFRs: runs with another star measure are not compared with them
+    double reference = -1;
+    if (m_StarMeasure == FOCUS_STAR_HFR)
+    {
+        const double altitude = (mountAlt >= 0 && mountAlt <= 90) ? mountAlt : -1;
+        reference = FocusDiagnosis::referenceFor(loadFocusReferences(), altitude, focusBinning->currentIndex() + 1,
+                    QDateTime::currentDateTimeUtc());
+    }
+
+    const auto check = FocusDiagnosis::checkRun(points, reference, r2Failed);
+    m_LastRunCheck = check;
+    qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus run check: points" << check.points << "positions" << check.lowPosition << "-"
+                              << check.highPosition << "lowest" << check.lowest << "at" << check.lowestPosition
+                              << "reference" << check.reference << "ratio" << check.ratio << "R2 failed" << r2Failed
+                              << "slope t" << check.slopeT << "one-sided" << check.oneSided << "end rise" << check.endRise
+                              << "direction" << check.direction
+                              << "V" << check.hasV << "no minimum" << check.noMinimum;
+    return check;
+}
+
+bool Focus::failIfNoMinimum(bool r2Failed)
+{
+    if (m_FocusAlgorithm != FOCUS_LINEAR1PASS || m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
+        return false;
+    const auto check = checkLinearRun(r2Failed);
+    if (!check.noMinimum)
+        return false;
+
+    appendLogText(i18n("Autofocus never reached focus: the smallest stars had an HFR of %1, %2 times the %3 of "
+                       "recent good runs, and the run had no V.", QString::number(check.lowest, 'f', 2),
+                       QString::number(check.ratio, 'f', 1), QString::number(check.reference, 'f', 2)));
+    const QString failCodeInfo = i18n("HFR %1 = %2x in focus", QString::number(check.lowest, 'f', 2),
+                                      QString::number(check.ratio, 'f', 1));
+    m_R2Retries = 0;
+    completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_NO_MINIMUM, failCodeInfo, false);
+    return true;
+}
+
+void Focus::addFocusReference()
+{
+    if (m_StarMeasure != FOCUS_STAR_HFR || lastFrame().hfr <= 0)
+        return;
+    // Only a Linear 1 Pass run that went through focus: one that stopped away from it would spoil the reference
+    if (!m_LastRunCheck || !FocusDiagnosis::isReferenceRun(*m_LastRunCheck))
+    {
+        qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus run had no clear V, its HFR is not kept as a reference.";
+        return;
+    }
+
+    const int id = OpticalTrainManager::Instance()->id(opticalTrain());
+    if (id < 0)
+        return;
+    FocusReference reference;
+    reference.hfr = lastFrame().hfr;
+    reference.binning = focusBinning->currentIndex() + 1;
+    reference.altitude = (m_LastSourceAutofocusAlt >= 0 && m_LastSourceAutofocusAlt <= 90) ? m_LastSourceAutofocusAlt : -1;
+    reference.filter = focusFilter->currentIndex() != -1 ? focusFilter->currentText() : QString();
+    reference.when = QDateTime::currentDateTimeUtc();
+
+    // Kept with the Focus metadata of the train, the REFERENCE_RUNS most recent runs
+    QVariantList list;
+    for (const auto &one : FocusDiagnosis::addReference(loadFocusReferences(), reference))
+        list << QVariantMap{{"hfr", one.hfr}, {"bin", one.binning}, {"altitude", one.altitude},
+        {"when", one.when.toString(Qt::ISODate)}, {"filter", one.filter}};
+    setTrainMetadata(id, REFERENCE_METADATA, list);
+    qCInfo(KSTARS_EKOS_FOCUS) << "Autofocus reference HFR" << reference.hfr << "binning" << reference.binning
+                              << "altitude" << reference.altitude << "filter" << reference.filter;
+}
+
+QList<FocusReference> Focus::loadFocusReferences() const
+{
+    QList<FocusReference> references;
+    const int id = OpticalTrainManager::Instance()->id(opticalTrain());
+    for (const auto &entry : trainMetadata(id, REFERENCE_METADATA).toList())
+    {
+        const QVariantMap map = entry.toMap();
+        FocusReference reference;
+        reference.hfr = map.value("hfr").toDouble();
+        reference.binning = map.value("bin", 1).toInt();
+        reference.altitude = map.value("altitude", -1).toDouble();
+        reference.when = QDateTime::fromString(map.value("when").toString(), Qt::ISODate);
+        reference.filter = map.value("filter").toString();
+        if (reference.hfr > 0 && reference.when.isValid())
+            references << reference;
+    }
+    return references;
+}
+
 FocusFacts Focus::collectDiagnosisFacts() const
 {
     FocusFacts facts;
@@ -178,6 +283,34 @@ FocusFacts Focus::collectDiagnosisFacts() const
     facts.maxTravel = m_OpsFocusMechanics->focusMaxTravel->value();
     facts.maxSingleStep = m_OpsFocusMechanics->focusMaxSingleStep->value();
     facts.donutBuster = m_OpsFocusProcess->focusDonut->isChecked();
+    facts.outSteps = static_cast<int>(m_OpsFocusMechanics->focusOutSteps->value());
+    facts.afOverscan = m_OpsFocusMechanics->focusAFOverscan->value();
+    facts.driverBacklashSupported = m_OpsFocusMechanics->focusBacklash->isEnabled();
+    facts.driverBacklash = m_OpsFocusMechanics->focusBacklash->value();
+    facts.run = m_LastRunCheck;
+
+    // Where the last successful autofocus with this filter ended, as the Filter Manager keeps it
+    facts.filter = focusFilter->currentText();
+    if (m_FilterManager && focusFilter->currentIndex() != -1)
+    {
+        int position = -1;
+        double temperature = INVALID_VALUE, altitude = INVALID_VALUE;
+        if (m_FilterManager->getFilterAbsoluteFocusDetails(facts.filter, position, temperature, altitude) && position > 0)
+        {
+            facts.lastGoodPosition = position;
+            if (temperature > INVALID_VALUE)
+                facts.lastGoodTemperature = temperature;
+            if (altitude >= 0 && altitude <= 90)
+                facts.lastGoodAltitude = altitude;
+            // Adaptive Focus moves focus with these since the last good run
+            facts.ticksPerTemp = m_FilterManager->getFilterTicksPerTemp(facts.filter);
+            facts.ticksPerAlt = m_FilterManager->getFilterTicksPerAlt(facts.filter);
+        }
+    }
+    if (currentTemperatureSourceElement)
+        facts.temperature = currentTemperatureSourceElement->value;
+    if (mountAlt >= 0 && mountAlt <= 90)
+        facts.altitude = mountAlt;
 
     // The failed frame
     if (m_ImageData && m_FocusView)
@@ -374,6 +507,43 @@ void FocusModule::registerDiagnosis(DiagnosisManager *manager)
         {
             return QVariant(focus->m_OpsFocusMechanics->focusMaxTravel->value());
         });
+    });
+
+    manager->registerAction(MODULE, "focus_max_travel_fit", [changeSetting](const Diagnosis::Item &,
+                            const Diagnosis::Report & report)
+    {
+        return changeSetting(report, "focusMaxTravel", [](Focus * focus)
+        {
+            auto facts = focus->collectDiagnosisFacts();
+            double travel = FocusDiagnosis::neededMaxTravel(facts);
+            if (facts.focuserMax > facts.focuserMin)
+                travel = std::min(travel, facts.focuserMax - facts.focuserMin);
+            return travel > focus->m_OpsFocusMechanics->focusMaxTravel->value() ? QVariant(travel) : QVariant();
+        }, [](Focus * focus)
+        {
+            return QVariant(focus->m_OpsFocusMechanics->focusMaxTravel->value());
+        });
+    });
+
+    // Moves the focuser to where the last successful autofocus with the current filter ended
+    manager->registerAction(MODULE, "focus_goto_last_good", [focuserFor, isBusy](const Diagnosis::Item &,
+                            const Diagnosis::Report & report)
+    {
+        auto focus = focuserFor(report.train);
+        if (!focus || !focus->m_Focuser || !focus->m_Focuser->isConnected())
+            return failed(i18n("The focuser is not connected."));
+        if (isBusy(focus))
+            return failed(i18n("Focus is busy. Try again when it has finished."));
+        // Where focus should be now: the last good position moved by the filter's Adaptive Focus settings
+        const auto facts = focus->collectDiagnosisFacts();
+        const int target = FocusDiagnosis::lastGoodTarget(facts);
+        if (!facts.canAbsMove || target < 0)
+            return failed(i18n("No good focus position is known for this filter."));
+        if (facts.focuserMax > facts.focuserMin && (target < facts.focuserMin || target > facts.focuserMax))
+            return failed(i18n("The position %1 is outside the focuser range.", target));
+        if (!focus->m_Focuser->moveAbs(target))
+            return failed(i18n("The focuser rejected the move."));
+        return done(i18n("Moving the focuser to %1.", target));
     });
 
     manager->registerAction(MODULE, "focus_donut_buster", [changeSetting](const Diagnosis::Item &,

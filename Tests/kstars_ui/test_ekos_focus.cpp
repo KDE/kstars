@@ -23,6 +23,7 @@
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
 #include "Options.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -194,11 +195,18 @@ void TestEkosFocus::init()
 {
 }
 
+static bool focuserSimulatorIdle();
+
 void TestEkosFocus::cleanup()
 {
     if (Ekos::Manager::Instance())
         if (Ekos::Manager::Instance()->focusModule())
+        {
             Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
+            // A failed run may still move the focuser back to its start, e.g. after a test skipped: the next test
+            // would find it busy
+            QTRY_VERIFY_WITH_TIMEOUT(focuserSimulatorIdle(), 60000);
+        }
     KTELL_HIDE();
 }
 
@@ -243,6 +251,16 @@ static int focuserSimulatorPosition()
     if (focuser == nullptr || !focuser->getNumber("ABS_FOCUS_POSITION").isValid())
         return -1;
     return static_cast<int>(focuser->getNumber("ABS_FOCUS_POSITION")[0].getValue());
+}
+
+// The Focuser Simulator is not moving
+static bool focuserSimulatorIdle()
+{
+    auto focuser = Ekos::OpticalTrainManager::Instance()->getFocuser(
+                       Ekos::Manager::Instance()->focusModule()->mainFocuser()->opticalTrain());
+    if (focuser == nullptr || !focuser->getNumber("ABS_FOCUS_POSITION").isValid())
+        return true;
+    return focuser->getNumber("ABS_FOCUS_POSITION").getState() != IPS_BUSY;
 }
 
 void TestEkosFocus::testCaptureStates()
@@ -838,6 +856,188 @@ void TestEkosFocus::testFocusDiagnosis()
     QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 30000);
     QTest::qWait(1000);
     QCOMPARE(reports.size(), 1);
+}
+
+void TestEkosFocus::testAutofocusNeverReachesFocus()
+{
+    Ekos::DiagnosisManager *diagnosis = Ekos::Manager::Instance()->diagnosisManager();
+    QVERIFY(diagnosis);
+    diagnosis->clear();
+    auto focusModule = Ekos::Manager::Instance()->focusModule();
+
+    QList<QJsonObject> reports;
+    bool complete = false;
+    bool aborted = false;
+    // The code of every abort: a retry emits the code of the failed attempt, the end of a run without a retry left
+    // emits a forced abort
+    QList<Ekos::AutofocusFailReason> abortCodes;
+    const auto reportsConnection = connect(diagnosis, &Ekos::DiagnosisManager::newDiagnosis, this,
+                                           [&reports](const QString & module, const QJsonObject & report)
+    {
+        if (module == "focus")
+            reports << report;
+    });
+    const auto abortedConnection = connect(focusModule, &Ekos::FocusModule::autofocusAborted, this,
+                                           [&](const QString &, const QString &, const bool, const Ekos::AutofocusFailReason reason,
+                                               const QString &, const QString &)
+    {
+        abortCodes << reason;
+        aborted = true;
+    });
+    const auto completeConnection = connect(focusModule, &Ekos::FocusModule::autofocusComplete, this,
+                                            [&complete](double, const QString &, const QString &, const bool, const QString &,
+                                                const QString &, const QString &)
+    {
+        complete = true;
+    });
+    double previousDelay = 0;
+    QVERIFY(setFocuserSimulatorDelay(0, previousDelay));
+    auto restore = qScopeGuard([ = ]()
+    {
+        disconnect(reportsConnection);
+        disconnect(abortedConnection);
+        disconnect(completeConnection);
+        double unused;
+        setFocuserSimulatorDelay(previousDelay, unused);
+    });
+
+    KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure Linear 1 Pass measuring the HFR.");
+    KTRY_FOCUS_SHOW();
+    KTRY_MOUNT_SYNC(60.0, true, -1);
+    KTRY_FOCUS_CONFIGURE("SEP", "Linear 1 Pass", 0.0, 100.0, 1.0);
+    KTRY_FOCUS_EXPOSURE(2, 99);
+    KTRY_FOCUS_GADGET(QComboBox, focusStarMeasure);
+    focusStarMeasure->setCurrentIndex(Ekos::Focus::FOCUS_STAR_HFR);
+    KTRY_FOCUS_GADGET(QGroupBox, focusDonut);
+    focusDonut->setChecked(false);
+    KTRY_FOCUS_GADGET(QGroupBox, focusScanStartPos);
+    focusScanStartPos->setChecked(false);
+    KTRY_FOCUS_GADGET(QSpinBox, focusTicks);
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusOutSteps);
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusMaxTravel);
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    // The tests after this one use the step size and the other settings as they were
+    auto restoreSettings = qScopeGuard([focusStarMeasure, focusDonut, focusScanStartPos, focusTicks, focusMaxTravel,
+                                        measure = focusStarMeasure->currentIndex(), donut = focusDonut->isChecked(),
+                                        scan = focusScanStartPos->isChecked(), ticks = focusTicks->value(),
+                                        travel = focusMaxTravel->value()]()
+    {
+        focusStarMeasure->setCurrentIndex(measure);
+        focusDonut->setChecked(donut);
+        focusScanStartPos->setChecked(scan);
+        focusTicks->setValue(ticks);
+        focusMaxTravel->setValue(travel);
+    });
+
+    // The CCD Simulator is in focus at 36,700
+    KTELL("Run autofocus around focus: it succeeds and stores the in-focus HFR of the train.");
+    KTRY_FOCUS_MOVETO(37500);
+    focusTicks->setValue(2500);
+    focusMaxTravel->setValue(std::max(10000.0, 2.0 * focusOutSteps->value() * 2500));
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 5000);
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(complete || aborted, 600000);
+    QVERIFY2(complete, "autofocus around focus failed");
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 30000);
+    const int goodPosition = focuserSimulatorPosition();
+    QVERIFY2(qAbs(goodPosition - 36700) < 2500, qPrintable(QString::number(goodPosition)));
+
+    KTELL("Start far from focus with steps of 200, too small to change the stars there.\n"
+          "Autofocus fails as never reaching focus, retried as any failure, instead of a success far from focus.");
+    KTRY_FOCUS_MOVETO(60000);
+    focusTicks->setValue(200);
+    complete = false;
+    aborted = false;
+    abortCodes.clear();
+    reports.clear();
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 5000);
+    KTRY_FOCUS_CLICK(startFocusB);
+    // The report comes when the run is over, after any retries
+    QTRY_VERIFY_WITH_TIMEOUT(complete || !reports.isEmpty(), 900000);
+    QVERIFY2(!complete, "autofocus far from focus reported success");
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 60000);
+    const QJsonObject report = reports.last();
+    QStringList items;
+    for (const auto &item : report["items"].toArray())
+        items << item.toObject()["id"].toString();
+    // Linear 1 Pass extends a run whose stars still shrink at its end. With the simulator's noise it may walk toward
+    // focus until it runs out of steps: that is a failure too, which also suggests the last good focus.
+    const QString reasonKey = report["reasonKey"].toString();
+    if (reasonKey == "max_iterations")
+    {
+        QWARN("Linear 1 Pass walked toward focus until it ran out of steps");
+        QVERIFY2(items.contains("focus_goto_last_good"), qPrintable(QJsonDocument(report).toJson()));
+    }
+    else
+    {
+        QCOMPARE(reasonKey, QString("no_minimum"));
+        // A run that never reached focus is an ordinary failure: Focus retries it as any other, and the run ends
+        // as a forced abort after the retries
+        QStringList codes;
+        for (const auto code : abortCodes)
+            codes << Ekos::AutofocusFailReasonStr[code];
+        QVERIFY2(abortCodes.contains(Ekos::FOCUS_FAIL_NO_MINIMUM) && abortCodes.last() == Ekos::FOCUS_FAIL_FORCE_ABORT,
+                 qPrintable(codes.join(", ")));
+        QVERIFY2(items.contains("focus_near_focus"), qPrintable(QJsonDocument(report).toJson()));
+        // The CCD Simulator's filter wheel keeps the last good position of the filter
+        QVERIFY2(items.first() == "focus_goto_last_good", qPrintable(QJsonDocument(report).toJson()));
+    }
+
+    KTELL("Moving to the last good focus from the diagnosis takes the focuser there.");
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 30000);
+    const QJsonObject result = diagnosis->apply(report["id"].toString(), "focus_goto_last_good", true);
+    QVERIFY2(result["state"].toString() != "refused", qPrintable(QJsonDocument(result).toJson()));
+    QTRY_COMPARE_WITH_TIMEOUT(focuserSimulatorPosition(), goodPosition, 30000);
+}
+
+void TestEkosFocus::testTiltSettingsPerTrain()
+{
+    KTRY_FOCUS_SHOW();
+    QSharedPointer<Ekos::Focus> focus = Ekos::Manager::Instance()->focusModule()->mainFocuser();
+    const int train = Ekos::OpticalTrainManager::Instance()->id(focus->opticalTrain());
+    QVERIFY(train >= 0);
+    const QVariantMap previous = focus->tiltSettings(train);
+    auto restore = qScopeGuard([focus, train, previous]()
+    {
+        focus->setTiltSettings(train, previous);
+    });
+
+    const QVariantMap tilt = {{"plateType", 1}, {"radius", 71.5}, {"screwPitch", 0.7}};
+    focus->setTiltSettings(train, tilt);
+    QCOMPARE(focus->tiltSettings(train), tilt);
+
+    // Saved at once, as metadata of the Focus settings of the train
+    auto stored = [train]()
+    {
+        Ekos::OpticalTrainSettings::Instance()->setOpticalTrainID(train);
+        return Ekos::OpticalTrainSettings::Instance()->getMetadata(Ekos::OpticalTrainSettings::Focus,
+                Ekos::Focus::TILT_METADATA).toMap();
+    };
+    QCOMPARE(stored().value("radius").toDouble(), 71.5);
+    QCOMPARE(stored().value("plateType").toInt(), 1);
+
+    // Never a setting: the Focus settings of the train leave the metadata out
+    Ekos::OpticalTrainSettings::Instance()->setOpticalTrainID(train);
+    QVariantMap settings = Ekos::OpticalTrainSettings::Instance()->getOneSetting(Ekos::OpticalTrainSettings::Focus)
+                           .toJsonObject().toVariantMap();
+    QVERIFY(!settings.isEmpty());
+    QVERIFY(!settings.contains(Ekos::OpticalTrainSettings::METADATA_KEY));
+
+    // Focus saving its settings keeps it: change a setting and let it settle
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusExposure);
+    const double exposure = focusExposure->value();
+    focusExposure->setValue(exposure + 0.5);
+    QTest::qWait(1500);
+    focusExposure->setValue(exposure);
+    QTest::qWait(1500);
+    QCOMPARE(stored().value("radius").toDouble(), 71.5);
+
+    // Loading the train's Focus settings, e.g. when the train is selected again, keeps it, and it never becomes an
+    // option
+    focus->setAllSettings(settings);
+    QCOMPARE(focus->tiltSettings(train).value("radius").toDouble(), 71.5);
+    QVERIFY(!Options::self()->property(Ekos::OpticalTrainSettings::METADATA_KEY).isValid());
+    QVERIFY(!Options::self()->property(Ekos::Focus::TILT_METADATA).isValid());
 }
 
 void TestEkosFocus::testCanAutoFocusWithoutFocuser()

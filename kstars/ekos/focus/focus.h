@@ -1563,6 +1563,30 @@ class Focus : public QWidget, public Ui::Focus
 
         void submitDiagnosis(const FocusFacts &facts);
 
+        /**
+         * @brief checkLinearRun Check a finished Linear 1 Pass run against the reference: did it reach focus?
+         * Cheap: a straight line through the pass 1 points, once at the end of the run. Logs what it found.
+         * @param r2Failed the curve fit did not pass its R2 limit
+         */
+        FocusRunCheck checkLinearRun(bool r2Failed);
+
+        /**
+         * @brief failIfNoMinimum Check a finished Linear 1 Pass run, and fail it as FOCUS_FAIL_NO_MINIMUM when it never
+         * reached focus. Not for Focus Advisor runs.
+         * @param r2Failed the curve fit did not pass its R2 limit, or failed
+         * @return true if the run failed
+         */
+        bool failIfNoMinimum(bool r2Failed);
+
+        /** Remember the in-focus HFR of this successful run as a reference for its optical train. */
+        void addFocusReference();
+
+        /** The in-focus HFR of the recent successful runs of the current optical train, from the user database. */
+        QList<FocusReference> loadFocusReferences() const;
+
+        /// The check of the last Linear 1 Pass run, for the diagnosis
+        std::optional<FocusRunCheck> m_LastRunCheck;
+
         QPointer<DiagnosisManager> m_DiagnosisManager;
         /// The reason of the last failed attempt of the current autofocus run, and its detail
         AutofocusFailReason m_NotedFailReason { FOCUS_FAIL_NONE };

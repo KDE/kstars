@@ -9,6 +9,7 @@
 #include <KLocalizedString>
 
 #include <algorithm>
+#include <cmath>
 
 namespace Ekos
 {
@@ -204,6 +205,99 @@ Item advisorItem(Likelihood likelihood)
     return item;
 }
 
+/** The run started further from the last good focus with this filter than the run itself reaches. */
+bool farFromLastGood(const FocusFacts &facts)
+{
+    const int target = FocusDiagnosis::lastGoodTarget(facts);
+    if (!facts.canAbsMove || target < 0)
+        return false;
+    const int start = facts.startPosition >= 0 ? facts.startPosition : facts.position;
+    const int reach = std::max(1, 2 * facts.outSteps * facts.stepSize);
+    return std::abs(start - target) > reach;
+}
+
+bool validTemperature(double temperature)
+{
+    return temperature > -1000;
+}
+
+bool validAltitude(double altitude)
+{
+    return altitude >= 0 && altitude <= 90;
+}
+
+Item lastGoodItem(const FocusFacts &facts, Likelihood likelihood)
+{
+    const int start = facts.startPosition >= 0 ? facts.startPosition : facts.position;
+    const int target = FocusDiagnosis::lastGoodTarget(facts);
+    QString why = facts.filter.isEmpty() ?
+                  i18n("The last good autofocus ended at %1. This run started at %2, %3 steps away.",
+                       facts.lastGoodPosition, start, std::abs(start - facts.lastGoodPosition)) :
+                  i18n("The last good autofocus with filter %1 ended at %2. This run started at %3, %4 steps away.",
+                       facts.filter, facts.lastGoodPosition, start, std::abs(start - facts.lastGoodPosition));
+    if (validTemperature(facts.lastGoodTemperature))
+        why += QLatin1Char(' ') + i18n("It was %1 °C then.", QString::number(facts.lastGoodTemperature, 'f', 1));
+    if (target != facts.lastGoodPosition)
+        why += QLatin1Char(' ') + i18n("The Adaptive Focus settings of the filter move it by %1 steps for the change of "
+                                       "temperature and altitude since: focus should be near %2 now.",
+                                       target - facts.lastGoodPosition, target);
+    auto item = makeItem("focus_goto_last_good", Kind::Auto, Tier::Hardware, likelihood,
+                         i18n("Move the focuser to %1", target), why);
+    item.cost = MovesHardware;
+    // Moving is the fix: autofocus is started again by the user, from there
+    item.autoRetry = false;
+    item.verify = makeVerify("device_state", "position", "==", target);
+    return item;
+}
+
+/** Driver backlash and AF Overscan both correct the same backlash: it is corrected twice. */
+bool backlashTwice(const FocusFacts &facts)
+{
+    return facts.driverBacklashSupported && facts.driverBacklash > 0 && facts.afOverscan > 0;
+}
+
+Item backlashTwiceItem(const FocusFacts &facts, Likelihood likelihood)
+{
+    auto item = makeItem("focus_backlash_twice", Kind::Manual, Tier::Configuration, likelihood,
+                         i18n("Correct the focuser backlash only once"),
+                         i18n("The focuser driver corrects %1 steps of backlash, and AF Overscan adds %2 steps: the backlash is corrected twice.",
+                              facts.driverBacklash, facts.afOverscan));
+    item.steps << i18n("Keep one of the two: set the driver backlash to 0 and keep AF Overscan, or set AF Overscan to 0 "
+                       "and keep the driver backlash.")
+               << i18n("Both are in the Focus mechanics settings.");
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+/** Linear 1 Pass needs out steps times the step size of travel, plus the overscan. */
+bool maxTravelTooSmall(const FocusFacts &facts)
+{
+    return facts.canAbsMove && facts.algorithm == FocusDiagnosis::ALGORITHM_LINEAR1PASS && facts.outSteps > 0
+           && facts.maxTravel < FocusDiagnosis::neededMaxTravel(facts);
+}
+
+Item maxTravelFitItem(const FocusFacts &facts, Likelihood likelihood)
+{
+    const int needed = FocusDiagnosis::neededMaxTravel(facts);
+    auto item = makeItem("focus_max_travel_fit", Kind::Auto, Tier::Configuration, likelihood,
+                         i18n("Raise the maximum travel to %1 steps", needed),
+                         i18n("A run of %1 steps out with steps of %2 needs %3 steps of travel, but the maximum travel is %4: "
+         "the run is cut short.", facts.outSteps, facts.stepSize, needed,
+                              QString::number(facts.maxTravel, 'f', 0)));
+    item.cost = ChangesSettings;
+    item.verify = makeVerify("retry");
+    return item;
+}
+
+/** Settings that make autofocus fail, checked after a failure and in the check-up. */
+void settingsItems(const FocusFacts &facts, QList<Item> &items, Likelihood likelihood)
+{
+    if (maxTravelTooSmall(facts))
+        items << maxTravelFitItem(facts, likelihood);
+    if (backlashTwice(facts))
+        items << backlashTwiceItem(facts, likelihood);
+}
+
 Item stepItem(const FocusFacts &facts, Likelihood likelihood, const QString &why)
 {
     auto item = makeItem("focus_step_raise", Kind::Auto, Tier::Tuning, likelihood,
@@ -300,6 +394,16 @@ void describeCause(const FocusFacts &facts, Report &report)
             report.title = i18n("The dust cap reports an error");
             report.summary = i18n("Autofocus cannot capture until the dust cap is open.");
             break;
+        case FOCUS_FAIL_NO_MINIMUM:
+            report.title = i18n("Autofocus never reached focus");
+            if (facts.run && facts.run->reference > 0)
+                report.summary = i18n("The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 pixels of your "
+                                      "recent good autofocus runs, and the run had no V.",
+                                      QString::number(facts.run->lowest, 'f', 2), QString::number(facts.run->ratio, 'f', 1),
+                                      QString::number(facts.run->reference, 'f', 2));
+            else
+                report.summary = i18n("The stars stayed far larger than in focus, and the run had no V.");
+            break;
         default:
             report.title = i18n("Autofocus failed");
             break;
@@ -331,7 +435,7 @@ void addEvidence(const FocusFacts &facts, Report &report)
     if (!facts.reasonInfo.isEmpty())
         add("detail", i18n("Detail"), facts.reasonInfo, QString(), Evidence::Bad);
 
-    if (reason == FOCUS_FAIL_NO_STARS || isCurveFailure(reason))
+    if (reason == FOCUS_FAIL_NO_STARS || reason == FOCUS_FAIL_NO_MINIMUM || isCurveFailure(reason))
     {
         add("exposure", i18n("Exposure"), facts.exposure, QStringLiteral("s"), Evidence::Info);
         add("binning", i18n("Binning"), QString("%1x%1").arg(facts.binIndex + 1), QString(), Evidence::Info);
@@ -348,12 +452,25 @@ void addEvidence(const FocusFacts &facts, Report &report)
                 facts.image->verdict == ImageVerdict::Good ? Evidence::Ok : Evidence::Bad);
     }
 
-    if (isCurveFailure(reason) || reason == FOCUS_FAIL_LOW_PULSE)
+    if (isCurveFailure(reason) || reason == FOCUS_FAIL_LOW_PULSE || reason == FOCUS_FAIL_NO_MINIMUM)
     {
         add("algorithm", i18n("Algorithm"), algorithmName(facts.algorithm), QString(), Evidence::Info);
         add("step_size", i18n("Initial step size"), facts.stepSize, facts.canAbsMove
             || facts.canRelMove ? QStringLiteral("steps") : QStringLiteral("ms"),
             reason == FOCUS_FAIL_SMALL_HFR || reason == FOCUS_FAIL_LOW_PULSE ? Evidence::Bad : Evidence::Info);
+    }
+
+    if (reason == FOCUS_FAIL_NO_MINIMUM && facts.run)
+    {
+        const auto &run = *facts.run;
+        add("lowest_hfr", i18n("Smallest stars"), QString::number(run.lowest, 'f', 2), QStringLiteral("px"), Evidence::Bad);
+        if (run.reference > 0)
+        {
+            add("reference_hfr", i18n("In focus"), QString::number(run.reference, 'f', 2), QStringLiteral("px"), Evidence::Info);
+            add("hfr_ratio", i18n("Larger than in focus"), QString::number(run.ratio, 'f', 1), QStringLiteral("x"), Evidence::Bad);
+        }
+        add("run_range", i18n("Positions measured"), QString("%1 - %2").arg(run.lowPosition).arg(run.highPosition),
+            QStringLiteral("steps"), Evidence::Info);
     }
 
     if (isCurveFailure(reason) && facts.canAbsMove)
@@ -570,6 +687,9 @@ void noStarsItems(const FocusFacts &facts, const QStringList &skip, QList<Item> 
         items << item;
     }
 
+    if (farFromLastGood(facts))
+        items << lastGoodItem(facts, Likelihood::Possible);
+
     frameItems(facts, items, report, signalOffered);
 }
 
@@ -596,7 +716,7 @@ void curveItems(const FocusFacts &facts, const QStringList &skip, QList<Item> &i
     {
         case FOCUS_FAIL_FOCUSER_OOB:
         {
-            const double travel = FocusDiagnosis::suggestedMaxTravel(facts);
+            const double travel = maxTravelTooSmall(facts) ? 0 : FocusDiagnosis::suggestedMaxTravel(facts);
             if (travel > 0)
             {
                 auto item = makeItem("focus_max_travel_raise", Kind::Auto, Tier::Configuration, Likelihood::Likely,
@@ -661,7 +781,44 @@ void curveItems(const FocusFacts &facts, const QStringList &skip, QList<Item> &i
             break;
     }
 
+    if (farFromLastGood(facts))
+        items << lastGoodItem(facts, Likelihood::Possible);
+    settingsItems(facts, items, Likelihood::Possible);
+
     // The frame can show what the curve can't, e.g. rings far from focus or a trailed frame
+    frameItems(facts, items, report, false);
+}
+
+void noMinimumItems(const FocusFacts &facts, QList<Item> &items, Report &report)
+{
+    // The last good focus, unless the run already measured around it
+    const int target = FocusDiagnosis::lastGoodTarget(facts);
+    if (facts.canAbsMove && target >= 0)
+    {
+        const bool outside = facts.run ? (target < facts.run->lowPosition || target > facts.run->highPosition)
+                             : farFromLastGood(facts);
+        if (outside)
+            items << lastGoodItem(facts, Likelihood::Likely);
+    }
+
+    QString why;
+    if (facts.run && facts.run->direction < 0)
+        why = i18n("The stars got smaller toward %1, the lowest position measured: focus lies below it.", facts.run->lowPosition);
+    else if (facts.run && facts.run->direction > 0)
+        why = i18n("The stars got smaller toward %1, the highest position measured: focus lies above it.",
+                   facts.run->highPosition);
+    else
+        why = i18n("The run stayed too far from focus to tell which way focus lies.");
+    items << nearFocusItem(Likelihood::Likely, why);
+
+    if (FocusDiagnosis::suggestedStepSize(facts) > 0)
+        items << stepItem(facts, Likelihood::Possible,
+                          i18n("Steps of %1 barely change the star size this far from focus: larger steps reach focus sooner.",
+                               facts.stepSize));
+    if (facts.canAbsMove)
+        items << advisorItem(Likelihood::Possible);
+    settingsItems(facts, items, Likelihood::Possible);
+
     frameItems(facts, items, report, false);
 }
 
@@ -730,6 +887,8 @@ QString focusFailReasonKey(AutofocusFailReason reason)
             return QStringLiteral("optimised_out");
         case FOCUS_FAIL_DUSTCAP_ERROR:
             return QStringLiteral("dustcap_error");
+        case FOCUS_FAIL_NO_MINIMUM:
+            return QStringLiteral("no_minimum");
         case FOCUS_FAIL_MAX_REASONS:
             break;
     }
@@ -756,7 +915,184 @@ bool FocusDiagnosis::isDiagnosable(AutofocusFailReason reason)
 
 bool FocusDiagnosis::isFrameReason(AutofocusFailReason reason)
 {
-    return reason == FOCUS_FAIL_NO_STARS || isCurveFailure(reason);
+    return reason == FOCUS_FAIL_NO_STARS || reason == FOCUS_FAIL_NO_MINIMUM || isCurveFailure(reason);
+}
+
+FocusRunCheck FocusDiagnosis::checkRun(const QList<FocusPoint> &points, double reference, bool r2Failed)
+{
+    FocusRunCheck check;
+    check.reference = reference;
+    check.r2Failed = r2Failed;
+
+    // Valid points, without the curve fit's outliers (e.g. donuts, whose measure is too low) when enough are left
+    QList<FocusPoint> valid, kept;
+    for (const auto &point : points)
+    {
+        if (point.value <= 0)
+            continue;
+        valid << point;
+        if (!point.outlier)
+            kept << point;
+    }
+    QList<FocusPoint> used = kept.size() >= MIN_RUN_POINTS ? kept : valid;
+    check.points = used.size();
+    if (used.size() < MIN_RUN_POINTS)
+        return check;
+
+    std::sort(used.begin(), used.end(), [](const FocusPoint & a, const FocusPoint & b)
+    {
+        return a.position < b.position;
+    });
+    const int n = used.size();
+    check.lowPosition = used.first().position;
+    check.highPosition = used.last().position;
+
+    int lowest = 0;
+    for (int i = 1; i < n; i++)
+    {
+        if (used[i].value < used[lowest].value)
+            lowest = i;
+    }
+    check.lowest = used[lowest].value;
+    check.lowestPosition = used[lowest].position;
+
+    // Straight line through the points: is there a trend, and which way does the measure fall?
+    double meanX = 0, meanY = 0;
+    for (const auto &point : used)
+    {
+        meanX += point.position;
+        meanY += point.value;
+    }
+    meanX /= n;
+    meanY /= n;
+    double sxx = 0, sxy = 0;
+    for (const auto &point : used)
+    {
+        sxx += (point.position - meanX) * (point.position - meanX);
+        sxy += (point.position - meanX) * (point.value - meanY);
+    }
+    if (sxx <= 0)
+        return check;
+    const double slope = sxy / sxx;
+    double residuals = 0;
+    for (const auto &point : used)
+    {
+        const double residual = point.value - (meanY + slope * (point.position - meanX));
+        residuals += residual * residual;
+    }
+    const double standardError = std::sqrt(residuals / (n - 2) / sxx);
+    check.slopeT = standardError > 0 ? std::abs(slope) / standardError : 1e9;
+    const bool trend = check.slopeT >= SIGNIFICANT_SLOPE_T;
+
+    // The measure falls toward the lower positions: focus lies below the run, and the other way round
+    if (trend)
+        check.direction = slope > 0 ? -1 : 1;
+
+    // Each end of the run is the mean of its two outermost points, against noise
+    const double leftEnd = (used[0].value + used[1].value) / 2;
+    const double rightEnd = (used[n - 1].value + used[n - 2].value) / 2;
+    const double rise = V_RISE * check.lowest;
+    // The measure falls toward one end, and that end has not risen again above the smallest stars. Where along the
+    // run the smallest stars are is left to the noise: on the sky it is often a few points in from the end.
+    check.oneSided = trend && ((slope > 0 && leftEnd < rise) || (slope < 0 && rightEnd < rise));
+    // Both ends clearly above the smallest stars: the run went through focus, also when the seeing is bad and the
+    // fit poor
+    check.hasV = lowest > 0 && lowest < n - 1 && leftEnd >= rise && rightEnd >= rise;
+    check.endRise = check.lowest > 0 ? std::min(leftEnd, rightEnd) / check.lowest : 0;
+
+    // A poor fit is strong evidence. A slope alone is also what a run with focus near one of its ends shows: it needs
+    // the larger margin, beyond what the seeing of a bad night does to the stars.
+    if (reference > 0)
+    {
+        check.ratio = check.lowest / reference;
+        check.noMinimum = !check.hasV && ((r2Failed && check.ratio >= NO_MINIMUM_RATIO)
+                                          || (check.oneSided && check.ratio >= ONE_SIDED_RATIO));
+    }
+    return check;
+}
+
+QList<FocusReference> FocusDiagnosis::addReference(QList<FocusReference> history, const FocusReference &reference)
+{
+    history << reference;
+    while (history.size() > REFERENCE_RUNS)
+        history.removeFirst();
+    return history;
+}
+
+int FocusDiagnosis::lastGoodTarget(const FocusFacts &facts)
+{
+    if (facts.lastGoodPosition < 0)
+        return -1;
+    double target = facts.lastGoodPosition;
+    if (std::abs(facts.ticksPerTemp) > 0.001 && validTemperature(facts.temperature)
+            && validTemperature(facts.lastGoodTemperature))
+        target += facts.ticksPerTemp * (facts.temperature - facts.lastGoodTemperature);
+    if (std::abs(facts.ticksPerAlt) > 0.001 && validAltitude(facts.altitude) && validAltitude(facts.lastGoodAltitude))
+        target += facts.ticksPerAlt * (facts.altitude - facts.lastGoodAltitude);
+    int position = static_cast<int>(std::lround(target));
+    if (facts.focuserMax > facts.focuserMin)
+        position = std::clamp(position, static_cast<int>(facts.focuserMin), static_cast<int>(facts.focuserMax));
+    return std::max(0, position);
+}
+
+bool FocusDiagnosis::isReferenceRun(const FocusRunCheck &check)
+{
+    return check.points >= MIN_RUN_POINTS && !check.r2Failed && !check.oneSided && !check.noMinimum
+           && check.lowestPosition > check.lowPosition && check.lowestPosition < check.highPosition
+           && check.endRise >= REFERENCE_RISE;
+}
+
+double FocusDiagnosis::airmass(double altitude)
+{
+    constexpr double DEG_TO_RAD = M_PI / 180.0;
+    return 1.0 / std::sin(std::clamp(altitude, 10.0, 90.0) * DEG_TO_RAD);
+}
+
+double FocusDiagnosis::referenceFor(const QList<FocusReference> &history, double altitude, int binning,
+                                    const QDateTime &now)
+{
+    QList<FocusReference> usable;
+    for (const auto &reference : history)
+    {
+        if (reference.hfr > 0 && reference.when.isValid() && reference.when.daysTo(now) <= REFERENCE_MAX_AGE_DAYS
+                && reference.binning == std::max(1, binning))
+            usable << reference;
+    }
+
+    // Runs at a similar altitude, as they were measured: no model of the seeing
+    QList<double> values;
+    if (altitude >= 0)
+    {
+        for (const auto &reference : usable)
+        {
+            if (reference.altitude >= 0 && std::abs(reference.altitude - altitude) <= NEAR_ALTITUDE)
+                values << reference.hfr;
+        }
+    }
+
+    // Else every run, scaled up for a lower altitude: seeing grows with the airmass to the power 0.6 at most. Never
+    // down: where the optics or the pixels set the star size, stars do not shrink higher up, and a smaller expected
+    // HFR would bring good runs closer to failing.
+    if (values.isEmpty())
+    {
+        for (const auto &reference : usable)
+        {
+            double hfr = reference.hfr;
+            if (altitude >= 0 && reference.altitude >= 0)
+                hfr *= std::max(1.0, std::pow(airmass(altitude) / airmass(reference.altitude), 0.6));
+            values << hfr;
+        }
+    }
+    if (values.isEmpty())
+        return -1;
+    std::sort(values.begin(), values.end());
+    const int middle = values.size() / 2;
+    return values.size() % 2 ? values[middle] : (values[middle - 1] + values[middle]) / 2;
+}
+
+int FocusDiagnosis::neededMaxTravel(const FocusFacts &facts)
+{
+    return facts.outSteps * facts.stepSize + facts.afOverscan;
 }
 
 AutofocusFailReason FocusDiagnosis::reportedReason(AutofocusFailReason failCode, AutofocusFailReason attemptReason)
@@ -809,6 +1145,8 @@ Report FocusDiagnosis::diagnose(const FocusFacts &facts, const QStringList &trie
     deviceItems(facts, items);
     if (facts.reason == FOCUS_FAIL_NO_STARS)
         noStarsItems(facts, skip, items, report);
+    else if (facts.reason == FOCUS_FAIL_NO_MINIMUM)
+        noMinimumItems(facts, items, report);
     else if (isCurveFailure(facts.reason))
         curveItems(facts, skip, items, report);
 
@@ -868,6 +1206,8 @@ Report FocusDiagnosis::checkup(const FocusFacts &facts, const QStringList &dismi
 
     if (pulseTooShort(facts))
         items << pulseStepItem(facts);
+
+    settingsItems(facts, items, Likelihood::Likely);
 
     QStringList seen;
     for (auto item : items)

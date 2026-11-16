@@ -1164,6 +1164,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
         m_NotedFailReason = FOCUS_FAIL_NONE;
         m_NotedFailInfo.clear();
         m_DiagnosisAutofocusReason = autofocusReason;
+        m_LastRunCheck.reset();
     }
 
     if (m_Focuser == nullptr)
@@ -2718,8 +2719,12 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         if (completionState == Ekos::FOCUS_COMPLETE)
         {
             if (failCode != FOCUS_FAIL_ADVISOR_COMPLETE)
+            {
                 KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
                                       KSNotification::Focus);
+                // The in-focus HFR of this run is the reference for telling later runs that never reached focus
+                addFocusReference();
+            }
             // Pass consistent Autofocus temperature to analyze
             if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && curveFitting != nullptr)
                 Q_EMIT autofocusComplete(m_LastSourceAutofocusTemperature, filter(), getAnalyzeData(),
@@ -4051,6 +4056,10 @@ void Focus::autoFocusLinear()
     {
         if (linearFocuser->solution() != -1)
         {
+            // A run that never reached focus fails, instead of moving to the edge of what it measured
+            if (failIfNoMinimum(m_CurveFit != CurveFitting::FOCUS_QUADRATIC && R2 < m_OpsFocusProcess->focusR2Limit->value()))
+                return;
+
             // If we're running under Focus Advisor analyse results and, if necessary, rerun
             if (m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
             {
@@ -4094,6 +4103,9 @@ void Focus::autoFocusLinear()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
             AutofocusFailReason failCode = linearFocuser->getFailCode();
+            // No curve fits the points of a run far from focus: say so, rather than that the fit failed
+            if (failCode == Ekos::FOCUS_FAIL_CURVEFIT && failIfNoMinimum(true))
+                return;
             appendLogText(i18n("Linear autofocus algorithm aborted: %1", AutofocusFailReasonStr[failCode]));
             completeFocusProcedure(Ekos::FOCUS_ABORTED, failCode, "", false);
         }

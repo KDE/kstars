@@ -115,8 +115,57 @@ checks the setup when nothing failed. It is pure: no devices, no options, no wid
   autofocus again from the diagnosis.
 - **`testTriedAndDismissed`**, **`testEvidence`**, **`testCheckup`** — filtering, the
   evidence and the check-up.
+- **`testRunCheck`** — `checkRun()` on Linear 1 Pass runs recorded with the simulators
+  (in focus at 36,700, in-focus HFR 1.62 px) and on the sky (2026-11-16, in-focus HFR
+  0.907 px). A run never reaches focus (`no_minimum`) when it has no V and its smallest
+  stars are at least `NO_MINIMUM_RATIO` (2) times the reference with a poor or failed curve
+  fit, or `ONE_SIDED_RATIO` (2.5) times with a good fit and a significant slope toward an
+  end that has not risen again. Where along the run the smallest stars are is left to the
+  noise: on the sky they were a few points in from the end. A run through focus is never
+  one, also with a poor fit or seeing twice as bad. Without a reference, or with fewer than
+  5 points, nothing is flagged; outliers (donuts) are left out.
+- **`testReferenceRuns`** — `isReferenceRun()`: only a run that went through focus becomes
+  a reference (good fit, no slope toward an end, both ends at least `REFERENCE_RISE` times
+  its smallest stars). On the sky a run that stopped 2,900 steps from focus became a
+  reference 4 times too large and hid the next one.
+- **`testReference`** — the in-focus HFR of a train: the median of its last 5 good runs with
+  the same binning. Runs within 15 degrees of the run's altitude count as measured; without
+  any, all count, scaled up for a lower altitude (airmass^0.6) but never down. An HFR does not
+  convert between binnings: on the sky 0.95 px at 2x2 was 1.35 px at 1x1, not 1.9. On the same
+  refractor the stars were as large at 75 degrees as at 31, where the model expected them 37%
+  smaller: scaling down would bring good runs closer to failing.
+  Runs older than 30 days are ignored. Focus keeps the runs, with their filter, as the
+  `reference` metadata of its settings of the train (`OpticalTrainSettings::setMetadata()`).
+- **`testNoMinimum`** — the `no_minimum` report: go to the last good focus of the filter
+  when it is outside the run, otherwise the direction focus lies in, a larger step size and
+  Focus Advisor. A curve failure far from the last good focus offers it as a possible cause.
+- **`testSettingsChecks`** — Max Travel smaller than Linear 1 Pass needs (out steps × step
+  size + AF Overscan), and backlash corrected twice (driver backlash and AF Overscan both set),
+  in the check-up and as possible causes of a curve failure.
 
 How Focus feeds these rules is tested with the simulators in
 `Tests/kstars_ui/test_ekos_focus.cpp`, `testFocusDiagnosis`: a run without stars gets one
 report, raising the exposure from it changes the setting and starts autofocus again, and
 stopping that run gets no report.
+
+`testAutofocusNeverReachesFocus` runs autofocus around focus first, which stores the in-focus
+HFR of the train, then starts at 60,000 with steps of 200. That run fails as never reaching
+focus (`FOCUS_FAIL_NO_MINIMUM`) instead of succeeding far from focus. Focus handles it like any
+other failure and retries it; its report has the reason `no_minimum` and starts with `focus_goto_last_good`, and
+applying it moves the focuser to the position of the good run. With the simulator's noise,
+Linear 1 Pass sometimes walks toward focus instead until it runs out of steps
+(`max_iterations`): also a failure, whose report also offers `focus_goto_last_good`. The test
+accepts both; it never accepts a success.
+
+`testTiltSettingsPerTrain` checks that the Tilt Correction Advisory's plate settings are kept as
+the `tilt` metadata of the Focus settings of the train: saved at once, never among the Focus
+settings or the options, and kept when Focus saves its settings.
+
+**The thresholds are verified on one setup only**: a refractor with an ATR2600M (2x2) on
+2026-11-16, and the simulators. They need field data from other optics before they are tuned:
+seeing-limited long focal lengths, fast astrographs, and scopes with a central obstruction
+(donuts). Never tune them to a single setup.
+
+Focus logs `Autofocus run check: ...` after every Linear 1 Pass run with all the values the
+rule uses (points, lowest HFR, reference, ratio, R2, slope t, one-sided, V, direction). Use
+these lines from real-sky runs to check the thresholds.

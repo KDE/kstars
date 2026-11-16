@@ -76,6 +76,8 @@ typedef enum { FOCUS_FAIL_NONE,
                FOCUS_FAIL_ADVISOR_RERUN,
                FOCUS_FAIL_OPTIMISED_OUT,
                FOCUS_FAIL_DUSTCAP_ERROR,
+               // The run never reached focus: its smallest stars are far larger than at focus, and it has no V
+               FOCUS_FAIL_NO_MINIMUM,
                FOCUS_FAIL_MAX_REASONS
              } AutofocusFailReason;
 
@@ -105,6 +107,8 @@ static const QString AutofocusFailReasonStr[FOCUS_FAIL_MAX_REASONS] =
     "Unable to Fit Curve",
     "Focus Advisor Complete",
     "Focus Advisor Rerun",
-    "Focus Optimised Out"
+    "Focus Optimised Out",
+    "Dustcap Error",
+    "No Minimum In Range"
 };
 }
