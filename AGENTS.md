@@ -83,6 +83,12 @@ ninja -C build-testing -j"$JOBS" testfocus  # a single test binary
   to compile. Running too many at once can exhaust RAM and trigger the OOM killer. Using about ¾ of the cores
   is a sensible default. Go lower on machines with limited RAM (roughly 2 GB per job). If the maintainer or the
   local agent memory/config gives a specific cap for this machine, use that instead.
+- **Keep temporary files off tmpfs.** On many systems `/tmp` is a tmpfs that lives in RAM (check with
+  `findmnt /tmp`). The compiler writes each translation unit's intermediate files to `$TMPDIR` (default `/tmp`),
+  and UI tests put their temporary `HOME` there too, so parallel builds and test runs fill RAM and can get the IDE
+  or the desktop OOM-killed. Point `TMPDIR` at a directory on disk, e.g.
+  `mkdir -p /var/tmp/kstars-build && TMPDIR=/var/tmp/kstars-build ninja -C build-testing -j"$JOBS" ...`, and keep
+  large scratch files (git bundles, FITS stacks, big logs) out of `/tmp`.
 - If `BUILD_TESTING` is `OFF` in `build-testing/CMakeCache.txt`, reconfigure that tree with
   `cmake -B build-testing -DBUILD_TESTING=ON`. If a test binary fails to execute, check that it is a valid
   executable before debugging it.
@@ -228,7 +234,8 @@ pre-existing. Report it rather than fixing it silently.
   test cannot reach the `indiserver` it starts itself.
 - UI tests on the user's own D-Bus session let D-Bus start the *installed* `kstars` for `org.kde.kstars`, on the
   user's desktop. Use a private bus: `dbus-run-session --config-file=<conf>` with a session config that has no
-  `<servicedir>` or `<standard_session_servicedirs/>`, together with a fresh `TMPDIR` per run.
+  `<servicedir>` or `<standard_session_servicedirs/>`, together with a fresh `TMPDIR` per run, on disk (e.g. under `/var/tmp`), not
+  on a tmpfs `/tmp`.
 - Alignment tests with the simulators:
   - `TestEkosHelper::slewTo(..., fast=true)` syncs instead of slewing. The mount then reports the target while the
     CCD simulator renders its physical position (`EQUATORIAL_PE`, still at the pole). Tests that check solved
