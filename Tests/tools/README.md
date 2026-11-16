@@ -8,7 +8,7 @@ running KStars window.
 
 ## Prerequisites
 
-- No INDI, no CFITSIO, no display required — pure unit tests.
+- No INDI, no CFITSIO, no display required. `testavtplotwidget` creates widgets: run it with `QT_QPA_PLATFORM=offscreen` when there is no display.
 - CTest timeout is 600 s per test (set in CMakeLists).
 
 ---
@@ -19,6 +19,7 @@ running KStars window.
 ./build/Tests/tools/testartificialhorizon -v2
 ./build/Tests/tools/testgreatcircle -v2
 ./build/Tests/tools/testdeltara -v2
+QT_QPA_PLATFORM=offscreen ./build/Tests/tools/testavtplotwidget -v2
 
 # Run a single function:
 ./build/Tests/tools/testartificialhorizon testFindBlocking -v2
@@ -77,6 +78,24 @@ Key scenarios:
 - Wraparound positive (e.g. 1h − 23h = +2h)
 - Wraparound negative (e.g. 23h − 1h = −2h)
 - Identical values return 0
+
+---
+
+### `testavtplotwidget.cpp` — Altitude vs. time plot painting
+
+Renders an `AVTPlotWidget` (the altitude graph of the Ekos Scheduler, the
+Observing List and the Imaging Planner) offscreen with the scheduler graph's
+padding, and counts `QImage::` warnings with a message handler.
+
+Key scenarios:
+
+- **Squeezed below its padding** (e.g. by dragging a splitter) — there is no
+  plot area, and painting must not log `QImage::pixel`/`setPixel` out-of-range
+  warnings for every pixel along the curves.
+- **As high as the padding** and **normal height** — painting stays silent.
+
+This test creates widgets, so set `QT_QPA_PLATFORM=offscreen` when running it
+without a display.
 
 ---
 

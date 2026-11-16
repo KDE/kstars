@@ -5,6 +5,11 @@ ADD_TEST( NAME ArtificialHorizonTest COMMAND testartificialhorizon )
 SET_TESTS_PROPERTIES( ArtificialHorizonTest PROPERTIES LABELS "stable" TIMEOUT 600)
 
 SET( GreatCircleTest_SRCS testgreatcircle.cpp  )
+ADD_EXECUTABLE( testavtplotwidget testavtplotwidget.cpp )
+TARGET_LINK_LIBRARIES( testavtplotwidget ${TEST_LIBRARIES})
+ADD_TEST( NAME AVTPlotWidgetTest COMMAND testavtplotwidget )
+SET_TESTS_PROPERTIES( AVTPlotWidgetTest PROPERTIES LABELS "stable" TIMEOUT 600)
+
 ADD_EXECUTABLE( testgreatcircle testgreatcircle.cpp )
 TARGET_LINK_LIBRARIES( testgreatcircle ${TEST_LIBRARIES})
 ADD_TEST( NAME GreatCircleTest COMMAND testgreatcircle )

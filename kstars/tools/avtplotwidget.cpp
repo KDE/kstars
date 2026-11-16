@@ -284,6 +284,13 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
     p.translate(leftPadding(), topPadding());
 
     setPixRect();
+
+    // A widget smaller than its padding (e.g. squeezed in a splitter) has no plot area. KPlotWidget then
+    // has a plot rectangle with a negative size and a null label mask, and drawing the plot objects logs a
+    // QImage warning for every pixel along every curve.
+    if (pixRect().width() <= 0 || pixRect().height() <= 0)
+        return;
+
     p.setClipRect(pixRect());
     p.setClipping(true);
 
