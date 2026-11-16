@@ -343,6 +343,8 @@ if (INDI_FOUND)
 
             # Focus
             ekos/focus/focus.cpp
+            ekos/focus/focus_diagnosis.cpp
+            ekos/focus/focusdiagnosis.cpp
             ekos/focus/focusmodule.cpp
             ekos/focus/focusfitsview.cpp
             ekos/focus/focushfrvplot.cpp

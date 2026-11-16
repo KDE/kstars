@@ -14,6 +14,9 @@
 namespace Ekos
 {
 
+// Shortest pulse in ms that moves a focuser that moves by time. Autofocus needs a step of 5 times this.
+constexpr int FOCUS_MINIMUM_PULSE_TIMER = 32;
+
 // Reason codes for running Autofocus
 typedef enum { FOCUS_NONE,
                FOCUS_MANUAL,

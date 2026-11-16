@@ -10,6 +10,7 @@
 
 #include "Options.h"
 #include "auxiliary/ksmessagebox.h"
+#include "ekos/auxiliary/diagnosismanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "kstarsdata.h"
 #include "kspaths.h"
@@ -564,6 +565,8 @@ void FocusModule::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceR
 
 void FocusModule::initFocuser(QSharedPointer<Focus> newFocuser)
 {
+    newFocuser->setDiagnosisManager(m_DiagnosisManager);
+
     connect(newFocuser.get(), &Focus::focuserChanged, this, &FocusModule::updateFocuser);
     connect(newFocuser.get(), &Focus::suspendGuiding, this, &FocusModule::suspendGuiding);
     connect(newFocuser.get(), &Focus::resumeGuiding, this, &FocusModule::resumeGuiding);

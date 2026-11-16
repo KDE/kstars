@@ -10,6 +10,7 @@
 #include "opsastrometryindexfiles.h"
 #include "Options.h"
 
+#include "ekos/auxiliary/diagnosisactions.h"
 #include "ekos/auxiliary/diagnosismanager.h"
 #include "ekos/manager.h"
 #include "ekos/mount/mount.h"
@@ -66,52 +67,9 @@ QString downloadErrorText(int error)
     }
 }
 
-ApplyResult failed(const QString &message)
-{
-    ApplyResult result;
-    result.outcome = Outcome::Failed;
-    result.message = message;
-    return result;
-}
-
-ApplyResult done(const QString &message = QString())
-{
-    ApplyResult result;
-    result.outcome = Outcome::Done;
-    result.message = message;
-    return result;
-}
-
-/**
- * Connect a device and finish the item when it reports connected.
- */
-ApplyResult connectDevice(DiagnosisManager *manager, ISD::ConcreteDevice *device, const Diagnosis::Report &report,
-                          const Diagnosis::Item &item)
-{
-    if (device == nullptr)
-        return failed(i18n("The device is not available."));
-    if (device->isConnected())
-        return done();
-
-    QPointer<DiagnosisManager> guard(manager);
-    const QString diagnosisId = report.id;
-    const QString itemId = item.id;
-    auto connection = std::make_shared<QMetaObject::Connection>();
-    *connection = QObject::connect(device, &ISD::ConcreteDevice::Connected, manager, [guard, diagnosisId, itemId,
-                                   connection]()
-    {
-        QObject::disconnect(*connection);
-        if (guard)
-            guard->finishItem(diagnosisId, itemId, true);
-    }, Qt::QueuedConnection);
-
-    device->Connect();
-
-    ApplyResult result;
-    result.outcome = Outcome::Running;
-    result.timeoutMs = 30000;
-    return result;
-}
+using DiagnosisActions::connectDevice;
+using DiagnosisActions::done;
+using DiagnosisActions::failed;
 }
 
 DiagnosisManager *Align::diagnosisManager() const

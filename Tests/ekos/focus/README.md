@@ -89,3 +89,34 @@ data set.
 
 Tests the star HFR / FWHM measurement statistics used to evaluate focus quality
 from a list of detected stars, including outlier rejection and weighted averages.
+
+---
+
+### `testfocusdiagnosis.cpp` — Autofocus failure rules
+
+Tests `Ekos::FocusDiagnosis::diagnose()`, which turns `FocusFacts` into the
+diagnosis report of a failed autofocus run, and `FocusDiagnosis::checkup()`, which
+checks the setup when nothing failed. It is pure: no devices, no options, no widgets.
+
+- **`testRules`** — one data row per rule: facts in, item ids and their order out.
+  Devices (`camera_connect`, `focuser_connect`, `check_focuser`, ...), a frame without
+  stars (raise the exposure, bin 2x2, then the sky and the cap; rings in the frame mean
+  the focuser is far from focus), and the failures of the focus curve (maximum travel,
+  step size, Focus Advisor, the seeing). A device that dropped out comes first.
+- **`testItemDetails`** — costs, open targets and the values in the titles.
+- **`testSuggestions`** — the exposure, step size and maximum travel the items set, and
+  their limits: the largest single step and the focuser range.
+- **`testDiagnosable`** — aborts, Focus Advisor reruns and runs that were optimised out
+  get no diagnosis. A run that gave up after its retries ends with a forced abort: the
+  reason of its failed attempts is reported instead (`reportedReason()`).
+- **`testReasonKeys`** — every `AutofocusFailReason` has a unique key; every diagnosed
+  reason has a title and at least one item.
+- **`testInSequence`** — runs started by a capture sequence or the scheduler never start
+  autofocus again from the diagnosis.
+- **`testTriedAndDismissed`**, **`testEvidence`**, **`testCheckup`** — filtering, the
+  evidence and the check-up.
+
+How Focus feeds these rules is tested with the simulators in
+`Tests/kstars_ui/test_ekos_focus.cpp`, `testFocusDiagnosis`: a run without stars gets one
+report, raising the exposure from it changes the setting and starts autofocus again, and
+stopping that run gets no report.

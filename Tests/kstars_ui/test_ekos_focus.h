@@ -180,6 +180,11 @@ class TestEkosFocus : public QObject
         void testGuidingSuspendWhileFocusing();
         void testFocusWhenHFRChecking();
         void testFocusFailure();
+        /**
+         * @brief A failed autofocus gets one diagnosis with the reason it failed, and an item applied from it changes
+         * the setting and starts autofocus again. Stopping that run is an abort, which gets no diagnosis.
+         */
+        void testFocusDiagnosis();
         void testFocusWhenMountFlips();
         void testCanAutoFocusWithoutFocuser();
 

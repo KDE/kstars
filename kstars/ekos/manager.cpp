@@ -1104,6 +1104,7 @@ void Manager::reset()
     m_CountdownTimer.stop();
 
     captureProcess.reset();
+    m_DiagnosisManager->unregisterModule(QStringLiteral("focus"));
     focusProcess.reset();
     guideProcess.reset();
     m_DiagnosisManager->unregisterModule(QStringLiteral("align"));
@@ -2713,6 +2714,15 @@ void Manager::initFocus()
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::driverTimedout, this, &Ekos::Manager::restartDriver);
+
+    // Every focuser tab reports its autofocus failures. A success closes the failure chain of its train.
+    focusModule()->registerDiagnosis(m_DiagnosisManager.get());
+    connect(focusModule(), &Ekos::FocusModule::autofocusComplete, this, [this](double, const QString &, const QString &,
+            bool, const QString &, const QString &, const QString & trainname)
+    {
+        m_DiagnosisManager->moduleSucceeded(QStringLiteral("focus"), trainname);
+    });
+
     connect(focusModule(), &Ekos::FocusModule::newLog, this, [this]()
     {
         // update the logging in the client
@@ -3039,6 +3049,7 @@ void Manager::removeTabs()
     m_DiagnosisManager->unregisterModule(QStringLiteral("align"));
     alignProcess.reset();
     captureProcess.reset();
+    m_DiagnosisManager->unregisterModule(QStringLiteral("focus"));
     focusProcess.reset();
     guideProcess.reset();
     mountProcess.reset();

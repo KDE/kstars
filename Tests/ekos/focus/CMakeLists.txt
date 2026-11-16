@@ -15,3 +15,8 @@ ADD_EXECUTABLE( testfocusdevices testfocusdevices.cpp )
 TARGET_LINK_LIBRARIES( testfocusdevices ${TEST_LIBRARIES})
 ADD_TEST( NAME FocusDevicesTest COMMAND testfocusdevices )
 SET_TESTS_PROPERTIES( FocusDevicesTest PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testfocusdiagnosis testfocusdiagnosis.cpp )
+TARGET_LINK_LIBRARIES( testfocusdiagnosis ${TEST_LIBRARIES})
+ADD_TEST( NAME FocusDiagnosisTest COMMAND testfocusdiagnosis )
+SET_TESTS_PROPERTIES( FocusDiagnosisTest PROPERTIES LABELS "stable")

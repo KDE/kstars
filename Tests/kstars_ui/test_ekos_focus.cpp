@@ -16,6 +16,7 @@
 #include "test_ekos_mount.h"
 #include "ekos/focus/focusmodule.h"
 #include "ekos/focus/focusutils.h"
+#include "ekos/auxiliary/diagnosismanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
@@ -23,6 +24,8 @@
 #include "indi/indifocuser.h"
 #include "Options.h"
 
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QScopeGuard>
 
@@ -756,6 +759,85 @@ void TestEkosFocus::testFocusFailure()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 240000);
     QVERIFY(!autofocus.started);
+}
+
+void TestEkosFocus::testFocusDiagnosis()
+{
+    Ekos::DiagnosisManager *diagnosis = Ekos::Manager::Instance()->diagnosisManager();
+    QVERIFY(diagnosis);
+    diagnosis->clear();
+
+    QList<QJsonObject> reports;
+    QList<QJsonObject> updates;
+    const auto reportsConnection = connect(diagnosis, &Ekos::DiagnosisManager::newDiagnosis, this,
+                                           [&reports](const QString & module, const QJsonObject & report)
+    {
+        if (module == "focus")
+            reports << report;
+    });
+    const auto updatesConnection = connect(diagnosis, &Ekos::DiagnosisManager::diagnosisUpdated, this,
+                                           [&updates](const QJsonObject & update)
+    {
+        updates << update;
+    });
+    auto disconnectAll = qScopeGuard([reportsConnection, updatesConnection]()
+    {
+        disconnect(reportsConnection);
+        disconnect(updatesConnection);
+    });
+
+    KTELL("Sync high on meridian to avoid jitter in CCD Simulator");
+    KTRY_FOCUS_SHOW();
+    KTRY_MOUNT_SYNC(60.0, true, -1);
+
+    KTELL("Configure an autofocus that cannot see any star, as testFocusFailure does.");
+    KTRY_FOCUS_MOVETO(10000);
+    KTRY_FOCUS_CONFIGURE("SEP", "Polynomial", 0.0, 1.0, 0.1);
+    KTRY_FOCUS_EXPOSURE(0.01, 1);
+
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
+
+    KFocusProcedureSteps autofocus;
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
+    // An earlier test may have left a run whose failed frame was still being measured: its report arrives late.
+    // While this run is in progress, a late measurement is dropped, so only this run's report counts.
+    reports.clear();
+
+    KTELL("The failed run gets one report, with the reason it failed.");
+    QTRY_VERIFY_WITH_TIMEOUT(!reports.isEmpty(), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 10000);
+    const QJsonObject report = reports.last();
+    QCOMPARE(report["module"].toString(), QString("focus"));
+    QCOMPARE(report["reasonKey"].toString(), QString("no_stars"));
+    QCOMPARE(report["train"].toString(), Ekos::Manager::Instance()->focusModule()->mainFocuser()->opticalTrain());
+    QStringList items;
+    for (const auto &item : report["items"].toArray())
+        items << item.toObject()["id"].toString();
+    QVERIFY2(items.contains("focus_exposure_raise"), qPrintable(QJsonDocument(report).toJson()));
+    // One report per run
+    QTest::qWait(2000);
+    QCOMPARE(reports.size(), 1);
+
+    KTELL("Raising the exposure from the diagnosis changes it and starts autofocus again.");
+    autofocus.started = false;
+    const QJsonObject result = diagnosis->apply(report["id"].toString(), "focus_exposure_raise", true);
+    QVERIFY2(result["state"].toString() != "refused", qPrintable(QJsonDocument(result).toJson()));
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusExposure);
+    QCOMPARE(focusExposure->value(), 1.0);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
+    bool applied = false;
+    for (const auto &update : updates)
+        applied = applied || (update["itemId"].toString() == "focus_exposure_raise" && update["state"].toString() == "done");
+    QVERIFY(applied);
+
+    // Stopping the retried run is an abort: no new report
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 30000);
+    QTest::qWait(1000);
+    QCOMPARE(reports.size(), 1);
 }
 
 void TestEkosFocus::testCanAutoFocusWithoutFocuser()

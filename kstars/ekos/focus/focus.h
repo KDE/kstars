@@ -27,6 +27,7 @@
 #include "opsfocusmechanics.h"
 #include "ui_cfz.h"
 #include "focusutils.h"
+#include "focusdiagnosis.h"
 
 #include <QPointer>
 
@@ -46,6 +47,7 @@ class PolynomialFit;
 class AdaptiveFocus;
 class FocusAdvisor;
 class StellarSolverProfileEditor;
+class DiagnosisManager;
 
 /**
  * @class Focus
@@ -511,6 +513,16 @@ class Focus : public QWidget, public Ui::Focus
         {
             return opticalTrainCombo->currentText();
         }
+
+        /**
+         * @brief collectDiagnosisFacts What Focus knows now, for the autofocus failure diagnosis.
+         */
+        FocusFacts collectDiagnosisFacts() const;
+
+        /**
+         * @brief setDiagnosisManager Autofocus failures are reported to this manager. Set by FocusModule.
+         */
+        void setDiagnosisManager(DiagnosisManager *manager);
         void setOpticalTrain(const QString &value)
         {
             opticalTrainCombo->setCurrentText(value);
@@ -1517,6 +1529,37 @@ class Focus : public QWidget, public Ui::Focus
 
         QPointer<ISD::DustCap> m_DustCap; // New member for dustcap device
         bool m_waitingForDustCapUnpark { false }; // Flag to indicate waiting for dustcap to unpark
+
+        /// Diagnosis
+
+        /**
+         * @brief noteFailReason Remember why an autofocus attempt failed. The last attempt after the retries ends
+         * with FOCUS_FAIL_FORCE_ABORT, which says nothing about the cause: the noted reason is reported instead.
+         */
+        void noteFailReason(AutofocusFailReason failCode, const QString &failCodeInfo);
+
+        /**
+         * @brief recordFailure Submit a diagnosis for an autofocus run that ended with this reason, unless it was an
+         * abort or a run that did not need to happen. Measures the failed frame first when it can explain the failure.
+         */
+        void recordFailure(AutofocusFailReason failCode, const QString &failCodeInfo);
+
+        /** Measure the stars of the failed frame in the background, then submit the diagnosis. */
+        void measureFailedFrame(AutofocusFailReason reason);
+
+        void submitDiagnosis(const FocusFacts &facts);
+
+        QPointer<DiagnosisManager> m_DiagnosisManager;
+        /// The reason of the last failed attempt of the current autofocus run, and its detail
+        AutofocusFailReason m_NotedFailReason { FOCUS_FAIL_NONE };
+        QString m_NotedFailInfo;
+        /// The reason reported for the last failed run, and its detail
+        AutofocusFailReason m_DiagnosisFailReason { FOCUS_FAIL_NONE };
+        QString m_DiagnosisFailInfo;
+        /// Why the current autofocus run started; stop() clears m_AutofocusReason before the failure is recorded
+        AutofocusReason m_DiagnosisAutofocusReason { AutofocusReason::FOCUS_NONE };
+        std::optional<ImageStats> m_FailedImageStats;
+        FocusFacts m_LastDiagnosisFacts;
 };
 
 }

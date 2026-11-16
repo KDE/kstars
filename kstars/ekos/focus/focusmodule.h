@@ -57,6 +57,12 @@ class FocusModule : public QWidget, public Ui::FocusManager
         int findFocuser(const QString &trainname, bool addIfNecessary);
 
         /**
+         * @brief registerDiagnosis Register Focus and the actions behind its auto items with the diagnosis manager.
+         * Every focuser tab reports its autofocus failures to it, and the actions apply to the tab of the report's train.
+         */
+        void registerDiagnosis(DiagnosisManager *manager);
+
+        /**
          * @brief showOptions Open the options dialog for the currently selected focuser
          */
         void showOptions();
@@ -343,6 +349,9 @@ class FocusModule : public QWidget, public Ui::FocusManager
         // Attributes
         // ////////////////////////////////////////////////////////////////////
         QList<QSharedPointer<Focus>> m_Focusers;
+
+        /// Set by registerDiagnosis(), passed on to every focuser tab
+        QPointer<DiagnosisManager> m_DiagnosisManager;
 
         /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel or ISD::Weather
         QList<QSharedPointer<ISD::GenericDevice>> m_TemperatureSources;

@@ -62,7 +62,7 @@
 #define MAXIMUM_RESET_ITERATIONS   3
 #define MAXIMUM_RESTART_ITERATIONS 3
 #define AUTO_STAR_TIMEOUT          45000
-#define MINIMUM_PULSE_TIMER        32
+#define MINIMUM_PULSE_TIMER        FOCUS_MINIMUM_PULSE_TIMER
 #define MAX_RECAPTURE_RETRIES      3
 #define MINIMUM_POLY_SOLUTIONS     2
 #define MAX_STAR_DETECT_FAILS      5
@@ -1157,6 +1157,14 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     m_AutofocusReason = autofocusReason;
     m_AutofocusReasonInfo = reasonInfo;
     inSingleCaptureMode = false;
+
+    // A new run, not the retry of a failed attempt: forget why the last run failed
+    if (!m_AFRerun)
+    {
+        m_NotedFailReason = FOCUS_FAIL_NONE;
+        m_NotedFailInfo.clear();
+        m_DiagnosisAutofocusReason = autofocusReason;
+    }
 
     if (m_Focuser == nullptr)
     {
@@ -2728,6 +2736,8 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
                                       KSNotification::Focus, KSNotification::Alert);
             Q_EMIT autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode,
                                     failCodeInfo, opticalTrain());
+            // The run is over, after any retries
+            recordFailure(failCode, failCodeInfo);
         }
     }
 
@@ -2785,6 +2795,9 @@ QString Focus::getAnalyzeData()
 void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo,
                                    bool plot)
 {
+    if (completionState != Ekos::FOCUS_COMPLETE)
+        noteFailReason(failCode, failCodeInfo);
+
     // On Advisor complete or Optimised out, Autofocus wasn't run so don't update values / modules as per normal
     if (inAutoFocus && failCode != FOCUS_FAIL_ADVISOR_COMPLETE && failCode != FOCUS_FAIL_OPTIMISED_OUT)
     {
