@@ -94,11 +94,26 @@
     /* fails harmlessly if the mount has no alignment model */ \
     slewMount->resetModel(); \
     double const slewRA = (ra), slewDEC = (dec); \
+    /* Wait until the mount tracks at the target, not just until it tracks (it may not have started slewing yet). \
+       A short slew can start after slew() returns while the mount already tracks within the tolerance, and the \
+       modules then disable their buttons while the test goes on: check it again a moment later. The tolerance \
+       stays wide, as the Telescope Simulator tracks about 0.007 h from the commanded RA after a slew. */ \
     QVERIFY(slewMount->slew(slewRA, slewDEC)); \
-    /* wait until the mount tracks at the target, not just until it tracks (it may not have started slewing yet) */ \
-    QTRY_VERIFY_WITH_TIMEOUT(slewMount->status() == ISD::Mount::Status::MOUNT_TRACKING && \
-                             std::abs(std::remainder(slewMount->equatorialCoords()[0] - slewRA, 24.0)) < 0.05 && \
-                             std::abs(slewMount->equatorialCoords()[1] - slewDEC) < 0.1, 120000); \
+    auto const atTarget = [slewMount, slewRA, slewDEC]() \
+    { \
+        return slewMount->status() == ISD::Mount::Status::MOUNT_TRACKING && \
+               std::abs(std::remainder(slewMount->equatorialCoords()[0] - slewRA, 24.0)) < 0.05 && \
+               std::abs(slewMount->equatorialCoords()[1] - slewDEC) < 0.1; \
+    }; \
+    auto const position = [slewMount, slewRA, slewDEC]() \
+    { \
+        return QString("mount %1 at RA %2 DEC %3, target RA %4 DEC %5").arg(slewMount->statusString(false)) \
+               .arg(slewMount->equatorialCoords()[0], 0, 'f', 4).arg(slewMount->equatorialCoords()[1], 0, 'f', 3) \
+               .arg(slewRA, 0, 'f', 4).arg(slewDEC, 0, 'f', 3); \
+    }; \
+    QTRY_VERIFY2_WITH_TIMEOUT(atTarget(), qPrintable(position()), 120000); \
+    QTest::qWait(3000); \
+    QTRY_VERIFY2_WITH_TIMEOUT(atTarget(), qPrintable(position()), 120000); \
     } while (false)
 
 /** @brief Helper to point the mount at the meridian for focus tests.
