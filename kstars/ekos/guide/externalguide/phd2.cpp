@@ -110,9 +110,16 @@ PHD2::PHD2()
     connect(abortTimer, &QTimer::timeout, this, [ = ]
     {
         if (state == CALIBRATING)
+        {
             qCDebug(KSTARS_EKOS_GUIDE) << "Abort timeout expired while calibrating, retrying to guide.";
+            setFailReason(Ekos::GuideFailReason::Phd2CalibrationFailed,
+                          i18n("Calibration did not finish within %1 seconds.", Options::guideCalibrationTimeout()));
+        }
         else if (state == LOSTLOCK)
+        {
             qCDebug(KSTARS_EKOS_GUIDE) << "Abort timeout expired while reacquiring star, retrying to guide.";
+            setFailReason(Ekos::GuideFailReason::StarLost);
+        }
         else
             qCDebug(KSTARS_EKOS_GUIDE) << "Abort timeout expired, stopping.";
         abort();
@@ -127,6 +134,7 @@ PHD2::PHD2()
         isSettling = false;
         if (Options::ditherFailAbortsAutoGuide())
         {
+            setFailReason(Ekos::GuideFailReason::DitherFailed, i18n("PHD2 did not answer the dither."));
             abort();
             Q_EMIT newStatus(GUIDE_DITHERING_ERROR);
         }
@@ -395,6 +403,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             break;
 
         case CalibrationFailed:
+            setFailReason(Ekos::GuideFailReason::Phd2CalibrationFailed, jsonEvent["Reason"].toString());
             Q_EMIT newLog(i18n("PHD2: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
             handlePHD2AppState(STOPPED);
             break;
@@ -446,6 +455,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 ditherTimer->stop();
                 if (error && Options::ditherFailAbortsAutoGuide())
                 {
+                    setFailReason(Ekos::GuideFailReason::DitherFailed, jsonEvent["Error"].toString());
                     abort();
                     Q_EMIT newStatus(GUIDE_DITHERING_ERROR);
                 }
@@ -793,6 +803,8 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
             switch (state)
             {
                 case CALIBRATING:
+                    setFailReason(Ekos::GuideFailReason::Phd2CalibrationFailed,
+                                  i18n("PHD2 went back to looping exposures during calibration."));
                     Q_EMIT newLog(i18n("PHD2: Calibration turned to looping, failed."));
                     Q_EMIT newStatus(GUIDE_CALIBRATION_ERROR);
                     break;
@@ -1073,6 +1085,8 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError, const QByteArray &line
             ditherTimer->stop();
             isSettling = false;
             isDitherActive = false;
+            if (Options::ditherFailAbortsAutoGuide())
+                setFailReason(Ekos::GuideFailReason::DitherFailed, i18n("PHD2 refused the dither command."));
             Q_EMIT newStatus(GUIDE_DITHERING_ERROR);
 
             if (Options::ditherFailAbortsAutoGuide())

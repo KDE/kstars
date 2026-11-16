@@ -90,3 +90,36 @@ when the guide star is lost or the field rotates.  Covers:
 Tests the `CalibrationProcess` class which drives the RA/DEC pulse-movement
 sequence used to calibrate the guider.  Covers the state transitions:
 idle → measure RA → measure DEC → compute → done / failed.
+
+- **`testFailures`** — a simulated mount moves the star a fixed step for each
+  pulse, except in one broken direction.  The calibration fails and says why
+  (`getFailReason()`): RA or DEC drift too short when an axis does not move out,
+  RA or DEC no return when it does not come back, with the pulse and the drift
+  of that moment.  The log line names the same failure: a DEC axis that does
+  not move out used to be logged as one that does not come back.
+
+---
+
+### `testguidediagnosis.cpp` — Guide failure rules
+
+Tests `Ekos::GuideDiagnosis::diagnose()`, which turns `GuideFacts` into the
+diagnosis report of a calibration, guiding or dither failure, and
+`GuideDiagnosis::checkup()`.  It is pure: no devices, no options, no widgets.
+
+- **`testRules`** — one data row per rule: facts in, item ids and their order
+  out.  Calibration failures point at the mount first (balance, clutch, power,
+  cables, backlash, the ST4 cable when the pulses go through the camera), the
+  settings second.  PHD2 gets the mount checks and its own reason, but no
+  internal guider settings.  No item moves the mount by itself: "Done, try
+  again" restarts calibration with guide pulses only.
+- **`testItemDetails`**, **`testSuggestions`** — the pulse and drift in the
+  texts, and the limits of the values the items set.
+- **`testReasonKeys`**, **`testEvidence`**, **`testCheckup`** — stable keys, the
+  evidence, and the check-up, including a guide rate that the last calibration
+  measured too low.
+
+How Guide feeds these rules is tested with the simulators in
+`Tests/kstars_ui/test_ekos_guide_diagnosis.cpp`: a Telescope Simulator whose RA
+guide rate is 0 fails calibration with "RA drift too short" (the reason is in
+the log before the diagnosis), raising the pulse from the report calibrates
+again, and Stop gets no report.

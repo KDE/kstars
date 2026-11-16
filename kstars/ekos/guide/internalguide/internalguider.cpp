@@ -550,6 +550,8 @@ bool InternalGuider::abortDither()
 {
     if (Options::ditherFailAbortsAutoGuide())
     {
+        // Only a dither failure that stops guiding is a failure; one that continues guiding reports nothing
+        setFailReason(Ekos::GuideFailReason::DitherFailed);
         Q_EMIT newStatus(Ekos::GUIDE_DITHERING_ERROR);
         abort();
         return false;
@@ -792,6 +794,7 @@ void InternalGuider::iterateCalibration()
             {
                 qCDebug(KSTARS_EKOS_GUIDE) << "Too many consecutive lost stars during calibration."
                                            << m_calibrationStarLostCounter << "Aborting.";
+                setFailReason(Ekos::GuideFailReason::CalibrationStarLost);
                 Q_EMIT newLog(i18n("Lost track of the guide star. "
                                    "Try increasing binning, square size or reducing pulse duration."));
                 Q_EMIT newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
@@ -811,12 +814,23 @@ void InternalGuider::iterateCalibration()
     calibrationProcess->iterate(starX, starY);
 
     auto status = calibrationProcess->getStatus();
-    if (status != GUIDE_CALIBRATING)
-        Q_EMIT newStatus(status);
+    // Guide reads why it failed when the error state arrives
+    if (status == GUIDE_CALIBRATION_ERROR)
+    {
+        FailInfo info;
+        info.reason = calibrationProcess->getFailReason();
+        info.pulse = calibrationProcess->getFailPulse();
+        info.drift = calibrationProcess->getFailDrift();
+        setFailInfo(info);
+    }
 
+    // The log first: a failure reported with the state, e.g. its diagnosis, then follows the reason in the log
     QString logStatus = calibrationProcess->getLogStatus();
     if (logStatus.length())
         Q_EMIT newLog(logStatus);
+
+    if (status != GUIDE_CALIBRATING)
+        Q_EMIT newStatus(status);
 
     QString updateMessage;
     double x, y;
@@ -1421,6 +1435,7 @@ bool InternalGuider::reacquire()
     }
     else if (reacquireTimer.elapsed() > static_cast<int>(Options::guideLostStarTimeout() * 1000))
     {
+        setFailReason(Ekos::GuideFailReason::StarLost);
         Q_EMIT newLog(i18n("Failed to find any suitable guide stars. Aborting..."));
         abort();
         return false;

@@ -228,6 +228,12 @@ SET_TESTS_PROPERTIES( TestArtificialHorizon PROPERTIES LABELS "stable;ui" TIMEOU
 #ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
 #SET_TESTS_PROPERTIES( TestEkosGuide PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )
 
+# Telescope, CCD and Guide Simulators, internal guider; no index files needed
+ADD_EXECUTABLE(test_ekos_guide_diagnosis ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_guide_diagnosis.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_guide_diagnosis ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosGuideDiagnosis COMMAND test_ekos_guide_diagnosis)
+SET_TESTS_PROPERTIES( TestEkosGuideDiagnosis PROPERTIES LABELS "ui" TIMEOUT 900 RESOURCE_LOCK "kstars-ui" )
+
 ADD_EXECUTABLE(test_ekos_guide_gpgperiod ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_guide_gpgperiod.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_guide_gpgperiod ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosGuideGPGPeriod COMMAND test_ekos_guide_gpgperiod)

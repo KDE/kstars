@@ -403,6 +403,8 @@ if (INDI_FOUND)
 
             # Guide
             ekos/guide/guide.cpp
+            ekos/guide/guide_diagnosis.cpp
+            ekos/guide/guidediagnosis.cpp
             ekos/guide/guidestatewidget.cpp
             ekos/guide/guideinterface.cpp
             ekos/guide/opscalibration.cpp

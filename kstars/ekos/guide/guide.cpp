@@ -1223,6 +1223,8 @@ void Guide::processCaptureTimeout()
             appendLogText(i18n("Exposure timeout. Aborting Calibration."));
 
         captureTimeout.stop();
+        m_PendingFailInfo = GuideInterface::FailInfo();
+        m_PendingFailInfo.reason = GuideFailReason::CaptureTimeout;
         abort();
         return;
     }
@@ -1276,6 +1278,8 @@ void Guide::reconnectDriver(const QString &camera, QVariantMap settings)
     if (m_DeviceRestartCounter >= 3)
     {
         appendLogText(i18n("Failed to reconnect camera after driver restart."));
+        m_PendingFailInfo = GuideInterface::FailInfo();
+        m_PendingFailInfo.reason = GuideFailReason::CameraLost;
         abort();
         return;
     }
@@ -1686,6 +1690,9 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 
 bool Guide::calibrate()
 {
+    // A new run: the reasons of an earlier failure no longer apply
+    clearFailInfo();
+
     // Set status to idle and let the operations change it as they get executed
     m_State = GUIDE_IDLE;
     qCDebug(KSTARS_EKOS_GUIDE) << "Calibrating...";
@@ -1749,6 +1756,9 @@ bool Guide::calibrate()
 
 bool Guide::guide()
 {
+    // A new run: the reasons of an earlier failure no longer apply
+    clearFailInfo();
+
     auto executeGuide = [this]()
     {
         if(guiderType != GUIDE_PHD2)
@@ -2180,6 +2190,29 @@ void Guide::setStatus(Ekos::GuideState newState)
     {
         m_State = newState;
         Q_EMIT newStatus(m_State);
+    }
+
+    // A failure is an error state with a reason; Stop and other aborts come without one. A guider that aborts from
+    // an inactive state reports Idle.
+    switch (newState)
+    {
+        case GUIDE_CALIBRATION_ERROR:
+        case GUIDE_ABORTED:
+        case GUIDE_DITHERING_ERROR:
+        case GUIDE_IDLE:
+        {
+            const auto info = takeFailInfo();
+            if (info.reason != GuideFailReason::None)
+                recordFailure(info, newState);
+            break;
+        }
+        case GUIDE_CALIBRATION_SUCCESS:
+        case GUIDE_GUIDING:
+            // E.g. PHD2 found its lost star again
+            clearFailInfo();
+            break;
+        default:
+            break;
     }
 
     switch (newState)
@@ -3136,6 +3169,14 @@ bool Guide::executeOperationStack()
                 m_State = GUIDE_IDLE;
                 appendLogText(i18n("Calibration failed to start."));
                 setBusy(false);
+                // This error state does not go through setStatus(). The internal guider refuses to start without the
+                // optics or the frame; PHD2 and LinGuider report their own reasons.
+                if (guiderType == GUIDE_INTERNAL)
+                {
+                    GuideInterface::FailInfo info;
+                    info.reason = GuideFailReason::CalibrationStartFailed;
+                    recordFailure(info, GUIDE_CALIBRATION_ERROR);
+                }
             }
             break;
 
@@ -3294,6 +3335,10 @@ bool Guide::executeOneOperation(GuideState operation)
                     m_State = GUIDE_CALIBRATION_ERROR;
                     Q_EMIT newStatus(m_State);
                     setBusy(false);
+                    // This error state does not go through setStatus()
+                    GuideInterface::FailInfo info;
+                    info.reason = GuideFailReason::NoGuideStar;
+                    recordFailure(info, GUIDE_CALIBRATION_ERROR);
                 }
             }
             else

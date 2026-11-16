@@ -1106,6 +1106,7 @@ void Manager::reset()
     captureProcess.reset();
     m_DiagnosisManager->unregisterModule(QStringLiteral("focus"));
     focusProcess.reset();
+    m_DiagnosisManager->unregisterModule(QStringLiteral("guide"));
     guideProcess.reset();
     m_DiagnosisManager->unregisterModule(QStringLiteral("align"));
     alignProcess.reset();
@@ -2944,6 +2945,15 @@ void Manager::initGuide()
     {
         guideProcess.reset(new Ekos::Guide());
 
+        // Calibration, guiding and dither failures are diagnosed. A calibration or guiding that works again closes the
+        // failure chain.
+        guideModule()->registerDiagnosis(m_DiagnosisManager.get());
+        connect(guideModule(), &Ekos::Guide::newStatus, this, [this](Ekos::GuideState state)
+        {
+            if ((state == GUIDE_CALIBRATION_SUCCESS || state == GUIDE_GUIDING) && guideModule())
+                m_DiagnosisManager->moduleSucceeded(QStringLiteral("guide"), guideModule()->opticalTrain());
+        });
+
         Q_EMIT newModule("Guide");
     }
 
@@ -3051,6 +3061,7 @@ void Manager::removeTabs()
     captureProcess.reset();
     m_DiagnosisManager->unregisterModule(QStringLiteral("focus"));
     focusProcess.reset();
+    m_DiagnosisManager->unregisterModule(QStringLiteral("guide"));
     guideProcess.reset();
     mountProcess.reset();
     observatoryProcess.reset();

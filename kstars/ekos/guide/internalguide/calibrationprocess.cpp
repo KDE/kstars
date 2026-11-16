@@ -47,6 +47,13 @@ CalibrationProcess::CalibrationProcess(double startX, double startY, bool raOnly
     start_y1 = startY;
 }
 
+void CalibrationProcess::fail(Ekos::GuideFailReason reason, double drift)
+{
+    failReason = reason;
+    failPulse = last_pulse;
+    failDrift = drift;
+}
+
 void CalibrationProcess::useCalibration(Calibration *calibrationPtr)
 {
     calibration = calibrationPtr;
@@ -246,7 +253,8 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
     }
     else if (ra_iterations > turn_back_time)
     {
-        addLogStatus(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
+        fail(Ekos::GuideFailReason::CalibrationRaDriftTooShort, std::hypot(xDrift, yDrift));
+        addLogStatus(i18n("Calibration rejected. RA drift is too short. Check for mount, cable, or backlash problems."));
         calibrationStage = CAL_ERROR;
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: Drift too short."));
@@ -334,6 +342,7 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
             return;
         }
 
+        fail(Ekos::GuideFailReason::CalibrationRaNoReturn, driftRA);
         calibrationStage = CAL_ERROR;
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: couldn't reach start."));
@@ -385,6 +394,8 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
     }
     else
     {
+        // The RA drift or rate was unusable
+        fail(Ekos::GuideFailReason::CalibrationRaDriftTooShort, -1);
         addLogStatus(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
         calibrationStage = CAL_ERROR;
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
@@ -479,14 +490,16 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
     }
     else if (dec_iterations > turn_back_time)
     {
+        // DEC never moved far enough out. This used to say the start point was not reached, which is the DEC in failure.
+        fail(Ekos::GuideFailReason::CalibrationDecDriftTooShort, std::hypot(xDrift, yDrift));
         calibrationStage = CAL_ERROR;
 
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-        addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: couldn't reach start point."));
-        addLogStatus(i18np("Guide DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount "
-                           "or backlash problems...",
-                           "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount "
-                           "or backlash problems...",
+        addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: DEC drift too short."));
+        addLogStatus(i18np("Calibration rejected. DEC drift is too short after %1 iteration. Check for mount, cable, or "
+                           "backlash problems.",
+                           "Calibration rejected. DEC drift is too short after %1 iterations. Check for mount, cable, or "
+                           "backlash problems.",
                            dec_iterations));
 
         if (guideLog)
@@ -567,6 +580,7 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
             return;
         }
 
+        fail(Ekos::GuideFailReason::CalibrationDecNoReturn, driftRA);
         calibrationStage = CAL_ERROR;
 
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
@@ -605,6 +619,8 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
     }
     else
     {
+        // The drift or the rate of an axis was unusable, which one is not known here
+        fail(Ekos::GuideFailReason::CalibrationDriftTooShort, -1);
         addLogStatus(i18n("Calibration rejected. Star drift is too short. Check for mount, cable, or backlash problems."));
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: drift too short."));
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);

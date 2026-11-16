@@ -58,6 +58,8 @@ class TestCalibrationProcess : public QObject
 
     private Q_SLOTS:
         void basicTest();
+        void testFailures_data();
+        void testFailures();
 
     private:
         void runTest(const CalibrationTest &test);
@@ -289,6 +291,87 @@ void TestCalibrationProcess::basicTest()
     runTest(calTest2);
     runTest(calTest3);
     runTest(calTest4);
+}
+
+// A mount whose axes move the star by a fixed step for each pulse, or not at all: one data row per broken direction.
+// The calibration fails, and says which axis and how (GuideFailReason), with the pulse and the drift of that moment.
+void TestCalibrationProcess::testFailures_data()
+{
+    QTest::addColumn<bool>("raOut");
+    QTest::addColumn<bool>("raBack");
+    QTest::addColumn<bool>("decOut");
+    QTest::addColumn<bool>("decBack");
+    QTest::addColumn<int>("reason");
+    // The log line names what failed. A DEC axis that does not move out used to be logged as one that does not
+    // come back to its start.
+    QTest::addColumn<QString>("log");
+
+    QTest::newRow("RA does not move") << false << true << true << true
+                                      << static_cast<int>(Ekos::GuideFailReason::CalibrationRaDriftTooShort) << "RA drift is too short";
+    QTest::newRow("RA does not come back") << true << false << true << true
+                                           << static_cast<int>(Ekos::GuideFailReason::CalibrationRaNoReturn) << "cannot reach the start point";
+    QTest::newRow("DEC does not move") << true << true << false << true
+                                       << static_cast<int>(Ekos::GuideFailReason::CalibrationDecDriftTooShort) << "DEC drift is too short";
+    QTest::newRow("DEC does not come back") << true << true << true << false
+                                            << static_cast<int>(Ekos::GuideFailReason::CalibrationDecNoReturn) << "cannot reach the start point";
+}
+
+void TestCalibrationProcess::testFailures()
+{
+    QFETCH(bool, raOut);
+    QFETCH(bool, raBack);
+    QFETCH(bool, decOut);
+    QFETCH(bool, decBack);
+    QFETCH(int, reason);
+    QFETCH(QString, log);
+
+    constexpr double STEP = 2.0;
+    constexpr int PULSE = 500;
+    Options::setTwoAxisEnabled(true);
+    Options::setAutoModeIterations(5);
+    Options::setGuideCalibrationBacklash(false);
+    Options::setCalibrationPulseDuration(PULSE);
+    Options::setCalibrationMaxMove(15);
+
+    Calibration calibration;
+    double x = 100, y = 100;
+    CalibrationProcess process(x, y, false);
+    process.useCalibration(&calibration);
+    QCOMPARE(process.getFailReason(), Ekos::GuideFailReason::None);
+
+    GuideState status = Ekos::GUIDE_CALIBRATING;
+    for (int i = 0; i < 500 && status == Ekos::GUIDE_CALIBRATING; i++)
+    {
+        process.iterate(x, y);
+        status = process.getStatus();
+
+        // The mount moves the star for the pulse it was given
+        GuideDirection direction;
+        int msecs;
+        process.getPulse(&direction, &msecs);
+        if (direction == RA_INC_DIR && raOut)
+            x += STEP;
+        else if (direction == RA_DEC_DIR && raBack)
+            x -= STEP;
+        else if (direction == DEC_INC_DIR && decOut)
+            y += STEP;
+        else if (direction == DEC_DEC_DIR && decBack)
+            y -= STEP;
+    }
+
+    QCOMPARE(status, Ekos::GUIDE_CALIBRATION_ERROR);
+    QCOMPARE(static_cast<int>(process.getFailReason()), reason);
+    QVERIFY2(process.getLogStatus().contains(log), qPrintable(process.getLogStatus()));
+    // A stuck axis is pulsed harder, up to twice the pulse
+    QVERIFY2(process.getFailPulse() >= PULSE && process.getFailPulse() <= 2 * PULSE,
+             qPrintable(QString::number(process.getFailPulse())));
+    // How far the star got: nowhere for an axis that does not move, away from the start for one that does not come back
+    const auto failReason = process.getFailReason();
+    if (failReason == Ekos::GuideFailReason::CalibrationRaDriftTooShort
+            || failReason == Ekos::GuideFailReason::CalibrationDecDriftTooShort)
+        QVERIFY2(process.getFailDrift() >= 0 && process.getFailDrift() < 1.5, qPrintable(QString::number(process.getFailDrift())));
+    else
+        QVERIFY2(process.getFailDrift() >= 1.5, qPrintable(QString::number(process.getFailDrift())));
 }
 
 QTEST_GUILESS_MAIN(TestCalibrationProcess)

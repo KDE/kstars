@@ -8,6 +8,7 @@
 
 #include "ui_guide.h"
 #include "guideinterface.h"
+#include "guidediagnosis.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
 #include "indi/indimount.h"
@@ -38,6 +39,7 @@ class OpsGPG;
 class InternalGuider;
 class PHD2;
 class LinGuider;
+class DiagnosisManager;
 class GuideStateWidget;
 class ManualPulse;
 class DarkProcessor;
@@ -234,6 +236,16 @@ class Guide : public QWidget, public Ui::Guide
         // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
+
+        /**
+         * @brief collectDiagnosisFacts What Guide knows now, for the calibration, guiding and dither diagnosis.
+         */
+        GuideFacts collectDiagnosisFacts() const;
+
+        /**
+         * @brief registerDiagnosis Register Guide and the actions behind its auto items with the diagnosis manager.
+         */
+        void registerDiagnosis(DiagnosisManager *manager);
 
     public Q_SLOTS:
 
@@ -886,5 +898,33 @@ class Guide : public QWidget, public Ui::Guide
 
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
+
+        /// Diagnosis
+
+        /**
+         * @brief takeFailInfo Why the error state that just arrived happened: a failure Guide noted itself, else the
+         * one the guider noted. Both are cleared, so the next error state, e.g. after Stop, has no reason.
+         */
+        GuideInterface::FailInfo takeFailInfo();
+
+        /** Forget the reasons of an earlier failure when a new calibration or guiding run starts. */
+        void clearFailInfo();
+
+        /**
+         * @brief recordFailure Submit a diagnosis for a failure with a reason. An error state without one, e.g. after
+         * the user stopped guiding, gets none. Measures the guide frame first when it can explain the failure.
+         */
+        void recordFailure(const GuideInterface::FailInfo &info, GuideState state);
+
+        void submitDiagnosis(const GuideFacts &facts);
+
+        QPointer<DiagnosisManager> m_DiagnosisManager;
+        /// A failure Guide decided itself, e.g. a capture timeout, reported with the error state that follows
+        GuideInterface::FailInfo m_PendingFailInfo;
+        /// The failure being diagnosed
+        GuideInterface::FailInfo m_DiagnosisFailInfo;
+        GuideState m_DiagnosisFailState { GUIDE_IDLE };
+        std::optional<ImageStats> m_FailedImageStats;
+        GuideFacts m_LastDiagnosisFacts;
 };
 }

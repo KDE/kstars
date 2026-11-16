@@ -10,6 +10,7 @@
 
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
+#include "../guidefailreason.h"
 #include "calibration.h"
 
 #include <QFile>
@@ -68,7 +69,26 @@ class CalibrationProcess
         QString getLogStatus() const;
         Ekos::GuideState getStatus() const;
 
+        /** Why the calibration failed, GuideFailReason::None while it has not failed. */
+        Ekos::GuideFailReason getFailReason() const
+        {
+            return failReason;
+        }
+        /** The pulse in ms the failed axis was moved with when the calibration failed. */
+        int getFailPulse() const
+        {
+            return failPulse;
+        }
+        /** How far in pixels the star had moved from the start of the failed axis, -1 if not measured. */
+        double getFailDrift() const
+        {
+            return failDrift;
+        }
+
     private:
+        /** Remember why the calibration fails, with the pulse and the drift of that moment. */
+        void fail(Ekos::GuideFailReason reason, double drift);
+
         void initializeIteration();
 
         // Methods corresponding to each calibration state.
@@ -121,6 +141,10 @@ class CalibrationProcess
         Calibration tempCalibration;
         bool raOnly = false;
         GuideLog *guideLog = nullptr;
+
+        Ekos::GuideFailReason failReason { Ekos::GuideFailReason::None };
+        int failPulse { 0 };
+        double failDrift { -1 };
 
         // Return values from each iteration.
         // Most of these result in emits in internalguider.cpp

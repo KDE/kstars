@@ -7,6 +7,7 @@
 #pragma once
 
 #include "ekos/ekos.h"
+#include "guidefailreason.h"
 #include "indi/indimount.h"
 #include <QObject>
 #include <QVector3D>
@@ -62,6 +63,40 @@ class GuideInterface : public QObject
         virtual void setPierSide(ISD::Mount::PierSide newSide);
         virtual void resetGPG() {};
 
+        /**
+         * @brief Why the last calibration, guiding or dither failed, set where the guider decides to fail and before
+         * it reports the error state. An error state without a reason, e.g. after Stop, is not a failure.
+         */
+        struct FailInfo
+        {
+            Ekos::GuideFailReason reason { Ekos::GuideFailReason::None };
+            /// Detail of the failure, e.g. the reason PHD2 gave
+            QString detail;
+            /// Calibration: the pulse in ms the failed axis was moved with, 0 if unknown
+            int pulse { 0 };
+            /// Calibration: how far in pixels the star moved from the start of the failed axis, -1 if unknown
+            double drift { -1 };
+        };
+
+        const FailInfo &failInfo() const
+        {
+            return m_FailInfo;
+        }
+        void setFailInfo(const FailInfo &info)
+        {
+            m_FailInfo = info;
+        }
+        void setFailReason(Ekos::GuideFailReason reason, const QString &detail = QString())
+        {
+            m_FailInfo = FailInfo();
+            m_FailInfo.reason = reason;
+            m_FailInfo.detail = detail;
+        }
+        void clearFailReason()
+        {
+            m_FailInfo = FailInfo();
+        }
+
         enum CalibrationUpdateType
         {
             RA_IN,
@@ -107,6 +142,8 @@ class GuideInterface : public QObject
         // Recent mount position.
         dms mountRA, mountDEC, mountAzimuth, mountAltitude;
         ISD::Mount::PierSide pierSide { ISD::Mount::PIER_UNKNOWN };
+
+        FailInfo m_FailInfo;
 };
 
 // StartCaptureAfterPulses  : single-capture mode — request the next exposure once the pulse completes.
