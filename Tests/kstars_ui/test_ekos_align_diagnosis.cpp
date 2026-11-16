@@ -192,6 +192,60 @@ void TestEkosAlignDiagnosis::testNoIndexFiles()
         dialog->hide();
 }
 
+// Regression test: the diagnosis offered "Turn on mount tracking" with no action behind it, so applying it was
+// refused as an unknown item
+void TestEkosAlignDiagnosis::testTrackingOff()
+{
+    Ekos::Align *align = Ekos::Manager::Instance()->alignModule();
+    Ekos::Mount *mountModule = Ekos::Manager::Instance()->mountModule();
+    auto diagnosis = Ekos::Manager::Instance()->diagnosisManager();
+    const QString warning = "Warning: the mount is not tracking.";
+
+    // The simulator stays idle after the unpark of testParkedMount, and tracks after a slew
+    if (mountModule->status() != ISD::Mount::MOUNT_IDLE)
+        QVERIFY(mountModule->setTracking(false));
+    QTRY_VERIFY_WITH_TIMEOUT(mountModule->status() == ISD::Mount::MOUNT_IDLE, 10000);
+
+    // Align warns when it starts with the mount idle, and goes on
+    align->setSolverAction(Ekos::Align::GOTO_NOTHING);
+    QVERIFY(align->captureAndSolve());
+    QVERIFY2(m_AlignLog.join("\n").contains(warning), qPrintable(m_AlignLog.join("\n")));
+    QCOMPARE(align->status(), Ekos::ALIGN_PROGRESS);
+    align->abort();
+    QTRY_VERIFY_WITH_TIMEOUT(align->status() != Ekos::ALIGN_PROGRESS, 10000);
+    QCOMPARE(mountModule->status(), ISD::Mount::MOUNT_IDLE);
+
+    // The check-up offers the fix
+    const QJsonArray reports = diagnosis->checkup("align");
+    QCOMPARE(reports.size(), 1);
+    const QJsonObject report = reports.first().toObject();
+    QCOMPARE(report["reasonKey"].toString(), QString("checkup"));
+    QStringList items;
+    for (const auto &item : report["items"].toArray())
+        items << item.toObject()["id"].toString();
+    QVERIFY2(items.contains("mount_tracking_on"), qPrintable(items.join(", ")));
+
+    // Tracking moves the mount: refused without a confirmation, applied with one, and done once the mount tracks
+    QCOMPARE(diagnosis->apply(report["id"].toString(), "mount_tracking_on", false)["reason"].toString(),
+             QString("needs_confirm"));
+    const QJsonObject result = diagnosis->apply(report["id"].toString(), "mount_tracking_on", true);
+    QVERIFY2(result["state"].toString() != "refused", qPrintable(QJsonDocument(result).toJson()));
+    QVERIFY(waitForUpdate("mount_tracking_on", "done", 30000));
+    QVERIFY(mountModule->activeMount()->isTracking());
+    // The Mount module updates its status with the next coordinates
+    QTRY_COMPARE_WITH_TIMEOUT(mountModule->status(), ISD::Mount::MOUNT_TRACKING, 5000);
+
+    // Tracking again: nothing to offer, and no warning when Align starts
+    items.clear();
+    for (const auto &item : diagnosis->checkup("align").first().toObject()["items"].toArray())
+        items << item.toObject()["id"].toString();
+    QVERIFY2(!items.contains("mount_tracking_on"), qPrintable(items.join(", ")));
+    m_AlignLog.clear();
+    QVERIFY(align->captureAndSolve());
+    QVERIFY2(!m_AlignLog.join("\n").contains(warning), qPrintable(m_AlignLog.join("\n")));
+    align->abort();
+}
+
 /* *********************************************************************************
  *
  * Test helpers

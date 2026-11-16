@@ -41,6 +41,7 @@ class TestAlignDiagnosis : public QObject
         void testCheckup();
         void testCheckupItems_data();
         void testCheckupItems();
+        void testTracking();
 
     private:
         /** Facts of a working setup: every check passes. */
@@ -61,6 +62,8 @@ AlignFacts TestAlignDiagnosis::healthy()
     facts.mountConnected = true;
     facts.mountCoordsValid = true;
     facts.canSync = true;
+    // The tracking state is unknown unless a test sets it
+    facts.canControlTrack = true;
     facts.gotoMode = 0;
     facts.focalLength = 800;
     facts.aperture = 100;
@@ -333,6 +336,47 @@ void TestAlignDiagnosis::testRules_data()
     facts.image->verdict = ImageVerdict::Trailed;
     facts.image->trailLength = 75;
     QTest::newRow("AL4 trails, declination unknown") << facts << QStringList({"check_tracking"});
+
+    // The tracking state the mount reports decides over the trail length
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::Trailed;
+    facts.image->trailLength = 12;
+    facts.declination = 0;
+    facts.mountTracking = false;
+    QTest::newRow("AL4 short trails, mount not tracking") << facts << QStringList({"mount_tracking_on"});
+
+    // Wind or a slipping clutch, not the tracking switch
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::Trailed;
+    facts.image->trailLength = 75;
+    facts.declination = 0;
+    facts.mountTracking = true;
+    QTest::newRow("AL4 trails of the sidereal drift, mount tracking") << facts << QStringList({"check_tracking"});
+
+    // A driver that cannot switch tracking gets steps, not an action that cannot run
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::Trailed;
+    facts.image->trailLength = 75;
+    facts.declination = 0;
+    facts.canControlTrack = false;
+    QTest::newRow("AL4 trails of the sidereal drift, no tracking control") << facts << QStringList({"mount_start_tracking"});
+
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountTracking = false;
+    QTest::newRow("good image, mount not tracking") << facts << QStringList({"mount_tracking_on"});
+
+    facts = withReason(AlignFailReason::AccuracyNotMet);
+    facts.mountTracking = false;
+    QTest::newRow("accuracy not met, mount not tracking") << facts << QStringList({"mount_tracking_on"});
+
+    facts = withReason(AlignFailReason::AccuracyNotMet);
+    facts.mountTracking = true;
+    QTest::newRow("accuracy not met, mount tracking") << facts << QStringList({"align_check_log"});
+
+    // A mount that failed to slew stops: tracking does not explain it
+    facts = withReason(AlignFailReason::SlewAlert);
+    facts.mountTracking = false;
+    QTest::newRow("slew alert, mount not tracking") << facts << QStringList({"slew_rejected_by_mount"});
 
     facts = withReason(AlignFailReason::SolverFailed);
     facts.image->verdict = ImageVerdict::DoubleImages;
@@ -886,6 +930,25 @@ void TestAlignDiagnosis::testCheckupItems_data()
     facts.clientUtc = facts.kstarsUtc.addSecs(600);
     QTest::newRow("KStars clock off") << facts << QStringList({"kstars_clock_wrong"});
 
+    facts = solved;
+    facts.mountTracking = false;
+    QTest::newRow("mount not tracking") << facts << QStringList({"mount_tracking_on"});
+
+    facts = solved;
+    facts.mountTracking = false;
+    facts.canControlTrack = false;
+    QTest::newRow("mount not tracking, no tracking control") << facts << QStringList({"mount_start_tracking"});
+
+    facts = solved;
+    facts.mountTracking = true;
+    QTest::newRow("mount tracking") << facts << QStringList();
+
+    // A disconnected mount reports no tracking state worth checking
+    facts = solved;
+    facts.mountConnected = false;
+    facts.mountTracking = false;
+    QTest::newRow("mount disconnected, not tracking") << facts << QStringList({"mount_connect"});
+
     // Not solved with these settings: the settings of the Doc's table
     facts = healthy();
     facts.exposure = 1;
@@ -940,6 +1003,90 @@ void TestAlignDiagnosis::testCheckupItems()
         if (item.kind == Kind::Open)
             QVERIFY2(!item.openTarget.isEmpty(), qPrintable(item.id));
     }
+}
+
+void TestAlignDiagnosis::testTracking()
+{
+    // Trails with the mount reported idle: likely, and it moves hardware, so it never retries by itself
+    auto facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::Trailed;
+    facts.image->trailLength = 12;
+    facts.declination = 0;
+    facts.mountTracking = false;
+    Report report = AlignDiagnosis::diagnose(facts);
+    const Item *item = findItem(report, "mount_tracking_on");
+    QVERIFY(item);
+    QCOMPARE(item->kind, Kind::Auto);
+    QCOMPARE(item->likelihood, Likelihood::Likely);
+    QVERIFY(item->cost.testFlag(MovesHardware));
+    QVERIFY(!item->autoRetry);
+    QVERIFY2(item->why.contains("reports that it is not tracking"), qPrintable(item->why));
+    QCOMPARE(item->verify->metric, QString("tracking"));
+
+    // A good frame: the idle mount is possible, not likely
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.mountTracking = false;
+    report = AlignDiagnosis::diagnose(facts);
+    item = findItem(report, "mount_tracking_on");
+    QVERIFY(item);
+    QCOMPARE(item->likelihood, Likelihood::Possible);
+
+    // The mount drifts between the solves
+    facts = withReason(AlignFailReason::AccuracyNotMet);
+    facts.mountTracking = false;
+    report = AlignDiagnosis::diagnose(facts);
+    item = findItem(report, "mount_tracking_on");
+    QVERIFY(item);
+    QCOMPARE(item->likelihood, Likelihood::Likely);
+
+    // Trails of the sidereal drift although the mount tracks: the clutch
+    facts = withReason(AlignFailReason::SolverFailed);
+    facts.image->verdict = ImageVerdict::Trailed;
+    facts.image->trailLength = 75;
+    facts.declination = 0;
+    facts.mountTracking = true;
+    report = AlignDiagnosis::diagnose(facts);
+    item = findItem(report, "check_tracking");
+    QVERIFY(item);
+    QVERIFY2(item->why.contains("although the mount reports tracking"), qPrintable(item->why));
+    QVERIFY(item->steps.first().contains("RA clutch"));
+    QVERIFY(report.ruledOut.contains("The mount reports tracking."));
+
+    // Short trails with an unknown state: wind or balance, the general checks
+    facts.mountTracking.reset();
+    facts.image->trailLength = 12;
+    report = AlignDiagnosis::diagnose(facts);
+    item = findItem(report, "check_tracking");
+    QVERIFY(item);
+    QVERIFY(!item->steps.first().contains("RA clutch"));
+    QVERIFY(!report.ruledOut.join(" ").contains("tracking"));
+
+    // No tracking control: steps for the hand controller
+    facts = withReason(AlignFailReason::AccuracyNotMet);
+    facts.mountTracking = false;
+    facts.canControlTrack = false;
+    report = AlignDiagnosis::diagnose(facts);
+    item = findItem(report, "mount_start_tracking");
+    QVERIFY(item);
+    QCOMPARE(item->kind, Kind::Manual);
+    QVERIFY(item->steps.first().contains("hand controller"));
+
+    // Check-up: a suggestion, and a tracking mount is listed as checked
+    facts = healthy();
+    facts.attempts.last().success = true;
+    facts.attempts.last().exposure = facts.exposure;
+    facts.attempts.last().binning = facts.binIndex + 1;
+    facts.attempts.last().profile = facts.profile;
+    facts.mountTracking = false;
+    report = AlignDiagnosis::checkup(facts);
+    item = findItem(report, "mount_tracking_on");
+    QVERIFY(item);
+    QCOMPARE(item->likelihood, Likelihood::Possible);
+    QVERIFY(!item->autoRetry);
+    facts.mountTracking = true;
+    report = AlignDiagnosis::checkup(facts);
+    QVERIFY(report.items.isEmpty());
+    QVERIFY(report.ruledOut.contains("The mount is tracking."));
 }
 
 QTEST_GUILESS_MAIN(TestAlignDiagnosis)

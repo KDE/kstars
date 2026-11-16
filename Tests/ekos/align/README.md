@@ -111,8 +111,13 @@ It is pure: no devices, no options, no widgets.
 - **`testLikelihood`** — which items are likely (the failure reason or the measured frame names
   them, missing index files, few stars) and which are only possible (clocks, solver profile,
   reducer) or advice (a narrow field).
+- **`testTracking`** — the tracking state the mount reports decides over the length of the trails: a
+  mount reported idle gets `mount_tracking_on` (likely with trails or a missed accuracy, possible
+  otherwise), or `mount_start_tracking` with hand controller steps when its driver cannot switch
+  tracking. A mount that reports tracking never gets it: trails as long as the sidereal drift then
+  point to a slipping RA clutch (`check_tracking`). Only an unknown state falls back to the trails.
 - **`testCheckup`**, **`testCheckupItems`** — the check-up: devices, optics, index files, clocks,
-  reducer and field of view always; exposure, binning and solver profile only when Align has not
+  mount tracking, reducer and field of view always; exposure, binning and solver profile only when Align has not
   solved with the current settings. Its items never retry Align by themselves, and a setup that is
   fine gets no items and the lines of what was checked.
 

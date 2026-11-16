@@ -293,6 +293,42 @@ Item reducerItem(const AlignFacts &facts)
     return item;
 }
 
+bool knownIdle(const AlignFacts &facts)
+{
+    return facts.mountTracking.has_value() && !*facts.mountTracking;
+}
+
+bool reportsTracking(const AlignFacts &facts)
+{
+    return facts.mountTracking.has_value() && *facts.mountTracking;
+}
+
+/**
+ * The mount does not track: switch tracking on, or ask the user to when the driver cannot.
+ * @param why the reason, or empty for the mount's own report
+ */
+Item trackingOffItem(const AlignFacts &facts, Likelihood likelihood, const QString &why = QString())
+{
+    if (facts.canControlTrack)
+    {
+        auto item = makeItem("mount_tracking_on", Kind::Auto, Tier::Hardware, i18n("Turn on mount tracking"),
+                             why.isEmpty() ? i18n("The mount reports that it is not tracking.") : why);
+        item.likelihood = likelihood;
+        item.cost = MovesHardware;
+        item.autoRetry = false;
+        item.verify = makeVerify("device_state", "tracking", "==", 1);
+        return item;
+    }
+
+    auto item = makeItem("mount_start_tracking", Kind::Manual, Tier::Hardware, i18n("Start the mount tracking"),
+                         why.isEmpty() ? i18n("The mount reports that it is not tracking.") : why);
+    item.likelihood = likelihood;
+    item.steps <<
+               i18n("The mount driver cannot switch tracking on. Start tracking at the sidereal rate from the hand controller.");
+    item.verify = makeVerify("retry");
+    return item;
+}
+
 bool timeSourceIsKStars(const AlignFacts &facts)
 {
     return facts.timeUpdate && facts.timeSource == QLatin1String("KStars");
@@ -942,25 +978,38 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
                     drift = ImageAnalysis::siderealDrift(facts.exposure, *facts.declination, pixelScale);
                 }
                 const double ratio = drift > 0 ? image.trailLength / drift : 0;
-                if (ratio >= AlignDiagnosis::MIN_UNTRACKED_RATIO && ratio <= AlignDiagnosis::MAX_UNTRACKED_RATIO)
+                const bool siderealTrail = ratio >= AlignDiagnosis::MIN_UNTRACKED_RATIO
+                                           && ratio <= AlignDiagnosis::MAX_UNTRACKED_RATIO;
+                // The tracking state the mount reports decides. Only when it is unknown do the trails tell.
+                if (knownIdle(facts))
                 {
-                    auto item = makeItem("mount_tracking_on", Kind::Auto, Tier::Hardware, i18n("Turn on mount tracking"),
-                                         i18n("The stars trailed %1 pixels, as far as they drift in %2 seconds when the mount does not track.",
-                                              QString::number(image.trailLength, 'f', 0), facts.exposure));
-                    item.likelihood = Likelihood::Likely;
-                    item.cost = MovesHardware;
-                    item.autoRetry = false;
-                    item.verify = makeVerify("device_state", "tracking", "==", 1);
-                    items << item;
+                    items << trackingOffItem(facts, Likelihood::Likely,
+                                             i18n("The stars trailed %1 pixels, and the mount reports that it is not tracking.",
+                                                  QString::number(image.trailLength, 'f', 0)));
+                }
+                else if (siderealTrail && !reportsTracking(facts))
+                {
+                    items << trackingOffItem(facts, Likelihood::Likely,
+                                             i18n("The stars trailed %1 pixels, as far as they drift in %2 seconds when the mount does not track.",
+                                                  QString::number(image.trailLength, 'f', 0), facts.exposure));
                 }
                 else
                 {
+                    // A mount that tracks while its telescope stays still: the stars drift as without tracking
+                    const bool slipping = siderealTrail && reportsTracking(facts);
                     auto item = makeItem("check_tracking", Kind::Manual, Tier::Data, i18n("Check the mount tracking"),
+                                         slipping ?
+                                         i18n("The stars trailed %1 pixels, as far as they drift in %2 seconds without tracking, although the mount reports tracking.",
+                                              QString::number(image.trailLength, 'f', 0), facts.exposure) :
                                          i18n("All stars trailed %1 pixels in the same direction.",
                                               QString::number(image.trailLength, 'f', 0)));
                     item.likelihood = Likelihood::Likely;
-                    item.steps << i18n("Check that the mount is tracking at the sidereal rate.")
-                               << i18n("Check the balance, and that nothing touches the telescope during the exposure, e.g. wind or cables.")
+                    if (slipping)
+                        item.steps <<
+                                   i18n("Check that the RA clutch is locked: a slipping clutch leaves the telescope still while the motor tracks.");
+                    else
+                        item.steps << i18n("Check that the mount is tracking at the sidereal rate.");
+                    item.steps << i18n("Check the balance, and that nothing touches the telescope during the exposure, e.g. wind or cables.")
                                << i18n("Use a shorter exposure.");
                     item.verify = makeVerify("test_frame", "elongation", "<", ImageAnalysis::MIN_TRAIL_ELONGATION);
                     items << item;
@@ -995,6 +1044,27 @@ void dataItems(const AlignFacts &facts, const QStringList &skip, QList<Item> &it
 
     if (unusualReducer(facts))
         items << reducerItem(facts);
+}
+
+/**
+ * The tracking state the mount reports, for failures that tracking explains: without tracking the stars trail
+ * during the exposure, and the mount drifts away from the solved position before the next one.
+ */
+void trackingItems(const AlignFacts &facts, QList<Item> &items, Report &report)
+{
+    const bool tracked = isSolveFailure(facts.reason) || facts.reason == AlignFailReason::AccuracyNotMet;
+    if (!tracked || !facts.hasMount || !facts.mountConnected || !facts.mountTracking)
+        return;
+
+    if (reportsTracking(facts))
+    {
+        report.ruledOut << i18n("The mount reports tracking.");
+        return;
+    }
+
+    const bool likely = facts.reason == AlignFailReason::AccuracyNotMet
+                        || (facts.image && facts.image->verdict == ImageVerdict::Trailed);
+    items << trackingOffItem(facts, likely ? Likelihood::Likely : Likelihood::Possible);
 }
 
 void addRuledOut(const AlignFacts &facts, Report &report)
@@ -1119,6 +1189,7 @@ Report AlignDiagnosis::diagnose(const AlignFacts &facts, const QStringList &trie
     configurationItems(facts, items);
     clockItems(facts, items, report);
     dataItems(facts, skip, items, report);
+    trackingItems(facts, items, report);
 
     // Never offer the same item twice, nor one already tried or dismissed
     QStringList seen;
@@ -1180,6 +1251,12 @@ Report AlignDiagnosis::checkup(const AlignFacts &facts, const QStringList &dismi
             items << mountCoordsItem();
         else
             report.ruledOut << i18n("The mount is connected and reports its position.");
+
+        // Without tracking the stars trail, and the mount drifts from the solved position
+        if (facts.mountConnected && knownIdle(facts))
+            items << trackingOffItem(facts, Likelihood::Possible);
+        else if (facts.mountConnected && reportsTracking(facts))
+            report.ruledOut << i18n("The mount is tracking.");
     }
 
     // Optics and pixel size give the field of view the solver searches

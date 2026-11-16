@@ -100,6 +100,11 @@ struct AlignFacts
     bool mountCoordsValid {false};
     bool mountParked {false};
     bool canSync {false};
+    /// The mount driver can switch tracking on and off (TELESCOPE_TRACK_STATE)
+    bool canControlTrack {false};
+    /// The connected mount reports tracking (true) or idle (false). Unknown while it slews, parks or moves,
+    /// when it is parked, and without a connected mount.
+    std::optional<bool> mountTracking;
     int gotoMode {0};           ///< Align::GotoMode
     bool hasFilterWheel {false};
     bool filterWheelConnected {false};

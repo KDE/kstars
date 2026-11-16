@@ -128,6 +128,13 @@ bool Align::captureAndSolve(bool initialCall)
         return failCaptureAndSolve(AlignFailReason::MountParked);
     }
 
+    // Without tracking the stars trail and the mount drifts from the solved position. Only a warning: Align does
+    // not switch tracking on by itself. The polar alignment does, before its first capture.
+    if (initialCall && !m_SolveFromFile && m_Mount && m_Mount->isConnected() && matchPAHStage(PAA::PAH_IDLE)
+            && m_Mount->status() == ISD::Mount::MOUNT_IDLE)
+        appendLogText(
+            i18n("Warning: the mount is not tracking. Stars trail in long exposures, and the mount drifts away from the solved position."));
+
     if (m_FilterWheel != nullptr)
     {
         if (m_FilterWheel->isConnected() == false)

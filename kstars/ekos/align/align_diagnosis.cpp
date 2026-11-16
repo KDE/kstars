@@ -232,6 +232,16 @@ AlignFacts Align::collectDiagnosisFacts() const
         facts.mountConnected = m_Mount->isConnected();
         facts.mountParked = m_Mount->isParked();
         facts.canSync = m_Mount->canSync();
+        facts.canControlTrack = m_Mount->canControlTrack();
+        if (facts.mountConnected)
+        {
+            // The same state Align waits for after a slew
+            const auto status = m_Mount->status();
+            if (status == ISD::Mount::MOUNT_TRACKING)
+                facts.mountTracking = true;
+            else if (status == ISD::Mount::MOUNT_IDLE)
+                facts.mountTracking = false;
+        }
 
         QDateTime reported, received;
         if (m_Mount->genericDevice() && m_Mount->genericDevice()->reportedTime(reported, received))
@@ -432,6 +442,49 @@ void Align::registerDiagnosis(DiagnosisManager *manager)
         ApplyResult result;
         result.outcome = Outcome::Running;
         result.timeoutMs = 180000;
+        return result;
+    });
+
+    // Switch tracking on and finish when the mount reports tracking, the state Align waits for after a slew
+    manager->registerAction(MODULE, "mount_tracking_on", [guard, manager](const Diagnosis::Item & item,
+                            const Diagnosis::Report & report)
+    {
+        if (!guard || !guard->m_Mount)
+            return failed(i18n("No mount is available."));
+        auto mount = guard->m_Mount;
+        if (!mount->isConnected())
+            return failed(i18n("The mount is disconnected."));
+        if (mount->isParked())
+            return failed(i18n("The mount is parked. Unpark it first."));
+        if (mount->isTracking())
+            return done();
+        if (!mount->canControlTrack())
+            return failed(i18n("The mount driver cannot switch tracking on."));
+
+        QPointer<DiagnosisManager> managerGuard(manager);
+        const QString diagnosisId = report.id;
+        const QString itemId = item.id;
+        auto connection = std::make_shared<QMetaObject::Connection>();
+        *connection = QObject::connect(mount, &ISD::Mount::newStatus, manager, [managerGuard, diagnosisId, itemId,
+                                       connection](ISD::Mount::Status status)
+        {
+            if (status != ISD::Mount::MOUNT_TRACKING && status != ISD::Mount::MOUNT_ERROR)
+                return;
+            QObject::disconnect(*connection);
+            if (managerGuard)
+                managerGuard->finishItem(diagnosisId, itemId, status == ISD::Mount::MOUNT_TRACKING,
+                                         status == ISD::Mount::MOUNT_ERROR ? i18n("The mount reported an error while starting to track.") : QString());
+        }, Qt::QueuedConnection);
+
+        if (!mount->setTrackEnabled(true))
+        {
+            QObject::disconnect(*connection);
+            return failed(i18n("The mount rejected the tracking command."));
+        }
+
+        ApplyResult result;
+        result.outcome = Outcome::Running;
+        result.timeoutMs = 30000;
         return result;
     });
 

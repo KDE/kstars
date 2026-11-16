@@ -25,6 +25,7 @@
  *   retries Align, and the success reports the fix.
  * - A user abort records the reason but gets no diagnosis.
  * - A solve without index files reports the index files to install, with the measured frame.
+ * - Align warns when the mount does not track, and the diagnosis switches tracking on.
  */
 class TestEkosAlignDiagnosis : public QObject
 {
@@ -51,6 +52,9 @@ class TestEkosAlignDiagnosis : public QObject
 
         /** AG1, AG3, AG13: a solve without index files offers the index files for the field of view. */
         void testNoIndexFiles();
+
+        /** AL4: Align warns about a mount that does not track; mount_tracking_on switches tracking on. */
+        void testTrackingOff();
 
     private:
         TestEkosCaptureHelper *m_CaptureHelper = nullptr;
