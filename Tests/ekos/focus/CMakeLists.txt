@@ -20,3 +20,8 @@ ADD_EXECUTABLE( testfocusdiagnosis testfocusdiagnosis.cpp )
 TARGET_LINK_LIBRARIES( testfocusdiagnosis ${TEST_LIBRARIES})
 ADD_TEST( NAME FocusDiagnosisTest COMMAND testfocusdiagnosis )
 SET_TESTS_PROPERTIES( FocusDiagnosisTest PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testfocustilt testfocustilt.cpp )
+TARGET_LINK_LIBRARIES( testfocustilt ${TEST_LIBRARIES})
+ADD_TEST( NAME FocusTiltTest COMMAND testfocustilt )
+SET_TESTS_PROPERTIES( FocusTiltTest PROPERTIES LABELS "stable")

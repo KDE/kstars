@@ -21,7 +21,7 @@
 // The inspector's own settings (tile selection, labels, CFZ, ...) are managed in a global way, rather than per Optical Train
 // which would be overkill. The approach is the same as Focus using loadSettings, connectSettings & syncSettings.
 // Exception: the embedded Tilt Correction Advisory (TiltCorrectionWidget) persists its plate settings PER optical train
-// (they genuinely differ per camera + tilt plate), keyed by the optical train id passed in via abInsData::opticalTrainID.
+// (they genuinely differ per camera + tilt plate), in the Focus settings of the train, through abInsData::tiltSettings.
 //
 // Aberration Inspector uses focus position of different parts of the sensor to examine backfocus and tilt. A single Autofocus run can
 // be used as the basis for the analysis.
@@ -94,9 +94,9 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
             double starUnits;
             double cfzSteps;
             bool isPositionBased;
-            // Optical train id, so the Tilt Correction Advisory can persist its settings
-            // per train (0 = unknown → falls back to global settings).
-            uint32_t opticalTrainID = 0;
+            // Loads and saves the Tilt Correction Advisory's plate settings in the Focus settings of the
+            // optical train (empty → global settings only).
+            TiltCorrectionWidget::TrainSettingsStore tiltSettings;
         };
 
         /**

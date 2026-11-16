@@ -295,6 +295,20 @@ class Focus : public QWidget, public Ui::Focus
         QVariantMap getAllSettings() const;
         void setAllSettings(QVariantMap &settings);
 
+        /// Focus metadata of an optical train (see OpticalTrainSettings::getMetadata()): the Tilt Correction Advisory's
+        /// plate settings
+        static constexpr const char *TILT_METADATA = "tilt";
+        /// The in-focus HFR of recent successful runs
+        static constexpr const char *REFERENCE_METADATA = "reference";
+        /** The Tilt Correction Advisory's plate settings of an optical train, empty if none. */
+        QVariantMap tiltSettings(int train) const;
+        /** Keep the Tilt Correction Advisory's plate settings of an optical train in its Focus metadata. */
+        void setTiltSettings(int train, const QVariantMap &settings);
+        /** One entry of the Focus metadata of an optical train, invalid if none. */
+        QVariant trainMetadata(int train, const QString &name) const;
+        /** Save one entry of the Focus metadata of an optical train; an invalid value removes it. */
+        void setTrainMetadata(int train, const QString &name, const QVariant &value);
+
         const QString &opsDialogName() const
         {
             return m_opsDialogName;

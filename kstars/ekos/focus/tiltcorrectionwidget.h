@@ -15,6 +15,7 @@
 #include <QSharedPointer>
 
 #include <cstdint>
+#include <functional>
 
 #include "indi/indiproperty.h"
 
@@ -62,6 +63,13 @@ class TiltCorrectionWidget : public QGroupBox
         explicit TiltCorrectionWidget(QWidget *parent = nullptr);
         ~TiltCorrectionWidget() = default;
 
+        /** Loads and saves the plate settings of one optical train. */
+        struct TrainSettingsStore
+        {
+            std::function<QVariantMap()> load;
+            std::function<void(const QVariantMap &)> save;
+        };
+
         /**
          * @brief Update the advisory with new tilt measurements
          * @param lrMicrons Left-to-Right tilt in microns (positive = left higher than right)
@@ -83,16 +91,15 @@ class TiltCorrectionWidget : public QGroupBox
         void updateVisibility();
 
         /**
-         * @brief Set the optical train these settings belong to and reload them.
+         * @brief Set where the plate settings of the optical train are kept, and reload them.
          *
          * The advisory's plate settings (type, radius, thread/pitch, plate angle, mode) are
-         * persisted per optical train via OpticalTrainSettings. When @p id is non-zero the
-         * settings for that train are loaded (falling back to the global defaults if the
-         * train has none stored yet) and subsequent changes are saved against that train.
-         * When @p id is 0 (unknown), the widget uses the global settings only.
-         * @param id optical train id (from OpticalTrainManager)
+         * kept per optical train by the Focus module, which owns them. The store loads the
+         * settings of one train (missing keys fall back to the global defaults) and saves
+         * later changes for it. Without a store the widget uses the global settings only.
+         * @param store loads and saves the plate settings of the optical train
          */
-        void setOpticalTrainID(uint32_t id);
+        void setTrainSettingsStore(const TrainSettingsStore &store);
 
     private:
         void setupUI();
@@ -158,8 +165,8 @@ class TiltCorrectionWidget : public QGroupBox
         double m_radius { 64.0 };       // Default bolt circle radius (mm) — Wanderer ETA M54
         double m_screwPitch { 0.5 };    // Default screw pitch (mm/turn)
 
-        // Optical train these settings belong to (0 = unknown → use global settings only)
-        uint32_t m_opticalTrainID { 0 };
+        // Loads and saves the plate settings of the optical train (empty → global settings only)
+        TrainSettingsStore m_store;
 
         // Tilt input (from Aberration Inspector)
         double m_lrMicrons { 0.0 };

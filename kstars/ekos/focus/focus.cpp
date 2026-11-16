@@ -3883,8 +3883,21 @@ void Focus::startAberrationInspector()
     data.starUnits = getStarUnits(m_StarMeasure, m_StarUnits);
     data.cfzSteps = m_cfzSteps;
     data.isPositionBased = isPositionBased();
-    // Current optical train id so the Tilt Correction Advisory persists its settings per train.
-    data.opticalTrainID = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+    // The Tilt Correction Advisory keeps its plate settings with the Focus settings of the train
+    const int train = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+    if (train >= 0)
+    {
+        QPointer<Focus> focus(this);
+        data.tiltSettings.load = [focus, train]()
+        {
+            return focus ? focus->tiltSettings(train) : QVariantMap();
+        };
+        data.tiltSettings.save = [focus, train](const QVariantMap & settings)
+        {
+            if (focus)
+                focus->setTiltSettings(train, settings);
+        };
+    }
 
     // Launch the Aberration Inspector.
     appendLogText(i18n("Launching Aberration Inspector run %1...", m_abInsRun));
@@ -6424,6 +6437,36 @@ void Focus::settleSettings()
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
+}
+
+QVariant Focus::trainMetadata(int train, const QString &name) const
+{
+    if (train < 0)
+        return QVariant();
+    OpticalTrainSettings::Instance()->setOpticalTrainID(train);
+    const QVariant value = OpticalTrainSettings::Instance()->getMetadata(OpticalTrainSettings::Focus, name);
+    // Back to the current train, which the other modules expect
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    return value;
+}
+
+void Focus::setTrainMetadata(int train, const QString &name, const QVariant &value)
+{
+    if (train < 0)
+        return;
+    OpticalTrainSettings::Instance()->setOpticalTrainID(train);
+    OpticalTrainSettings::Instance()->setMetadata(OpticalTrainSettings::Focus, name, value);
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+}
+
+QVariantMap Focus::tiltSettings(int train) const
+{
+    return trainMetadata(train, TILT_METADATA).toMap();
+}
+
+void Focus::setTiltSettings(int train, const QVariantMap &settings)
+{
+    setTrainMetadata(train, TILT_METADATA, settings);
 }
 
 void Focus::loadGlobalSettings()

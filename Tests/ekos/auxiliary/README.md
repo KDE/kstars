@@ -4,7 +4,8 @@ This document describes the unit tests in `Tests/ekos/auxiliary/`. The
 `darkprocessor/` subdirectory tests the dark frame processing and defect map
 subsystem, `fieldderotation/` tests Alt-Az field derotation, `solver/` tests the
 plate solving defaults, `diagnosis/` tests the failure diagnosis types and runner,
-and `imageanalysis/` tests the star shape analysis of a frame in `kstars/ekos/auxiliary/`.
+`opticaltrain/` tests module metadata in the settings of an optical train, and
+`imageanalysis/` tests the star shape analysis of a frame in `kstars/ekos/auxiliary/`.
 
 ---
 
@@ -16,6 +17,7 @@ and `imageanalysis/` tests the star shape analysis of a frame in `kstars/ekos/au
 | [`fieldderotation/`](fieldderotation/) | `FieldDerotation`, the Alt-Az offset model in `RotatorUtils`, `ISD::Mount` mount type |
 | [`solver/`](solver/) | `SolverUtils` threading and blind field width selection, migration of saved align profiles |
 | [`diagnosis/`](diagnosis/) | `Diagnosis` report types and the `DiagnosisManager` runner |
+| [`opticaltrain/`](opticaltrain/) | `OpticalTrainSettings` module metadata: left out of a module's settings, kept when the module saves them |
 | [`imageanalysis/`](imageanalysis/) | `ImageAnalysis`: good, too few stars, out of focus, trailed or double images |
 
 ---
@@ -28,6 +30,10 @@ and `imageanalysis/` tests the star shape analysis of a frame in `kstars/ekos/au
 - `solver/`: `StellarSolver_FOUND` + `CFITSIO_FOUND`. No index files or images
   are needed; the saved profile fixtures are found with `QFINDTESTDATA`.
 - `diagnosis/`: always built. No devices, no window, no network.
+- `opticaltrain/`: always built. It tests the pure metadata helpers, so no database or KStars instance is needed.
+  A module (e.g. Focus) keeps data per optical train besides its settings, such as the tilt plate or the in-focus HFR
+  of recent autofocus runs, with `OpticalTrainSettings::setMetadata()`. It is stored with the module's settings under
+  `_metadata`: `getOneSetting()` leaves it out and `setOneSetting()` keeps it.
 - `imageanalysis/`: `CFITSIO_FOUND`. The rendered frames are written to a
   temporary directory; the real frames from `Tests/fitsviewer` and `Tests/kstars_ui` are found with
   `QFINDTESTDATA`.

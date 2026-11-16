@@ -9,7 +9,6 @@
 #include "Options.h"
 #include "indi/indilistener.h"
 #include "indi/clientmanager.h"
-#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include <KLocalizedString>
 
@@ -815,16 +814,15 @@ void TiltCorrectionWidget::calc4Point()
 }
 
 // ============================================================================
-// Settings persistence — per optical train (OpticalTrainSettings) with the
-// global Options (kstars.kcfg) values as the default/fallback.
+// Settings persistence — per optical train (the Focus module's settings of the
+// train, through the store) with the global Options (kstars.kcfg) values as the
+// default/fallback.
 // ============================================================================
 
-void TiltCorrectionWidget::setOpticalTrainID(uint32_t id)
+void TiltCorrectionWidget::setTrainSettingsStore(const TrainSettingsStore &store)
 {
-    if (m_opticalTrainID == id)
-        return;
-    m_opticalTrainID = id;
-    // Reload settings for the newly-selected train (falls back to global defaults).
+    m_store = store;
+    // Reload settings for the train (falls back to global defaults).
     loadSettings();
     // If we already have a tilt measurement, refresh the advisory with the new geometry.
     if (m_valid)
@@ -836,13 +834,8 @@ void TiltCorrectionWidget::loadSettings()
     // Per-train settings (if any). Missing keys fall back to the global Options values,
     // so a train that was never configured inherits the last global defaults.
     QVariantMap trainMap;
-    if (m_opticalTrainID != 0)
-    {
-        OpticalTrainSettings::Instance()->setOpticalTrainID(m_opticalTrainID);
-        auto stored = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::FocusTilt);
-        if (stored.isValid())
-            trainMap = stored.toJsonObject().toVariantMap();
-    }
+    if (m_store.load)
+        trainMap = m_store.load();
     auto asInt = [&trainMap](const QString & key, int fallback) -> int
     {
         return trainMap.contains(key) ? trainMap.value(key).toInt() : fallback;
@@ -909,7 +902,7 @@ void TiltCorrectionWidget::saveSettings()
     Options::setTiltMode(m_modeCombo->currentIndex());
 
     // Also persist per optical train when we know which one we're on.
-    if (m_opticalTrainID != 0)
+    if (m_store.save)
     {
         QVariantMap trainMap;
         trainMap[QStringLiteral("plateType")]   = m_plateTypeCombo->currentIndex();
@@ -918,8 +911,7 @@ void TiltCorrectionWidget::saveSettings()
         trainMap[QStringLiteral("screwPitch")]  = m_screwPitchSpin->value();
         trainMap[QStringLiteral("plateAngle")]  = m_plateAngleSpin->value();
         trainMap[QStringLiteral("mode")]        = m_modeCombo->currentIndex();
-        OpticalTrainSettings::Instance()->setOpticalTrainID(m_opticalTrainID);
-        OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::FocusTilt, trainMap);
+        m_store.save(trainMap);
     }
 }
 

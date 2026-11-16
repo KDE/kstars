@@ -135,10 +135,10 @@ void AberrationInspector::setupGUI()
     // Assign to member pointer for use in analyseResults().
     m_tiltCorrection = tiltCorrectionWidget;
 
-    // Tell the tilt widget which optical train we're on so it persists its plate settings
-    // per train (radius, pitch, plate type, plate angle, mode). Falls back to global
-    // settings when the train has none stored yet, or when the id is unknown (0).
-    m_tiltCorrection->setOpticalTrainID(m_data.opticalTrainID);
+    // Tell the tilt widget where its plate settings of the optical train are kept (radius, pitch,
+    // plate type, plate angle, mode). Falls back to global settings when the train has none
+    // stored yet, or when the train is unknown.
+    m_tiltCorrection->setTrainSettingsStore(m_data.tiltSettings);
 
     // Now safe to sync the checkbox — m_tiltCorrection is valid for the toggled signal
     abInsTiltPlate->setChecked(Options::tiltPlatePresent());
