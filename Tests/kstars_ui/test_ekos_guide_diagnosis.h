@@ -25,6 +25,7 @@
  *   short", and the diagnosis points at the RA axis of the mount first.
  * - Raising the calibration pulse from the diagnosis changes the option and starts calibration again.
  * - Stopping a calibration by hand is not a failure and gets no diagnosis.
+ * - Calibration pulses in all four directions, also when guiding is limited to one DEC direction.
  */
 class TestEkosGuideDiagnosis : public QObject
 {
@@ -40,6 +41,7 @@ class TestEkosGuideDiagnosis : public QObject
 
         void testRaDriftTooShort();
         void testStopGetsNoDiagnosis();
+        void testCalibrationWithDecNorthOnly();
 
     private:
         TestEkosHelper *m_Helper { nullptr };

@@ -97,6 +97,9 @@ idle → measure RA → measure DEC → compute → done / failed.
   RA or DEC no return when it does not come back, with the pulse and the drift
   of that moment.  The log line names the same failure: a DEC axis that does
   not move out used to be logged as one that does not come back.
+- **`testFirstStepStuck`** — regression test: a star that does not move on the
+  first RA pulse gets a doubled pulse next, as on later steps.  The first step
+  compared the star's y position with 0 instead of its start.
 
 ---
 
@@ -122,4 +125,6 @@ How Guide feeds these rules is tested with the simulators in
 `Tests/kstars_ui/test_ekos_guide_diagnosis.cpp`: a Telescope Simulator whose RA
 guide rate is 0 fails calibration with "RA drift too short" (the reason is in
 the log before the diagnosis), raising the pulse from the report calibrates
-again, and Stop gets no report.
+again, and Stop gets no report.  `testCalibrationWithDecNorthOnly` calibrates
+with DEC guiding limited to north: the direction switches limit guiding
+corrections only, calibration pulses in all four directions.  It hung before.

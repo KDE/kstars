@@ -192,7 +192,7 @@ void CalibrationProcess::startState()
     qCDebug(KSTARS_EKOS_GUIDE) << "Start X1 " << start_x1 << " Start Y1 " << start_y1;
 
     last_x = start_x1;
-    last_y = start_x2;
+    last_y = start_y1;
 
     addPulse(RA_INC_DIR, last_pulse);
 

@@ -1633,19 +1633,23 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
     if (m_Guider == nullptr || dir == NO_DIR)
         return false;
 
-    // Suppress the pulse if its direction has been disabled by the user.
-    if (dir == RA_INC_DIR && !Options::eastRAGuideEnabled())
-        return true;
-    if (dir == RA_DEC_DIR && !Options::westRAGuideEnabled())
-        return true;
-    if (dir == DEC_INC_DIR && !Options::northDECGuideEnabled())
-        return true;
-    if (dir == DEC_DEC_DIR && !Options::southDECGuideEnabled())
-        return true;
+    // Suppress the pulse if its direction has been disabled by the user. The switches limit guiding corrections:
+    // calibration measures all four directions, as PHD2 does with its DEC guide mode, and hung before when a
+    // direction was off, e.g. DEC guiding north only.
+    const bool calibrating = m_State == GUIDE_CALIBRATING;
+    const bool disabled = !calibrating &&
+                          ((dir == RA_INC_DIR && !Options::eastRAGuideEnabled()) ||
+                           (dir == RA_DEC_DIR && !Options::westRAGuideEnabled()) ||
+                           (dir == DEC_INC_DIR && !Options::northDECGuideEnabled()) ||
+                           (dir == DEC_DEC_DIR && !Options::southDECGuideEnabled()));
 
-    if (m_AIFreeDrift)
+    // A suppressed pulse still requests the next frame where a sent one would, or the caller waits for it forever
+    if (disabled || m_AIFreeDrift)
     {
-        appendLogText(i18n("AI Free Drift active. Suppressed single pulse (%1ms).", msecs));
+        if (m_AIFreeDrift)
+            appendLogText(i18n("AI Free Drift active. Suppressed single pulse (%1ms).", msecs));
+        else
+            qCDebug(KSTARS_EKOS_GUIDE) << "Suppressed single pulse" << dir << msecs << "ms: its direction is disabled";
 
         if (followWithCapture == StartCaptureAfterPulses)
         {

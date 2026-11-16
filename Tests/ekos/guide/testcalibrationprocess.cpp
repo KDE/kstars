@@ -60,6 +60,7 @@ class TestCalibrationProcess : public QObject
         void basicTest();
         void testFailures_data();
         void testFailures();
+        void testFirstStepStuck();
 
     private:
         void runTest(const CalibrationTest &test);
@@ -372,6 +373,40 @@ void TestCalibrationProcess::testFailures()
         QVERIFY2(process.getFailDrift() >= 0 && process.getFailDrift() < 1.5, qPrintable(QString::number(process.getFailDrift())));
     else
         QVERIFY2(process.getFailDrift() >= 1.5, qPrintable(QString::number(process.getFailDrift())));
+}
+
+// Regression test: the first RA step compared the y position of the star with 0 instead of its start, so a star that
+// did not move on the first pulse counted as moving, and the next pulse was not doubled as for a stuck star.
+void TestCalibrationProcess::testFirstStepStuck()
+{
+    constexpr int PULSE = 500;
+    Options::setTwoAxisEnabled(true);
+    Options::setAutoModeIterations(5);
+    Options::setGuideCalibrationBacklash(false);
+    Options::setCalibrationPulseDuration(PULSE);
+    Options::setCalibrationMaxMove(15);
+
+    Calibration calibration;
+    CalibrationProcess process(100, 100, false);
+    process.useCalibration(&calibration);
+
+    GuideDirection direction;
+    int msecs;
+    process.iterate(100, 100);
+    process.getPulse(&direction, &msecs);
+    QCOMPARE(direction, RA_INC_DIR);
+    QCOMPARE(msecs, PULSE);
+
+    // The star did not move: the next pulse is twice as long
+    process.iterate(100, 100);
+    process.getPulse(&direction, &msecs);
+    QCOMPARE(direction, RA_INC_DIR);
+    QCOMPARE(msecs, 2 * PULSE);
+
+    // It moved: back to the normal pulse
+    process.iterate(102, 100);
+    process.getPulse(&direction, &msecs);
+    QCOMPARE(msecs, PULSE);
 }
 
 QTEST_GUILESS_MAIN(TestCalibrationProcess)

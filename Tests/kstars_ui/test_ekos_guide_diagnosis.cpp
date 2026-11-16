@@ -150,6 +150,25 @@ void TestEkosGuideDiagnosis::testStopGetsNoDiagnosis()
     QVERIFY2(m_Reports.isEmpty(), qPrintable(QJsonDocument(m_Reports.value(0)).toJson()));
 }
 
+// Regression test: the guide direction switches dropped calibration pulses too, without requesting the next frame,
+// so a calibration with DEC guiding limited to north hung at its first south pulse. The switches limit guiding
+// corrections only: calibration measures all four directions.
+void TestEkosGuideDiagnosis::testCalibrationWithDecNorthOnly()
+{
+    QVERIFY(setRaGuideRate(DEFAULT_GUIDE_RATE));
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+    KTRY_SET_CHECKBOX(guide, dECGuideEnabled, true);
+    KTRY_SET_CHECKBOX(guide, northDECGuideEnabled, true);
+    KTRY_SET_CHECKBOX(guide, southDECGuideEnabled, false);
+    QVERIFY(!Options::southDECGuideEnabled());
+
+    QVERIFY(startCalibration(1000));
+    QTRY_VERIFY2_WITH_TIMEOUT(m_GuideStates.contains(Ekos::GUIDE_CALIBRATION_SUCCESS), qPrintable(m_GuideLog.join("\n")),
+                              240000);
+    QVERIFY(!m_GuideStates.contains(Ekos::GUIDE_CALIBRATION_ERROR));
+    QVERIFY(m_Reports.isEmpty());
+}
+
 /* *********************************************************************************
  *
  * Test infrastructure
@@ -217,8 +236,10 @@ void TestEkosGuideDiagnosis::init()
 
 void TestEkosGuideDiagnosis::cleanup()
 {
-    Ekos::Manager::Instance()->guideModule()->abort();
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+    guide->abort();
     setRaGuideRate(DEFAULT_GUIDE_RATE);
+    KTRY_SET_CHECKBOX(guide, southDECGuideEnabled, true);
 }
 
 QTEST_KSTARS_MAIN(TestEkosGuideDiagnosis)
