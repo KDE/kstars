@@ -722,8 +722,8 @@ void Align::setCaptureStatus(CaptureState newState)
             }
             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                 appendLogText(i18n("Settling..."));
-            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
-            m_CaptureTimer.start(alignSettlingTime->value());
+            resetBusyWait(); // Enable rotator time frame estimate in 'captureandsolve()'
+            scheduleCaptureAndSolve(alignSettlingTime->value());
             break;
         // Is this needed anymore with new flip policy? (sb 2023-10-20)
         // On meridian flip, reset Target Position Angle to fully rotated value

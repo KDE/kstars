@@ -26,6 +26,7 @@
  * - A user abort records the reason but gets no diagnosis.
  * - A solve without index files reports the index files to install, with the measured frame.
  * - Align warns when the mount does not track, and the diagnosis switches tracking on.
+ * - Align waits for a slow dome move, a busy focus module or a turning rotator without restarting the camera driver.
  */
 class TestEkosAlignDiagnosis : public QObject
 {
@@ -55,6 +56,15 @@ class TestEkosAlignDiagnosis : public QObject
 
         /** AL4: Align warns about a mount that does not track; mount_tracking_on switches tracking on. */
         void testTrackingOff();
+
+        /** Align waits for a moving dome without counting camera timeouts, so the camera driver is not restarted. */
+        void testDomeMotionIsNotCameraTimeout();
+
+        /** Align waits for a busy focus module without counting camera timeouts. */
+        void testFocusBusyIsNotCameraTimeout();
+
+        /** Align waits for a turning rotator without counting camera timeouts. */
+        void testRotatorBusyIsNotCameraTimeout();
 
     private:
         TestEkosCaptureHelper *m_CaptureHelper = nullptr;

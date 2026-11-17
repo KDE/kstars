@@ -75,6 +75,7 @@ bool Align::captureAndSolve(bool initialCall)
     {
         m_DestinationCoord = m_TargetCoord;
         resetBlindSolving();
+        resetBusyWait();
     }
 
     qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Target RA:" <<  m_TargetCoord.ra().toHMSString(true)
@@ -83,6 +84,7 @@ bool Align::captureAndSolve(bool initialCall)
                                << " DE:" << m_DestinationCoord.dec().toDMSString(true);
     m_RemoteAlignTimer.stop();
     m_CaptureTimer.stop();
+    m_CaptureRetryPending = false;
 
     if (m_Camera == nullptr)
     {
@@ -201,12 +203,13 @@ bool Align::captureAndSolve(bool initialCall)
 
     auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
+    // An autofocus run can take many minutes with long exposures
     if (m_FocusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
-        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return true;
+        return waitForBusyDevice(CAPTURE_RETRY_DELAY, MAXIMUM_FOCUS_WAIT, AlignFailReason::BusyTimeout,
+                                 i18n("Error: the focus module is still busy after %1 minutes.", MAXIMUM_FOCUS_WAIT / 60));
     }
 
     if (targetChip->isCapturing())
@@ -222,19 +225,21 @@ bool Align::captureAndSolve(bool initialCall)
         return true;
     }
 
+    // A slaved dome can take minutes to swing round, e.g. after a meridian flip
     if (m_Dome && m_Dome->isMoving())
     {
         qCWarning(KSTARS_EKOS_ALIGN) << "Cannot capture while dome is in motion. Retrying in" <<  CAPTURE_RETRY_DELAY / 1000 <<
                                         "seconds...";
-        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return true;
+        return waitForBusyDevice(CAPTURE_RETRY_DELAY, Options::captureOperationsTimeout(), AlignFailReason::BusyTimeout,
+                                 i18n("Error: dome %1 is still moving after %2 seconds.", m_Dome->getDeviceName(),
+                                      Options::captureOperationsTimeout()));
     }
 
     // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
     if (!m_SolveFromFile && m_Rotator && m_Rotator->absoluteAngleState() == IPS_BUSY)
     {
         int TimeOut = CAPTURE_ROTATOR_DELAY;
-        switch (m_CaptureTimeoutCounter)
+        switch (m_RotatorWaitCounter)
         {
             case 0:
             {
@@ -245,7 +250,6 @@ bool Align::captureAndSolve(bool initialCall)
                     m_estimateRotatorTimeFrame = true;
                     appendLogText(i18n("Cannot capture while rotator is busy: Time delay estimate started..."));
                 }
-                m_CaptureTimer.start(TimeOut);
                 break;
             }
             case 1:
@@ -255,14 +259,17 @@ bool Align::captureAndSolve(bool initialCall)
             }
             default:
             {
-                TimeOut *= m_CaptureTimeoutCounter;
+                TimeOut *= m_RotatorWaitCounter;
                 TimeOut = std::min(TimeOut, 60000);
                 m_estimateRotatorTimeFrame = false;
                 appendLogText(i18n("Cannot capture while rotator is busy: Retrying in %1 seconds...", TimeOut / 1000));
-                m_CaptureTimer.start(TimeOut);
             }
         }
-        return true;
+        if (m_RotatorWaitCounter < UINT8_MAX)
+            m_RotatorWaitCounter++;
+        return waitForBusyDevice(TimeOut, Options::captureOperationsTimeout(), AlignFailReason::RotatorTimeout,
+                                 i18n("Error: rotator %1 is still turning after %2 seconds.", m_Rotator->getDeviceName(),
+                                      Options::captureOperationsTimeout()));
     }
 
     m_AlignView->setBaseSize(alignWidget->size());
@@ -333,6 +340,7 @@ bool Align::captureAndSolve(bool initialCall)
         dir.remove(dirFile);
 
     prepareCapture(targetChip);
+    resetBusyWait();
 
     double captureExposure = seqExpose;
     if (matchPAHStage(PAA::PAH_REFRESH))
@@ -1310,8 +1318,43 @@ uint8_t Align::getSolverDownsample(uint16_t binnedW)
     return downsample;
 }
 
+void Align::scheduleCaptureAndSolve(int delayMs)
+{
+    m_CaptureRetryPending = true;
+    m_CaptureTimer.start(delayMs);
+}
+
+bool Align::waitForBusyDevice(int delayMs, int maxWaitSeconds, AlignFailReason reason, const QString &error)
+{
+    if (!m_DeviceBusyTimer.isValid())
+        m_DeviceBusyTimer.start();
+    else if (m_DeviceBusyTimer.elapsed() >= maxWaitSeconds * 1000LL)
+    {
+        appendLogText(error);
+        return failCaptureAndSolve(reason);
+    }
+
+    scheduleCaptureAndSolve(delayMs);
+    return true;
+}
+
+void Align::resetBusyWait()
+{
+    m_DeviceBusyTimer.invalidate();
+    m_RotatorWaitCounter = 0;
+}
+
 void Align::processCaptureTimeout()
 {
+    // The timer ran a delay (settling, or a wait for a busy device), not an exposure: capture now without counting
+    // a camera timeout. Counting it restarted the camera driver after four waits for a slewing dome.
+    if (m_CaptureRetryPending)
+    {
+        m_CaptureRetryPending = false;
+        captureAndSolve(false);
+        return;
+    }
+
     m_CaptureTimeoutCounter++;
 
     if (m_Camera == nullptr)
@@ -1358,11 +1401,6 @@ void Align::processCaptureTimeout()
     {
         // Camera is not capturing — restart the whole capture-and-solve cycle.
         setAlignTableResult(ALIGN_RESULT_FAILED);
-        if (m_resetCaptureTimeoutCounter)
-        {
-            m_resetCaptureTimeoutCounter = false;
-            m_CaptureTimeoutCounter = 0;
-        }
         captureAndSolve(false);
     }
 }

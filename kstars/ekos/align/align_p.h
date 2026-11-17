@@ -9,6 +9,7 @@
 // Constants used across align implementation files
 #define MAXIMUM_SOLVER_ITERATIONS 10
 #define CAPTURE_RETRY_DELAY       10000
+#define MAXIMUM_FOCUS_WAIT        1800  // Seconds to wait for a busy focus module before giving up
 #define CAPTURE_ROTATOR_DELAY     5000  // After 5 seconds estimated value should be not bad
 #define PAH_CUTOFF_FOV            10    // Minimum FOV width in arcminutes for PAH to work
 #define ROTATOR_FLIP_TOLERANCE    10    // Tolerance in degrees to detect a flipped PA (~180°)

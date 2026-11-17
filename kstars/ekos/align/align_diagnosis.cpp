@@ -80,6 +80,8 @@ DiagnosisManager *Align::diagnosisManager() const
 bool Align::failCaptureAndSolve(AlignFailReason reason)
 {
     m_CaptureTimer.stop();
+    m_CaptureRetryPending = false;
+    resetBusyWait();
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);

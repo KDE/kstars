@@ -128,7 +128,7 @@ void Align::processPAHStage(int stage)
         case PAA::PAH_THIRD_CAPTURE:
             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                 Q_EMIT newLog(i18n("Settling..."));
-            m_CaptureTimer.start(alignSettlingTime->value());
+            scheduleCaptureAndSolve(alignSettlingTime->value());
             break;
 
         default:

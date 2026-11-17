@@ -22,13 +22,18 @@
 #include "indi/driverinfo.h"
 #include "indi/guimanager.h"
 #include "indi/indicamera.h"
+#include "indi/indidome.h"
+#include "indi/indilistener.h"
 #include "indi/indimount.h"
+#include "indi/indirotator.h"
 #include "ksmessagebox.h"
+#include "ksutils.h"
 
 #include <KConfigDialog>
 
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QSignalSpy>
 #include <QTemporaryDir>
 
 #define SOLVE_TIMEOUT (4 * 1000 * static_cast<int>(Options::astrometryTimeout()) + 60000)
@@ -246,6 +251,115 @@ void TestEkosAlignDiagnosis::testTrackingOff()
     align->abort();
 }
 
+// A slaved dome can take minutes to swing round after a meridian flip. Align waits for it in 10 s steps, and each
+// step counted as a camera timeout: after four of them Align restarted the camera driver.
+void TestEkosAlignDiagnosis::testDomeMotionIsNotCameraTimeout()
+{
+    Ekos::Align *align = Ekos::Manager::Instance()->alignModule();
+    QSharedPointer<ISD::GenericDevice> device;
+    QVERIFY(INDIListener::findDevice(m_CaptureHelper->m_DomeDevice, device));
+    auto dome = device->getDome();
+    QVERIFY(dome != nullptr);
+    QVERIFY(dome->canAbsoluteMove());
+
+    if (dome->isParked())
+        QVERIFY(dome->unpark());
+    QTRY_VERIFY_WITH_TIMEOUT(!dome->isParked() && !dome->isMoving(), 120000);
+
+    // At 1°/s a 120° move keeps the dome busy for two minutes, three times the four retries that restarted the driver
+    auto speeds = dome->getNumber("SPEEDS");
+    QVERIFY(speeds.isValid());
+    auto domeSpeed = speeds.findWidgetByName("DOME");
+    QVERIFY(domeSpeed != nullptr);
+    domeSpeed->setValue(1.0);
+    dome->sendNewProperty(speeds);
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(dome->getNumber("SPEEDS").findWidgetByName("DOME")->getValue() - 1.0) < 1e-6, 5000);
+
+    QVERIFY(dome->setPosition(KSUtils::range360(dome->position() + 120)));
+    QTRY_VERIFY_WITH_TIMEOUT(dome->isMoving(), 10000);
+
+    QSignalSpy driverRestarts(align, &Ekos::Align::driverTimedout);
+    KTRY_SET_DOUBLESPINBOX(align, alignExposure, 1.0);
+    align->setSolverAction(Ekos::Align::GOTO_NOTHING);
+    QVERIFY(align->captureAndSolve());
+
+    // Align waits as long as the dome moves, without a camera timeout
+    QTRY_VERIFY_WITH_TIMEOUT(!dome->isMoving() || !driverRestarts.isEmpty(), 180000);
+    QVERIFY2(driverRestarts.isEmpty(), qPrintable(m_AlignLog.join("\n")));
+    QVERIFY2(!m_AlignLog.join("\n").contains("Exposure timeout"), qPrintable(m_AlignLog.join("\n")));
+    // Align reports no new state until it captures
+    QCOMPARE(m_AlignStatus, Ekos::ALIGN_IDLE);
+    QVERIFY(!m_AlignLog.contains("Capturing image..."));
+
+    // Once the dome stops, the next retry captures
+    QTRY_VERIFY_WITH_TIMEOUT(m_AlignLog.contains("Capturing image..."), 15000);
+    QVERIFY(driverRestarts.isEmpty());
+    align->abort();
+}
+
+// An autofocus run can take many minutes. Align waits for it in 10 s steps, and after four of them it restarted the
+// camera driver, which the focus module was using.
+void TestEkosAlignDiagnosis::testFocusBusyIsNotCameraTimeout()
+{
+    Ekos::Align *align = Ekos::Manager::Instance()->alignModule();
+    QSignalSpy driverRestarts(align, &Ekos::Align::driverTimedout);
+    KTRY_SET_DOUBLESPINBOX(align, alignExposure, 1.0);
+    align->setSolverAction(Ekos::Align::GOTO_NOTHING);
+
+    align->setFocusStatus(Ekos::FOCUS_PROGRESS);
+    QVERIFY(align->captureAndSolve());
+
+    // Five waits for the focus module: one more than restarted the driver
+    QVERIFY2(!driverRestarts.wait(50000), qPrintable(m_AlignLog.join("\n")));
+    QVERIFY2(!m_AlignLog.join("\n").contains("Exposure timeout"), qPrintable(m_AlignLog.join("\n")));
+    QCOMPARE(m_AlignStatus, Ekos::ALIGN_IDLE);
+    QVERIFY(!m_AlignLog.contains("Capturing image..."));
+
+    // Once the focus module is done, the next retry captures
+    align->setFocusStatus(Ekos::FOCUS_COMPLETE);
+    QTRY_VERIFY_WITH_TIMEOUT(m_AlignLog.contains("Capturing image..."), 15000);
+    QVERIFY(driverRestarts.isEmpty());
+    align->abort();
+}
+
+// A rotator can take minutes to turn half a circle. Align waits for it with growing delays, and each one counted as a
+// camera timeout: after four of them Align restarted the camera driver.
+void TestEkosAlignDiagnosis::testRotatorBusyIsNotCameraTimeout()
+{
+    Ekos::Align *align = Ekos::Manager::Instance()->alignModule();
+    QSharedPointer<ISD::GenericDevice> device;
+    QVERIFY(INDIListener::findDevice(m_CaptureHelper->m_RotatorDevice, device));
+    auto rotator = device->getRotator();
+    QVERIFY(rotator != nullptr);
+    QTRY_VERIFY_WITH_TIMEOUT(rotator->absoluteAngleState() != IPS_BUSY, 60000);
+
+    // The simulator turns 10° per second, too fast to keep Align waiting. Report the rotator busy instead, as a slow
+    // rotator does while it turns. The idle simulator sends no update that would end it.
+    auto angle = rotator->getNumber("ABS_ROTATOR_ANGLE");
+    QVERIFY(angle.isValid());
+    angle.setState(IPS_BUSY);
+    rotator->processNumber(angle);
+    QCOMPARE(rotator->absoluteAngleState(), IPS_BUSY);
+
+    QSignalSpy driverRestarts(align, &Ekos::Align::driverTimedout);
+    KTRY_SET_DOUBLESPINBOX(align, alignExposure, 1.0);
+    align->setSolverAction(Ekos::Align::GOTO_NOTHING);
+    QVERIFY(align->captureAndSolve());
+
+    // The retries come after 5, 0, 10, 15 and 20 s: the fourth restarted the driver after 30 s
+    QVERIFY2(!driverRestarts.wait(55000), qPrintable(m_AlignLog.join("\n")));
+    QVERIFY2(!m_AlignLog.join("\n").contains("Exposure timeout"), qPrintable(m_AlignLog.join("\n")));
+    QCOMPARE(m_AlignStatus, Ekos::ALIGN_IDLE);
+    QVERIFY(!m_AlignLog.contains("Capturing image..."));
+
+    // Once the rotator is done, the next retry captures
+    angle.setState(IPS_OK);
+    rotator->processNumber(angle);
+    QTRY_VERIFY_WITH_TIMEOUT(m_AlignLog.contains("Capturing image..."), 40000);
+    QVERIFY(driverRestarts.isEmpty());
+    align->abort();
+}
+
 /* *********************************************************************************
  *
  * Test helpers
@@ -297,6 +411,8 @@ void TestEkosAlignDiagnosis::initTestCase()
     Options::setAstrometryUsePosition(true);
     Options::setAstrometryDynamicThreshold(false);
 
+    m_CaptureHelper->m_DomeDevice = "Dome Simulator";
+    m_CaptureHelper->m_RotatorDevice = "Rotator Simulator";
     m_CaptureHelper->startEkosProfile();
 
     Options::setVerboseLogging(false);
@@ -365,6 +481,9 @@ void TestEkosAlignDiagnosis::cleanup()
     Ekos::Align *align = Ekos::Manager::Instance()->alignModule();
     if (align->status() == Ekos::ALIGN_PROGRESS)
         align->abort();
+    // Align stops waiting for a busy device only when it aborts or captures
+    align->abort();
+    align->setFocusStatus(Ekos::FOCUS_IDLE);
 
     Options::setAstrometryIndexFolderList(m_IndexFolders);
 

@@ -1012,7 +1012,12 @@ class Align : public QWidget, public Ui::Align
         uint8_t m_CaptureErrorCounter { 0 };
         uint8_t m_DeviceRestartCounter { 0 };
         uint8_t m_SlewErrorCounter { 0 };
-        bool m_resetCaptureTimeoutCounter = false;
+        /// m_CaptureTimer runs a delay before the next captureAndSolve(), not an exposure timeout
+        bool m_CaptureRetryPending { false };
+        /// Time waited for busy devices (dome, focuser, rotator) before the current capture
+        QElapsedTimer m_DeviceBusyTimer;
+        /// Waits for a busy rotator before the current capture, to space out the retries
+        uint8_t m_RotatorWaitCounter { 0 };
 
         QTimer m_CaptureTimer;
 
@@ -1133,6 +1138,29 @@ class Align : public QWidget, public Ui::Align
          * @return false, the value captureAndSolve() returns
          */
         bool failCaptureAndSolve(AlignFailReason reason);
+
+        /**
+         * @brief scheduleCaptureAndSolve Run captureAndSolve(false) after a delay, e.g. to let the mount settle or to
+         * wait for a busy device. The delay is not an exposure timeout, so it never leads to a camera driver restart.
+         * @param delayMs delay in milliseconds
+         */
+        void scheduleCaptureAndSolve(int delayMs);
+
+        /**
+         * @brief waitForBusyDevice Retry captureAndSolve() after a delay because another device (dome, focuser,
+         * rotator) is busy. Align gives up once it has waited maxWaitSeconds in total before this capture.
+         * @param delayMs delay before the retry, in milliseconds
+         * @param maxWaitSeconds total wait before Align gives up
+         * @param reason failure reason when Align gives up
+         * @param error message to log when Align gives up
+         * @return the value captureAndSolve() returns: true while waiting, false once Align gave up
+         */
+        bool waitForBusyDevice(int delayMs, int maxWaitSeconds, AlignFailReason reason, const QString &error);
+
+        /**
+         * @brief resetBusyWait Forget the waits for busy devices, when a capture starts or Align stops.
+         */
+        void resetBusyWait();
 
         /**
          * @brief recordFailure Remember why Align failed and submit a diagnosis unless it was a user abort.

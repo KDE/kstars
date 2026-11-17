@@ -50,6 +50,8 @@ void Align::stop(Ekos::AlignState mode, Ekos::AlignFailReason reason)
     }
 
     m_CaptureTimer.stop();
+    m_CaptureRetryPending = false;
+    resetBusyWait();
     m_SlewEndedIdleTimer.stop();
     m_RotatorTimer.invalidate();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -272,8 +274,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            m_resetCaptureTimeoutCounter = true;
-                            m_CaptureTimer.start(alignSettlingTime->value());
+                            scheduleCaptureAndSolve(alignSettlingTime->value());
                             return;
                         }
                         else if (m_CurrentGotoMode == GOTO_SLEW || (m_MountModel && m_MountModel->isRunning()))
@@ -290,8 +291,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            m_resetCaptureTimeoutCounter = true;
-                            m_CaptureTimer.start(alignSettlingTime->value());
+                            scheduleCaptureAndSolve(alignSettlingTime->value());
                         }
                         break;
 
@@ -408,8 +408,7 @@ void Align::updateProperty(INDI::Property prop)
                     Q_EMIT newStatus(state);
                     if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                         appendLogText(i18n("Settling..."));
-                    m_resetCaptureTimeoutCounter = true;
-                    m_CaptureTimer.start(alignSettlingTime->value());
+                    scheduleCaptureAndSolve(alignSettlingTime->value());
                 }
                 else
                 {
