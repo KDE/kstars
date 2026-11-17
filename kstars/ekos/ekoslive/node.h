@@ -33,6 +33,11 @@ class Node : public QObject
         {
             m_ClientState = value;
         }
+        // True while the server reports a client (web page or App) on this connection.
+        bool clientState() const
+        {
+            return m_ClientState;
+        }
         void sendResponse(const QString &command, const QJsonObject &payload);
         void sendResponse(const QString &command, const QJsonArray &payload);
         void sendResponse(const QString &command, const QString &payload);

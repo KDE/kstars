@@ -91,6 +91,9 @@ class Message : public QObject
         void liveStackingActiveChanged(bool active);
         // Emitted whenever a postprocess_* command has a fresh preview to send
         void postProcessPreviewReady(const QByteArray &jpeg, const QString &uuid, const QJsonObject &metadata);
+        // Emitted when the native livestacker saved a stacked frame. Media sends it on to the online server
+        // only when a client is watching there; see Media::sendLiveStackImage().
+        void liveStackImageReady(const QImage &image, const QJsonObject &metadata);
 
     public Q_SLOTS:
         // Connection
@@ -391,6 +394,8 @@ class Message : public QObject
 
         void sendLiveStackerProgress(bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR);
         void sendLiveStackerComplete();
+        // Connected to FITSView::stackFrameSaved: emits liveStackImageReady for the saved stacked frame.
+        void sendLiveStackerImage(int frameNumber, const QString &path);
         // Slot called for each captured frame when livestacking in looping mode.
         // Saves the full-resolution FITSData to stackingDirectory so the native LiveStacker can pick it up.
         void saveLiveStackerFrame(const QSharedPointer<Ekos::SequenceJob> &job, const QSharedPointer<FITSData> &data);

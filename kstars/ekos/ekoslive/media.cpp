@@ -8,6 +8,7 @@
 
 #include "media.h"
 #include "commands.h"
+#include "ekosliveclient.h"
 #include "skymapcomposite.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
@@ -589,6 +590,47 @@ void Media::uploadPreview(const QByteArray &jpegBytes, const QString &uuid, cons
     buffer.close();
 
     Q_EMIT newImage(packet, uuid);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Media::sendLiveStackImage(const QImage &image, const QJsonObject &metadata)
+{
+    if (image.isNull() || m_NodeManagers.size() <= Client::Online)
+        return false;
+
+    // Online server only, and only when someone there can see the image.
+    const auto &online = m_NodeManagers[Client::Online];
+    Node *node = online->media();
+    if (!node || !node->isConnected() || !node->clientState() || m_BlobState.value(online.get(), true) == false)
+        return false;
+
+    QJsonObject header = metadata;
+    header["uuid"] = QStringLiteral("+LS");
+    header["ext"] = QStringLiteral("jpg");
+    const QByteArray meta = QJsonDocument(header).toJson(QJsonDocument::Compact);
+    // A longer header would run into the image bytes and the server could not parse it.
+    if (meta.size() > METADATA_PACKET)
+    {
+        qCWarning(KSTARS_EKOS) << "Media: live stack image metadata is" << meta.size() << "bytes, over the"
+                               << METADATA_PACKET << "byte limit. Not sending it.";
+        return false;
+    }
+
+    QByteArray packet;
+    QBuffer buffer(&packet);
+    buffer.open(QIODevice::WriteOnly);
+    buffer.write(meta.leftJustified(METADATA_PACKET, 0));
+
+    const QImage scaled = image.width() > HB_IMAGE_WIDTH ?
+                          image.scaledToWidth(HB_IMAGE_WIDTH, Qt::SmoothTransformation) : image;
+    if (!scaled.save(&buffer, "jpg", HB_IMAGE_QUALITY))
+        return false;
+    buffer.close();
+
+    node->sendBinaryMessage(packet);
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

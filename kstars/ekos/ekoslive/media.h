@@ -52,6 +52,18 @@ class Media : public QObject
         void uploadPreview(const QByteArray &jpegBytes, const QString &uuid,
                            const QJsonObject &extraMetadata = QJsonObject());
 
+        /**
+         * @brief Send a stacked image from the native live stacker to the online server, tagged "+LS".
+         * The online server cannot read this machine's disk. The offline server (ekoslive-offline)
+         * reads the stacked files from the output directory itself, so it is never sent this image.
+         * Nothing is scaled or encoded unless the online media channel is connected, a client is on
+         * it, and it accepts images (SET_BLOBS).
+         * @param image the stretched stack (FITSView::getDisplayImage()), scaled down to HB_IMAGE_WIDTH
+         * @param metadata fields for the packet's metadata header; "uuid" and "ext" are set here
+         * @return true if the image was sent
+         */
+        bool sendLiveStackImage(const QImage &image, const QJsonObject &metadata);
+
     Q_SIGNALS:
         void connected();
         void disconnected();

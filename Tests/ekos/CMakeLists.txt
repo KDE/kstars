@@ -17,6 +17,7 @@ IF (CFITSIO_FOUND AND INDI_FOUND)
     add_subdirectory(scheduler)
     add_subdirectory(focus)
     add_subdirectory(align)
+    add_subdirectory(ekoslive)
 
     # FIXME: guide tests crash on EGLFS / Windows — disable until root-cause found
     IF (NOT WIN32)

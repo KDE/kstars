@@ -192,6 +192,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
         m_Media->uploadPreview(jpeg, uuid, metadata);
     });
 
+    // Stacked images from the native livestacker, for the online server only.
+    connect(m_Message, &Message::liveStackImageReady, m_Media, &Media::sendLiveStackImage);
+
     m_Cloud = new Cloud(m_Manager, m_NodeManagers);
     connect(m_Cloud, &Cloud::connected, this, &Client::onConnected);
     connect(m_Cloud, &Cloud::disconnected, this, &Client::onDisconnected); // Assuming Cloud also needs disconnect handling

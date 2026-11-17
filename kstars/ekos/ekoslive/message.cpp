@@ -3611,6 +3611,8 @@ void Message::processLiveStackerCommands(const QString &command, const QJsonObje
         // Connect progress signals from the underlying FITSView.
         connect(currentView.get(), &FITSView::stackUpdateStats, this, &Message::sendLiveStackerProgress);
         connect(currentView.get(), &FITSView::resetStack, this, &Message::sendLiveStackerComplete);
+        connect(currentView.get(), &FITSView::stackFrameSaved, this, &Message::sendLiveStackerImage,
+                Qt::UniqueConnection);
 
         if (m_Manager->captureModule())
         {
@@ -6270,6 +6272,26 @@ void Message::sendLiveStackerComplete()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+/// The stacker saved a stacked frame to its output directory. The online server cannot read
+/// this machine's disk, so hand the stretched stack to Media, which sends it there as "+LS"
+/// when a client is watching. Building the metadata only reads values FITSData already holds.
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendLiveStackerImage(int frameNumber, const QString &path)
+{
+    const auto view = qobject_cast<FITSView *>(sender());
+    if (!view)
+        return;
+
+    QJsonObject metadata = buildPreviewMetadata(view->imageData());
+    metadata["frame"] = frameNumber;
+    metadata["filename"] = QFileInfo(path).fileName();
+    // Free-text fields are capped so the header fits the media packet's fixed metadata size.
+    metadata["target"] = m_LiveStackerCurrentTarget.left(64);
+    metadata["filter"] = m_LiveStackerCurrentFilter.left(32);
+    Q_EMIT liveStackImageReady(view->getDisplayImage(), metadata);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 /// Called for every JOBTYPE_PREVIEW (looping/framing) frame while livestacking is active.
 /// Saves the full-resolution FITSData to stackingDirectory so the native LiveStacker
 /// filesystem watcher picks it up automatically.
@@ -6393,6 +6415,8 @@ void Message::onLiveStackerJobChanged(const QSharedPointer<Ekos::SequenceJob> &j
                 this, &Message::sendLiveStackerProgress, Qt::UniqueConnection);
         connect(currentView.get(), &FITSView::resetStack,
                 this, &Message::sendLiveStackerComplete, Qt::UniqueConnection);
+        connect(currentView.get(), &FITSView::stackFrameSaved,
+                this, &Message::sendLiveStackerImage, Qt::UniqueConnection);
     }
 
     // Notify the server/app so it can clear its stacked-image buffer and show
