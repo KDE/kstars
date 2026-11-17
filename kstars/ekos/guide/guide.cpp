@@ -1351,8 +1351,10 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
         return;
     }
 
+    // The camera works again, so earlier driver restarts no longer count toward giving up
     captureTimeout.stop();
     m_CaptureTimeoutCounter = 0;
+    m_DeviceRestartCounter = 0;
 
     // Streaming guide has no single-capture lifecycle, so the GUIDE_DARK operation step
     // is skipped (see buildOperationStack). Apply the master dark / defect map here,

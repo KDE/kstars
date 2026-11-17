@@ -1923,9 +1923,10 @@ IPState CameraProcess::previewImageCompletedAction()
 
 void CameraProcess::updateCompletedCaptureCountersAction()
 {
-    // stop timers
+    // stop timers. The camera works again, so earlier driver restarts no longer count toward giving up.
     state()->getCaptureTimeout().stop();
     state()->setCaptureTimeoutCounter(0);
+    state()->setDeviceRestartCounter(0);
 
     state()->downloadProgressTimer().stop();
 

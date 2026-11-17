@@ -2357,8 +2357,10 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
     else
         m_ImageData.reset();
 
+    // The camera works again, so earlier driver restarts no longer count toward giving up
     captureTimeout.stop();
     captureTimeoutCounter = 0;
+    m_DeviceRestartCounter = 0;
     m_MissingCameraCounter = 0;
 
     ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);

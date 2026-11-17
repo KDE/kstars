@@ -428,9 +428,11 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     if (chip.isValid() && chip.toInt() == ISD::CameraChip::GUIDE_CCD)
         return;
 
-    // Stop the capture timeout timer since we got the image
+    // Stop the capture timeout timer since we got the image. The camera works again, so earlier driver restarts no
+    // longer count toward giving up.
     m_CaptureTimer.stop();
     m_CaptureTimeoutCounter = 0;
+    m_DeviceRestartCounter = 0;
 
     // disconnect() with a null sender is a safe Qt no-op, so these calls are safe
     // even if m_Camera has been set to nullptr already.
