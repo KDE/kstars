@@ -238,11 +238,16 @@ void PVPlotWidget::mouseDoubleClickEvent(QMouseEvent *e)
     }
 
     pv->setCenterPlanet(QString());
-    for (unsigned int i = 0; i < 9; ++i)
+    // Only the planets in the viewer have plot objects, and none exist until initPlotObjects() runs.
+    for (int i = 0; i < pv->planetCount(); ++i)
     {
-        KPlotPoint *point = pv->planetObject(i)->points().at(0);
+        KPlotObject *object = pv->planetObject(i);
+        if (object == nullptr || object->points().isEmpty())
+            continue;
+
+        KPlotPoint *point = object->points().at(0);
         double dx         = (point->x() - xc) / xscale;
-        if (dx < 4.0)
+        if (std::fabs(dx) < 4.0)
         {
             double dy = (point->y() - yc) / yscale;
             if (sqrt(dx * dx + dy * dy) < 4.0)

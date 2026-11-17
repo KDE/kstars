@@ -50,9 +50,19 @@ class PlanetViewer : public QDialog
             CenterPlanet = cp;
         }
 
+        /** @return the number of planets shown in the viewer. */
+        inline int planetCount() const
+        {
+            return PlanetList.count();
+        }
+
+        /**
+         * @return the plot object of planet @p i, or nullptr if @p i is out of range or the
+         * plot objects are not created yet.
+         */
         inline KPlotObject *planetObject(uint i) const
         {
-            return planet[i];
+            return (i < uint(PlanetList.count())) ? planet[i] : nullptr;
         }
         QString planetName(uint i) const;
 

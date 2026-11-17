@@ -27,3 +27,8 @@ target_include_directories( testnameresolver PRIVATE ${CMAKE_SOURCE_DIR}/kstars 
 TARGET_LINK_LIBRARIES( testnameresolver ${TEST_LIBRARIES} )
 ADD_TEST( NAME NameResolverTest COMMAND testnameresolver )
 SET_TESTS_PROPERTIES( NameResolverTest PROPERTIES LABELS "stable" TIMEOUT 600 )
+
+ADD_EXECUTABLE( testplanetviewer testplanetviewer.cpp )
+TARGET_LINK_LIBRARIES( testplanetviewer ${TEST_LIBRARIES} )
+ADD_TEST( NAME PlanetViewerTest COMMAND testplanetviewer )
+SET_TESTS_PROPERTIES( PlanetViewerTest PROPERTIES LABELS "stable" TIMEOUT 600 )

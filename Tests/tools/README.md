@@ -8,7 +8,7 @@ running KStars window.
 
 ## Prerequisites
 
-- No INDI, no CFITSIO, no display required. `testavtplotwidget` creates widgets: run it with `QT_QPA_PLATFORM=offscreen` when there is no display.
+- No INDI, no CFITSIO, no display required. `testavtplotwidget` and `testplanetviewer` create widgets: run them with `QT_QPA_PLATFORM=offscreen` when there is no display.
 - CTest timeout is 600 s per test (set in CMakeLists).
 
 ---
@@ -20,6 +20,7 @@ running KStars window.
 ./build/Tests/tools/testgreatcircle -v2
 ./build/Tests/tools/testdeltara -v2
 QT_QPA_PLATFORM=offscreen ./build/Tests/tools/testavtplotwidget -v2
+QT_QPA_PLATFORM=offscreen ./build/Tests/tools/testplanetviewer -v2
 
 # Run a single function:
 ./build/Tests/tools/testartificialhorizon testFindBlocking -v2
@@ -93,6 +94,30 @@ Key scenarios:
   plot area, and painting must not log `QImage::pixel`/`setPixel` out-of-range
   warnings for every pixel along the curves.
 - **As high as the padding** and **normal height** — painting stays silent.
+
+This test creates widgets, so set `QT_QPA_PLATFORM=offscreen` when running it
+without a display.
+
+---
+
+### `testplanetviewer.cpp` — Solar System Viewer mouse handling
+
+Opens the Solar System Viewer (`PlanetViewer`, Tools > Solar System) offscreen
+with a fully initialized `KStarsData`, and sends double-clicks to its plot
+(`PVPlotWidget`). Regression test for bug 528951, where any double-click on the
+plot crashed KStars.
+
+Key scenarios:
+
+- **Out-of-range planet** — the viewer shows eight planets, and
+  `planetObject()` returns nullptr for the ninth slot (Pluto) instead of an
+  uninitialized or null entry being used.
+- **Double-click before the plot objects exist** — they are created by a
+  zero-delay timer, and a double-click before it fires must not crash.
+- **Double-click on empty space** with the right (as reported), left and
+  middle buttons — no crash, no planet centred.
+- **Double-click on a planet** (Jupiter to Neptune) — that planet becomes the
+  centre planet.
 
 This test creates widgets, so set `QT_QPA_PLATFORM=offscreen` when running it
 without a display.
