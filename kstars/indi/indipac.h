@@ -54,7 +54,10 @@ class PAC : public ConcreteDevice
     public Q_SLOTS:
         /**
          * @brief startCorrection Start an automated polar alignment correction.
-         * @param azError Azimuth error in degrees (positive = polar axis displaced East).
+         * The PAC moves the polar axis by the opposite of the error, so the error is removed.
+         * @param azError Azimuth error in degrees, as measured by the polar alignment assistant
+         * (positive = polar axis to the right of the pole as seen facing the pole, i.e. East in the
+         * northern hemisphere).
          * @param altError Altitude error in degrees (positive = polar axis too high).
          * @return True if the command was sent successfully, false otherwise.
          */

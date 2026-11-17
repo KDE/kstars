@@ -94,11 +94,12 @@ void PAC::processLight(INDI::Property prop)
 
 bool PAC::startCorrection(double azError, double altError)
 {
-    // The updated PACInterface uses PAC_MANUAL_ADJUSTMENT to trigger axis movement.
-    // Both azimuth and altitude steps are written together in a single property send.
-    // Sign convention (mirrors PACInterface):
-    //   azError  > 0 → East,  azError  < 0 → West
-    //   altError > 0 → North, altError < 0 → South
+    // The PACInterface uses PAC_MANUAL_ADJUSTMENT to trigger axis movement, with both azimuth and
+    // altitude steps written together in a single property send. The steps are moves of the polar
+    // axis as seen facing the pole: azimuth > 0 moves it right (East in the northern hemisphere),
+    // altitude > 0 raises it. The errors give the position of the axis relative to the pole with the
+    // same signs, so the correction that removes them is their negative. This matches the vendor
+    // software of the Avalon UPAS and the MLAstro RPA, which move against the measured error.
     auto manualNP = getNumber("PAC_MANUAL_ADJUSTMENT");
     if (!manualNP)
         return false;
@@ -108,8 +109,8 @@ bool PAC::startCorrection(double azError, double altError)
     if (!azNP || !altNP)
         return false;
 
-    azNP->setValue(azError);
-    altNP->setValue(altError);
+    azNP->setValue(-azError);
+    altNP->setValue(-altError);
     sendNewProperty(manualNP);
 
     // A driver may finish a correction without ever reporting Busy, e.g. when every axis
