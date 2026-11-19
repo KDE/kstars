@@ -496,6 +496,7 @@ class Manager : public QDialog, public Ui::Manager
         void hideEvent(QHideEvent *) override;
         void showEvent(QShowEvent *) override;
         void resizeEvent(QResizeEvent *) override;
+        void keyPressEvent(QKeyEvent *event) override;
 
     public Q_SLOTS:
 

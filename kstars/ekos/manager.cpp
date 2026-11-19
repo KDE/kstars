@@ -79,6 +79,7 @@
 #include <QFutureWatcher>
 #include <QComboBox>
 #include <QDesktopServices>
+#include <QKeyEvent>
 
 #include <ekos_debug.h>
 
@@ -4562,4 +4563,16 @@ void Manager::previewFile(QString filePath)
     capturePreview->updateJobPreview(filePath);
     appendLogText(i18n("Received external preview file"));
 }
+
+void Manager::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape)
+    {
+        event->accept();
+        return;
+    }
+
+    QDialog::keyPressEvent(event);
+}
+
 }
