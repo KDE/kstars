@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-17 22:22+0100\n"
+"PO-Revision-Date: 2026-11-18 16:23+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7484,12 +7484,9 @@ msgstr ""
 "intentar d'aquí a %1 segons..."
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr "Avís: la muntura encara està ocupada després de %1 minut, continua."
+msgstr "Avís: el mòdul d'enfocament encara està ocupat després de %1 minuts."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7503,7 +7500,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Error: la cúpula %1 encara està movent-se després de %2 segons."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7522,7 +7519,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Error: el rotor %1 encara està girant després de %2 segons."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -7859,7 +7856,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:240
 #, kde-format
 msgid "Bin the Align camera %1x%1"
-msgstr "Agrupa la càmera d'alineació %1x%1"
+msgstr "Aplica l'agrupament a la càmera d'alineació %1x%1"
 
 #: ekos/align/aligndiagnosis.cpp:241
 #, kde-format
@@ -24011,7 +24008,7 @@ msgstr "Eleveu l'exposició de l'enfocador a %1 segons"
 #: ekos/focus/focusdiagnosis.cpp:182
 #, kde-format
 msgid "Bin the Focus camera 2x2"
-msgstr "Agrupa la càmera d'enfocador 2x2"
+msgstr "Aplica l'agrupament a la càmera de l'enfocador 2x2"
 
 #: ekos/focus/focusdiagnosis.cpp:183
 #, kde-format
@@ -28619,7 +28616,7 @@ msgstr ""
 #: ekos/guide/guidediagnosis.cpp:161
 #, kde-format
 msgid "Bin the guide camera 2x2"
-msgstr "Agrupa la càmera de guiatge 2x2"
+msgstr "Aplica l'agrupament a la càmera de guiatge 2x2"
 
 #: ekos/guide/guidediagnosis.cpp:162
 #, kde-format
@@ -28704,13 +28701,13 @@ msgid "The star did not come back in DEC"
 msgstr "L'estrella no ha tornat a la Dec"
 
 #: ekos/guide/guidediagnosis.cpp:202
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "After pulsing DEC out, the mount pulsed DEC back, but the star did not "
 "return to its start."
 msgstr ""
-"Després d'apagar la Dec, la muntura va polsar la Dec cap enrere, però "
-"l'estrella no va tornar al seu inici."
+"Després de fer polsos enfora a la Dec, la muntura ha fet polsos a la Dec cap "
+"enrere, però l'estrella no ha tornat al seu inici.."
 
 #: ekos/guide/guidediagnosis.cpp:205
 #, kde-format
@@ -28718,9 +28715,9 @@ msgid "The guide star was lost during calibration"
 msgstr "L'estrella guia s'ha perdut durant el calibratge"
 
 #: ekos/guide/guidediagnosis.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgid "The guide star disappeared from several frames in a row."
-msgstr "L'estrella guia va desaparèixer de diversos fotogrames seguits."
+msgstr "L'estrella guia ha desaparegut de diversos fotogrames seguits."
 
 #: ekos/guide/guidediagnosis.cpp:209
 #, kde-format
@@ -28728,11 +28725,12 @@ msgid "Calibration could not start"
 msgstr "No s'ha pogut iniciar el calibratge"
 
 #: ekos/guide/guidediagnosis.cpp:210
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Guide needs the guide camera, the optics and the pixel size to calibrate."
 msgstr ""
-"El guia necessita la càmera guia, l'òptica i la mida del píxel per calibrar."
+"El guiatge necessita la càmera guia, l'òptica i la mida dels píxels per "
+"calibrar."
 
 #: ekos/guide/guidediagnosis.cpp:213
 #, kde-format
@@ -28750,7 +28748,7 @@ msgid "The guide star was lost"
 msgstr "S'ha perdut l'estrella guia"
 
 #: ekos/guide/guidediagnosis.cpp:218
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The guide star disappeared while guiding and was not found again in %1 "
 "seconds."
@@ -28776,21 +28774,22 @@ msgid "The guide camera is gone"
 msgstr "La càmera de guiatge s'ha perdut"
 
 #: ekos/guide/guidediagnosis.cpp:227
-#, fuzzy, kde-format
+#, kde-format
 msgid "The guide camera did not come back after its driver was restarted."
-msgstr "La càmera guia no va tornar després de reiniciar el seu controlador."
+msgstr ""
+"La càmera de guiatge no ha tornat després de reiniciar el seu controlador."
 
 #: ekos/guide/guidediagnosis.cpp:230
 #, kde-format
 msgid "The dither did not settle"
-msgstr "El tramat no posiciona"
+msgstr "El tramat no ha posicionat"
 
 #: ekos/guide/guidediagnosis.cpp:231
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guiding was stopped because a dither failed, as the dither options say."
 msgstr ""
-"El guiatge s'ha aturat perquè un tramat ha fallat, com diuen les opcions del "
-"tramat."
+"El guiatge s'ha aturat perquè un tramat ha fallat, com indiquen les opcions "
+"del tramat."
 
 #: ekos/guide/guidediagnosis.cpp:234
 #, kde-format
@@ -28867,19 +28866,19 @@ msgstr ""
 "HFR de %1 píxels."
 
 #: ekos/guide/guidediagnosis.cpp:315
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Loop guide exposures and adjust the guide scope focus until the stars are "
 "small points."
 msgstr ""
-"Orienta les exposicions i ajusta l'enfocament de l'abast de la guia fins que "
-"les estrelles siguin punts petits."
+"Fa un bucle de les exposicions de guiatge i ajusta l'enfocament del "
+"telescopi fins que les estrelles siguin punts petits."
 
 #: ekos/guide/guidediagnosis.cpp:316
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lock the focuser of the guide scope, so it does not slip."
 msgstr ""
-"Bloqueja l'enfocador de l'abast de la guia, de manera que no es llisca."
+"Bloqueja l'enfocador del telescopi de guiatge, de manera que no llisqui."
 
 #: ekos/guide/guidediagnosis.cpp:327
 #, kde-format
@@ -28892,10 +28891,9 @@ msgid "Remove the DEC backlash before calibrating"
 msgstr "Elimineu el rebot de la Dec abans del calibratge"
 
 #: ekos/guide/guidediagnosis.cpp:368 ekos/guide/guidediagnosis.cpp:393
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibration then takes up the DEC backlash before it measures."
-msgstr ""
-"El calibratge llavors pren el rebot de la DEC abans de prendre mesures."
+msgstr "El calibratge llavors pren el rebot de la DEC abans que es mesuri."
 
 #: ekos/guide/guidediagnosis.cpp:408
 #, kde-format
@@ -28903,9 +28901,9 @@ msgid "Lower the calibration pulse to %1 ms"
 msgstr "Reduïu el pols de calibratge a %1ms"
 
 #: ekos/guide/guidediagnosis.cpp:409
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shorter pulses keep the star inside the guide square."
-msgstr "Els polsos més curts mantenen l'estrella dins del quadrat de la guia."
+msgstr "Els polsos més curts mantenen l'estrella dins del quadrat de guiatge."
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
 #, kde-format
@@ -28918,18 +28916,18 @@ msgid "The guide optical train has no camera."
 msgstr "El tren òptic de guiatge no té càmera."
 
 #: ekos/guide/guidediagnosis.cpp:431 ekos/guide/guidediagnosis.cpp:755
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select where the guide pulses go"
-msgstr "Selecciona on van els polsos de la guia"
+msgstr "Seleccioneu on van els polsos de guiatge"
 
 #: ekos/guide/guidediagnosis.cpp:432 ekos/guide/guidediagnosis.cpp:756
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The guide optical train has no Guide Via device: select the mount, or the "
 "camera for an ST4 cable."
 msgstr ""
-"El tren òptic guia no té dispositiu Guide Via: seleccioneu la muntura o la "
-"càmera per a un cable ST4."
+"El tren òptic de guiatge no té cap dispositiu «Guiatge mitjançant»: "
+"seleccioneu la muntura o la càmera per a un cable ST4."
 
 #: ekos/guide/guidediagnosis.cpp:439 ekos/guide/guidediagnosis.cpp:766
 #, kde-format
@@ -28955,12 +28953,12 @@ msgstr ""
 "calibratge i el registre)."
 
 #: ekos/guide/guidediagnosis.cpp:465
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check that PHD2 found a guide star with a good SNR."
-msgstr "Comproveu que PHD2 ha trobat una estrella guia amb un bon SNR."
+msgstr "Comproveu que PHD2 hagi trobat una estrella guia amb un SNR bo."
 
 #: ekos/guide/guidediagnosis.cpp:466
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Check the camera, the pixel size and the focal length in the PHD2 equipment "
 "profile."
@@ -28969,25 +28967,26 @@ msgstr ""
 "l'equip PHD2."
 
 #: ekos/guide/guidediagnosis.cpp:490
-#, fuzzy, kde-format
+#, kde-format
 msgid "No star bright enough to guide on was found."
-msgstr "No s'ha trobat cap estrella prou brillant com per guiar-la."
+msgstr "No s'ha trobat cap estrella prou brillant per al guiatge."
 
 #: ekos/guide/guidediagnosis.cpp:495
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clouds, dew or a passing obstruction hide the guide star."
 msgstr ""
-"Els núvols, la rosada o una obstrucció que passa amaguen l'estrella guia."
+"Els núvols, la rosada o una obstrucció que passa oculten l'estrella guia."
 
 #: ekos/guide/guidediagnosis.cpp:497
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check for cable snags, wind and flexure"
-msgstr "Comprova si hi ha para-xocs de cable, vent i flexió"
+msgstr "Comproveu si hi ha algun cable enredat, vent o flexió"
 
 #: ekos/guide/guidediagnosis.cpp:498
-#, fuzzy, kde-format
+#, kde-format
 msgid "A sudden jump of the telescope moves the star out of the guide square."
-msgstr "Un salt sobtat del telescopi mou l'estrella fora del quadrat guia."
+msgstr ""
+"Un salt sobtat del telescopi mou l'estrella fora del quadrat de guiatge."
 
 #: ekos/guide/guidediagnosis.cpp:499
 #, kde-format
@@ -29001,9 +29000,11 @@ msgid "Shield the telescope from the wind."
 msgstr "Protegiu el telescopi del vent."
 
 #: ekos/guide/guidediagnosis.cpp:501
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check that the guide scope and camera are mounted firmly."
-msgstr "Comproveu que l'abast de la guia i la càmera estan muntats fermament."
+msgstr ""
+"Comproveu que el telescopi de guiatge i la càmera estiguin muntats amb "
+"fermesa."
 
 #: ekos/guide/guidediagnosis.cpp:507
 #, kde-format
@@ -29011,9 +29012,9 @@ msgid "Search for a lost star for %1 seconds"
 msgstr "Cerca una estrella perduda durant %1 segons"
 
 #: ekos/guide/guidediagnosis.cpp:509
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guide waits longer for a passing cloud before it stops."
-msgstr "El guia espera més temps per a un núvol que passa abans que s'aturi."
+msgstr "El guiatge esperarà més temps perquè passi un núvol abans que s'aturi."
 
 #: ekos/guide/guidediagnosis.cpp:524 ekos/guide/guidediagnosis.cpp:744
 #, kde-format
@@ -29055,18 +29056,18 @@ msgid "Restart the guide camera driver."
 msgstr "Reinicieu el controlador de la càmera de guiatge."
 
 #: ekos/guide/guidediagnosis.cpp:544
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check that guiding settles after a dither"
-msgstr "Comprova que el guiatge s'estableix després d'un tramat"
+msgstr "Comproveu que el guiatge es posicioni després d'un tramat"
 
 #: ekos/guide/guidediagnosis.cpp:545
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Guiding did not return within the settle limits after the mount was moved "
 "for the dither."
 msgstr ""
-"El guiatge no va tornar dins dels límits de liquidació després que es mogués "
-"la muntura per al tramat."
+"El guiatge no ha tornar dins dels límits de posicionament després que es "
+"mogués la muntura per al tramat."
 
 #: ekos/guide/guidediagnosis.cpp:546
 #, kde-format
@@ -29078,32 +29079,32 @@ msgstr ""
 "després d'un tramat."
 
 #: ekos/guide/guidediagnosis.cpp:547
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check that guiding was steady before the dither."
-msgstr "Comproveu que el guiatge era constant abans del tramat."
+msgstr "Comproveu que el guiatge era estable abans del tramat."
 
 #: ekos/guide/guidediagnosis.cpp:548
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lower the dither distance in the dither options."
-msgstr "Abaixa la distància del tramat a les opcions del tramat."
+msgstr "Abaixeu la distància del tramat a les opcions de tramat."
 
 #: ekos/guide/guidediagnosis.cpp:554
-#, fuzzy, kde-format
+#, kde-format
 msgid "Allow %1 dither iterations"
-msgstr "Permet les iteracions del tramat %1"
+msgstr "Permet %1 iteracions de tramat"
 
 #: ekos/guide/guidediagnosis.cpp:555
-#, fuzzy, kde-format
+#, kde-format
 msgid "The dither gets more guide frames to settle."
-msgstr "El tramat obté més marcs guia per establir-se."
+msgstr "El tramat obté més fotogrames de guiatge per al posicionament."
 
 #: ekos/guide/guidediagnosis.cpp:563
-#, fuzzy, kde-format
+#, kde-format
 msgid "Keep guiding when a dither fails"
 msgstr "Mantén el guiatge quan falli un tramat"
 
 #: ekos/guide/guidediagnosis.cpp:564
-#, fuzzy, kde-format
+#, kde-format
 msgid "A failed dither then only costs one frame instead of stopping guiding."
 msgstr "Un tramat fallit només costa un fotograma en lloc d'aturar el guiatge."
 
@@ -29146,13 +29147,13 @@ msgid "Raise the guide rate of the mount"
 msgstr "Eleveu la velocitat de guiatge de la muntura"
 
 #: ekos/guide/guidediagnosis.cpp:782
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The last calibration measured a guide rate of %1x sidereal: the star barely "
 "moves for each pulse."
 msgstr ""
-"L'últim calibratge va mesurar una velocitat guia de %1x sidereal: l'estrella "
-"amb prou feines es mou per a cada pols."
+"L'últim calibratge va mesurar una velocitat de guiatge de %1x sideral: "
+"l'estrella amb prou feines es mou a cada pols."
 
 #: ekos/guide/guidediagnosis.cpp:784
 #, kde-format
@@ -29168,9 +29169,9 @@ msgid "Calibrate again."
 msgstr "Torneu a calibrar."
 
 #: ekos/guide/guidediagnosis.cpp:790
-#, fuzzy, kde-format
+#, kde-format
 msgid "The last calibration measured a guide rate of %1x sidereal."
-msgstr "L'últim calibratge va mesurar una taxa de guiatge de %1x sideral."
+msgstr "L'últim calibratge ha mesurat una velocitat de guiatge de %1x sideral."
 
 #: ekos/guide/guidediagnosis.cpp:817
 #, kde-format

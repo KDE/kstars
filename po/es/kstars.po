@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-11 13:24+0100\n"
+"PO-Revision-Date: 2026-11-18 23:18+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6962,16 +6962,14 @@ msgid "The mount rejected the unpark command."
 msgstr "La montura ha rechazado la orden de desaparcar."
 
 #: ekos/align/align_diagnosis.cpp:416 ekos/guide/guidediagnosis.cpp:798
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is disconnected."
-msgstr "Se ha desconectado el servidor."
+msgstr "La montura está desconectada."
 
 #: ekos/align/align_diagnosis.cpp:418
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "The mount is parked. Unpark it first."
-msgstr "La montura está aparcada. Desapárquela para empezar el guiado."
+msgstr "La montura está aparcada. Desapárquela primero."
 
 #: ekos/align/align_diagnosis.cpp:422
 #, fuzzy, kde-format
@@ -6980,16 +6978,14 @@ msgid "The mount driver cannot switch tracking on."
 msgstr "Advertencia: la montura no está aparcada; se desactiva el seguimiento."
 
 #: ekos/align/align_diagnosis.cpp:436
-#, fuzzy, kde-format
-#| msgid "The mount reported an error while unparking."
+#, kde-format
 msgid "The mount reported an error while starting to track."
-msgstr "La montura ha informado de un error al desaparcar."
+msgstr "La montura ha informado de un error al empezar el seguimiento."
 
 #: ekos/align/align_diagnosis.cpp:442
-#, fuzzy, kde-format
-#| msgid "The mount rejected the unpark command."
+#, kde-format
 msgid "The mount rejected the tracking command."
-msgstr "La montura ha rechazado la orden de desaparcar."
+msgstr "La montura ha rechazado la orden de seguimiento."
 
 #: ekos/align/align_diagnosis.cpp:454
 #, kde-format
@@ -7912,10 +7908,9 @@ msgstr ""
 "campo de visión erróneo al sistema de identificación."
 
 #: ekos/align/aligndiagnosis.cpp:314
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Turn on mount tracking"
-msgstr "Seguimiento de la montura"
+msgstr "Encienda el seguimiento de la montura"
 
 #: ekos/align/aligndiagnosis.cpp:315 ekos/align/aligndiagnosis.cpp:324
 #, fuzzy, kde-format
@@ -7924,10 +7919,9 @@ msgid "The mount reports that it is not tracking."
 msgstr "La montura ha dejado de informar sobre el seguimiento."
 
 #: ekos/align/aligndiagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Start the mount tracking"
-msgstr "Seguimiento de la montura"
+msgstr "Iniciar el seguimiento de la montura"
 
 #: ekos/align/aligndiagnosis.cpp:327
 #, kde-format
@@ -8361,8 +8355,7 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Align failed"
 msgstr "La alineación ha fallado"
 
@@ -8615,8 +8608,7 @@ msgid "Check that the slew was not stopped by hand."
 msgstr "Compruebe que la cubierta antipolvo o la tapa está abierta."
 
 #: ekos/align/aligndiagnosis.cpp:746
-#, fuzzy, kde-format
-#| msgid "Image Transfer"
+#, kde-format
 msgid "Enable image transfer"
 msgstr "Active la transferencia de imágenes"
 
@@ -8845,10 +8837,9 @@ msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:1000 ekos/focus/focusdiagnosis.cpp:631
 #: ekos/guide/guidediagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Check the mount tracking"
-msgstr "Seguimiento de la montura"
+msgstr "Compruebe el seguimiento de la montura"
 
 #: ekos/align/aligndiagnosis.cpp:1002
 #, kde-format
@@ -8886,10 +8877,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/aligndiagnosis.cpp:1013 ekos/focus/focusdiagnosis.cpp:635
-#, fuzzy, kde-format
-#| msgid "Use the frame exposure value"
+#, kde-format
 msgid "Use a shorter exposure."
-msgstr "Usar el valor de exposición del fotograma"
+msgstr "Use una exposición más corta."
 
 #: ekos/align/aligndiagnosis.cpp:1022 ekos/focus/focusdiagnosis.cpp:644
 #: ekos/guide/guidediagnosis.cpp:335
@@ -105218,28 +105208,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Timeout in seconds for automatic polar alignment correction."
-#~ msgstr ""
-#~ "Tiempo de espera en segundos para la corrección de alineación polar "
-#~ "automática."
-
-#~ msgctxt "Satellite group name"
-#~ msgid "NOAA"
-#~ msgstr "NOAA"
-
-#~ msgctxt "Satellite group name"
-#~ msgid "Gorizont"
-#~ msgstr "Gorizont"
-
-#~ msgctxt "Satellite group name"
-#~ msgid "Raduga"
-#~ msgstr "Raduga"
-
-#~ msgctxt "Satellite group name"
-#~ msgid "Molniya"
-#~ msgstr "Molniya"
-
-#~ msgctxt "Satellite group name"
-#~ msgid "Other Miscellaneous"
-#~ msgstr "Varios de otros tipos"

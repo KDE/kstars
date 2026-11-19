@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-17 07:10-0300\n"
+"PO-Revision-Date: 2026-11-18 05:19-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -7464,12 +7464,9 @@ msgstr ""
 "Tentando novamente em %1 segundos..."
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr "Aviso: a montagem ainda está ocupada após %1 minuto; prosseguindo."
+msgstr "Erro: o módulo de foco ainda está ocupado após %1 minutos."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7483,7 +7480,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Erro: a cúpula %1 ainda está em movimento após %2 segundos."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7502,7 +7499,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Erro: o rotador %1 ainda está girando após %2 segundos."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format

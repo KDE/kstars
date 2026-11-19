@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-17 19:27+0300\n"
+"PO-Revision-Date: 2026-11-18 19:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7373,6 +7373,8 @@ msgid ""
 "Warning: the mount is not tracking. Stars trail in long exposures, and the "
 "mount drifts away from the solved position."
 msgstr ""
+"Uyarı: Kaide izleme yapmıyor. Yıldızlar uzun pozlamalarda kayıp iz "
+"bırakırlar ve kaide çözülen konumdan kaymaya başlar."
 
 #: ekos/align/align_solver.cpp:144
 #, kde-format
@@ -7409,12 +7411,9 @@ msgstr ""
 "Odak modülü meşgûlken çekim yapılamaz. %1 saniye içinde yeniden deneniyor…"
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr "Uyarı: Kaide, %1 dakika sonra bile hâlen meşgûl; sürdürülüyor."
+msgstr "Hata: Odak modülü, %1 dakika sonra bile hâlen meşgûl."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7428,7 +7427,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Hata: Kubbe %1, %2 saniye sonrasında bile hâlen hareket ediyor."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7445,7 +7444,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Hata: Döndürücü %1, %2 saniye sonrasında bile hâlen dönüyor."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -7454,7 +7453,7 @@ msgid ""
 "solve)..."
 msgstr ""
 "Kamera konumu açısı %1 derece olarak ayarlanıyor (bir önceki çözümden kalan "
-"önbellik kullanılıyor)…"
+"ön bellek kullanılıyor)…"
 
 #: ekos/align/align_solver.cpp:367 ekos/focus/focus.cpp:2045
 #, kde-format
@@ -7830,22 +7829,19 @@ msgstr ""
 "yanlış bir görüş alanı verir."
 
 #: ekos/align/aligndiagnosis.cpp:314
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Turn on mount tracking"
-msgstr "Kaide İzleme"
+msgstr "Kaide izlemeyi aç"
 
 #: ekos/align/aligndiagnosis.cpp:315 ekos/align/aligndiagnosis.cpp:324
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount reports that it is not tracking."
-msgstr "Kaide artık izleme bildirmiyor."
+msgstr "Kaide, izleme yapmadığını bildiriyor."
 
 #: ekos/align/aligndiagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Start the mount tracking"
-msgstr "Kaide İzleme"
+msgstr "Kaide izlemeyi başlat"
 
 #: ekos/align/aligndiagnosis.cpp:327
 #, kde-format
@@ -7853,11 +7849,13 @@ msgid ""
 "The mount driver cannot switch tracking on. Start tracking at the sidereal "
 "rate from the hand controller."
 msgstr ""
+"Kaide sürücüsü, izlemeyi açamıyor. El kumandasında, yıldız oranından "
+"izlemeyi başlatın."
 
 #: ekos/align/aligndiagnosis.cpp:350
 #, kde-format
 msgid "Check the KStars clock"
-msgstr ""
+msgstr "KStars saatini denetle"
 
 #: ekos/align/aligndiagnosis.cpp:352
 #, kde-format
@@ -10021,16 +10019,13 @@ msgstr "Düzeltme zaman aşımı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_PAHCorrectionTimeout)
 #: ekos/align/opsalign.ui:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timeout in seconds for automatic polar alignment correction. If the "
-#| "system cannot reach the desired threshold within this period, it aborts."
+#, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction. Time the "
 "corrector spends moving is not counted."
 msgstr ""
 "Otomatik kutup hizalaması düzeltmesi için saniye türünden zaman aşımı "
-"süresi. Sistem bu süre içinde istenen eşiğe ulaşamazsa işlem iptal edilir."
+"süresi. Düzelticinin hareket ederken harcadığı zaman sayılmaz."
 
 #. i18n: ectx: property (text), widget (QLabel, labelCorrectionTimeoutUnit)
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
@@ -12050,12 +12045,13 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1574
 #, kde-format
 msgid "PAC: Az error %1' is below %2', not correcting azimuth."
-msgstr ""
+msgstr "PAC: Yanca hatası %1’, %2’ değerinin altında, yanca düzeltilmeyecek."
 
 #: ekos/align/polaralignmentassistant.cpp:1581
 #, kde-format
 msgid "PAC: Alt error %1' is below %2', not correcting altitude."
 msgstr ""
+"PAC: Yanca hatası %1’, %2’ değerinin altında, yükseklik düzeltilmeyecek."
 
 #: ekos/align/polaralignmentassistant.cpp:1596
 #, kde-format
@@ -14629,43 +14625,30 @@ msgid "Double click to load dark frame"
 msgstr "Karanlık kareyi yüklemek için çift tıkla"
 
 #: ekos/auxiliary/darkprocessor.cpp:159
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame has %1 color channels while the frame being calibrated has %2."
 msgstr ""
-"Karanlık kare %1 × %2 piksel; ancak kalibre edilen kare ise %3 × %4 piksel "
-"olarak ayarlanmış."
+"Karanlık karede %1 renk kanalı var ve kalibre edilen karenin renk kanalı ise "
+"%2 olarak veriliyor."
 
 #: ekos/auxiliary/darkprocessor.cpp:162
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame and the frame being calibrated have different data types."
-msgstr ""
-"Karanlık kare %1 × %2 piksel; ancak kalibre edilen kare ise %3 × %4 piksel "
-"olarak ayarlanmış."
+msgstr "Karanlık karede ve kalibre edilen karede farklı veri türleri var."
 
 #: ekos/auxiliary/darkprocessor.cpp:164
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame is %1x%2 pixels and does not cover the %3x%4 frame at %5,%6."
 msgstr ""
-"Karanlık kare %1 × %2 piksel; ancak kalibre edilen kare ise %3 × %4 piksel "
-"olarak ayarlanmış."
+"Karanlık kare %1 × %2 piksel ve %5,%6 konumundaki %3 × %4 kareyi kapsamıyor."
 
 #: ekos/auxiliary/darkprocessor.cpp:211
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer offsets %1 %2."
+#, kde-format
 msgid "Unsupported data type of the dark frame."
-msgstr "Desteklenmeyen bayer ofsetleri %1 %2"
+msgstr "Karanlık karenin veri türü desteklenmiyor."
 
 #: ekos/auxiliary/darkprocessor.cpp:305
 #, kde-format
@@ -14723,75 +14706,67 @@ msgstr "Bu depolanmış aygıt başvurusunu kaldır"
 #, kde-format
 msgctxt "%1 module name, %2 result"
 msgid "%1 check-up: %2"
-msgstr ""
+msgstr "%1 denetimi: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "Çözücü başarısız oldu: %1 sn %2"
+msgstr "%1 denetimi: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
-#, fuzzy, kde-format
-#| msgid "Item failed: %1"
+#, kde-format
 msgctxt "%1 module name, %2 cause"
 msgid "%1 failed: %2"
-msgstr "Öge başarısız oldu: %1"
+msgstr "%1 başarısız: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:224
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgctxt "%1 module name, %2 cause, %3 explanation"
 msgid "%1 failed: %2. %3"
-msgstr "Çözücü başarısız oldu: %1 sn %2"
+msgstr "%1 başarısız: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:228
-#, fuzzy, kde-format
-#| msgid "Device: %1"
+#, kde-format
 msgctxt "%1 list of things that were checked"
 msgid "Checked: %1"
-msgstr "Aygıt: %1"
+msgstr "Denetlendi: %1"
 
 #: ekos/auxiliary/diagnosis.cpp:230
-#, fuzzy, kde-format
-#| msgid "Not Picked"
+#, kde-format
 msgctxt "%1 list of things that could not be checked"
 msgid "Not checked: %1"
-msgstr "Seçili değil"
+msgstr "Denetlenmedi: %1"
 
 #: ekos/auxiliary/diagnosis.cpp:235
 #, kde-format
 msgid "Suggested:"
-msgstr ""
+msgstr "Önerilen:"
 
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "olası neden"
 
 #: ekos/auxiliary/diagnosis.cpp:243
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Configure Equipment"
+#, kde-format
 msgid "moves equipment"
-msgstr "Ekipmanı Yapılandır"
+msgstr "ekipmanı taşır"
 
 #: ekos/auxiliary/diagnosis.cpp:247
 #, kde-format
 msgid "download about %1 MB"
-msgstr ""
+msgstr "%1 MB kadar indirme"
 
 #: ekos/auxiliary/diagnosis.cpp:249
-#, fuzzy, kde-format
-#| msgid "Search in internet"
+#, kde-format
 msgid "needs internet"
-msgstr "İnternette ara"
+msgstr "internete gereksinimi var"
 
 #: ekos/auxiliary/diagnosis.cpp:252
 #, kde-format
 msgid "stops another activity"
-msgstr ""
+msgstr "başka bir etkinliği durduruyor"
 
 #: ekos/auxiliary/diagnosisactions.h:50
 #, kde-format
@@ -14799,50 +14774,47 @@ msgid "The device is not available."
 msgstr "Aygıt kullanılabilir değil."
 
 #: ekos/auxiliary/diagnosismanager.cpp:28
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timed out."
-msgstr "Zaman aşımı:"
+msgstr "Zaman aşımına uğradı."
 
 #: ekos/auxiliary/diagnosismanager.cpp:225
 #: ekos/auxiliary/diagnosismanager.cpp:230
 #, kde-format
 msgid "Diagnosis: the fix worked."
-msgstr ""
+msgstr "Tanı: Düzeltme işe yaradı."
 
 #: ekos/auxiliary/diagnosismanager.cpp:326
 #, kde-format
 msgid "Diagnosis: applying \"%1\"..."
-msgstr ""
+msgstr "Tanı: “%1” uygulanıyor…"
 
 #: ekos/auxiliary/diagnosismanager.cpp:373
 #, kde-format
 msgid "Diagnosis: \"%1\" failed. %2"
-msgstr ""
+msgstr "Tanı: “%1” başarısız oldu. %2"
 
 #: ekos/auxiliary/diagnosismanager.cpp:390
-#, fuzzy, kde-format
-#| msgid "Warning: Dithering failed."
+#, kde-format
 msgid "Diagnosis: the fix failed. %1"
-msgstr "Uyarı: Kıpırdatma başarısız oldu."
+msgstr "Tanı: Düzeltme işe yaramadı. %1"
 
 #: ekos/auxiliary/diagnosismanager.cpp:427
 #: ekos/auxiliary/diagnosismanager.cpp:479
 #, kde-format
 msgid "Diagnosis: retrying..."
-msgstr ""
+msgstr "Tanı: Yeniden deneniyor…"
 
 #: ekos/auxiliary/diagnosismanager.cpp:430
 #: ekos/auxiliary/diagnosismanager.cpp:482
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The retry could not start."
-msgstr "Ağırlıklar dosyası okunamadı."
+msgstr "Yeniden deneme süreci başlatılamadı."
 
 #: ekos/auxiliary/diagnosismanager.cpp:444
 #, kde-format
 msgid "Diagnosis: the change was reverted."
-msgstr ""
+msgstr "Tanı: Değişiklik geri alındı."
 
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
@@ -37144,7 +37116,7 @@ msgstr "Şu profil için optik katar yok: %1"
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
 msgid "No cached devices for profile: %1"
-msgstr "Şu profil için önbelleklenmiş aygıt yok: %1"
+msgstr "Şu profil için ön belleğe alınmış aygıt yok: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:316
 #, kde-format
@@ -37389,7 +37361,7 @@ msgstr "Bulunan optik katar yok"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
 msgid "Using cached devices from profile: %1"
-msgstr "Şu profilden önbellekli aygıtlar kullanılıyor: %1"
+msgstr "Şu profilden ön belleğe alınmış aygıtlar kullanılıyor: %1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
 #, kde-format
@@ -42044,7 +42016,7 @@ msgstr "Görüntü"
 #: hips/hipsmanager.cpp:103
 #, kde-format
 msgid "Cache"
-msgstr "Önbellek"
+msgstr "Ön Bellek"
 
 #: hips/opships.cpp:42
 #, kde-format
@@ -42079,7 +42051,7 @@ msgstr "Ara…"
 #, kde-format
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
-"HiPS görsellerini depolamak için kullanılan sabit diskteki önbellek alanı."
+"HiPS görsellerini depolamak için kullanılan sabit diskteki ön bellek alanı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -42099,7 +42071,7 @@ msgstr "MB"
 #: hips/opshipscache.ui:75 hips/opshipscache.ui:85
 #, kde-format
 msgid "Cache space in RAM used to store HiPS images."
-msgstr "HiPS görsellerini depolamak için kullanılan bellekteki önbellek alanı."
+msgstr "HiPS görsellerini depolamak için kullanılan bellekteki ön bellek alanı"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -44201,7 +44173,7 @@ msgstr ""
 #: kstars.kcfg:145
 #, kde-format
 msgid "Percentage of the sky to cache DSOs for."
-msgstr "DSO’ları önbelleğe alınacak gökyüzünün yüzdesi."
+msgstr "DSO’ları ön belleğe alınacak gökyüzünün yüzdesi."
 
 #. i18n: ectx: whatsthis, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:149
@@ -44213,8 +44185,8 @@ msgid ""
 "         performance at the cost of memory."
 msgstr ""
 "DSO’lar bir SQLite veri tabanından yüklenir ve bellekte\n"
-"önbelleğe alınır. Bu ayar, DSO’ların ne kadarının\n"
-"önbelleğe alınacağını düzenler. Bu değeri artırmak,\n"
+"ön belleğe alınır. Bu ayar, DSO’ların ne kadarının\n"
+"ön belleğe alınacağını düzenler. Bu değeri artırmak,\n"
 "daha çok bellek kullanım pahasına daha iyi başarım sağlar."
 
 #. i18n: ectx: label, entry (DSOMinZoomFactor), group (Catalogs)
@@ -51648,16 +51620,16 @@ msgstr "Son kullanılan web sunucusunun kapısı"
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
-"Önbelleklenmiş HiPS görsellerini depolamak için kullanılan RAM önbelleği "
-"boyutunun MB olarak değeri"
+"Ön belleğe alınmış HiPS görsellerini depolamak için kullanılan RAM ön "
+"belleği boyutunun MB olarak değeri"
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
 #: kstars.kcfg:3878
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
-"Önbelleklenmiş HiPS görsellerini depolamak için kullanılan sabit disk "
-"önbelleği boyutunun MB olarak değeri"
+"Ön belleğe alınmış HiPS görsellerini depolamak için kullanılan sabit disk ön "
+"belleği boyutunun MB olarak değeri"
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
 #: kstars.kcfg:3882
@@ -92848,7 +92820,7 @@ msgstr "DSO en düşük yakınlaştırma:"
 #: options/opscatalog.ui:376
 #, kde-format
 msgid "DSO cache percentage:"
-msgstr "DSO önbellek yüzdesi:"
+msgstr "DSO ön bellek yüzdesi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyNames)
 #: options/opscatalog.ui:438
@@ -95113,9 +95085,9 @@ msgid ""
 "<p>If you wish to change contents of printed document, click <b>Previous</b> "
 "button to get back to previous steps.</p>"
 msgstr ""
-"<p>Belgeniz yazdırılmaya hazır. Ön izleme yapmak için <b>Yazdırma Ön "
-"İzlemesi</b> düğmesine ve yazdırmaya başlamak için <b>Yazdır</b> düğmesine "
-"tıklayın. Ayrıca dosyaya dışa aktarabilirsiniz.</p>\n"
+"<p>Belgeniz yazdırılmaya hazır. Ön izleme yapmak için <b>Baskı Ön İzleme</b> "
+"düğmesine ve yazdırmaya başlamak için <b>Yazdır</b> düğmesine tıklayın. "
+"Ayrıca dosyaya dışa aktarabilirsiniz.</p>\n"
 "<p>Yazdırılan belgenin içeriğini değiştirmek isterseniz önceki adımlara geri "
 "dönmek için <b>Önceki</b> düğmesine tıklayın.</p>"
 
@@ -95123,7 +95095,7 @@ msgstr ""
 #: printing/pwizprint.ui:142
 #, kde-format
 msgid "Print preview"
-msgstr "Yazdırma Ön İzlemesi"
+msgstr "Baskı Ön İzleme"
 
 #. i18n: ectx: property (text), widget (QPushButton, printButton)
 #: printing/pwizprint.ui:179

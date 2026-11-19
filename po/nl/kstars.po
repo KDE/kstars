@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-17 15:53+0100\n"
+"PO-Revision-Date: 2026-11-18 14:57+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7432,14 +7432,9 @@ msgstr ""
 "seconden..."
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr ""
-"Waarschuwing: de opstelling is na %1 minuut nog steeds in gebruik; er wordt "
-"doorgegaan."
+msgstr "Fout: de focusmodule is na %1 minuten nog steeds bezig."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7453,7 +7448,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Fout: koepel %1 is na %2 seconden nog steeds in beweging."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7472,7 +7467,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Fout: rotator %1 draait nog steeds na %2 seconden."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -23849,22 +23844,19 @@ msgid "The star size went up and down too often to find a trend."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:354
-#, fuzzy, kde-format
-#| msgid "Autofocus is not supported."
+#, kde-format
 msgid "Autofocus is stuck"
-msgstr "Autofocus wordt niet ondersteund."
+msgstr "Autofocus zit vast"
 
 #: ekos/focus/focusdiagnosis.cpp:355
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Autofocus kept moving back and forth around the same positions."
-msgstr "Autofocus is mislukt, keert terug naar beginpositie %1 voor focus."
+msgstr "De autofocus bleef rond dezelfde posities heen en weer bewegen."
 
 #: ekos/focus/focusdiagnosis.cpp:358
-#, fuzzy, kde-format
-#| msgid "The device is not available."
+#, kde-format
 msgid "The tolerance is not valid"
-msgstr "Het apparaat is niet beschikbaar."
+msgstr "De tolerantie is niet geldig"
 
 #: ekos/focus/focusdiagnosis.cpp:359
 #, kde-format
@@ -23882,46 +23874,39 @@ msgid "The measurements do not form a focus curve."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:366
-#, fuzzy, kde-format
-#| msgid "The rotator reports an error"
+#, kde-format
 msgid "The focuser reported an error"
-msgstr "De rotator rapporteert een fout"
+msgstr "De focuser rapporteert een fout"
 
 #: ekos/focus/focusdiagnosis.cpp:367
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The focuser %1 stopped responding during autofocus."
-msgstr "De camera is gestopt met antwoorden"
+msgstr "De focuser %1 is gestopt met antwoorden tijdens autofocus."
 
 #: ekos/focus/focusdiagnosis.cpp:371 ekos/focus/focusdiagnosis.cpp:536
-#, fuzzy, kde-format
-#| msgid "The filter wheel did not reach the Align filter."
+#, kde-format
 msgid "The filter wheel did not reach the focus filter."
-msgstr "Het filterwiel heeft het uitlijnfilter niet bereikt."
+msgstr "Het filterwiel heeft het focusfilter niet bereikt."
 
 #: ekos/focus/focusdiagnosis.cpp:375
-#, fuzzy, kde-format
-#| msgid "Capture timed out."
+#, kde-format
 msgid "A focus exposure timed out."
-msgstr "Tijd voor opnemen is verlopen."
+msgstr "Limiet voor focus-belichting is verlopen."
 
 #: ekos/focus/focusdiagnosis.cpp:379 ekos/focus/focusdiagnosis.cpp:522
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "A focus exposure failed."
-msgstr "Autofocus is mislukt."
+msgstr "Een focus-belichting is mislukt."
 
 #: ekos/focus/focusdiagnosis.cpp:382
-#, fuzzy, kde-format
-#| msgid "No camera is available."
+#, kde-format
 msgid "No camera is available"
-msgstr "Er is geen camera beschikbaar."
+msgstr "Geen camera beschikbaar"
 
 #: ekos/focus/focusdiagnosis.cpp:383
-#, fuzzy, kde-format
-#| msgid "The optical train has no camera for Align to capture with."
+#, kde-format
 msgid "Focus has no connected camera to capture with."
-msgstr "De optische keten heeft geen camera voor Uitlijnen om mee op te nemen."
+msgstr "Focus heeft geen camera om mee op te nemen."
 
 #: ekos/focus/focusdiagnosis.cpp:386
 #, fuzzy, kde-format

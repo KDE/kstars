@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-16 07:28+0200\n"
+"PO-Revision-Date: 2026-11-18 08:53+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -6947,34 +6947,29 @@ msgid "The mount rejected the unpark command."
 msgstr "Монтировка отклонила команду снятия с парковки."
 
 #: ekos/align/align_diagnosis.cpp:416 ekos/guide/guidediagnosis.cpp:798
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is disconnected."
-msgstr "Узел отключён"
+msgstr "Монтировка отключена."
 
 #: ekos/align/align_diagnosis.cpp:418
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "The mount is parked. Unpark it first."
-msgstr "Телескоп припаркован. Отпаркуйте его для начала ведения."
+msgstr "Монтировка припаркована. Сначала снимите её с парковки."
 
 #: ekos/align/align_diagnosis.cpp:422
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "The mount driver cannot switch tracking on."
-msgstr "Предупреждение: монтировка не припаркована, ведение отключается."
+msgstr "Драйвер монтировки не может включить ведение."
 
 #: ekos/align/align_diagnosis.cpp:436
-#, fuzzy, kde-format
-#| msgid "The mount reported an error while unparking."
+#, kde-format
 msgid "The mount reported an error while starting to track."
-msgstr "Монтировка сообщила об ошибке при снятии с парковки."
+msgstr "Монтировка сообщила об ошибке при запуске ведения."
 
 #: ekos/align/align_diagnosis.cpp:442
-#, fuzzy, kde-format
-#| msgid "The mount rejected the unpark command."
+#, kde-format
 msgid "The mount rejected the tracking command."
-msgstr "Монтировка отклонила команду снятия с парковки."
+msgstr "Монтировка отклонила команду включения ведения."
 
 #: ekos/align/align_diagnosis.cpp:454
 #, kde-format
@@ -7402,6 +7397,8 @@ msgid ""
 "Warning: the mount is not tracking. Stars trail in long exposures, and the "
 "mount drifts away from the solved position."
 msgstr ""
+"Предупреждение: монтировка не ведёт объект. На длинных экспозициях звёзды "
+"оставляют следы, а монтировка смещается от рассчитанного положения."
 
 #: ekos/align/align_solver.cpp:144
 #, kde-format
@@ -7441,14 +7438,9 @@ msgstr ""
 "через %1 с…"
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr ""
-"Предупреждение: через %1 минуту монтировка всё ещё занята, работа "
-"продолжается."
+msgstr "Ошибка: модуль автофокуса всё ещё занят после %1 мин ожидания."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7462,7 +7454,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Ошибка: купол %1 всё ещё движется после %2 с ожидания."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7482,6 +7474,7 @@ msgstr ""
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
 msgstr ""
+"Ошибка: поворотное устройство %1 всё ещё вращается после %2 с ожидания."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -7876,16 +7869,14 @@ msgid "Turn on mount tracking"
 msgstr "Включите ведение монтировки"
 
 #: ekos/align/aligndiagnosis.cpp:315 ekos/align/aligndiagnosis.cpp:324
-#, fuzzy, kde-format
-#| msgid "The mount stopped without tracking"
+#, kde-format
 msgid "The mount reports that it is not tracking."
-msgstr "Монтировка остановилась без ведения"
+msgstr "Монтировка сообщает, что ведение не выполняется."
 
 #: ekos/align/aligndiagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Check the mount tracking"
+#, kde-format
 msgid "Start the mount tracking"
-msgstr "Проверьте ведение монтировки"
+msgstr "Запустите ведение монтировки"
 
 #: ekos/align/aligndiagnosis.cpp:327
 #, kde-format
@@ -7893,6 +7884,8 @@ msgid ""
 "The mount driver cannot switch tracking on. Start tracking at the sidereal "
 "rate from the hand controller."
 msgstr ""
+"Драйвер монтировки не может включить ведение. Запустите ведение со звёздной "
+"скоростью с помощью пульта управления."
 
 #: ekos/align/aligndiagnosis.cpp:350
 #, kde-format
@@ -8773,15 +8766,12 @@ msgstr ""
 "Запустите автофокусировку в модуле «Фокусировка» или сфокусируйте вручную."
 
 #: ekos/align/aligndiagnosis.cpp:987
-#, fuzzy, kde-format
-#| msgid ""
-#| "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
-#| "mount does not track."
+#, kde-format
 msgid ""
 "The stars trailed %1 pixels, and the mount reports that it is not tracking."
 msgstr ""
-"Звёзды оставили след длиной %1 пикс. — столько они смещаются за %2 с, когда "
-"монтировка не ведёт объект."
+"Звёзды оставили следы длиной %1 пикс., а монтировка сообщает, что ведение не "
+"выполняется."
 
 #: ekos/align/aligndiagnosis.cpp:993
 #, kde-format
@@ -8799,16 +8789,13 @@ msgid "Check the mount tracking"
 msgstr "Проверьте ведение монтировки"
 
 #: ekos/align/aligndiagnosis.cpp:1002
-#, fuzzy, kde-format
-#| msgid ""
-#| "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
-#| "mount does not track."
+#, kde-format
 msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds without "
 "tracking, although the mount reports tracking."
 msgstr ""
-"Звёзды оставили след длиной %1 пикс. — столько они смещаются за %2 с, когда "
-"монтировка не ведёт объект."
+"Звёзды оставили следы длиной %1 пикс. — столько они смещаются за %2 с без "
+"ведения, хотя монтировка сообщает о ведении."
 
 #: ekos/align/aligndiagnosis.cpp:1004 ekos/focus/focusdiagnosis.cpp:632
 #: ekos/guide/guidediagnosis.cpp:324
@@ -8822,6 +8809,8 @@ msgid ""
 "Check that the RA clutch is locked: a slipping clutch leaves the telescope "
 "still while the motor tracks."
 msgstr ""
+"Проверьте, что муфта оси RA зафиксирована: проскальзывающая муфта оставляет "
+"телескоп неподвижным, пока двигатель ведёт объект."
 
 #: ekos/align/aligndiagnosis.cpp:1011 ekos/focus/focusdiagnosis.cpp:633
 #: ekos/guide/guidediagnosis.cpp:325
@@ -8883,10 +8872,9 @@ msgid "Image: the star shapes in the failed frame were not measured."
 msgstr "Изображение: форма звёзд в неудачном кадре не измерялась."
 
 #: ekos/align/aligndiagnosis.cpp:1061
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount reports tracking."
-msgstr "Монтировка больше не сообщает о ведении."
+msgstr "Монтировка сообщает о ведении."
 
 #: ekos/align/aligndiagnosis.cpp:1073
 #, kde-format
@@ -8960,10 +8948,9 @@ msgid "The mount is connected and reports its position."
 msgstr "Монтировка подключена и сообщает своё положение."
 
 #: ekos/align/aligndiagnosis.cpp:1259
-#, fuzzy, kde-format
-#| msgid "Check the mount tracking"
+#, kde-format
 msgid "The mount is tracking."
-msgstr "Проверьте ведение монтировки"
+msgstr "Монтировка ведёт объект."
 
 #: ekos/align/aligndiagnosis.cpp:1271
 #, kde-format
@@ -23277,60 +23264,54 @@ msgid ""
 "Autofocus never reached focus: the smallest stars had an HFR of %1, %2 times "
 "the %3 of recent good runs, and the run had no V."
 msgstr ""
+"Автофокус так и не достиг фокуса: минимальный HFR звёзд составил %1, что в "
+"%2 раза больше значения %3 последних удачных запусков; кривая не приобрела V-"
+"образной формы."
 
 #: ekos/focus/focus_diagnosis.cpp:183
 #, kde-format
 msgid "HFR %1 = %2x in focus"
-msgstr ""
+msgstr "HFR %1 = %2× от значения в фокусе"
 
 #: ekos/focus/focus_diagnosis.cpp:426
-#, fuzzy, kde-format
-#| msgid "The device is not available."
+#, kde-format
 msgid "Focus is not available."
-msgstr "Устройство недоступно."
+msgstr "Модуль фокусировки недоступен."
 
 #: ekos/focus/focus_diagnosis.cpp:428 ekos/focus/focus_diagnosis.cpp:536
 #, kde-format
 msgid "Focus is busy. Try again when it has finished."
-msgstr ""
+msgstr "Фокусировка занята. Повторите попытку после её завершения."
 
 #: ekos/focus/focus_diagnosis.cpp:433 ekos/guide/guide_diagnosis.cpp:263
-#, fuzzy, kde-format
-#| msgid "The solver timeout is already at its limit."
+#, kde-format
 msgid "The setting is already at its limit."
-msgstr "Тайм-аут решателя уже максимальный."
+msgstr "Параметр уже достиг предела."
 
 #: ekos/focus/focus_diagnosis.cpp:534
-#, fuzzy, kde-format
-#| msgid "The camera driver is not connected."
+#, kde-format
 msgid "The focuser is not connected."
-msgstr "Драйвер камеры не подключён."
+msgstr "Фокусер не подключён."
 
 #: ekos/focus/focus_diagnosis.cpp:541
 #, kde-format
 msgid "No good focus position is known for this filter."
-msgstr ""
+msgstr "Для этого фильтра нет известного удачного положения фокуса."
 
 #: ekos/focus/focus_diagnosis.cpp:543
-#, fuzzy, kde-format
-#| msgid ""
-#| "The camera position angle is outside the rotator threshold of %1 arcmin."
+#, kde-format
 msgid "The position %1 is outside the focuser range."
-msgstr ""
-"Позиционный угол камеры выходит за порог поворотного устройства в %1 угл. "
-"мин."
+msgstr "Положение %1 выходит за пределы диапазона фокусера."
 
 #: ekos/focus/focus_diagnosis.cpp:545
-#, fuzzy, kde-format
-#| msgid "The mount rejected the sync"
+#, kde-format
 msgid "The focuser rejected the move."
-msgstr "Монтировка отклонила синхронизацию"
+msgstr "Фокусер отклонил команду перемещения."
 
 #: ekos/focus/focus_diagnosis.cpp:546
-#, fuzzy, kde-format
-#| msgid "Moving to minimum focus position %1..."
+#, kde-format
 msgid "Moving the focuser to %1."
-msgstr "Перемещение в минимальное положение фокусировки %1…"
+msgstr "Перемещение фокусера в положение %1."
 
 #: ekos/focus/focusadvisor.cpp:81 ekos/focus/focusadvisor.cpp:82
 #, kde-format
@@ -23758,68 +23739,63 @@ msgid "Solution lies outside max travel."
 msgstr "Решение находится за пределами максимального хода перемещения."
 
 #: ekos/focus/focusdiagnosis.cpp:107
-#, fuzzy, kde-format
-#| msgid "The optical train of Align has no camera."
+#, kde-format
 msgid "The optical train of Focus has no camera."
-msgstr "В оптической системе модуля выравнивания нет камеры."
+msgstr "В оптической системе модуля фокусировки нет камеры."
 
 #: ekos/focus/focusdiagnosis.cpp:123
-#, fuzzy, kde-format
-#| msgid "Select a camera in the optical train"
+#, kde-format
 msgid "Select a focuser in the optical train"
-msgstr "Выберите камеру в оптической системе"
+msgstr "Выберите фокусер в оптической системе"
 
 #: ekos/focus/focusdiagnosis.cpp:123
-#, fuzzy, kde-format
-#| msgid "The optical train of Align has no camera."
+#, kde-format
 msgid "The optical train of Focus has no focuser."
-msgstr "В оптической системе модуля выравнивания нет камеры."
+msgstr "В оптической системе модуля фокусировки нет фокусера."
 
 #: ekos/focus/focusdiagnosis.cpp:130
-#, fuzzy, kde-format
-#| msgid "Connect the camera"
+#, kde-format
 msgid "Connect the focuser"
-msgstr "Подключите камеру"
+msgstr "Подключите фокусер"
 
 #: ekos/focus/focusdiagnosis.cpp:131
-#, fuzzy, kde-format
-#| msgid "The camera %1 is disconnected."
+#, kde-format
 msgid "The focuser %1 is disconnected."
-msgstr "Камера %1 отключена."
+msgstr "Фокусер %1 отключён."
 
 #: ekos/focus/focusdiagnosis.cpp:153
-#, fuzzy, kde-format
-#| msgid "Raise the solver timeout to %1 seconds"
+#, kde-format
 msgid "Raise the step size to %1 ms"
-msgstr "Увеличьте тайм-аут решателя до %1 с"
+msgstr "Увеличьте размер шага до %1 мс"
 
 #: ekos/focus/focusdiagnosis.cpp:154
 #, kde-format
 msgid "The focuser moves by time, and a step of %1 ms is too short to move it."
 msgstr ""
+"Фокусер перемещается по времени, и шага %1 мс недостаточно для его "
+"перемещения."
 
 #: ekos/focus/focusdiagnosis.cpp:163
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the Focus exposure to %1 seconds"
-msgstr "Увеличьте экспозицию выравнивания до %1 с"
+msgstr "Увеличьте экспозицию фокусировки до %1 с"
 
 #: ekos/focus/focusdiagnosis.cpp:182
-#, fuzzy, kde-format
-#| msgid "Bin the Align camera %1x%1"
+#, kde-format
 msgid "Bin the Focus camera 2x2"
-msgstr "Включите биннинг %1×%1 для камеры выравнивания"
+msgstr "Включите биннинг 2×2 для камеры фокусировки"
 
 #: ekos/focus/focusdiagnosis.cpp:183
-#, fuzzy, kde-format
-#| msgid "Binning collects more light per pixel and speeds up solving."
+#, kde-format
 msgid "Binning collects more light per pixel, so fainter stars are detected."
-msgstr "Биннинг собирает больше света на пиксель и ускоряет поиск решения."
+msgstr ""
+"Биннинг собирает больше света на пиксель, поэтому обнаруживаются более "
+"слабые звёзды."
 
 #: ekos/focus/focusdiagnosis.cpp:191
 #, kde-format
 msgid "Move the focuser close to focus"
-msgstr ""
+msgstr "Переместите фокусер ближе к фокусу"
 
 #: ekos/focus/focusdiagnosis.cpp:193
 #, kde-format
@@ -23827,23 +23803,25 @@ msgid ""
 "Point the telescope at a bright star, and loop short exposures from the "
 "Focus module."
 msgstr ""
+"Наведите телескоп на яркую звезду и запустите серию коротких экспозиций в "
+"модуле фокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:194
 #, kde-format
 msgid "Move the focuser in or out until the star is small and sharp."
 msgstr ""
+"Перемещайте фокусер внутрь или наружу, пока звезда не станет маленькой и "
+"резкой."
 
 #: ekos/focus/focusdiagnosis.cpp:195
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Run autofocus again from there."
-msgstr "Автофокус в процессе..."
+msgstr "Повторно запустите автофокус с этого положения."
 
 #: ekos/focus/focusdiagnosis.cpp:202
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Run Focus Advisor"
-msgstr "Помощник фокусировки"
+msgstr "Запустите мастера фокусировки"
 
 #: ekos/focus/focusdiagnosis.cpp:203
 #, kde-format
@@ -23851,12 +23829,16 @@ msgid ""
 "Focus Advisor finds the focus area and sets the step size, backlash and "
 "overscan for this focuser."
 msgstr ""
+"Мастер фокусировки находит область фокуса и задаёт размер шага, люфт и AF "
+"Overscan для этого фокусера."
 
 #: ekos/focus/focusdiagnosis.cpp:234
 #, kde-format
 msgid ""
 "The last good autofocus ended at %1. This run started at %2, %3 steps away."
 msgstr ""
+"Последний удачный автофокус завершился в положении %1. Этот запуск начался в "
+"положении %2, на расстоянии %3 шагов от него."
 
 #: ekos/focus/focusdiagnosis.cpp:236
 #, kde-format
@@ -23864,11 +23846,13 @@ msgid ""
 "The last good autofocus with filter %1 ended at %2. This run started at %3, "
 "%4 steps away."
 msgstr ""
+"Последний удачный автофокус с фильтром %1 завершился в положении %2. Этот "
+"запуск начался в положении %3, на расстоянии %4 шагов от него."
 
 #: ekos/focus/focusdiagnosis.cpp:239
 #, kde-format
 msgid "It was %1 °C then."
-msgstr ""
+msgstr "Тогда температура составляла %1 °C."
 
 #: ekos/focus/focusdiagnosis.cpp:241
 #, kde-format
@@ -23876,18 +23860,19 @@ msgid ""
 "The Adaptive Focus settings of the filter move it by %1 steps for the change "
 "of temperature and altitude since: focus should be near %2 now."
 msgstr ""
+"Параметры адаптивной фокусировки для фильтра смещают фокус на %1 шагов с "
+"учётом изменения температуры и высоты с того момента: сейчас фокус должен "
+"быть около %2."
 
 #: ekos/focus/focusdiagnosis.cpp:245
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Move the focuser to %1"
-msgstr "Превышено время ожидания решателя: %1 с"
+msgstr "Переместите фокусер в положение %1"
 
 #: ekos/focus/focusdiagnosis.cpp:262
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgid "Correct the focuser backlash only once"
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Компенсируйте люфт фокусера только один раз"
 
 #: ekos/focus/focusdiagnosis.cpp:263
 #, kde-format
@@ -23895,6 +23880,8 @@ msgid ""
 "The focuser driver corrects %1 steps of backlash, and AF Overscan adds %2 "
 "steps: the backlash is corrected twice."
 msgstr ""
+"Драйвер фокусера компенсирует люфт в %1 шагов, а AF Overscan добавляет %2 "
+"шагов: люфт компенсируется дважды."
 
 #: ekos/focus/focusdiagnosis.cpp:265
 #, kde-format
@@ -23902,17 +23889,18 @@ msgid ""
 "Keep one of the two: set the driver backlash to 0 and keep AF Overscan, or "
 "set AF Overscan to 0 and keep the driver backlash."
 msgstr ""
+"Оставьте только один способ: задайте люфт драйвера равным 0 и используйте AF "
+"Overscan или задайте AF Overscan равным 0 и используйте компенсацию драйвера."
 
 #: ekos/focus/focusdiagnosis.cpp:267
 #, kde-format
 msgid "Both are in the Focus mechanics settings."
-msgstr ""
+msgstr "Оба параметра находятся в разделе механики фокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:283 ekos/focus/focusdiagnosis.cpp:723
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the maximum travel to %1 steps"
-msgstr "Увеличьте экспозицию выравнивания до %1 с"
+msgstr "Увеличьте максимальное перемещение до %1 шагов"
 
 #: ekos/focus/focusdiagnosis.cpp:284
 #, kde-format
@@ -23920,222 +23908,209 @@ msgid ""
 "A run of %1 steps out with steps of %2 needs %3 steps of travel, but the "
 "maximum travel is %4: the run is cut short."
 msgstr ""
+"Для прохода на %1 шагов наружу с шагом %2 требуется перемещение на %3 шагов, "
+"но максимум составляет %4: проход обрывается раньше времени."
 
 #: ekos/focus/focusdiagnosis.cpp:304
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the initial step size to %1"
-msgstr "Увеличьте экспозицию выравнивания до %1 с"
+msgstr "Увеличьте начальный размер шага до %1"
 
 #: ekos/focus/focusdiagnosis.cpp:312
-#, fuzzy, kde-format
-#| msgid "Check the sky and the dust cap"
+#, kde-format
 msgid "Check the sky and the seeing"
-msgstr "Проверьте небо и пылезащитную крышку"
+msgstr "Проверьте небо и атмосферную турбулентность"
 
 #: ekos/focus/focusdiagnosis.cpp:314
 #, kde-format
 msgid "Check for clouds, haze or dew on the optics."
-msgstr ""
+msgstr "Проверьте, нет ли облаков, дымки или росы на оптике."
 
 #: ekos/focus/focusdiagnosis.cpp:315
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check that wind does not shake the telescope."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr "Проверьте, не трясёт ли ветер телескоп."
 
 #: ekos/focus/focusdiagnosis.cpp:316
 #, kde-format
 msgid ""
 "In poor seeing, use longer exposures so each measurement averages more of it."
 msgstr ""
+"При сильной атмосферной турбулентности используйте более длинные экспозиции, "
+"чтобы каждое измерение усредняло её колебания."
 
 #: ekos/focus/focusdiagnosis.cpp:326
-#, fuzzy, kde-format
-#| msgid "No star named %1 found."
+#, kde-format
 msgid "No stars were found"
-msgstr "Звезда %1 не найдена."
+msgstr "Звёзды не найдены"
 
 #: ekos/focus/focusdiagnosis.cpp:327
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "Autofocus needs stars in the focus frame to measure."
-msgstr ""
-"Область кадра фокусировочной звезды во время процедуры автофокусировки."
+msgstr "Для измерений автофокусу нужны звёзды в кадре фокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:330
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Autofocus did not converge"
-msgstr "Автофокус в процессе..."
+msgstr "Автофокус не сошёлся"
 
 #: ekos/focus/focusdiagnosis.cpp:331
 #, kde-format
 msgid "Autofocus stopped after too many steps without finding the focus."
 msgstr ""
+"Автофокус остановлен после слишком большого числа шагов без нахождения "
+"фокуса."
 
 #: ekos/focus/focusdiagnosis.cpp:334
 #, kde-format
 msgid "The focuser did not move"
-msgstr ""
+msgstr "Фокусер не переместился"
 
 #: ekos/focus/focusdiagnosis.cpp:335
 #, kde-format
 msgid "Autofocus asked the focuser to move, but the move failed."
-msgstr ""
+msgstr "Автофокус запросил перемещение фокусера, но оно не удалось."
 
 #: ekos/focus/focusdiagnosis.cpp:338
-#, fuzzy, kde-format
-#| msgid "The type of curve to fit"
+#, kde-format
 msgid "The focus curve is a poor fit"
-msgstr "Тип кривой для аппроксимации"
+msgstr "Кривая фокусировки плохо аппроксимирует измерения"
 
 #: ekos/focus/focusdiagnosis.cpp:339
 #, kde-format
 msgid "The measurements scatter too much around the fitted curve."
-msgstr ""
+msgstr "Измерения слишком сильно рассеяны вокруг аппроксимированной кривой."
 
 #: ekos/focus/focusdiagnosis.cpp:342
 #, kde-format
 msgid "The star size barely changed"
-msgstr ""
+msgstr "Размер звёзд почти не изменился"
 
 #: ekos/focus/focusdiagnosis.cpp:343
 #, kde-format
 msgid "The steps are too small to show a change in the star size."
-msgstr ""
+msgstr "Шаги слишком малы, чтобы вызвать измеримое изменение размера звёзд."
 
 #: ekos/focus/focusdiagnosis.cpp:346
-#, fuzzy, kde-format
-#| msgid "The solver timeout is already at its limit."
+#, kde-format
 msgid "The focuser reached its limit"
-msgstr "Тайм-аут решателя уже максимальный."
+msgstr "Фокусер достиг предела"
 
 #: ekos/focus/focusdiagnosis.cpp:347
 #, kde-format
 msgid "Autofocus needed to move past the maximum travel or the focuser limits."
 msgstr ""
+"Автофокусу потребовалось выйти за пределы максимального перемещения или "
+"диапазона фокусера."
 
 #: ekos/focus/focusdiagnosis.cpp:350
 #, kde-format
 msgid "The measurements fluctuate"
-msgstr ""
+msgstr "Измерения колеблются"
 
 #: ekos/focus/focusdiagnosis.cpp:351
 #, kde-format
 msgid "The star size went up and down too often to find a trend."
 msgstr ""
+"Размер звёзд слишком часто увеличивался и уменьшался, чтобы определить "
+"тенденцию."
 
 #: ekos/focus/focusdiagnosis.cpp:354
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Autofocus is stuck"
-msgstr "Автофокус в процессе..."
+msgstr "Автофокус застрял"
 
 #: ekos/focus/focusdiagnosis.cpp:355
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Autofocus kept moving back and forth around the same positions."
 msgstr ""
-"Автофокусировка не удалась, возвращаемся к начальному положению фокуса %1."
+"Автофокус продолжал перемещаться туда-сюда вокруг одних и тех же положений."
 
 #: ekos/focus/focusdiagnosis.cpp:358
-#, fuzzy, kde-format
-#| msgid "The device is not available."
+#, kde-format
 msgid "The tolerance is not valid"
-msgstr "Устройство недоступно."
+msgstr "Недопустимый допуск"
 
 #: ekos/focus/focusdiagnosis.cpp:359
 #, kde-format
 msgid "The tolerance of the autofocus algorithm is out of range."
-msgstr ""
+msgstr "Допуск алгоритма автофокуса вне допустимого диапазона."
 
 #: ekos/focus/focusdiagnosis.cpp:362
 #, kde-format
 msgid "No focus curve could be fitted"
-msgstr ""
+msgstr "Не удалось аппроксимировать кривую фокусировки"
 
 #: ekos/focus/focusdiagnosis.cpp:363
 #, kde-format
 msgid "The measurements do not form a focus curve."
-msgstr ""
+msgstr "Измерения не образуют кривую фокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:366
-#, fuzzy, kde-format
-#| msgid "The rotator reports an error"
+#, kde-format
 msgid "The focuser reported an error"
-msgstr "Поворотное устройство сообщает об ошибке"
+msgstr "Фокусер сообщил об ошибке"
 
 #: ekos/focus/focusdiagnosis.cpp:367
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The focuser %1 stopped responding during autofocus."
-msgstr "Камера перестала отвечать"
+msgstr "Фокусер %1 перестал отвечать во время автофокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:371 ekos/focus/focusdiagnosis.cpp:536
-#, fuzzy, kde-format
-#| msgid "The filter wheel did not reach the Align filter."
+#, kde-format
 msgid "The filter wheel did not reach the focus filter."
-msgstr "Колесо фильтров не дошло до фильтра модуля выравнивания."
+msgstr "Колесо фильтров не дошло до фильтра фокусировки."
 
 #: ekos/focus/focusdiagnosis.cpp:375
-#, fuzzy, kde-format
-#| msgid "Capture timed out."
+#, kde-format
 msgid "A focus exposure timed out."
-msgstr "Тайм-аут захвата."
+msgstr "Время ожидания экспозиции фокусировки истекло."
 
 #: ekos/focus/focusdiagnosis.cpp:379 ekos/focus/focusdiagnosis.cpp:522
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "A focus exposure failed."
-msgstr "Автофокусировка не удалась."
+msgstr "Экспозиция фокусировки не удалась."
 
 #: ekos/focus/focusdiagnosis.cpp:382
-#, fuzzy, kde-format
-#| msgid "No camera is available."
+#, kde-format
 msgid "No camera is available"
 msgstr "Нет доступной камеры."
 
 #: ekos/focus/focusdiagnosis.cpp:383
-#, fuzzy, kde-format
-#| msgid "The optical train has no camera for Align to capture with."
+#, kde-format
 msgid "Focus has no connected camera to capture with."
-msgstr "В оптической системе нет камеры для съёмки модулем выравнивания."
+msgstr "В модуле фокусировки нет подключённой камеры для съёмки."
 
 #: ekos/focus/focusdiagnosis.cpp:386
-#, fuzzy, kde-format
-#| msgid "No camera is available."
+#, kde-format
 msgid "No focuser is available"
-msgstr "Нет доступной камеры."
+msgstr "Нет доступного фокусера"
 
 #: ekos/focus/focusdiagnosis.cpp:387
 #, kde-format
 msgid "Focus has no connected focuser to move."
-msgstr ""
+msgstr "В модуле фокусировки нет подключённого фокусера для перемещения."
 
 #: ekos/focus/focusdiagnosis.cpp:390
 #, kde-format
 msgid "The step size is too small"
-msgstr ""
+msgstr "Слишком маленький размер шага"
 
 #: ekos/focus/focusdiagnosis.cpp:391
 #, kde-format
 msgid "The focuser moves by time, and the step is too short to move it."
 msgstr ""
+"Фокусер перемещается по времени, и шаг слишком короток для его перемещения."
 
 #: ekos/focus/focusdiagnosis.cpp:395
-#, fuzzy, kde-format
-#| msgid "Align cannot capture until the dust cap is open."
+#, kde-format
 msgid "Autofocus cannot capture until the dust cap is open."
-msgstr ""
-"Модуль выравнивания не может выполнять съёмку, пока пылезащитная крышка "
-"закрыта."
+msgstr "Автофокус не может выполнять съёмку, пока пылезащитная крышка закрыта."
 
 #: ekos/focus/focusdiagnosis.cpp:398
-#, fuzzy, kde-format
-#| msgid "Autofocus Options"
+#, kde-format
 msgid "Autofocus never reached focus"
-msgstr "Параметры автофокуса"
+msgstr "Автофокус так и не достиг фокуса"
 
 #: ekos/focus/focusdiagnosis.cpp:400
 #, kde-format
@@ -24143,94 +24118,85 @@ msgid ""
 "The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 "
 "pixels of your recent good autofocus runs, and the run had no V."
 msgstr ""
+"Минимальный HFR звёзд за запуск составил %1 пикселей, что в %2 раза больше "
+"%3 пикселей последних удачных запусков; кривая не приобрела V-образной формы."
 
 #: ekos/focus/focusdiagnosis.cpp:405
 #, kde-format
 msgid "The stars stayed far larger than in focus, and the run had no V."
 msgstr ""
+"Звёзды оставались намного крупнее, чем в фокусе, и кривая не приобрела V-"
+"образной формы."
 
 #: ekos/focus/focusdiagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Autofocus failed"
 msgstr "Автофокусировка не удалась."
 
 #: ekos/focus/focusdiagnosis.cpp:436 ekos/guide/guidediagnosis.cpp:264
-#, fuzzy, kde-format
-#| msgid "Details"
+#, kde-format
 msgid "Detail"
 msgstr "Сведения"
 
 #: ekos/focus/focusdiagnosis.cpp:449
 #, kde-format
 msgid "Last HFR"
-msgstr ""
+msgstr "Последний HFR"
 
 #: ekos/focus/focusdiagnosis.cpp:457
-#, fuzzy, kde-format
-#| msgid "Algorithm:"
+#, kde-format
 msgid "Algorithm"
-msgstr "Алгоритм:"
+msgstr "Алгоритм"
 
 #: ekos/focus/focusdiagnosis.cpp:458
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial step size"
-msgstr "Начальный размер шага:"
+msgstr "Начальный размер шага"
 
 #: ekos/focus/focusdiagnosis.cpp:466
-#, fuzzy, kde-format
-#| msgid "Selecting star"
+#, kde-format
 msgid "Smallest stars"
-msgstr "Выбор звезды"
+msgstr "Самые маленькие звёзды"
 
 #: ekos/focus/focusdiagnosis.cpp:469
-#, fuzzy, kde-format
-#| msgid "focus"
+#, kde-format
 msgid "In focus"
-msgstr "фокус"
+msgstr "В фокусе"
 
 #: ekos/focus/focusdiagnosis.cpp:470
 #, kde-format
 msgid "Larger than in focus"
-msgstr ""
+msgstr "Крупнее, чем в фокусе"
 
 #: ekos/focus/focusdiagnosis.cpp:472
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Positions measured"
-msgstr "Угловое расстояние:"
+msgstr "Измеренные положения"
 
 #: ekos/focus/focusdiagnosis.cpp:478
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum travel"
 msgstr "Максимальное перемещение"
 
 #: ekos/focus/focusdiagnosis.cpp:483
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "Focuser range"
-msgstr "Фрейм автофокуса"
+msgstr "Диапазон фокусера"
 
 #: ekos/focus/focusdiagnosis.cpp:503
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check the focuser"
-msgstr "Проверьте монтировку"
+msgstr "Проверьте фокусер"
 
 #: ekos/focus/focusdiagnosis.cpp:504
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The focuser %1 stopped responding."
-msgstr "Камера перестала отвечать"
+msgstr "Фокусер %1 перестал отвечать."
 
 #: ekos/focus/focusdiagnosis.cpp:505
 #, kde-format
 msgid "The focuser %1 did not move as asked."
-msgstr ""
+msgstr "Фокусер %1 не переместился запрошенным образом."
 
 #: ekos/focus/focusdiagnosis.cpp:506
 #, kde-format
@@ -24238,6 +24204,8 @@ msgid ""
 "Move the focuser in and out with the buttons of the Focus module, and check "
 "that its position changes."
 msgstr ""
+"Переместите фокусер внутрь и наружу кнопками модуля фокусировки и проверьте, "
+"изменяется ли его положение."
 
 #: ekos/focus/focusdiagnosis.cpp:507
 #, kde-format
@@ -24245,115 +24213,103 @@ msgid ""
 "Check the focuser cable and power. A USB port or hub that cannot supply "
 "enough power stalls the motor."
 msgstr ""
+"Проверьте кабель и питание фокусера. Если USB-порт или концентратор не "
+"обеспечивает достаточную мощность, двигатель останавливается."
 
 #: ekos/focus/focusdiagnosis.cpp:508
-#, fuzzy, kde-format
-#| msgid "Check the mount limits in the Mount module."
+#, kde-format
 msgid "Check the maximum position and the limits set in the focuser driver."
-msgstr "Проверьте ограничения монтировки в модуле «Монтировка»."
+msgstr ""
+"Проверьте максимальное положение и ограничения, заданные в драйвере фокусера."
 
 #: ekos/focus/focusdiagnosis.cpp:509
 #, kde-format
 msgid "Restart the focuser driver if it still does not move."
-msgstr ""
+msgstr "Если фокусер по-прежнему не перемещается, перезапустите его драйвер."
 
 #: ekos/focus/focusdiagnosis.cpp:521
-#, fuzzy, kde-format
-#| msgid "Autofocus request [%1] optimized out."
+#, kde-format
 msgid "A focus exposure of %1 seconds timed out."
-msgstr "Запрос автофокуса [%1] оптимизирован."
+msgstr "Время ожидания экспозиции фокусировки длительностью %1 с истекло."
 
 #: ekos/focus/focusdiagnosis.cpp:525
-#, fuzzy, kde-format
-#| msgid "Take a test exposure from the Capture module."
+#, kde-format
 msgid ""
 "Take a test exposure from the Capture module, and restart the camera driver "
 "if it fails."
-msgstr "Сделайте пробную экспозицию в модуле съёмки."
+msgstr ""
+"Сделайте пробную экспозицию в модуле съёмки и перезапустите драйвер камеры, "
+"если она не удастся."
 
 #: ekos/focus/focusdiagnosis.cpp:538
 #, kde-format
 msgid "Check that the filter selected for focus exists in the filter wheel."
 msgstr ""
+"Проверьте, что фильтр, выбранный для фокусировки, есть в колесе фильтров."
 
 #: ekos/focus/focusdiagnosis.cpp:586
-#, fuzzy, kde-format
-#| msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
+#, kde-format
 msgid "The frame has %1 round stars with a median HFR of %2 pixels."
-msgstr "Изображение хорошее: круглых звёзд — %1, медианный HFR — %2 пикс."
+msgstr "В кадре %1 круглых звёзд, медианный HFR — %2 пикс."
 
 #: ekos/focus/focusdiagnosis.cpp:594
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in the failed frame."
+#, kde-format
 msgid "Only %1 stars were found in the focus frame."
-msgstr "В неудачном кадре найдено звёзд: всего %1."
+msgstr "В кадре фокусировки найдено звёзд: всего %1."
 
 #: ekos/focus/focusdiagnosis.cpp:596
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the dust cap is open."
-msgstr "Убедитесь, что пылезащитная крышка или чехол открыты."
+msgstr "Убедитесь, что пылезащитная крышка открыта."
 
 #: ekos/focus/focusdiagnosis.cpp:598 ekos/focus/focusdiagnosis.cpp:683
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the dust cap or cover is off."
-msgstr "Убедитесь, что пылезащитная крышка или чехол открыты."
+msgstr "Убедитесь, что пылезащитная крышка или чехол сняты."
 
 #: ekos/focus/focusdiagnosis.cpp:600
-#, fuzzy, kde-format
-#| msgid ""
-#| "Point the telescope at the southern meridian. Press Continue when ready."
+#, kde-format
 msgid "Point the telescope at an area with more stars."
-msgstr ""
-"Наведите телескоп на южный меридиан. Нажмите «Продолжить» по готовности."
+msgstr "Наведите телескоп на область с большим количеством звёзд."
 
 #: ekos/focus/focusdiagnosis.cpp:610
-#, fuzzy, kde-format
-#| msgid ""
-#| "The stars are rings, darker in the middle, as stars are when the "
-#| "telescope is out of focus. Their median HFR is %1 pixels."
+#, kde-format
 msgid ""
 "The stars are rings, as stars are far from focus. Their median HFR is %1 "
 "pixels."
 msgstr ""
-"Звёзды выглядят кольцами, тёмными в середине, — так бывает, когда телескоп "
-"не сфокусирован. Их медианный HFR — %1 пикс."
+"Звёзды выглядят кольцами, поскольку находятся далеко от фокуса. Их медианный "
+"HFR — %1 пикс."
 
 #: ekos/focus/focusdiagnosis.cpp:612
-#, fuzzy, kde-format
-#| msgid ""
-#| "The stars are flat discs without a bright core, as stars are when the "
-#| "telescope is out of focus. Their median HFR is %1 pixels."
+#, kde-format
 msgid ""
 "The stars are flat discs, as stars are far from focus. Their median HFR is "
 "%1 pixels."
 msgstr ""
-"Звёзды выглядят плоскими дисками без яркого ядра — так бывает, когда "
-"телескоп не сфокусирован. Их медианный HFR — %1 пикс."
+"Звёзды выглядят плоскими дисками, поскольку находятся далеко от фокуса. Их "
+"медианный HFR — %1 пикс."
 
 #: ekos/focus/focusdiagnosis.cpp:620
-#, fuzzy, kde-format
-#| msgid "Donut Buster"
+#, kde-format
 msgid "Turn on Donut Buster"
-msgstr "Скопление Стрекоза"
+msgstr "Включите Donut Buster"
 
 #: ekos/focus/focusdiagnosis.cpp:621
 #, kde-format
 msgid "Donut Buster measures defocused stars that look like rings."
 msgstr ""
+"Donut Buster измеряет расфокусированные звёзды, которые выглядят кольцами."
 
 #: ekos/focus/focusdiagnosis.cpp:668
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in a %2 second exposure."
+#, kde-format
 msgid "No stars were detected in a %1 second exposure."
-msgstr "При экспозиции %2 с найдено звёзд: всего %1."
+msgstr "При экспозиции %1 с звёзды не обнаружены."
 
 #: ekos/focus/focusdiagnosis.cpp:682
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in the failed frame."
+#, kde-format
 msgid "No stars were found in the focus frame."
-msgstr "В неудачном кадре найдено звёзд: всего %1."
+msgstr "В кадре фокусировки звёзды не найдены."
 
 #: ekos/focus/focusdiagnosis.cpp:685
 #, kde-format
@@ -24361,11 +24317,13 @@ msgid ""
 "Check that the focuser is not far from focus: stars far from focus are too "
 "faint to detect."
 msgstr ""
+"Проверьте, что фокусер находится недалеко от фокуса: слишком "
+"расфокусированные звёзды трудно обнаружить."
 
 #: ekos/focus/focusdiagnosis.cpp:706
 #, kde-format
 msgid "Check the focuser for slip and backlash"
-msgstr ""
+msgstr "Проверьте фокусер на проскальзывание и люфт"
 
 #: ekos/focus/focusdiagnosis.cpp:707
 #, kde-format
@@ -24373,6 +24331,8 @@ msgid ""
 "A focuser that slips under the weight of the camera, or has backlash, does "
 "not reach the positions autofocus asks for."
 msgstr ""
+"Фокусер, который проскальзывает под весом камеры или имеет люфт, не "
+"достигает положений, запрашиваемых автофокусом."
 
 #: ekos/focus/focusdiagnosis.cpp:708
 #, kde-format
@@ -24380,6 +24340,8 @@ msgid ""
 "Tighten the focuser tension or lock screw, so it holds the weight of the "
 "camera."
 msgstr ""
+"Подтяните винт натяжения или стопорный винт фокусера, чтобы он удерживал вес "
+"камеры."
 
 #: ekos/focus/focusdiagnosis.cpp:709
 #, kde-format
@@ -24387,49 +24349,55 @@ msgid ""
 "Measure the backlash and set it in the focuser driver or the Focus mechanics "
 "settings. Focus Advisor finds a value."
 msgstr ""
+"Измерьте люфт и задайте его в драйвере фокусера или в параметрах механики "
+"фокусировки. Мастер фокусировки определит значение."
 
 #: ekos/focus/focusdiagnosis.cpp:710
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check that no cable drags on the focuser or the camera."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr "Убедитесь, что кабели не тянут фокусер или камеру."
 
 #: ekos/focus/focusdiagnosis.cpp:724
 #, kde-format
 msgid ""
 "Autofocus may move at most %1 steps, and the focuser can move from %2 to %3."
 msgstr ""
+"Автофокус может перемещаться не более чем на %1 шагов, а диапазон фокусера — "
+"от %2 до %3."
 
 #: ekos/focus/focusdiagnosis.cpp:732
 #, kde-format
 msgid "Autofocus started at %1 and needed to move past the limit."
-msgstr ""
+msgstr "Автофокус начался в положении %1, но потребовалось выйти за предел."
 
 #: ekos/focus/focusdiagnosis.cpp:739
 #, kde-format
 msgid "Autofocus took too many steps: it likely started far from focus."
 msgstr ""
+"Автофокус сделал слишком много шагов: вероятно, он начался далеко от фокуса."
 
 #: ekos/focus/focusdiagnosis.cpp:747
 #, kde-format
 msgid "Steps of %1 do not change the star size enough to measure."
-msgstr ""
+msgstr "Шаги %1 недостаточно изменяют размер звёзд для измерения."
 
 #: ekos/focus/focusdiagnosis.cpp:759
 #, kde-format
 msgid ""
 "Larger steps change the star size more than the noise of the measurements."
-msgstr ""
+msgstr "Более крупные шаги изменяют размер звёзд сильнее, чем шум измерений."
 
 #: ekos/focus/focusdiagnosis.cpp:762 ekos/focus/focusdiagnosis.cpp:770
 #, kde-format
 msgid "A longer exposure averages the seeing and gives steadier measurements."
 msgstr ""
+"Более длинная экспозиция усредняет атмосферную турбулентность и даёт более "
+"стабильные измерения."
 
 #: ekos/focus/focusdiagnosis.cpp:763 ekos/focus/focusdiagnosis.cpp:767
 #, kde-format
 msgid "Clouds, poor seeing or wind make the measurements scatter."
-msgstr ""
+msgstr "Облака, турбулентность или ветер увеличивают разброс измерений."
 
 #: ekos/focus/focusdiagnosis.cpp:806
 #, kde-format
@@ -24437,6 +24405,8 @@ msgid ""
 "The stars got smaller toward %1, the lowest position measured: focus lies "
 "below it."
 msgstr ""
+"Звёзды уменьшались к %1, самому нижнему измеренному положению: фокус "
+"находится ниже него."
 
 #: ekos/focus/focusdiagnosis.cpp:808
 #, kde-format
@@ -24444,11 +24414,14 @@ msgid ""
 "The stars got smaller toward %1, the highest position measured: focus lies "
 "above it."
 msgstr ""
+"Звёзды уменьшались к %1, самому верхнему измеренному положению: фокус "
+"находится выше него."
 
 #: ekos/focus/focusdiagnosis.cpp:811
 #, kde-format
 msgid "The run stayed too far from focus to tell which way focus lies."
 msgstr ""
+"Запуск оставался слишком далеко от фокуса, чтобы определить его направление."
 
 #: ekos/focus/focusdiagnosis.cpp:816
 #, kde-format
@@ -24456,24 +24429,23 @@ msgid ""
 "Steps of %1 barely change the star size this far from focus: larger steps "
 "reach focus sooner."
 msgstr ""
+"На таком расстоянии от фокуса шаги %1 почти не меняют размер звёзд: более "
+"крупные шаги быстрее приведут к фокусу."
 
 #: ekos/focus/focusdiagnosis.cpp:829
-#, fuzzy, kde-format
-#| msgid "The camera driver is not connected."
+#, kde-format
 msgid "The camera and the focuser are connected."
-msgstr "Драйвер камеры не подключён."
+msgstr "Камера и фокусер подключены."
 
 #: ekos/focus/focusdiagnosis.cpp:831
-#, fuzzy, kde-format
-#| msgid "Delete focus frames?"
+#, kde-format
 msgid "The focus frame has stars."
-msgstr "Удалить кадры фокусировки?"
+msgstr "В кадре фокусировки есть звёзды."
 
 #: ekos/focus/focusdiagnosis.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Check the Align log"
+#, kde-format
 msgid "Check the Focus log"
-msgstr "Проверьте журнал выравнивания"
+msgstr "Проверьте журнал фокусировки"
 
 #: ekos/focus/focusdiagnosis.cpp:1171
 #, kde-format
@@ -24481,35 +24453,31 @@ msgid ""
 "Check that the focus frame shows stars, and that they get smaller and larger "
 "as the focuser moves."
 msgstr ""
+"Проверьте, что в кадре фокусировки видны звёзды и что они уменьшаются и "
+"увеличиваются при перемещении фокусера."
 
 #: ekos/focus/focusdiagnosis.cpp:1172
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable Alignment Logging in Setup Tab -> Logs to get details on the "
-#| "failure."
+#, kde-format
 msgid ""
 "Enable Focus Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
-"Чтобы получить подробности о сбое, включите журнал выравнивания на вкладке "
+"Чтобы получить подробности о сбое, включите журнал фокусировки на вкладке "
 "«Установка» → «Журналы»."
 
 #: ekos/focus/focusdiagnosis.cpp:1202
-#, fuzzy, kde-format
-#| msgid "The camera %1 is connected."
+#, kde-format
 msgid "The focuser %1 is connected."
-msgstr "Камера %1 подключена."
+msgstr "Фокусер %1 подключён."
 
 #: ekos/focus/focusdiagnosis.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Align looks ready"
+#, kde-format
 msgid "Focus looks ready"
-msgstr "Выравнивание готово к работе"
+msgstr "Фокусировка готова к работе"
 
 #: ekos/focus/focusdiagnosis.cpp:1227
-#, fuzzy, kde-format
-#| msgid "No problems were found in the Align setup."
+#, kde-format
 msgid "No problems were found in the Focus setup."
-msgstr "В настройке выравнивания проблем не найдено."
+msgstr "В настройке фокусировки проблем не найдено."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:44 fitsviewer/fitsheaderdialog.ui:53
@@ -26961,15 +26929,14 @@ msgid "Failed to set dither range."
 msgstr "Не удалось установить диапазон смещения."
 
 #: ekos/guide/externalguide/phd2.cpp:116
-#, fuzzy, kde-format
-#| msgid "The solver did not finish within %1 seconds."
+#, kde-format
 msgid "Calibration did not finish within %1 seconds."
-msgstr "Решатель не завершил работу за %1 с."
+msgstr "Калибровка не завершилась за %1 с."
 
 #: ekos/guide/externalguide/phd2.cpp:137
 #, kde-format
 msgid "PHD2 did not answer the dither."
-msgstr ""
+msgstr "PHD2 не ответил на команду случайного смещения."
 
 #: ekos/guide/externalguide/phd2.cpp:143
 #, kde-format
@@ -27153,10 +27120,9 @@ msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Калибровка, время ожидания истечёт через %1 с."
 
 #: ekos/guide/externalguide/phd2.cpp:807
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "PHD2 went back to looping exposures during calibration."
-msgstr "Слежение по видеопотоку остановлено во время калибровки."
+msgstr "PHD2 вернулся к серии экспозиций во время калибровки."
 
 #: ekos/guide/externalguide/phd2.cpp:808
 #, kde-format
@@ -27210,7 +27176,7 @@ msgstr "PHD2: Масштаб пиксела — %1″ на пиксел"
 #: ekos/guide/externalguide/phd2.cpp:1089
 #, kde-format
 msgid "PHD2 refused the dither command."
-msgstr ""
+msgstr "PHD2 отклонил команду случайного смещения."
 
 #: ekos/guide/externalguide/phd2.cpp:1110
 #, kde-format
@@ -28187,36 +28153,37 @@ msgstr ""
 #: ekos/guide/guide_diagnosis.cpp:261
 #, kde-format
 msgid "Guide is busy. Try again when it has stopped."
-msgstr ""
+msgstr "Ведение занято. Повторите попытку после его остановки."
 
 #: ekos/guide/guide_diagnosis.cpp:310
-#, fuzzy, kde-format
-#| msgid "The solver timeout is already at its limit."
+#, kde-format
 msgid "The guide square is already at its largest."
-msgstr "Тайм-аут решателя уже максимальный."
+msgstr "Квадрат ведения уже имеет максимальный размер."
 
 #: ekos/guide/guidediagnosis.cpp:69
 #, kde-format
 msgctxt "%3 is RA or DEC"
 msgid "Pulses of %1 ms moved the star only %2 pixels in %3."
 msgstr ""
+"Импульсы длительностью %1 мс сместили звезду всего на %2 пикселей по оси %3."
 
 #: ekos/guide/guidediagnosis.cpp:71
 #, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star barely moved while the mount was pulsed in %1."
 msgstr ""
+"Звезда почти не сместилась при импульсном управлении монтировкой по оси %1."
 
 #: ekos/guide/guidediagnosis.cpp:78
 #, kde-format
 msgid "Check the mount power supply: a low voltage weakens the motors."
-msgstr ""
+msgstr "Проверьте питание монтировки: низкое напряжение ослабляет двигатели."
 
 #: ekos/guide/guidediagnosis.cpp:79
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check that no cable drags or snags as the mount moves."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr ""
+"Убедитесь, что кабели не натягиваются и не цепляются при движении монтировки."
 
 #: ekos/guide/guidediagnosis.cpp:81
 #, kde-format
@@ -28224,53 +28191,50 @@ msgid ""
 "The pulses go through the camera %1: check the ST4 cable between the camera "
 "and the mount."
 msgstr ""
+"Импульсы проходят через камеру %1: проверьте кабель ST4 между камерой и "
+"монтировкой."
 
 #: ekos/guide/guidediagnosis.cpp:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check the slew limits set in the mount driver or its hand controller."
+#, kde-format
 msgid ""
 "Check the guide rate in the mount driver or hand controller: 0.5x sidereal "
 "is typical."
 msgstr ""
-"Проверьте ограничения наведения, заданные в драйвере монтировки или на её "
-"пульте."
+"Проверьте скорость ведения в драйвере монтировки или на пульте: обычно "
+"используется 0,5× звёздной."
 
 #: ekos/guide/guidediagnosis.cpp:89
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgid "Check the RA axis of the mount"
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Проверьте ось RA монтировки"
 
 #: ekos/guide/guidediagnosis.cpp:91
 #, kde-format
 msgid ""
 "Check the RA balance: make it slightly east-heavy so the gears stay engaged."
 msgstr ""
+"Проверьте балансировку по RA: восточная сторона должна быть немного тяжелее, "
+"чтобы шестерни оставались в зацеплении."
 
 #: ekos/guide/guidediagnosis.cpp:92
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the RA clutch is locked."
-msgstr "Убедитесь, что пылезащитная крышка или чехол открыты."
+msgstr "Проверьте, что муфта оси RA зафиксирована."
 
 #: ekos/guide/guidediagnosis.cpp:100
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgid "Check the DEC axis of the mount"
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Проверьте ось DEC монтировки"
 
 #: ekos/guide/guidediagnosis.cpp:102
-#, fuzzy, kde-format
-#| msgid "Check the mount cable and power."
+#, kde-format
 msgid "Check the DEC balance."
-msgstr "Проверьте кабель и питание монтировки."
+msgstr "Проверьте балансировку по оси DEC."
 
 #: ekos/guide/guidediagnosis.cpp:103
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the DEC clutch is locked."
-msgstr "Убедитесь, что пылезащитная крышка или чехол открыты."
+msgstr "Проверьте, что муфта оси DEC зафиксирована."
 
 #: ekos/guide/guidediagnosis.cpp:104
 #, kde-format
@@ -28278,26 +28242,28 @@ msgid ""
 "Check the DEC backlash: a large backlash takes up the pulses before the "
 "telescope moves."
 msgstr ""
+"Проверьте люфт по оси DEC: большой люфт поглощает импульсы до начала "
+"движения телескопа."
 
 #: ekos/guide/guidediagnosis.cpp:113
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "Check the backlash and balance of the %1 axis"
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Проверьте люфт и балансировку по оси %1"
 
 #: ekos/guide/guidediagnosis.cpp:115
 #, kde-format
 msgctxt "%2 is RA or DEC"
 msgid "The star stayed %1 pixels away from where the %2 calibration started."
 msgstr ""
+"Звезда осталась на расстоянии %1 пикселей от точки начала калибровки по оси "
+"%2."
 
 #: ekos/guide/guidediagnosis.cpp:117
-#, fuzzy, kde-format
-#| msgid "The rotator did not reach the target position angle."
+#, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star did not come back to where the %1 calibration started."
-msgstr "Поворотное устройство не достигло целевого позиционного угла."
+msgstr "Звезда не вернулась в точку начала калибровки по оси %1."
 
 #: ekos/guide/guidediagnosis.cpp:118
 #, kde-format
@@ -28305,103 +28271,99 @@ msgctxt "%1 is RA or DEC"
 msgid ""
 "Unbalance the %1 axis slightly, so its gears stay engaged in one direction."
 msgstr ""
+"Слегка нарушьте балансировку по оси %1, чтобы шестерни оставались в "
+"зацеплении в одном направлении."
 
 #: ekos/guide/guidediagnosis.cpp:119
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgid "Check the backlash adjustment of the mount (the gear mesh)."
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Проверьте регулировку люфта монтировки (зацепление шестерён)."
 
 #: ekos/guide/guidediagnosis.cpp:120
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check that no cable pulls on the telescope."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr "Убедитесь, что кабели не тянут телескоп."
 
 #: ekos/guide/guidediagnosis.cpp:128
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the calibration pulse to %1 ms"
-msgstr "Увеличьте экспозицию выравнивания до %1 с"
+msgstr "Увеличьте калибровочный импульс до %1 мс"
 
 #: ekos/guide/guidediagnosis.cpp:129
 #, kde-format
 msgid "Longer pulses move the star further, past the backlash of the mount."
 msgstr ""
+"Более длинные импульсы перемещают звезду дальше, преодолевая люфт монтировки."
 
 #: ekos/guide/guidediagnosis.cpp:137
-#, fuzzy, kde-format
-#| msgid "Check the sky and the dust cap"
+#, kde-format
 msgid "Check the sky and the guide camera"
-msgstr "Проверьте небо и пылезащитную крышку"
+msgstr "Проверьте небо и камеру ведения"
 
 #: ekos/guide/guidediagnosis.cpp:139
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check for clouds, and for dew on the guide scope."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr "Проверьте, нет ли облаков и росы на направляющем телескопе."
 
 #: ekos/guide/guidediagnosis.cpp:140
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Check that the guide camera is in focus."
-msgstr "Подключение к камере устройства ведения потеряно."
+msgstr "Проверьте, что камера ведения сфокусирована."
 
 #: ekos/guide/guidediagnosis.cpp:141
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the guide scope cap is off."
-msgstr "Убедитесь, что пылезащитная крышка или чехол открыты."
+msgstr "Убедитесь, что крышка направляющего телескопа снята."
 
 #: ekos/guide/guidediagnosis.cpp:143
 #, kde-format
 msgid "Check the star and its SNR in PHD2."
-msgstr ""
+msgstr "Проверьте звезду и её отношение сигнал/шум в PHD2."
 
 #: ekos/guide/guidediagnosis.cpp:151
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the guide exposure to %1 seconds"
-msgstr "Увеличьте экспозицию выравнивания до %1 с"
+msgstr "Увеличьте экспозицию ведения до %1 с"
 
 #: ekos/guide/guidediagnosis.cpp:153
-#, fuzzy, kde-format
-#| msgid "A %1 second exposure may be too short to show enough stars."
+#, kde-format
 msgid ""
 "A %1 second exposure may be too short to show a bright enough guide star."
 msgstr ""
-"Экспозиция %1 с может быть слишком короткой, чтобы на снимке было достаточно "
-"звёзд."
+"Экспозиции %1 с может быть недостаточно, чтобы звезда ведения была "
+"достаточно яркой."
 
 #: ekos/guide/guidediagnosis.cpp:161
-#, fuzzy, kde-format
-#| msgid "Bin the Align camera %1x%1"
+#, kde-format
 msgid "Bin the guide camera 2x2"
-msgstr "Включите биннинг %1×%1 для камеры выравнивания"
+msgstr "Включите биннинг 2×2 для камеры ведения"
 
 #: ekos/guide/guidediagnosis.cpp:162
-#, fuzzy, kde-format
-#| msgid "Binning collects more light per pixel and speeds up solving."
+#, kde-format
 msgid ""
 "Binning collects more light per pixel, so the guide star stands out from the "
 "noise."
-msgstr "Биннинг собирает больше света на пиксель и ускоряет поиск решения."
+msgstr ""
+"Биннинг собирает больше света на пиксель, поэтому звезда ведения лучше "
+"выделяется на фоне шума."
 
 #: ekos/guide/guidediagnosis.cpp:171
 #, kde-format
 msgid "Enlarge the guide square to %1 pixels"
-msgstr ""
+msgstr "Увеличьте квадрат ведения до %1 пикс."
 
 #: ekos/guide/guidediagnosis.cpp:172
 #, kde-format
 msgid ""
 "A larger square keeps the star in view when it moves further between frames."
 msgstr ""
+"Больший квадрат удерживает звезду в поле зрения при её смещении между "
+"кадрами."
 
 #: ekos/guide/guidediagnosis.cpp:183
 #, kde-format
 msgid "The star barely moved in RA"
-msgstr ""
+msgstr "Звезда почти не сместилась по RA"
 
 #: ekos/guide/guidediagnosis.cpp:185
 #, kde-format
@@ -28409,11 +28371,13 @@ msgid ""
 "Calibration pulses the mount in RA and measures how far the star moves. It "
 "did not move far enough."
 msgstr ""
+"При калибровке монтировка получает импульсы по RA и измеряется смещение "
+"звезды. Она сместилась недостаточно."
 
 #: ekos/guide/guidediagnosis.cpp:188
 #, kde-format
 msgid "The star barely moved in DEC"
-msgstr ""
+msgstr "Звезда почти не сместилась по DEC"
 
 #: ekos/guide/guidediagnosis.cpp:190
 #, kde-format
@@ -28421,26 +28385,26 @@ msgid ""
 "Calibration pulses the mount in DEC and measures how far the star moves. It "
 "did not move far enough."
 msgstr ""
+"При калибровке монтировка получает импульсы по DEC и измеряется смещение "
+"звезды. Она сместилась недостаточно."
 
 #: ekos/guide/guidediagnosis.cpp:193
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "The calibration drift is too short"
-msgstr "Автоматическая калибровка не получилась: смещение слишком мало."
+msgstr "Слишком малое смещение при калибровке"
 
 #: ekos/guide/guidediagnosis.cpp:194
-#, fuzzy, kde-format
-#| msgid "the target did not move in RA after %1 ms of West pulses."
+#, kde-format
 msgid ""
 "The star did not move far enough to measure how the mount responds to pulses."
 msgstr ""
-"объект не сместился по прямому восхождению после %1 мс импульсов на запад."
+"Звезда сместилась недостаточно, чтобы измерить реакцию монтировки на "
+"импульсы."
 
 #: ekos/guide/guidediagnosis.cpp:197
-#, fuzzy, kde-format
-#| msgid "The rotator did not reach the position angle"
+#, kde-format
 msgid "The star did not come back in RA"
-msgstr "Поворотное устройство не достигло позиционного угла"
+msgstr "Звезда не вернулась по RA"
 
 #: ekos/guide/guidediagnosis.cpp:198
 #, kde-format
@@ -28448,11 +28412,13 @@ msgid ""
 "After pulsing RA out, the mount pulsed RA back, but the star did not return "
 "to its start."
 msgstr ""
+"После импульса по RA в одну сторону монтировка выполнила обратный импульс, "
+"но звезда не вернулась в исходное положение."
 
 #: ekos/guide/guidediagnosis.cpp:201
 #, kde-format
 msgid "The star did not come back in DEC"
-msgstr ""
+msgstr "Звезда не вернулась по DEC"
 
 #: ekos/guide/guidediagnosis.cpp:202
 #, kde-format
@@ -28460,47 +28426,46 @@ msgid ""
 "After pulsing DEC out, the mount pulsed DEC back, but the star did not "
 "return to its start."
 msgstr ""
+"После импульса по DEC в одну сторону монтировка выполнила обратный импульс, "
+"но звезда не вернулась в исходное положение."
 
 #: ekos/guide/guidediagnosis.cpp:205
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "The guide star was lost during calibration"
-msgstr "Слежение по видеопотоку остановлено во время калибровки."
+msgstr "Звезда ведения потеряна во время калибровки"
 
 #: ekos/guide/guidediagnosis.cpp:206
 #, kde-format
 msgid "The guide star disappeared from several frames in a row."
-msgstr ""
+msgstr "Звезда ведения исчезла в нескольких кадрах подряд."
 
 #: ekos/guide/guidediagnosis.cpp:209
-#, fuzzy, kde-format
-#| msgid "Calibration failed to start."
+#, kde-format
 msgid "Calibration could not start"
-msgstr "Автоматическая калибровка не запустилась."
+msgstr "Не удалось начать калибровку"
 
 #: ekos/guide/guidediagnosis.cpp:210
 #, kde-format
 msgid ""
 "Guide needs the guide camera, the optics and the pixel size to calibrate."
 msgstr ""
+"Для калибровки модулю ведения нужны камера, параметры оптики и размер "
+"пикселя."
 
 #: ekos/guide/guidediagnosis.cpp:213
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "No guide star was found"
-msgstr "Звезда для гидирования найдена."
+msgstr "Звезда ведения не найдена"
 
 #: ekos/guide/guidediagnosis.cpp:214
-#, fuzzy, kde-format
-#| msgid "Align could not select its filter."
+#, kde-format
 msgid "Guide could not select a guide star in the frame."
-msgstr "Модулю выравнивания не удалось выбрать свой фильтр."
+msgstr "Модулю ведения не удалось выбрать звезду в кадре."
 
 #: ekos/guide/guidediagnosis.cpp:217
-#, fuzzy, kde-format
-#| msgid "Guide Star lost."
+#, kde-format
 msgid "The guide star was lost"
-msgstr "Звезда гидирования потеряна."
+msgstr "Звезда ведения потеряна"
 
 #: ekos/guide/guidediagnosis.cpp:218
 #, kde-format
@@ -28508,128 +28473,115 @@ msgid ""
 "The guide star disappeared while guiding and was not found again in %1 "
 "seconds."
 msgstr ""
+"Звезда ведения исчезла во время ведения и не была найдена снова за %1 с."
 
 #: ekos/guide/guidediagnosis.cpp:222
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The guide camera stopped responding"
-msgstr "Камера перестала отвечать"
+msgstr "Камера ведения перестала отвечать"
 
 #: ekos/guide/guidediagnosis.cpp:223
-#, fuzzy, kde-format
-#| msgid "Exposures timed out after the camera driver was restarted %1 times."
+#, kde-format
 msgid "Guide exposures timed out, also after the camera driver was restarted."
 msgstr ""
-"Истекло время ожидания экспозиций, драйвер камеры перезапускался раз: %1."
+"Время ожидания экспозиций ведения истекло, в том числе после перезапуска "
+"драйвера камеры."
 
 #: ekos/guide/guidediagnosis.cpp:226
-#, fuzzy, kde-format
-#| msgid "The camera is disconnected"
+#, kde-format
 msgid "The guide camera is gone"
-msgstr "Камера отключена"
+msgstr "Камера ведения отключена"
 
 #: ekos/guide/guidediagnosis.cpp:227
 #, kde-format
 msgid "The guide camera did not come back after its driver was restarted."
-msgstr ""
+msgstr "Камера ведения не восстановилась после перезапуска драйвера."
 
 #: ekos/guide/guidediagnosis.cpp:230
-#, fuzzy, kde-format
-#| msgid "The retry could not start."
+#, kde-format
 msgid "The dither did not settle"
-msgstr "Не удалось начать повторную попытку."
+msgstr "Ведение не стабилизировалось после случайного смещения"
 
 #: ekos/guide/guidediagnosis.cpp:231
 #, kde-format
 msgid "Guiding was stopped because a dither failed, as the dither options say."
 msgstr ""
+"Ведение остановлено из-за неудачного случайного смещения, как задано в его "
+"параметрах."
 
 #: ekos/guide/guidediagnosis.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Calibration Time column"
-#| msgid "Time to calibrate"
+#, kde-format
 msgid "PHD2 failed to calibrate"
-msgstr "Время калибровки"
+msgstr "PHD2 не удалось выполнить калибровку"
 
 #: ekos/guide/guidediagnosis.cpp:235 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Calibration"
+#, kde-format
 msgid "PHD2 reported a failed calibration."
-msgstr "Ошибка калибровки %1"
+msgstr "PHD2 сообщил о неудачной калибровке."
 
 #: ekos/guide/guidediagnosis.cpp:236 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgid "PHD2: JSON error: %1"
+#, kde-format
 msgid "PHD2 reported: %1"
-msgstr "PHD2: ошибка JSON: %1"
+msgstr "PHD2 сообщил: %1"
 
 #: ekos/guide/guidediagnosis.cpp:239
-#, fuzzy, kde-format
-#| msgid "Guiding"
+#, kde-format
 msgid "Guiding failed"
-msgstr "Гидирование"
+msgstr "Сбой ведения"
 
 #: ekos/guide/guidediagnosis.cpp:260
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide camera"
-msgstr "Ведущая звезда"
+msgstr "Камера ведения"
 
 #: ekos/guide/guidediagnosis.cpp:262
-#, fuzzy, kde-format
-#| msgid "Guide via:"
+#, kde-format
 msgid "Guide via"
-msgstr "Ведение с помощью:"
+msgstr "Ведение через"
 
 #: ekos/guide/guidediagnosis.cpp:267
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Star moved"
-msgstr "Название звезды"
+msgstr "Смещение звезды"
 
 #: ekos/guide/guidediagnosis.cpp:269
-#, fuzzy, kde-format
-#| msgid "Pulse:"
+#, kde-format
 msgid "Pulse"
-msgstr "Импульс:"
+msgstr "Импульс"
 
 #: ekos/guide/guidediagnosis.cpp:285
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide square"
-msgstr "Ведущая звезда"
+msgstr "Квадрат ведения"
 
 #: ekos/guide/guidediagnosis.cpp:297
-#, fuzzy, kde-format
-#| msgid "Image: the star shapes in the failed frame were not measured."
+#, kde-format
 msgid "Image: the guide frame was not measured."
-msgstr "Изображение: форма звёзд в неудачном кадре не измерялась."
+msgstr "Изображение: кадр ведения не был измерен."
 
 #: ekos/guide/guidediagnosis.cpp:305
 #, kde-format
 msgid "The guide frame has %1 round stars."
-msgstr ""
+msgstr "В кадре ведения %1 круглых звёзд."
 
 #: ekos/guide/guidediagnosis.cpp:308
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in the failed frame."
+#, kde-format
 msgid "Only %1 stars were found in the guide frame."
-msgstr "В неудачном кадре найдено звёзд: всего %1."
+msgstr "В кадре ведения найдено звёзд: всего %1."
 
 #: ekos/guide/guidediagnosis.cpp:312
-#, fuzzy, kde-format
-#| msgid "Connect the camera"
+#, kde-format
 msgid "Focus the guide camera"
-msgstr "Подключите камеру"
+msgstr "Сфокусируйте камеру ведения"
 
 #: ekos/guide/guidediagnosis.cpp:313
-#, fuzzy, kde-format
-#| msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
+#, kde-format
 msgid ""
 "The stars in the guide frame are discs or rings with a median HFR of %1 "
 "pixels."
-msgstr "Изображение хорошее: круглых звёзд — %1, медианный HFR — %2 пикс."
+msgstr ""
+"Звёзды в кадре ведения выглядят дисками или кольцами, их медианный HFR — %1 "
+"пикс."
 
 #: ekos/guide/guidediagnosis.cpp:315
 #, kde-format
@@ -28637,56 +28589,56 @@ msgid ""
 "Loop guide exposures and adjust the guide scope focus until the stars are "
 "small points."
 msgstr ""
+"Запустите серию экспозиций ведения и настройте фокус направляющего "
+"телескопа, пока звёзды не станут маленькими точками."
 
 #: ekos/guide/guidediagnosis.cpp:316
 #, kde-format
 msgid "Lock the focuser of the guide scope, so it does not slip."
 msgstr ""
+"Зафиксируйте фокусер направляющего телескопа, чтобы он не проскальзывал."
 
 #: ekos/guide/guidediagnosis.cpp:327
-#, fuzzy, kde-format
-#| msgid "Use a shorter exposure."
+#, kde-format
 msgid "Use a shorter guide exposure."
-msgstr "Используйте более короткую экспозицию."
+msgstr "Используйте более короткую экспозицию ведения."
 
 #: ekos/guide/guidediagnosis.cpp:367 ekos/guide/guidediagnosis.cpp:392
-#, fuzzy, kde-format
-#| msgid "Remove DEC backlash in guide calibration"
+#, kde-format
 msgid "Remove the DEC backlash before calibrating"
-msgstr "Удалить люфт по склонению при калибровке устройства ведения"
+msgstr "Устраните люфт по оси DEC перед калибровкой"
 
 #: ekos/guide/guidediagnosis.cpp:368 ekos/guide/guidediagnosis.cpp:393
 #, kde-format
 msgid "Calibration then takes up the DEC backlash before it measures."
 msgstr ""
+"Тогда калибровка сначала компенсирует люфт по оси DEC, а затем выполнит "
+"измерения."
 
 #: ekos/guide/guidediagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Stream tracking calibration pulse step (ms)"
+#, kde-format
 msgid "Lower the calibration pulse to %1 ms"
-msgstr "Шаг калибровочного импульса слежения по видеопотоку (мс)"
+msgstr "Уменьшите калибровочный импульс до %1 мс"
 
 #: ekos/guide/guidediagnosis.cpp:409
 #, kde-format
 msgid "Shorter pulses keep the star inside the guide square."
-msgstr ""
+msgstr "Более короткие импульсы удерживают звезду внутри квадрата ведения."
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "Select a camera in the optical train"
+#, kde-format
 msgid "Select a guide camera in the optical train"
-msgstr "Выберите камеру в оптической системе"
+msgstr "Выберите камеру ведения в оптической системе"
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "The optical train of Align has no camera."
+#, kde-format
 msgid "The guide optical train has no camera."
-msgstr "В оптической системе модуля выравнивания нет камеры."
+msgstr "В оптической системе ведения нет камеры."
 
 #: ekos/guide/guidediagnosis.cpp:431 ekos/guide/guidediagnosis.cpp:755
 #, kde-format
 msgid "Select where the guide pulses go"
-msgstr ""
+msgstr "Выберите, куда направлять импульсы ведения"
 
 #: ekos/guide/guidediagnosis.cpp:432 ekos/guide/guidediagnosis.cpp:756
 #, kde-format
@@ -28694,38 +28646,36 @@ msgid ""
 "The guide optical train has no Guide Via device: select the mount, or the "
 "camera for an ST4 cable."
 msgstr ""
+"В оптической системе ведения нет устройства Guide Via: выберите монтировку "
+"или камеру для кабеля ST4."
 
 #: ekos/guide/guidediagnosis.cpp:439 ekos/guide/guidediagnosis.cpp:766
-#, fuzzy, kde-format
-#| msgid "Set the telescope focal length and aperture"
+#, kde-format
 msgid "Set the guide scope focal length and aperture"
-msgstr "Укажите фокусное расстояние и апертуру телескопа"
+msgstr "Укажите фокусное расстояние и апертуру направляющего телескопа"
 
 #: ekos/guide/guidediagnosis.cpp:449
-#, fuzzy, kde-format
-#| msgid "Set the camera pixel size"
+#, kde-format
 msgid "Set the guide camera pixel size"
-msgstr "Укажите размер пикселя камеры"
+msgstr "Укажите размер пикселя камеры ведения"
 
 #: ekos/guide/guidediagnosis.cpp:461
-#, fuzzy, kde-format
-#| msgid "Check the rotator"
+#, kde-format
 msgid "Check the calibration in PHD2"
-msgstr "Проверьте поворотное устройство"
+msgstr "Проверьте калибровку в PHD2"
 
 #: ekos/guide/guidediagnosis.cpp:464
-#, fuzzy, kde-format
-#| msgid "Flat calibration failed. Brightness calibration is not configured."
+#, kde-format
 msgid ""
 "Read the calibration details in PHD2 (its calibration step graph and log)."
 msgstr ""
-"Не удалось выполнить калибровку плоского поля. Калибровка яркости не "
-"настроена."
+"Прочитайте сведения о калибровке в PHD2 (график шагов калибровки и журнал)."
 
 #: ekos/guide/guidediagnosis.cpp:465
 #, kde-format
 msgid "Check that PHD2 found a guide star with a good SNR."
 msgstr ""
+"Проверьте, что PHD2 нашёл звезду ведения с хорошим отношением сигнал/шум."
 
 #: ekos/guide/guidediagnosis.cpp:466
 #, kde-format
@@ -28733,106 +28683,99 @@ msgid ""
 "Check the camera, the pixel size and the focal length in the PHD2 equipment "
 "profile."
 msgstr ""
+"Проверьте камеру, размер пикселя и фокусное расстояние в профиле "
+"оборудования PHD2."
 
 #: ekos/guide/guidediagnosis.cpp:490
 #, kde-format
 msgid "No star bright enough to guide on was found."
-msgstr ""
+msgstr "Не найдено достаточно яркой звезды для ведения."
 
 #: ekos/guide/guidediagnosis.cpp:495
 #, kde-format
 msgid "Clouds, dew or a passing obstruction hide the guide star."
-msgstr ""
+msgstr "Облака, роса или проходящее препятствие скрывают звезду ведения."
 
 #: ekos/guide/guidediagnosis.cpp:497
 #, kde-format
 msgid "Check for cable snags, wind and flexure"
-msgstr ""
+msgstr "Проверьте кабели, ветер и изгиб конструкции"
 
 #: ekos/guide/guidediagnosis.cpp:498
 #, kde-format
 msgid "A sudden jump of the telescope moves the star out of the guide square."
 msgstr ""
+"Резкое перемещение телескопа выводит звезду за пределы квадрата ведения."
 
 #: ekos/guide/guidediagnosis.cpp:499
-#, fuzzy, kde-format
-#| msgid "Check that no cable snags or pulls on the telescope."
+#, kde-format
 msgid "Check that no cable snags as the mount tracks."
-msgstr "Убедитесь, что кабели не цепляются и не тянут телескоп."
+msgstr "Убедитесь, что кабели не цепляются при ведении монтировки."
 
 #: ekos/guide/guidediagnosis.cpp:500
-#, fuzzy, kde-format
-#| msgid "This could cause the telescope to cross the meridian."
+#, kde-format
 msgid "Shield the telescope from the wind."
-msgstr "Это может привести к пересечению телескопом меридиана."
+msgstr "Защитите телескоп от ветра."
 
 #: ekos/guide/guidediagnosis.cpp:501
 #, kde-format
 msgid "Check that the guide scope and camera are mounted firmly."
-msgstr ""
+msgstr "Проверьте, что направляющий телескоп и камера надёжно закреплены."
 
 #: ekos/guide/guidediagnosis.cpp:507
-#, fuzzy, kde-format
-#| msgid "Solver failed after %1 seconds."
+#, kde-format
 msgid "Search for a lost star for %1 seconds"
-msgstr "Не удалось решить за %1 с."
+msgstr "Искать потерянную звезду в течение %1 с"
 
 #: ekos/guide/guidediagnosis.cpp:509
 #, kde-format
 msgid "Guide waits longer for a passing cloud before it stops."
 msgstr ""
+"Модуль ведения дольше ждёт прохождения облака, прежде чем остановиться."
 
 #: ekos/guide/guidediagnosis.cpp:524 ekos/guide/guidediagnosis.cpp:744
-#, fuzzy, kde-format
-#| msgid "Connect the camera"
+#, kde-format
 msgid "Connect the guide camera"
-msgstr "Подключите камеру"
+msgstr "Подключите камеру ведения"
 
 #: ekos/guide/guidediagnosis.cpp:530
-#, fuzzy, kde-format
-#| msgid "Check the camera cable and power"
+#, kde-format
 msgid "Check the guide camera cable and power"
-msgstr "Проверьте кабель и питание камеры"
+msgstr "Проверьте кабель и питание камеры ведения"
 
 #: ekos/guide/guidediagnosis.cpp:531
-#, fuzzy, kde-format
-#| msgid "The exposure failed %1 times."
+#, kde-format
 msgid "Guide exposures timed out several times."
-msgstr "Число неудачных экспозиций: %1."
+msgstr "Время ожидания экспозиций ведения истекло несколько раз."
 
 #: ekos/guide/guidediagnosis.cpp:532
-#, fuzzy, kde-format
-#| msgid "Failed to reconnect camera after driver restart."
+#, kde-format
 msgid "The guide camera did not come back after a driver restart."
-msgstr "Не удалось повторно подключить камеру после перезапуска драйвера."
+msgstr "Камера ведения не восстановилась после перезапуска драйвера."
 
 #: ekos/guide/guidediagnosis.cpp:533
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check the camera USB cable and use a powered hub if the camera shares one."
+#, kde-format
 msgid ""
 "Check the guide camera USB cable and use a powered hub if the camera shares "
 "one."
 msgstr ""
-"Проверьте USB-кабель камеры; если камера подключена через общий "
+"Проверьте USB-кабель камеры ведения; если камера подключена через общий "
 "концентратор, используйте концентратор с питанием."
 
 #: ekos/guide/guidediagnosis.cpp:534
-#, fuzzy, kde-format
-#| msgid "Use a shorter exposure."
+#, kde-format
 msgid "Use a shorter or better USB cable."
-msgstr "Используйте более короткую экспозицию."
+msgstr "Используйте более короткий или качественный USB-кабель."
 
 #: ekos/guide/guidediagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Restart camera driver"
+#, kde-format
 msgid "Restart the guide camera driver."
-msgstr "Перезапустить драйвер камеры"
+msgstr "Перезапустите драйвер камеры ведения."
 
 #: ekos/guide/guidediagnosis.cpp:544
 #, kde-format
 msgid "Check that guiding settles after a dither"
-msgstr ""
+msgstr "Проверьте, что ведение стабилизируется после случайного смещения"
 
 #: ekos/guide/guidediagnosis.cpp:545
 #, kde-format
@@ -28840,92 +28783,88 @@ msgid ""
 "Guiding did not return within the settle limits after the mount was moved "
 "for the dither."
 msgstr ""
+"После перемещения монтировки для случайного смещения ведение не вернулось в "
+"заданные пределы стабилизации."
 
 #: ekos/guide/guidediagnosis.cpp:546
-#, fuzzy, kde-format
-#| msgid "Check the balance of both axes, and that the clutches are tight."
+#, kde-format
 msgid ""
 "Check the balance and the backlash of both axes: they slow down the return "
 "after a dither."
-msgstr "Проверьте балансировку по обеим осям и затяжку фиксаторов."
+msgstr ""
+"Проверьте балансировку и люфт по обеим осям: они замедляют возврат после "
+"случайного смещения."
 
 #: ekos/guide/guidediagnosis.cpp:547
 #, kde-format
 msgid "Check that guiding was steady before the dither."
-msgstr ""
+msgstr "Проверьте, что ведение было устойчивым до случайного смещения."
 
 #: ekos/guide/guidediagnosis.cpp:548
 #, kde-format
 msgid "Lower the dither distance in the dither options."
-msgstr ""
+msgstr "Уменьшите расстояние случайного смещения в его параметрах."
 
 #: ekos/guide/guidediagnosis.cpp:554
-#, fuzzy, kde-format
-#| msgid "Maximum allowed separation:"
+#, kde-format
 msgid "Allow %1 dither iterations"
-msgstr "Максимально допустимое расстояние:"
+msgstr "Разрешите %1 итераций случайного смещения"
 
 #: ekos/guide/guidediagnosis.cpp:555
 #, kde-format
 msgid "The dither gets more guide frames to settle."
 msgstr ""
+"При случайном смещении ведение получает больше кадров для стабилизации."
 
 #: ekos/guide/guidediagnosis.cpp:563
 #, kde-format
 msgid "Keep guiding when a dither fails"
-msgstr ""
+msgstr "Продолжать ведение при неудачном случайном смещении"
 
 #: ekos/guide/guidediagnosis.cpp:564
 #, kde-format
 msgid "A failed dither then only costs one frame instead of stopping guiding."
 msgstr ""
+"Тогда неудачное случайное смещение приведёт к потере только одного кадра, а "
+"не к остановке ведения."
 
 #: ekos/guide/guidediagnosis.cpp:581 ekos/guide/guidediagnosis.cpp:750
-#, fuzzy, kde-format
-#| msgid "The camera %1 is connected."
+#, kde-format
 msgid "The guide camera %1 is connected."
-msgstr "Камера %1 подключена."
+msgstr "Камера ведения %1 подключена."
 
 #: ekos/guide/guidediagnosis.cpp:583
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is connected."
-msgstr "Узел отключён"
+msgstr "Монтировка подключена."
 
 #: ekos/guide/guidediagnosis.cpp:708
-#, fuzzy, kde-format
-#| msgid "Check the Align log"
+#, kde-format
 msgid "Check the Guide log"
-msgstr "Проверьте журнал выравнивания"
+msgstr "Проверьте журнал ведения"
 
 #: ekos/guide/guidediagnosis.cpp:711
-#, fuzzy, kde-format
-#| msgid "Check the balance of both axes, and that the clutches are tight."
+#, kde-format
 msgid "Check the balance of both axes, the clutches and the cables."
-msgstr "Проверьте балансировку по обеим осям и затяжку фиксаторов."
+msgstr "Проверьте балансировку по обеим осям, муфты и кабели."
 
 #: ekos/guide/guidediagnosis.cpp:712
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable Alignment Logging in Setup Tab -> Logs to get details on the "
-#| "failure."
+#, kde-format
 msgid ""
 "Enable Guide Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
-"Чтобы получить подробности о сбое, включите журнал выравнивания на вкладке "
+"Чтобы получить подробности о сбое, включите журнал ведения на вкладке "
 "«Установка» → «Журналы»."
 
 #: ekos/guide/guidediagnosis.cpp:761
-#, fuzzy, kde-format
-#| msgid "Filter set to %1."
+#, kde-format
 msgid "Guide pulses go to %1."
-msgstr "Фильтр установлен на %1."
+msgstr "Импульсы ведения направляются на %1."
 
 #: ekos/guide/guidediagnosis.cpp:781
-#, fuzzy, kde-format
-#| msgid "Check the gear backlash of the mount."
+#, kde-format
 msgid "Raise the guide rate of the mount"
-msgstr "Проверьте люфт в передачах монтировки."
+msgstr "Увеличьте скорость ведения монтировки"
 
 #: ekos/guide/guidediagnosis.cpp:782
 #, kde-format
@@ -28933,39 +28872,35 @@ msgid ""
 "The last calibration measured a guide rate of %1x sidereal: the star barely "
 "moves for each pulse."
 msgstr ""
+"Последняя калибровка измерила скорость ведения %1× звёздной: звезда почти не "
+"смещается при каждом импульсе."
 
 #: ekos/guide/guidediagnosis.cpp:784
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check the slew limits set in the mount driver or its hand controller."
+#, kde-format
 msgid ""
 "Set the guide rate to 0.5x sidereal in the mount driver or hand controller."
 msgstr ""
-"Проверьте ограничения наведения, заданные в драйвере монтировки или на её "
-"пульте."
+"Задайте в драйвере монтировки или на пульте скорость ведения 0,5× звёздной."
 
 #: ekos/guide/guidediagnosis.cpp:785
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrate again."
-msgstr "Калибровка"
+msgstr "Повторите калибровку."
 
 #: ekos/guide/guidediagnosis.cpp:790
 #, kde-format
 msgid "The last calibration measured a guide rate of %1x sidereal."
-msgstr ""
+msgstr "Последняя калибровка измерила скорость ведения %1× звёздной."
 
 #: ekos/guide/guidediagnosis.cpp:817
-#, fuzzy, kde-format
-#| msgid "Align looks ready"
+#, kde-format
 msgid "Guide looks ready"
-msgstr "Выравнивание готово к работе"
+msgstr "Ведение готово к работе"
 
 #: ekos/guide/guidediagnosis.cpp:818
-#, fuzzy, kde-format
-#| msgid "No problems were found in the Align setup."
+#, kde-format
 msgid "No problems were found in the Guide setup."
-msgstr "В настройке выравнивания проблем не найдено."
+msgstr "В настройке ведения проблем не найдено."
 
 #: ekos/guide/guidedriftgraph.cpp:78
 #, kde-format
@@ -29080,16 +29015,13 @@ msgid "RA drifting reverse..."
 msgstr "Дрейф RA в обратном направлении…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. RA drift is too short. Check for mount, cable, or "
 "backlash problems."
 msgstr ""
-"Калибровка отклонена. Дрейф звезды слишком мал. Проверьте монтировку, кабель "
-"и люфт."
+"Калибровка отклонена. Смещение по RA слишком мало. Проверьте монтировку, "
+"кабели и люфт."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:260
 #, kde-format
@@ -29162,16 +29094,12 @@ msgid "DEC drifting reverse..."
 msgstr "Дрейф DEC в обратном направлении…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:498
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "Calibration Failed: DEC drift too short."
-msgstr "Автоматическая калибровка не получилась: смещение слишком мало."
+msgstr "Сбой калибровки: слишком малое смещение по DEC."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. DEC drift is too short after %1 iteration. Check for "
 "mount, cable, or backlash problems."
@@ -29179,17 +29107,17 @@ msgid_plural ""
 "Calibration rejected. DEC drift is too short after %1 iterations. Check for "
 "mount, cable, or backlash problems."
 msgstr[0] ""
-"Калибровка отклонена. Дрейф звезды слишком мал. Проверьте монтировку, кабель "
-"и люфт."
+"Калибровка отклонена. Смещение по DEC слишком мало после %1 итерации. "
+"Проверьте монтировку, кабели и люфт."
 msgstr[1] ""
-"Калибровка отклонена. Дрейф звезды слишком мал. Проверьте монтировку, кабель "
-"и люфт."
+"Калибровка отклонена. Смещение по DEC слишком мало после %1 итераций. "
+"Проверьте монтировку, кабели и люфт."
 msgstr[2] ""
-"Калибровка отклонена. Дрейф звезды слишком мал. Проверьте монтировку, кабель "
-"и люфт."
+"Калибровка отклонена. Смещение по DEC слишком мало после %1 итераций. "
+"Проверьте монтировку, кабели и люфт."
 msgstr[3] ""
-"Калибровка отклонена. Дрейф звезды слишком мал. Проверьте монтировку, кабель "
-"и люфт."
+"Калибровка отклонена. Смещение по DEC слишком мало после %1 итерации. "
+"Проверьте монтировку, кабели и люфт."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:587
 #, kde-format
@@ -29198,13 +29126,7 @@ msgstr ""
 "Автоматическая калибровка не получилась: не удалось достичь начальной точки."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:589
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
-#| "Possible mount or backlash problems..."
-#| msgid_plural ""
-#| "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
-#| "Possible mount or backlash problems..."
+#, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
 "Possible mount or backlash problems..."
@@ -29213,20 +29135,20 @@ msgid_plural ""
 "Possible mount or backlash problems..."
 msgstr[0] ""
 "Ведение по DEC: телескоп не может достичь начальной точки после %1 "
-"итерация.\n"
-"Возможны проблемы с монтировкой или люфтом..."
+"итерации.\n"
+"Возможны проблемы с монтировкой или люфтом…"
 msgstr[1] ""
 "Ведение по DEC: телескоп не может достичь начальной точки после %1 "
-"итерации.\n"
-"Возможны проблемы с монтировкой или люфтом..."
+"итераций.\n"
+"Возможны проблемы с монтировкой или люфтом…"
 msgstr[2] ""
 "Ведение по DEC: телескоп не может достичь начальной точки после %1 "
 "итераций.\n"
-"Возможны проблемы с монтировкой или люфтом..."
+"Возможны проблемы с монтировкой или люфтом…"
 msgstr[3] ""
 "Ведение по DEC: телескоп не может достичь начальной точки после %1 "
-"итерация.\n"
-"Возможны проблемы с монтировкой или люфтом..."
+"итерации.\n"
+"Возможны проблемы с монтировкой или люфтом…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:609
 #, kde-format

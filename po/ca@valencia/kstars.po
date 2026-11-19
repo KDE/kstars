@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-18 00:58+0100\n"
+"PO-Revision-Date: 2026-11-18 12:15+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7552,12 +7552,11 @@ msgstr ""
 "intentar en %1 segons…"
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr "Avís: la muntura encara està ocupada després d'%1 minut, es continua."
+msgstr ""
+"S'ha produït un error: el mòdul «Enfocament» encara està ocupat després de "
+"%1 minuts."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7572,6 +7571,8 @@ msgstr ""
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
 msgstr ""
+"S'ha produït un error: la cúpula %1 encara s'està movent després de %2 "
+"segons."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7591,6 +7592,7 @@ msgstr ""
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
 msgstr ""
+"S'ha produït un error: el rotor %1 encara està girant després de %2 segons."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -7619,8 +7621,9 @@ msgid ""
 "directories.Please download some index files or add the correct directory to "
 "the list."
 msgstr ""
-"No s'ha trobat cap fitxer d'índex en les carpetes de fitxers d'índex "
-"especificades. Baixeu alguns fitxers d'índex o afegiu-hi la carpeta correcta."
+"No s'ha trobat cap fitxer d'índex al sistema dins de les carpetes de fitxers "
+"d'índex especificades. Baixeu alguns fitxers d'índex o afegiu la carpeta "
+"correcta a la llista."
 
 #: ekos/align/align_solver.cpp:617
 #, kde-format
@@ -7688,8 +7691,8 @@ msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
-"S'ha actualitzat la informació del WCS. Les imatges capturades des d'este "
-"punt i més enllà haurien de tindre un WCS vàlid."
+"S'ha actualitzat la informació del WCS. Les imatges capturades a partir "
+"d'este moment tindran un WCS vàlid."
 
 #: ekos/align/align_solver.cpp:913
 #, kde-format
@@ -7744,7 +7747,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:1123
 #, kde-format
 msgid "Target is within acceptable range."
-msgstr "L'objectiu es troba dins d'un l'interval acceptable."
+msgstr "L'objectiu es troba dins de l'interval acceptable."
 
 #: ekos/align/align_solver.cpp:1184
 #, kde-format
@@ -8363,40 +8366,40 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:509
 #, kde-format
 msgid "The rotator reports an error"
-msgstr "El rotador informa d'un error"
+msgstr "El rotor informa d'un error"
 
 #: ekos/align/aligndiagnosis.cpp:510
 #, kde-format
 msgid "The rotator stopped with an error while turning the camera."
-msgstr "El rotador s'ha parat amb un error mentre girava la càmera."
+msgstr "El rotor s'ha parat amb un error mentre girava la càmera."
 
 #: ekos/align/aligndiagnosis.cpp:513
 #, kde-format
 msgid "The rotator did not reach the position angle"
-msgstr "El rotador no ha arribat a l'angle de posició"
+msgstr "El rotor no ha arribat a l'angle de posició"
 
 #: ekos/align/aligndiagnosis.cpp:514
 #, kde-format
 msgid ""
 "The camera position angle is outside the rotator threshold of %1 arcmin."
 msgstr ""
-"L'angle de posició de la càmera està fora del llindar del rotador de %1 "
-"minuts d'arc."
+"L'angle de posició de la càmera està fora del llindar del rotor de %1 minuts "
+"d'arc."
 
 #: ekos/align/aligndiagnosis.cpp:518
 #, kde-format
 msgid "The rotator timed out"
-msgstr "S'ha exhaurit el temps d'espera del rotador"
+msgstr "S'ha exhaurit el temps d'espera del rotor"
 
 #: ekos/align/aligndiagnosis.cpp:519 ekos/align/aligndiagnosis.cpp:819
 #, kde-format
 msgid "The rotator did not finish turning in time."
-msgstr "El rotador no ha acabat de girar a temps."
+msgstr "El rotor no ha acabat de girar a temps."
 
 #: ekos/align/aligndiagnosis.cpp:522
 #, kde-format
 msgid "The rotator turns the wrong way"
-msgstr "El rotador gira en sentit invers"
+msgstr "El rotor gira en sentit invers"
 
 #: ekos/align/aligndiagnosis.cpp:523
 #, kde-format
@@ -8653,7 +8656,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:734
 #, kde-format
 msgid "Check why the mount stopped"
-msgstr "Comproveu perquè s'ha parat la muntura"
+msgstr "Comproveu per què s'ha parat la muntura"
 
 #: ekos/align/aligndiagnosis.cpp:735
 #, kde-format
@@ -8778,7 +8781,7 @@ msgstr "Feu una exposició de prova des del mòdul «Captura»."
 #: ekos/align/aligndiagnosis.cpp:800
 #, kde-format
 msgid "Check the remote solver"
-msgstr "Comprova el mòdul de resolució remot"
+msgstr "Comproveu el mòdul de resolució remot"
 
 #: ekos/align/aligndiagnosis.cpp:802
 #, kde-format
@@ -8805,25 +8808,25 @@ msgstr "El rotor s'ha girat en direcció oposada a l'angle de posició objectiu.
 #: ekos/align/aligndiagnosis.cpp:821
 #, kde-format
 msgid "The rotator did not reach the target position angle."
-msgstr "El rotador no ha arribat a l'angle de posició objectiu."
+msgstr "El rotor no ha arribat a l'angle de posició objectiu."
 
 #: ekos/align/aligndiagnosis.cpp:822
 #, kde-format
 msgid "Check the rotator"
-msgstr "Comprova el rotador"
+msgstr "Comproveu el rotor"
 
 #: ekos/align/aligndiagnosis.cpp:823
 #, kde-format
 msgid "Check that the rotator turns freely and its cables do not snag."
 msgstr ""
-"Comproveu que el rotador gire lliurement i que els seus cables no s'enredin."
+"Comproveu que el rotor gire lliurement i que els seus cables no s'enredin."
 
 #: ekos/align/aligndiagnosis.cpp:824
 #, kde-format
 msgid "Check the reverse direction setting of the rotator driver."
 msgstr ""
 "Comproveu la configuració de la inversió del sentit del controlador del "
-"rotador."
+"rotor."
 
 #: ekos/align/aligndiagnosis.cpp:825
 #, kde-format
@@ -8910,8 +8913,8 @@ msgstr "Executeu l'enfocament automàtic al mòdul «Enfocament» o enfoqueu a m
 msgid ""
 "The stars trailed %1 pixels, and the mount reports that it is not tracking."
 msgstr ""
-"Les estreles han deixat un traç de %1 píxels i la muntura informa que no fa "
-"el seguiment."
+"Les estreles han deixat una traça de %1 píxels i la muntura informa que no "
+"fa el seguiment."
 
 #: ekos/align/aligndiagnosis.cpp:993
 #, kde-format
@@ -8919,8 +8922,8 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
 "mount does not track."
 msgstr ""
-"Les estreles han deixat un traç de %1 píxels, que és el que es desvien en %2 "
-"segons quan la muntura no fa el seguiment."
+"Les estreles han deixat una traça de %1 píxels, la mateixa distància que es "
+"desvien en %2 segons quan la muntura no fa el seguiment."
 
 #: ekos/align/aligndiagnosis.cpp:1000 ekos/focus/focusdiagnosis.cpp:631
 #: ekos/guide/guidediagnosis.cpp:323
@@ -8934,15 +8937,16 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds without "
 "tracking, although the mount reports tracking."
 msgstr ""
-"Les estreles han deixat un traç de %1 píxels, el mateix que es desvien en %2 "
-"segons sense seguiment, tot i que la muntura informa que fa el seguiment."
+"Les estreles han deixat una traça de %1 píxels, la mateixa distància que es "
+"desvien en %2 segons sense seguiment, tot i que la muntura informa que fa el "
+"seguiment."
 
 #: ekos/align/aligndiagnosis.cpp:1004 ekos/focus/focusdiagnosis.cpp:632
 #: ekos/guide/guidediagnosis.cpp:324
 #, kde-format
 msgid "All stars trailed %1 pixels in the same direction."
 msgstr ""
-"Totes les estreles han deixat un traç de %1 píxels en la mateixa direcció."
+"Totes les estreles han deixat una traça de %1 píxels en la mateixa direcció."
 
 #: ekos/align/aligndiagnosis.cpp:1009
 #, kde-format
@@ -9004,7 +9008,7 @@ msgstr ""
 #: ekos/guide/guidediagnosis.cpp:339
 #, kde-format
 msgid "Check that no cable snags or pulls on the telescope."
-msgstr "Comproveu que cap cable s'apega ni estira el telescopi."
+msgstr "Comproveu que cap cable s'enreda ni estira el telescopi."
 
 #: ekos/align/aligndiagnosis.cpp:1028
 #, kde-format
@@ -9020,7 +9024,7 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:1061
 #, kde-format
 msgid "The mount reports tracking."
-msgstr "La muntura no informa que fa el seguiment."
+msgstr "La muntura informa que fa el seguiment."
 
 # skip-rule: punctuation-period-no
 #: ekos/align/aligndiagnosis.cpp:1073
@@ -9128,15 +9132,16 @@ msgstr "No s'ha trobat cap problema a la configuració d'«Alinea»."
 #, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "%1 aspecte a comprovar"
-msgstr[1] "%1 aspecte a comprovar"
+msgstr[0] "%1 aspecte per a comprovar"
+msgstr[1] "%1 aspectes per a comprovar"
 
 #: ekos/align/aligndiagnosis.cpp:1342 ekos/focus/focusdiagnosis.cpp:1232
 #: ekos/guide/guidediagnosis.cpp:823
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
 msgstr ""
-"Comenceu pel primer suggeriment, és el més probable que siga rellevant."
+"Comenceu pel primer suggeriment, ja que és el que té més és el més "
+"probabilitats de ser rellevant."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -9333,7 +9338,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:1204
 #, kde-format
 msgid "Pointing Model Report Only?"
-msgstr "Voleu que s'informe només del model d'apuntador?"
+msgstr "Voleu només un informe del model d'apuntament?"
 
 #: ekos/align/mountmodel.cpp:1222
 #, kde-format
@@ -9375,12 +9380,12 @@ msgid ""
 "by Ekos. If this is not the case, then this tool is not suitable for your "
 "mount.</p>"
 msgstr ""
-"<p>Esta eina pot ajudar a la muntura a construir un model d'apuntador millor "
-"movent la muntura cap a diferents punts del cel i resolent les imatges "
-"capturades. Açò pot augmentar la precisió dels GOTO. Per a qualificar, la "
-"muntura cal que siga capaç de millorar el seu model d'apuntador intern "
-"després de cada acció <b>Sincronitza</b> ordenada per Ekos. Si este no és el "
-"cas, aleshores esta eina no és adequada per a la vostra muntura.</p>"
+"<p>Esta eina pot ajudar la muntura a construir un model d'apuntament millor "
+"movent-la cap a diferents punts del cel i resolent les imatges capturades. "
+"Açò pot augmentar la precisió dels GOTO. Per a poder-la utilitzar, cal que "
+"la muntura siga capaç de millorar el seu model d'apuntament intern després "
+"de cada ordre <b>Sincronitza</b> enviada per Ekos. Si no és el cas, "
+"aleshores esta eina no és adequada per a la vostra muntura.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/mountmodel.ui:48
@@ -9419,9 +9424,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Trieu com triarà l'assistent els punts d'alineació.</"
 "p>\n"
-"<p>Tots els modes, excepte «Dec fixa» i «Quadrícula fixa», estenen els punts "
-"uniformement a través del cel utilitzant una distribució uniforme. Els modes "
-"diferixen amb què s'ajusta cada punt:</p>\n"
+"<p>Tots els modes, excepte «Dec fixa» i «Quadrícula fixa», distribuïxen els "
+"punts de manera homogènia pel cel emprant una distribució uniforme. Els "
+"modes diferixen en l'element al qual s'ajusta cada punt:</p>\n"
 "<ul>\n"
 "<li><b>Qualsevol estrela:</b> Ajusta amb l'estrela visible més propera.</"
 "li>\n"
@@ -9433,8 +9438,8 @@ msgstr ""
 "través del cel visible.</li>\n"
 "<li><b>Dec fixa:</b> Tots els punts compartixen la mateixa declinació "
 "(s'establix davall).</li>\n"
-"<li><b>Quadrícula fixa:</b> Els punts s'establixen en una quadrícula AR/Dec "
-"normal, espaiada uniformement en l'«AR» i la «Dec».</li>\n"
+"<li><b>Quadrícula fixa:</b> Els punts es disposen en una quadrícula AR/Dec "
+"normal, espaiada uniformement en «AR» i «Dec».</li>\n"
 "</ul>\n"
 "</body></html>"
 
@@ -9552,9 +9557,9 @@ msgid ""
 "points will be at the same DEC."
 msgstr ""
 "El nombre de punts que generarà l'assistent. Si este nombre és inferior a 5, "
-"els generarà amb la mateixa Dec. Després d'açò, es distribuiran uniformement "
-"sobre l'AR i la Dec. Cal tindre en compte que si es tria una «Dec fixa», "
-"tots els punts seran a la mateixa Dec."
+"els generarà a la mateixa Dec. A partir de 5, es distribuiran uniformement "
+"en AR i Dec. Cal tindre en compte que, si es tria «Dec fixa», tots els punts "
+"estaran a la mateixa Dec."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
@@ -9587,9 +9592,9 @@ msgid ""
 "These are the common names for the named stars that are currently up at your "
 "location.  If you select a star, it will be added to the table below."
 msgstr ""
-"Estos són els noms comuns de les estreles anomenades que es veuen actualment "
-"en el vostre emplaçament. Si trieu una estrela, s'afegirà a la taula de "
-"davall."
+"Estos són els noms comuns de les estreles amb nom propi que són visibles "
+"actualment des del vostre emplaçament. Si trieu una estrela, s'afegirà a la "
+"taula de davall."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/align/mountmodel.ui:290
@@ -9623,10 +9628,10 @@ msgid ""
 "just clears the list of points so that if you run the mount model routine "
 "again, these points will not be included."
 msgstr ""
-"Neteja la taula sencera de punts d'alineació de davall. Cal tindre en compte "
+"Neteja tota la taula de punts d'alineació de davall. Cal tindre en compte "
 "que açò no afectarà la muntura de cap manera. No netejarà el model "
-"d'apuntador. Només neteja la llista de punts, així que si torneu a executar "
-"la rutina del model de la muntura, no s'inclouran estos punts."
+"d'apuntament. Només neteja la llista de punts, de manera que, si torneu a "
+"executar la rutina del model de la muntura, estos punts no s'hi inclouran."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
 #: ekos/align/mountmodel.ui:373
@@ -9639,8 +9644,8 @@ msgid ""
 msgstr ""
 "<p>Suprimix la fila seleccionada de la taula de punts d'alineació de davall. "
 "Cal tindre en compte que <b>no</b> ordena a la muntura que netege este punt "
-"del model, només vol dir que si executeu la rutina del model de la muntura, "
-"este punt no s'inclourà en la llista.</p>"
+"del model, sinó que només implica que, si executeu la rutina del model de la "
+"muntura, este punt no s'inclourà en la llista.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addAlignB)
 #: ekos/align/mountmodel.ui:395
@@ -9650,9 +9655,9 @@ msgid ""
 "and DE for a position you would like the telescope to slew to when doing the "
 "mount model routine."
 msgstr ""
-"Afig una fila buida a la llista d'alineació de manera que podreu afegir "
-"manualment una AR i una Dec per a una posició cap a la qual voldríeu apuntar-"
-"hi el telescopi en realitzar la rutina del model de la muntura."
+"Afig una fila buida a la llista d'alineació perquè pugueu afegir manualment "
+"una AR i una Dec d'una posició cap a la qual vulgueu apuntar el telescopi en "
+"executar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
 #: ekos/align/mountmodel.ui:417
@@ -9662,9 +9667,9 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
-"Obri el diàleg «Busca un objecte» per a seleccionar un objecte del que "
-"s'aconseguirà automàticament una AR i una Dec cap a les que voldríeu apuntar-"
-"hi el telescopi en realitzar la rutina del model de la muntura."
+"Obri el diàleg «Busca un objecte» per a seleccionar un objecte i obtindre'n "
+"automàticament l'AR i la Dec cap a les que vulgueu apuntar el telescopi en "
+"executar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:439
@@ -9691,15 +9696,15 @@ msgid ""
 "alignment points, you can drag the row up or down using the vertical header "
 "for that row on the left."
 msgstr ""
-"Esta és una taula de punts d'alineació que voldríeu que la rutina del model "
-"de la muntura utilitze per a alinear el telescopi. Si vos agradaria afegir o "
-"eliminar punts, podeu utilitzar els botons superiors. Si voleu executar, fer "
-"una pausa o parar la rutina del model de la muntura, podeu utilitzar els "
-"botons inferiors. Podeu editar una AR o una Dec d'un punt concret "
-"directament en les cel·les. Assegureu-vos només de seguir el format hh:mm:"
-"ss. El nom de l'objecte es proporciona per comoditat i no s'utilitza. Si "
-"voleu canviar l'ordre dels punts d'alineació, podeu arrossegar la fila amunt "
-"o avall emprant la capçalera vertical de l'esquerra d'esta fila."
+"Esta és una taula de punts d'alineació que voleu que la rutina del model de "
+"la muntura utilitze per a alinear el telescopi. Si voleu afegir o eliminar "
+"punts, podeu utilitzar els botons superiors. Si voleu executar, posar en "
+"pausa o parar la rutina del model de la muntura, podeu utilitzar els botons "
+"inferiors. Podeu editar l'AR o la Dec d'un punt concret directament a les "
+"cel·les. Assegureu-vos només de seguir el format hh:mm:ss. El nom de "
+"l'objecte només es proporciona per comoditat i no s'utilitza. Si voleu "
+"canviar l'ordre dels punts d'alineació, podeu arrossegar la fila amunt o "
+"avall mitjançant la capçalera vertical de l'esquerra d'esta fila."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:468
@@ -9753,10 +9758,11 @@ msgid ""
 "off.  If it was stopped or it had finished it will start the routine over "
 "again."
 msgstr ""
-"Inicia o fa pausa en la rutina del model de la muntura. Apuntarà i resoldrà "
-"l'astrometria a partir de la llista de punts de la taula anterior emprant la "
-"configuració al mòdul «Alinea». Si la rutina estava en pausa prèviament, es "
-"reprendrà a on estava. Si estava parada o havia acabat, es tornarà a iniciar."
+"Inicia o posa en pausa la rutina del model de la muntura. Apuntarà i "
+"resoldrà astromètricament la llista de punts de la taula anterior emprant la "
+"configuració del mòdul «Alinea». Si la rutina s'havia posat en pausa "
+"prèviament, es reprendrà on s'havia deixat. Si s'havia parat o havia acabat, "
+"tornarà a iniciar des del començament."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
 #: ekos/align/mountmodel.ui:612
@@ -9768,10 +9774,9 @@ msgid ""
 "it will start the routine over again with the first point.</p>"
 msgstr ""
 "<p>Para la rutina del model de la muntura. <b>No</b> netejarà cap punt del "
-"model d'apuntador del telescopi. Pararà la rutina i qualsevol punt que "
-"s'estiga resolent. Si executeu una altra vegada el model de la muntura "
-"després de prémer «Para», es tornarà a iniciar la captura pel primer punt.</"
-"p>"
+"model d'apuntament del telescopi. Pararà la rutina i qualsevol punt que "
+"s'estiga resolent. Si torneu a executar el model de la muntura després de "
+"prémer «Para», la rutina tornarà a començar pel primer punt.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: ekos/align/opsalign.ui:32
@@ -9830,7 +9835,7 @@ msgstr "SExtractor extern"
 #: ekos/align/opsalign.ui:86
 #, kde-format
 msgid "BuiltIn method for solver"
-msgstr "Mètode integrat per al mòdul de resolució"
+msgstr "Mètode integrat del mòdul de resolució"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:94
@@ -11825,7 +11830,7 @@ msgstr "Temps d'espera:"
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete"
 msgstr ""
-"Temps d'espera en segons fins per a completar el mòdul de resolució de "
+"Temps d'espera en segons perquè es complete el mòdul de resolució de "
 "l'astrometria."
 
 # skip-rule: punctuation-period-no
@@ -21177,7 +21182,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.ui:557
 #, kde-format
 msgid "Reverse Direction of Rotator"
-msgstr "Invertix el sentit del rotador"
+msgstr "Invertix el sentit del rotor"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
@@ -21206,7 +21211,7 @@ msgid ""
 "While the mount tracks, turn the rotator to keep the camera position angle "
 "constant."
 msgstr ""
-"Mentre la muntura fa el seguiment, gira el rotador per a mantindre constant "
+"Mentre la muntura fa el seguiment, gira el rotor per a mantindre constant "
 "l'angle de posició de la càmera."
 
 #. i18n: ectx: property (text), widget (QCheckBox, derotateField)
@@ -21222,8 +21227,7 @@ msgid ""
 "The rotator is corrected when the position angle drifts by more than this "
 "amount."
 msgstr ""
-"El rotador es corregix quan l'angle de posició es desvia més d'esta "
-"quantitat."
+"El rotor es corregix quan l'angle de posició es desvia més d'esta quantitat."
 
 # skip-rule: t-apo_fim
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, derotationThreshold)
@@ -24374,11 +24378,14 @@ msgid ""
 "Keep one of the two: set the driver backlash to 0 and keep AF Overscan, or "
 "set AF Overscan to 0 and keep the driver backlash."
 msgstr ""
+"Manteniu-ne només un: establiu la compensació de folgança del controlador a "
+"0 i manteniu l'«EA excessiu», o establiu-lo a 0 i manteniu la compensació de "
+"folgança del controlador."
 
 #: ekos/focus/focusdiagnosis.cpp:267
 #, kde-format
 msgid "Both are in the Focus mechanics settings."
-msgstr ""
+msgstr "Tots dos es troben a la configuració de la mecànica d'«Enfocament»."
 
 #: ekos/focus/focusdiagnosis.cpp:283 ekos/focus/focusdiagnosis.cpp:723
 #, kde-format
@@ -24391,6 +24398,9 @@ msgid ""
 "A run of %1 steps out with steps of %2 needs %3 steps of travel, but the "
 "maximum travel is %4: the run is cut short."
 msgstr ""
+"Una execució de %1 passos cap a fora amb passos de %2 necessita %3 passos de "
+"recorregut, però el recorregut màxim és de %4: l'execució s'interromp abans "
+"prompte."
 
 #: ekos/focus/focusdiagnosis.cpp:304
 #, kde-format
@@ -24405,7 +24415,7 @@ msgstr "Comproveu el cel i l'estabilitat atmosfèrica"
 #: ekos/focus/focusdiagnosis.cpp:314
 #, kde-format
 msgid "Check for clouds, haze or dew on the optics."
-msgstr ""
+msgstr "Comproveu si hi ha núvols, boirina o rosada a l'òptica."
 
 #: ekos/focus/focusdiagnosis.cpp:315
 #, kde-format
@@ -24417,6 +24427,8 @@ msgstr "Comproveu que el vent no sacse el telescopi."
 msgid ""
 "In poor seeing, use longer exposures so each measurement averages more of it."
 msgstr ""
+"Amb mala estabilitat atmosfèrica, utilitzeu exposicions més llargues perquè "
+"cada mesura en faça una mitjana més representativa."
 
 #: ekos/focus/focusdiagnosis.cpp:326
 #, kde-format
@@ -24439,16 +24451,20 @@ msgstr "L'enfocament automàtic no ha convergit"
 #, kde-format
 msgid "Autofocus stopped after too many steps without finding the focus."
 msgstr ""
+"L'enfocament automàtic s'ha parat després de fer massa passos sense trobar "
+"l'enfocament."
 
 #: ekos/focus/focusdiagnosis.cpp:334
 #, kde-format
 msgid "The focuser did not move"
-msgstr ""
+msgstr "L'enfocador no s'ha mogut"
 
 #: ekos/focus/focusdiagnosis.cpp:335
 #, kde-format
 msgid "Autofocus asked the focuser to move, but the move failed."
 msgstr ""
+"L'enfocament automàtic ha demanat a l'enfocador que es moga, però el "
+"moviment ha fallat."
 
 # skip-rule: punctuation-period-no
 #: ekos/focus/focusdiagnosis.cpp:338
@@ -24459,17 +24475,18 @@ msgstr "La corba d'enfocament té un ajust deficient"
 #: ekos/focus/focusdiagnosis.cpp:339
 #, kde-format
 msgid "The measurements scatter too much around the fitted curve."
-msgstr ""
+msgstr "Les mesures presenten massa dispersió al voltant de la corba ajustada."
 
 #: ekos/focus/focusdiagnosis.cpp:342
 #, kde-format
 msgid "The star size barely changed"
-msgstr ""
+msgstr "La mida de l'estrela quasi no ha canviat"
 
 #: ekos/focus/focusdiagnosis.cpp:343
 #, kde-format
 msgid "The steps are too small to show a change in the star size."
 msgstr ""
+"Els passos són massa petits per a mostrar un canvi en la mida de l'estrela."
 
 #: ekos/focus/focusdiagnosis.cpp:346
 #, kde-format
@@ -24480,16 +24497,20 @@ msgstr "L'enfocador ha arribat al seu límit"
 #, kde-format
 msgid "Autofocus needed to move past the maximum travel or the focuser limits."
 msgstr ""
+"L'enfocament automàtic ha necessitat desplaçar-se més enllà del recorregut "
+"màxim o dels límits de l'enfocador."
 
 #: ekos/focus/focusdiagnosis.cpp:350
 #, kde-format
 msgid "The measurements fluctuate"
-msgstr ""
+msgstr "Les mesures fluctuen"
 
 #: ekos/focus/focusdiagnosis.cpp:351
 #, kde-format
 msgid "The star size went up and down too often to find a trend."
 msgstr ""
+"La mida de l'estrela ha pujat i baixat massa sovint per a trobar-hi una "
+"tendència."
 
 #: ekos/focus/focusdiagnosis.cpp:354
 #, kde-format
@@ -24512,16 +24533,17 @@ msgstr "La tolerància no és vàlida"
 #, kde-format
 msgid "The tolerance of the autofocus algorithm is out of range."
 msgstr ""
+"La tolerància de l'algorisme d'enfocament automàtic està fora d'interval."
 
 #: ekos/focus/focusdiagnosis.cpp:362
 #, kde-format
 msgid "No focus curve could be fitted"
-msgstr ""
+msgstr "No s'ha pogut ajustar cap corba d'enfocament"
 
 #: ekos/focus/focusdiagnosis.cpp:363
 #, kde-format
 msgid "The measurements do not form a focus curve."
-msgstr ""
+msgstr "Les mesures no formen una corba d'enfocament."
 
 #: ekos/focus/focusdiagnosis.cpp:366
 #, kde-format
@@ -24566,17 +24588,17 @@ msgstr "No hi ha cap enfocador disponible"
 #: ekos/focus/focusdiagnosis.cpp:387
 #, kde-format
 msgid "Focus has no connected focuser to move."
-msgstr ""
+msgstr "«Enfocament» no té cap enfocador connectat per a moure."
 
 #: ekos/focus/focusdiagnosis.cpp:390
 #, kde-format
 msgid "The step size is too small"
-msgstr ""
+msgstr "La mida del pas és massa xicoteta"
 
 #: ekos/focus/focusdiagnosis.cpp:391
 #, kde-format
 msgid "The focuser moves by time, and the step is too short to move it."
-msgstr ""
+msgstr "L'enfocador es mou per temps i el pas és massa curt per a moure'l."
 
 #: ekos/focus/focusdiagnosis.cpp:395
 #, kde-format
@@ -24588,7 +24610,7 @@ msgstr ""
 #: ekos/focus/focusdiagnosis.cpp:398
 #, kde-format
 msgid "Autofocus never reached focus"
-msgstr ""
+msgstr "L'enfocament automàtic no ha arribat mai a enfocar"
 
 #: ekos/focus/focusdiagnosis.cpp:400
 #, kde-format
@@ -24596,11 +24618,16 @@ msgid ""
 "The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 "
 "pixels of your recent good autofocus runs, and the run had no V."
 msgstr ""
+"Les estreles més xicotetes de l'execució tenien un HFR de %1 píxels, %2 "
+"vegades els %3 píxels de les execucions bones recents d'enfocament "
+"automàtic, i l'execució no ha dibuixat cap V."
 
 #: ekos/focus/focusdiagnosis.cpp:405
 #, kde-format
 msgid "The stars stayed far larger than in focus, and the run had no V."
 msgstr ""
+"Les estreles s'han mantingut molt més grans que quan estan enfocades i "
+"l'execució no ha dibuixat cap V."
 
 #: ekos/focus/focusdiagnosis.cpp:408
 #, kde-format
@@ -24615,7 +24642,7 @@ msgstr "Detall"
 #: ekos/focus/focusdiagnosis.cpp:449
 #, kde-format
 msgid "Last HFR"
-msgstr ""
+msgstr "Últim HFR"
 
 #: ekos/focus/focusdiagnosis.cpp:457
 #, kde-format
@@ -24640,7 +24667,7 @@ msgstr "Enfocat"
 #: ekos/focus/focusdiagnosis.cpp:470
 #, kde-format
 msgid "Larger than in focus"
-msgstr ""
+msgstr "Més grans que quan estan enfocades"
 
 #: ekos/focus/focusdiagnosis.cpp:472
 #, kde-format
@@ -24670,7 +24697,7 @@ msgstr "L'enfocador %1 ha deixat de respondre."
 #: ekos/focus/focusdiagnosis.cpp:505
 #, kde-format
 msgid "The focuser %1 did not move as asked."
-msgstr ""
+msgstr "L'enfocador %1 no s'ha mogut tal com se li ha demanat."
 
 #: ekos/focus/focusdiagnosis.cpp:506
 #, kde-format
@@ -24678,6 +24705,8 @@ msgid ""
 "Move the focuser in and out with the buttons of the Focus module, and check "
 "that its position changes."
 msgstr ""
+"Moveu l'enfocador cap a dins i cap a fora amb els botons del mòdul "
+"«Enfocament» i comproveu que la seua posició canvie."
 
 #: ekos/focus/focusdiagnosis.cpp:507
 #, kde-format
@@ -24685,6 +24714,8 @@ msgid ""
 "Check the focuser cable and power. A USB port or hub that cannot supply "
 "enough power stalls the motor."
 msgstr ""
+"Comproveu el cable i l'alimentació de l'enfocador. Un port o concentrador "
+"USB que no puga subministrar prou energia encalla el motor."
 
 #: ekos/focus/focusdiagnosis.cpp:508
 #, kde-format
@@ -24696,7 +24727,7 @@ msgstr ""
 #: ekos/focus/focusdiagnosis.cpp:509
 #, kde-format
 msgid "Restart the focuser driver if it still does not move."
-msgstr ""
+msgstr "Reinicieu el controlador de l'enfocador si encara no es mou."
 
 #: ekos/focus/focusdiagnosis.cpp:521
 #, kde-format
@@ -24716,6 +24747,8 @@ msgstr ""
 #, kde-format
 msgid "Check that the filter selected for focus exists in the filter wheel."
 msgstr ""
+"Comproveu que el filtre seleccionat per a l'enfocament existisca a la roda "
+"de filtres."
 
 #: ekos/focus/focusdiagnosis.cpp:586
 #, kde-format
@@ -24770,6 +24803,8 @@ msgstr "Activeu la «Reducció de dònuts»"
 #, kde-format
 msgid "Donut Buster measures defocused stars that look like rings."
 msgstr ""
+"La «Reducció de dònuts» mesura les estreles desenfocades que tenen forma "
+"d'anell."
 
 #: ekos/focus/focusdiagnosis.cpp:668
 #, kde-format
@@ -24787,11 +24822,13 @@ msgid ""
 "Check that the focuser is not far from focus: stars far from focus are too "
 "faint to detect."
 msgstr ""
+"Comproveu que l'enfocador no estiga gaire lluny de l'enfocament: les "
+"estreles molt desenfocades són massa febles per a detectar-les."
 
 #: ekos/focus/focusdiagnosis.cpp:706
 #, kde-format
 msgid "Check the focuser for slip and backlash"
-msgstr ""
+msgstr "Comproveu si l'enfocador patina o té folgança"
 
 #: ekos/focus/focusdiagnosis.cpp:707
 #, kde-format
@@ -24799,6 +24836,8 @@ msgid ""
 "A focuser that slips under the weight of the camera, or has backlash, does "
 "not reach the positions autofocus asks for."
 msgstr ""
+"Un enfocador que patina davall el pes de la càmera, o que té folgança, no "
+"arriba fins a les posicions que demana l'enfocament automàtic."
 
 #: ekos/focus/focusdiagnosis.cpp:708
 #, kde-format
@@ -24806,6 +24845,8 @@ msgid ""
 "Tighten the focuser tension or lock screw, so it holds the weight of the "
 "camera."
 msgstr ""
+"Premeu el cargol de tensió o de bloqueig de l'enfocador perquè aguanti el "
+"pes de la càmera."
 
 #: ekos/focus/focusdiagnosis.cpp:709
 #, kde-format
@@ -24813,6 +24854,9 @@ msgid ""
 "Measure the backlash and set it in the focuser driver or the Focus mechanics "
 "settings. Focus Advisor finds a value."
 msgstr ""
+"Mesureu la folgança i establiu-la al controlador de l'enfocador o a la "
+"configuració de la mecànica d'«Enfocament». L'«Assessor d'enfocament» en "
+"troba un valor."
 
 #: ekos/focus/focusdiagnosis.cpp:710
 #, kde-format
@@ -24825,37 +24869,50 @@ msgstr ""
 msgid ""
 "Autofocus may move at most %1 steps, and the focuser can move from %2 to %3."
 msgstr ""
+"L'enfocament automàtic es pot moure com a màxim %1 passos, i l'enfocador es "
+"pot moure de %2 a %3."
 
 #: ekos/focus/focusdiagnosis.cpp:732
 #, kde-format
 msgid "Autofocus started at %1 and needed to move past the limit."
 msgstr ""
+"L'enfocament automàtic ha començat a %1 i ha necessitat desplaçar-se més "
+"enllà del límit."
 
 #: ekos/focus/focusdiagnosis.cpp:739
 #, kde-format
 msgid "Autofocus took too many steps: it likely started far from focus."
 msgstr ""
+"L'enfocament automàtic ha fet massa passos: probablement ha començat lluny "
+"de l'enfocament."
 
 #: ekos/focus/focusdiagnosis.cpp:747
 #, kde-format
 msgid "Steps of %1 do not change the star size enough to measure."
 msgstr ""
+"Els passos de %1 no canvien prou la mida de l'estrela per a poder-la mesurar."
 
 #: ekos/focus/focusdiagnosis.cpp:759
 #, kde-format
 msgid ""
 "Larger steps change the star size more than the noise of the measurements."
 msgstr ""
+"Els passos més grans canvien la mida de l'estrela més que el soroll de les "
+"mesures."
 
 #: ekos/focus/focusdiagnosis.cpp:762 ekos/focus/focusdiagnosis.cpp:770
 #, kde-format
 msgid "A longer exposure averages the seeing and gives steadier measurements."
 msgstr ""
+"Una exposició més llarga fa la mitjana de l'estabilitat atmosfèrica i dona "
+"mesures més estables."
 
 #: ekos/focus/focusdiagnosis.cpp:763 ekos/focus/focusdiagnosis.cpp:767
 #, kde-format
 msgid "Clouds, poor seeing or wind make the measurements scatter."
 msgstr ""
+"Els núvols, la mala estabilitat atmosfèrica o el vent fan que les mesures es "
+"dispersen."
 
 #: ekos/focus/focusdiagnosis.cpp:806
 #, kde-format
@@ -24863,6 +24920,8 @@ msgid ""
 "The stars got smaller toward %1, the lowest position measured: focus lies "
 "below it."
 msgstr ""
+"Les estreles s'han fet més xicotetes cap a %1, la posició més baixa "
+"mesurada: l'enfocament es troba per davall."
 
 #: ekos/focus/focusdiagnosis.cpp:808
 #, kde-format
@@ -24870,11 +24929,15 @@ msgid ""
 "The stars got smaller toward %1, the highest position measured: focus lies "
 "above it."
 msgstr ""
+"Les estreles s'han fet més xicotetes cap a %1, la posició més alta mesurada: "
+"l'enfocament es troba per damunt."
 
 #: ekos/focus/focusdiagnosis.cpp:811
 #, kde-format
 msgid "The run stayed too far from focus to tell which way focus lies."
 msgstr ""
+"L'execució s'ha mantingut massa lluny de l'enfocament per a saber en quina "
+"direcció es troba."
 
 #: ekos/focus/focusdiagnosis.cpp:816
 #, kde-format
@@ -24882,6 +24945,8 @@ msgid ""
 "Steps of %1 barely change the star size this far from focus: larger steps "
 "reach focus sooner."
 msgstr ""
+"Els passos de %1 quasi no canvien la mida de l'estrela tan lluny de "
+"l'enfocament: els passos més grans arriben abans a l'enfocament."
 
 #: ekos/focus/focusdiagnosis.cpp:829
 #, kde-format
@@ -24905,6 +24970,8 @@ msgid ""
 "Check that the focus frame shows stars, and that they get smaller and larger "
 "as the focuser moves."
 msgstr ""
+"Comproveu que el fotograma d'enfocament mostre estreles i que es facen més "
+"xicotetes i més grans a mesura que es mou l'enfocador."
 
 #: ekos/focus/focusdiagnosis.cpp:1172
 #, kde-format
@@ -27434,7 +27501,7 @@ msgstr "El calibratge no ha acabat en un màxim de %1 segons."
 #: ekos/guide/externalguide/phd2.cpp:137
 #, kde-format
 msgid "PHD2 did not answer the dither."
-msgstr ""
+msgstr "PHD2 no ha respost al microdesplaçament."
 
 #: ekos/guide/externalguide/phd2.cpp:143
 #, kde-format
@@ -27680,7 +27747,7 @@ msgstr "PHD2: L'escala de píxels és de %1 segons d'arc per píxel"
 #: ekos/guide/externalguide/phd2.cpp:1089
 #, kde-format
 msgid "PHD2 refused the dither command."
-msgstr ""
+msgstr "PHD2 ha rebutjat l'ordre de microdesplaçament."
 
 #: ekos/guide/externalguide/phd2.cpp:1110
 #, kde-format
@@ -28726,7 +28793,7 @@ msgstr ""
 #, kde-format
 msgid "Check that no cable drags or snags as the mount moves."
 msgstr ""
-"Comproveu que cap cable no arrossegui ni s'apegue mentre es mou la muntura."
+"Comproveu que cap cable no arrossegui ni s'enredi mentre es mou la muntura."
 
 #: ekos/guide/guidediagnosis.cpp:81
 #, kde-format
@@ -29225,7 +29292,7 @@ msgstr ""
 #: ekos/guide/guidediagnosis.cpp:499
 #, kde-format
 msgid "Check that no cable snags as the mount tracks."
-msgstr "Comproveu que cap cable no s'apegue mentre la muntura fa el seguiment."
+msgstr "Comproveu que cap cable no s'enredi mentre la muntura fa el seguiment."
 
 #: ekos/guide/guidediagnosis.cpp:500
 #, kde-format
@@ -51518,8 +51585,8 @@ msgid ""
 "On an Alt-Az mount, turn the rotator while the mount tracks to keep the "
 "camera position angle constant."
 msgstr ""
-"En una muntura altazimutal, gira el rotador mentre la muntura fa el "
-"seguiment per a mantindre constant l'angle de posició de la càmera."
+"En una muntura altazimutal, gira el rotor mentre la muntura fa el seguiment "
+"per a mantindre constant l'angle de posició de la càmera."
 
 #. i18n: ectx: whatsthis, entry (RotatorDerotationThreshold), group (Align)
 #: kstars.kcfg:2965

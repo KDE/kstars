@@ -7128,7 +7128,7 @@ msgstr "Annulation de la résolution."
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
-"La monture a terminé sa rotation à proximité du pôle céleste. Relancer "
+"La monture a terminé son pointage à proximité du pôle céleste. Relancer "
 "l'acquisition pour vérifier."
 
 #: ekos/align/align_goto.cpp:201
@@ -7249,10 +7249,9 @@ msgstr ""
 "Délai d'attente du rotateur dépassé après %1 s. Abandon de l'alignement."
 
 #: ekos/align/align_goto.cpp:805
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Slewing failed: the mount stopped without tracking."
-msgstr "Avertissement : la monture n'est pas parquée, désactivation du suivi."
+msgstr "Échec du pointage : la monture s'est arrêtée sans suivi."
 
 #: ekos/align/align_goto.cpp:806 ekos/align/align_solver.cpp:64
 #: ekos/align/align_solver.cpp:98 ekos/align/align_solver.cpp:1248
@@ -8353,20 +8352,18 @@ msgstr ""
 "la cible."
 
 #: ekos/align/aligndiagnosis.cpp:530
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount stopped without tracking"
-msgstr "La monture ne signale plus de suivi."
+msgstr "La monture s'est arrêtée sans suivi"
 
 #: ekos/align/aligndiagnosis.cpp:531
-#, fuzzy, kde-format
-#| msgid ""
-#| "The image was solved, but the mount did not accept the solved position."
+#, kde-format
 msgid ""
 "The image was solved, but the mount stopped after the slew and did not start "
 "tracking."
 msgstr ""
-"L'image a été résolue, mais la monture n'a pas accepté la position trouvée."
+"L'image a été résolue, mais la monture s'est arrêtée après le pointage sans "
+"démarrer le suivi."
 
 #: ekos/align/aligndiagnosis.cpp:535
 #, kde-format
@@ -8585,16 +8582,14 @@ msgstr ""
 "plutôt « Pointer vers la cible » ou « Rien »."
 
 #: ekos/align/aligndiagnosis.cpp:734
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check why the mount stopped"
-msgstr "Vérifier la monture"
+msgstr "Vérifier pourquoi la monture s'est arrêtée"
 
 #: ekos/align/aligndiagnosis.cpp:735
-#, fuzzy, kde-format
-#| msgid "The mount reported an error while slewing."
+#, kde-format
 msgid "The mount stopped after the slew and did not track."
-msgstr "La monture a signalé une erreur lors du pointage."
+msgstr "La monture s'est arrêtée après le pointage et n'a pas suivi."
 
 #: ekos/align/aligndiagnosis.cpp:736
 #, kde-format
@@ -8602,24 +8597,22 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"Recherchez une erreur de limite dans le pilote de la monture ou la raquette, "
+"par exemple la limite du méridien."
 
 #: ekos/align/aligndiagnosis.cpp:737
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: the mount is not parked, switching tracking off before "
-#| "disconnecting."
+#, kde-format
 msgid ""
 "Switch tracking on: some mounts end a slew without tracking when tracking "
 "was off before it."
 msgstr ""
-"Avertissement : la monture n'est pas parquée, désactivation du suivi avant "
-"la déconnexion."
+"Activez le suivi : certaines montures terminent un pointage sans suivi si le "
+"suivi était désactivé avant."
 
 #: ekos/align/aligndiagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "Check that the dust cap or cover is open."
+#, kde-format
 msgid "Check that the slew was not stopped by hand."
-msgstr "Vérifiez que le capuchon antipoussière ou le couvercle est ouvert."
+msgstr "Vérifiez que le pointage n'a pas été arrêté manuellement."
 
 #: ekos/align/aligndiagnosis.cpp:746
 #, kde-format
@@ -9591,7 +9584,7 @@ msgid ""
 msgstr ""
 "Ajouter une ligne vide dans la liste des alignements, afin que vous puissiez "
 "ajouter manuellement des paramètres AD et DEC pour une position vers "
-"laquelle vous voudriez que le télescope se déplace durant la procédure de "
+"laquelle vous voudriez pointer le télescope durant la procédure de "
 "modélisation de la monture."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
@@ -9602,10 +9595,9 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
-"Ouvrir la boîte de dialogue Trouver un objet afin que vous puissiez trouver "
-"un objet et trouver automatiquement les paramètres AD et DEC. Ainsi, vous "
-"allez pouvoir faire tourner le télescope durant la procédure de modélisation "
-"de la monture."
+"Ouvrir la boîte de dialogue Trouver un objet afin de choisir un objet dont "
+"les coordonnées AD et DEC, obtenues automatiquement, serviront de position "
+"de pointage du télescope durant la procédure de modélisation de la monture."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:439
@@ -9948,9 +9940,9 @@ msgid ""
 "considered successful.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Le seuil de rotation en minutes d'arc lors de "
-"l'utilisation de Charger &amp; Pointer. Si la différence entre l'angle "
+"l'utilisation de [Charger &amp; Pointer]. Si la différence entre l'angle "
 "mesuré de la position et l'angle de la position FITS est sous ce seuil, "
-"alors l'opération [Charger et Pointer] est considérée comme réussie.</p></"
+"alors l'opération [Charger &amp; Pointer] est considérée comme réussie.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -10143,16 +10135,13 @@ msgstr "Délai de correction"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_PAHCorrectionTimeout)
 #: ekos/align/opsalign.ui:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timeout in seconds for automatic polar alignment correction. If the "
-#| "system cannot reach the desired threshold within this period, it aborts."
+#, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction. Time the "
 "corrector spends moving is not counted."
 msgstr ""
-"Délai en secondes pour la correction automatique de l'alignement polaire. Si "
-"le système ne peut pas atteindre le seuil souhaité dans ce délai, il échoue."
+"Délai en secondes pour la correction automatique de l'alignement polaire. Le "
+"temps de déplacement du correcteur n'est pas compté."
 
 #. i18n: ectx: property (text), widget (QLabel, labelCorrectionTimeoutUnit)
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
@@ -10568,9 +10557,9 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies. This is useful on some mounts (e.g. Paramount)."
 msgstr ""
-"Ne pas utiliser la synchronisation quand Charger && Pointer est sélectionné. "
-"Veuillez utiliser la correction d'orientation pour traiter les écarts. Cela "
-"est utile pour certaines montures (par exemple, Paramount)."
+"Ne pas utiliser la synchronisation quand « Pointer vers la cible » est "
+"sélectionné. Utiliser le pointage différentiel pour corriger les écarts. "
+"Cela est utile pour certaines montures (par exemple, Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
@@ -12189,11 +12178,13 @@ msgstr ""
 #, kde-format
 msgid "PAC: Az error %1' is below %2', not correcting azimuth."
 msgstr ""
+"PAC : erreur en Az %1' inférieure à %2', pas de correction de l'azimut."
 
 #: ekos/align/polaralignmentassistant.cpp:1581
 #, kde-format
 msgid "PAC: Alt error %1' is below %2', not correcting altitude."
 msgstr ""
+"PAC : erreur en Alt %1' inférieure à %2', pas de correction de l'altitude."
 
 #: ekos/align/polaralignmentassistant.cpp:1596
 #, kde-format
@@ -12287,7 +12278,7 @@ msgstr "Vitesse"
 #: ekos/align/polaralignmentassistant.ui:162
 #, kde-format
 msgid "Mount slew speed"
-msgstr "Vitesse de rotation de la monture"
+msgstr "Vitesse de pointage de la monture"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
@@ -12551,7 +12542,7 @@ msgstr "Résoudre"
 #: kstarslite/qml/modules/menus/ContextMenu.qml:130
 #, kde-format, kde-kuit-format
 msgid "Slew"
-msgstr "Rotation"
+msgstr "Pointer"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
 #: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:423
@@ -19237,10 +19228,9 @@ msgid "Limit: %1 mins"
 msgstr "Limite : %1 min"
 
 #: ekos/capture/camerastate.cpp:946
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Changing filter to %1 before focusing..."
-msgstr "Changement de filtre en cours pour %1…"
+msgstr "Changement de filtre pour %1 avant la mise au point…"
 
 #: ekos/capture/camerastate.cpp:1023
 #, kde-format
@@ -20886,7 +20876,7 @@ msgstr ""
 "CdV) par rapport à la direction d'origine du rotateur. Le décalage de la "
 "caméra est déterminé automatiquement grâce à l'opération <span style=\" font-"
 "weight:700;\">Acquérir &amp; Résoudre</span> ou <span style=\" font-"
-"weight:700;\">Charger &amp; Pivoter</span> du module Alignement.</p><p>Le "
+"weight:700;\">Charger &amp; Pointer</span> du module Alignement.</p><p>Le "
 "décalage de la caméra est mesuré par l'angle de position du télescope (de "
 "-179,99° à 180,00°).</p></body></html>"
 
@@ -21164,7 +21154,7 @@ msgstr "Monture déparquée."
 #: ekos/capture/sequencejobstate.cpp:653
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
-msgstr "La monture tourne vers la position du mur (Az = %1 Alt = %2)"
+msgstr "La monture pointe vers la position du mur (Az = %1 Alt = %2)"
 
 #: ekos/capture/sequencejobstate.cpp:665
 #, kde-format
@@ -30042,8 +30032,8 @@ msgstr ""
 "<html><head/><body><p>Enregistrer les calibrations et tenter de les "
 "réutiliser. Cela ne fonctionne de part et d'autre du méridien que si le côté "
 "du pied peut être déterminé automatiquement à partir de votre monture. Pour "
-"que cela soit tenté, l'option «&nbsp;Réinitialiser le guidage lors d'un "
-"déplacement&nbsp;» ci-dessus doit être décochée.</p></body></html>"
+"que cela soit tenté, l'option «&nbsp;Réinitialiser la calibration du guide "
+"après chaque pointage&nbsp;» ci-dessus doit être décochée.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:411
@@ -31877,7 +31867,7 @@ msgstr "Le retournement au méridien est inactif (aucune cible définie)"
 #: ekos/manager/meridianflipstate.cpp:212
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
-msgstr "Le retournement au méridien est inactif (rotation au delà du méridien)"
+msgstr "Le retournement au méridien est inactif (pointage au-delà du méridien)"
 
 #: ekos/manager/meridianflipstate.cpp:228
 #, kde-format
@@ -32205,10 +32195,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Active ou désactive la limite de l'angle horaire de la "
 "monture. Une fois activé, Ekos surveille l'angle horaire de la monture "
-"pendant sa rotation ou son suivi. Si celui-ci tourne/suit au delà de la "
-"limite et que l'état courant du côté de la butée ne le permet pas, alors il "
-"recevra une commande d'arrêt et le suivi sera désactivé. Cela nécessite une "
-"monture fournissant correctement le côté de pied.</p></body></html>"
+"pendant le pointage ou le suivi. Si la monture pointe ou suit au-delà de la "
+"limite et que l'état courant du côté de la butée ne le permet pas, alors "
+"elle recevra une commande d'arrêt et le suivi sera désactivé. Cela nécessite "
+"une monture fournissant correctement le côté de pied.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:314
@@ -32233,8 +32223,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Active ou désactive les limites pour la plage de "
 "déplacement de la monture. Une fois activé, Ekos surveille l'altitude de la "
-"monture pendant la rotation ou le suivi. Si la monture tourne/fait un suivi "
-"en dessous ou au dessus des limites, elle recevra une commande d'arrêt et le "
+"monture pendant le pointage ou le suivi. Si la monture pointe ou suit en "
+"dessous ou au-dessus des limites, elle recevra une commande d'arrêt et le "
 "suivi sera arrêté.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
@@ -34803,8 +34793,7 @@ msgstr "M 31"
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr ""
-"Faire tourner vers la cible et la suivre avant de démarrer la prochaine "
-"étape."
+"Pointer vers la cible et la suivre avant de démarrer la prochaine étape."
 
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTrackStep)
@@ -35767,7 +35756,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:2436
 #, kde-format
 msgid "Slew complete"
-msgstr "Rotation terminée"
+msgstr "Pointage terminé"
 
 #: ekos/scheduler/scheduler.cpp:2440
 #, kde-format
@@ -35865,8 +35854,8 @@ msgstr ""
 #, kde-format
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr ""
-"Faire tourner vers la cible et la suivre. Exécuté au début de chaque tâche "
-"de l'ordonnanceur."
+"Pointer vers la cible et la suivre. Exécuté au début de chaque tâche de "
+"l'ordonnanceur."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAlignStep)
 #: ekos/scheduler/scheduler.ui:237
@@ -36754,7 +36743,7 @@ msgstr ""
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr ""
 "La monture est en position de stationnement ; ajout d'une tâche de "
-"déstationnement avant le déplacement."
+"déstationnement avant le pointage."
 
 #: ekos/scheduler/schedulerprocess.cpp:1018
 #, kde-format
@@ -36767,7 +36756,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1056
 #, kde-format
 msgid "Job '%1' is slewing to target."
-msgstr "La tâche %1 effectue la rotation vers la cible"
+msgstr "La tâche %1 pointe vers la cible."
 
 #: ekos/scheduler/schedulerprocess.cpp:1137
 #, kde-format
@@ -37463,29 +37452,28 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4322
 #, kde-format
 msgid "Job '%1' slew is complete."
-msgstr "La tâche de rotation %1 est terminée."
+msgstr "Pointage de la tâche %1 terminé."
 
 #: ekos/scheduler/schedulerprocess.cpp:4329
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
-"Avertissement : la tâche de rotation %1 a échoué. Marquée annulée par suite "
+"Avertissement : échec du pointage de la tâche %1. Marquée annulée par suite "
 "d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:4340
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' slew failed, marking terminated due to errors."
+#, kde-format
 msgid ""
 "Warning: job '%1' is still not slewing after several restarts, marking "
 "terminated due to errors."
 msgstr ""
-"Avertissement : la tâche de rotation %1 a échoué. Marquée annulée par suite "
-"d'erreurs."
+"Avertissement : la tâche %1 ne pointe toujours pas après plusieurs "
+"redémarrages. Marquée annulée par suite d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:4346
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
-msgstr "Avertissement : la tâche %1 n'a pas effectué de rotation. Redémarrage."
+msgstr "Avertissement : la tâche %1 ne pointe pas. Redémarrage."
 
 #: ekos/scheduler/schedulerprocess.cpp:4359
 #, kde-format
@@ -37556,18 +37544,17 @@ msgid "Manual shutdown procedure terminated due to errors."
 msgstr "La procédure manuelle d'arrêt s'est terminée par suite d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:4593
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Warning: job '%1': the mount didn't start tracking."
-msgstr "Avertissement : la tâche %1 n'a pas effectué de rotation. Redémarrage."
+msgstr "Avertissement : tâche %1 : la monture n'a pas démarré le suivi."
 
 #: ekos/scheduler/schedulerprocess.cpp:4610
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid ""
 "Job '%1': the mount reached the target without tracking, switching tracking "
 "on."
-msgstr "Avertissement : la monture n'est pas parquée, désactivation du suivi."
+msgstr ""
+"Tâche %1 : la monture a atteint la cible sans suivi, activation du suivi."
 
 #: ekos/scheduler/schedulerprocess.cpp:4744
 #, kde-format
@@ -39313,7 +39300,7 @@ msgstr "Appliquer"
 #: fitsviewer/fitslabel.cpp:399 tools/whatsinteresting/wiview.cpp:336
 #, kde-format
 msgid "Continue Slew"
-msgstr "Continuer la rotation"
+msgstr "Continuer le pointage"
 
 #: fitsviewer/fitslabel.cpp:484 fitsviewer/fitslabel.cpp:511
 #, kde-format
@@ -42111,8 +42098,8 @@ msgstr ""
 "weight:600;\">Auto WCS</span>: les données du système de coordonnées "
 "mondiales ne seront pas traitées. Le WCS fait correspondre les coordonnées "
 "du ciel aux coordonnées de l'image. Les lignes de la grille équatoriale, "
-"l'identification des objets et la rotation du télescope dans une image sont "
-"désactivées.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"l'identification des objets et le pointage du télescope depuis une image "
+"sont désactivées.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">3D Cube</span> : les images RVB ne seront pas "
 "traitées. Seules les images en niveaux de gris sont affichées.</li></ul></"
@@ -43485,7 +43472,7 @@ msgstr "En mouvement"
 #: indi/indimount.cpp:255
 #, kde-format
 msgid "Mount is slewing to target location"
-msgstr "La monture se déplace vers la position cible"
+msgstr "La monture pointe vers la position cible"
 
 #: indi/indimount.cpp:270
 #, kde-format
@@ -45129,7 +45116,7 @@ msgstr ""
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
-"Utiliser un planétarium externe pour contrôler les rotations et les "
+"Utiliser un planétarium externe pour contrôler les pointages et les "
 "synchronisations de la monture"
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
@@ -47317,7 +47304,7 @@ msgstr ""
 #: kstars.kcfg:1102
 #, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Rotation vers les objets sélectionnés sur la Carte du Ciel."
+msgstr "Centrer la carte du ciel sur les objets sélectionnés."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1106
@@ -51057,8 +51044,7 @@ msgstr "Utilisez le filtre actuel pour le mode d'alignement"
 #: kstars.kcfg:2945
 #, kde-format
 msgid "Use rotator when performing load and slew."
-msgstr ""
-"Utiliser le rotateur lors de la réalisation du chargement et du balayage."
+msgstr "Utiliser le rotateur lors de « Charger & Pointer »."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
 #: kstars.kcfg:2949
@@ -51067,8 +51053,8 @@ msgid ""
 "Threshold between measured and FITS position angles in arcminutes to "
 "consider the load and slew operation successful."
 msgstr ""
-"Seuil entre les angles de position mesurés et FITS en minutes d'arc pour "
-"considérer comme réussis le chargement et l'opération de déplacement."
+"Seuil entre les angles de position mesurés et FITS, en minutes d'arc, pour "
+"considérer l'opération « Charger & Pointer » comme réussie."
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2953
@@ -51137,8 +51123,8 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies."
 msgstr ""
-"Ne pas utiliser la synchronisation quand la rotation vers la destination est "
-"sélectionnée. Utilisez la rotation différentielle pour corriger les écarts."
+"Ne pas utiliser la synchronisation quand « Pointer vers la cible » est "
+"sélectionné. Utiliser le pointage différentiel pour corriger les écarts."
 
 #. i18n: ectx: label, entry (AlignAccuracyThreshold), group (Align)
 #: kstars.kcfg:2983
@@ -51156,8 +51142,8 @@ msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
 "starting the next capture."
 msgstr ""
-"Temps d'attente en millisecondes une fois que la rotation du télescope est "
-"terminée, avant le démarrage de la prochaine acquisition."
+"Temps d'attente en millisecondes après la fin du pointage du télescope, "
+"avant le démarrage de la prochaine acquisition."
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
 #: kstars.kcfg:2991
@@ -51449,17 +51435,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (PAHCorrectionTimeout), group (Align)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timeout in seconds for automatic polar alignment correction. If the "
-#| "system cannot reach the desired threshold within this period, it aborts."
+#, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction, not counting "
 "the time the corrector spends moving. If the system cannot reach the desired "
 "threshold within this period, it aborts."
 msgstr ""
-"Délai en secondes pour la correction automatique de l'alignement polaire. Si "
-"le système ne peut pas atteindre le seuil souhaité dans ce délai, il échoue."
+"Délai en secondes pour la correction automatique de l'alignement polaire, "
+"sans compter le temps de déplacement du correcteur. Si le système ne peut "
+"pas atteindre le seuil souhaité dans ce délai, il échoue."
 
 #. i18n: ectx: label, entry (GuideExposure), group (Guide)
 #: kstars.kcfg:3147
@@ -86290,12 +86274,10 @@ msgid "Intelsat"
 msgstr "Intelsat"
 
 #: kstars_i18n.cpp:5650
-#, fuzzy, kde-kuit-format
-#| msgctxt "Satellite group name"
-#| msgid "Iridium"
+#, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Iridium NEXT"
-msgstr "Iridium"
+msgstr "Iridium NEXT"
 
 #: kstars_i18n.cpp:5651
 #, kde-kuit-format
@@ -87740,7 +87722,7 @@ msgstr "(Dés)active le suivi du télescope"
 #: kstarsinit.cpp:709
 #, kde-format
 msgid "Slew telescope to the focused object"
-msgstr "Faire tourner le télescope vers l'objet visé"
+msgstr "Pointer le télescope vers l'objet visé"
 
 #: kstarsinit.cpp:713
 #, kde-format
@@ -87765,7 +87747,7 @@ msgstr "Déparquer le télescope"
 #: kstarsinit.cpp:732
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
-msgstr "Orienter le télescope vers la position du pointeur de souris"
+msgstr "Pointer le télescope vers la position du pointeur de souris"
 
 #: kstarsinit.cpp:735
 #, kde-format
@@ -88530,7 +88512,7 @@ msgstr "SE"
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
 #, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Taux de rotation"
+msgstr "Vitesse de pointage"
 
 #: kstarslite/qml/main.qml:430
 #, kde-kuit-format
@@ -89161,13 +89143,13 @@ msgstr "Interrompre le déplacement"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew"
-msgstr "Interrompre le pivotement"
+msgstr "Interrompre le pointage"
 
 #: libindi_strings.cpp:16
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Slew/Track"
-msgstr "Interrompre le pivotement / le suivi"
+msgstr "Interrompre le pointage / le suivi"
 
 #: libindi_strings.cpp:17
 #, kde-kuit-format
@@ -90769,7 +90751,7 @@ msgstr "Alarme principale"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max slew Rate"
-msgstr "Taux de pivotement max"
+msgstr "Vitesse de pointage max"
 
 #: libindi_strings.cpp:288
 #, kde-kuit-format
@@ -91705,31 +91687,31 @@ msgstr "Mise en veille"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Accuracy"
-msgstr "Précision du pivotement"
+msgstr "Précision du pointage"
 
 #: libindi_strings.cpp:444
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Rate"
-msgstr "Taux de rotation"
+msgstr "Vitesse de pointage"
 
 #: libindi_strings.cpp:445
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Target"
-msgstr "Tourner vers la cible"
+msgstr "Pointer vers la cible"
 
 #: libindi_strings.cpp:446
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew rate"
-msgstr "Taux de pivotement"
+msgstr "Vitesse de pointage"
 
 #: libindi_strings.cpp:447
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew"
-msgstr "Pivotement"
+msgstr "Pointer"
 
 #: libindi_strings.cpp:448
 #, kde-kuit-format
@@ -93262,7 +93244,7 @@ msgstr "Définir des notes d'observation pour l'objet"
 #, kde-format
 msgctxt "Move the telescope to an object or location"
 msgid "Slew Telescope"
-msgstr "Faire pivoter le télescope"
+msgstr "Pointer le télescope"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_3)
 #: oal/execute.ui:278
@@ -96709,9 +96691,7 @@ msgid "Satellite Orbital Elements Update"
 msgstr "Mise à jour des éléments orbitaux des satellites"
 
 #: skycomponents/satellitescomponent.cpp:179
-#, fuzzy, kde-format
-#| msgctxt "name of the failed task, then its error message"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "satellite group name: error message"
 msgid "%1: %2"
 msgstr "%1 : %2"
@@ -96722,6 +96702,9 @@ msgid ""
 "Failed to update the orbital elements of the following satellite groups:\n"
 "%1"
 msgstr ""
+"Échec de la mise à jour des éléments orbitaux des groupes de satellites "
+"suivants :\n"
+"%1"
 
 #: skycomponents/skymapcomposite.cpp:127
 #, kde-format
@@ -96993,7 +96976,7 @@ msgstr "Erreur inconnue"
 #: skyobjects/satellitegroup.cpp:91
 #, kde-format
 msgid "The server did not return any orbital elements."
-msgstr ""
+msgstr "Le serveur n'a renvoyé aucun élément orbital."
 
 #: skyobjects/skyobject.cpp:343 skyobjects/skyobject.cpp:395
 #, kde-format
@@ -99661,7 +99644,7 @@ msgstr "Enregistrer les modifications"
 #: tools/flagmanager.ui:213
 #, kde-format
 msgid "Slew to the flag coordinates"
-msgstr "Orienter le télescope vers les coordonnées cibles"
+msgstr "Pointer le télescope vers les coordonnées du drapeau"
 
 #: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, kde-format
@@ -100858,8 +100841,8 @@ msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Rotation vers les objets sélectionnés sur la Carte du "
-"Ciel.</p></body></html>"
+"<html><head/><body><p>Centrer la carte du ciel sur les objets sélectionnés.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
@@ -104032,12 +104015,14 @@ msgstr "jour(s)"
 #: tools/starhopper.cpp:104
 #, kde-format
 msgid " Slew %1 degrees %2 to find an %3 star of mag %4 "
-msgstr "Tourner de %1 degrés %2 pour trouver une étoile %3 de magnitude %4"
+msgstr ""
+"Décaler le pointage de %1 degrés %2 pour trouver une étoile %3 de magnitude "
+"%4"
 
 #: tools/starhopper.cpp:110
 #, kde-format
 msgid " Slew %1 degrees %2 to find a(n) %3"
-msgstr "Tourner de %1 degrés %2 pour trouver un %3"
+msgstr "Décaler le pointage de %1 degrés %2 pour trouver un %3"
 
 #: tools/starhopper.cpp:297
 #, kde-format

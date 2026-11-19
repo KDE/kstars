@@ -22426,8 +22426,7 @@ msgid "Autofocus failed"
 msgstr "Autofocus"
 
 #: ekos/focus/focusdiagnosis.cpp:436 ekos/guide/guidediagnosis.cpp:264
-#, fuzzy, kde-format
-#| msgid "Details"
+#, kde-format
 msgid "Detail"
 msgstr "Podrobnosti"
 
@@ -22437,10 +22436,9 @@ msgid "Last HFR"
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:457
-#, fuzzy, kde-format
-#| msgid "Algorithm:"
+#, kde-format
 msgid "Algorithm"
-msgstr "Algoritmus:"
+msgstr "Algoritmus"
 
 #: ekos/focus/focusdiagnosis.cpp:458
 #, kde-format
@@ -26298,10 +26296,9 @@ msgid "Star moved"
 msgstr "Název hvězdy"
 
 #: ekos/guide/guidediagnosis.cpp:269
-#, fuzzy, kde-format
-#| msgid "Pulse:"
+#, kde-format
 msgid "Pulse"
-msgstr "Pulz:"
+msgstr "Pulz"
 
 #: ekos/guide/guidediagnosis.cpp:285
 #, fuzzy, kde-format
