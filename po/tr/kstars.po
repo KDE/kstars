@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-18 19:29+0300\n"
+"PO-Revision-Date: 2026-11-19 18:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7861,21 +7861,23 @@ msgstr "KStars saatini denetle"
 #, kde-format
 msgid "The KStars time differs from your device by %1 seconds."
 msgstr ""
+"KStars zamanı, aygıtınızın zamanından %1 saniye kadar farklı görünüyor."
 
 #: ekos/align/aligndiagnosis.cpp:353
 #, kde-format
 msgid "The KStars time differs from this computer by %1 seconds."
-msgstr ""
+msgstr "KStars zamanı, bu bilgisayarın zamanından %1 saniye kadar farklı."
 
 #: ekos/align/aligndiagnosis.cpp:355
 #, kde-format
 msgid "Check the date, time and time zone of the computer that runs KStars."
 msgstr ""
+"KStars’ın üzerinde çalıştığı bilgisayarın tarihini ve zamanını denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:356
 #, kde-format
 msgid "Check the location and time zone set in KStars."
-msgstr ""
+msgstr "KStars’da ayarlı konumu ve zaman dilimini denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:360
 #, kde-format
@@ -7883,33 +7885,33 @@ msgid ""
 "KStars takes its time from %1. Check the clock of that device, or set the "
 "time source to KStars in the INDI settings."
 msgstr ""
+"KStars, zamanını %1 aygıtından alır. Bu aygıtın saatini denetleyin veya INDI "
+"ayarlarında KStars zamanının kaynağını ayarlayın."
 
 #: ekos/align/aligndiagnosis.cpp:371
 #, kde-format
 msgid "Mount clock: the mount does not report its time."
-msgstr ""
+msgstr "Kaide saati: Kaide, kendi zamanını bildirmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:380
 #, kde-format
 msgid "The mount clock matches this computer."
-msgstr ""
+msgstr "Kaide saati, bu bilgisayar ile uyuşuyor."
 
 #: ekos/align/aligndiagnosis.cpp:386
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Send the KStars time to the mount"
-msgstr "Ögenin boyutunu ayarla"
+msgstr "KStars zamanını kaideye gönder"
 
 #: ekos/align/aligndiagnosis.cpp:387
 #, kde-format
 msgid "The mount clock was %1 seconds off when it last reported its time."
-msgstr ""
+msgstr "Kaide saati, zamanını son bildirdiğinden beri %1 saniye kaymış."
 
 #: ekos/align/aligndiagnosis.cpp:397
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Ögenin boyutunu ayarla"
+msgstr "KStars’ın kaide zamanını tutmasına izin ver"
 
 #: ekos/align/aligndiagnosis.cpp:398
 #, kde-format
@@ -7917,6 +7919,8 @@ msgid ""
 "The mount clock was %1 seconds off when it last reported its time, and "
 "KStars does not send its time to the mount."
 msgstr ""
+"Kaide saati, zamanını son bildirdiğinden beri %1 saniye kaymış ve KStars "
+"kendi zamanını kaideye göndermiyor."
 
 #: ekos/align/aligndiagnosis.cpp:409
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-17 14:58+0200\n"
+"PO-Revision-Date: 2026-11-19 19:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7432,12 +7432,11 @@ msgstr ""
 "Повторюємо спробу за %1 секунд…"
 
 #: ekos/align/align_solver.cpp:212
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is still busy after %1 minute, continuing."
-#| msgid_plural ""
-#| "Warning: the mount is still busy after %1 minutes, continuing."
+#, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr "Попередження: лафет все ще зайнято за %1 хвилину, продовжуємо."
+msgstr ""
+"Помилка: модуль фокусування продовжує перебувати у стані «зайнято» протягом "
+"%1 хвилин."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7451,7 +7450,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Помилка: купол %1 продовжує рухатися протягом %2 секунд."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7470,7 +7469,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Помилка: механізм обертання %1 продовжує обертання протягом %2 секунд."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format

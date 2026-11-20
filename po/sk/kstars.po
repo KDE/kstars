@@ -6840,46 +6840,39 @@ msgid "Restarting capture attempt #%1"
 msgstr "Pokus o reštartovanie #%1"
 
 #: ekos/align/align_diagnosis.cpp:52
-#, fuzzy, kde-format
-#| msgid "%1 download cancelled."
+#, kde-format
 msgid "The download failed."
-msgstr "Sťahovanie %1 zrušené."
+msgstr "Sťahovanie zlyhalo."
 
 #: ekos/align/align_diagnosis.cpp:54
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The index file could not be written."
-msgstr "Súbor s váhami sa nepodarilo prečítať."
+msgstr "Indexový súbor sa nepodarilo zapísať."
 
 #: ekos/align/align_diagnosis.cpp:56
-#, fuzzy, kde-format
-#| msgid "Output file is not writable."
+#, kde-format
 msgid "The index file folder is not writable."
-msgstr "Výstupný súbor nie je zapisovateľný."
+msgstr "Priečinok indexových súborov nie je zapisovateľný."
 
 #: ekos/align/align_diagnosis.cpp:58
-#, fuzzy, kde-format
-#| msgid "Guide module timed out."
+#, kde-format
 msgid "The download timed out."
-msgstr "Navádzanie vypršalo."
+msgstr "Sťahovanie vypršalo."
 
 #: ekos/align/align_diagnosis.cpp:60
-#, fuzzy, kde-format
-#| msgid "%1 download cancelled."
+#, kde-format
 msgid "The download was cancelled."
-msgstr "Sťahovanie %1 zrušené."
+msgstr "Sťahovanie bolo zrušené."
 
 #: ekos/align/align_diagnosis.cpp:62
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The index file server could not be reached."
-msgstr "Súbor s váhami sa nepodarilo prečítať."
+msgstr "Server indexových súborov nie je dosiahnuteľný."
 
 #: ekos/align/align_diagnosis.cpp:64
-#, fuzzy, kde-format
-#| msgid "No writable index file directory found."
+#, kde-format
 msgid "No writable index file folder was found."
-msgstr "Nenašiel sa žiadny zapisovateľný adresár indexových súborov."
+msgstr "Nenašiel sa žiadny zapisovateľný priečinok indexových súborov."
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
@@ -6894,104 +6887,89 @@ msgstr "Zarovnať"
 
 #: ekos/align/align_diagnosis.cpp:376 ekos/align/align_diagnosis.cpp:413
 #: ekos/align/align_diagnosis.cpp:483 ekos/align/align_diagnosis.cpp:494
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No mount is available."
-msgstr "Nedostupné info o obrázku."
+msgstr "Nie je dostupná žiadna montáž."
 
 #: ekos/align/align_diagnosis.cpp:393
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reported an error while unparking."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž pri odparkovaní nahlásila chybu."
 
 #: ekos/align/align_diagnosis.cpp:399
 #, kde-format
 msgid "The mount rejected the unpark command."
-msgstr ""
+msgstr "Montáž odmietla príkaz na odparkovanie."
 
 #: ekos/align/align_diagnosis.cpp:416 ekos/guide/guidediagnosis.cpp:798
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is disconnected."
-msgstr "Hostiteľ sa odpojil."
+msgstr "Montáž je odpojená."
 
 #: ekos/align/align_diagnosis.cpp:418
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "The mount is parked. Unpark it first."
-msgstr "Montáž je zaparkovaná. Odparkujte pre spustenie vedenia."
+msgstr "Montáž je zaparkovaná. Najprv ju odparkujte."
 
 #: ekos/align/align_diagnosis.cpp:422
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount driver cannot switch tracking on."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Ovládač montáže nedokáže zapnúť sledovanie."
 
 #: ekos/align/align_diagnosis.cpp:436
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reported an error while starting to track."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž pri spúšťaní sledovania nahlásila chybu."
 
 #: ekos/align/align_diagnosis.cpp:442
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount rejected the tracking command."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž odmietla príkaz na sledovanie."
 
 #: ekos/align/align_diagnosis.cpp:454
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No camera is available."
-msgstr "Nedostupné info o obrázku."
+msgstr "Nie je dostupná žiadna kamera."
 
 #: ekos/align/align_diagnosis.cpp:457
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "The camera driver is not connected."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Ovládač kamery nie je pripojený."
 
 #: ekos/align/align_diagnosis.cpp:485 ekos/align/align_diagnosis.cpp:503
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount does not accept a time."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž neprijíma čas."
 
 #: ekos/align/align_diagnosis.cpp:506
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Oenone"
+#, kde-format
 msgid "none"
-msgstr "Menongue"
+msgstr "žiadne"
 
 #: ekos/align/align_diagnosis.cpp:524
-#, fuzzy, kde-format
-#| msgid "Missing index files"
+#, kde-format
 msgid "Unknown index file size."
-msgstr "Chýbajúce indexové súbory"
+msgstr "Neznáma veľkosť indexového súboru."
 
 #: ekos/align/align_diagnosis.cpp:526
-#, fuzzy, kde-format
-#| msgid "Template manager not available"
+#, kde-format
 msgid "The index file manager is not available."
-msgstr "Správca šablón nie je dostupný"
+msgstr "Správca indexových súborov nie je dostupný."
 
 #: ekos/align/align_diagnosis.cpp:571 ekos/guide/guide_diagnosis.cpp:300
-#, fuzzy, kde-format
-#| msgid "Target camera gain"
+#, kde-format
 msgid "The camera cannot bin."
-msgstr "Cieľové zosilnenie kamery"
+msgstr "Kamera nepodporuje binning."
 
 #: ekos/align/align_diagnosis.cpp:591
 #, kde-format
 msgid "The solver timeout is already at its limit."
-msgstr ""
+msgstr "Časový limit riešiteľa je už na maxime."
 
 #: ekos/align/align_diagnosis.cpp:617
 #, kde-format
 msgid "The default solver profile was not found."
-msgstr ""
+msgstr "Predvolený profil riešiteľa sa nenašiel."
 
 #: ekos/align/align_fov.cpp:106
 #, kde-format
@@ -7167,7 +7145,7 @@ msgstr "Vypršal čas rotátora po %1 sekundách. Prerušujem zarovnanie."
 #: ekos/align/align_goto.cpp:805
 #, kde-format
 msgid "Slewing failed: the mount stopped without tracking."
-msgstr ""
+msgstr "Natáčanie zlyhalo: montáž sa zastavila bez sledovania."
 
 #: ekos/align/align_goto.cpp:806 ekos/align/align_solver.cpp:64
 #: ekos/align/align_solver.cpp:98 ekos/align/align_solver.cpp:1248
@@ -7360,6 +7338,8 @@ msgid ""
 "Error: the mount is parked. Unpark the mount, or select Nothing as the "
 "solver action."
 msgstr ""
+"Chyba: montáž je zaparkovaná. Odparkujte montáž alebo ako akciu riešiteľa "
+"vyberte Nič."
 
 #: ekos/align/align_solver.cpp:138
 #, kde-format
@@ -7367,6 +7347,8 @@ msgid ""
 "Warning: the mount is not tracking. Stars trail in long exposures, and the "
 "mount drifts away from the solved position."
 msgstr ""
+"Varovanie: montáž nesleduje. Hviezdy pri dlhých expozíciách vytvárajú stopy "
+"a montáž sa vzďaľuje od vyriešenej polohy."
 
 #: ekos/align/align_solver.cpp:144
 #, kde-format
@@ -7374,11 +7356,9 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Chyba: Stratené spojenie na koliesko filtra."
 
 #: ekos/align/align_solver.cpp:164
-#, fuzzy, kde-format
-#| msgid ""
-#| "Image transfer is disabled for this camera. Would you like to enable it?"
+#, kde-format
 msgid "Error: image transfer is disabled for camera %1."
-msgstr "Prenos snímok je pre túto kameru zakázaný. Chcete ho povoliť?"
+msgstr "Chyba: prenos snímok je pre kameru %1 zakázaný."
 
 #: ekos/align/align_solver.cpp:182 ekos/capture/cameraprocess.cpp:296
 #: ekos/capture/cameraprocess.cpp:740 ekos/focus/focus.cpp:6225
@@ -7410,7 +7390,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:212
 #, kde-format
 msgid "Error: the focus module is still busy after %1 minutes."
-msgstr ""
+msgstr "Chyba: modul zaostrovania je po %1 minútach stále zaneprázdnený."
 
 #: ekos/align/align_solver.cpp:222
 #, kde-format
@@ -7424,7 +7404,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:234
 #, kde-format
 msgid "Error: dome %1 is still moving after %2 seconds."
-msgstr ""
+msgstr "Chyba: kupola %1 sa po %2 sekundách stále pohybuje."
 
 #: ekos/align/align_solver.cpp:251
 #, kde-format
@@ -7443,7 +7423,7 @@ msgstr ""
 #: ekos/align/align_solver.cpp:271
 #, kde-format
 msgid "Error: rotator %1 is still turning after %2 seconds."
-msgstr ""
+msgstr "Chyba: rotátor %1 sa po %2 sekundách stále otáča."
 
 #: ekos/align/align_solver.cpp:293
 #, kde-format
@@ -7486,10 +7466,9 @@ msgid "Solving with blind image position..."
 msgstr "Natočiť späť na pôvodnú pozíciu..."
 
 #: ekos/align/align_solver.cpp:635
-#, fuzzy, kde-format
-#| msgid "Solving with blind image position..."
+#, kde-format
 msgid "Solving with blind image scale and position..."
-msgstr "Natočiť späť na pôvodnú pozíciu..."
+msgstr "Riešenie s neznámou mierkou a polohou snímky..."
 
 #: ekos/align/align_solver.cpp:642
 #, kde-format
@@ -7618,10 +7597,9 @@ msgid "Solver failed. Retrying without position constraint."
 msgstr "Riešiteľ zlyhal. Skúsim znova bez obmedzenia polohy."
 
 #: ekos/align/align_solver.cpp:1236
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without position constraint."
+#, kde-format
 msgid "Solver failed. Retrying without scale and position constraints."
-msgstr "Riešiteľ zlyhal. Skúsim znova bez obmedzenia polohy."
+msgstr "Riešiteľ zlyhal. Skúša sa znova bez obmedzenia mierky a polohy."
 
 #: ekos/align/align_solver.cpp:1243
 #, kde-format
@@ -7660,142 +7638,135 @@ msgid "Exposure timeout. Restarting exposure..."
 msgstr "Časový limit expozície vypršal. Reštartujem expozíciu..."
 
 #: ekos/align/aligndiagnosis.cpp:105 ekos/focus/focusdiagnosis.cpp:107
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a camera in the optical train"
-msgstr "Vybrať optickú sústavu"
+msgstr "Vyberte kameru v optickej zostave"
 
 #: ekos/align/aligndiagnosis.cpp:106
 #, kde-format
 msgid "The optical train of Align has no camera."
-msgstr ""
+msgstr "Optická zostava Zarovnania nemá kameru."
 
 #: ekos/align/aligndiagnosis.cpp:114 ekos/focus/focusdiagnosis.cpp:114
-#, fuzzy, kde-format
-#| msgid "Connect External"
+#, kde-format
 msgid "Connect the camera"
-msgstr "Pripojiť"
+msgstr "Pripojte kameru"
 
 #: ekos/align/aligndiagnosis.cpp:115 ekos/focus/focusdiagnosis.cpp:115
 #: ekos/guide/guidediagnosis.cpp:525 ekos/guide/guidediagnosis.cpp:745
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The camera %1 is disconnected."
-msgstr "%1 je odpojené"
+msgstr "Kamera %1 je odpojená."
 
 #: ekos/align/aligndiagnosis.cpp:123 ekos/guide/guidediagnosis.cpp:797
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Connect the mount"
-msgstr "Korigovať montáž"
+msgstr "Pripojte montáž"
 
 #: ekos/align/aligndiagnosis.cpp:124
 #, kde-format
 msgid "The mount is disconnected, so its position is unknown."
-msgstr ""
+msgstr "Montáž je odpojená, takže jej poloha je neznáma."
 
 #: ekos/align/aligndiagnosis.cpp:132
-#, fuzzy, kde-format
-#| msgid "Changes the type of selection"
+#, kde-format
 msgid "Check the mount connection"
-msgstr "Zmení typ výberu"
+msgstr "Skontrolujte pripojenie montáže"
 
 #: ekos/align/aligndiagnosis.cpp:133
-#, fuzzy, kde-format
-#| msgid "Mount is synced to solution coordinates."
+#, kde-format
 msgid "The mount is connected but sends no valid coordinates."
-msgstr "Montáž je synchronizovaná so súradnicami riešenia."
+msgstr "Montáž je pripojená, ale neposiela platné súradnice."
 
 #: ekos/align/aligndiagnosis.cpp:135
 #, kde-format
 msgid "Open the mount control panel and check that it shows RA and DEC."
-msgstr ""
+msgstr "Otvorte ovládací panel montáže a skontrolujte, či zobrazuje RA a DEC."
 
 #: ekos/align/aligndiagnosis.cpp:136
 #, kde-format
 msgid "If it does not, disconnect and reconnect the mount."
-msgstr ""
+msgstr "Ak nie, odpojte a znova pripojte montáž."
 
 #: ekos/align/aligndiagnosis.cpp:144
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid "Set the telescope focal length and aperture"
-msgstr "Ohnisková vzdialenosť ďalekohľadu v milimetroch"
+msgstr "Nastavte ohniskovú vzdialenosť a priemer ďalekohľadu"
 
 #: ekos/align/aligndiagnosis.cpp:145 ekos/guide/guidediagnosis.cpp:440
 #: ekos/guide/guidediagnosis.cpp:767
 #, kde-format
 msgid "Focal length %1 mm, aperture %2 mm."
-msgstr ""
+msgstr "Ohnisková vzdialenosť %1 mm, priemer %2 mm."
 
 #: ekos/align/aligndiagnosis.cpp:156
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Set the camera pixel size"
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+msgstr "Nastavte veľkosť pixelu kamery"
 
 #: ekos/align/aligndiagnosis.cpp:157 ekos/guide/guidediagnosis.cpp:450
 #, kde-format
 msgid "The camera driver reports a pixel size of %1 x %2 um."
-msgstr ""
+msgstr "Ovládač kamery hlási veľkosť pixelu %1 x %2 um."
 
 #: ekos/align/aligndiagnosis.cpp:167
 #, kde-format
 msgid "Install or locate the solver program"
-msgstr ""
+msgstr "Nainštalujte alebo nájdite program riešiteľa"
 
 #: ekos/align/aligndiagnosis.cpp:168
 #, kde-format
 msgid "The selected external solver program was not found."
-msgstr ""
+msgstr "Vybraný externý program riešiteľa sa nenašiel."
 
 #: ekos/align/aligndiagnosis.cpp:190
 #, kde-format
 msgid "Index files for this field of view are installed."
-msgstr ""
+msgstr "Indexové súbory pre toto zorné pole sú nainštalované."
 
 #: ekos/align/aligndiagnosis.cpp:199
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Install index files %1"
-msgstr "Neplatný súbor: %1"
+msgstr "Nainštalujte indexové súbory %1"
 
 #: ekos/align/aligndiagnosis.cpp:200
 #, kde-format
 msgid ""
 "Your %1 x %2 arcmin field needs index files %3; %4 are missing or incomplete."
 msgstr ""
+"Vaše pole %1 x %2 oblúkových minút potrebuje indexové súbory %3; %4 chýbajú "
+"alebo sú neúplné."
 
 #: ekos/align/aligndiagnosis.cpp:228
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the Align exposure to %1 seconds"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte expozíciu Zarovnania na %1 sekúnd"
 
 #: ekos/align/aligndiagnosis.cpp:229
 #, kde-format
 msgid "Only %1 stars were found in a %2 second exposure."
-msgstr ""
+msgstr "V expozícii %2 sekúnd sa našlo iba %1 hviezd."
 
 #: ekos/align/aligndiagnosis.cpp:230
 #, kde-format
 msgid "A %1 second exposure may be too short to show enough stars."
 msgstr ""
+"Expozícia %1 sekúnd môže byť príliš krátka na zobrazenie dostatku hviezd."
 
 #: ekos/align/aligndiagnosis.cpp:240
 #, kde-format
 msgid "Bin the Align camera %1x%1"
-msgstr ""
+msgstr "Nastavte binning kamery Zarovnania na %1x%1"
 
 #: ekos/align/aligndiagnosis.cpp:241
 #, kde-format
 msgid "Binning collects more light per pixel and speeds up solving."
-msgstr ""
+msgstr "Binning zachytí viac svetla na pixel a zrýchli riešenie."
 
 #: ekos/align/aligndiagnosis.cpp:256
 #, kde-format
 msgid "Use the default solver profile"
-msgstr ""
+msgstr "Použite predvolený profil riešiteľa"
 
 #: ekos/align/aligndiagnosis.cpp:257
 #, kde-format
@@ -7803,12 +7774,13 @@ msgid ""
 "The solver profile %1 is selected. The default profile adapts its search to "
 "your field of view."
 msgstr ""
+"Je vybraný profil riešiteľa %1. Predvolený profil prispôsobuje hľadanie "
+"vášmu zornému poľu."
 
 #: ekos/align/aligndiagnosis.cpp:272
-#, fuzzy, kde-format
-#| msgid "The specified file is invalid"
+#, kde-format
 msgid "The field of view is narrow"
-msgstr "Špecifikovaný súbor je neplatný"
+msgstr "Zorné pole je úzke"
 
 #: ekos/align/aligndiagnosis.cpp:273
 #, kde-format
@@ -7816,11 +7788,13 @@ msgid ""
 "A %1 x %2 arcmin field holds few stars. Use binning and longer exposures, or "
 "solve with a wider camera."
 msgstr ""
+"Pole %1 x %2 oblúkových minút obsahuje málo hviezd. Použite binning a dlhšie "
+"expozície alebo riešte so širšou kamerou."
 
 #: ekos/align/aligndiagnosis.cpp:287
 #, kde-format
 msgid "Check the reducer setting"
-msgstr ""
+msgstr "Skontrolujte nastavenie reduktora"
 
 #: ekos/align/aligndiagnosis.cpp:288
 #, kde-format
@@ -7828,24 +7802,23 @@ msgid ""
 "The optical train uses a reducer of %1x. A wrong value gives the solver a "
 "wrong field of view."
 msgstr ""
+"Optická zostava používa reduktor %1x. Nesprávna hodnota dá riešiteľovi "
+"nesprávne zorné pole."
 
 #: ekos/align/aligndiagnosis.cpp:314
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Turn on mount tracking"
-msgstr "Sledovanie montáže"
+msgstr "Zapnite sledovanie montáže"
 
 #: ekos/align/aligndiagnosis.cpp:315 ekos/align/aligndiagnosis.cpp:324
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reports that it is not tracking."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž hlási, že nesleduje."
 
 #: ekos/align/aligndiagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Start the mount tracking"
-msgstr "Sledovanie montáže"
+msgstr "Spustite sledovanie montáže"
 
 #: ekos/align/aligndiagnosis.cpp:327
 #, kde-format
@@ -7853,31 +7826,34 @@ msgid ""
 "The mount driver cannot switch tracking on. Start tracking at the sidereal "
 "rate from the hand controller."
 msgstr ""
+"Ovládač montáže nedokáže zapnúť sledovanie. Spustite sledovanie hviezdnou "
+"rýchlosťou z ručného ovládača."
 
 #: ekos/align/aligndiagnosis.cpp:350
 #, kde-format
 msgid "Check the KStars clock"
-msgstr ""
+msgstr "Skontrolujte hodiny KStars"
 
 #: ekos/align/aligndiagnosis.cpp:352
 #, kde-format
 msgid "The KStars time differs from your device by %1 seconds."
-msgstr ""
+msgstr "Čas KStars sa od vášho zariadenia líši o %1 sekúnd."
 
 #: ekos/align/aligndiagnosis.cpp:353
 #, kde-format
 msgid "The KStars time differs from this computer by %1 seconds."
-msgstr ""
+msgstr "Čas KStars sa od tohto počítača líši o %1 sekúnd."
 
 #: ekos/align/aligndiagnosis.cpp:355
 #, kde-format
 msgid "Check the date, time and time zone of the computer that runs KStars."
 msgstr ""
+"Skontrolujte dátum, čas a časové pásmo počítača, na ktorom beží KStars."
 
 #: ekos/align/aligndiagnosis.cpp:356
 #, kde-format
 msgid "Check the location and time zone set in KStars."
-msgstr ""
+msgstr "Skontrolujte polohu a časové pásmo nastavené v KStars."
 
 #: ekos/align/aligndiagnosis.cpp:360
 #, kde-format
@@ -7885,33 +7861,33 @@ msgid ""
 "KStars takes its time from %1. Check the clock of that device, or set the "
 "time source to KStars in the INDI settings."
 msgstr ""
+"KStars berie čas z %1. Skontrolujte hodiny tohto zariadenia alebo v "
+"nastaveniach INDI nastavte ako zdroj času KStars."
 
 #: ekos/align/aligndiagnosis.cpp:371
 #, kde-format
 msgid "Mount clock: the mount does not report its time."
-msgstr ""
+msgstr "Hodiny montáže: montáž nehlási svoj čas."
 
 #: ekos/align/aligndiagnosis.cpp:380
 #, kde-format
 msgid "The mount clock matches this computer."
-msgstr ""
+msgstr "Hodiny montáže sa zhodujú s týmto počítačom."
 
 #: ekos/align/aligndiagnosis.cpp:386
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Send the KStars time to the mount"
-msgstr "Nastaviť veľkosť prvku"
+msgstr "Odoslať čas KStars do montáže"
 
 #: ekos/align/aligndiagnosis.cpp:387
 #, kde-format
 msgid "The mount clock was %1 seconds off when it last reported its time."
-msgstr ""
+msgstr "Hodiny montáže sa pri poslednom hlásení času líšili o %1 sekúnd."
 
 #: ekos/align/aligndiagnosis.cpp:397
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Let KStars keep the mount time"
-msgstr "Nastaviť veľkosť prvku"
+msgstr "Nechať KStars udržiavať čas montáže"
 
 #: ekos/align/aligndiagnosis.cpp:398
 #, kde-format
@@ -7919,23 +7895,23 @@ msgid ""
 "The mount clock was %1 seconds off when it last reported its time, and "
 "KStars does not send its time to the mount."
 msgstr ""
+"Hodiny montáže sa pri poslednom hlásení času líšili o %1 sekúnd a KStars "
+"neposiela svoj čas do montáže."
 
 #: ekos/align/aligndiagnosis.cpp:409
-#, fuzzy, kde-format
-#| msgid "S&lew to Target"
+#, kde-format
 msgid "slew to the target"
-msgstr "Otočiť na cieľ"
+msgstr "natočenie na cieľ"
 
 #: ekos/align/aligndiagnosis.cpp:409
 #, kde-format
 msgid "sync"
-msgstr ""
+msgstr "synchronizácia"
 
 #: ekos/align/aligndiagnosis.cpp:413
-#, fuzzy, kde-format
-#| msgid "Check if magnitude is unknown"
+#, kde-format
 msgid "The mount position is unknown"
-msgstr "Označiť, ak je magnitúda neznáma"
+msgstr "Poloha montáže je neznáma"
 
 #: ekos/align/aligndiagnosis.cpp:414
 #, kde-format
@@ -7943,34 +7919,33 @@ msgid ""
 "Align needs the mount position to set its target, but the mount reports no "
 "valid coordinates."
 msgstr ""
+"Zarovnanie potrebuje polohu montáže na nastavenie cieľa, ale montáž nehlási "
+"platné súradnice."
 
 #: ekos/align/aligndiagnosis.cpp:417
-#, fuzzy, kde-format
-#| msgid "No camera connected."
+#, kde-format
 msgid "No camera is selected"
-msgstr "camera nepripojené."
+msgstr "Nie je vybraná žiadna kamera"
 
 #: ekos/align/aligndiagnosis.cpp:418
 #, kde-format
 msgid "The optical train has no camera for Align to capture with."
-msgstr ""
+msgstr "Optická zostava nemá kameru, ktorou by Zarovnanie snímalo."
 
 #: ekos/align/aligndiagnosis.cpp:421
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The camera is disconnected"
-msgstr "Hostiteľ sa odpojil."
+msgstr "Kamera je odpojená"
 
 #: ekos/align/aligndiagnosis.cpp:422
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Align lost the connection to the camera %1."
-msgstr "Chyba: Stratené spojenie s kamerou."
+msgstr "Zarovnanie stratilo spojenie s kamerou %1."
 
 #: ekos/align/aligndiagnosis.cpp:425
 #, kde-format
 msgid "The focal length or aperture is missing"
-msgstr ""
+msgstr "Chýba ohnisková vzdialenosť alebo priemer"
 
 #: ekos/align/aligndiagnosis.cpp:426
 #, kde-format
@@ -7978,281 +7953,266 @@ msgid ""
 "The optical train has no focal length or aperture, so the field of view is "
 "unknown."
 msgstr ""
+"Optická zostava nemá ohniskovú vzdialenosť ani priemer, takže zorné pole je "
+"neznáme."
 
 #: ekos/align/aligndiagnosis.cpp:429
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "The camera pixel size is missing"
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+msgstr "Chýba veľkosť pixelu kamery"
 
 #: ekos/align/aligndiagnosis.cpp:430
 #, kde-format
 msgid ""
 "The camera driver reports no pixel size, so the field of view is unknown."
-msgstr ""
+msgstr "Ovládač kamery nehlási veľkosť pixelu, takže zorné pole je neznáme."
 
 #: ekos/align/aligndiagnosis.cpp:433
-#, fuzzy, kde-format
-#| msgid "Function index out of bounds."
+#, kde-format
 msgid "The field of view is out of bounds"
-msgstr "Index funkcie mimo hraníc."
+msgstr "Zorné pole je mimo rozsahu"
 
 #: ekos/align/aligndiagnosis.cpp:434
-#, fuzzy, kde-format
-#| msgid "Effective field of view size in arcminutes."
+#, kde-format
 msgid "The calculated field of view is %1 x %2 arcmin."
-msgstr "Efektívna veľkosť zorného poľa v oblúkových minútach."
+msgstr "Vypočítané zorné pole je %1 x %2 oblúkových minút."
 
 #: ekos/align/aligndiagnosis.cpp:438
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The filter wheel is disconnected"
-msgstr "Hostiteľ sa odpojil."
+msgstr "Filtrové koleso je odpojené"
 
 #: ekos/align/aligndiagnosis.cpp:439
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Align could not select its filter."
-msgstr "Nepodarilo sa odstrániť súbor: %1"
+msgstr "Zarovnanie nemohlo vybrať svoj filter."
 
 #: ekos/align/aligndiagnosis.cpp:442 ekos/focus/focusdiagnosis.cpp:370
-#, fuzzy, kde-format
-#| msgid "Dithering failed."
+#, kde-format
 msgid "The filter change failed"
-msgstr "Rozptyľovanie zlyhalo."
+msgstr "Zmena filtra zlyhala"
 
 #: ekos/align/aligndiagnosis.cpp:443 ekos/align/aligndiagnosis.cpp:775
 #, kde-format
 msgid "The filter wheel did not reach the Align filter."
-msgstr ""
+msgstr "Filtrové koleso nedosiahlo filter Zarovnania."
 
 #: ekos/align/aligndiagnosis.cpp:446
-#, fuzzy, kde-format
-#| msgid "Image transfer format"
+#, kde-format
 msgid "Image transfer is disabled"
-msgstr "Formát obrázku"
+msgstr "Prenos snímok je zakázaný"
 
 #: ekos/align/aligndiagnosis.cpp:447
 #, kde-format
 msgid "The camera does not send its images to KStars."
-msgstr ""
+msgstr "Kamera neposiela svoje snímky do KStars."
 
 #: ekos/align/aligndiagnosis.cpp:450 ekos/focus/focusdiagnosis.cpp:394
 #, kde-format
 msgid "The dust cap reports an error"
-msgstr ""
+msgstr "Protiprachový kryt hlási chybu"
 
 #: ekos/align/aligndiagnosis.cpp:451
 #, kde-format
 msgid "Align cannot capture until the dust cap is open."
-msgstr ""
+msgstr "Zarovnanie nemôže snímať, kým nie je protiprachový kryt otvorený."
 
 #: ekos/align/aligndiagnosis.cpp:454 ekos/focus/focusdiagnosis.cpp:378
-#, fuzzy, kde-format
-#| msgid "Number of images to capture"
+#, kde-format
 msgid "The camera failed to capture"
-msgstr "Počet obrázkov na zachytenie"
+msgstr "Kamera nedokázala zachytiť snímku"
 
 #: ekos/align/aligndiagnosis.cpp:455
 #, kde-format
 msgid "The exposure failed %1 times."
-msgstr ""
+msgstr "Expozícia zlyhala %1-krát."
 
 #: ekos/align/aligndiagnosis.cpp:458 ekos/focus/focusdiagnosis.cpp:374
 #, kde-format
 msgid "The camera stopped responding"
-msgstr ""
+msgstr "Kamera prestala odpovedať"
 
 #: ekos/align/aligndiagnosis.cpp:459
 #, kde-format
 msgid "Exposures timed out after the camera driver was restarted %1 times."
-msgstr ""
+msgstr "Expozície vypršali aj po %1 reštartoch ovládača kamery."
 
 #: ekos/align/aligndiagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgid "Remote devices established."
+#, kde-format
 msgid "Another device stayed busy"
-msgstr "Vzdialené zariadenia zistené."
+msgstr "Iné zariadenie zostalo zaneprázdnené"
 
 #: ekos/align/aligndiagnosis.cpp:463
 #, kde-format
 msgid "Align waited too long for another device to finish."
-msgstr ""
+msgstr "Zarovnanie čakalo príliš dlho, kým iné zariadenie skončí."
 
 #: ekos/align/aligndiagnosis.cpp:466
-#, fuzzy, kde-format
-#| msgid "Add a folder where index files are stored"
+#, kde-format
 msgid "No index files are installed"
-msgstr "Pridať priečinok kde sú uložené indexové súbory"
+msgstr "Nie sú nainštalované žiadne indexové súbory"
 
 #: ekos/align/aligndiagnosis.cpp:467
 #, kde-format
 msgid "The solver needs index files for this field of view."
-msgstr ""
+msgstr "Riešiteľ potrebuje indexové súbory pre toto zorné pole."
 
 #: ekos/align/aligndiagnosis.cpp:470
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The image could not be solved"
-msgstr "Súbor s váhami sa nepodarilo prečítať."
+msgstr "Snímku sa nepodarilo vyriešiť"
 
 #: ekos/align/aligndiagnosis.cpp:471
 #, kde-format
 msgid "The solver found no solution after %1 attempt."
 msgid_plural "The solver found no solution after %1 attempts."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Riešiteľ nenašiel riešenie po %1 pokuse."
+msgstr[1] "Riešiteľ nenašiel riešenie po %1 pokusoch."
+msgstr[2] "Riešiteľ nenašiel riešenie po %1 pokusoch."
 
 #: ekos/align/aligndiagnosis.cpp:475
-#, fuzzy, kde-format
-#| msgid "Remote solver timed out."
+#, kde-format
 msgid "The solver timed out"
-msgstr "Vzdialený riešiteľ vypršal."
+msgstr "Riešiteľ vypršal"
 
 #: ekos/align/aligndiagnosis.cpp:476
-#, fuzzy, kde-format
-#| msgid "Solver timed out after %1 seconds."
+#, kde-format
 msgid "The solver did not finish within %1 seconds."
-msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
+msgstr "Riešiteľ neskončil do %1 sekúnd."
 
 #: ekos/align/aligndiagnosis.cpp:479
-#, fuzzy, kde-format
-#| msgid "Polar alignment correction completed"
+#, kde-format
 msgid "Polar alignment could not solve the image"
-msgstr "Korekcia polárneho zarovnávania dokončená"
+msgstr "Polárne zarovnanie nedokázalo vyriešiť snímku"
 
 #: ekos/align/aligndiagnosis.cpp:480
 #, kde-format
 msgid "The polar alignment assistant needs a solved image at each step."
 msgstr ""
+"Pomocník polárneho zarovnania potrebuje v každom kroku vyriešenú snímku."
 
 #: ekos/align/aligndiagnosis.cpp:483
-#, fuzzy, kde-format
-#| msgid "Remote solver timed out."
+#, kde-format
 msgid "The remote solver timed out"
-msgstr "Vzdialený riešiteľ vypršal."
+msgstr "Vzdialený riešiteľ vypršal"
 
 #: ekos/align/aligndiagnosis.cpp:484 ekos/align/aligndiagnosis.cpp:801
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "The remote astrometry driver sent no solution."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Ovládač vzdialenej astrometrie neposlal žiadne riešenie."
 
 #: ekos/align/aligndiagnosis.cpp:487
 #, kde-format
 msgid "The mount rejected the sync"
-msgstr ""
+msgstr "Montáž odmietla synchronizáciu"
 
 #: ekos/align/aligndiagnosis.cpp:488
 #, kde-format
 msgid "The image was solved, but the mount did not accept the solved position."
-msgstr ""
+msgstr "Snímka bola vyriešená, ale montáž neprijala vyriešenú polohu."
 
 #: ekos/align/aligndiagnosis.cpp:491
 #, kde-format
 msgid "The mount failed to sync"
-msgstr ""
+msgstr "Montáž sa nepodarilo synchronizovať"
 
 #: ekos/align/aligndiagnosis.cpp:492
 #, kde-format
 msgid ""
 "The image was solved, but the mount reported an error %1 times while syncing."
 msgstr ""
+"Snímka bola vyriešená, ale montáž pri synchronizácii %1-krát nahlásila chybu."
 
 #: ekos/align/aligndiagnosis.cpp:496
 #, kde-format
 msgid "The slew was rejected"
-msgstr ""
+msgstr "Natočenie bolo odmietnuté"
 
 #: ekos/align/aligndiagnosis.cpp:497
 #, kde-format
 msgid "The image was solved, but KStars refused to slew to the target."
-msgstr ""
+msgstr "Snímka bola vyriešená, ale KStars odmietol natočiť na cieľ."
 
 #: ekos/align/aligndiagnosis.cpp:500
 #, kde-format
 msgid "The mount failed to slew"
-msgstr ""
+msgstr "Montáž sa nepodarilo natočiť"
 
 #: ekos/align/aligndiagnosis.cpp:501
 #, kde-format
 msgid ""
 "The image was solved, but the mount reported an error %1 times while slewing."
 msgstr ""
+"Snímka bola vyriešená, ale montáž pri natáčaní %1-krát nahlásila chybu."
 
 #: ekos/align/aligndiagnosis.cpp:505
-#, fuzzy, kde-format
-#| msgid "Mount parked"
+#, kde-format
 msgid "The mount is parked"
-msgstr "Montáž zaparkovaná"
+msgstr "Montáž je zaparkovaná"
 
 #: ekos/align/aligndiagnosis.cpp:506
 #, kde-format
 msgctxt "%1 is the action, e.g. sync"
 msgid "Align was asked to %1, but the mount is parked."
-msgstr ""
+msgstr "Zarovnanie malo vykonať akciu %1, ale montáž je zaparkovaná."
 
 #: ekos/align/aligndiagnosis.cpp:509
 #, kde-format
 msgid "The rotator reports an error"
-msgstr ""
+msgstr "Rotátor hlási chybu"
 
 #: ekos/align/aligndiagnosis.cpp:510
 #, kde-format
 msgid "The rotator stopped with an error while turning the camera."
-msgstr ""
+msgstr "Rotátor sa pri otáčaní kamery zastavil s chybou."
 
 #: ekos/align/aligndiagnosis.cpp:513
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid "The rotator did not reach the position angle"
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Rotátor nedosiahol pozičný uhol"
 
 #: ekos/align/aligndiagnosis.cpp:514
 #, kde-format
 msgid ""
 "The camera position angle is outside the rotator threshold of %1 arcmin."
-msgstr ""
+msgstr "Pozičný uhol kamery je mimo prahu rotátora %1 oblúkových minút."
 
 #: ekos/align/aligndiagnosis.cpp:518
-#, fuzzy, kde-format
-#| msgid "Extractor timed out: %1s"
+#, kde-format
 msgid "The rotator timed out"
-msgstr "Extraktor vypršal: %1 s"
+msgstr "Rotátor vypršal"
 
 #: ekos/align/aligndiagnosis.cpp:519 ekos/align/aligndiagnosis.cpp:819
 #, kde-format
 msgid "The rotator did not finish turning in time."
-msgstr ""
+msgstr "Rotátor nedokončil otáčanie včas."
 
 #: ekos/align/aligndiagnosis.cpp:522
 #, kde-format
 msgid "The rotator turns the wrong way"
-msgstr ""
+msgstr "Rotátor sa otáča nesprávnym smerom"
 
 #: ekos/align/aligndiagnosis.cpp:523
 #, kde-format
 msgid ""
 "The position angle error grew after the rotation, also with the direction "
 "reversed."
-msgstr ""
+msgstr "Chyba pozičného uhla sa po otočení zväčšila, aj pri obrátenom smere."
 
 #: ekos/align/aligndiagnosis.cpp:526
 #, kde-format
 msgid "The target accuracy was not reached"
-msgstr ""
+msgstr "Cieľová presnosť nebola dosiahnutá"
 
 #: ekos/align/aligndiagnosis.cpp:527
 #, kde-format
 msgid "Solving works, but the mount did not get close enough to the target."
-msgstr ""
+msgstr "Riešenie funguje, ale montáž sa nedostala dostatočne blízko k cieľu."
 
 #: ekos/align/aligndiagnosis.cpp:530
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount stopped without tracking"
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž sa zastavila bez sledovania"
 
 #: ekos/align/aligndiagnosis.cpp:531
 #, kde-format
@@ -8260,12 +8220,13 @@ msgid ""
 "The image was solved, but the mount stopped after the slew and did not start "
 "tracking."
 msgstr ""
+"Snímka bola vyriešená, ale montáž sa po natočení zastavila a nezačala "
+"sledovať."
 
 #: ekos/align/aligndiagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Align failed"
-msgstr "Rozptyľovanie"
+msgstr "Zarovnanie zlyhalo"
 
 #. i18n: ectx: property (text), widget (QLabel, mountStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
@@ -8281,16 +8242,14 @@ msgid "Mount"
 msgstr "Montáž"
 
 #: ekos/align/aligndiagnosis.cpp:564 ekos/align/aligndiagnosis.cpp:1329
-#, fuzzy, kde-format
-#| msgid "Field of view:"
+#, kde-format
 msgid "Field of view"
-msgstr "Pole pohľadu:"
+msgstr "Zorné pole"
 
 #: ekos/align/aligndiagnosis.cpp:569 ekos/guide/guidediagnosis.cpp:273
-#, fuzzy, kde-format
-#| msgid "Focal length:"
+#, kde-format
 msgid "Focal length"
-msgstr "Ohnisková vzdialenosť:"
+msgstr "Ohnisková vzdialenosť"
 
 #: ekos/align/aligndiagnosis.cpp:571 ekos/guide/guidediagnosis.cpp:275
 #, kde-format
@@ -8298,11 +8257,9 @@ msgid "Aperture"
 msgstr "Clona"
 
 #: ekos/align/aligndiagnosis.cpp:576 ekos/guide/guidediagnosis.cpp:276
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Pixel size X"
+#, kde-format
 msgid "Pixel size"
-msgstr "Veľkosť bodu X"
+msgstr "Veľkosť pixelu"
 
 #: ekos/align/aligndiagnosis.cpp:581 ekos/align/aligndiagnosis.cpp:1331
 #: ekos/auxiliary/filtermanager.cpp:122
@@ -8314,183 +8271,161 @@ msgstr "Expozícia"
 
 #: ekos/align/aligndiagnosis.cpp:583 ekos/align/aligndiagnosis.cpp:1332
 #: ekos/focus/focusdiagnosis.cpp:441 ekos/guide/guidediagnosis.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Binning"
+#, kde-format
 msgid "Binning"
 msgstr "Analýza chybovosti"
 
 #: ekos/align/aligndiagnosis.cpp:587 ekos/focus/focusdiagnosis.cpp:447
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "Stars found"
-msgstr "Navádzacia hviezda nájdená."
+msgstr "Nájdené hviezdy"
 
 #: ekos/align/aligndiagnosis.cpp:591
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Median HFR"
-msgstr "Medián"
+msgstr "Medián HFR"
 
 #: ekos/align/aligndiagnosis.cpp:597
-#, fuzzy, kde-format
-#| msgid "Set Geolocation"
+#, kde-format
 msgid "Star elongation"
-msgstr "Nastaviť geo polohu"
+msgstr "Pretiahnutie hviezd"
 
 #: ekos/align/aligndiagnosis.cpp:601
-#, fuzzy, kde-format
-#| msgid "Focal length:"
+#, kde-format
 msgid "Trail length"
-msgstr "Ohnisková vzdialenosť:"
+msgstr "Dĺžka stopy"
 
 #: ekos/align/aligndiagnosis.cpp:603
-#, fuzzy, kde-format
-#| msgid "Mount direction"
+#, kde-format
 msgid "Trail direction"
-msgstr "Smer montáže"
+msgstr "Smer stopy"
 
 #: ekos/align/aligndiagnosis.cpp:607
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Double image offset"
-msgstr "Zobraziť obrázok "
+msgstr "Posun dvojitého obrazu"
 
 #: ekos/align/aligndiagnosis.cpp:611
 #, kde-format
 msgid "Star concentration (R80/R20)"
-msgstr ""
+msgstr "Koncentrácia hviezd (R80/R20)"
 
 #: ekos/align/aligndiagnosis.cpp:614
-#, fuzzy, kde-format
-#| msgid "Surface Brightness:"
+#, kde-format
 msgid "Star centre brightness"
-msgstr "Jasnosť povrchu:"
+msgstr "Jas stredu hviezd"
 
 #: ekos/align/aligndiagnosis.cpp:619
-#, fuzzy, kde-format
-#| msgid "Solver aborted."
+#, kde-format
 msgid "Solver attempts"
-msgstr "Riešiteľ prerušený."
+msgstr "Pokusy riešiteľa"
 
 #: ekos/align/aligndiagnosis.cpp:622
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Solver timeout"
-msgstr "Riešiteľ vypršal: %1 s"
+msgstr "Časový limit riešiteľa"
 
 #: ekos/align/aligndiagnosis.cpp:629
-#, fuzzy, kde-format
-#| msgid "Index file"
+#, kde-format
 msgid "Index files needed"
-msgstr "Indexový súbor"
+msgstr "Potrebné indexové súbory"
 
 #: ekos/align/aligndiagnosis.cpp:635
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture errors"
-msgstr "Snímania"
+msgstr "Chyby snímania"
 
 #: ekos/align/aligndiagnosis.cpp:637
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver restarts"
-msgstr "Reštart ovládača"
+msgstr "Reštarty ovládača"
 
 #: ekos/align/aligndiagnosis.cpp:659
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a mount in the optical train"
-msgstr "Vybrať optickú sústavu"
+msgstr "Vyberte montáž v optickej zostave"
 
 #: ekos/align/aligndiagnosis.cpp:660
 #, kde-format
 msgid "Align needs a mount to know where the telescope points."
-msgstr ""
+msgstr "Zarovnanie potrebuje montáž, aby vedelo, kam ďalekohľad mieri."
 
 #: ekos/align/aligndiagnosis.cpp:673
-#, fuzzy, kde-format
-#| msgid "Parking the mount..."
+#, kde-format
 msgid "Unpark the mount"
-msgstr "Parkovanie montáže..."
+msgstr "Odparkujte montáž"
 
 #: ekos/align/aligndiagnosis.cpp:674
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reports PARKED."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž hlási PARKED."
 
 #: ekos/align/aligndiagnosis.cpp:688
-#, fuzzy, kde-format
-#| msgid "Enable mount altitude limits."
+#, kde-format
 msgid "Check the mount altitude limits"
-msgstr "Povoliť výškové hranice montáže."
+msgstr "Skontrolujte výškové limity montáže"
 
 #: ekos/align/aligndiagnosis.cpp:689
-#, fuzzy, kde-format
-#| msgid ""
-#| "Requested altitude %1 is outside the specified altitude limit boundary "
-#| "(%2,%3)."
+#, kde-format
 msgid "The target altitude %1° is outside the limits of %2° to %3°."
-msgstr "Požadovaná výška %1 je mimo určenej hranice (%2, %3)."
+msgstr "Cieľová výška %1° je mimo limitov %2° až %3°."
 
 #: ekos/align/aligndiagnosis.cpp:698
 #, kde-format
 msgid "Check the slew target"
-msgstr ""
+msgstr "Skontrolujte cieľ natočenia"
 
 #: ekos/align/aligndiagnosis.cpp:699
 #, kde-format
 msgid "KStars refused the slew, see the notifications for the reason."
-msgstr ""
+msgstr "KStars odmietol natočenie, dôvod nájdete v oznámeniach."
 
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
 msgid "Check that the target is above the horizon."
-msgstr ""
+msgstr "Skontrolujte, či je cieľ nad horizontom."
 
 #: ekos/align/aligndiagnosis.cpp:701
 #, kde-format
 msgid "Check the mount limits in the Mount module."
-msgstr ""
+msgstr "Skontrolujte limity montáže v module Montáž."
 
 #: ekos/align/aligndiagnosis.cpp:712
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check the mount"
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte montáž"
 
 #: ekos/align/aligndiagnosis.cpp:713
-#, fuzzy, kde-format
-#| msgid "Hide faint stars while slewing?"
+#, kde-format
 msgid "The mount reported an error while slewing."
-msgstr "Skryť slabé hviezdy počas otáčania?"
+msgstr "Montáž pri natáčaní nahlásila chybu."
 
 #: ekos/align/aligndiagnosis.cpp:714
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reported an error while syncing."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž pri synchronizácii nahlásila chybu."
 
 #: ekos/align/aligndiagnosis.cpp:715
 #, kde-format
 msgid "Check that the mount is unparked and tracking."
-msgstr ""
+msgstr "Skontrolujte, či je montáž odparkovaná a sleduje."
 
 #: ekos/align/aligndiagnosis.cpp:716
 #, kde-format
 msgid "Check the slew limits set in the mount driver or its hand controller."
 msgstr ""
+"Skontrolujte limity natáčania nastavené v ovládači montáže alebo jej ručnom "
+"ovládači."
 
 #: ekos/align/aligndiagnosis.cpp:717
 #, kde-format
 msgid "Check the mount cable and power."
-msgstr ""
+msgstr "Skontrolujte kábel a napájanie montáže."
 
 #: ekos/align/aligndiagnosis.cpp:724
 #, kde-format
 msgid "The mount cannot sync"
-msgstr ""
+msgstr "Montáž nedokáže synchronizovať"
 
 #: ekos/align/aligndiagnosis.cpp:725
 #, kde-format
@@ -8498,18 +8433,18 @@ msgid ""
 "The mount driver does not support sync. Use Slew to Target or Nothing "
 "instead."
 msgstr ""
+"Ovládač montáže nepodporuje synchronizáciu. Namiesto toho použite Natočiť na "
+"cieľ alebo Nič."
 
 #: ekos/align/aligndiagnosis.cpp:734
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check why the mount stopped"
-msgstr "Korigovať montáž"
+msgstr "Zistite, prečo sa montáž zastavila"
 
 #: ekos/align/aligndiagnosis.cpp:735
-#, fuzzy, kde-format
-#| msgid "Hide faint stars while slewing?"
+#, kde-format
 msgid "The mount stopped after the slew and did not track."
-msgstr "Skryť slabé hviezdy počas otáčania?"
+msgstr "Montáž sa po natočení zastavila a nesledovala."
 
 #: ekos/align/aligndiagnosis.cpp:736
 #, kde-format
@@ -8517,6 +8452,8 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"Skontrolujte, či ovládač montáže alebo ručný ovládač nehlási chybu limitu, "
+"napr. limitu meridiánu."
 
 #: ekos/align/aligndiagnosis.cpp:737
 #, kde-format
@@ -8524,194 +8461,183 @@ msgid ""
 "Switch tracking on: some mounts end a slew without tracking when tracking "
 "was off before it."
 msgstr ""
+"Zapnite sledovanie: niektoré montáže ukončia natočenie bez sledovania, ak "
+"bolo sledovanie predtým vypnuté."
 
 #: ekos/align/aligndiagnosis.cpp:738
 #, kde-format
 msgid "Check that the slew was not stopped by hand."
-msgstr ""
+msgstr "Skontrolujte, či natočenie nebolo zastavené ručne."
 
 #: ekos/align/aligndiagnosis.cpp:746
-#, fuzzy, kde-format
-#| msgid "Image Transfer"
+#, kde-format
 msgid "Enable image transfer"
-msgstr "Prenos obrázku"
+msgstr "Povoľte prenos snímok"
 
 #: ekos/align/aligndiagnosis.cpp:747
-#, fuzzy, kde-format
-#| msgid ""
-#| "Image transfer is disabled for this camera. Would you like to enable it?"
+#, kde-format
 msgid "Image transfer is disabled for the camera %1."
-msgstr "Prenos snímok je pre túto kameru zakázaný. Chcete ho povoliť?"
+msgstr "Prenos snímok je pre kameru %1 zakázaný."
 
 #: ekos/align/aligndiagnosis.cpp:754 ekos/focus/focusdiagnosis.cpp:548
-#, fuzzy, kde-format
-#| msgid "Open dust cover"
+#, kde-format
 msgid "Open the dust cap"
-msgstr "Otvorte prachový kryt"
+msgstr "Otvorte protiprachový kryt"
 
 #: ekos/align/aligndiagnosis.cpp:755 ekos/focus/focusdiagnosis.cpp:549
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "The dust cap reports an error."
-msgstr "Chyba prachovej čiapky."
+msgstr "Protiprachový kryt hlási chybu."
 
 #: ekos/align/aligndiagnosis.cpp:756 ekos/focus/focusdiagnosis.cpp:550
 #, kde-format
 msgid "Open or remove the dust cap by hand."
-msgstr ""
+msgstr "Otvorte alebo odstráňte protiprachový kryt ručne."
 
 #: ekos/align/aligndiagnosis.cpp:757 ekos/focus/focusdiagnosis.cpp:551
 #, kde-format
 msgid "Check the dust cap cable and power."
-msgstr ""
+msgstr "Skontrolujte kábel a napájanie protiprachového krytu."
 
 #: ekos/align/aligndiagnosis.cpp:765 ekos/focus/focusdiagnosis.cpp:138
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to filter wheel."
+#, kde-format
 msgid "Connect the filter wheel"
-msgstr "Chyba: Stratené spojenie na koliesko filtra."
+msgstr "Pripojte filtrové koleso"
 
 #: ekos/align/aligndiagnosis.cpp:766 ekos/focus/focusdiagnosis.cpp:139
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The filter wheel is disconnected."
-msgstr "Hostiteľ sa odpojil."
+msgstr "Filtrové koleso je odpojené."
 
 #: ekos/align/aligndiagnosis.cpp:774 ekos/focus/focusdiagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Filter wheel"
+#, kde-format
 msgid "Check the filter wheel"
-msgstr "Koleso filtrov"
+msgstr "Skontrolujte filtrové koleso"
 
 #: ekos/align/aligndiagnosis.cpp:776 ekos/focus/focusdiagnosis.cpp:537
 #, kde-format
 msgid "Change the filter from the Filter Manager and check that it arrives."
-msgstr ""
+msgstr "Zmeňte filter zo Správcu filtrov a skontrolujte, či sa nastaví."
 
 #: ekos/align/aligndiagnosis.cpp:777 ekos/focus/focusdiagnosis.cpp:539
 #, kde-format
 msgid "Check the filter wheel cable and power."
-msgstr ""
+msgstr "Skontrolujte kábel a napájanie filtrového kolesa."
 
 #: ekos/align/aligndiagnosis.cpp:787 ekos/focus/focusdiagnosis.cpp:520
 #, kde-format
 msgid "Check the camera cable and power"
-msgstr ""
+msgstr "Skontrolujte kábel a napájanie kamery"
 
 #: ekos/align/aligndiagnosis.cpp:788
 #, kde-format
 msgid "The camera reported %1 exposure errors."
-msgstr ""
+msgstr "Kamera nahlásila %1 chýb expozície."
 
 #: ekos/align/aligndiagnosis.cpp:789
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "No image arrived, even after restarting the camera driver."
-msgstr "Vybrať skript na spustenie po štarte ovládača"
+msgstr "Neprišla žiadna snímka, ani po reštarte ovládača kamery."
 
 #: ekos/align/aligndiagnosis.cpp:790 ekos/focus/focusdiagnosis.cpp:523
 #, kde-format
 msgid ""
 "Check the camera USB cable and use a powered hub if the camera shares one."
 msgstr ""
+"Skontrolujte USB kábel kamery a ak kamera zdieľa rozbočovač, použite "
+"napájaný."
 
 #: ekos/align/aligndiagnosis.cpp:791 ekos/focus/focusdiagnosis.cpp:524
 #, kde-format
 msgid "Check the camera power supply."
-msgstr ""
+msgstr "Skontrolujte napájanie kamery."
 
 #: ekos/align/aligndiagnosis.cpp:792
 #, kde-format
 msgid "Take a test exposure from the Capture module."
-msgstr ""
+msgstr "Urobte testovaciu expozíciu z modulu Snímanie."
 
 #: ekos/align/aligndiagnosis.cpp:800
-#, fuzzy, kde-format
-#| msgid "Starting remote solver..."
+#, kde-format
 msgid "Check the remote solver"
-msgstr "Spúšťanie vzdialeného riešiteľa..."
+msgstr "Skontrolujte vzdialený riešiteľ"
 
 #: ekos/align/aligndiagnosis.cpp:802
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "Check that the remote astrometry driver is running."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Skontrolujte, či beží ovládač vzdialenej astrometrie."
 
 #: ekos/align/aligndiagnosis.cpp:803
 #, kde-format
 msgid "Check that the remote computer has index files for this field of view."
 msgstr ""
+"Skontrolujte, či má vzdialený počítač indexové súbory pre toto zorné pole."
 
 #: ekos/align/aligndiagnosis.cpp:804
 #, kde-format
 msgid "Or switch Align to the local solver."
-msgstr ""
+msgstr "Alebo prepnite Zarovnanie na lokálny riešiteľ."
 
 #: ekos/align/aligndiagnosis.cpp:817
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid "The rotator turned away from the target position angle."
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Rotátor sa otočil preč od cieľového pozičného uhla."
 
 #: ekos/align/aligndiagnosis.cpp:821
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid "The rotator did not reach the target position angle."
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Rotátor nedosiahol cieľový pozičný uhol."
 
 #: ekos/align/aligndiagnosis.cpp:822
-#, fuzzy, kde-format
-#| msgid "Set the Zoom Factor"
+#, kde-format
 msgid "Check the rotator"
-msgstr "Nastaviť stupeň zväčšenia."
+msgstr "Skontrolujte rotátor"
 
 #: ekos/align/aligndiagnosis.cpp:823
 #, kde-format
 msgid "Check that the rotator turns freely and its cables do not snag."
-msgstr ""
+msgstr "Skontrolujte, či sa rotátor voľne otáča a jeho káble sa nezachytávajú."
 
 #: ekos/align/aligndiagnosis.cpp:824
 #, kde-format
 msgid "Check the reverse direction setting of the rotator driver."
-msgstr ""
+msgstr "Skontrolujte nastavenie obráteného smeru v ovládači rotátora."
 
 #: ekos/align/aligndiagnosis.cpp:825
 #, kde-format
 msgid "Rotate and solve again."
-msgstr ""
+msgstr "Otočte a riešte znova."
 
 #: ekos/align/aligndiagnosis.cpp:918
-#, fuzzy, kde-format
-#| msgid "Solver timed out after %1 seconds."
+#, kde-format
 msgid "Raise the solver timeout to %1 seconds"
-msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
+msgstr "Zvýšte časový limit riešiteľa na %1 sekúnd"
 
 #: ekos/align/aligndiagnosis.cpp:919
-#, fuzzy, kde-format
-#| msgid "Remote solver completed after %1 seconds."
+#, kde-format
 msgid "The solver stopped after %1 seconds."
-msgstr "Vzdialený riešiteľ skončil po %1 sekundách."
+msgstr "Riešiteľ sa zastavil po %1 sekundách."
 
 #: ekos/align/aligndiagnosis.cpp:937
 #, kde-format
 msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
-msgstr ""
+msgstr "Snímka je dobrá: %1 okrúhlych hviezd s mediánom HFR %2 pixelov."
 
 #: ekos/align/aligndiagnosis.cpp:944 ekos/focus/focusdiagnosis.cpp:593
 #: ekos/focus/focusdiagnosis.cpp:681
 #, kde-format
 msgid "Check the sky and the dust cap"
-msgstr ""
+msgstr "Skontrolujte oblohu a protiprachový kryt"
 
 #: ekos/align/aligndiagnosis.cpp:945
 #, kde-format
 msgid "Only %1 stars were found in the failed frame."
-msgstr ""
+msgstr "V neúspešnej snímke sa našlo iba %1 hviezd."
 
 #: ekos/align/aligndiagnosis.cpp:947
 #, kde-format
 msgid "Check that the dust cap or cover is open."
-msgstr ""
+msgstr "Skontrolujte, či je protiprachový kryt alebo veko otvorené."
 
 #: ekos/align/aligndiagnosis.cpp:948 ekos/focus/focusdiagnosis.cpp:599
 #: ekos/focus/focusdiagnosis.cpp:684
@@ -8719,12 +8645,12 @@ msgstr ""
 msgid ""
 "Check for clouds, dew on the optics, or an obstruction in front of the "
 "telescope."
-msgstr ""
+msgstr "Skontrolujte oblaky, rosu na optike alebo prekážku pred ďalekohľadom."
 
 #: ekos/align/aligndiagnosis.cpp:949
 #, kde-format
 msgid "Take a test exposure and look for stars."
-msgstr ""
+msgstr "Urobte testovaciu expozíciu a hľadajte hviezdy."
 
 #: ekos/align/aligndiagnosis.cpp:959
 #, kde-format
@@ -8732,6 +8658,8 @@ msgid ""
 "The stars are rings, darker in the middle, as stars are when the telescope "
 "is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"Hviezdy sú prstence, v strede tmavšie, ako hviezdy pri rozostrenom "
+"ďalekohľade. Ich medián HFR je %1 pixelov."
 
 #: ekos/align/aligndiagnosis.cpp:961
 #, kde-format
@@ -8739,24 +8667,26 @@ msgid ""
 "The stars are flat discs without a bright core, as stars are when the "
 "telescope is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"Hviezdy sú ploché disky bez jasného jadra, ako hviezdy pri rozostrenom "
+"ďalekohľade. Ich medián HFR je %1 pixelov."
 
 #: ekos/align/aligndiagnosis.cpp:963
-#, fuzzy, kde-format
-#| msgid "Add new telescope"
+#, kde-format
 msgid "Focus the telescope"
-msgstr "Pridať nový teleskop"
+msgstr "Zaostrite ďalekohľad"
 
 #: ekos/align/aligndiagnosis.cpp:965
 #, kde-format
 msgid "Run autofocus in the Focus module, or focus by hand."
 msgstr ""
+"Spustite automatické zaostrovanie v module Zaostrovanie alebo zaostrite "
+"ručne."
 
 #: ekos/align/aligndiagnosis.cpp:987
-#, fuzzy, kde-format
-#| msgid "RA and DEC pulses moved the target in the same direction."
+#, kde-format
 msgid ""
 "The stars trailed %1 pixels, and the mount reports that it is not tracking."
-msgstr "Impulzy RA a DEC pohli cieľom rovnakým smerom."
+msgstr "Hviezdy vytvorili stopy dlhé %1 pixelov a montáž hlási, že nesleduje."
 
 #: ekos/align/aligndiagnosis.cpp:993
 #, kde-format
@@ -8764,13 +8694,14 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
 "mount does not track."
 msgstr ""
+"Hviezdy vytvorili stopy dlhé %1 pixelov, teda toľko, koľko sa posunú za %2 "
+"sekúnd, keď montáž nesleduje."
 
 #: ekos/align/aligndiagnosis.cpp:1000 ekos/focus/focusdiagnosis.cpp:631
 #: ekos/guide/guidediagnosis.cpp:323
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Check the mount tracking"
-msgstr "Sledovanie montáže"
+msgstr "Skontrolujte sledovanie montáže"
 
 #: ekos/align/aligndiagnosis.cpp:1002
 #, kde-format
@@ -8778,13 +8709,14 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds without "
 "tracking, although the mount reports tracking."
 msgstr ""
+"Hviezdy vytvorili stopy dlhé %1 pixelov, teda toľko, koľko sa posunú za %2 "
+"sekúnd bez sledovania, hoci montáž hlási sledovanie."
 
 #: ekos/align/aligndiagnosis.cpp:1004 ekos/focus/focusdiagnosis.cpp:632
 #: ekos/guide/guidediagnosis.cpp:324
-#, fuzzy, kde-format
-#| msgid "RA and DEC pulses moved the target in the same direction."
+#, kde-format
 msgid "All stars trailed %1 pixels in the same direction."
-msgstr "Impulzy RA a DEC pohli cieľom rovnakým smerom."
+msgstr "Všetky hviezdy vytvorili stopy dlhé %1 pixelov v rovnakom smere."
 
 #: ekos/align/aligndiagnosis.cpp:1009
 #, kde-format
@@ -8792,12 +8724,14 @@ msgid ""
 "Check that the RA clutch is locked: a slipping clutch leaves the telescope "
 "still while the motor tracks."
 msgstr ""
+"Skontrolujte, či je spojka RA zaistená: prešmykujúca spojka nechá ďalekohľad "
+"stáť, kým motor sleduje."
 
 #: ekos/align/aligndiagnosis.cpp:1011 ekos/focus/focusdiagnosis.cpp:633
 #: ekos/guide/guidediagnosis.cpp:325
 #, kde-format
 msgid "Check that the mount is tracking at the sidereal rate."
-msgstr ""
+msgstr "Skontrolujte, či montáž sleduje hviezdnou rýchlosťou."
 
 #: ekos/align/aligndiagnosis.cpp:1012 ekos/focus/focusdiagnosis.cpp:634
 #: ekos/guide/guidediagnosis.cpp:326
@@ -8806,18 +8740,19 @@ msgid ""
 "Check the balance, and that nothing touches the telescope during the "
 "exposure, e.g. wind or cables."
 msgstr ""
+"Skontrolujte vyváženie a či sa počas expozície ďalekohľadu nič nedotýka, "
+"napr. vietor alebo káble."
 
 #: ekos/align/aligndiagnosis.cpp:1013 ekos/focus/focusdiagnosis.cpp:635
-#, fuzzy, kde-format
-#| msgid "Use the frame exposure value"
+#, kde-format
 msgid "Use a shorter exposure."
-msgstr "Použiť hodnotu expozície snímky"
+msgstr "Použite kratšiu expozíciu."
 
 #: ekos/align/aligndiagnosis.cpp:1022 ekos/focus/focusdiagnosis.cpp:644
 #: ekos/guide/guidediagnosis.cpp:335
 #, kde-format
 msgid "Check the mount for a sudden jump"
-msgstr ""
+msgstr "Skontrolujte, či montáž neposkočila"
 
 #: ekos/align/aligndiagnosis.cpp:1023 ekos/focus/focusdiagnosis.cpp:645
 #: ekos/guide/guidediagnosis.cpp:336
@@ -8826,45 +8761,45 @@ msgid ""
 "Every star appears twice, %1 pixels apart: the mount jumped during the "
 "exposure."
 msgstr ""
+"Každá hviezda sa zobrazuje dvakrát, %1 pixelov od seba: montáž počas "
+"expozície poskočila."
 
 #: ekos/align/aligndiagnosis.cpp:1026 ekos/focus/focusdiagnosis.cpp:647
 #: ekos/guide/guidediagnosis.cpp:338
 #, kde-format
 msgid "Check the balance of both axes, and that the clutches are tight."
-msgstr ""
+msgstr "Skontrolujte vyváženie oboch osí a či sú spojky pevne utiahnuté."
 
 #: ekos/align/aligndiagnosis.cpp:1027 ekos/focus/focusdiagnosis.cpp:648
 #: ekos/guide/guidediagnosis.cpp:339
 #, kde-format
 msgid "Check that no cable snags or pulls on the telescope."
-msgstr ""
+msgstr "Skontrolujte, či sa žiadny kábel nezachytáva ani neťahá za ďalekohľad."
 
 #: ekos/align/aligndiagnosis.cpp:1028
 #, kde-format
 msgid "Check the gear backlash of the mount."
-msgstr ""
+msgstr "Skontrolujte vôľu prevodov montáže."
 
 #: ekos/align/aligndiagnosis.cpp:1039 ekos/focus/focusdiagnosis.cpp:578
 #, kde-format
 msgid "Image: the star shapes in the failed frame were not measured."
-msgstr ""
+msgstr "Snímka: tvary hviezd v neúspešnej snímke neboli zmerané."
 
 #: ekos/align/aligndiagnosis.cpp:1061
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount reports tracking."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž hlási sledovanie."
 
 #: ekos/align/aligndiagnosis.cpp:1073
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Camera, optics and pixel size are set."
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+msgstr "Kamera, optika a veľkosť pixelu sú nastavené."
 
 #: ekos/align/aligndiagnosis.cpp:1076
 #, kde-format
 msgid "The image reached KStars."
-msgstr ""
+msgstr "Snímka sa dostala do KStars."
 
 #: ekos/align/aligndiagnosis.cpp:1086
 #, kde-format
@@ -8872,19 +8807,19 @@ msgid ""
 "The solver also ran without the scale and position hints, so a wrong focal "
 "length or a wrong mount position alone is not the cause."
 msgstr ""
+"Riešiteľ bežal aj bez nápovedy mierky a polohy, takže samotná nesprávna "
+"ohnisková vzdialenosť alebo nesprávna poloha montáže nie je príčinou."
 
 #: ekos/align/aligndiagnosis.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Please Check the Alignment Points."
+#, kde-format
 msgid "Check the Align log"
-msgstr "Skontrolujte zarovnávacie body."
+msgstr "Skontrolujte záznam Zarovnania"
 
 #: ekos/align/aligndiagnosis.cpp:1212 ekos/focus/focusdiagnosis.cpp:1169
 #: ekos/guide/guidediagnosis.cpp:709
-#, fuzzy, kde-format
-#| msgid "No devices found"
+#, kde-format
 msgid "No specific cause was found."
-msgstr "Nenašli sa žiadne zariadenia"
+msgstr "Nenašla sa žiadna konkrétna príčina."
 
 #: ekos/align/aligndiagnosis.cpp:1215
 #, kde-format
@@ -8892,6 +8827,8 @@ msgid ""
 "Check the focal length, reducer and pixel size: a wrong field of view stops "
 "the solver."
 msgstr ""
+"Skontrolujte ohniskovú vzdialenosť, reduktor a veľkosť pixelu: nesprávne "
+"zorné pole zastaví riešiteľ."
 
 #: ekos/align/aligndiagnosis.cpp:1216
 #, kde-format
@@ -8899,73 +8836,73 @@ msgid ""
 "Check the time, time zone and location of KStars and the mount: a wrong "
 "position hint stops the solver."
 msgstr ""
+"Skontrolujte čas, časové pásmo a polohu v KStars a v montáži: nesprávna "
+"nápoveda polohy zastaví riešiteľ."
 
 #: ekos/align/aligndiagnosis.cpp:1217
 #, kde-format
 msgid "Check that the index files for this field of view are installed."
-msgstr ""
+msgstr "Skontrolujte, či sú nainštalované indexové súbory pre toto zorné pole."
 
 #: ekos/align/aligndiagnosis.cpp:1218
 #, kde-format
 msgid ""
 "Enable Alignment Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
+"Podrobnosti o zlyhaní získate povolením Alignment Logging v karte Nastavenie "
+"-> Záznamy."
 
 #: ekos/align/aligndiagnosis.cpp:1243 ekos/focus/focusdiagnosis.cpp:1195
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The camera %1 is connected."
-msgstr "%1 je odpojené"
+msgstr "Kamera %1 je pripojená."
 
 #: ekos/align/aligndiagnosis.cpp:1253
-#, fuzzy, kde-format
-#| msgid "Mount is synced to solution coordinates."
+#, kde-format
 msgid "The mount is connected and reports its position."
-msgstr "Montáž je synchronizovaná so súradnicami riešenia."
+msgstr "Montáž je pripojená a hlási svoju polohu."
 
 #: ekos/align/aligndiagnosis.cpp:1259
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "The mount is tracking."
-msgstr "Sledovanie montáže"
+msgstr "Montáž sleduje."
 
 #: ekos/align/aligndiagnosis.cpp:1271
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Focal length, aperture and pixel size are set."
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+msgstr "Ohnisková vzdialenosť, priemer a veľkosť pixelu sú nastavené."
 
 #: ekos/align/aligndiagnosis.cpp:1289
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
+"Zarovnanie vyriešilo snímku s aktuálnou expozíciou, binningom a profilom "
+"riešiteľa."
 
 #: ekos/align/aligndiagnosis.cpp:1336
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Align looks ready"
-msgstr "Rozptyľovanie"
+msgstr "Zarovnanie vyzerá pripravené"
 
 #: ekos/align/aligndiagnosis.cpp:1337
 #, kde-format
 msgid "No problems were found in the Align setup."
-msgstr ""
+msgstr "V nastavení Zarovnania sa nenašli žiadne problémy."
 
 #: ekos/align/aligndiagnosis.cpp:1341 ekos/focus/focusdiagnosis.cpp:1231
 #: ekos/guide/guidediagnosis.cpp:822
-#, fuzzy, kde-format
-#| msgid "Capturing to check HFR..."
+#, kde-format
 msgid "%1 thing to check"
 msgid_plural "%1 things to check"
-msgstr[0] "Snímam obrázok..."
-msgstr[1] "Snímam obrázok..."
-msgstr[2] "Snímam obrázok..."
+msgstr[0] "%1 vec na kontrolu"
+msgstr[1] "%1 veci na kontrolu"
+msgstr[2] "%1 vecí na kontrolu"
 
 #: ekos/align/aligndiagnosis.cpp:1342 ekos/focus/focusdiagnosis.cpp:1232
 #: ekos/guide/guidediagnosis.cpp:823
 #, kde-format
 msgid "Start with the first suggestion, it is the most likely to matter."
-msgstr ""
+msgstr "Začnite prvým návrhom, ten je najpravdepodobnejšie dôležitý."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -9177,12 +9114,9 @@ msgid "The Mount Model Tool is Finished."
 msgstr "Nástroj modelu montáže je dokončený."
 
 #: ekos/align/mountmodel.cpp:1324
-#, fuzzy, kde-format
-#| msgid "Mount model: forcing blind solve and sync for each alignment point."
+#, kde-format
 msgid "Mount model: syncing the mount for each alignment point."
-msgstr ""
-"Model montáže: vynúti sa slepé riešenie a synchronizácia pre každý "
-"zarovnávací bod."
+msgstr "Model montáže: synchronizácia montáže pre každý zarovnávací bod."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -9994,16 +9928,13 @@ msgstr "Časový limit korekcie:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_PAHCorrectionTimeout)
 #: ekos/align/opsalign.ui:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timeout in seconds for automatic polar alignment correction. If the "
-#| "system cannot reach the desired threshold within this period, it aborts."
+#, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction. Time the "
 "corrector spends moving is not counted."
 msgstr ""
-"Časový limit v sekundách pre automatickú korekciu polárneho zarovnávania. Ak "
-"systém nedosiahne požadovaný prah v tomto období, preruší sa."
+"Časový limit v sekundách pre automatickú korekciu polárneho zarovnávania. "
+"Čas, ktorý korektor strávi pohybom, sa nezapočítava."
 
 #. i18n: ectx: property (text), widget (QLabel, labelCorrectionTimeoutUnit)
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
@@ -12007,12 +11938,12 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1574
 #, kde-format
 msgid "PAC: Az error %1' is below %2', not correcting azimuth."
-msgstr ""
+msgstr "PAC: Chyba Az %1' je pod %2', azimut sa nekoriguje."
 
 #: ekos/align/polaralignmentassistant.cpp:1581
 #, kde-format
 msgid "PAC: Alt error %1' is below %2', not correcting altitude."
-msgstr ""
+msgstr "PAC: Chyba Alt %1' je pod %2', výška sa nekoriguje."
 
 #: ekos/align/polaralignmentassistant.cpp:1596
 #, kde-format
@@ -14490,40 +14421,28 @@ msgid "Double click to load dark frame"
 msgstr "Dvojklikom načítate tmavý rámec"
 
 #: ekos/auxiliary/darkprocessor.cpp:159
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame has %1 color channels while the frame being calibrated has %2."
 msgstr ""
-"Tmavý rámec má %1x%2 pixelov, zatiaľ čo kalibrovaný rámec má %3x%4 pixelov."
+"Tmavý rámec má %1 farebných kanálov, zatiaľ čo kalibrovaný rámec má %2."
 
 #: ekos/auxiliary/darkprocessor.cpp:162
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame and the frame being calibrated have different data types."
-msgstr ""
-"Tmavý rámec má %1x%2 pixelov, zatiaľ čo kalibrovaný rámec má %3x%4 pixelov."
+msgstr "Tmavý rámec a kalibrovaný rámec majú rôzne dátové typy."
 
 #: ekos/auxiliary/darkprocessor.cpp:164
-#, fuzzy, kde-format
-#| msgid ""
-#| "The dark frame is %1x%2 pixels while the frame being calibrated is %3x%4 "
-#| "pixels."
+#, kde-format
 msgid ""
 "The dark frame is %1x%2 pixels and does not cover the %3x%4 frame at %5,%6."
-msgstr ""
-"Tmavý rámec má %1x%2 pixelov, zatiaľ čo kalibrovaný rámec má %3x%4 pixelov."
+msgstr "Tmavý rámec má %1x%2 pixelov a nepokrýva rámec %3x%4 na pozícii %5,%6."
 
 #: ekos/auxiliary/darkprocessor.cpp:211
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer offsets %1 %2."
+#, kde-format
 msgid "Unsupported data type of the dark frame."
-msgstr "Nepodporované Bayerove posuny %1 %2."
+msgstr "Nepodporovaný dátový typ tmavého rámca."
 
 #: ekos/auxiliary/darkprocessor.cpp:305
 #, kde-format
@@ -14580,126 +14499,115 @@ msgstr "Odstrániť tento uložený odkaz na zariadenie"
 #, kde-format
 msgctxt "%1 module name, %2 result"
 msgid "%1 check-up: %2"
-msgstr ""
+msgstr "Kontrola %1: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:218
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgctxt "%1 module name, %2 result, %3 explanation"
 msgid "%1 check-up: %2. %3"
-msgstr "Riešiteľ zlyhal: %1 s %2"
+msgstr "Kontrola %1: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:222
-#, fuzzy, kde-format
-#| msgid "Item failed: %1"
+#, kde-format
 msgctxt "%1 module name, %2 cause"
 msgid "%1 failed: %2"
-msgstr "Položka zlyhala: %1"
+msgstr "%1 zlyhalo: %2"
 
 #: ekos/auxiliary/diagnosis.cpp:224
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgctxt "%1 module name, %2 cause, %3 explanation"
 msgid "%1 failed: %2. %3"
-msgstr "Riešiteľ zlyhal: %1 s %2"
+msgstr "%1 zlyhalo: %2. %3"
 
 #: ekos/auxiliary/diagnosis.cpp:228
-#, fuzzy, kde-format
-#| msgid "Device: %1"
+#, kde-format
 msgctxt "%1 list of things that were checked"
 msgid "Checked: %1"
-msgstr "Zariadenie: %1"
+msgstr "Skontrolované: %1"
 
 #: ekos/auxiliary/diagnosis.cpp:230
-#, fuzzy, kde-format
-#| msgid "Not Picked"
+#, kde-format
 msgctxt "%1 list of things that could not be checked"
 msgid "Not checked: %1"
-msgstr "Nevybraté"
+msgstr "Neskontrolované: %1"
 
 #: ekos/auxiliary/diagnosis.cpp:235
 #, kde-format
 msgid "Suggested:"
-msgstr ""
+msgstr "Navrhované:"
 
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "pravdepodobná príčina"
 
 #: ekos/auxiliary/diagnosis.cpp:243
-#, fuzzy, kde-format
-#| msgid "No equipment"
+#, kde-format
 msgid "moves equipment"
-msgstr "Žiadne vybavenie"
+msgstr "hýbe vybavením"
 
 #: ekos/auxiliary/diagnosis.cpp:247
 #, kde-format
 msgid "download about %1 MB"
-msgstr ""
+msgstr "stiahne približne %1 MB"
 
 #: ekos/auxiliary/diagnosis.cpp:249
-#, fuzzy, kde-format
-#| msgid "Search in internet"
+#, kde-format
 msgid "needs internet"
-msgstr "Hľadať na internete"
+msgstr "vyžaduje internet"
 
 #: ekos/auxiliary/diagnosis.cpp:252
 #, kde-format
 msgid "stops another activity"
-msgstr ""
+msgstr "zastaví inú činnosť"
 
 #: ekos/auxiliary/diagnosisactions.h:50
-#, fuzzy, kde-format
-#| msgid "No devices available"
+#, kde-format
 msgid "The device is not available."
-msgstr "Žiadne zariadenia nie sú dostupné"
+msgstr "Zariadenie nie je dostupné."
 
 #: ekos/auxiliary/diagnosismanager.cpp:28
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timed out."
-msgstr "Čas vypršal:"
+msgstr "Čas vypršal."
 
 #: ekos/auxiliary/diagnosismanager.cpp:225
 #: ekos/auxiliary/diagnosismanager.cpp:230
 #, kde-format
 msgid "Diagnosis: the fix worked."
-msgstr ""
+msgstr "Diagnostika: oprava zabrala."
 
 #: ekos/auxiliary/diagnosismanager.cpp:326
 #, kde-format
 msgid "Diagnosis: applying \"%1\"..."
-msgstr ""
+msgstr "Diagnostika: použitie „%1“..."
 
 #: ekos/auxiliary/diagnosismanager.cpp:373
 #, kde-format
 msgid "Diagnosis: \"%1\" failed. %2"
-msgstr ""
+msgstr "Diagnostika: „%1“ zlyhalo. %2"
 
 #: ekos/auxiliary/diagnosismanager.cpp:390
-#, fuzzy, kde-format
-#| msgid "Warning: Dithering failed."
+#, kde-format
 msgid "Diagnosis: the fix failed. %1"
-msgstr "Rozptyľovanie"
+msgstr "Diagnostika: oprava zlyhala. %1"
 
 #: ekos/auxiliary/diagnosismanager.cpp:427
 #: ekos/auxiliary/diagnosismanager.cpp:479
 #, kde-format
 msgid "Diagnosis: retrying..."
-msgstr ""
+msgstr "Diagnostika: opakovanie..."
 
 #: ekos/auxiliary/diagnosismanager.cpp:430
 #: ekos/auxiliary/diagnosismanager.cpp:482
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The retry could not start."
-msgstr "Súbor s váhami sa nepodarilo prečítať."
+msgstr "Opakovanie sa nepodarilo spustiť."
 
 #: ekos/auxiliary/diagnosismanager.cpp:444
 #, kde-format
 msgid "Diagnosis: the change was reverted."
-msgstr ""
+msgstr "Diagnostika: zmena bola vrátená."
 
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
@@ -15910,22 +15818,19 @@ msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "Profil určený pre riešenie platničiek teleskopicky veľkých snímok"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:376
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt ""
 "Name of a modified built-in plate solving profile, %1 is the original name"
 msgid "%1 (Custom)"
-msgstr "Užívateľský"
+msgstr "%1 (vlastný)"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:380
-#, fuzzy, kde-format
-#| msgctxt "%2 is the value, % is the percent sign"
-#| msgid "%1 (%2%)"
+#, kde-format
 msgctxt ""
 "Name of a modified built-in plate solving profile, %1 is the original name, "
 "%2 a number"
 msgid "%1 (Custom %2)"
-msgstr "%1 (%2%)"
+msgstr "%1 (vlastný %2)"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:449
 #, kde-format
@@ -16836,25 +16741,22 @@ msgstr "ADU"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureCalibrationADUValue)
 #: ekos/capture/calibrationoptions.ui:185
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "Calculate optimal exposure time given the required ADU. If a controllable "
-#| "device is selected, calculate optimal brightness."
+#, no-c-format, kde-format
 msgid ""
 "Calculate optimal exposure time given the required ADU. If a controllable "
 "device is selected, calculate optimal brightness. Auto aims at 40% of the "
 "range of the image, with a tolerance of 5%."
 msgstr ""
-"Vypočítať optimálny čas expozície daný vyžadovaným ADU. Ak je vybrané "
-"ovládateľné zariadenie, vypočítať optimálny jas."
+"Vypočítať optimálny čas expozície pre požadované ADU. Ak je vybrané "
+"ovládateľné zariadenie, vypočítať optimálny jas. Auto mieri na 40 % rozsahu "
+"snímky s toleranciou 5 %."
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, captureCalibrationADUValue)
 #: ekos/capture/calibrationoptions.ui:188
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "automatic flat field target ADU"
 msgid "Auto"
-msgstr "Automatická"
+msgstr "Auto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureCalibrationADUTolerance)
@@ -18294,6 +18196,9 @@ msgid ""
 "duration in the Calibration options, or set the image transfer format to "
 "FITS or XISF."
 msgstr ""
+"ADU snímok plochého poľa nemožno vypočítať v snímkach %1. V možnostiach "
+"kalibrácie vyberte ručné trvanie plochého poľa alebo nastavte formát prenosu "
+"snímok na FITS alebo XISF."
 
 #: ekos/capture/cameraprocess.cpp:1644
 #, kde-format
@@ -18301,6 +18206,8 @@ msgid ""
 "Flat calibration adjusts the light box brightness at an exposure of %1 "
 "seconds. Target ADU: Auto."
 msgstr ""
+"Kalibrácia plochého poľa upravuje jas svetelného boxu pri expozícii %1 "
+"sekúnd. Cieľové ADU: Auto."
 
 #: ekos/capture/cameraprocess.cpp:1647
 #, kde-format
@@ -18308,16 +18215,18 @@ msgid ""
 "Flat calibration adjusts the light box brightness at an exposure of %1 "
 "seconds. Target ADU: %2 ± %3."
 msgstr ""
+"Kalibrácia plochého poľa upravuje jas svetelného boxu pri expozícii %1 "
+"sekúnd. Cieľové ADU: %2 ± %3."
 
 #: ekos/capture/cameraprocess.cpp:1650
 #, kde-format
 msgid "Flat calibration adjusts the exposure. Target ADU: Auto."
-msgstr ""
+msgstr "Kalibrácia plochého poľa upravuje expozíciu. Cieľové ADU: Auto."
 
 #: ekos/capture/cameraprocess.cpp:1652
 #, kde-format
 msgid "Flat calibration adjusts the exposure. Target ADU: %1 ± %2."
-msgstr ""
+msgstr "Kalibrácia plochého poľa upravuje expozíciu. Cieľové ADU: %1 ± %2."
 
 #: ekos/capture/cameraprocess.cpp:1801 ekos/capture/cameraprocess.cpp:2396
 #, kde-format
@@ -18382,10 +18291,9 @@ msgstr ""
 "Časový limit expozície. Bolo zistených viac ako 3, ovládač sa reštartuje."
 
 #: ekos/capture/cameraprocess.cpp:2345
-#, fuzzy, kde-format
-#| msgid "Operation timeout. Restarting operation..."
+#, kde-format
 msgid "Video recording timeout. Restarting recording..."
-msgstr "Operácia vypršala. Reštartujem operáciu..."
+msgstr "Nahrávanie videa vypršalo. Nahrávanie sa reštartuje..."
 
 #: ekos/capture/cameraprocess.cpp:2377
 #, kde-format
@@ -18393,21 +18301,18 @@ msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
 #: ekos/capture/cameraprocess.cpp:2429
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat calibration failed. Captured image is only %1-bit while requested "
-#| "ADU is %2."
+#, kde-format
 msgid ""
 "Flat calibration failed. No automatic target ADU is available for %1-bit "
 "images. Set the target ADU manually."
 msgstr ""
-"Kalibrácia plochého rámca zlyhala. Nasnímaná snímka je iba %1-bitová, kým "
-"požadované ADU je %2."
+"Kalibrácia plochého poľa zlyhala. Pre %1-bitové snímky nie je dostupné "
+"automatické cieľové ADU. Nastavte cieľové ADU ručne."
 
 #: ekos/capture/cameraprocess.cpp:2434
 #, kde-format
 msgid "Automatic target ADU for %1-bit images: %2 ± %3."
-msgstr ""
+msgstr "Automatické cieľové ADU pre %1-bitové snímky: %2 ± %3."
 
 #: ekos/capture/cameraprocess.cpp:2474
 #, kde-format
@@ -18432,6 +18337,8 @@ msgstr "Aktuálne ADU %1 v cieľovom rozsahu tolerancie ADU."
 #, kde-format
 msgid "Flats are taken at an exposure of %1 seconds instead of %2 seconds."
 msgstr ""
+"Snímky plochého poľa sa zachytávajú pri expozícii %1 sekúnd namiesto %2 "
+"sekúnd."
 
 #: ekos/capture/cameraprocess.cpp:2552
 #, kde-format
@@ -18440,6 +18347,9 @@ msgid ""
 "so the automatic target ADU of %2 cannot be reached. Set the target ADU "
 "manually."
 msgstr ""
+"Kalibrácia plochého poľa zastavená. ADU zostáva blízko %1, kým sa expozícia "
+"mení, takže automatické cieľové ADU %2 nemožno dosiahnuť. Nastavte cieľové "
+"ADU ručne."
 
 #: ekos/capture/cameraprocess.cpp:2555
 #, kde-format
@@ -18448,6 +18358,9 @@ msgid ""
 "so the target ADU of %2 cannot be reached. Check the target ADU and the flat "
 "source."
 msgstr ""
+"Kalibrácia plochého poľa zastavená. ADU zostáva blízko %1, kým sa expozícia "
+"mení, takže cieľové ADU %2 nemožno dosiahnuť. Skontrolujte cieľové ADU a "
+"zdroj plochého poľa."
 
 #: ekos/capture/cameraprocess.cpp:2572
 #, kde-format
@@ -18467,6 +18380,8 @@ msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
 msgid ""
 "Flat calibration failed. No light box is configured for this optical train."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Pre túto optickú zostavu nie je nastavený "
+"žiadny svetelný box."
 
 #: ekos/capture/cameraprocess.cpp:2737
 #, kde-format
@@ -18474,6 +18389,8 @@ msgid ""
 "Flat calibration failed. %1 does not offer a brightness that can be adjusted "
 "(range %2 - %3)."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. %1 neponúka nastaviteľný jas (rozsah %2 - "
+"%3)."
 
 #: ekos/capture/cameraprocess.cpp:2763
 #, kde-format
@@ -18481,6 +18398,8 @@ msgid ""
 "The light box brightness changed from %1 to %2 during the frame. Taking it "
 "again."
 msgstr ""
+"Jas svetelného boxu sa počas snímky zmenil z %1 na %2. Snímka sa zachytí "
+"znova."
 
 #: ekos/capture/cameraprocess.cpp:2769
 #, kde-format
@@ -18488,6 +18407,8 @@ msgid ""
 "Flat calibration failed. The light box brightness keeps changing on its own, "
 "from %1 to %2 during the last frame."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Jas svetelného boxu sa sám neustále mení, "
+"počas poslednej snímky z %1 na %2."
 
 #: ekos/capture/cameraprocess.cpp:2781
 #, kde-format
@@ -18495,19 +18416,21 @@ msgid ""
 "Flat calibration failed. The light box does not offer a usable brightness "
 "range (%1 - %2)."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Svetelný box neponúka použiteľný rozsah "
+"jasu (%1 - %2)."
 
 #: ekos/capture/cameraprocess.cpp:2790
 #, kde-format
 msgid "Light box brightness calibration starts at brightness %1."
-msgstr ""
+msgstr "Kalibrácia jasu svetelného boxu začína pri jase %1."
 
 #: ekos/capture/cameraprocess.cpp:2809
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1 Next exposure is %2 seconds."
+#, kde-format
 msgid ""
 "Current ADU is %1 at light box brightness %2, and %3 at the maximum "
 "brightness (%4)."
-msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
+msgstr ""
+"Aktuálne ADU je %1 pri jase svetelného boxu %2 a %3 pri maximálnom jase (%4)."
 
 #: ekos/capture/cameraprocess.cpp:2836
 #, kde-format
@@ -18515,25 +18438,28 @@ msgid ""
 "Current ADU %1 is below the target at the maximum light box brightness. "
 "Checking at brightness %2 that the light box gives light."
 msgstr ""
+"Aktuálne ADU %1 je pri maximálnom jase svetelného boxu pod cieľom. Pri jase "
+"%2 sa kontroluje, či svetelný box svieti."
 
 #: ekos/capture/cameraprocess.cpp:2842
-#, fuzzy, kde-format
-#| msgid "Current ADU %1 within target ADU tolerance range."
+#, kde-format
 msgid ""
 "Current ADU %1 is outside the target ADU tolerance range again. Next light "
 "box brightness is %2."
-msgstr "Aktuálne ADU %1 v cieľovom rozsahu tolerancie ADU."
+msgstr ""
+"Aktuálne ADU %1 je opäť mimo rozsahu tolerancie cieľového ADU. Ďalší jas "
+"svetelného boxu je %2."
 
 #: ekos/capture/cameraprocess.cpp:2846
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1 Next exposure is %2 seconds."
+#, kde-format
 msgid "Current ADU is %1. Next light box brightness is %2."
-msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
+msgstr "Aktuálne ADU je %1. Ďalší jas svetelného boxu je %2."
 
 #: ekos/capture/cameraprocess.cpp:2855 ekos/capture/cameraprocess.cpp:2961
 #, kde-format
 msgid "Flat calibration failed. Unable to set the light box brightness."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Jas svetelného boxu sa nepodarilo nastaviť."
 
 #: ekos/capture/cameraprocess.cpp:2871
 #, kde-format
@@ -18541,6 +18467,8 @@ msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, measured: "
 "%2, brightness: minimum (%3)."
 msgstr ""
+"Cieľové ADU sa jasom svetelného boxu nedá dosiahnuť. Cieľ: %1, namerané: %2, "
+"jas: minimum (%3)."
 
 #: ekos/capture/cameraprocess.cpp:2879
 #, kde-format
@@ -18548,6 +18476,8 @@ msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, measured: "
 "%2, brightness: maximum (%3)."
 msgstr ""
+"Cieľové ADU sa jasom svetelného boxu nedá dosiahnuť. Cieľ: %1, namerané: %2, "
+"jas: maximum (%3)."
 
 #: ekos/capture/cameraprocess.cpp:2886
 #, kde-format
@@ -18555,6 +18485,8 @@ msgid ""
 "Flat calibration failed. No signal measured at maximum light box brightness "
 "(%1). Check the light source and the optical path."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Pri maximálnom jase svetelného boxu (%1) "
+"nebol nameraný žiadny signál. Skontrolujte svetelný zdroj a optickú dráhu."
 
 #: ekos/capture/cameraprocess.cpp:2894
 #, kde-format
@@ -18562,6 +18494,8 @@ msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1, between "
 "brightness %2 (%3 ADU) and %4 (%5 ADU)."
 msgstr ""
+"Cieľové ADU sa jasom svetelného boxu nedá dosiahnuť. Cieľ: %1, medzi jasom "
+"%2 (%3 ADU) a %4 (%5 ADU)."
 
 #: ekos/capture/cameraprocess.cpp:2901
 #, kde-format
@@ -18569,6 +18503,8 @@ msgid ""
 "Unable to reach target ADU using light box brightness. Target: %1. The "
 "brightness cannot be adjusted any finer."
 msgstr ""
+"Cieľové ADU sa jasom svetelného boxu nedá dosiahnuť. Cieľ: %1. Jas nemožno "
+"nastaviť jemnejšie."
 
 #: ekos/capture/cameraprocess.cpp:2906
 #, kde-format
@@ -18576,11 +18512,13 @@ msgid ""
 "Unable to reach target ADU using light box brightness within %1 frames. "
 "Target: %2."
 msgstr ""
+"Cieľové ADU sa jasom svetelného boxu nepodarilo dosiahnuť v rámci %1 snímok. "
+"Cieľ: %2."
 
 #: ekos/capture/cameraprocess.cpp:2912
 #, kde-format
 msgid "Flat calibration failed. Brightness calibration is not configured."
-msgstr ""
+msgstr "Kalibrácia plochého poľa zlyhala. Kalibrácia jasu nie je nastavená."
 
 #: ekos/capture/cameraprocess.cpp:2941
 #, kde-format
@@ -18588,6 +18526,8 @@ msgid ""
 "Continuing with light box brightness %1 and adjusting the exposure instead. "
 "Next exposure is %2 seconds."
 msgstr ""
+"Pokračuje sa s jasom svetelného boxu %1 a namiesto toho sa upravuje "
+"expozícia. Ďalšia expozícia je %2 sekúnd."
 
 #: ekos/capture/cameraprocess.cpp:2994
 #, kde-format
@@ -18595,17 +18535,18 @@ msgid ""
 "Light box brightness left at %1 instead of restoring it to %2, since some "
 "light boxes switch their light off at that brightness."
 msgstr ""
+"Jas svetelného boxu zostal na %1 namiesto obnovenia na %2, pretože niektoré "
+"svetelné boxy pri tomto jase vypnú svetlo."
 
 #: ekos/capture/cameraprocess.cpp:3006
-#, fuzzy, kde-format
-#| msgid "Light box light turned on."
+#, kde-format
 msgid "Light box brightness restored to %1."
-msgstr "Svetlo svetelnej skriňky bolo zapnuté."
+msgstr "Jas svetelného boxu obnovený na %1."
 
 #: ekos/capture/cameraprocess.cpp:3008
 #, kde-format
 msgid "Unable to restore the light box brightness to %1."
-msgstr ""
+msgstr "Jas svetelného boxu sa nepodarilo obnoviť na %1."
 
 #: ekos/capture/cameraprocess.cpp:3022
 #, kde-format
@@ -18614,6 +18555,9 @@ msgid ""
 "exposure of %1 seconds, so the target ADU of %2 cannot be reached. Dim the "
 "flat source."
 msgstr ""
+"Kalibrácia plochého poľa zastavená. Snímka je aj pri najkratšej expozícii %1 "
+"sekúnd stále príliš jasná, takže cieľové ADU %2 nemožno dosiahnuť. Stlmte "
+"zdroj plochého poľa."
 
 #: ekos/capture/cameraprocess.cpp:3028
 #, kde-format
@@ -18622,35 +18566,32 @@ msgid ""
 "exposure of %1 seconds, so the target ADU of %2 cannot be reached. Check the "
 "flat source."
 msgstr ""
+"Kalibrácia plochého poľa zastavená. Snímka je aj pri najdlhšej expozícii %1 "
+"sekúnd stále príliš tmavá, takže cieľové ADU %2 nemožno dosiahnuť. "
+"Skontrolujte zdroj plochého poľa."
 
 #: ekos/capture/cameraprocess.cpp:3137
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat calibration failed. Captured image is only %1-bit while requested "
-#| "ADU is %2."
+#, kde-format
 msgid ""
 "Flat calibration failed. The light box rejected the requested brightness %1."
 msgstr ""
-"Kalibrácia plochého rámca zlyhala. Nasnímaná snímka je iba %1-bitová, kým "
-"požadované ADU je %2."
+"Kalibrácia plochého poľa zlyhala. Svetelný box odmietol požadovaný jas %1."
 
 #: ekos/capture/cameraprocess.cpp:3140
 #, kde-format
 msgid ""
 "Flat calibration failed. The light box reports an error for its brightness."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Svetelný box hlási chybu svojho jasu."
 
 #: ekos/capture/cameraprocess.cpp:3147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat calibration failed. Captured image is only %1-bit while requested "
-#| "ADU is %2."
+#, kde-format
 msgid ""
 "Flat calibration failed. The light box did not confirm the requested "
 "brightness %1 within %2 seconds."
 msgstr ""
-"Kalibrácia plochého rámca zlyhala. Nasnímaná snímka je iba %1-bitová, kým "
-"požadované ADU je %2."
+"Kalibrácia plochého poľa zlyhala. Svetelný box nepotvrdil požadovaný jas %1 "
+"do %2 sekúnd."
 
 #: ekos/capture/cameraprocess.cpp:3150
 #, kde-format
@@ -18658,6 +18599,8 @@ msgid ""
 "Flat calibration failed. The light box did not finish changing its "
 "brightness within %1 seconds."
 msgstr ""
+"Kalibrácia plochého poľa zlyhala. Svetelný box nedokončil zmenu jasu do %1 "
+"sekúnd."
 
 #: ekos/capture/cameraprocess.cpp:3184
 #, kde-format
@@ -18816,10 +18759,9 @@ msgid "Limit: %1 mins"
 msgstr "Limit: %1 min"
 
 #: ekos/capture/camerastate.cpp:946
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Changing filter to %1 before focusing..."
-msgstr "Mením filter na %1..."
+msgstr "Pred zaostrovaním sa mení filter na %1..."
 
 #: ekos/capture/camerastate.cpp:1023
 #, kde-format
@@ -20255,16 +20197,14 @@ msgid ""
 msgstr "Ekos znovu zaostri čo najskôr, posledný postup bol pred %1 sekundami."
 
 #: ekos/capture/rotatorsettings.cpp:85 ekos/capture/rotatorsettings.cpp:333
-#, fuzzy, kde-format
-#| msgid "Filter operation failed."
+#, kde-format
 msgid "Field derotation enabled."
-msgstr "Operácia filtra zlyhala."
+msgstr "Derotácia poľa zapnutá."
 
 #: ekos/capture/rotatorsettings.cpp:85 ekos/capture/rotatorsettings.cpp:333
-#, fuzzy, kde-format
-#| msgid "Filter operation failed."
+#, kde-format
 msgid "Field derotation disabled."
-msgstr "Operácia filtra zlyhala."
+msgstr "Derotácia poľa vypnutá."
 
 #: ekos/capture/rotatorsettings.cpp:168
 #, kde-format
@@ -20277,6 +20217,8 @@ msgid ""
 "Field derotation: the position angle changed by %1° at once. Holding the new "
 "position angle instead of rotating."
 msgstr ""
+"Derotácia poľa: pozičný uhol sa naraz zmenil o %1°. Namiesto otáčania sa "
+"drží nový pozičný uhol."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -20461,15 +20403,13 @@ msgstr "Možnosti zarovnania"
 #: ekos/capture/rotatorsettings.ui:589
 #, kde-format
 msgid "Available when the mount driver reports an Alt-Az mount type."
-msgstr ""
+msgstr "Dostupné, keď ovládač montáže hlási typ montáže Alt-Az."
 
 #. i18n: ectx: property (title), widget (QGroupBox, DerotationGroup)
 #: ekos/capture/rotatorsettings.ui:592
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Field De-rotator"
+#, kde-format
 msgid "Alt-Az Field Derotation"
-msgstr "Derotátor poľa"
+msgstr "Derotácia poľa Alt-Az"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, derotateField)
 #: ekos/capture/rotatorsettings.ui:613
@@ -20478,23 +20418,23 @@ msgid ""
 "While the mount tracks, turn the rotator to keep the camera position angle "
 "constant."
 msgstr ""
+"Kým montáž sleduje, otáčať rotátor tak, aby pozičný uhol kamery zostal "
+"konštantný."
 
 #. i18n: ectx: property (text), widget (QCheckBox, derotateField)
 #: ekos/capture/rotatorsettings.ui:616
-#, fuzzy, kde-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Bettles Field"
+#, kde-format
 msgid "Derotate Field"
-msgstr "Bettles Field"
+msgstr "Derotovať pole"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, derotationThreshold)
 #: ekos/capture/rotatorsettings.ui:643
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid ""
 "The rotator is corrected when the position angle drifts by more than this "
 "amount."
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr ""
+"Rotátor sa skoriguje, keď sa pozičný uhol posunie o viac ako túto hodnotu."
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, derotationThreshold)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
@@ -22875,55 +22815,53 @@ msgid ""
 "Autofocus never reached focus: the smallest stars had an HFR of %1, %2 times "
 "the %3 of recent good runs, and the run had no V."
 msgstr ""
+"Automatické zaostrovanie nikdy nedosiahlo zaostrenie: najmenšie hviezdy mali "
+"HFR %1, čo je %2-násobok %3 z nedávnych úspešných behov, a beh nemal tvar V."
 
 #: ekos/focus/focus_diagnosis.cpp:183
 #, kde-format
 msgid "HFR %1 = %2x in focus"
-msgstr ""
+msgstr "HFR %1 = %2x v zaostrení"
 
 #: ekos/focus/focus_diagnosis.cpp:426
-#, fuzzy, kde-format
-#| msgid "No devices available"
+#, kde-format
 msgid "Focus is not available."
-msgstr "Žiadne zariadenia nie sú dostupné"
+msgstr "Zaostrovanie nie je dostupné."
 
 #: ekos/focus/focus_diagnosis.cpp:428 ekos/focus/focus_diagnosis.cpp:536
 #, kde-format
 msgid "Focus is busy. Try again when it has finished."
-msgstr ""
+msgstr "Zaostrovanie je zaneprázdnené. Skúste to znova, keď skončí."
 
 #: ekos/focus/focus_diagnosis.cpp:433 ekos/guide/guide_diagnosis.cpp:263
-#, fuzzy, kde-format
-#| msgid "The object is already in the catalog!"
+#, kde-format
 msgid "The setting is already at its limit."
-msgstr "Objekt už je v katalógu!"
+msgstr "Nastavenie je už na limite."
 
 #: ekos/focus/focus_diagnosis.cpp:534
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "The focuser is not connected."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Zaostrovač nie je pripojený."
 
 #: ekos/focus/focus_diagnosis.cpp:541
 #, kde-format
 msgid "No good focus position is known for this filter."
-msgstr ""
+msgstr "Pre tento filter nie je známa žiadna dobrá poloha zaostrenia."
 
 #: ekos/focus/focus_diagnosis.cpp:543
 #, kde-format
 msgid "The position %1 is outside the focuser range."
-msgstr ""
+msgstr "Poloha %1 je mimo rozsahu zaostrovača."
 
 #: ekos/focus/focus_diagnosis.cpp:545
 #, kde-format
 msgid "The focuser rejected the move."
-msgstr ""
+msgstr "Zaostrovač odmietol pohyb."
 
 #: ekos/focus/focus_diagnosis.cpp:546
-#, fuzzy, kde-format
-#| msgid "Moving to minimum focus position %1..."
+#, kde-format
 msgid "Moving the focuser to %1."
-msgstr "Presúva sa na minimálnu zaostrovaciu pozíciu %1..."
+msgstr "Zaostrovač sa presúva na %1."
 
 #: ekos/focus/focusadvisor.cpp:81 ekos/focus/focusadvisor.cpp:82
 #, kde-format
@@ -23344,66 +23282,62 @@ msgid "Solution lies outside max travel."
 msgstr "Riešenie je mimo maximálneho zdvihu."
 
 #: ekos/focus/focusdiagnosis.cpp:107
-#, fuzzy, kde-format
-#| msgid "No optical trains for profile: %1"
+#, kde-format
 msgid "The optical train of Focus has no camera."
-msgstr "Žiadne optické trasy pre profil: %1"
+msgstr "Optická zostava Zaostrovania nemá kameru."
 
 #: ekos/focus/focusdiagnosis.cpp:123
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a focuser in the optical train"
-msgstr "Vybrať optickú sústavu"
+msgstr "Vyberte zaostrovač v optickej zostave"
 
 #: ekos/focus/focusdiagnosis.cpp:123
-#, fuzzy, kde-format
-#| msgid "No optical trains for profile: %1"
+#, kde-format
 msgid "The optical train of Focus has no focuser."
-msgstr "Žiadne optické trasy pre profil: %1"
+msgstr "Optická zostava Zaostrovania nemá zaostrovač."
 
 #: ekos/focus/focusdiagnosis.cpp:130
-#, fuzzy, kde-format
-#| msgid "Connect External"
+#, kde-format
 msgid "Connect the focuser"
-msgstr "Pripojiť"
+msgstr "Pripojte zaostrovač"
 
 #: ekos/focus/focusdiagnosis.cpp:131
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The focuser %1 is disconnected."
-msgstr "%1 je odpojené"
+msgstr "Zaostrovač %1 je odpojený."
 
 #: ekos/focus/focusdiagnosis.cpp:153
-#, fuzzy, kde-format
-#| msgid "Solver timed out after %1 seconds."
+#, kde-format
 msgid "Raise the step size to %1 ms"
-msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
+msgstr "Zvýšte veľkosť kroku na %1 ms"
 
 #: ekos/focus/focusdiagnosis.cpp:154
 #, kde-format
 msgid "The focuser moves by time, and a step of %1 ms is too short to move it."
 msgstr ""
+"Zaostrovač sa pohybuje podľa času a krok %1 ms je príliš krátky na jeho "
+"pohnutie."
 
 #: ekos/focus/focusdiagnosis.cpp:163
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the Focus exposure to %1 seconds"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte expozíciu Zaostrovania na %1 sekúnd"
 
 #: ekos/focus/focusdiagnosis.cpp:182
 #, kde-format
 msgid "Bin the Focus camera 2x2"
-msgstr ""
+msgstr "Nastavte binning kamery Zaostrovania na 2x2"
 
 #: ekos/focus/focusdiagnosis.cpp:183
 #, kde-format
 msgid "Binning collects more light per pixel, so fainter stars are detected."
 msgstr ""
+"Binning zachytí viac svetla na pixel, takže sa zistia aj slabšie hviezdy."
 
 #: ekos/focus/focusdiagnosis.cpp:191
 #, kde-format
 msgid "Move the focuser close to focus"
-msgstr ""
+msgstr "Presuňte zaostrovač blízko zaostrenia"
 
 #: ekos/focus/focusdiagnosis.cpp:193
 #, kde-format
@@ -23411,23 +23345,23 @@ msgid ""
 "Point the telescope at a bright star, and loop short exposures from the "
 "Focus module."
 msgstr ""
+"Namierte ďalekohľad na jasnú hviezdu a v module Zaostrovanie opakujte krátke "
+"expozície."
 
 #: ekos/focus/focusdiagnosis.cpp:194
 #, kde-format
 msgid "Move the focuser in or out until the star is small and sharp."
-msgstr ""
+msgstr "Posúvajte zaostrovač dnu alebo von, kým nie je hviezda malá a ostrá."
 
 #: ekos/focus/focusdiagnosis.cpp:195
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Run autofocus again from there."
-msgstr "Prebieha automatické ostrenie..."
+msgstr "Odtiaľ znova spustite automatické zaostrovanie."
 
 #: ekos/focus/focusdiagnosis.cpp:202
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Run Focus Advisor"
-msgstr "Focus Advisor"
+msgstr "Spustite Focus Advisor"
 
 #: ekos/focus/focusdiagnosis.cpp:203
 #, kde-format
@@ -23435,12 +23369,16 @@ msgid ""
 "Focus Advisor finds the focus area and sets the step size, backlash and "
 "overscan for this focuser."
 msgstr ""
+"Focus Advisor nájde oblasť zaostrenia a nastaví veľkosť kroku, vôľu a "
+"prekmit pre tento zaostrovač."
 
 #: ekos/focus/focusdiagnosis.cpp:234
 #, kde-format
 msgid ""
 "The last good autofocus ended at %1. This run started at %2, %3 steps away."
 msgstr ""
+"Posledné úspešné automatické zaostrovanie skončilo na %1. Tento beh začal na "
+"%2, o %3 krokov ďalej."
 
 #: ekos/focus/focusdiagnosis.cpp:236
 #, kde-format
@@ -23448,11 +23386,13 @@ msgid ""
 "The last good autofocus with filter %1 ended at %2. This run started at %3, "
 "%4 steps away."
 msgstr ""
+"Posledné úspešné automatické zaostrovanie s filtrom %1 skončilo na %2. Tento "
+"beh začal na %3, o %4 krokov ďalej."
 
 #: ekos/focus/focusdiagnosis.cpp:239
 #, kde-format
 msgid "It was %1 °C then."
-msgstr ""
+msgstr "Vtedy bolo %1 °C."
 
 #: ekos/focus/focusdiagnosis.cpp:241
 #, kde-format
@@ -23460,17 +23400,18 @@ msgid ""
 "The Adaptive Focus settings of the filter move it by %1 steps for the change "
 "of temperature and altitude since: focus should be near %2 now."
 msgstr ""
+"Nastavenia adaptívneho zaostrovania filtra ho kvôli zmene teploty a výšky "
+"odvtedy posúvajú o %1 krokov: zaostrenie by teraz malo byť blízko %2."
 
 #: ekos/focus/focusdiagnosis.cpp:245
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Move the focuser to %1"
-msgstr "Riešiteľ vypršal: %1 s"
+msgstr "Presuňte zaostrovač na %1"
 
 #: ekos/focus/focusdiagnosis.cpp:262
 #, kde-format
 msgid "Correct the focuser backlash only once"
-msgstr ""
+msgstr "Korigujte vôľu zaostrovača iba raz"
 
 #: ekos/focus/focusdiagnosis.cpp:263
 #, kde-format
@@ -23478,6 +23419,8 @@ msgid ""
 "The focuser driver corrects %1 steps of backlash, and AF Overscan adds %2 "
 "steps: the backlash is corrected twice."
 msgstr ""
+"Ovládač zaostrovača koriguje %1 krokov vôle a AF Overscan pridáva %2 krokov: "
+"vôľa sa koriguje dvakrát."
 
 #: ekos/focus/focusdiagnosis.cpp:265
 #, kde-format
@@ -23485,17 +23428,18 @@ msgid ""
 "Keep one of the two: set the driver backlash to 0 and keep AF Overscan, or "
 "set AF Overscan to 0 and keep the driver backlash."
 msgstr ""
+"Ponechajte jedno z dvoch: nastavte vôľu v ovládači na 0 a ponechajte AF "
+"Overscan, alebo nastavte AF Overscan na 0 a ponechajte vôľu v ovládači."
 
 #: ekos/focus/focusdiagnosis.cpp:267
 #, kde-format
 msgid "Both are in the Focus mechanics settings."
-msgstr ""
+msgstr "Oboje je v nastaveniach mechaniky Zaostrovania."
 
 #: ekos/focus/focusdiagnosis.cpp:283 ekos/focus/focusdiagnosis.cpp:723
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the maximum travel to %1 steps"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte maximálny posun na %1 krokov"
 
 #: ekos/focus/focusdiagnosis.cpp:284
 #, kde-format
@@ -23503,215 +23447,214 @@ msgid ""
 "A run of %1 steps out with steps of %2 needs %3 steps of travel, but the "
 "maximum travel is %4: the run is cut short."
 msgstr ""
+"Beh %1 krokov von s krokmi %2 potrebuje posun %3 krokov, ale maximálny posun "
+"je %4: beh sa skráti."
 
 #: ekos/focus/focusdiagnosis.cpp:304
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the initial step size to %1"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte počiatočnú veľkosť kroku na %1"
 
 #: ekos/focus/focusdiagnosis.cpp:312
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Check the sky and the seeing"
-msgstr "Sledovanie montáže"
+msgstr "Skontrolujte oblohu a seeing"
 
 #: ekos/focus/focusdiagnosis.cpp:314
 #, kde-format
 msgid "Check for clouds, haze or dew on the optics."
-msgstr ""
+msgstr "Skontrolujte oblaky, opar alebo rosu na optike."
 
 #: ekos/focus/focusdiagnosis.cpp:315
-#, fuzzy, kde-format
-#| msgid "Clear data and add a new telescope"
+#, kde-format
 msgid "Check that wind does not shake the telescope."
-msgstr "Vymazať dáta a pridať nový ďalekohľad"
+msgstr "Skontrolujte, či vietor netrasie ďalekohľadom."
 
 #: ekos/focus/focusdiagnosis.cpp:316
 #, kde-format
 msgid ""
 "In poor seeing, use longer exposures so each measurement averages more of it."
 msgstr ""
+"Pri zlom seeingu použite dlhšie expozície, aby sa v každom meraní "
+"spriemerovalo viac."
 
 #: ekos/focus/focusdiagnosis.cpp:326
-#, fuzzy, kde-format
-#| msgid "No stars detected"
+#, kde-format
 msgid "No stars were found"
-msgstr "Neboli detegované žiadne hviezdy"
+msgstr "Nenašli sa žiadne hviezdy"
 
 #: ekos/focus/focusdiagnosis.cpp:327
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "Autofocus needs stars in the focus frame to measure."
-msgstr "Orámovať zaostrovanú hviezdu počas procedúry automatického ostrenia."
+msgstr ""
+"Automatické zaostrovanie potrebuje na meranie hviezdy v zaostrovacej snímke."
 
 #: ekos/focus/focusdiagnosis.cpp:330
-#, fuzzy, kde-format
-#| msgid "Autofocus is not supported."
+#, kde-format
 msgid "Autofocus did not converge"
-msgstr "Automatické zameranie nie je podporované."
+msgstr "Automatické zaostrovanie nekonvergovalo"
 
 #: ekos/focus/focusdiagnosis.cpp:331
 #, kde-format
 msgid "Autofocus stopped after too many steps without finding the focus."
 msgstr ""
+"Automatické zaostrovanie sa zastavilo po príliš mnohých krokoch bez nájdenia "
+"zaostrenia."
 
 #: ekos/focus/focusdiagnosis.cpp:334
 #, kde-format
 msgid "The focuser did not move"
-msgstr ""
+msgstr "Zaostrovač sa nepohol"
 
 #: ekos/focus/focusdiagnosis.cpp:335
 #, kde-format
 msgid "Autofocus asked the focuser to move, but the move failed."
 msgstr ""
+"Automatické zaostrovanie požiadalo zaostrovač o pohyb, ale pohyb zlyhal."
 
 #: ekos/focus/focusdiagnosis.cpp:338
-#, fuzzy, kde-format
-#| msgid "The type of curve to fit"
+#, kde-format
 msgid "The focus curve is a poor fit"
-msgstr "Typ krivky na prispôsobenie"
+msgstr "Krivka zaostrenia je zle preložená"
 
 #: ekos/focus/focusdiagnosis.cpp:339
 #, kde-format
 msgid "The measurements scatter too much around the fitted curve."
-msgstr ""
+msgstr "Merania sa okolo preloženej krivky príliš rozptyľujú."
 
 #: ekos/focus/focusdiagnosis.cpp:342
 #, kde-format
 msgid "The star size barely changed"
-msgstr ""
+msgstr "Veľkosť hviezd sa takmer nezmenila"
 
 #: ekos/focus/focusdiagnosis.cpp:343
 #, kde-format
 msgid "The steps are too small to show a change in the star size."
-msgstr ""
+msgstr "Kroky sú príliš malé na to, aby ukázali zmenu veľkosti hviezd."
 
 #: ekos/focus/focusdiagnosis.cpp:346
 #, kde-format
 msgid "The focuser reached its limit"
-msgstr ""
+msgstr "Zaostrovač dosiahol svoj limit"
 
 #: ekos/focus/focusdiagnosis.cpp:347
 #, kde-format
 msgid "Autofocus needed to move past the maximum travel or the focuser limits."
 msgstr ""
+"Automatické zaostrovanie sa potrebovalo posunúť za maximálny posun alebo "
+"limity zaostrovača."
 
 #: ekos/focus/focusdiagnosis.cpp:350
 #, kde-format
 msgid "The measurements fluctuate"
-msgstr ""
+msgstr "Merania kolíšu"
 
 #: ekos/focus/focusdiagnosis.cpp:351
 #, kde-format
 msgid "The star size went up and down too often to find a trend."
 msgstr ""
+"Veľkosť hviezd sa príliš často zväčšovala a zmenšovala na to, aby sa dal "
+"nájsť trend."
 
 #: ekos/focus/focusdiagnosis.cpp:354
-#, fuzzy, kde-format
-#| msgid "Autofocus is not supported."
+#, kde-format
 msgid "Autofocus is stuck"
-msgstr "Automatické zameranie nie je podporované."
+msgstr "Automatické zaostrovanie uviazlo"
 
 #: ekos/focus/focusdiagnosis.cpp:355
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Autofocus kept moving back and forth around the same positions."
 msgstr ""
-"Automatické zaostrenie zlyhalo, vraciam späť na pôvodnú polohu zaostrenia %1."
+"Automatické zaostrovanie sa stále pohybovalo tam a späť okolo rovnakých "
+"polôh."
 
 #: ekos/focus/focusdiagnosis.cpp:358
-#, fuzzy, kde-format
-#| msgid "No devices available"
+#, kde-format
 msgid "The tolerance is not valid"
-msgstr "Žiadne zariadenia nie sú dostupné"
+msgstr "Tolerancia nie je platná"
 
 #: ekos/focus/focusdiagnosis.cpp:359
 #, kde-format
 msgid "The tolerance of the autofocus algorithm is out of range."
-msgstr ""
+msgstr "Tolerancia algoritmu automatického zaostrovania je mimo rozsahu."
 
 #: ekos/focus/focusdiagnosis.cpp:362
 #, kde-format
 msgid "No focus curve could be fitted"
-msgstr ""
+msgstr "Nepodarilo sa preložiť žiadnu krivku zaostrenia"
 
 #: ekos/focus/focusdiagnosis.cpp:363
 #, kde-format
 msgid "The measurements do not form a focus curve."
-msgstr ""
+msgstr "Merania netvoria krivku zaostrenia."
 
 #: ekos/focus/focusdiagnosis.cpp:366
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "The focuser reported an error"
-msgstr "Chyba prachovej čiapky."
+msgstr "Zaostrovač nahlásil chybu"
 
 #: ekos/focus/focusdiagnosis.cpp:367
 #, kde-format
 msgid "The focuser %1 stopped responding during autofocus."
-msgstr ""
+msgstr "Zaostrovač %1 počas automatického zaostrovania prestal odpovedať."
 
 #: ekos/focus/focusdiagnosis.cpp:371 ekos/focus/focusdiagnosis.cpp:536
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid "The filter wheel did not reach the focus filter."
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Filtrové koleso nedosiahlo zaostrovací filter."
 
 #: ekos/focus/focusdiagnosis.cpp:375
-#, fuzzy, kde-format
-#| msgid "Capture timed out."
+#, kde-format
 msgid "A focus exposure timed out."
-msgstr "Zachytenie vypršalo."
+msgstr "Expozícia zaostrovania vypršala."
 
 #: ekos/focus/focusdiagnosis.cpp:379 ekos/focus/focusdiagnosis.cpp:522
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "A focus exposure failed."
-msgstr "Automatické zaostrovanie zlyhalo."
+msgstr "Expozícia zaostrovania zlyhala."
 
 #: ekos/focus/focusdiagnosis.cpp:382
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No camera is available"
-msgstr "Nedostupné info o obrázku."
+msgstr "Nie je dostupná žiadna kamera"
 
 #: ekos/focus/focusdiagnosis.cpp:383
 #, kde-format
 msgid "Focus has no connected camera to capture with."
-msgstr ""
+msgstr "Zaostrovanie nemá pripojenú kameru na snímanie."
 
 #: ekos/focus/focusdiagnosis.cpp:386
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No focuser is available"
-msgstr "Nedostupné info o obrázku."
+msgstr "Nie je dostupný žiadny zaostrovač"
 
 #: ekos/focus/focusdiagnosis.cpp:387
 #, kde-format
 msgid "Focus has no connected focuser to move."
-msgstr ""
+msgstr "Zaostrovanie nemá pripojený zaostrovač na pohyb."
 
 #: ekos/focus/focusdiagnosis.cpp:390
 #, kde-format
 msgid "The step size is too small"
-msgstr ""
+msgstr "Veľkosť kroku je príliš malá"
 
 #: ekos/focus/focusdiagnosis.cpp:391
 #, kde-format
 msgid "The focuser moves by time, and the step is too short to move it."
 msgstr ""
+"Zaostrovač sa pohybuje podľa času a krok je príliš krátky na jeho pohnutie."
 
 #: ekos/focus/focusdiagnosis.cpp:395
 #, kde-format
 msgid "Autofocus cannot capture until the dust cap is open."
 msgstr ""
+"Automatické zaostrovanie nemôže snímať, kým nie je protiprachový kryt "
+"otvorený."
 
 #: ekos/focus/focusdiagnosis.cpp:398
-#, fuzzy, kde-format
-#| msgid "Autofocus parameter adjustment"
+#, kde-format
 msgid "Autofocus never reached focus"
-msgstr "Operácia automatického zaostrenia spustená"
+msgstr "Automatické zaostrovanie nikdy nedosiahlo zaostrenie"
 
 #: ekos/focus/focusdiagnosis.cpp:400
 #, kde-format
@@ -23719,94 +23662,84 @@ msgid ""
 "The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 "
 "pixels of your recent good autofocus runs, and the run had no V."
 msgstr ""
+"Najmenšie hviezdy behu mali HFR %1 pixelov, čo je %2-násobok %3 pixelov z "
+"vašich nedávnych úspešných behov automatického zaostrovania, a beh nemal "
+"tvar V."
 
 #: ekos/focus/focusdiagnosis.cpp:405
 #, kde-format
 msgid "The stars stayed far larger than in focus, and the run had no V."
-msgstr ""
+msgstr "Hviezdy zostali oveľa väčšie ako v zaostrení a beh nemal tvar V."
 
 #: ekos/focus/focusdiagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Autofocus failed"
-msgstr "Automatické zaostrovanie zlyhalo."
+msgstr "Automatické zaostrovanie zlyhalo"
 
 #: ekos/focus/focusdiagnosis.cpp:436 ekos/guide/guidediagnosis.cpp:264
-#, fuzzy, kde-format
-#| msgid "Details"
+#, kde-format
 msgid "Detail"
-msgstr "Detaily"
+msgstr "Detail"
 
 #: ekos/focus/focusdiagnosis.cpp:449
 #, kde-format
 msgid "Last HFR"
-msgstr ""
+msgstr "Posledné HFR"
 
 #: ekos/focus/focusdiagnosis.cpp:457
-#, fuzzy, kde-format
-#| msgid "Algorithm:"
+#, kde-format
 msgid "Algorithm"
-msgstr "Algoritmus:"
+msgstr "Algoritmus"
 
 #: ekos/focus/focusdiagnosis.cpp:458
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial step size"
-msgstr "Počiatočná veľkosť kroku:"
+msgstr "Počiatočná veľkosť kroku"
 
 #: ekos/focus/focusdiagnosis.cpp:466
-#, fuzzy, kde-format
-#| msgid "Selecting star"
+#, kde-format
 msgid "Smallest stars"
-msgstr "Výber hviezdy"
+msgstr "Najmenšie hviezdy"
 
 #: ekos/focus/focusdiagnosis.cpp:469
-#, fuzzy, kde-format
-#| msgid "focus"
+#, kde-format
 msgid "In focus"
-msgstr "Zameranie"
+msgstr "V zaostrení"
 
 #: ekos/focus/focusdiagnosis.cpp:470
 #, kde-format
 msgid "Larger than in focus"
-msgstr ""
+msgstr "Väčšie ako v zaostrení"
 
 #: ekos/focus/focusdiagnosis.cpp:472
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Positions measured"
-msgstr "Pozičný uhol:"
+msgstr "Zmerané polohy"
 
 #: ekos/focus/focusdiagnosis.cpp:478
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum travel"
-msgstr "Maximálny dosah"
+msgstr "Maximálny posun"
 
 #: ekos/focus/focusdiagnosis.cpp:483
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "Focuser range"
-msgstr "Snímka zaostrovania"
+msgstr "Rozsah zaostrovača"
 
 #: ekos/focus/focusdiagnosis.cpp:503
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check the focuser"
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte zaostrovač"
 
 #: ekos/focus/focusdiagnosis.cpp:504
-#, fuzzy, kde-format
-#| msgid "Remote solver completed after %1 seconds."
+#, kde-format
 msgid "The focuser %1 stopped responding."
-msgstr "Vzdialený riešiteľ skončil po %1 sekundách."
+msgstr "Zaostrovač %1 prestal odpovedať."
 
 #: ekos/focus/focusdiagnosis.cpp:505
 #, kde-format
 msgid "The focuser %1 did not move as asked."
-msgstr ""
+msgstr "Zaostrovač %1 sa nepohol podľa požiadavky."
 
 #: ekos/focus/focusdiagnosis.cpp:506
 #, kde-format
@@ -23814,6 +23747,8 @@ msgid ""
 "Move the focuser in and out with the buttons of the Focus module, and check "
 "that its position changes."
 msgstr ""
+"Posúvajte zaostrovač dnu a von tlačidlami modulu Zaostrovanie a "
+"skontrolujte, či sa jeho poloha mení."
 
 #: ekos/focus/focusdiagnosis.cpp:507
 #, kde-format
@@ -23821,22 +23756,24 @@ msgid ""
 "Check the focuser cable and power. A USB port or hub that cannot supply "
 "enough power stalls the motor."
 msgstr ""
+"Skontrolujte kábel a napájanie zaostrovača. USB port alebo rozbočovač, ktorý "
+"nedodá dostatok energie, zastaví motor."
 
 #: ekos/focus/focusdiagnosis.cpp:508
 #, kde-format
 msgid "Check the maximum position and the limits set in the focuser driver."
 msgstr ""
+"Skontrolujte maximálnu polohu a limity nastavené v ovládači zaostrovača."
 
 #: ekos/focus/focusdiagnosis.cpp:509
 #, kde-format
 msgid "Restart the focuser driver if it still does not move."
-msgstr ""
+msgstr "Ak sa stále nehýbe, reštartujte ovládač zaostrovača."
 
 #: ekos/focus/focusdiagnosis.cpp:521
-#, fuzzy, kde-format
-#| msgid "Autofocus request [%1] optimized out."
+#, kde-format
 msgid "A focus exposure of %1 seconds timed out."
-msgstr "Požiadavka na automatické zaostrovanie [%1] optimalizovaná preč."
+msgstr "Expozícia zaostrovania %1 sekúnd vypršala."
 
 #: ekos/focus/focusdiagnosis.cpp:525
 #, kde-format
@@ -23844,41 +23781,39 @@ msgid ""
 "Take a test exposure from the Capture module, and restart the camera driver "
 "if it fails."
 msgstr ""
+"Urobte testovaciu expozíciu z modulu Snímanie a ak zlyhá, reštartujte "
+"ovládač kamery."
 
 #: ekos/focus/focusdiagnosis.cpp:538
 #, kde-format
 msgid "Check that the filter selected for focus exists in the filter wheel."
 msgstr ""
+"Skontrolujte, či filter vybraný na zaostrovanie existuje vo filtrovom kolese."
 
 #: ekos/focus/focusdiagnosis.cpp:586
 #, kde-format
 msgid "The frame has %1 round stars with a median HFR of %2 pixels."
-msgstr ""
+msgstr "Snímka má %1 okrúhlych hviezd s mediánom HFR %2 pixelov."
 
 #: ekos/focus/focusdiagnosis.cpp:594
 #, kde-format
 msgid "Only %1 stars were found in the focus frame."
-msgstr ""
+msgstr "V zaostrovacej snímke sa našlo iba %1 hviezd."
 
 #: ekos/focus/focusdiagnosis.cpp:596
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check that the dust cap is open."
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte, či je protiprachový kryt otvorený."
 
 #: ekos/focus/focusdiagnosis.cpp:598 ekos/focus/focusdiagnosis.cpp:683
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "Check that the dust cap or cover is off."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Skontrolujte, či je protiprachový kryt alebo veko dole."
 
 #: ekos/focus/focusdiagnosis.cpp:600
-#, fuzzy, kde-format
-#| msgid ""
-#| "Point the telescope at the southern meridian. Press Continue when ready."
+#, kde-format
 msgid "Point the telescope at an area with more stars."
-msgstr ""
-"Namieriť teleskop na južný poludník. Stlačiť pokračovať, keď je pripravený."
+msgstr "Namierte ďalekohľad na oblasť s viacerými hviezdami."
 
 #: ekos/focus/focusdiagnosis.cpp:610
 #, kde-format
@@ -23886,6 +23821,8 @@ msgid ""
 "The stars are rings, as stars are far from focus. Their median HFR is %1 "
 "pixels."
 msgstr ""
+"Hviezdy sú prstence, ako hviezdy ďaleko od zaostrenia. Ich medián HFR je %1 "
+"pixelov."
 
 #: ekos/focus/focusdiagnosis.cpp:612
 #, kde-format
@@ -23893,27 +23830,28 @@ msgid ""
 "The stars are flat discs, as stars are far from focus. Their median HFR is "
 "%1 pixels."
 msgstr ""
+"Hviezdy sú ploché disky, ako hviezdy ďaleko od zaostrenia. Ich medián HFR je "
+"%1 pixelov."
 
 #: ekos/focus/focusdiagnosis.cpp:620
-#, fuzzy, kde-format
-#| msgid "Donut Buster"
+#, kde-format
 msgid "Turn on Donut Buster"
-msgstr "Hviezdokopa Vážky"
+msgstr "Zapnite Donut Buster"
 
 #: ekos/focus/focusdiagnosis.cpp:621
 #, kde-format
 msgid "Donut Buster measures defocused stars that look like rings."
-msgstr ""
+msgstr "Donut Buster meria rozostrené hviezdy, ktoré vyzerajú ako prstence."
 
 #: ekos/focus/focusdiagnosis.cpp:668
 #, kde-format
 msgid "No stars were detected in a %1 second exposure."
-msgstr ""
+msgstr "V expozícii %1 sekúnd neboli zistené žiadne hviezdy."
 
 #: ekos/focus/focusdiagnosis.cpp:682
 #, kde-format
 msgid "No stars were found in the focus frame."
-msgstr ""
+msgstr "V zaostrovacej snímke sa nenašli žiadne hviezdy."
 
 #: ekos/focus/focusdiagnosis.cpp:685
 #, kde-format
@@ -23921,11 +23859,13 @@ msgid ""
 "Check that the focuser is not far from focus: stars far from focus are too "
 "faint to detect."
 msgstr ""
+"Skontrolujte, či zaostrovač nie je ďaleko od zaostrenia: hviezdy ďaleko od "
+"zaostrenia sú príliš slabé na zistenie."
 
 #: ekos/focus/focusdiagnosis.cpp:706
 #, kde-format
 msgid "Check the focuser for slip and backlash"
-msgstr ""
+msgstr "Skontrolujte, či zaostrovač neprešmykuje a nemá vôľu"
 
 #: ekos/focus/focusdiagnosis.cpp:707
 #, kde-format
@@ -23933,6 +23873,8 @@ msgid ""
 "A focuser that slips under the weight of the camera, or has backlash, does "
 "not reach the positions autofocus asks for."
 msgstr ""
+"Zaostrovač, ktorý pod váhou kamery prešmykuje alebo má vôľu, nedosiahne "
+"polohy, o ktoré automatické zaostrovanie žiada."
 
 #: ekos/focus/focusdiagnosis.cpp:708
 #, kde-format
@@ -23940,6 +23882,7 @@ msgid ""
 "Tighten the focuser tension or lock screw, so it holds the weight of the "
 "camera."
 msgstr ""
+"Utiahnite napnutie alebo poistnú skrutku zaostrovača, aby udržal váhu kamery."
 
 #: ekos/focus/focusdiagnosis.cpp:709
 #, kde-format
@@ -23947,48 +23890,55 @@ msgid ""
 "Measure the backlash and set it in the focuser driver or the Focus mechanics "
 "settings. Focus Advisor finds a value."
 msgstr ""
+"Zmerajte vôľu a nastavte ju v ovládači zaostrovača alebo v nastaveniach "
+"mechaniky Zaostrovania. Hodnotu nájde Focus Advisor."
 
 #: ekos/focus/focusdiagnosis.cpp:710
 #, kde-format
 msgid "Check that no cable drags on the focuser or the camera."
-msgstr ""
+msgstr "Skontrolujte, či sa po zaostrovači alebo kamere neťahá žiadny kábel."
 
 #: ekos/focus/focusdiagnosis.cpp:724
 #, kde-format
 msgid ""
 "Autofocus may move at most %1 steps, and the focuser can move from %2 to %3."
 msgstr ""
+"Automatické zaostrovanie sa môže posunúť najviac o %1 krokov a zaostrovač sa "
+"môže pohybovať od %2 do %3."
 
 #: ekos/focus/focusdiagnosis.cpp:732
 #, kde-format
 msgid "Autofocus started at %1 and needed to move past the limit."
 msgstr ""
+"Automatické zaostrovanie začalo na %1 a potrebovalo sa posunúť za limit."
 
 #: ekos/focus/focusdiagnosis.cpp:739
 #, kde-format
 msgid "Autofocus took too many steps: it likely started far from focus."
 msgstr ""
+"Automatické zaostrovanie urobilo príliš veľa krokov: pravdepodobne začalo "
+"ďaleko od zaostrenia."
 
 #: ekos/focus/focusdiagnosis.cpp:747
 #, kde-format
 msgid "Steps of %1 do not change the star size enough to measure."
-msgstr ""
+msgstr "Kroky %1 nemenia veľkosť hviezd dosť na to, aby sa dala zmerať."
 
 #: ekos/focus/focusdiagnosis.cpp:759
 #, kde-format
 msgid ""
 "Larger steps change the star size more than the noise of the measurements."
-msgstr ""
+msgstr "Väčšie kroky menia veľkosť hviezd viac ako šum meraní."
 
 #: ekos/focus/focusdiagnosis.cpp:762 ekos/focus/focusdiagnosis.cpp:770
 #, kde-format
 msgid "A longer exposure averages the seeing and gives steadier measurements."
-msgstr ""
+msgstr "Dlhšia expozícia spriemeruje seeing a dáva stabilnejšie merania."
 
 #: ekos/focus/focusdiagnosis.cpp:763 ekos/focus/focusdiagnosis.cpp:767
 #, kde-format
 msgid "Clouds, poor seeing or wind make the measurements scatter."
-msgstr ""
+msgstr "Oblaky, zlý seeing alebo vietor spôsobujú rozptyl meraní."
 
 #: ekos/focus/focusdiagnosis.cpp:806
 #, kde-format
@@ -23996,6 +23946,8 @@ msgid ""
 "The stars got smaller toward %1, the lowest position measured: focus lies "
 "below it."
 msgstr ""
+"Hviezdy sa zmenšovali smerom k %1, najnižšej zmeranej polohe: zaostrenie "
+"leží pod ňou."
 
 #: ekos/focus/focusdiagnosis.cpp:808
 #, kde-format
@@ -24003,11 +23955,15 @@ msgid ""
 "The stars got smaller toward %1, the highest position measured: focus lies "
 "above it."
 msgstr ""
+"Hviezdy sa zmenšovali smerom k %1, najvyššej zmeranej polohe: zaostrenie "
+"leží nad ňou."
 
 #: ekos/focus/focusdiagnosis.cpp:811
 #, kde-format
 msgid "The run stayed too far from focus to tell which way focus lies."
 msgstr ""
+"Beh zostal príliš ďaleko od zaostrenia na to, aby sa dalo určiť, kde "
+"zaostrenie leží."
 
 #: ekos/focus/focusdiagnosis.cpp:816
 #, kde-format
@@ -24015,24 +23971,23 @@ msgid ""
 "Steps of %1 barely change the star size this far from focus: larger steps "
 "reach focus sooner."
 msgstr ""
+"Kroky %1 tak ďaleko od zaostrenia takmer nemenia veľkosť hviezd: väčšie "
+"kroky dosiahnu zaostrenie skôr."
 
 #: ekos/focus/focusdiagnosis.cpp:829
-#, fuzzy, kde-format
-#| msgid "Remote astrometry driver is no longer connected."
+#, kde-format
 msgid "The camera and the focuser are connected."
-msgstr "Ovládač vzdialenej astrometrie už nie je pripojený."
+msgstr "Kamera a zaostrovač sú pripojené."
 
 #: ekos/focus/focusdiagnosis.cpp:831
-#, fuzzy, kde-format
-#| msgid "Delete focus frames?"
+#, kde-format
 msgid "The focus frame has stars."
-msgstr "Odstrániť snímky zaostrovania?"
+msgstr "Zaostrovacia snímka obsahuje hviezdy."
 
 #: ekos/focus/focusdiagnosis.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Please Check the Alignment Points."
+#, kde-format
 msgid "Check the Focus log"
-msgstr "Skontrolujte zarovnávacie body."
+msgstr "Skontrolujte záznam Zaostrovania"
 
 #: ekos/focus/focusdiagnosis.cpp:1171
 #, kde-format
@@ -24040,29 +23995,31 @@ msgid ""
 "Check that the focus frame shows stars, and that they get smaller and larger "
 "as the focuser moves."
 msgstr ""
+"Skontrolujte, či zaostrovacia snímka zobrazuje hviezdy a či sa pri pohybe "
+"zaostrovača zmenšujú a zväčšujú."
 
 #: ekos/focus/focusdiagnosis.cpp:1172
 #, kde-format
 msgid ""
 "Enable Focus Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
+"Podrobnosti o zlyhaní získate povolením Focus Logging v karte Nastavenie -> "
+"Záznamy."
 
 #: ekos/focus/focusdiagnosis.cpp:1202
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The focuser %1 is connected."
-msgstr "%1 je odpojené"
+msgstr "Zaostrovač %1 je pripojený."
 
 #: ekos/focus/focusdiagnosis.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Focus looks ready"
-msgstr "Rozptyľovanie"
+msgstr "Zaostrovanie vyzerá pripravené"
 
 #: ekos/focus/focusdiagnosis.cpp:1227
 #, kde-format
 msgid "No problems were found in the Focus setup."
-msgstr ""
+msgstr "V nastavení Zaostrovania sa nenašli žiadne problémy."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:44 fitsviewer/fitsheaderdialog.ui:53
@@ -26472,15 +26429,14 @@ msgid "Failed to set dither range."
 msgstr "Zlyhalo nastavenie rozsahu dithering."
 
 #: ekos/guide/externalguide/phd2.cpp:116
-#, fuzzy, kde-format
-#| msgid "Solver timed out after %1 seconds."
+#, kde-format
 msgid "Calibration did not finish within %1 seconds."
-msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
+msgstr "Kalibrácia neskončila do %1 sekúnd."
 
 #: ekos/guide/externalguide/phd2.cpp:137
 #, kde-format
 msgid "PHD2 did not answer the dither."
-msgstr ""
+msgstr "PHD2 neodpovedal na rozptyl."
 
 #: ekos/guide/externalguide/phd2.cpp:143
 #, kde-format
@@ -26663,10 +26619,9 @@ msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Kalibrácia, vypršanie za %1s."
 
 #: ekos/guide/externalguide/phd2.cpp:807
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "PHD2 went back to looping exposures during calibration."
-msgstr "Sledovanie v streame sa zastavilo počas kalibrácie."
+msgstr "PHD2 sa počas kalibrácie vrátil k opakovaniu expozícií."
 
 #: ekos/guide/externalguide/phd2.cpp:808
 #, kde-format
@@ -26720,7 +26675,7 @@ msgstr "PHD2: Mierka pixelov je %1 oblúkových sekúnd na pixel"
 #: ekos/guide/externalguide/phd2.cpp:1089
 #, kde-format
 msgid "PHD2 refused the dither command."
-msgstr ""
+msgstr "PHD2 odmietol príkaz na rozptyl."
 
 #: ekos/guide/externalguide/phd2.cpp:1110
 #, kde-format
@@ -27664,34 +27619,35 @@ msgstr ""
 #: ekos/guide/guide_diagnosis.cpp:261
 #, kde-format
 msgid "Guide is busy. Try again when it has stopped."
-msgstr ""
+msgstr "Navádzanie je zaneprázdnené. Skúste to znova, keď sa zastaví."
 
 #: ekos/guide/guide_diagnosis.cpp:310
 #, kde-format
 msgid "The guide square is already at its largest."
-msgstr ""
+msgstr "Navádzací štvorec je už najväčší."
 
 #: ekos/guide/guidediagnosis.cpp:69
 #, kde-format
 msgctxt "%3 is RA or DEC"
 msgid "Pulses of %1 ms moved the star only %2 pixels in %3."
-msgstr ""
+msgstr "Impulzy %1 ms posunuli hviezdu v %3 iba o %2 pixelov."
 
 #: ekos/guide/guidediagnosis.cpp:71
 #, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star barely moved while the mount was pulsed in %1."
-msgstr ""
+msgstr "Hviezda sa takmer nepohla, kým montáž dostávala impulzy v %1."
 
 #: ekos/guide/guidediagnosis.cpp:78
 #, kde-format
 msgid "Check the mount power supply: a low voltage weakens the motors."
-msgstr ""
+msgstr "Skontrolujte napájanie montáže: nízke napätie oslabuje motory."
 
 #: ekos/guide/guidediagnosis.cpp:79
 #, kde-format
 msgid "Check that no cable drags or snags as the mount moves."
 msgstr ""
+"Skontrolujte, či sa pri pohybe montáže žiadny kábel neťahá ani nezachytáva."
 
 #: ekos/guide/guidediagnosis.cpp:81
 #, kde-format
@@ -27699,6 +27655,7 @@ msgid ""
 "The pulses go through the camera %1: check the ST4 cable between the camera "
 "and the mount."
 msgstr ""
+"Impulzy idú cez kameru %1: skontrolujte kábel ST4 medzi kamerou a montážou."
 
 #: ekos/guide/guidediagnosis.cpp:83
 #, kde-format
@@ -27706,41 +27663,41 @@ msgid ""
 "Check the guide rate in the mount driver or hand controller: 0.5x sidereal "
 "is typical."
 msgstr ""
+"Skontrolujte navádzaciu rýchlosť v ovládači montáže alebo ručnom ovládači: "
+"typická je 0,5x hviezdnej."
 
 #: ekos/guide/guidediagnosis.cpp:89
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check the RA axis of the mount"
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte os RA montáže"
 
 #: ekos/guide/guidediagnosis.cpp:91
 #, kde-format
 msgid ""
 "Check the RA balance: make it slightly east-heavy so the gears stay engaged."
 msgstr ""
+"Skontrolujte vyváženie RA: urobte ho mierne ťažším na východ, aby prevody "
+"zostali v zábere."
 
 #: ekos/guide/guidediagnosis.cpp:92
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check that the RA clutch is locked."
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte, či je spojka RA zaistená."
 
 #: ekos/guide/guidediagnosis.cpp:100
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check the DEC axis of the mount"
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte os DEC montáže"
 
 #: ekos/guide/guidediagnosis.cpp:102
 #, kde-format
 msgid "Check the DEC balance."
-msgstr ""
+msgstr "Skontrolujte vyváženie DEC."
 
 #: ekos/guide/guidediagnosis.cpp:103
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check that the DEC clutch is locked."
-msgstr "Korigovať montáž"
+msgstr "Skontrolujte, či je spojka DEC zaistená."
 
 #: ekos/guide/guidediagnosis.cpp:104
 #, kde-format
@@ -27748,25 +27705,26 @@ msgid ""
 "Check the DEC backlash: a large backlash takes up the pulses before the "
 "telescope moves."
 msgstr ""
+"Skontrolujte vôľu DEC: veľká vôľa pohltí impulzy skôr, ako sa ďalekohľad "
+"pohne."
 
 #: ekos/guide/guidediagnosis.cpp:113
 #, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "Check the backlash and balance of the %1 axis"
-msgstr ""
+msgstr "Skontrolujte vôľu a vyváženie osi %1"
 
 #: ekos/guide/guidediagnosis.cpp:115
 #, kde-format
 msgctxt "%2 is RA or DEC"
 msgid "The star stayed %1 pixels away from where the %2 calibration started."
-msgstr ""
+msgstr "Hviezda zostala %1 pixelov od miesta, kde začala kalibrácia %2."
 
 #: ekos/guide/guidediagnosis.cpp:117
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star did not come back to where the %1 calibration started."
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Hviezda sa nevrátila na miesto, kde začala kalibrácia %1."
 
 #: ekos/guide/guidediagnosis.cpp:118
 #, kde-format
@@ -27774,73 +27732,71 @@ msgctxt "%1 is RA or DEC"
 msgid ""
 "Unbalance the %1 axis slightly, so its gears stay engaged in one direction."
 msgstr ""
+"Mierne vychýľte vyváženie osi %1, aby jej prevody zostali v zábere jedným "
+"smerom."
 
 #: ekos/guide/guidediagnosis.cpp:119
 #, kde-format
 msgid "Check the backlash adjustment of the mount (the gear mesh)."
-msgstr ""
+msgstr "Skontrolujte nastavenie vôle montáže (záber prevodov)."
 
 #: ekos/guide/guidediagnosis.cpp:120
 #, kde-format
 msgid "Check that no cable pulls on the telescope."
-msgstr ""
+msgstr "Skontrolujte, či žiadny kábel neťahá za ďalekohľad."
 
 #: ekos/guide/guidediagnosis.cpp:128
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the calibration pulse to %1 ms"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte kalibračný impulz na %1 ms"
 
 #: ekos/guide/guidediagnosis.cpp:129
 #, kde-format
 msgid "Longer pulses move the star further, past the backlash of the mount."
-msgstr ""
+msgstr "Dlhšie impulzy posunú hviezdu ďalej, za vôľu montáže."
 
 #: ekos/guide/guidediagnosis.cpp:137
-#, fuzzy, kde-format
-#| msgid "Subframe the image around the guide star"
+#, kde-format
 msgid "Check the sky and the guide camera"
-msgstr "Orámovať obrázok okolo vodiacej hviezdy"
+msgstr "Skontrolujte oblohu a navádzaciu kameru"
 
 #: ekos/guide/guidediagnosis.cpp:139
 #, kde-format
 msgid "Check for clouds, and for dew on the guide scope."
-msgstr ""
+msgstr "Skontrolujte oblaky a rosu na navádzacom ďalekohľade."
 
 #: ekos/guide/guidediagnosis.cpp:140
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Check that the guide camera is in focus."
-msgstr "Strata spojenia na camera navádzania."
+msgstr "Skontrolujte, či je navádzacia kamera zaostrená."
 
 #: ekos/guide/guidediagnosis.cpp:141
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Check that the guide scope cap is off."
-msgstr "Strata spojenia na camera navádzania."
+msgstr "Skontrolujte, či je kryt navádzacieho ďalekohľadu dole."
 
 #: ekos/guide/guidediagnosis.cpp:143
 #, kde-format
 msgid "Check the star and its SNR in PHD2."
-msgstr ""
+msgstr "Skontrolujte hviezdu a jej SNR v PHD2."
 
 #: ekos/guide/guidediagnosis.cpp:151
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Assistant exposure duration in seconds."
+#, kde-format
 msgid "Raise the guide exposure to %1 seconds"
-msgstr "Trvanie expozície Pomocníka polárneho zarovnávania v sekundách."
+msgstr "Zvýšte expozíciu navádzania na %1 sekúnd"
 
 #: ekos/guide/guidediagnosis.cpp:153
 #, kde-format
 msgid ""
 "A %1 second exposure may be too short to show a bright enough guide star."
 msgstr ""
+"Expozícia %1 sekúnd môže byť príliš krátka na zobrazenie dostatočne jasnej "
+"navádzacej hviezdy."
 
 #: ekos/guide/guidediagnosis.cpp:161
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Bin the guide camera 2x2"
-msgstr "Strata spojenia na camera navádzania."
+msgstr "Nastavte binning navádzacej kamery na 2x2"
 
 #: ekos/guide/guidediagnosis.cpp:162
 #, kde-format
@@ -27848,22 +27804,25 @@ msgid ""
 "Binning collects more light per pixel, so the guide star stands out from the "
 "noise."
 msgstr ""
+"Binning zachytí viac svetla na pixel, takže navádzacia hviezda vynikne zo "
+"šumu."
 
 #: ekos/guide/guidediagnosis.cpp:171
 #, kde-format
 msgid "Enlarge the guide square to %1 pixels"
-msgstr ""
+msgstr "Zväčšite navádzací štvorec na %1 pixelov"
 
 #: ekos/guide/guidediagnosis.cpp:172
 #, kde-format
 msgid ""
 "A larger square keeps the star in view when it moves further between frames."
 msgstr ""
+"Väčší štvorec udrží hviezdu v zábere, keď sa medzi snímkami posunie ďalej."
 
 #: ekos/guide/guidediagnosis.cpp:183
 #, kde-format
 msgid "The star barely moved in RA"
-msgstr ""
+msgstr "Hviezda sa v RA takmer nepohla"
 
 #: ekos/guide/guidediagnosis.cpp:185
 #, kde-format
@@ -27871,11 +27830,13 @@ msgid ""
 "Calibration pulses the mount in RA and measures how far the star moves. It "
 "did not move far enough."
 msgstr ""
+"Kalibrácia posiela montáži impulzy v RA a meria, ako ďaleko sa hviezda "
+"posunie. Neposunula sa dosť ďaleko."
 
 #: ekos/guide/guidediagnosis.cpp:188
 #, kde-format
 msgid "The star barely moved in DEC"
-msgstr ""
+msgstr "Hviezda sa v DEC takmer nepohla"
 
 #: ekos/guide/guidediagnosis.cpp:190
 #, kde-format
@@ -27883,25 +27844,25 @@ msgid ""
 "Calibration pulses the mount in DEC and measures how far the star moves. It "
 "did not move far enough."
 msgstr ""
+"Kalibrácia posiela montáži impulzy v DEC a meria, ako ďaleko sa hviezda "
+"posunie. Neposunula sa dosť ďaleko."
 
 #: ekos/guide/guidediagnosis.cpp:193
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "The calibration drift is too short"
-msgstr "Kalibrácia zlyhala: drift príliš krátky."
+msgstr "Kalibračný drift je príliš krátky"
 
 #: ekos/guide/guidediagnosis.cpp:194
-#, fuzzy, kde-format
-#| msgid "the target did not move in RA after %1 ms of West pulses."
+#, kde-format
 msgid ""
 "The star did not move far enough to measure how the mount responds to pulses."
-msgstr "cieľ sa po %1 ms impulzov na západ nepohol v RA."
+msgstr ""
+"Hviezda sa neposunula dosť ďaleko na zmeranie, ako montáž reaguje na impulzy."
 
 #: ekos/guide/guidediagnosis.cpp:197
-#, fuzzy, kde-format
-#| msgid "Rotator reached camera position angle."
+#, kde-format
 msgid "The star did not come back in RA"
-msgstr "Rotátor dosiahol pozičný uhol kamery."
+msgstr "Hviezda sa v RA nevrátila"
 
 #: ekos/guide/guidediagnosis.cpp:198
 #, kde-format
@@ -27909,11 +27870,13 @@ msgid ""
 "After pulsing RA out, the mount pulsed RA back, but the star did not return "
 "to its start."
 msgstr ""
+"Po impulzoch RA von montáž poslala impulzy RA späť, ale hviezda sa nevrátila "
+"na začiatok."
 
 #: ekos/guide/guidediagnosis.cpp:201
 #, kde-format
 msgid "The star did not come back in DEC"
-msgstr ""
+msgstr "Hviezda sa v DEC nevrátila"
 
 #: ekos/guide/guidediagnosis.cpp:202
 #, kde-format
@@ -27921,47 +27884,46 @@ msgid ""
 "After pulsing DEC out, the mount pulsed DEC back, but the star did not "
 "return to its start."
 msgstr ""
+"Po impulzoch DEC von montáž poslala impulzy DEC späť, ale hviezda sa "
+"nevrátila na začiatok."
 
 #: ekos/guide/guidediagnosis.cpp:205
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "The guide star was lost during calibration"
-msgstr "Sledovanie v streame sa zastavilo počas kalibrácie."
+msgstr "Navádzacia hviezda sa počas kalibrácie stratila"
 
 #: ekos/guide/guidediagnosis.cpp:206
 #, kde-format
 msgid "The guide star disappeared from several frames in a row."
-msgstr ""
+msgstr "Navádzacia hviezda zmizla z niekoľkých snímok po sebe."
 
 #: ekos/guide/guidediagnosis.cpp:209
-#, fuzzy, kde-format
-#| msgid "Calibration failed to start."
+#, kde-format
 msgid "Calibration could not start"
-msgstr "Kalibrácia sa nepodarila spustiť."
+msgstr "Kalibráciu sa nepodarilo spustiť"
 
 #: ekos/guide/guidediagnosis.cpp:210
 #, kde-format
 msgid ""
 "Guide needs the guide camera, the optics and the pixel size to calibrate."
 msgstr ""
+"Navádzanie na kalibráciu potrebuje navádzaciu kameru, optiku a veľkosť "
+"pixelu."
 
 #: ekos/guide/guidediagnosis.cpp:213
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "No guide star was found"
-msgstr "Navádzacia hviezda nájdená."
+msgstr "Nenašla sa žiadna navádzacia hviezda"
 
 #: ekos/guide/guidediagnosis.cpp:214
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Guide could not select a guide star in the frame."
-msgstr "Nepodarilo sa odstrániť súbor: %1"
+msgstr "Navádzanie nemohlo v snímke vybrať navádzaciu hviezdu."
 
 #: ekos/guide/guidediagnosis.cpp:217
-#, fuzzy, kde-format
-#| msgid "Guide Star lost."
+#, kde-format
 msgid "The guide star was lost"
-msgstr "Navádzacia hviezda stratená."
+msgstr "Navádzacia hviezda sa stratila"
 
 #: ekos/guide/guidediagnosis.cpp:218
 #, kde-format
@@ -27969,115 +27931,104 @@ msgid ""
 "The guide star disappeared while guiding and was not found again in %1 "
 "seconds."
 msgstr ""
+"Navádzacia hviezda počas navádzania zmizla a do %1 sekúnd sa znova nenašla."
 
 #: ekos/guide/guidediagnosis.cpp:222
 #, kde-format
 msgid "The guide camera stopped responding"
-msgstr ""
+msgstr "Navádzacia kamera prestala odpovedať"
 
 #: ekos/guide/guidediagnosis.cpp:223
 #, kde-format
 msgid "Guide exposures timed out, also after the camera driver was restarted."
-msgstr ""
+msgstr "Navádzacie expozície vypršali, aj po reštarte ovládača kamery."
 
 #: ekos/guide/guidediagnosis.cpp:226
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The guide camera is gone"
-msgstr "Hostiteľ sa odpojil."
+msgstr "Navádzacia kamera zmizla"
 
 #: ekos/guide/guidediagnosis.cpp:227
 #, kde-format
 msgid "The guide camera did not come back after its driver was restarted."
-msgstr ""
+msgstr "Navádzacia kamera sa po reštarte ovládača nevrátila."
 
 #: ekos/guide/guidediagnosis.cpp:230
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The dither did not settle"
-msgstr "Súbor s váhami sa nepodarilo prečítať."
+msgstr "Rozptyl sa neustálil"
 
 #: ekos/guide/guidediagnosis.cpp:231
 #, kde-format
 msgid "Guiding was stopped because a dither failed, as the dither options say."
 msgstr ""
+"Navádzanie bolo zastavené, pretože rozptyl zlyhal, ako to určujú možnosti "
+"rozptylu."
 
 #: ekos/guide/guidediagnosis.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Calibration Time column"
-#| msgid "Time to calibrate"
+#, kde-format
 msgid "PHD2 failed to calibrate"
-msgstr "Čas na kalibráciu"
+msgstr "PHD2 nedokázal kalibrovať"
 
 #: ekos/guide/guidediagnosis.cpp:235 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Calibration"
+#, kde-format
 msgid "PHD2 reported a failed calibration."
-msgstr "%1 Kalibrácia zlyhala"
+msgstr "PHD2 nahlásil neúspešnú kalibráciu."
 
 #: ekos/guide/guidediagnosis.cpp:236 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgid "PHD2: JSON error: %1"
+#, kde-format
 msgid "PHD2 reported: %1"
-msgstr "PHD2: Chyba JSON: %1"
+msgstr "PHD2 nahlásil: %1"
 
 #: ekos/guide/guidediagnosis.cpp:239
-#, fuzzy, kde-format
-#| msgid "Guiding rate"
+#, kde-format
 msgid "Guiding failed"
-msgstr "Navádzanie"
+msgstr "Navádzanie zlyhalo"
 
 #: ekos/guide/guidediagnosis.cpp:260
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide camera"
-msgstr "Navádzacia hviezda"
+msgstr "Navádzacia kamera"
 
 #: ekos/guide/guidediagnosis.cpp:262
-#, fuzzy, kde-format
-#| msgid "Guide via:"
+#, kde-format
 msgid "Guide via"
-msgstr "Vodidlo:"
+msgstr "Navádzať cez"
 
 #: ekos/guide/guidediagnosis.cpp:267
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Star moved"
-msgstr "Meno hviezdy"
+msgstr "Posun hviezdy"
 
 #: ekos/guide/guidediagnosis.cpp:269
-#, fuzzy, kde-format
-#| msgid "Pulse:"
+#, kde-format
 msgid "Pulse"
-msgstr "Pulz:"
+msgstr "Pulzovanie"
 
 #: ekos/guide/guidediagnosis.cpp:285
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide square"
-msgstr "Navádzacia hviezda"
+msgstr "Navádzací štvorec"
 
 #: ekos/guide/guidediagnosis.cpp:297
 #, kde-format
 msgid "Image: the guide frame was not measured."
-msgstr ""
+msgstr "Snímka: navádzacia snímka nebola zmeraná."
 
 #: ekos/guide/guidediagnosis.cpp:305
 #, kde-format
 msgid "The guide frame has %1 round stars."
-msgstr ""
+msgstr "Navádzacia snímka má %1 okrúhlych hviezd."
 
 #: ekos/guide/guidediagnosis.cpp:308
 #, kde-format
 msgid "Only %1 stars were found in the guide frame."
-msgstr ""
+msgstr "V navádzacej snímke sa našlo iba %1 hviezd."
 
 #: ekos/guide/guidediagnosis.cpp:312
-#, fuzzy, kde-format
-#| msgid "Connect External"
+#, kde-format
 msgid "Focus the guide camera"
-msgstr "Pripojiť"
+msgstr "Zaostrite navádzaciu kameru"
 
 #: ekos/guide/guidediagnosis.cpp:313
 #, kde-format
@@ -28085,6 +28036,8 @@ msgid ""
 "The stars in the guide frame are discs or rings with a median HFR of %1 "
 "pixels."
 msgstr ""
+"Hviezdy v navádzacej snímke sú disky alebo prstence s mediánom HFR %1 "
+"pixelov."
 
 #: ekos/guide/guidediagnosis.cpp:315
 #, kde-format
@@ -28092,56 +28045,53 @@ msgid ""
 "Loop guide exposures and adjust the guide scope focus until the stars are "
 "small points."
 msgstr ""
+"Opakujte navádzacie expozície a upravujte zaostrenie navádzacieho "
+"ďalekohľadu, kým nie sú hviezdy malé body."
 
 #: ekos/guide/guidediagnosis.cpp:316
 #, kde-format
 msgid "Lock the focuser of the guide scope, so it does not slip."
-msgstr ""
+msgstr "Zaistite zaostrovač navádzacieho ďalekohľadu, aby neprešmykoval."
 
 #: ekos/guide/guidediagnosis.cpp:327
-#, fuzzy, kde-format
-#| msgid "Use the frame exposure value"
+#, kde-format
 msgid "Use a shorter guide exposure."
-msgstr "Použiť hodnotu expozície snímky"
+msgstr "Použite kratšiu navádzaciu expozíciu."
 
 #: ekos/guide/guidediagnosis.cpp:367 ekos/guide/guidediagnosis.cpp:392
-#, fuzzy, kde-format
-#| msgid "Remove DEC backlash in guide calibration"
+#, kde-format
 msgid "Remove the DEC backlash before calibrating"
-msgstr "Odstrániť vôľu DEC pri kalibrácii vedenia"
+msgstr "Odstráňte vôľu DEC pred kalibráciou"
 
 #: ekos/guide/guidediagnosis.cpp:368 ekos/guide/guidediagnosis.cpp:393
 #, kde-format
 msgid "Calibration then takes up the DEC backlash before it measures."
-msgstr ""
+msgstr "Kalibrácia potom pred meraním vyberie vôľu DEC."
 
 #: ekos/guide/guidediagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Stream tracking calibration pulse step (ms)"
+#, kde-format
 msgid "Lower the calibration pulse to %1 ms"
-msgstr "Krok kalibračného impulzu sledovania v streame (ms)"
+msgstr "Znížte kalibračný impulz na %1 ms"
 
 #: ekos/guide/guidediagnosis.cpp:409
 #, kde-format
 msgid "Shorter pulses keep the star inside the guide square."
-msgstr ""
+msgstr "Kratšie impulzy udržia hviezdu vnútri navádzacieho štvorca."
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a guide camera in the optical train"
-msgstr "Vybrať optickú sústavu"
+msgstr "Vyberte navádzaciu kameru v optickej zostave"
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "No optical trains for profile: %1"
+#, kde-format
 msgid "The guide optical train has no camera."
-msgstr "Žiadne optické trasy pre profil: %1"
+msgstr "Navádzacia optická zostava nemá kameru."
 
 #: ekos/guide/guidediagnosis.cpp:431 ekos/guide/guidediagnosis.cpp:755
 #, kde-format
 msgid "Select where the guide pulses go"
-msgstr ""
+msgstr "Vyberte, kam idú navádzacie impulzy"
 
 #: ekos/guide/guidediagnosis.cpp:432 ekos/guide/guidediagnosis.cpp:756
 #, kde-format
@@ -28149,35 +28099,36 @@ msgid ""
 "The guide optical train has no Guide Via device: select the mount, or the "
 "camera for an ST4 cable."
 msgstr ""
+"Navádzacia optická zostava nemá zariadenie Navádzať cez: vyberte montáž "
+"alebo kameru pre kábel ST4."
 
 #: ekos/guide/guidediagnosis.cpp:439 ekos/guide/guidediagnosis.cpp:766
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid "Set the guide scope focal length and aperture"
-msgstr "Ohnisková vzdialenosť ďalekohľadu v milimetroch"
+msgstr "Nastavte ohniskovú vzdialenosť a priemer navádzacieho ďalekohľadu"
 
 #: ekos/guide/guidediagnosis.cpp:449
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "Set the guide camera pixel size"
-msgstr "Veľkosť pixelov fotoaparátu v mikrónoch"
+msgstr "Nastavte veľkosť pixelu navádzacej kamery"
 
 #: ekos/guide/guidediagnosis.cpp:461
-#, fuzzy, kde-format
-#| msgid "Set the Zoom Factor"
+#, kde-format
 msgid "Check the calibration in PHD2"
-msgstr "Nastaviť stupeň zväčšenia."
+msgstr "Skontrolujte kalibráciu v PHD2"
 
 #: ekos/guide/guidediagnosis.cpp:464
 #, kde-format
 msgid ""
 "Read the calibration details in PHD2 (its calibration step graph and log)."
 msgstr ""
+"Prečítajte si podrobnosti kalibrácie v PHD2 (jeho graf krokov kalibrácie a "
+"záznam)."
 
 #: ekos/guide/guidediagnosis.cpp:465
 #, kde-format
 msgid "Check that PHD2 found a guide star with a good SNR."
-msgstr ""
+msgstr "Skontrolujte, či PHD2 našiel navádzaciu hviezdu s dobrým SNR."
 
 #: ekos/guide/guidediagnosis.cpp:466
 #, kde-format
@@ -28185,77 +28136,75 @@ msgid ""
 "Check the camera, the pixel size and the focal length in the PHD2 equipment "
 "profile."
 msgstr ""
+"Skontrolujte kameru, veľkosť pixelu a ohniskovú vzdialenosť v profile "
+"vybavenia PHD2."
 
 #: ekos/guide/guidediagnosis.cpp:490
 #, kde-format
 msgid "No star bright enough to guide on was found."
-msgstr ""
+msgstr "Nenašla sa žiadna hviezda dostatočne jasná na navádzanie."
 
 #: ekos/guide/guidediagnosis.cpp:495
 #, kde-format
 msgid "Clouds, dew or a passing obstruction hide the guide star."
 msgstr ""
+"Oblaky, rosa alebo prechádzajúca prekážka zakrývajú navádzaciu hviezdu."
 
 #: ekos/guide/guidediagnosis.cpp:497
 #, kde-format
 msgid "Check for cable snags, wind and flexure"
-msgstr ""
+msgstr "Skontrolujte zachytávanie káblov, vietor a ohyb"
 
 #: ekos/guide/guidediagnosis.cpp:498
 #, kde-format
 msgid "A sudden jump of the telescope moves the star out of the guide square."
 msgstr ""
+"Náhle poskočenie ďalekohľadu posunie hviezdu mimo navádzacieho štvorca."
 
 #: ekos/guide/guidediagnosis.cpp:499
-#, fuzzy, kde-format
-#| msgid "Mount Tracking"
+#, kde-format
 msgid "Check that no cable snags as the mount tracks."
-msgstr "Sledovanie montáže"
+msgstr "Skontrolujte, či sa pri sledovaní montáže žiadny kábel nezachytáva."
 
 #: ekos/guide/guidediagnosis.cpp:500
-#, fuzzy, kde-format
-#| msgid "This could cause the telescope to cross the meridian."
+#, kde-format
 msgid "Shield the telescope from the wind."
-msgstr "Toto by mohlo spôsobiť, že ďalekohľad prekročí meridián."
+msgstr "Chráňte ďalekohľad pred vetrom."
 
 #: ekos/guide/guidediagnosis.cpp:501
 #, kde-format
 msgid "Check that the guide scope and camera are mounted firmly."
-msgstr ""
+msgstr "Skontrolujte, či sú navádzací ďalekohľad a kamera pevne upevnené."
 
 #: ekos/guide/guidediagnosis.cpp:507
-#, fuzzy, kde-format
-#| msgid "Solver failed after %1 seconds."
+#, kde-format
 msgid "Search for a lost star for %1 seconds"
-msgstr "Riešiteľ zlyhal po %1 sekunde."
+msgstr "Hľadať stratenú hviezdu %1 sekúnd"
 
 #: ekos/guide/guidediagnosis.cpp:509
 #, kde-format
 msgid "Guide waits longer for a passing cloud before it stops."
-msgstr ""
+msgstr "Navádzanie počká na prechádzajúci oblak dlhšie, kým sa zastaví."
 
 #: ekos/guide/guidediagnosis.cpp:524 ekos/guide/guidediagnosis.cpp:744
-#, fuzzy, kde-format
-#| msgid "Connect External"
+#, kde-format
 msgid "Connect the guide camera"
-msgstr "Pripojiť"
+msgstr "Pripojte navádzaciu kameru"
 
 #: ekos/guide/guidediagnosis.cpp:530
 #, kde-format
 msgid "Check the guide camera cable and power"
-msgstr ""
+msgstr "Skontrolujte kábel a napájanie navádzacej kamery"
 
 #: ekos/guide/guidediagnosis.cpp:531
-#, fuzzy, kde-format
-#| msgid "Guide module timed out."
+#, kde-format
 msgid "Guide exposures timed out several times."
-msgstr "Navádzanie vypršalo."
+msgstr "Navádzacie expozície niekoľkokrát vypršali."
 
 #: ekos/guide/guidediagnosis.cpp:532
-#, fuzzy, kde-format
-#| msgid "Failed to reconnect camera after driver restart."
+#, kde-format
 msgid "The guide camera did not come back after a driver restart."
-msgstr "Po reštarte ovládača sa nepodarilo znova pripojiť kameru."
+msgstr "Navádzacia kamera sa po reštarte ovládača nevrátila."
 
 #: ekos/guide/guidediagnosis.cpp:533
 #, kde-format
@@ -28263,23 +28212,23 @@ msgid ""
 "Check the guide camera USB cable and use a powered hub if the camera shares "
 "one."
 msgstr ""
+"Skontrolujte USB kábel navádzacej kamery a ak kamera zdieľa rozbočovač, "
+"použite napájaný."
 
 #: ekos/guide/guidediagnosis.cpp:534
-#, fuzzy, kde-format
-#| msgid "Use the frame exposure value"
+#, kde-format
 msgid "Use a shorter or better USB cable."
-msgstr "Použiť hodnotu expozície snímky"
+msgstr "Použite kratší alebo lepší USB kábel."
 
 #: ekos/guide/guidediagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Restart camera driver"
+#, kde-format
 msgid "Restart the guide camera driver."
-msgstr "Predvolený ovládač filtra"
+msgstr "Reštartujte ovládač navádzacej kamery."
 
 #: ekos/guide/guidediagnosis.cpp:544
 #, kde-format
 msgid "Check that guiding settles after a dither"
-msgstr ""
+msgstr "Skontrolujte, či sa navádzanie po rozptyle ustáli"
 
 #: ekos/guide/guidediagnosis.cpp:545
 #, kde-format
@@ -28287,85 +28236,85 @@ msgid ""
 "Guiding did not return within the settle limits after the mount was moved "
 "for the dither."
 msgstr ""
+"Navádzanie sa po posune montáže kvôli rozptylu nevrátilo do limitov "
+"ustálenia."
 
 #: ekos/guide/guidediagnosis.cpp:546
 #, kde-format
 msgid ""
 "Check the balance and the backlash of both axes: they slow down the return "
 "after a dither."
-msgstr ""
+msgstr "Skontrolujte vyváženie a vôľu oboch osí: spomaľujú návrat po rozptyle."
 
 #: ekos/guide/guidediagnosis.cpp:547
 #, kde-format
 msgid "Check that guiding was steady before the dither."
-msgstr ""
+msgstr "Skontrolujte, či bolo navádzanie pred rozptylom stabilné."
 
 #: ekos/guide/guidediagnosis.cpp:548
 #, kde-format
 msgid "Lower the dither distance in the dither options."
-msgstr ""
+msgstr "Znížte vzdialenosť rozptylu v možnostiach rozptylu."
 
 #: ekos/guide/guidediagnosis.cpp:554
-#, fuzzy, kde-format
-#| msgid "Maximum Dither Iterations:"
+#, kde-format
 msgid "Allow %1 dither iterations"
-msgstr "Maximálne dovolené oddelenie:"
+msgstr "Povoliť %1 iterácií rozptylu"
 
 #: ekos/guide/guidediagnosis.cpp:555
 #, kde-format
 msgid "The dither gets more guide frames to settle."
-msgstr ""
+msgstr "Rozptyl dostane viac navádzacích snímok na ustálenie."
 
 #: ekos/guide/guidediagnosis.cpp:563
 #, kde-format
 msgid "Keep guiding when a dither fails"
-msgstr ""
+msgstr "Pokračovať v navádzaní, keď rozptyl zlyhá"
 
 #: ekos/guide/guidediagnosis.cpp:564
 #, kde-format
 msgid "A failed dither then only costs one frame instead of stopping guiding."
 msgstr ""
+"Neúspešný rozptyl potom stojí iba jednu snímku namiesto zastavenia "
+"navádzania."
 
 #: ekos/guide/guidediagnosis.cpp:581 ekos/guide/guidediagnosis.cpp:750
-#, fuzzy, kde-format
-#| msgid "%1 is disconnected."
+#, kde-format
 msgid "The guide camera %1 is connected."
-msgstr "%1 je odpojené"
+msgstr "Navádzacia kamera %1 je pripojená."
 
 #: ekos/guide/guidediagnosis.cpp:583
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is connected."
-msgstr "Hostiteľ sa odpojil."
+msgstr "Montáž je pripojená."
 
 #: ekos/guide/guidediagnosis.cpp:708
-#, fuzzy, kde-format
-#| msgid "Please Check the Alignment Points."
+#, kde-format
 msgid "Check the Guide log"
-msgstr "Skontrolujte zarovnávacie body."
+msgstr "Skontrolujte záznam Navádzania"
 
 #: ekos/guide/guidediagnosis.cpp:711
 #, kde-format
 msgid "Check the balance of both axes, the clutches and the cables."
-msgstr ""
+msgstr "Skontrolujte vyváženie oboch osí, spojky a káble."
 
 #: ekos/guide/guidediagnosis.cpp:712
 #, kde-format
 msgid ""
 "Enable Guide Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
+"Podrobnosti o zlyhaní získate povolením Guide Logging v karte Nastavenie -> "
+"Záznamy."
 
 #: ekos/guide/guidediagnosis.cpp:761
-#, fuzzy, kde-format
-#| msgid "Filter set to %1."
+#, kde-format
 msgid "Guide pulses go to %1."
-msgstr "Filter nastavený na %1."
+msgstr "Navádzacie impulzy idú do %1."
 
 #: ekos/guide/guidediagnosis.cpp:781
-#, fuzzy, kde-format
-#| msgid "Set the size of the Element"
+#, kde-format
 msgid "Raise the guide rate of the mount"
-msgstr "Nastaviť veľkosť prvku"
+msgstr "Zvýšte navádzaciu rýchlosť montáže"
 
 #: ekos/guide/guidediagnosis.cpp:782
 #, kde-format
@@ -28373,34 +28322,36 @@ msgid ""
 "The last calibration measured a guide rate of %1x sidereal: the star barely "
 "moves for each pulse."
 msgstr ""
+"Posledná kalibrácia namerala navádzaciu rýchlosť %1x hviezdnej: hviezda sa "
+"pri každom impulze takmer nepohne."
 
 #: ekos/guide/guidediagnosis.cpp:784
 #, kde-format
 msgid ""
 "Set the guide rate to 0.5x sidereal in the mount driver or hand controller."
 msgstr ""
+"Nastavte navádzaciu rýchlosť na 0,5x hviezdnej v ovládači montáže alebo "
+"ručnom ovládači."
 
 #: ekos/guide/guidediagnosis.cpp:785
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrate again."
-msgstr "Kalibrácia prebieha"
+msgstr "Kalibrujte znova."
 
 #: ekos/guide/guidediagnosis.cpp:790
 #, kde-format
 msgid "The last calibration measured a guide rate of %1x sidereal."
-msgstr ""
+msgstr "Posledná kalibrácia namerala navádzaciu rýchlosť %1x hviezdnej."
 
 #: ekos/guide/guidediagnosis.cpp:817
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Guide looks ready"
-msgstr "Rozptyľovanie"
+msgstr "Navádzanie vyzerá pripravené"
 
 #: ekos/guide/guidediagnosis.cpp:818
 #, kde-format
 msgid "No problems were found in the Guide setup."
-msgstr ""
+msgstr "V nastavení Navádzania sa nenašli žiadne problémy."
 
 #: ekos/guide/guidedriftgraph.cpp:78
 #, kde-format
@@ -28515,14 +28466,13 @@ msgid "RA drifting reverse..."
 msgstr "RA posun dozadu..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. RA drift is too short. Check for mount, cable, or "
 "backlash problems."
-msgstr "Kalibrácia odmietnutá. Hviezdny posun je príliš krátky."
+msgstr ""
+"Kalibrácia odmietnutá. Drift RA je príliš krátky. Skontrolujte problémy s "
+"montážou, káblami alebo vôľou."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:260
 #, kde-format
@@ -28589,25 +28539,27 @@ msgid "DEC drifting reverse..."
 msgstr "DEC posun dozadu..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:498
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "Calibration Failed: DEC drift too short."
-msgstr "Kalibrácia zlyhala: drift príliš krátky."
+msgstr "Kalibrácia zlyhala: drift DEC je príliš krátky."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. DEC drift is too short after %1 iteration. Check for "
 "mount, cable, or backlash problems."
 msgid_plural ""
 "Calibration rejected. DEC drift is too short after %1 iterations. Check for "
 "mount, cable, or backlash problems."
-msgstr[0] "Kalibrácia odmietnutá. Hviezdny posun je príliš krátky."
-msgstr[1] "Kalibrácia odmietnutá. Hviezdny posun je príliš krátky."
-msgstr[2] "Kalibrácia odmietnutá. Hviezdny posun je príliš krátky."
+msgstr[0] ""
+"Kalibrácia odmietnutá. Drift DEC je po %1 iterácii príliš krátky. "
+"Skontrolujte problémy s montážou, káblami alebo vôľou."
+msgstr[1] ""
+"Kalibrácia odmietnutá. Drift DEC je po %1 iteráciách príliš krátky. "
+"Skontrolujte problémy s montážou, káblami alebo vôľou."
+msgstr[2] ""
+"Kalibrácia odmietnutá. Drift DEC je po %1 iteráciách príliš krátky. "
+"Skontrolujte problémy s montážou, káblami alebo vôľou."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:587
 #, kde-format
@@ -28615,13 +28567,7 @@ msgid "Calibration Failed: couldn't reach start point."
 msgstr "Kalibrácia zlyhala: Nedosiahol štartovný bod."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:589
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
-#| "Possible mount or backlash problems..."
-#| msgid_plural ""
-#| "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
-#| "Possible mount or backlash problems..."
+#, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
 "Possible mount or backlash problems..."
@@ -28629,14 +28575,17 @@ msgid_plural ""
 "Guide DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"GUIDE_DEC: Rozsah nemôže dosiahnuť počiatočný bod po %1 iterácii.\n"
-"Možné problémy stojana alebo ovládača..."
+"Navádzanie DEC: ďalekohľad nedokáže dosiahnuť počiatočný bod po %1 "
+"iterácii.\n"
+"Možné problémy s montážou alebo vôľou..."
 msgstr[1] ""
-"GUIDE_DEC: Rozsah nemôže dosiahnuť počiatočný bod po %1 iteráciách.\n"
-"Možné problémy stojana alebo ovládača..."
+"Navádzanie DEC: ďalekohľad nedokáže dosiahnuť počiatočný bod po %1 "
+"iteráciách.\n"
+"Možné problémy s montážou alebo vôľou..."
 msgstr[2] ""
-"GUIDE_DEC: Rozsah nemôže dosiahnuť počiatočný bod po %1 iteráciách.\n"
-"Možné problémy stojana alebo ovládača..."
+"Navádzanie DEC: ďalekohľad nedokáže dosiahnuť počiatočný bod po %1 "
+"iteráciách.\n"
+"Možné problémy s montážou alebo vôľou..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:609
 #, kde-format
@@ -30960,16 +30909,14 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Meridiánové preloženie neaktívne (zaparkované)"
 
 #: ekos/manager/meridianflipstate.cpp:161
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (parking)"
-msgstr "Meridiánové preloženie neaktívne (zaparkované)"
+msgstr "Preklopenie cez meridián neaktívne (parkovanie)"
 
 #: ekos/manager/meridianflipstate.cpp:167
-#, fuzzy, kde-format
-#| msgid "Meridian flip inactive (parked)"
+#, kde-format
 msgid "Meridian flip inactive (unparking)"
-msgstr "Meridiánové preloženie neaktívne (zaparkované)"
+msgstr "Preklopenie cez meridián neaktívne (odparkovanie)"
 
 #: ekos/manager/meridianflipstate.cpp:173
 #, kde-format
@@ -35673,6 +35620,7 @@ msgstr ""
 msgid ""
 "Warning: the park task could not be started, parking the mount directly."
 msgstr ""
+"Varovanie: úlohu parkovania sa nepodarilo spustiť, montáž sa parkuje priamo."
 
 #: ekos/scheduler/schedulerprocess.cpp:966
 #, kde-format
@@ -35698,6 +35646,8 @@ msgstr "Montáž je zaparkovaná, pred natáčaním sa pridáva úloha odparkova
 msgid ""
 "Warning: the unpark task could not be started, unparking the mount directly."
 msgstr ""
+"Varovanie: úlohu odparkovania sa nepodarilo spustiť, montáž sa odparkuje "
+"priamo."
 
 #: ekos/scheduler/schedulerprocess.cpp:1056
 #, kde-format
@@ -35894,16 +35844,14 @@ msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr "Vstup do režimu monitorovania počasia. Čaká sa na zlepšenie počasia..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1946
-#, fuzzy, kde-format
-#| msgid "Shutdown procedure failed, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed: %1"
-msgstr "Procedúra ukončenia zlyhala, prerušujem..."
+msgstr "Postup zatvárania zlyhal: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1986
-#, fuzzy, kde-format
-#| msgid "The Mount Model Tool is Starting."
+#, kde-format
 msgid "The mount no longer reports tracking."
-msgstr "Nástroj modelu montáže sa spúšťa."
+msgstr "Montáž už nehlási sledovanie."
 
 #: ekos/scheduler/schedulerprocess.cpp:1992
 #, kde-format
@@ -35914,8 +35862,14 @@ msgid_plural ""
 "Warning: the mount still reports tracking after %1 seconds, it may keep "
 "tracking after the shutdown."
 msgstr[0] ""
+"Varovanie: montáž po %1 sekunde stále hlási sledovanie, po zatvorení môže "
+"ďalej sledovať."
 msgstr[1] ""
+"Varovanie: montáž po %1 sekundách stále hlási sledovanie, po zatvorení môže "
+"ďalej sledovať."
 msgstr[2] ""
+"Varovanie: montáž po %1 sekundách stále hlási sledovanie, po zatvorení môže "
+"ďalej sledovať."
 
 #: ekos/scheduler/schedulerprocess.cpp:2009
 #, kde-format
@@ -35923,11 +35877,12 @@ msgid ""
 "Warning: the mount is not parked, switching tracking off before "
 "disconnecting."
 msgstr ""
+"Varovanie: montáž nie je zaparkovaná, pred odpojením sa vypína sledovanie."
 
 #: ekos/scheduler/schedulerprocess.cpp:2011
 #, kde-format
 msgid "Warning: the mount is not parked, switching tracking off."
-msgstr ""
+msgstr "Varovanie: montáž nie je zaparkovaná, vypína sa sledovanie."
 
 #: ekos/scheduler/schedulerprocess.cpp:2017
 #, kde-format
@@ -35935,6 +35890,8 @@ msgid ""
 "Warning: tracking can't be switched off, the mount may keep tracking after "
 "the shutdown."
 msgstr ""
+"Varovanie: sledovanie nemožno vypnúť, montáž môže po zatvorení ďalej "
+"sledovať."
 
 #: ekos/scheduler/schedulerprocess.cpp:2116
 #, kde-format
@@ -36004,12 +35961,12 @@ msgstr "Žiadne úlohy pred vypnutím, pokračuje sa k zastaveniu Ekos/INDI."
 #, kde-format
 msgid "Waiting for the meridian flip to finish before parking the mount..."
 msgstr ""
+"Pred zaparkovaním montáže sa čaká na dokončenie preklopenia cez meridián..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2392
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Waiting for the mount to stop slewing before parking..."
-msgstr "Upozornenie: úloha '%1' sa nenastavuje, reštartujem."
+msgstr "Pred parkovaním sa čaká, kým montáž zastaví natáčanie..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2422
 #, kde-format
@@ -36020,16 +35977,25 @@ msgid_plural ""
 "Safety alert: waiting at most %1 minutes for the mount, then continuing the "
 "shutdown."
 msgstr[0] ""
+"Bezpečnostné upozornenie: na montáž sa čaká najviac %1 minútu, potom "
+"zatváranie pokračuje."
 msgstr[1] ""
+"Bezpečnostné upozornenie: na montáž sa čaká najviac %1 minúty, potom "
+"zatváranie pokračuje."
 msgstr[2] ""
+"Bezpečnostné upozornenie: na montáž sa čaká najviac %1 minút, potom "
+"zatváranie pokračuje."
 
 #: ekos/scheduler/schedulerprocess.cpp:2430
 #, kde-format
 msgid "Warning: the mount is still busy after %1 minute, continuing."
 msgid_plural "Warning: the mount is still busy after %1 minutes, continuing."
 msgstr[0] ""
+"Varovanie: montáž je po %1 minúte stále zaneprázdnená, pokračuje sa."
 msgstr[1] ""
+"Varovanie: montáž je po %1 minútach stále zaneprázdnená, pokračuje sa."
 msgstr[2] ""
+"Varovanie: montáž je po %1 minútach stále zaneprázdnená, pokračuje sa."
 
 #: ekos/scheduler/schedulerprocess.cpp:2464
 #, kde-format
@@ -36192,11 +36158,10 @@ msgid "Post-shutdown queue completed successfully."
 msgstr "Rad úloh po vypnutí bol úspešne dokončený."
 
 #: ekos/scheduler/schedulerprocess.cpp:3704
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3712
 #, kde-format
@@ -36364,13 +36329,13 @@ msgstr ""
 "Upozornenie: presun úlohy '%1' zlyhal, označujem ako ukončenú kvôli chybám."
 
 #: ekos/scheduler/schedulerprocess.cpp:4340
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' slew failed, marking terminated due to errors."
+#, kde-format
 msgid ""
 "Warning: job '%1' is still not slewing after several restarts, marking "
 "terminated due to errors."
 msgstr ""
-"Upozornenie: presun úlohy '%1' zlyhal, označujem ako ukončenú kvôli chybám."
+"Varovanie: úloha '%1' sa ani po niekoľkých reštartoch stále nenatáča, "
+"označuje sa ako ukončená kvôli chybám."
 
 #: ekos/scheduler/schedulerprocess.cpp:4346
 #, kde-format
@@ -36444,17 +36409,16 @@ msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Ručná procedúra vypnutia ukončená kvôli chybám."
 
 #: ekos/scheduler/schedulerprocess.cpp:4593
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' found not slewing, restarting."
+#, kde-format
 msgid "Warning: job '%1': the mount didn't start tracking."
-msgstr "Upozornenie: úloha '%1' sa nenastavuje, reštartujem."
+msgstr "Varovanie: úloha '%1': montáž nezačala sledovať."
 
 #: ekos/scheduler/schedulerprocess.cpp:4610
 #, kde-format
 msgid ""
 "Job '%1': the mount reached the target without tracking, switching tracking "
 "on."
-msgstr ""
+msgstr "Úloha '%1': montáž dosiahla cieľ bez sledovania, zapína sa sledovanie."
 
 #: ekos/scheduler/schedulerprocess.cpp:4744
 #, kde-format
@@ -36606,10 +36570,9 @@ msgid "Safety monitor monitoring disabled"
 msgstr "Monitorovanie bezpečnostného monitora vypnuté"
 
 #: ekos/scheduler/schedulerutils.cpp:424 ekos/scheduler/schedulerutils.cpp:438
-#, fuzzy, kde-format
-#| msgid "Unable to open file %1"
+#, kde-format
 msgid "Unable to open FITS file %1: %2"
-msgstr "Nedá sa otvoriť súbor %1"
+msgstr "Nedá sa otvoriť súbor FITS %1: %2"
 
 #: ekos/scheduler/schedulerutils.cpp:452
 #, kde-format
@@ -47955,6 +47918,8 @@ msgstr "Online server EkosLive"
 #, kde-format
 msgid "Failure diagnosis items the user dismissed for good, as module:itemId."
 msgstr ""
+"Položky diagnostiky zlyhaní, ktoré používateľ natrvalo zamietol, vo forme "
+"modul:idPoložky."
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:2092
@@ -49515,6 +49480,8 @@ msgid ""
 "On an Alt-Az mount, turn the rotator while the mount tracks to keep the "
 "camera position angle constant."
 msgstr ""
+"Na montáži Alt-Az otáčať rotátor, kým montáž sleduje, aby pozičný uhol "
+"kamery zostal konštantný."
 
 #. i18n: ectx: whatsthis, entry (RotatorDerotationThreshold), group (Align)
 #: kstars.kcfg:2965
@@ -49523,6 +49490,8 @@ msgid ""
 "Position angle drift in arcminutes that triggers a field derotation "
 "correction."
 msgstr ""
+"Posun pozičného uhla v oblúkových minútach, ktorý spustí korekciu derotácie "
+"poľa."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2971
@@ -49850,17 +49819,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (PAHCorrectionTimeout), group (Align)
 #: kstars.kcfg:3141
-#, fuzzy, kde-format
-#| msgid ""
-#| "Timeout in seconds for automatic polar alignment correction. If the "
-#| "system cannot reach the desired threshold within this period, it aborts."
+#, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction, not counting "
 "the time the corrector spends moving. If the system cannot reach the desired "
 "threshold within this period, it aborts."
 msgstr ""
-"Časový limit v sekundách pre automatickú korekciu polárneho zarovnávania. Ak "
-"systém nedosiahne požadovaný prah v tomto období, preruší sa."
+"Časový limit v sekundách pre automatickú korekciu polárneho zarovnávania, "
+"bez času, ktorý korektor strávi pohybom. Ak systém v tomto čase nedosiahne "
+"požadovaný prah, preruší sa."
 
 #. i18n: ectx: label, entry (GuideExposure), group (Guide)
 #: kstars.kcfg:3147
@@ -84603,12 +84570,10 @@ msgid "Intelsat"
 msgstr "Intelsat"
 
 #: kstars_i18n.cpp:5650
-#, fuzzy, kde-kuit-format
-#| msgctxt "Satellite group name"
-#| msgid "Iridium"
+#, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Iridium NEXT"
-msgstr "Irídium"
+msgstr "Iridium NEXT"
 
 #: kstars_i18n.cpp:5651
 #, kde-kuit-format
@@ -94887,11 +94852,10 @@ msgid "Satellite Orbital Elements Update"
 msgstr "Aktualizovať elementy dráhy satelitov"
 
 #: skycomponents/satellitescomponent.cpp:179
-#, fuzzy, kde-format
-#| msgid "PHD2 %1: %2"
+#, kde-format
 msgctxt "satellite group name: error message"
 msgid "%1: %2"
-msgstr "PHD2 %1: %2"
+msgstr "%1: %2"
 
 #: skycomponents/satellitescomponent.cpp:185
 #, kde-format
@@ -94899,6 +94863,8 @@ msgid ""
 "Failed to update the orbital elements of the following satellite groups:\n"
 "%1"
 msgstr ""
+"Nepodarilo sa aktualizovať orbitálne elementy týchto skupín satelitov:\n"
+"%1"
 
 #: skycomponents/skymapcomposite.cpp:127
 #, kde-format
@@ -95169,7 +95135,7 @@ msgstr "Neznáma chyba"
 #: skyobjects/satellitegroup.cpp:91
 #, kde-format
 msgid "The server did not return any orbital elements."
-msgstr ""
+msgstr "Server nevrátil žiadne orbitálne elementy."
 
 #: skyobjects/skyobject.cpp:343 skyobjects/skyobject.cpp:395
 #, kde-format
@@ -103526,7 +103492,6 @@ msgstr "Nastavte farbu pre pozadie."
 #~ "FITS."
 
 #, fuzzy
-#~| msgid "No profile selected"
 #~ msgid "The solver profile %1 is selected."
 #~ msgstr "Nevybratý žiadny profil"
 
