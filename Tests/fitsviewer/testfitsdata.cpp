@@ -421,6 +421,56 @@ void TestFitsData::testLoadCompressedFits()
 #endif
 }
 
+void TestFitsData::testHeaderWithSlashes()
+{
+    const QString fitsFile = "header_with_slashes.fits";
+    if (!QFile::exists(fitsFile))
+        QSKIP("Skipping test because of missing fixture header_with_slashes.fits");
+
+    std::unique_ptr<FITSData> fd(new FITSData());
+    QVERIFY(fd != nullptr);
+
+    QFuture<bool> worker = fd->loadFromFile(fitsFile);
+    QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 5000);
+    QVERIFY2(worker.result(), qPrintable(fd->getLastError()));
+
+    QVariant slashVal;
+    QVERIFY(fd->getRecordValue("SLASHVAL", slashVal));
+    QCOMPARE(slashVal.toString(), QString("string w/ a slash"));
+
+    QVariant slashCom;
+    QVERIFY(fd->getRecordValue("SLASHCOM", slashCom));
+    QCOMPARE(slashCom.toString(), QString("no slash here"));
+
+    bool foundSlashVal = false;
+    bool foundSlashCom = false;
+    bool foundBothSlsh = false;
+    for (const auto &rec : fd->getRecords())
+    {
+        if (rec.key == "SLASHVAL")
+        {
+            foundSlashVal = true;
+            QCOMPARE(rec.value.toString(), QString("string w/ a slash"));
+            QCOMPARE(rec.comment, QString("no slash here"));
+        }
+        else if (rec.key == "SLASHCOM")
+        {
+            foundSlashCom = true;
+            QCOMPARE(rec.value.toString(), QString("no slash here"));
+            QCOMPARE(rec.comment, QString("comment w/ a slash"));
+        }
+        else if (rec.key == "BOTHSLSH")
+        {
+            foundBothSlsh = true;
+            QCOMPARE(rec.value.toString(), QString("val / with / slash"));
+            QCOMPARE(rec.comment, QString("comm / with / slash"));
+        }
+    }
+    QVERIFY(foundSlashVal);
+    QVERIFY(foundSlashCom);
+    QVERIFY(foundBothSlsh);
+}
+
 void TestFitsData::testCentroidAlgorithmBenchmark_data()
 {
 #if QT_VERSION < 0x050900

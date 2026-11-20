@@ -21,6 +21,10 @@ ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/bahtinov-focus.fits
             ${CMAKE_CURRENT_BINARY_DIR}/bahtinov-focus.fits)
+ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/header_with_slashes.fits
+            ${CMAKE_CURRENT_BINARY_DIR}/header_with_slashes.fits)
 ADD_TEST( NAME FitsDataTest COMMAND testfitsdata )
 SET_TESTS_PROPERTIES( FitsDataTest PROPERTIES LABELS "stable")
 

@@ -35,6 +35,7 @@ class TestFitsData : public QObject
         void testLoadFits();
         void testLoadCompressedFits_data();
         void testLoadCompressedFits();
+        void testHeaderWithSlashes();
 
         void testCentroidAlgorithmBenchmark_data();
         void testCentroidAlgorithmBenchmark();

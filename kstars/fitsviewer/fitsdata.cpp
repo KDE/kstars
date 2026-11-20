@@ -5287,52 +5287,69 @@ bool FITSData::parseHeader(const bool stack)
     }
 
     stack ? m_StackHeaderRecords.clear() : m_HeaderRecords.clear();
-    QString recordList = QString(header);
-
     for (int i = 0; i < nkeys; i++)
     {
+        char card[FLEN_CARD];
+        memcpy(card, header + i * 80, 80);
+        card[80] = '\0';
+
+        char keyname[FLEN_KEYWORD] = {0};
+        char value[FLEN_VALUE] = {0};
+        char comment[FLEN_COMMENT] = {0};
+        int length = 0;
+        int statusKey = 0;
+        int statusVal = 0;
+
+        fits_get_keyname(card, keyname, &length, &statusKey);
+        fits_parse_value(card, value, comment, &statusVal);
+
         Record oneRecord;
-        // Quotes cause issues for simplified below so we're removing them.
-        QString record = recordList.mid(i * 80, 80).remove("'");
-        QStringList properties = record.split(QRegularExpression("[=/]"));
-        // If it is only a comment
-        if (properties.size() == 1)
+        oneRecord.key = QString::fromLatin1(keyname).trimmed();
+        oneRecord.comment = QString::fromLatin1(comment).trimmed();
+
+        if (statusVal != 0)
         {
-            oneRecord.key = properties[0].mid(0, 7);
-            oneRecord.comment = properties[0].mid(8).simplified();
+            // Fallback for non-standard commentary cards
+            QString rawCard = QString::fromLatin1(card, 80);
+            if (rawCard.length() > 8)
+                oneRecord.comment = rawCard.mid(8).trimmed();
         }
         else
         {
-            oneRecord.key = properties[0].simplified();
-            oneRecord.value = properties[1].simplified();
-            if (properties.size() > 2)
-                oneRecord.comment = properties[2].simplified();
-
-            // Try to guess the value.
-            // Test for integer & double. If neither, then leave it as "string".
-            bool ok = false;
-
-            // Is it Integer?
-            oneRecord.value.toInt(&ok);
-            if (ok)
+            QString valStr = QString::fromLatin1(value).trimmed();
+            if (valStr.startsWith('\'') && valStr.endsWith('\'') && valStr.length() >= 2)
             {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                oneRecord.value.convert(QMetaType(QMetaType::Int));
-#else
-                oneRecord.value.convert(QMetaType::Int);
-#endif
+                valStr = valStr.mid(1, valStr.length() - 2).trimmed();
+                valStr.replace("''", "'");
+                oneRecord.value = valStr;
             }
-            else
+            else if (!valStr.isEmpty())
             {
-                // Is it double?
-                oneRecord.value.toDouble(&ok);
+                oneRecord.value = valStr;
+                bool ok = false;
+
+                // Is it Integer?
+                oneRecord.value.toInt(&ok);
                 if (ok)
                 {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                    oneRecord.value.convert(QMetaType(QMetaType::Double));
+                    oneRecord.value.convert(QMetaType(QMetaType::Int));
 #else
-                    oneRecord.value.convert(QMetaType::Double);
+                    oneRecord.value.convert(QMetaType(QMetaType::Int));
 #endif
+                }
+                else
+                {
+                    // Is it double?
+                    oneRecord.value.toDouble(&ok);
+                    if (ok)
+                    {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        oneRecord.value.convert(QMetaType(QMetaType::Double));
+#else
+                        oneRecord.value.convert(QMetaType(QMetaType::Double));
+#endif
+                    }
                 }
             }
         }
