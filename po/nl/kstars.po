@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-18 14:57+0100\n"
+"PO-Revision-Date: 2026-11-20 18:14+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23909,10 +23909,9 @@ msgid "Focus has no connected camera to capture with."
 msgstr "Focus heeft geen camera om mee op te nemen."
 
 #: ekos/focus/focusdiagnosis.cpp:386
-#, fuzzy, kde-format
-#| msgid "No camera is available."
+#, kde-format
 msgid "No focuser is available"
-msgstr "Er is geen camera beschikbaar."
+msgstr "Er is geen focuser beschikbaar."
 
 #: ekos/focus/focusdiagnosis.cpp:387
 #, kde-format
@@ -23930,16 +23929,14 @@ msgid "The focuser moves by time, and the step is too short to move it."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:395
-#, fuzzy, kde-format
-#| msgid "Align cannot capture until the dust cap is open."
+#, kde-format
 msgid "Autofocus cannot capture until the dust cap is open."
-msgstr "Uitlijnen kan pas opnemen wanneer de stofkap geopend is."
+msgstr "Autofocus kan pas opnemen wanneer de stofkap geopend is."
 
 #: ekos/focus/focusdiagnosis.cpp:398
-#, fuzzy, kde-format
-#| msgid "Autofocus parameter adjustment"
+#, kde-format
 msgid "Autofocus never reached focus"
-msgstr "Aanpassing van autofocusparameter"
+msgstr "Autofocus bereikte nooit focus"
 
 #: ekos/focus/focusdiagnosis.cpp:400
 #, kde-format

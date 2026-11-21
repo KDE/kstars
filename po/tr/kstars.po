@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-19 18:25+0300\n"
+"PO-Revision-Date: 2026-11-20 17:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7943,34 +7943,35 @@ msgid ""
 "Align needs the mount position to set its target, but the mount reports no "
 "valid coordinates."
 msgstr ""
+"Hizalama, hedefini ayarlamak için kaide konumuna gereksinim duyar; ancak "
+"kaide herhangi bir geçerli koordinat bildirmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:417
-#, fuzzy, kde-format
-#| msgid "No camera connected."
+#, kde-format
 msgid "No camera is selected"
-msgstr "Bağlı kamera yok."
+msgstr "Seçili kamera yok"
 
 #: ekos/align/aligndiagnosis.cpp:418
 #, kde-format
 msgid "The optical train has no camera for Align to capture with."
 msgstr ""
+"Optik katarda hizalama işleminin çekim yapabilmesi için bir kamera "
+"bulunmuyor."
 
 #: ekos/align/aligndiagnosis.cpp:421
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The camera is disconnected"
-msgstr "Makine bağlantıyı kesti."
+msgstr "Kamera bağlantısı kesildi"
 
 #: ekos/align/aligndiagnosis.cpp:422
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Align lost the connection to the camera %1."
-msgstr "Hata: Kamerayla bağlantı kesildi."
+msgstr "Hizalama, kamera %1 ögesine olan bağlantıyı kaybetti."
 
 #: ekos/align/aligndiagnosis.cpp:425
 #, kde-format
 msgid "The focal length or aperture is missing"
-msgstr ""
+msgstr "Odak uzunluğu veya açıklık eksik"
 
 #: ekos/align/aligndiagnosis.cpp:426
 #, kde-format
@@ -7982,10 +7983,9 @@ msgstr ""
 "bilinmiyor."
 
 #: ekos/align/aligndiagnosis.cpp:429
-#, fuzzy, kde-format
-#| msgid "Camera pixel size in microns"
+#, kde-format
 msgid "The camera pixel size is missing"
-msgstr "Mikron olarak kamera pikseli boyutu"
+msgstr "Kamera piksel boyutu eksik"
 
 #: ekos/align/aligndiagnosis.cpp:430
 #, kde-format
@@ -8006,86 +8006,81 @@ msgid "The calculated field of view is %1 x %2 arcmin."
 msgstr "Hesaplanan görüş alanı %1 × %2 yaydakika"
 
 #: ekos/align/aligndiagnosis.cpp:438
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The filter wheel is disconnected"
-msgstr "Makine bağlantıyı kesti."
+msgstr "Süzgeç tekerleği bağlantısı kesildi"
 
 #: ekos/align/aligndiagnosis.cpp:439
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Align could not select its filter."
-msgstr "Dosya silinemedi: %1"
+msgstr "Hizalama işlemi, süzgecini seçemedi."
 
 #: ekos/align/aligndiagnosis.cpp:442 ekos/focus/focusdiagnosis.cpp:370
-#, fuzzy, kde-format
-#| msgid "Dithering failed."
+#, kde-format
 msgid "The filter change failed"
-msgstr "Kıpırdatma başarısız."
+msgstr "Süzgeç değiştirilemedi"
 
 #: ekos/align/aligndiagnosis.cpp:443 ekos/align/aligndiagnosis.cpp:775
 #, kde-format
 msgid "The filter wheel did not reach the Align filter."
-msgstr ""
+msgstr "Süzgeç tekerleği, hizalama süzgecine erişemedi."
 
 #: ekos/align/aligndiagnosis.cpp:446
-#, fuzzy, kde-format
-#| msgid "Image transfer format"
+#, kde-format
 msgid "Image transfer is disabled"
-msgstr "Görsel aktarım biçimi"
+msgstr "Görsel aktarımı devre dışı"
 
 #: ekos/align/aligndiagnosis.cpp:447
 #, kde-format
 msgid "The camera does not send its images to KStars."
-msgstr ""
+msgstr "Kamera, görsellerini KStars’a aktarmıyor."
 
 #: ekos/align/aligndiagnosis.cpp:450 ekos/focus/focusdiagnosis.cpp:394
 #, kde-format
 msgid "The dust cap reports an error"
-msgstr ""
+msgstr "Toz kapağı bir hata bildiriyor"
 
 #: ekos/align/aligndiagnosis.cpp:451
 #, kde-format
 msgid "Align cannot capture until the dust cap is open."
-msgstr ""
+msgstr "Hizalama, toz kapağı açılana değin çekim yapamaz."
 
 #: ekos/align/aligndiagnosis.cpp:454 ekos/focus/focusdiagnosis.cpp:378
-#, fuzzy, kde-format
-#| msgid "Number of images to capture"
+#, kde-format
 msgid "The camera failed to capture"
-msgstr "Çekilecek görsel sayısı"
+msgstr "Kamera çekim yapamadı."
 
 #: ekos/align/aligndiagnosis.cpp:455
 #, kde-format
 msgid "The exposure failed %1 times."
-msgstr ""
+msgstr "Pozlama, %1 kez başarısız oldu."
 
 #: ekos/align/aligndiagnosis.cpp:458 ekos/focus/focusdiagnosis.cpp:374
 #, kde-format
 msgid "The camera stopped responding"
-msgstr ""
+msgstr "Kamera yanıt vermeyi durdurdu."
 
 #: ekos/align/aligndiagnosis.cpp:459
 #, kde-format
 msgid "Exposures timed out after the camera driver was restarted %1 times."
 msgstr ""
+"Kamera sürücüsü %1 kez yeniden başlatıldıktan sonra pozlamalar zaman aşımına "
+"uğradı."
 
 #: ekos/align/aligndiagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgid "Remote devices established."
+#, kde-format
 msgid "Another device stayed busy"
-msgstr "Uzak aygıtlar bulundu."
+msgstr "Başka bir aygıt meşgûl idi."
 
 #: ekos/align/aligndiagnosis.cpp:463
 #, kde-format
 msgid "Align waited too long for another device to finish."
-msgstr ""
+msgstr "Hizalama, başka bir aygıtın işini bitirmesini çok bekledi."
 
 #: ekos/align/aligndiagnosis.cpp:466
-#, fuzzy, kde-format
-#| msgid "Add a folder where index files are stored"
+#, kde-format
 msgid "No index files are installed"
-msgstr "İndeks dosyalarının depolandığı bir klasör ekleyin"
+msgstr "Kurulu indeks dosyaları yok."
 
 #: ekos/align/aligndiagnosis.cpp:467
 #, kde-format
@@ -8093,10 +8088,9 @@ msgid "The solver needs index files for this field of view."
 msgstr "Çözücünün bu görüş alanı için indeks dosyalarına gereksinimi var."
 
 #: ekos/align/aligndiagnosis.cpp:470
-#, fuzzy, kde-format
-#| msgid "The weights file could not be read."
+#, kde-format
 msgid "The image could not be solved"
-msgstr "Ağırlıklar dosyası okunamadı."
+msgstr "Görsel çözülemedi."
 
 #: ekos/align/aligndiagnosis.cpp:471
 #, kde-format
