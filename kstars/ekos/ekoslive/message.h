@@ -127,6 +127,7 @@ class Message : public QObject
         // Dark Library
         void sendDarkLibrarySettings(const QVariantMap &settings);
         void sendDarkLibraryMasters();
+        void sendDarkLibraryDefectSettings();
 
         //Scheduler
         void sendSchedulerSettings(const QVariantMap &settings);

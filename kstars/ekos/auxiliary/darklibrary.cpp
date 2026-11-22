@@ -1083,6 +1083,7 @@ void DarkLibrary::loadCurrentMasterDefectMap()
             coldPixelsCount->setValue(cold);
             aggresivenessHotSlider->setValue(m_CurrentDefectMap->property("HotPixelAggressiveness").toInt());
             aggresivenessColdSlider->setValue(m_CurrentDefectMap->property("ColdPixelAggressiveness").toInt());
+            Q_EMIT defectSettingsUpdated();
         });
 
         if (!m_DefectMapFilename.isEmpty())
@@ -2321,6 +2322,8 @@ QJsonObject DarkLibrary::getDefectSettings()
         {"masterDeviation", masterDeviation->text()},
         {"hotPixelsEnabled", hotPixelsEnabled->isChecked()},
         {"coldPixelsEnabled", coldPixelsEnabled->isChecked()},
+        {"hotPixelsCount", hotPixelsCount->value()},
+        {"coldPixelsCount", coldPixelsCount->value()},
     };
     return createDefectMaps;
 }

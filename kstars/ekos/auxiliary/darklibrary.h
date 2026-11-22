@@ -127,6 +127,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         // The master dark list or the current master's metadata changed, e.g. after the
         // optical train switched to another camera.
         void mastersUpdated();
+        // The defect map's hot/cold pixel counts changed (e.g. after Generate Map)
+        void defectSettingsUpdated();
 
     public Q_SLOTS:
         void processNewImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data);

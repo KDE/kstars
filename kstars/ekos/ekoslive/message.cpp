@@ -816,6 +816,14 @@ void Message::sendDarkLibraryMasters()
     sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+/// The defect map's settings, including its hot/cold pixel counts once Generate Map ran.
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDarkLibraryDefectSettings()
+{
+    sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
