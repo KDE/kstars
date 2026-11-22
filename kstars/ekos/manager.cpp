@@ -3709,7 +3709,7 @@ void Manager::connectModules()
     connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
             Qt::UniqueConnection);
     connect(DarkLibrary::Instance(), &DarkLibrary::settingsUpdated, ekosLiveClient.get()->message(),
-            &EkosLive::Message::sendGuideSettings, Qt::UniqueConnection);
+            &EkosLive::Message::sendDarkLibrarySettings, Qt::UniqueConnection);
 
     // Guide <---> Capture connections
     if (captureProcess && guideProcess)
