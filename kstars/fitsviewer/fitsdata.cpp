@@ -5335,7 +5335,7 @@ bool FITSData::parseHeader(const bool stack)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                     oneRecord.value.convert(QMetaType(QMetaType::Int));
 #else
-                    oneRecord.value.convert(QMetaType(QMetaType::Int));
+                    oneRecord.value.convert(QMetaType::Int);
 #endif
                 }
                 else
@@ -5347,7 +5347,7 @@ bool FITSData::parseHeader(const bool stack)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                         oneRecord.value.convert(QMetaType(QMetaType::Double));
 #else
-                        oneRecord.value.convert(QMetaType(QMetaType::Double));
+                        oneRecord.value.convert(QMetaType::Double);
 #endif
                     }
                 }
