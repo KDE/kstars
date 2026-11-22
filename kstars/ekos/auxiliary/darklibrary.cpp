@@ -140,6 +140,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
             m_DarkView->loadData(m_CurrentDarkFrame);
             loadCurrentMasterDefectMap();
             populateMasterMetedata();
+            Q_EMIT mastersUpdated();
         }
         else
             m_FileLabel->setText(i18n("Failed to load %1: %2",  m_MasterDarkFrameFilename, m_CurrentDarkFrame->getLastError()));
@@ -921,9 +922,7 @@ void DarkLibrary::openDarksFolder()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::refreshDefectMastersList(const QString &camera)
 {
-    if (darkFramesModel->rowCount() == 0)
-        return;
-
+    // Always clear: a camera without masters must not keep listing the previous camera's
     masterDarksCombo->blockSignals(true);
     masterDarksCombo->clear();
 
@@ -992,14 +991,36 @@ void DarkLibrary::reloadDarksFromDatabase()
     // Hide Chip
     darkTableView->hideColumn(2);
 
-    if (darkFramesModel->rowCount() == 0 && m_CurrentDarkFrame)
+    refreshDefectMastersList(camera);
+
+    if (darkFramesModel->rowCount() == 0)
     {
+        // No master for this camera: drop the previous camera's master, defect map and metadata
         clearBuffers();
+        clearMasterMetadata();
+        m_MasterDarkFrameFilename.clear();
+        m_DefectMapFilename.clear();
+        Q_EMIT mastersUpdated();
         return;
     }
 
-    refreshDefectMastersList(camera);
     loadCurrentMasterDark(camera);
+    Q_EMIT mastersUpdated();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::clearMasterMetadata()
+{
+    masterTime->clear();
+    masterTemperature->clear();
+    masterExposure->clear();
+    masterMedian->clear();
+    masterMean->clear();
+    masterDeviation->clear();
+    hotPixelsCount->setValue(0);
+    coldPixelsCount->setValue(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

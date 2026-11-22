@@ -3710,6 +3710,8 @@ void Manager::connectModules()
             Qt::UniqueConnection);
     connect(DarkLibrary::Instance(), &DarkLibrary::settingsUpdated, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendDarkLibrarySettings, Qt::UniqueConnection);
+    connect(DarkLibrary::Instance(), &DarkLibrary::mastersUpdated, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendDarkLibraryMasters, Qt::UniqueConnection);
 
     // Guide <---> Capture connections
     if (captureProcess && guideProcess)

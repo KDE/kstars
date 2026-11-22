@@ -124,6 +124,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         // Settings
         void settingsUpdated(const QVariantMap &settings);
         void trainChanged();
+        // The master dark list or the current master's metadata changed, e.g. after the
+        // optical train switched to another camera.
+        void mastersUpdated();
 
     public Q_SLOTS:
         void processNewImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data);
@@ -218,6 +221,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void reloadDarksFromDatabase();
         void loadCurrentMasterDefectMap();
         void clearBuffers();
+        // Clear the master metadata labels and pixel counts (e.g. no master for the camera)
+        void clearMasterMetadata();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Camera Functions

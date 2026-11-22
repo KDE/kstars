@@ -806,6 +806,16 @@ void Message::sendDarkLibrarySettings(const QVariantMap &settings)
     m_DebouncedMap[commands[DARK_LIBRARY_GET_ALL_SETTINGS]] = settings;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+/// The master list (only the current camera's) and the current master's metadata, so a
+/// client does not keep showing the previous camera's masters after the train changes.
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDarkLibraryMasters()
+{
+    sendResponse(commands[DARK_LIBRARY_GET_VIEW_MASTERS], Ekos::DarkLibrary::Instance()->getViewMasters());
+    sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
