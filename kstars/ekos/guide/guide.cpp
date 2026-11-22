@@ -697,6 +697,9 @@ void Guide::updateGuideParams()
                 settings["h"]    = subframed ? h : maxH;
                 settings["binx"] = subBinX;
                 settings["biny"] = subBinY;
+                // The chip size these settings belong to, see checkGuideChipFrameLimits()
+                settings["maxw"] = maxW;
+                settings["maxh"] = maxH;
 
                 frameSettings[targetChip] = settings;
             }
@@ -2449,6 +2452,68 @@ void Guide::updateProperty(INDI::Property prop)
             guideBinning->setCurrentIndex(guideBinIndex);
         }
     }
+    // The frame limits come with the frame property, after CCD_INFO
+    else if ((prop.isNameMatch("CCD_FRAME") && useGuideHead == false) ||
+             (prop.isNameMatch("GUIDER_FRAME") && useGuideHead))
+    {
+        checkGuideChipFrameLimits();
+    }
+}
+
+void Guide::checkGuideChipFrameLimits()
+{
+    if (m_Camera == nullptr)
+        return;
+
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    if (targetChip == nullptr || frameSettings.contains(targetChip) == false)
+        return;
+
+    int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+    if (targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH) == false || maxW <= 0 || maxH <= 0)
+        return;
+
+    QVariantMap settings = frameSettings[targetChip];
+
+    // Settings that were not built from the chip size: take the current size as theirs
+    if (settings.contains("maxw") == false || settings.contains("maxh") == false)
+    {
+        settings["maxw"] = maxW;
+        settings["maxh"] = maxH;
+        frameSettings[targetChip] = settings;
+        return;
+    }
+
+    if (settings["maxw"].toInt() == maxW && settings["maxh"].toInt() == maxH)
+        return;
+
+    // The chip size changed: the saved frame, and a subframe around the guide star, belong to the old size.
+    qCInfo(KSTARS_EKOS_GUIDE) << "Guide chip size changed from" << settings["maxw"].toInt() << "x" << settings["maxh"].toInt()
+                              << "to" << maxW << "x" << maxH << ", going back to the full frame.";
+    settings["x"]    = minX;
+    settings["y"]    = minY;
+    settings["w"]    = maxW;
+    settings["h"]    = maxH;
+    settings["maxw"] = maxW;
+    settings["maxh"] = maxH;
+    frameSettings[targetChip] = settings;
+    subFramed = false;
+
+    int binX = settings["binx"].isValid() ? settings["binx"].toInt() : 1;
+    int binY = settings["biny"].isValid() ? settings["biny"].toInt() : 1;
+    m_GuiderInstance->setFrameParams(minX, minY, maxW, maxH, binX, binY);
+
+    // QString::number: i18n() would add digit grouping (6,224)
+    appendLogText(i18n("Guide camera size changed to %1 x %2 pixels, using the full frame.", QString::number(maxW),
+                       QString::number(maxH)));
+    if (m_State == GUIDE_CALIBRATING || m_State == GUIDE_GUIDING || m_State == GUIDE_SUSPENDED ||
+            m_State == GUIDE_REACQUIRE || m_State == GUIDE_DITHERING || m_State == GUIDE_MANUAL_DITHERING ||
+            m_State == GUIDE_DITHERING_SETTLE)
+        appendLogText(
+            i18n("The guide calibration may no longer match the new camera size. Calibrate again if guiding becomes unstable."));
+
+    // The pixel size may have changed with the chip size
+    syncCameraInfo();
 }
 
 void Guide::checkExposureValue(ISD::CameraChip * targetChip, double exposure, IPState expState)

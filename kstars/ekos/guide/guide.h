@@ -603,6 +603,16 @@ class Guide : public QWidget, public Ui::Guide
         void resetGuideChipFrame();
 
         /**
+         * @brief checkGuideChipFrameLimits Follows a change of the guide chip size reported by the driver.
+         * Some drivers change the chip size at runtime, e.g. the resolution switch of ToupTek cameras. The frame
+         * settings are built from the chip size when the camera is set, so after such a change every capture would
+         * still request the old frame: only a part of the chip when the new size is larger, a frame the driver
+         * refuses when it is smaller. When the frame limits differ from the ones the frame settings were built for,
+         * the frame settings go back to the new full frame (the binning is kept).
+         */
+        void checkGuideChipFrameLimits();
+
+        /**
          * @brief isGuiderActive Indicate if the guider is active (i.e. calibrating, guiding, dithering, ...)
          */
         static bool isGuiderActive(const GuideState state)
