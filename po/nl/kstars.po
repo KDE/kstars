@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-18 02:35+0000\n"
-"PO-Revision-Date: 2026-11-20 18:14+0100\n"
-"Last-Translator: freek <freekdekruijf@kde.nl>\n"
+"PO-Revision-Date: 2026-11-21 18:21+0100\n"
+"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -7884,6 +7884,8 @@ msgid ""
 "The mount driver cannot switch tracking on. Start tracking at the sidereal "
 "rate from the hand controller."
 msgstr ""
+"Het opstellingstuurprogramma kan het volgen niet inschakelen. Start het "
+"volgen op de siderische snelheid via de handcontroller."
 
 #: ekos/align/aligndiagnosis.cpp:350
 #, kde-format
@@ -8276,12 +8278,13 @@ msgstr ""
 #: ekos/align/aligndiagnosis.cpp:526
 #, kde-format
 msgid "The target accuracy was not reached"
-msgstr ""
+msgstr "De beoogde nauwkeurigheid werd niet behaald"
 
 #: ekos/align/aligndiagnosis.cpp:527
 #, kde-format
 msgid "Solving works, but the mount did not get close enough to the target."
 msgstr ""
+"Oplossen werkt, maar de opstelling kwam niet dicht genoeg bij het doel."
 
 #: ekos/align/aligndiagnosis.cpp:530
 #, kde-format
@@ -8382,7 +8385,7 @@ msgstr "Dubbele offset van afbeelding"
 #: ekos/align/aligndiagnosis.cpp:611
 #, kde-format
 msgid "Star concentration (R80/R20)"
-msgstr ""
+msgstr "Starconcentratie (R80/R20)"
 
 #: ekos/align/aligndiagnosis.cpp:614
 #, kde-format
@@ -8423,6 +8426,8 @@ msgstr "Selecteer een opstelling in de optische keten"
 #, kde-format
 msgid "Align needs a mount to know where the telescope points."
 msgstr ""
+"Voor uitlijning is een opstelling nodig, zodat bekend is waar de telescoop "
+"op gericht staat."
 
 #: ekos/align/aligndiagnosis.cpp:673
 #, kde-format
@@ -8447,12 +8452,12 @@ msgstr "De gewenste hoogte %1° is buiten de grenzen van %2° tot %3°."
 #: ekos/align/aligndiagnosis.cpp:698
 #, kde-format
 msgid "Check the slew target"
-msgstr ""
+msgstr "Controleer het draaidoel"
 
 #: ekos/align/aligndiagnosis.cpp:699
 #, kde-format
 msgid "KStars refused the slew, see the notifications for the reason."
-msgstr ""
+msgstr "KStars weigerde de verdraaiing; raadpleeg de meldingen voor de reden."
 
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
@@ -23951,10 +23956,9 @@ msgid "The stars stayed far larger than in focus, and the run had no V."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Autofocus failed"
-msgstr "Autofocus is mislukt."
+msgstr "Autofocus is mislukt"
 
 #: ekos/focus/focusdiagnosis.cpp:436 ekos/guide/guidediagnosis.cpp:264
 #, kde-format
@@ -23972,20 +23976,17 @@ msgid "Algorithm"
 msgstr "Algoritme"
 
 #: ekos/focus/focusdiagnosis.cpp:458
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial step size"
-msgstr "Initiële stapgrootte:"
+msgstr "Initiële stapgrootte"
 
 #: ekos/focus/focusdiagnosis.cpp:466
-#, fuzzy, kde-format
-#| msgid "Selecting star"
+#, kde-format
 msgid "Smallest stars"
-msgstr "Ster selecteren"
+msgstr "Kleinste sterren"
 
 #: ekos/focus/focusdiagnosis.cpp:469
-#, fuzzy, kde-format
-#| msgid "focus"
+#, kde-format
 msgid "In focus"
 msgstr "In focus"
 
@@ -23995,10 +23996,9 @@ msgid "Larger than in focus"
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:472
-#, fuzzy, kde-format
-#| msgid "Position angle:"
+#, kde-format
 msgid "Positions measured"
-msgstr "Positiehoek:"
+msgstr "Gemeten posities"
 
 #: ekos/focus/focusdiagnosis.cpp:478
 #, kde-format
@@ -24006,23 +24006,19 @@ msgid "Maximum travel"
 msgstr "Maximum verplaatsen"
 
 #: ekos/focus/focusdiagnosis.cpp:483
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "Focuser range"
-msgstr "Focusframe"
+msgstr "Bereik van focuser"
 
 #: ekos/focus/focusdiagnosis.cpp:503
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check the focuser"
-msgstr "De opstelling controleren"
+msgstr "De focuser controleren"
 
 #: ekos/focus/focusdiagnosis.cpp:504
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The focuser %1 stopped responding."
-msgstr "De camera is gestopt met antwoorden"
+msgstr "De focuser %1 is gestopt met antwoorden."
 
 #: ekos/focus/focusdiagnosis.cpp:505
 #, kde-format
@@ -24054,10 +24050,9 @@ msgid "Restart the focuser driver if it still does not move."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:521
-#, fuzzy, kde-format
-#| msgid "Autofocus request [%1] optimized out."
+#, kde-format
 msgid "A focus exposure of %1 seconds timed out."
-msgstr "Autofocusverzoek [%1] uitgeoptimaliseerd."
+msgstr "Limiet van %1 seconden voor focus-belichting is verlopen."
 
 #: ekos/focus/focusdiagnosis.cpp:525
 #, kde-format
@@ -24077,31 +24072,24 @@ msgid "The frame has %1 round stars with a median HFR of %2 pixels."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:594
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in a %2 second exposure."
+#, kde-format
 msgid "Only %1 stars were found in the focus frame."
-msgstr ""
-"Er werden slechts %1 sterren gevonden in een belichting van %2 seconden."
+msgstr "Er werden slechts %1 sterren gevonden in het focusframe."
 
 #: ekos/focus/focusdiagnosis.cpp:596
-#, fuzzy, kde-format
-#| msgid "Check that the slew was not stopped by hand."
+#, kde-format
 msgid "Check that the dust cap is open."
-msgstr "Controleer dat het draaien niet met de hand werd gestopt."
+msgstr "Controleer dat de stofkap open is."
 
 #: ekos/focus/focusdiagnosis.cpp:598 ekos/focus/focusdiagnosis.cpp:683
-#, fuzzy, kde-format
-#| msgid "Check that the remote astrometry driver is running."
+#, kde-format
 msgid "Check that the dust cap or cover is off."
-msgstr "Controleer dat het externe astronomie-stuurprogramma actief is."
+msgstr "Controleer dat de stofkap of bedekking er af is."
 
 #: ekos/focus/focusdiagnosis.cpp:600
-#, fuzzy, kde-format
-#| msgid ""
-#| "Point the telescope at the southern meridian. Press Continue when ready."
+#, kde-format
 msgid "Point the telescope at an area with more stars."
-msgstr ""
-"Richt de telescoop op de zuidelijke meridiaan. Druk daarna op verdergaan."
+msgstr "Richt de telescoop op een gebied met meer sterren."
 
 #: ekos/focus/focusdiagnosis.cpp:610
 #, kde-format
@@ -24118,10 +24106,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:620
-#, fuzzy, kde-format
-#| msgid "Donut Buster"
+#, kde-format
 msgid "Turn on Donut Buster"
-msgstr "Donut Buster"
+msgstr "Donut Buster aanzetten"
 
 #: ekos/focus/focusdiagnosis.cpp:621
 #, kde-format
@@ -24129,18 +24116,14 @@ msgid "Donut Buster measures defocused stars that look like rings."
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:668
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in a %2 second exposure."
+#, kde-format
 msgid "No stars were detected in a %1 second exposure."
-msgstr ""
-"Er werden slechts %1 sterren gevonden in een belichting van %2 seconden."
+msgstr "Er werden geen sterren gedetecteerd in een belichting van %1 seconden."
 
 #: ekos/focus/focusdiagnosis.cpp:682
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in a %2 second exposure."
+#, kde-format
 msgid "No stars were found in the focus frame."
-msgstr ""
-"Er werden slechts %1 sterren gevonden in een belichting van %2 seconden."
+msgstr "Er werden geen sterren gevonden in het focusframe."
 
 #: ekos/focus/focusdiagnosis.cpp:685
 #, kde-format
@@ -24244,22 +24227,19 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:829
-#, fuzzy, kde-format
-#| msgid "The camera driver is not connected."
+#, kde-format
 msgid "The camera and the focuser are connected."
-msgstr "Het camera-stuurprogramma is niet verbonden."
+msgstr "De camera en de focuser zijn verbonden."
 
 #: ekos/focus/focusdiagnosis.cpp:831
-#, fuzzy, kde-format
-#| msgid "Delete focus frames?"
+#, kde-format
 msgid "The focus frame has stars."
-msgstr "Focusframes verwijderen?"
+msgstr "Het focusframe heeft sterren."
 
 #: ekos/focus/focusdiagnosis.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Check the Align log"
+#, kde-format
 msgid "Check the Focus log"
-msgstr "Controleer het uitlijnlogbestand"
+msgstr "Controleer het logboek van focussen"
 
 #: ekos/focus/focusdiagnosis.cpp:1171
 #, kde-format
@@ -24275,16 +24255,14 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focusdiagnosis.cpp:1202
-#, fuzzy, kde-format
-#| msgid "The camera %1 is connected."
+#, kde-format
 msgid "The focuser %1 is connected."
-msgstr "De camera %1 is verbonden."
+msgstr "De focuser %1 is verbonden."
 
 #: ekos/focus/focusdiagnosis.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Align looks ready"
+#, kde-format
 msgid "Focus looks ready"
-msgstr "Uitlijnen zier eruit als gereed"
+msgstr "Focus ziet eruit als gereed"
 
 #: ekos/focus/focusdiagnosis.cpp:1227
 #, kde-format
@@ -26751,10 +26729,9 @@ msgid "Failed to set dither range."
 msgstr "Instellen ditherbereik is mislukt."
 
 #: ekos/guide/externalguide/phd2.cpp:116
-#, fuzzy, kde-format
-#| msgid "The solver did not finish within %1 seconds."
+#, kde-format
 msgid "Calibration did not finish within %1 seconds."
-msgstr "De oplosser eindigde niet binnen %1 seconden."
+msgstr "Kalibratie eindigde niet binnen %1 seconden."
 
 #: ekos/guide/externalguide/phd2.cpp:137
 #, kde-format
@@ -26941,10 +26918,11 @@ msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Kalibreren, gedurende %1s."
 
 #: ekos/guide/externalguide/phd2.cpp:807
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "PHD2 went back to looping exposures during calibration."
-msgstr "Streamen van volgen is gestopt tijdens kalibratie."
+msgstr ""
+"PHD2 keerde tijdens de kalibratie terug naar het herhaaldelijk maken van "
+"opnames."
 
 #: ekos/guide/externalguide/phd2.cpp:808
 #, kde-format
@@ -26998,7 +26976,7 @@ msgstr "PHD2: Pixelschaal is %1 arcsec per pixel"
 #: ekos/guide/externalguide/phd2.cpp:1089
 #, kde-format
 msgid "PHD2 refused the dither command."
-msgstr ""
+msgstr "PHD2 weigerde het dither-commando."
 
 #: ekos/guide/externalguide/phd2.cpp:1110
 #, kde-format
@@ -27975,10 +27953,9 @@ msgid "Guide is busy. Try again when it has stopped."
 msgstr ""
 
 #: ekos/guide/guide_diagnosis.cpp:310
-#, fuzzy, kde-format
-#| msgid "The solver timeout is already at its limit."
+#, kde-format
 msgid "The guide square is already at its largest."
-msgstr "De tijdslimiet van de oplosser is al bereikt."
+msgstr "Het volgervak is al op zijn grootst."
 
 #: ekos/guide/guidediagnosis.cpp:69
 #, kde-format
@@ -28017,10 +27994,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:89
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check the RA axis of the mount"
-msgstr "De opstelling controleren"
+msgstr "Controleer de RK-as van de opstelling"
 
 #: ekos/guide/guidediagnosis.cpp:91
 #, kde-format
@@ -28029,16 +28005,14 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:92
-#, fuzzy, kde-format
-#| msgid "Check that the mount is unparked and tracking."
+#, kde-format
 msgid "Check that the RA clutch is locked."
-msgstr "Controleer dat de opstelling niet in de parkeerstand staat en volgt."
+msgstr "Controleer dat de RK-koppeling is vergrendeld."
 
 #: ekos/guide/guidediagnosis.cpp:100
-#, fuzzy, kde-format
-#| msgid "Check the mount"
+#, kde-format
 msgid "Check the DEC axis of the mount"
-msgstr "De opstelling controleren"
+msgstr "Controleer de DEC-as van de opstelling"
 
 #: ekos/guide/guidediagnosis.cpp:102
 #, kde-format
@@ -28046,10 +28020,9 @@ msgid "Check the DEC balance."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:103
-#, fuzzy, kde-format
-#| msgid "Check that the mount is unparked and tracking."
+#, kde-format
 msgid "Check that the DEC clutch is locked."
-msgstr "Controleer dat de opstelling niet in de parkeerstand staat en volgt."
+msgstr "Controleer dat de DEC-koppeling is vergrendeld."
 
 #: ekos/guide/guidediagnosis.cpp:104
 #, kde-format
@@ -28071,11 +28044,11 @@ msgid "The star stayed %1 pixels away from where the %2 calibration started."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:117
-#, fuzzy, kde-format
-#| msgid "The rotator did not reach the target position angle."
+#, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star did not come back to where the %1 calibration started."
-msgstr "De rotator heeft de doelpositiehoek niet bereikt."
+msgstr ""
+"De ster is niet teruggekeerd naar het punt waar de %1-kalibratie begon."
 
 #: ekos/guide/guidediagnosis.cpp:118
 #, kde-format
@@ -28095,10 +28068,9 @@ msgid "Check that no cable pulls on the telescope."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:128
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the calibration pulse to %1 ms"
-msgstr "Verhhog de belichtingstijd van uitlijnen naar %1 seconden"
+msgstr "Verhoog de kalibratiepuls naar %1 seconden"
 
 #: ekos/guide/guidediagnosis.cpp:129
 #, kde-format
@@ -28106,10 +28078,9 @@ msgid "Longer pulses move the star further, past the backlash of the mount."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:137
-#, fuzzy, kde-format
-#| msgid "Subframe the image around the guide star"
+#, kde-format
 msgid "Check the sky and the guide camera"
-msgstr "Subframe rondom de volgster"
+msgstr "Controleer de hemel en de volgcamera"
 
 #: ekos/guide/guidediagnosis.cpp:139
 #, kde-format
@@ -28117,16 +28088,14 @@ msgid "Check for clouds, and for dew on the guide scope."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:140
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Check that the guide camera is in focus."
-msgstr "Verbinding met de camera voor volgen is verbroken."
+msgstr "Controleer of de volgcamera scherp is afgesteld."
 
 #: ekos/guide/guidediagnosis.cpp:141
-#, fuzzy, kde-format
-#| msgid "Connection to the guide camera is lost."
+#, kde-format
 msgid "Check that the guide scope cap is off."
-msgstr "Verbinding met de camera voor volgen is verbroken."
+msgstr "Controleer of de kap van de volgtelescoop er af is."
 
 #: ekos/guide/guidediagnosis.cpp:143
 #, kde-format
@@ -28134,34 +28103,31 @@ msgid "Check the star and its SNR in PHD2."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:151
-#, fuzzy, kde-format
-#| msgid "Raise the Align exposure to %1 seconds"
+#, kde-format
 msgid "Raise the guide exposure to %1 seconds"
-msgstr "Verhhog de belichtingstijd van uitlijnen naar %1 seconden"
+msgstr "Verhoog de volgbelichtingstijd naar %1 seconden"
 
 #: ekos/guide/guidediagnosis.cpp:153
-#, fuzzy, kde-format
-#| msgid "A %1 second exposure may be too short to show enough stars."
+#, kde-format
 msgid ""
 "A %1 second exposure may be too short to show a bright enough guide star."
 msgstr ""
-"Een belichting van %1 seconde is wellicht te kort om voldoende sterren "
-"zichtbaar te maken."
+"Een belichting van %1 seconde is wellicht te kort om voldoende heldere "
+"volgster te tonen."
 
 #: ekos/guide/guidediagnosis.cpp:161
-#, fuzzy, kde-format
-#| msgid "Bin the Align camera %1x%1"
+#, kde-format
 msgid "Bin the guide camera 2x2"
-msgstr "Bin (pak pixels samen) de uitlijn-camera %1x%1"
+msgstr "Bin (pak pixels samen) van de volgcamera 2x2"
 
 #: ekos/guide/guidediagnosis.cpp:162
-#, fuzzy, kde-format
-#| msgid "Binning collects more light per pixel and speeds up solving."
+#, kde-format
 msgid ""
 "Binning collects more light per pixel, so the guide star stands out from the "
 "noise."
 msgstr ""
-"Binning verzamelt meer licht per pixel en versnelt het oplossingsproces."
+"Binning verzamelt meer licht per pixel, zodat de volgster zich onderscheidt "
+"van de ruis."
 
 #: ekos/guide/guidediagnosis.cpp:171
 #, kde-format
@@ -28189,7 +28155,7 @@ msgstr ""
 #: ekos/guide/guidediagnosis.cpp:188
 #, kde-format
 msgid "The star barely moved in DEC"
-msgstr ""
+msgstr "De ster bewoog nauwelijks in DEC."
 
 #: ekos/guide/guidediagnosis.cpp:190
 #, kde-format
@@ -28199,24 +28165,22 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:193
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "The calibration drift is too short"
-msgstr "Kalibratie mislukt: drift is te kort."
+msgstr "De kalibratiedrift is te kort"
 
 #: ekos/guide/guidediagnosis.cpp:194
-#, fuzzy, kde-format
-#| msgid "the target did not move in RA after %1 ms of West pulses."
+#, kde-format
 msgid ""
 "The star did not move far enough to measure how the mount responds to pulses."
 msgstr ""
-"Het doel bewoog niet in rechte klimming (RK) na %1 ms aan westwaartse pulsen."
+"De ster bewoog niet ver genoeg om te kunnen meten hoe de opstelling op "
+"impulsen reageert."
 
 #: ekos/guide/guidediagnosis.cpp:197
-#, fuzzy, kde-format
-#| msgid "The rotator did not reach the position angle"
+#, kde-format
 msgid "The star did not come back in RA"
-msgstr "De rotator heeft de positiehoek niet bereikt"
+msgstr "De ster is niet teruggekeerd in RK"
 
 #: ekos/guide/guidediagnosis.cpp:198
 #, kde-format
@@ -28238,10 +28202,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:205
-#, fuzzy, kde-format
-#| msgid "Stream tracking stopped during calibration."
+#, kde-format
 msgid "The guide star was lost during calibration"
-msgstr "Streamen van volgen is gestopt tijdens kalibratie."
+msgstr "De volgster ging tijdens de kalibratie verloren"
 
 #: ekos/guide/guidediagnosis.cpp:206
 #, kde-format
@@ -28249,10 +28212,9 @@ msgid "The guide star disappeared from several frames in a row."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:209
-#, fuzzy, kde-format
-#| msgid "Calibration failed to start."
+#, kde-format
 msgid "Calibration could not start"
-msgstr "Kalibratie kon niet worden gestart."
+msgstr "Kalibratie kon niet worden gestart"
 
 #: ekos/guide/guidediagnosis.cpp:210
 #, kde-format
@@ -28261,22 +28223,19 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:213
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "No guide star was found"
-msgstr "Volgster gevonden."
+msgstr "Geen volgster gevonden"
 
 #: ekos/guide/guidediagnosis.cpp:214
-#, fuzzy, kde-format
-#| msgid "Align could not select its filter."
+#, kde-format
 msgid "Guide could not select a guide star in the frame."
-msgstr "Uitlijnen kon zijn filter niet selecteren."
+msgstr "Volgen kon geen volgster in het frame selecteren."
 
 #: ekos/guide/guidediagnosis.cpp:217
-#, fuzzy, kde-format
-#| msgid "Guide Star lost."
+#, kde-format
 msgid "The guide star was lost"
-msgstr "Volgster verloren."
+msgstr "De volgster is verloren"
 
 #: ekos/guide/guidediagnosis.cpp:218
 #, kde-format
@@ -28286,24 +28245,21 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:222
-#, fuzzy, kde-format
-#| msgid "The camera stopped responding"
+#, kde-format
 msgid "The guide camera stopped responding"
-msgstr "De camera is gestopt met antwoorden"
+msgstr "De volgcamera is gestopt met antwoorden"
 
 #: ekos/guide/guidediagnosis.cpp:223
-#, fuzzy, kde-format
-#| msgid "Exposures timed out after the camera driver was restarted %1 times."
+#, kde-format
 msgid "Guide exposures timed out, also after the camera driver was restarted."
 msgstr ""
-"Belichtingen zijn afgebroken wegens een bereikte tijdslimiet nadat het "
-"camerastuurprogramma %1 keer opnieuw was gestart."
+"Volgbelichtingen zijn afgebroken wegens een bereikte tijdslimiet, ook nadat "
+"het camerastuurprogramma opnieuw was gestart."
 
 #: ekos/guide/guidediagnosis.cpp:226
-#, fuzzy, kde-format
-#| msgid "The camera is disconnected"
+#, kde-format
 msgid "The guide camera is gone"
-msgstr "Verbinding met de camera is verbroken."
+msgstr "De volgcamera is verdwenen"
 
 #: ekos/guide/guidediagnosis.cpp:227
 #, kde-format
@@ -28311,10 +28267,9 @@ msgid "The guide camera did not come back after its driver was restarted."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:230
-#, fuzzy, kde-format
-#| msgid "The retry could not start."
+#, kde-format
 msgid "The dither did not settle"
-msgstr "Het opnieuw doen kon niet beginnen."
+msgstr "De dither bleef aanhouden"
 
 #: ekos/guide/guidediagnosis.cpp:231
 #, kde-format
@@ -28322,48 +28277,39 @@ msgid "Guiding was stopped because a dither failed, as the dither options say."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Calibration Time column"
-#| msgid "Time to calibrate"
+#, kde-format
 msgid "PHD2 failed to calibrate"
-msgstr "Tijd tot kalibreren"
+msgstr "Kalibreren van PHD2 is mislukt"
 
 #: ekos/guide/guidediagnosis.cpp:235 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Calibration"
+#, kde-format
 msgid "PHD2 reported a failed calibration."
-msgstr "Kalibratie van %1 mislukte"
+msgstr "PHD2 rapporteerde een mislukte kalibratie."
 
 #: ekos/guide/guidediagnosis.cpp:236 ekos/guide/guidediagnosis.cpp:462
-#, fuzzy, kde-format
-#| msgid "PHD2: JSON error: %1"
+#, kde-format
 msgid "PHD2 reported: %1"
-msgstr "PHD2: JSON-fout: %1"
+msgstr "PHD2 rapporteerde: %1"
 
 #: ekos/guide/guidediagnosis.cpp:239
-#, fuzzy, kde-format
-#| msgid "Guiding rate"
+#, kde-format
 msgid "Guiding failed"
-msgstr "Volgsnelheid"
+msgstr "Volgen is mislukt"
 
 #: ekos/guide/guidediagnosis.cpp:260
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide camera"
-msgstr "Volgster"
+msgstr "Volgcamera"
 
 #: ekos/guide/guidediagnosis.cpp:262
-#, fuzzy, kde-format
-#| msgid "Guide via:"
+#, kde-format
 msgid "Guide via"
-msgstr "Volgen via:"
+msgstr "Volgen via"
 
 #: ekos/guide/guidediagnosis.cpp:267
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Star moved"
-msgstr "Naam ster"
+msgstr "Ster is verplaatst"
 
 #: ekos/guide/guidediagnosis.cpp:269
 #, kde-format
@@ -28371,10 +28317,9 @@ msgid "Pulse"
 msgstr "Puls"
 
 #: ekos/guide/guidediagnosis.cpp:285
-#, fuzzy, kde-format
-#| msgid "Guide star"
+#, kde-format
 msgid "Guide square"
-msgstr "Volgster"
+msgstr "Volgervak"
 
 #: ekos/guide/guidediagnosis.cpp:297
 #, kde-format
@@ -28387,17 +28332,14 @@ msgid "The guide frame has %1 round stars."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:308
-#, fuzzy, kde-format
-#| msgid "Only %1 stars were found in a %2 second exposure."
+#, kde-format
 msgid "Only %1 stars were found in the guide frame."
-msgstr ""
-"Er werden slechts %1 sterren gevonden in een belichting van %2 seconden."
+msgstr "Er werden slechts %1 sterren gevonden in het volgframe."
 
 #: ekos/guide/guidediagnosis.cpp:312
-#, fuzzy, kde-format
-#| msgid "Connect the camera"
+#, kde-format
 msgid "Focus the guide camera"
-msgstr "De camera verbinden"
+msgstr "De volgcamera scherp stellen"
 
 #: ekos/guide/guidediagnosis.cpp:313
 #, kde-format
@@ -28419,16 +28361,14 @@ msgid "Lock the focuser of the guide scope, so it does not slip."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:327
-#, fuzzy, kde-format
-#| msgid "Use a shorter exposure."
+#, kde-format
 msgid "Use a shorter guide exposure."
-msgstr "Een kortere belichtingswaarde gebruiken"
+msgstr "Een kortere volgbelichting gebruiken."
 
 #: ekos/guide/guidediagnosis.cpp:367 ekos/guide/guidediagnosis.cpp:392
-#, fuzzy, kde-format
-#| msgid "Remove DEC backlash in guide calibration"
+#, kde-format
 msgid "Remove the DEC backlash before calibrating"
-msgstr "Speling DEC wissen in kalibratie volger"
+msgstr "De speling in DEC verwijderen voor kalibratie"
 
 #: ekos/guide/guidediagnosis.cpp:368 ekos/guide/guidediagnosis.cpp:393
 #, kde-format
@@ -28436,10 +28376,9 @@ msgid "Calibration then takes up the DEC backlash before it measures."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:408
-#, fuzzy, kde-format
-#| msgid "Stream tracking calibration pulse step (ms)"
+#, kde-format
 msgid "Lower the calibration pulse to %1 ms"
-msgstr "Pulsstap van kalibratie van streamen van volgen (ms): "
+msgstr "Verlaag de kalibratiepuls naar %1 seconden"
 
 #: ekos/guide/guidediagnosis.cpp:409
 #, kde-format
@@ -28447,16 +28386,14 @@ msgid "Shorter pulses keep the star inside the guide square."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "Select a camera in the optical train"
+#, kde-format
 msgid "Select a guide camera in the optical train"
-msgstr "Selecteer een camera in de optische keten"
+msgstr "Selecteer een volgcamera in de optische keten"
 
 #: ekos/guide/guidediagnosis.cpp:424 ekos/guide/guidediagnosis.cpp:738
-#, fuzzy, kde-format
-#| msgid "The optical train of Align has no camera."
+#, kde-format
 msgid "The guide optical train has no camera."
-msgstr "De optische keten heeft geen camera voor Uitlijnen."
+msgstr "De optische keten van het volgen heeft geen camera."
 
 #: ekos/guide/guidediagnosis.cpp:431 ekos/guide/guidediagnosis.cpp:755
 #, kde-format
@@ -28471,29 +28408,27 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:439 ekos/guide/guidediagnosis.cpp:766
-#, fuzzy, kde-format
-#| msgid "Set the telescope focal length and aperture"
+#, kde-format
 msgid "Set the guide scope focal length and aperture"
-msgstr "Stel de brandpuntsafstand en diafragma van de telescoop in."
+msgstr "Stel de brandpuntsafstand en diafragma van de volgtelescoop in."
 
 #: ekos/guide/guidediagnosis.cpp:449
-#, fuzzy, kde-format
-#| msgid "Set the camera pixel size"
+#, kde-format
 msgid "Set the guide camera pixel size"
-msgstr "Stel de grootte van de camerapixels in"
+msgstr "Stel de grootte van de volgcamerapixels in"
 
 #: ekos/guide/guidediagnosis.cpp:461
-#, fuzzy, kde-format
-#| msgid "Check the rotator"
+#, kde-format
 msgid "Check the calibration in PHD2"
-msgstr "Controleer de rotator"
+msgstr "Controleer de kalibratie in PHD2"
 
 #: ekos/guide/guidediagnosis.cpp:464
-#, fuzzy, kde-format
-#| msgid "Flat calibration failed. Brightness calibration is not configured."
+#, kde-format
 msgid ""
 "Read the calibration details in PHD2 (its calibration step graph and log)."
-msgstr "Flat-kalibratie mislukt. Helderheidskalibratie is niet geconfigureerd."
+msgstr ""
+"Bekijk de kalibratiegegevens in PHD2 (de grafiek van de kalibratiestappen en "
+"het logbestand)."
 
 #: ekos/guide/guidediagnosis.cpp:465
 #, kde-format
@@ -28528,16 +28463,15 @@ msgid "A sudden jump of the telescope moves the star out of the guide square."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:499
-#, fuzzy, kde-format
-#| msgid "Check the mount tracking"
+#, kde-format
 msgid "Check that no cable snags as the mount tracks."
-msgstr "Controleer het volgen met de opstelling"
+msgstr ""
+"Controleer of er geen kabels blijven haken terwijl de opstelling meebeweegt."
 
 #: ekos/guide/guidediagnosis.cpp:500
-#, fuzzy, kde-format
-#| msgid "This could cause the telescope to cross the meridian."
+#, kde-format
 msgid "Shield the telescope from the wind."
-msgstr "Dit kan de telescoop de meridiaan laten kruisen."
+msgstr "Bescherm de telescoop tegen de wind."
 
 #: ekos/guide/guidediagnosis.cpp:501
 #, kde-format
@@ -28545,10 +28479,9 @@ msgid "Check that the guide scope and camera are mounted firmly."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:507
-#, fuzzy, kde-format
-#| msgid "Solver failed after %1 seconds."
+#, kde-format
 msgid "Search for a lost star for %1 seconds"
-msgstr "Oplossen mislukte na %1 seconden."
+msgstr "Zoek gedurende %1 seconden naar een verloren ster"
 
 #: ekos/guide/guidediagnosis.cpp:509
 #, kde-format
@@ -28556,10 +28489,9 @@ msgid "Guide waits longer for a passing cloud before it stops."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:524 ekos/guide/guidediagnosis.cpp:744
-#, fuzzy, kde-format
-#| msgid "Connect the camera"
+#, kde-format
 msgid "Connect the guide camera"
-msgstr "De camera verbinden"
+msgstr "De volgcamera verbinden"
 
 #: ekos/guide/guidediagnosis.cpp:530
 #, kde-format
@@ -28567,18 +28499,15 @@ msgid "Check the guide camera cable and power"
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:531
-#, fuzzy, kde-format
-#| msgid "The exposure failed %1 times."
+#, kde-format
 msgid "Guide exposures timed out several times."
-msgstr "De belichting is %1 keer mislukt."
+msgstr "Limiet van volgbelichting is verschillende keren mislukt."
 
 #: ekos/guide/guidediagnosis.cpp:532
-#, fuzzy, kde-format
-#| msgid "Failed to reconnect camera after driver restart."
+#, kde-format
 msgid "The guide camera did not come back after a driver restart."
 msgstr ""
-"Het opnieuw verbinden van de camera na het herstarten van het stuurprogramma "
-"is mislukt."
+"De volgcamera kwam niet terug na het herstarten van het stuurprogramma."
 
 #: ekos/guide/guidediagnosis.cpp:533
 #, kde-format
@@ -28588,21 +28517,19 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:534
-#, fuzzy, kde-format
-#| msgid "Use a shorter exposure."
+#, kde-format
 msgid "Use a shorter or better USB cable."
-msgstr "Een kortere belichtingswaarde gebruiken"
+msgstr "Gebruik een kortere of betere USB-kabel."
 
 #: ekos/guide/guidediagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Restart camera driver"
+#, kde-format
 msgid "Restart the guide camera driver."
-msgstr "Cameradriver herstarten"
+msgstr "Het volgcamerastuurprogramma herstarten."
 
 #: ekos/guide/guidediagnosis.cpp:544
 #, kde-format
 msgid "Check that guiding settles after a dither"
-msgstr ""
+msgstr "Controleer of de volger stabiliseert na een dither-actie"
 
 #: ekos/guide/guidediagnosis.cpp:545
 #, kde-format
@@ -28629,10 +28556,9 @@ msgid "Lower the dither distance in the dither options."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:554
-#, fuzzy, kde-format
-#| msgid "Maximum Dither Iterations:"
+#, kde-format
 msgid "Allow %1 dither iterations"
-msgstr "Maximum aantal dither-iteraties:"
+msgstr "Sta %1 dither-iteraties toe"
 
 #: ekos/guide/guidediagnosis.cpp:555
 #, kde-format
@@ -28650,22 +28576,19 @@ msgid "A failed dither then only costs one frame instead of stopping guiding."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:581 ekos/guide/guidediagnosis.cpp:750
-#, fuzzy, kde-format
-#| msgid "The camera %1 is connected."
+#, kde-format
 msgid "The guide camera %1 is connected."
-msgstr "De camera %1 is verbonden."
+msgstr "De volgcamera %1 is verbonden."
 
 #: ekos/guide/guidediagnosis.cpp:583
-#, fuzzy, kde-format
-#| msgid "The host disconnected."
+#, kde-format
 msgid "The mount is connected."
-msgstr "Verbonding met de host is verbroken."
+msgstr "De opstelling is verbonden."
 
 #: ekos/guide/guidediagnosis.cpp:708
-#, fuzzy, kde-format
-#| msgid "Check the Align log"
+#, kde-format
 msgid "Check the Guide log"
-msgstr "Controleer het uitlijnlogbestand"
+msgstr "Controleer het volglogbestand"
 
 #: ekos/guide/guidediagnosis.cpp:711
 #, kde-format
@@ -28679,16 +28602,14 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:761
-#, fuzzy, kde-format
-#| msgid "Filter set to %1."
+#, kde-format
 msgid "Guide pulses go to %1."
-msgstr "Filter om %1 in te stellen"
+msgstr "Volgpulsen gaan naar %1."
 
 #: ekos/guide/guidediagnosis.cpp:781
-#, fuzzy, kde-format
-#| msgid "Send the KStars time to the mount"
+#, kde-format
 msgid "Raise the guide rate of the mount"
-msgstr "Stuur de tijd van KStars naar de opstelling"
+msgstr "Verhoog de volgsnelheid van de opstelling"
 
 #: ekos/guide/guidediagnosis.cpp:782
 #, kde-format
@@ -28704,10 +28625,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:785
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrate again."
-msgstr "Kalibreren"
+msgstr "Opnieuw kalibreren."
 
 #: ekos/guide/guidediagnosis.cpp:790
 #, kde-format
@@ -28715,10 +28635,9 @@ msgid "The last calibration measured a guide rate of %1x sidereal."
 msgstr ""
 
 #: ekos/guide/guidediagnosis.cpp:817
-#, fuzzy, kde-format
-#| msgid "Align looks ready"
+#, kde-format
 msgid "Guide looks ready"
-msgstr "Uitlijnen zier eruit als gereed"
+msgstr "Volgen zier eruit als gereed"
 
 #: ekos/guide/guidediagnosis.cpp:818
 #, kde-format
@@ -28838,16 +28757,13 @@ msgid "RA drifting reverse..."
 msgstr "Volgen RK loopt achter..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. RA drift is too short. Check for mount, cable, or "
 "backlash problems."
 msgstr ""
-"Calibratie geweigerd. Te kleine sterverplaatsing. Controleer op problemen "
-"met opstelling, kabel of speling."
+"Kalibratie geweigerd. RK-drift is te kort. Controleer op problemen met "
+"opstelling, kabel of speling."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:260
 #, kde-format
@@ -28913,16 +28829,12 @@ msgid "DEC drifting reverse..."
 msgstr "Volgen_DEC loopt achter..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:498
-#, fuzzy, kde-format
-#| msgid "Calibration Failed: drift too short."
+#, kde-format
 msgid "Calibration Failed: DEC drift too short."
-msgstr "Kalibratie mislukt: drift is te kort."
+msgstr "Kalibratie mislukt: DEC-drift is te kort."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Calibration rejected. Star drift is too short. Check for mount, cable, or "
-#| "backlash problems."
+#, kde-format
 msgid ""
 "Calibration rejected. DEC drift is too short after %1 iteration. Check for "
 "mount, cable, or backlash problems."
@@ -28930,11 +28842,11 @@ msgid_plural ""
 "Calibration rejected. DEC drift is too short after %1 iterations. Check for "
 "mount, cable, or backlash problems."
 msgstr[0] ""
-"Calibratie geweigerd. Te kleine sterverplaatsing. Controleer op problemen "
-"met opstelling, kabel of speling."
+"Kalibratie afgewezen. De DEC-drift is na %1 iteratie te gering. Controleer "
+"op problemen met de opstelling, de bekabeling of speling (backlash)."
 msgstr[1] ""
-"Calibratie geweigerd. Te kleine sterverplaatsing. Controleer op problemen "
-"met opstelling, kabel of speling."
+"Kalibratie afgezen. De DEC-drift is na %1 iteraties te gering. Controleer op "
+"problemen met opstelling, bekabeling of speling (backlash)."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:587
 #, kde-format
@@ -28950,10 +28862,10 @@ msgid_plural ""
 "Guide DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"Volgen_DEC: Telescoop kan beginpunt niet bereiken na %1 iteratie.\n"
+"Volgen_DEC: telescoop kan beginpunt niet bereiken na %1 iteratie.\n"
 "Mogelijk door speling of aandrijfproblemen..."
 msgstr[1] ""
-"Volgen RK: Telescoop kan beginpunt niet bereiken na %1 iteraties.\n"
+"Volgen DEC: telescoop kan beginpunt niet bereiken na %1 iteraties.\n"
 "Mogelijk door speling of aandrijfproblemen..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:609
