@@ -89,6 +89,9 @@ SchedulerJob *SchedulerModuleState::activeJob(const QString &trainname) const
 
 void SchedulerModuleState::setActiveJob(SchedulerJob *newActiveJob)
 {
+    // A pending capture restart belongs to the run of the previous job
+    if (newActiveJob != m_activeJob)
+        m_captureRestartPending = false;
     m_activeJob = newActiveJob;
 }
 
@@ -114,6 +117,10 @@ QList<SchedulerJob *> SchedulerModuleState::followerJobs()
 
 void SchedulerModuleState::updateJobStage(SchedulerJobStage stage)
 {
+    // A job run that ends or starts over loads its sequence again
+    if (stage == SCHEDSTAGE_IDLE)
+        m_captureRestartPending = false;
+
     if (activeJob() == nullptr)
     {
         Q_EMIT jobStageChanged(SCHEDSTAGE_IDLE);

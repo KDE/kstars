@@ -284,6 +284,7 @@ class MockCapture : public QObject
             Q_UNUSED(targetName)
             fprintf(stderr, "%d @@@MockCapture::loadSequenceQueue(%s)\n", __LINE__, fileURL.toLatin1().data());
             m_fileURL = fileURL;
+            m_loadSequenceCount++;
             return true;
         }
         Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count, QString train = "")
@@ -326,6 +327,8 @@ class MockCapture : public QObject
             Q_EMIT newStatus(m_Status);
         }
         QString m_fileURL;
+        // How often the scheduler loaded a sequence. Loading it again starts it over from the first row.
+        int m_loadSequenceCount { 0 };
         // Frame counts the scheduler sent through setCapturedFramesMap(), keyed by signature.
         QMap<QString, int> m_capturedFramesMap;
 

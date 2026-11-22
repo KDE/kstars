@@ -89,6 +89,8 @@ class TestEkosSchedulerOps : public QObject
         // A guiding restart within the run keeps the job running, also with "Restart after all jobs" and a delay.
         void testGuideRecoveryKeepsJob_data();
         void testGuideRecoveryKeepsJob();
+        void testGuideRecoveryResumesSequence_data();
+        void testGuideRecoveryResumesSequence();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
 
         // The shutdown and the park before sleeping wait for a meridian flip or a slew to finish.

@@ -2069,6 +2069,117 @@ void TestEkosSchedulerOps::testGuideRecoveryKeepsJob()
     QCOMPARE(job->getStage(), Ekos::SCHEDSTAGE_CAPTURING);
     QCOMPARE(capture->status(), Ekos::CAPTURE_CAPTURING);
 }
+
+void TestEkosSchedulerOps::testGuideRecoveryResumesSequence_data()
+{
+    QTest::addColumn<int>("guideStatusAtAbort");
+    QTest::addColumn<bool>("rememberJobProgress");
+    QTest::addColumn<QString>("recoveryLine");
+    QTest::addColumn<int>("repeats");
+
+    const QString restartGuiding = "is restarting its guiding procedure";
+    const QString restartCapture = "failed its capture procedure, restarting capture.";
+
+    // Guiding aborted the capture, e.g. PHD2 lost the star or timed out settling after a dither
+    QTest::newRow("GuideAbortedRememberOff") << static_cast<int>(Ekos::GUIDE_ABORTED) << false << restartGuiding << 1;
+    QTest::newRow("GuideAbortedRememberOn") << static_cast<int>(Ekos::GUIDE_ABORTED) << true << restartGuiding << 1;
+    QTest::newRow("CalibrationErrorRememberOff") << static_cast<int>(Ekos::GUIDE_CALIBRATION_ERROR) << false
+            << restartGuiding << 1;
+    // The capture aborted while guiding was not running, so the capture restart starts guiding first
+    QTest::newRow("GuideReacquiringRememberOff") << static_cast<int>(Ekos::GUIDE_REACQUIRE) << false << restartCapture << 1;
+    // After the recovery the next batch of a repeating job still loads its sequence
+    QTest::newRow("GuideAbortedThenNextBatch") << static_cast<int>(Ekos::GUIDE_ABORTED) << false << restartGuiding << 2;
+}
+
+// Regression test: when guiding aborted a running capture, the scheduler restarted guiding and then started the
+// capture as a new one. That loaded the sequence again, so with "Remember job progress" off the sequence started
+// over from its first row after every guiding problem, and a job with a meridian flip and a few lost guide stars
+// never finished (Discord, lleege: M 45 shot 307 of 120 frames all night, the next job never ran).
+// The interrupted capture now resumes its sequence once guiding runs again.
+void TestEkosSchedulerOps::testGuideRecoveryResumesSequence()
+{
+    QFETCH(int, guideStatusAtAbort);
+    QFETCH(bool, rememberJobProgress);
+    QFETCH(QString, recoveryLine);
+    QFETCH(int, repeats);
+
+    const bool rememberBefore = Options::rememberJobProgress();
+    Options::setRememberJobProgress(rememberJobProgress);
+    auto restoreRemember = qScopeGuard([rememberBefore]()
+    {
+        Options::setRememberJobProgress(rememberBefore);
+    });
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    QObject context;
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, &context, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    TestEkosSchedulerHelper::CompletionCondition completion = m_completionCondition;
+    if (repeats > 1)
+    {
+        completion.type = Ekos::FINISH_REPEAT;
+        completion.repeat = repeats;
+    }
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               completion, {true, true, true, true}, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING &&
+                capture->status() == Ekos::CAPTURE_CAPTURING);
+    }));
+    QCOMPARE(capture->m_loadSequenceCount, 1);
+    const int guideCallsBefore = guider->guideCalls;
+
+    {
+        WithInterval interval(1000, scheduler);
+
+        // Guiding goes wrong during an exposure and Capture aborts the sequence
+        guider->setStatus(static_cast<Ekos::GuideState>(guideStatusAtAbort));
+        capture->setStatus(Ekos::CAPTURE_ABORTED);
+
+        QVERIFY2(iterateScheduler("Wait for the capture to resume", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+        {
+            return (m_schedulerLog.join("\n").contains(recoveryLine) &&
+                    guider->guideCalls > guideCallsBefore &&
+                    scheduler->activeJob() != nullptr &&
+                    scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING &&
+                    capture->status() == Ekos::CAPTURE_CAPTURING);
+        }), qPrintable("The capture didn't resume, log: " + m_schedulerLog.join(" | ")));
+
+        // The capture resumed without loading the sequence again
+        QVERIFY2(capture->m_loadSequenceCount == 1,
+                 qPrintable(QString("The sequence was loaded %1 times, log: %2").arg(capture->m_loadSequenceCount)
+                            .arg(m_schedulerLog.join(" | "))));
+        QVERIFY(!scheduler->moduleState()->captureRestartPending());
+
+        if (repeats > 1)
+        {
+            // The next batch is a new capture and loads the sequence again
+            capture->setStatus(Ekos::CAPTURE_COMPLETE);
+            QVERIFY2(iterateScheduler("Wait for the next batch", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+            {
+                return capture->m_loadSequenceCount == 2 && capture->status() == Ekos::CAPTURE_CAPTURING;
+            }), qPrintable(QString("The next batch didn't load the sequence (%1 loads), log: %2")
+                           .arg(capture->m_loadSequenceCount).arg(m_schedulerLog.join(" | "))));
+        }
+    }
+}
 void TestEkosSchedulerOps::testPreemptiveShutdown()
 {
     // Verifies the preemptive shutdown + automatic wakeup cycle for a FINISH_LOOP job.

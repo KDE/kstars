@@ -436,6 +436,19 @@ class SchedulerModuleState : public QObject
         }
         bool increaseCaptureFailureCount();
 
+        /**
+         * @brief Set when an interrupted capture has to resume its sequence instead of loading it again,
+         * e.g. while guiding is restarted after it aborted the capture. Cleared when a job run ends.
+         */
+        bool captureRestartPending() const
+        {
+            return m_captureRestartPending;
+        }
+        void setCaptureRestartPending(bool value)
+        {
+            m_captureRestartPending = value;
+        }
+
         uint8_t focusFailureCount(const QString &trainname) const
         {
             return m_focusFailureCount[trainname];
@@ -838,6 +851,8 @@ class SchedulerModuleState : public QObject
         uint16_t m_captureBatch { 0 };
         // Keep track of Ekos capture module failures
         uint8_t m_captureFailureCount { 0 };
+        // An interrupted capture resumes its sequence when it is started again
+        bool m_captureRestartPending { false };
         // Keep track of Ekos focus module failures
         QMap <QString, uint8_t> m_focusFailureCount;
         // Keep track of Ekos guide module failures

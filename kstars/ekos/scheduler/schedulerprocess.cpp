@@ -1454,15 +1454,21 @@ void SchedulerProcess::startCapture(bool restart)
 {
     Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting capturing must be valid");
 
+    // A capture that was interrupted, e.g. by a guiding failure, resumes its sequence once guiding runs again.
+    // Loading the sequence again would start it over from the first row.
+    restart = restart || moduleState()->captureRestartPending();
+
     // ensure that guiding is running before we start capturing
     if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE && getGuidingStatus() != GUIDE_GUIDING)
     {
-        // guiding should run, but it doesn't. So start guiding first
+        // guiding should run, but it doesn't. So start guiding first, and capture after it
+        moduleState()->setCaptureRestartPending(restart);
         moduleState()->updateJobStage(SCHEDSTAGE_GUIDING);
         startGuiding();
         return;
     }
 
+    moduleState()->setCaptureRestartPending(false);
     startSingleCapture(activeJob(), restart);
     for (auto follower : activeJob()->followerJobs())
     {
@@ -4155,6 +4161,8 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
                             appendLogText(i18n("[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 of %4).",
                                                activeJob()->getName(), trainname,
                                                moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
+                            // Resume the interrupted sequence once guiding runs again
+                            moduleState()->setCaptureRestartPending(true);
                             startGuiding(true);
                             return;
                         }
