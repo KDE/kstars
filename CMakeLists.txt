@@ -14,7 +14,7 @@ set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
 # This is used by KDE CI
-option(BUILD_WITH_QT6 "Build using Qt6" OFF)
+option(BUILD_WITH_QT6 "Build using Qt6" ON)
 
 if(NOT BUILD_WITH_QT6)
     set(QT_MIN_VERSION 5.12.7)

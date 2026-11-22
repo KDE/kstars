@@ -155,15 +155,15 @@ sudo make install
 
 To run KStars, simply type **kstars** in the terminal.
 
-#### Compiling with Qt6
+#### Compiling with Qt5
 
-If you are building with Qt6, you need to add the `-DBUILD_WITH_QT6=ON` flag to the cmake command:
+KStars builds with Qt6 by default. Qt5 support is being phased out. To build with Qt5, add the `-DBUILD_WITH_QT6=OFF` flag to the cmake command:
 ```
 mkdir -p ~/Projects/build/kstars
 cd ~/Projects
 git clone https://invent.kde.org/education/kstars.git
 cd build/kstars
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_WITH_QT6=ON ~/Projects/kstars
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_WITH_QT6=OFF ~/Projects/kstars
 make -j16
 sudo make install
 ```
