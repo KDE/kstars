@@ -71,6 +71,22 @@ class InternalGuider : public GuideInterface
         bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture,
                              double mountFocalLength) override;
 
+        /**
+         * @brief setGuideCamera The guide camera and its full chip size (unbinned). Recorded with a new
+         *        calibration; a saved calibration made with another camera, chip size, pixel size or focal
+         *        length is not reused.
+         */
+        void setGuideCamera(const QString &name, int chipWidth, int chipHeight);
+
+        /** @return the camera and optics the guider uses now, as compared with a calibration. */
+        Calibration::Optics currentOptics() const;
+
+        /**
+         * @return an empty string if the calibration in use fits the current camera and optics, otherwise what
+         *         differs (see Calibration::opticsMismatch()).
+         */
+        QString calibrationOpticsMismatch() const;
+
         // Set Star Position
         void setStarPosition(QVector3D &starCenter) override;
 
@@ -219,6 +235,11 @@ class InternalGuider : public GuideInterface
         // In this mode processGuiding() must NOT emit frameCaptureRequested after sending pulses,
         // because the next frame will arrive on its own from the stream pipeline.
         bool m_StreamingMode { false };
+
+        // The guide camera and its full chip size, see setGuideCamera()
+        QString m_GuideCameraName;
+        int m_GuideChipWidth { 0 };
+        int m_GuideChipHeight { 0 };
 
         QFile logFile;
         uint32_t guideBoxSize { 32 };

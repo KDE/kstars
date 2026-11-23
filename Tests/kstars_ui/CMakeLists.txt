@@ -243,7 +243,7 @@ SET_TESTS_PROPERTIES( TestEkosGuideGPGPeriod PROPERTIES LABELS "ui" TIMEOUT 600 
 ADD_EXECUTABLE(test_ekos_guide_resolution ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_guide_resolution.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_guide_resolution ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosGuideResolution COMMAND test_ekos_guide_resolution)
-SET_TESTS_PROPERTIES( TestEkosGuideResolution PROPERTIES LABELS "ui" TIMEOUT 600 RESOURCE_LOCK "kstars-ui" )
+SET_TESTS_PROPERTIES( TestEkosGuideResolution PROPERTIES LABELS "ui" TIMEOUT 900 RESOURCE_LOCK "kstars-ui" )
 
 ADD_EXECUTABLE(test_ekos_mount ${KSTARS_UI_EKOS_SRC} test_ekos_mount.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_mount ${KSTARS_UI_EKOS_LIBS})

@@ -156,6 +156,138 @@ void TestEkosGuideResolution::testResolutionChange()
     QVERIFY2(reported == (from != to), qPrintable(log.join("\n")));
 }
 
+bool TestEkosGuideResolution::calibrateAndGuide(bool reuseCalibration)
+{
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+    // A short calibration from scratch, as in test_ekos_guide_diagnosis
+    Options::setReuseGuideCalibration(reuseCalibration);
+    Options::setAutoModeIterations(2);
+    Options::setCalibrationPulseDuration(2000);
+    Options::setTwoAxisEnabled(true);
+    guide->clearCalibration();
+
+    m_GuideStates.clear();
+    KVERIFY_SUB(guide->guide());
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_GuideStates.contains(Ekos::GUIDE_CALIBRATION_ERROR) ||
+                                 m_GuideStates.contains(Ekos::GUIDE_GUIDING), 240000);
+    KVERIFY2_SUB(m_GuideStates.contains(Ekos::GUIDE_GUIDING), qPrintable(m_GuideLog.join("\n")));
+    return true;
+}
+
+bool TestEkosGuideResolution::stopGuiding()
+{
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+    guide->abort();
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(guide->status() == Ekos::GUIDE_ABORTED || guide->status() == Ekos::GUIDE_IDLE, 10000);
+    // The capture in flight still arrives
+    QTest::qWait(2000);
+    return true;
+}
+
+void TestEkosGuideResolution::testCalibrationAfterResolutionChange_data()
+{
+    QTest::addColumn<bool>("whileGuiding");
+
+    QTest::newRow("idle") << false;
+    QTest::newRow("while guiding") << true;
+}
+
+// A calibration converts guide star offsets with the pixel scale it was made at. After a resolution switch it no
+// longer fits: when guiding starts again it calibrates first. A running guiding session is not interrupted.
+void TestEkosGuideResolution::testCalibrationAfterResolutionChange()
+{
+    QFETCH(bool, whileGuiding);
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+
+    QVERIFY(setResolution(SMALL, SMALL_SIZE));
+    QVERIFY(calibrateAndGuide(false));
+
+    if (whileGuiding == false)
+        QVERIFY(stopGuiding());
+
+    m_GuideLog.clear();
+    m_GuideStates.clear();
+    QVERIFY(setResolution(LARGE, LARGE_SIZE));
+    // A few frames at the new size; the running session isn't restarted (the guider itself may reacquire, the
+    // star field moved)
+    QTest::qWait(3000);
+    QVERIFY2(!m_GuideStates.contains(Ekos::GUIDE_CALIBRATING), qPrintable(m_GuideLog.join("\n")));
+    if (whileGuiding)
+        QVERIFY(stopGuiding());
+    const QStringList switchLog = m_GuideLog;
+
+    // Guiding again starts with a calibration
+    m_GuideStates.clear();
+    QVERIFY(guide->guide());
+    QTRY_VERIFY2_WITH_TIMEOUT(m_GuideStates.contains(Ekos::GUIDE_CALIBRATING) || m_GuideStates.contains(Ekos::GUIDE_GUIDING),
+                              qPrintable(m_GuideLog.join("\n")), 60000);
+    const auto calibrating = m_GuideStates.indexOf(Ekos::GUIDE_CALIBRATING);
+    const auto guiding = m_GuideStates.indexOf(Ekos::GUIDE_GUIDING);
+    QVERIFY2(calibrating >= 0 && (guiding < 0 || calibrating < guiding),
+             "guiding started with the calibration made at the other resolution");
+
+    // The guide log says why
+    const QString expected = whileGuiding ? "It will be redone when guiding starts again" : "Clearing calibration";
+    QVERIFY2(switchLog.filter(expected).size() == 1, qPrintable(switchLog.join("\n")));
+    QVERIFY2(switchLog.filter("camera size 6000 x 4000 instead of 1280 x 1024").size() == 1,
+             qPrintable(switchLog.join("\n")));
+    QVERIFY(stopGuiding());
+}
+
+void TestEkosGuideResolution::testSavedCalibrationOtherOptics_data()
+{
+    QTest::addColumn<QString>("resolution");
+    QTest::addColumn<QSize>("size");
+    QTest::addColumn<bool>("reused");
+
+    QTest::newRow("same camera size") << SMALL << SMALL_SIZE << true;
+    QTest::newRow("other camera size") << LARGE << LARGE_SIZE << false;
+}
+
+// A saved calibration (Reuse calibration) is only used with the camera size it was made at.
+void TestEkosGuideResolution::testSavedCalibrationOtherOptics()
+{
+    QFETCH(QString, resolution);
+    QFETCH(QSize, size);
+    QFETCH(bool, reused);
+    Ekos::Guide *guide = Ekos::Manager::Instance()->guideModule();
+
+    QVERIFY(setResolution(SMALL, SMALL_SIZE));
+    QVERIFY(calibrateAndGuide(true));
+    QVERIFY(stopGuiding());
+    const QString saved = Options::serializedCalibration();
+    QVERIFY(!saved.isEmpty());
+
+    // As in a new session: no calibration in use, only the saved one
+    guide->clearCalibration();
+    Options::setSerializedCalibration(saved);
+    QVERIFY(setResolution(resolution, size));
+
+    m_GuideLog.clear();
+    m_GuideStates.clear();
+    QVERIFY(guide->guide());
+    if (reused)
+    {
+        // Restored at once, no calibration pulses (a fresh calibration takes far longer)
+        QTRY_VERIFY2_WITH_TIMEOUT(m_GuideStates.contains(Ekos::GUIDE_GUIDING), qPrintable(m_GuideLog.join("\n")), 10000);
+        QVERIFY(m_GuideLog.filter("other optics").isEmpty());
+    }
+    else
+    {
+        QTRY_VERIFY2_WITH_TIMEOUT(m_GuideLog.filter("saved guide calibration was made with other optics").size() == 1,
+                                  qPrintable(m_GuideLog.join("\n")), 30000);
+        QVERIFY2(m_GuideLog.filter("camera size 6000 x 4000 instead of 1280 x 1024").size() == 1,
+                 qPrintable(m_GuideLog.join("\n")));
+        // A fresh calibration runs
+        QTest::qWait(5000);
+        QCOMPARE(guide->status(), Ekos::GUIDE_CALIBRATING);
+    }
+    QVERIFY(stopGuiding());
+
+    // The saved calibration records the camera and its size
+    QVERIFY2(saved.startsWith("Cal v1.2,") && saved.contains("cam=CCD%20Simulator,cw=1280,ch=1024,"), qPrintable(saved));
+}
+
 /* *********************************************************************************
  *
  * Test infrastructure
@@ -199,6 +331,15 @@ void TestEkosGuideResolution::initTestCase()
     KTRY_SET_DOUBLESPINBOX(guide, guideExposure, 0.5);
     Options::setGuideDarkFrame(false);
 
+    connect(guide, &Ekos::Guide::newStatus, this, [this](Ekos::GuideState state)
+    {
+        m_GuideStates << state;
+    });
+    connect(guide, &Ekos::Guide::newLog, this, [this](const QString & text)
+    {
+        m_GuideLog << text;
+    });
+
     connect(m_Camera, &ISD::Camera::newImage, this, [this](const QSharedPointer<FITSData> &data)
     {
         if (data)
@@ -223,7 +364,8 @@ void TestEkosGuideResolution::init()
 
 void TestEkosGuideResolution::cleanup()
 {
-    Ekos::Manager::Instance()->guideModule()->abort();
+    // A failed row may leave guiding or calibrating behind
+    QVERIFY(stopGuiding());
 }
 
 QTEST_KSTARS_MAIN(TestEkosGuideResolution)

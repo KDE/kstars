@@ -613,6 +613,14 @@ class Guide : public QWidget, public Ui::Guide
         void checkGuideChipFrameLimits();
 
         /**
+         * @brief checkCalibrationOptics Clears the internal guider's calibration when the guide camera, its size, its
+         * pixel size or the focal length changed since the calibration (a calibration converts guide star offsets
+         * with them). While calibrating or guiding it only logs that and the calibration is cleared when guiding
+         * starts again (see guide()). Binning changes are handled by the calibration and don't count.
+         */
+        void checkCalibrationOptics();
+
+        /**
          * @brief isGuiderActive Indicate if the guider is active (i.e. calibrating, guiding, dithering, ...)
          */
         static bool isGuiderActive(const GuideState state)
@@ -837,6 +845,9 @@ class Guide : public QWidget, public Ui::Guide
         // genuine rotation from a meridian flip in checkCalibrationRotation().
         ISD::Mount::PierSide m_LastPierSide { ISD::Mount::PIER_UNKNOWN };
         ISD::Mount::PierSide m_CalibrationPierSide { ISD::Mount::PIER_UNKNOWN };
+        // What differs between the calibration and the current optics, while it can't be cleared (guiding).
+        // Logged once per difference, see checkCalibrationOptics().
+        QString m_CalibrationOpticsMismatch;
 
         // Was the modified frame subFramed?
         bool subFramed { false };

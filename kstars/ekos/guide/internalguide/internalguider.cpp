@@ -742,6 +742,7 @@ bool InternalGuider::calibrate()
     pmath->getMutableCalibration()->setParameters(
         ccdPixelSizeX / 1000.0, ccdPixelSizeY / 1000.0, mountFocalLength,
         subBinX, subBinY, pierSide, mountRA, mountDEC);
+    pmath->getMutableCalibration()->setCamera(m_GuideCameraName, m_GuideChipWidth, m_GuideChipHeight);
 
     calibrationProcess->useCalibration(pmath->getMutableCalibration());
 
@@ -910,13 +911,50 @@ bool InternalGuider::clearCalibration()
 
 bool InternalGuider::restoreCalibration()
 {
-    bool success = Options::reuseGuideCalibration() &&
-                   pmath->getMutableCalibration()->restore(
+    if (Options::reuseGuideCalibration() == false)
+        return false;
+
+    const Calibration::Optics current = currentOptics();
+    QString mismatch;
+    bool success = pmath->getMutableCalibration()->restore(
                        pierSide, Options::reverseDecOnPierSideChange(),
-                       subBinX, subBinY, &mountDEC);
+                       subBinX, subBinY, &mountDEC, &current, &mismatch);
     if (success)
+    {
+        // A calibration saved before the camera was recorded matched by pixel size and focal length.
+        // Take the current camera as its camera, so a later change of camera or size is noticed.
+        if (pmath->getCalibration().optics().camera.isEmpty())
+            pmath->getMutableCalibration()->setCamera(m_GuideCameraName, m_GuideChipWidth, m_GuideChipHeight);
         Q_EMIT DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
+    }
+    else if (!mismatch.isEmpty())
+        Q_EMIT newLog(i18n("The saved guide calibration was made with other optics (%1). Calibrating again.", mismatch));
     return success;
+}
+
+QString InternalGuider::calibrationOpticsMismatch() const
+{
+    return pmath->getCalibration().opticsMismatch(currentOptics());
+}
+
+void InternalGuider::setGuideCamera(const QString &name, int chipWidth, int chipHeight)
+{
+    m_GuideCameraName = name;
+    m_GuideChipWidth  = chipWidth;
+    m_GuideChipHeight = chipHeight;
+}
+
+Calibration::Optics InternalGuider::currentOptics() const
+{
+    Calibration::Optics optics;
+    optics.camera        = m_GuideCameraName;
+    optics.chipWidth     = m_GuideChipWidth;
+    optics.chipHeight    = m_GuideChipHeight;
+    // CCD pixel values come in microns, the calibration keeps mm
+    optics.pixelWidthMm  = ccdPixelSizeX / 1000.0;
+    optics.pixelHeightMm = ccdPixelSizeY / 1000.0;
+    optics.focalLengthMm = mountFocalLength;
+    return optics;
 }
 
 void InternalGuider::setStarPosition(QVector3D &starCenter)

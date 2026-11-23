@@ -718,6 +718,15 @@ void Guide::updateGuideParams()
     {
         auto effectiveFocaLength = m_Reducer * m_FocalLength;
         m_GuiderInstance->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, m_Aperture, effectiveFocaLength);
+        if (internalGuider)
+        {
+            // The guide camera a calibration belongs to: device, chip and its full (unbinned) size
+            int minX, maxX, minY, maxY, minW, maxW = 0, minH, maxH = 0;
+            targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+            internalGuider->setGuideCamera(m_Camera->getDeviceName() + (useGuideHead ? QString(" (guide head)") : QString()),
+                                           maxW, maxH);
+        }
+        checkCalibrationOptics();
         Q_EMIT guideChipUpdated(targetChip);
 
         int x, y, w, h;
@@ -1768,6 +1777,10 @@ bool Guide::guide()
     // A new run: the reasons of an earlier failure no longer apply
     clearFailInfo();
 
+    // A calibration made with other optics (e.g. after a guide camera resolution change during guiding) is
+    // not used: clearing it here makes the run below calibrate first.
+    checkCalibrationOptics();
+
     auto executeGuide = [this]()
     {
         if(guiderType != GUIDE_PHD2)
@@ -2081,6 +2094,7 @@ void Guide::setAutoStarEnabled(bool enable)
 void Guide::clearCalibration()
 {
     calibrationComplete = false;
+    m_CalibrationOpticsMismatch.clear();
     // Drop the rotation baseline; it will be re-established when the next calibration completes.
     m_CalibrationPA = -1000.0;
     m_CalibrationPierSide = ISD::Mount::PIER_UNKNOWN;
@@ -2265,6 +2279,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Calibration completed."));
             manualPulseB->setEnabled(true);
             calibrationComplete = true;
+            m_CalibrationOpticsMismatch.clear();
             // Remember the field orientation and pier side this calibration was measured at, so a
             // later rotation (electronic or manual) can be detected and the calibration invalidated.
             m_CalibrationPA = m_LastSolvedPA;
@@ -2506,14 +2521,35 @@ void Guide::checkGuideChipFrameLimits()
     // QString::number: i18n() would add digit grouping (6,224)
     appendLogText(i18n("Guide camera size changed to %1 x %2 pixels, using the full frame.", QString::number(maxW),
                        QString::number(maxH)));
-    if (m_State == GUIDE_CALIBRATING || m_State == GUIDE_GUIDING || m_State == GUIDE_SUSPENDED ||
-            m_State == GUIDE_REACQUIRE || m_State == GUIDE_DITHERING || m_State == GUIDE_MANUAL_DITHERING ||
-            m_State == GUIDE_DITHERING_SETTLE)
-        appendLogText(
-            i18n("The guide calibration may no longer match the new camera size. Calibrate again if guiding becomes unstable."));
 
-    // The pixel size may have changed with the chip size
+    // The pixel size may have changed with the chip size. This also checks the calibration against the new size.
     syncCameraInfo();
+}
+
+void Guide::checkCalibrationOptics()
+{
+    if (guiderType != GUIDE_INTERNAL || internalGuider == nullptr || calibrationComplete == false)
+        return;
+
+    const QString mismatch = internalGuider->calibrationOpticsMismatch();
+    if (mismatch.isEmpty())
+        return;
+
+    // Never disturb a running calibration or guiding session: the calibration is cleared when guiding starts again.
+    const bool active = m_State == GUIDE_CALIBRATING || m_State == GUIDE_GUIDING || m_State == GUIDE_SUSPENDED ||
+                        m_State == GUIDE_REACQUIRE || m_State == GUIDE_DITHERING || m_State == GUIDE_MANUAL_DITHERING ||
+                        m_State == GUIDE_DITHERING_SETTLE || m_State == GUIDE_DITHERING_SUCCESS;
+    if (active)
+    {
+        if (m_CalibrationOpticsMismatch != mismatch)
+            appendLogText(i18n("The guide calibration was made with other optics (%1). It will be redone when guiding "
+                               "starts again.", mismatch));
+        m_CalibrationOpticsMismatch = mismatch;
+        return;
+    }
+
+    appendLogText(i18n("The guide calibration was made with other optics (%1). Clearing calibration.", mismatch));
+    clearCalibration();
 }
 
 void Guide::checkExposureValue(ISD::CameraChip * targetChip, double exposure, IPState expState)

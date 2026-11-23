@@ -7,11 +7,31 @@
 #include "calibration.h"
 #include "Options.h"
 #include "ekos_guide_debug.h"
+#include <KLocalizedString>
 #include <QDateTime>
+#include <QStringList>
 #include "indi/indimount.h"
 
-#define CAL_VERSION     "Cal v1.1"
+#include <algorithm>
+#include <cmath>
+
+// v1.2 adds the guide camera and its chip size (cam=, cw=, ch=)
+#define CAL_VERSION     "Cal v1.2"
+#define CAL_VERSION_1_1 "Cal v1.1"
 #define CAL_VERSION_1_0 "Cal v1.0"
+
+namespace
+{
+// Pixel size and focal length differences below this (relative) are noise, e.g. rounding of a focal length
+constexpr double OPTICS_TOLERANCE = 0.01;
+
+bool differs(double saved, double current)
+{
+    if (saved <= 0 || current <= 0)
+        return false;
+    return std::fabs(saved - current) > OPTICS_TOLERANCE * std::max(saved, current);
+}
+}  // namespace
 
 Calibration::Calibration()
 {
@@ -44,12 +64,62 @@ void Calibration::setParameters(double ccd_pix_width, double ccd_pix_height,
     subBinXused         = subBinX;
     subBinYused         = subBinY;
     calibrationPierSide = currentPierSide;
+    // A new calibration: the camera is set separately (setCamera()), don't keep the previous one
+    calibrationCamera.clear();
+    calibrationChipWidth  = 0;
+    calibrationChipHeight = 0;
 }
 
 void Calibration::setBinningUsed(int x, int y)
 {
     subBinXused         = x;
     subBinYused         = y;
+}
+
+void Calibration::setCamera(const QString &camera, int chipWidth, int chipHeight)
+{
+    calibrationCamera     = camera;
+    calibrationChipWidth  = std::max(0, chipWidth);
+    calibrationChipHeight = std::max(0, chipHeight);
+}
+
+Calibration::Optics Calibration::optics() const
+{
+    Optics o;
+    o.camera        = calibrationCamera;
+    o.chipWidth     = calibrationChipWidth;
+    o.chipHeight    = calibrationChipHeight;
+    o.pixelWidthMm  = ccd_pixel_width;
+    o.pixelHeightMm = ccd_pixel_height;
+    o.focalLengthMm = focalMm;
+    return o;
+}
+
+QString Calibration::opticsMismatch(const Optics &current) const
+{
+    QStringList reasons;
+
+    if (!calibrationCamera.isEmpty() && !current.camera.isEmpty() && calibrationCamera != current.camera)
+        reasons << i18n("camera %1 instead of %2", current.camera, calibrationCamera);
+
+    if (calibrationChipWidth > 0 && calibrationChipHeight > 0 && current.chipWidth > 0 && current.chipHeight > 0 &&
+            (calibrationChipWidth != current.chipWidth || calibrationChipHeight != current.chipHeight))
+        reasons << i18n("camera size %1 x %2 instead of %3 x %4 pixels",
+                        QString::number(current.chipWidth), QString::number(current.chipHeight),
+                        QString::number(calibrationChipWidth), QString::number(calibrationChipHeight));
+
+    if (differs(ccd_pixel_width, current.pixelWidthMm) || differs(ccd_pixel_height, current.pixelHeightMm))
+        reasons << i18n("pixel size %1 x %2 instead of %3 x %4 µm",
+                        QString::number(current.pixelWidthMm * 1000, 'f', 2),
+                        QString::number(current.pixelHeightMm * 1000, 'f', 2),
+                        QString::number(ccd_pixel_width * 1000, 'f', 2),
+                        QString::number(ccd_pixel_height * 1000, 'f', 2));
+
+    if (differs(focalMm, current.focalLengthMm))
+        reasons << i18n("focal length %1 mm instead of %2 mm",
+                        QString::number(current.focalLengthMm, 'f', 0), QString::number(focalMm, 'f', 0));
+
+    return reasons.join(", ");
 }
 
 void Calibration::setRaPulseMsPerArcsecond(double rate)
@@ -363,12 +433,17 @@ QString Calibration::serialize() const
     QString decStr = std::isnan(calibrationDEC.Degrees()) ? "" : calibrationDEC.toHMSString(true, true);
     QString s =
         QString("%16,bx=%1,by=%2,pw=%3,ph=%4,fl=%5,ang=%6,angR=%7,angD=%8,"
-            "ramspas=%9,decmspas=%10,swap=%11,ra=%12,dec=%13,side=%14,when=%15,calEnd")
+            "ramspas=%9,decmspas=%10,swap=%11,ra=%12,dec=%13,side=%14,when=%15,")
         .arg(subBinX).arg(subBinY).arg(ccd_pixel_width).arg(ccd_pixel_height)
         .arg(focalMm).arg(calibrationAngle).arg(calibrationAngleRA)
         .arg(calibrationAngleDEC).arg(raPulseMsPerArcsecond)
         .arg(decPulseMsPerArcsecond).arg(calibrationDecSwap ? 1 : 0)
         .arg(raStr).arg(decStr).arg(static_cast<int>(calibrationPierSide)).arg(dateStr).arg(CAL_VERSION);
+    // The camera name is percent-encoded: device names may contain commas. No QString::arg() here,
+    // it would replace the "%2C" of an encoded comma.
+    s += QStringLiteral("cam=") + QString::fromLatin1(calibrationCamera.toUtf8().toPercentEncoding()) +
+         QStringLiteral(",cw=") + QString::number(calibrationChipWidth) +
+         QStringLiteral(",ch=") + QString::number(calibrationChipHeight) + QStringLiteral(",calEnd");
     return s;
 }
 
@@ -401,15 +476,18 @@ bool parseInt(const QString &ref, const QString &id, int *result)
 bool Calibration::restore(const QString &encoding)
 {
     QStringList items = encoding.split(',');
-    if (items.size() != 17) return false;
+    if (items.isEmpty()) return false;
     int i = 0;
 
+    // v1.0 and v1.1 have 17 items, v1.2 adds the camera (3 more)
     bool fixOldCalibration = false;
-    if (items[i] == CAL_VERSION_1_0)
-    {
+    bool hasCamera = false;
+    if (items[i] == CAL_VERSION_1_0 && items.size() == 17)
         fixOldCalibration = true;
-    }
-    else if (items[i] == CAL_VERSION) fixOldCalibration = false;
+    else if (items[i] == CAL_VERSION_1_1 && items.size() == 17)
+        fixOldCalibration = false;
+    else if (items[i] == CAL_VERSION && items.size() == 20)
+        hasCamera = true;
     else return false;
 
     if (!parseInt(items[++i], "bx=", &subBinX)) return false;
@@ -466,7 +544,17 @@ bool Calibration::restore(const QString &encoding)
     calibrationPierSide = static_cast<ISD::Mount::PierSide>(tempInt);
     if (!parseString(items[++i], "when=", &tempStr)) return false;
     // Don't keep the time. It's just for reference.
+    QString camera;
+    int chipWidth = 0, chipHeight = 0;
+    if (hasCamera)
+    {
+        if (!parseString(items[++i], "cam=", &tempStr)) return false;
+        camera = QString::fromUtf8(QByteArray::fromPercentEncoding(tempStr.toLatin1()));
+        if (!parseInt(items[++i], "cw=", &chipWidth)) return false;
+        if (!parseInt(items[++i], "ch=", &chipHeight)) return false;
+    }
     if (items[++i] != "calEnd") return false;
+    setCamera(camera, chipWidth, chipHeight);
     initialized = true;
     return true;
 }
@@ -480,10 +568,10 @@ void Calibration::save() const
 
 bool Calibration::restore(ISD::Mount::PierSide currentPierSide,
                           bool reverseDecOnPierChange, int currentBinX, int currentBinY,
-                          const dms *declination)
+                          const dms *declination, const Optics *current, QString *mismatch)
 {
     return restore(Options::serializedCalibration(), currentPierSide,
-                   reverseDecOnPierChange, currentBinX, currentBinY, declination);
+                   reverseDecOnPierChange, currentBinX, currentBinY, declination, current, mismatch);
 }
 
 double Calibration::correctRA(double raMsPerArcsec, const dms &calibrationDec, const dms &currentDec)
@@ -520,13 +608,31 @@ double Calibration::correctRA(double raMsPerArcsec, const dms &calibrationDec, c
 
 bool Calibration::restore(const QString &encoding, ISD::Mount::PierSide currentPierSide,
                           bool reverseDecOnPierChange, int currentBinX, int currentBinY,
-                          const dms *currentDeclination)
+                          const dms *currentDeclination, const Optics *current, QString *mismatch)
 {
+    if (mismatch)
+        mismatch->clear();
+
     // Fail if we couldn't read the calibration.
     if (!restore(encoding))
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Could not restore calibration--couldn't read.";
         return false;
+    }
+
+    // A calibration made with another camera or other optics converts pixels with the wrong scale (and
+    // possibly the wrong angle). Don't use it, a new calibration is made instead.
+    if (current != nullptr)
+    {
+        const QString reason = opticsMismatch(*current);
+        if (!reason.isEmpty())
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "Could not restore calibration--other camera or optics:" << reason;
+            initialized = false;
+            if (mismatch)
+                *mismatch = reason;
+            return false;
+        }
     }
     // We don't restore calibrations where either the calibration or the current pier side
     // is unknown.

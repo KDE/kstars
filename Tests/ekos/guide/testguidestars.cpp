@@ -46,12 +46,20 @@ class TestGuideStars : public QObject
 
         void basicTest();
         void calibrationTest();
+        void testCalibrationOptics_data();
+        void testCalibrationOptics();
+        void testCalibrationOpticsOldFormats_data();
+        void testCalibrationOpticsOldFormats();
         void testFindGuideStar();
 
         void testLocalSearchWindows();
         void testLocalSearchMatchesFullFrame();
         void testLocalSearchFallsBackToFullFrame();
         void testLocalSearchRules();
+
+    private:
+        // A serialized calibration made with the given camera and optics
+        static QString savedCalibration(const Calibration::Optics &o);
 };
 
 #include "testguidestars.moc"
@@ -1081,6 +1089,151 @@ void TestGuideStars::testFindGuideStar()
         fprintf(stderr, "------------------------------------------------\n");
     }
 #endif
+}
+
+namespace
+{
+// A calibration as made with jctk's guide setup: ToupTek G3M678M at 1920 x 1080, binned 2x2, 240 mm
+Calibration::Optics savedOptics()
+{
+    Calibration::Optics o;
+    o.camera        = "ToupTek G3M678M";
+    o.chipWidth     = 1920;
+    o.chipHeight    = 1080;
+    o.pixelWidthMm  = 0.0029;
+    o.pixelHeightMm = 0.0029;
+    o.focalLengthMm = 240;
+    return o;
+}
+
+}  // namespace
+
+QString TestGuideStars::savedCalibration(const Calibration::Optics &o)
+{
+    Calibration cal;
+    cal.setParameters(o.pixelWidthMm, o.pixelHeightMm, o.focalLengthMm, 2, 2, ISD::Mount::PIER_EAST,
+                      dms(120.0), dms(30.0));
+    cal.setCamera(o.camera, o.chipWidth, o.chipHeight);
+    cal.calculate1D(0, 10, 1000);
+    return cal.serialize();
+}
+
+void TestGuideStars::testCalibrationOptics_data()
+{
+    QTest::addColumn<QString>("camera");
+    QTest::addColumn<int>("chipWidth");
+    QTest::addColumn<int>("chipHeight");
+    QTest::addColumn<double>("pixelMm");
+    QTest::addColumn<double>("focalMm");
+    QTest::addColumn<int>("binning");
+    QTest::addColumn<bool>("restored");
+    QTest::addColumn<QString>("reason");
+
+    const QString camera = savedOptics().camera;
+    QTest::newRow("same optics") << camera << 1920 << 1080 << 0.0029 << 240.0 << 2 << true << "";
+    // Binning is converted by the calibration, not a reason to calibrate again
+    QTest::newRow("other binning") << camera << 1920 << 1080 << 0.0029 << 240.0 << 1 << true << "";
+    QTest::newRow("focal length within 1%") << camera << 1920 << 1080 << 0.0029 << 241.5 << 2 << true << "";
+    // A resolution switch (ToupTek CCD_RESOLUTION) keeps the pixel size the driver reports
+    QTest::newRow("resolution switch") << camera << 3840 << 2160 << 0.0029 << 240.0 << 2 << false << "camera size";
+    QTest::newRow("pixel size") << camera << 1920 << 1080 << 0.0058 << 240.0 << 2 << false << "pixel size";
+    QTest::newRow("focal length") << camera << 1920 << 1080 << 0.0029 << 480.0 << 2 << false << "focal length";
+    QTest::newRow("reducer 0.8x") << camera << 1920 << 1080 << 0.0029 << 192.0 << 2 << false << "focal length";
+    QTest::newRow("other camera") << "ZWO CCD ASI220MM Mini" << 1920 << 1080 << 0.0029 << 240.0 << 2 << false << "camera";
+    // Not known yet on the current side: not compared
+    QTest::newRow("current camera unknown") << "" << 0 << 0 << 0.0029 << 240.0 << 2 << true << "";
+}
+
+// A saved calibration is only reused with the camera and optics it was made with.
+void TestGuideStars::testCalibrationOptics()
+{
+    QFETCH(QString, camera);
+    QFETCH(int, chipWidth);
+    QFETCH(int, chipHeight);
+    QFETCH(double, pixelMm);
+    QFETCH(double, focalMm);
+    QFETCH(int, binning);
+    QFETCH(bool, restored);
+    QFETCH(QString, reason);
+
+    const QString encoding = savedCalibration(savedOptics());
+    QVERIFY2(encoding.startsWith("Cal v1.2,"), qPrintable(encoding));
+
+    Calibration::Optics current;
+    current.camera        = camera;
+    current.chipWidth     = chipWidth;
+    current.chipHeight    = chipHeight;
+    current.pixelWidthMm  = pixelMm;
+    current.pixelHeightMm = pixelMm;
+    current.focalLengthMm = focalMm;
+
+    Calibration cal;
+    QString mismatch;
+    QCOMPARE(cal.restore(encoding, ISD::Mount::PIER_EAST, false, binning, binning, nullptr, &current, &mismatch), restored);
+    QCOMPARE(cal.isInitialized(), restored);
+    if (restored)
+    {
+        QVERIFY2(mismatch.isEmpty(), qPrintable(mismatch));
+        QCOMPARE(cal.optics().camera, savedOptics().camera);
+        QCOMPARE(cal.optics().chipWidth, 1920);
+        QCOMPARE(cal.optics().chipHeight, 1080);
+    }
+    else
+        QVERIFY2(mismatch.contains(reason), qPrintable(mismatch));
+
+    // Without the current optics nothing is compared, as before
+    Calibration plain;
+    QVERIFY(plain.restore(encoding, ISD::Mount::PIER_EAST, false, binning, binning));
+}
+
+void TestGuideStars::testCalibrationOpticsOldFormats_data()
+{
+    QTest::addColumn<QString>("encoding");
+    QTest::addColumn<double>("pixelMm");
+    QTest::addColumn<int>("chipWidth");
+    QTest::addColumn<bool>("restored");
+
+    const QString v10 = "Cal v1.0,bx=2,by=2,pw=0.0038,ph=0.0038,fl=2030,ang=293.811,angR=294.501,angD=203.121,"
+                        "ramspas=72.0329,decmspas=69.3976,swap=0,ra= 194:36:15,dec=00:00:27,side=1,"
+                        "when=2023-06-01 21:53:02,calEnd";
+    const QString v11 = QString(v10).replace("Cal v1.0", "Cal v1.1");
+    // Old calibrations have no camera: only pixel size and focal length are compared
+    QTest::newRow("v1.0 same pixel size") << v10 << 0.0038 << 3840 << true;
+    QTest::newRow("v1.1 same pixel size") << v11 << 0.0038 << 3840 << true;
+    QTest::newRow("v1.1 other pixel size") << v11 << 0.0029 << 1920 << false;
+    // A v1.1 entry with the v1.2 fields, or a v1.2 header without them, is not valid
+    QTest::newRow("v1.1 with camera fields") << QString(v11).replace("calEnd", "cam=X,cw=1,ch=1,calEnd") << 0.0038
+            << 3840 << false;
+    QTest::newRow("v1.2 without camera fields") << QString(v11).replace("Cal v1.1", "Cal v1.2") << 0.0038 << 3840
+            << false;
+}
+
+void TestGuideStars::testCalibrationOpticsOldFormats()
+{
+    QFETCH(QString, encoding);
+    QFETCH(double, pixelMm);
+    QFETCH(int, chipWidth);
+    QFETCH(bool, restored);
+
+    Calibration::Optics current;
+    current.camera        = "ToupTek G3M678M";
+    current.chipWidth     = chipWidth;
+    current.chipHeight    = chipWidth / 2;
+    current.pixelWidthMm  = pixelMm;
+    current.pixelHeightMm = pixelMm;
+    current.focalLengthMm = 2030;
+
+    Calibration cal;
+    QCOMPARE(cal.restore(encoding, ISD::Mount::PIER_WEST, false, 1, 1, nullptr, &current), restored);
+    if (restored)
+        QVERIFY(cal.optics().camera.isEmpty());
+
+    // A camera name with a comma survives the save/restore round trip
+    auto o = savedOptics();
+    o.camera = "Cam, with comma";
+    Calibration roundTrip;
+    QVERIFY(roundTrip.restore(savedCalibration(o), ISD::Mount::PIER_EAST, false, 2, 2));
+    QCOMPARE(roundTrip.optics().camera, o.camera);
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)

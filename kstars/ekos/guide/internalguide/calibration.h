@@ -28,6 +28,30 @@ class Calibration
         // Set the current binning, which may be different from what was used during calibration.
         void setBinningUsed(int x, int y);
 
+        // The guide camera and optics a calibration belongs to. Binning is not part of it: a calibration
+        // can be used with another binning (see setBinningUsed()). Zero or empty values are unknown.
+        struct Optics
+        {
+            QString camera;
+            int chipWidth { 0 };
+            int chipHeight { 0 };
+            // Pixel size in millimeters, as in setParameters()
+            double pixelWidthMm { 0 };
+            double pixelHeightMm { 0 };
+            double focalLengthMm { 0 };
+        };
+
+        // Record the guide camera of a new calibration, next to setParameters().
+        void setCamera(const QString &camera, int chipWidth, int chipHeight);
+
+        // The camera and optics of this calibration.
+        Optics optics() const;
+
+        // Returns an empty string if this calibration can be used with the current camera and optics,
+        // otherwise a description of what differs. Values unknown on either side are not compared, so
+        // calibrations saved before the camera was recorded are only checked by pixel size and focal length.
+        QString opticsMismatch(const Optics &current) const;
+
         // Generate new calibrations according to the input parameters.
         bool calculate1D(double start_x, double start_y,
                          double end_x, double end_y, int RATotalPulse);
@@ -94,13 +118,17 @@ class Calibration
         void save() const;
         // Restore the saved calibration. If the pier side is different than
         // when was calibrated, adjust the angle accordingly.
+        // If current is given, the calibration is not restored when it was made with another camera or
+        // other optics (see opticsMismatch()); mismatch then receives the reason.
         bool restore(ISD::Mount::PierSide currentPierSide, bool reverseDecOnPierChange,
                      int currentBinX, int currentBinY,
-                     const dms *declination = nullptr);
+                     const dms *declination = nullptr,
+                     const Optics *current = nullptr, QString *mismatch = nullptr);
         // As above, but for testing.
         bool restore(const QString &encoding, ISD::Mount::PierSide currentPierSide,
                      bool reverseDecOnPierChange, int currentBinX, int currentBinY,
-                     const dms *declination = nullptr);
+                     const dms *declination = nullptr,
+                     const Optics *current = nullptr, QString *mismatch = nullptr);
 
         bool declinationSwapEnabled() const
         {
@@ -167,6 +195,11 @@ class Calibration
 
         // Focal length in millimeters.
         double focalMm { 500 };
+
+        // The guide camera and its chip size (unbinned) during calibration. Empty / 0 if unknown.
+        QString calibrationCamera;
+        int calibrationChipWidth { 0 };
+        int calibrationChipHeight { 0 };
 
         // This angle is the one in use for calibrating. It may differ from the
         // calibrationAngle below if the pier side changes.
