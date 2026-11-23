@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-18 02:35+0000\n"
+"POT-Creation-Date: 2026-11-23 03:05+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -592,7 +592,7 @@ msgstr "Zrušiť"
 #: ekos/align/opsastrometryindexfiles.cpp:709
 #: ekos/align/opsastrometryindexfiles.cpp:731
 #: ekos/align/opsastrometryindexfiles.cpp:742 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1627 ekos/manager.cpp:1642 ekos/manager.cpp:1658
+#: ekos/manager.cpp:1628 ekos/manager.cpp:1643 ekos/manager.cpp:1659
 #: ekos/scheduler/scheduler.cpp:1794
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -2063,7 +2063,7 @@ msgstr "Stav:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1152 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1153 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1787
 #: ekos/scheduler/scheduler.cpp:2434 ekos/scheduler/scheduler.cpp:2605
 #: ekos/scheduler/scheduler.cpp:2613 ekos/scheduler/scheduler.cpp:2623
@@ -3903,8 +3903,8 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align_devices.cpp:484
-#: ekos/analyze/analyze.ui:192 ekos/auxiliary/darklibrary.cpp:1218
-#: ekos/auxiliary/darklibrary.cpp:1219 ekos/auxiliary/darklibrary.cpp:1279
+#: ekos/analyze/analyze.ui:192 ekos/auxiliary/darklibrary.cpp:1240
+#: ekos/auxiliary/darklibrary.cpp:1241 ekos/auxiliary/darklibrary.cpp:1301
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -3915,7 +3915,7 @@ msgstr "0.0 pc"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:759 ekos/guide/guide.ui:644
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:762 ekos/guide/guide.ui:644
 #: ekos/guide/guide.ui:768 indi/streamform.ui:447 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -5320,7 +5320,7 @@ msgstr "Vypočítať ZU"
 #: ekos/align/aligndiagnosis.cpp:1327 ekos/analyze/analyze.cpp:2807
 #: ekos/auxiliary/opticaltrainmanager.cpp:1414
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/focus/focusdiagnosis.cpp:429 ekos/manager.cpp:2593
+#: ekos/focus/focusdiagnosis.cpp:429 ekos/manager.cpp:2594
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6234,9 +6234,9 @@ msgstr ""
 
 #: ekos/align/align.cpp:277 ekos/analyze/analyze.cpp:5141
 #: ekos/capture/capture.cpp:359 ekos/focus/focusmodule.cpp:459
-#: ekos/guide/guide.cpp:1526 ekos/manager.cpp:2541 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1529 ekos/manager.cpp:2542 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
-#: ekos/scheduler/schedulerprocess.cpp:3935
+#: ekos/scheduler/schedulerprocess.cpp:3940
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6288,7 +6288,7 @@ msgstr "Načítať && Natočiť..."
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:340
 #: ekos/guide/aiguidewizard.cpp:500 ekos/guide/aiguidewizard.cpp:519
-#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:270 ekos/manager.cpp:285
+#: ekos/guide/aiguidewizard.ui:233 ekos/guide/guide.ui:270 ekos/manager.cpp:286
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -6878,7 +6878,7 @@ msgstr "Nenašiel sa žiadny zapisovateľný priečinok indexových súborov."
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/align_diagnosis.cpp:307 ekos/align/pushtoassistant.ui:199
-#: ekos/analyze/analyze.cpp:2915 ekos/manager.cpp:2656
+#: ekos/analyze/analyze.cpp:2915 ekos/manager.cpp:2657
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:582
 #, kde-format
@@ -7015,7 +7015,7 @@ msgstr "Neplatné zorné pole."
 msgid "Refresh is complete."
 msgstr "Obnovenie je dokončené."
 
-#: ekos/align/align_goto.cpp:110 ekos/auxiliary/darklibrary.cpp:1651
+#: ekos/align/align_goto.cpp:110 ekos/auxiliary/darklibrary.cpp:1673
 #: ekos/focus/focus.cpp:1742
 #, kde-format
 msgid "Capture aborted."
@@ -7250,8 +7250,8 @@ msgstr "Neplatné URL: %1"
 
 #: ekos/align/align_solution.cpp:462 ekos/align/mountmodel.cpp:409
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
-#: ekos/scheduler/schedulerprocess.cpp:3275
-#: ekos/scheduler/schedulerprocess.cpp:4927
+#: ekos/scheduler/schedulerprocess.cpp:3280
+#: ekos/scheduler/schedulerprocess.cpp:4932
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
@@ -7259,10 +7259,10 @@ msgstr "Nemôžem zapisovať do súboru %1"
 #: ekos/align/align_solution.cpp:463 ekos/align/mountmodel.cpp:292
 #: ekos/align/mountmodel.cpp:410 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:3332 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:3276
-#: ekos/scheduler/schedulerprocess.cpp:3758
-#: ekos/scheduler/schedulerprocess.cpp:4928
-#: ekos/scheduler/schedulerprocess.cpp:4943 indi/drivermanager.cpp:1589
+#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:3281
+#: ekos/scheduler/schedulerprocess.cpp:3763
+#: ekos/scheduler/schedulerprocess.cpp:4933
+#: ekos/scheduler/schedulerprocess.cpp:4948 indi/drivermanager.cpp:1589
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1468 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
@@ -7309,7 +7309,7 @@ msgstr "Nastavuje sa cieľ na RA:%1 DEC:%2"
 msgid "Error: No camera detected."
 msgstr "Chyba: Nenašla sa žiadna kamera."
 
-#: ekos/align/align_solver.cpp:97 ekos/guide/guide.cpp:890
+#: ekos/align/align_solver.cpp:97 ekos/guide/guide.cpp:893
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Chyba: Stratené spojenie s kamerou."
@@ -7625,14 +7625,14 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
 #: ekos/align/align_solver.cpp:1378 ekos/focus/focus.cpp:6287
-#: ekos/guide/guide.cpp:1234
+#: ekos/guide/guide.cpp:1237
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr ""
 "Časový limit expozície vypršal. Príliš veľa pokusov. Reštartujem ovládač."
 
 #: ekos/align/align_solver.cpp:1398 ekos/capture/cameraprocess.cpp:2351
-#: ekos/focus/focus.cpp:6301 ekos/guide/guide.cpp:1197
+#: ekos/focus/focus.cpp:6301 ekos/guide/guide.cpp:1200
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Časový limit expozície vypršal. Reštartujem expozíciu..."
@@ -8235,7 +8235,7 @@ msgstr "Zarovnanie zlyhalo"
 #: ekos/align/aligndiagnosis.cpp:561 ekos/align/pushtoassistant.ui:206
 #: ekos/analyze/analyze.cpp:2918 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/auxiliary/opticaltrainmanager.cpp:1413
-#: ekos/manager.cpp:2882 ekos/manager.ui:778
+#: ekos/manager.cpp:2883 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -8994,8 +8994,8 @@ msgstr "Otvoriť zoznam zarovnania Ekos"
 
 #: ekos/align/mountmodel.cpp:291 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:3331 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3757
-#: ekos/scheduler/schedulerprocess.cpp:4942
+#: ekos/scheduler/schedulerprocess.cpp:3762
+#: ekos/scheduler/schedulerprocess.cpp:4947
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Nedá sa otvoriť súbor %1"
@@ -12242,7 +12242,7 @@ msgstr "Chyba výšky polárneho zarovnania odhadnutá po nedávnych úpravách.
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/guide/aiguidewizard.cpp:224 ekos/guide/aiguidewizard.cpp:519
-#: ekos/manager.cpp:165 ekos/manager.cpp:291 ekos/manager.cpp:1160
+#: ekos/manager.cpp:166 ekos/manager.cpp:292 ekos/manager.cpp:1161
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -12291,7 +12291,7 @@ msgid "Slew"
 msgstr "Otočiť"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:423
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:424
 #, kde-format
 msgid "Setup"
 msgstr "Nastavenie"
@@ -12584,7 +12584,7 @@ msgstr "Zaostr %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2904 ekos/auxiliary/opslogs.ui:370
-#: ekos/focus/focus_diagnosis.cpp:356 ekos/manager.cpp:2709
+#: ekos/focus/focus_diagnosis.cpp:356 ekos/manager.cpp:2710
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
@@ -12598,7 +12598,7 @@ msgstr "Zameranie"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2916 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129
-#: ekos/guide/guide_diagnosis.cpp:197 ekos/manager.cpp:2966
+#: ekos/guide/guide_diagnosis.cpp:197 ekos/manager.cpp:2967
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13830,12 +13830,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Prispôsobiť zaostrovanie"
 
-#: ekos/auxiliary/darklibrary.cpp:145
+#: ekos/auxiliary/darklibrary.cpp:146
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "Nepodarilo sa načítať %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:439
+#: ekos/auxiliary/darklibrary.cpp:440
 #, kde-format
 msgid ""
 "The %1 matching dark frame was recorded at gain %2, but gain %3 is in use."
@@ -13851,7 +13851,7 @@ msgstr[2] ""
 "%1 zodpovedajúcich tmavých rámcov bolo nasnímaných so ziskom %2, ale používa "
 "sa zisk %3."
 
-#: ekos/auxiliary/darklibrary.cpp:442
+#: ekos/auxiliary/darklibrary.cpp:443
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different gain."
 msgid_plural "The %1 matching dark frames were recorded at a different gain."
@@ -13859,7 +13859,7 @@ msgstr[0] "%1 zodpovedajúci tmavý rámec bol nasnímaný s iným ziskom."
 msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané s iným ziskom."
 msgstr[2] "%1 zodpovedajúcich tmavých rámcov bolo nasnímaných s iným ziskom."
 
-#: ekos/auxiliary/darklibrary.cpp:446
+#: ekos/auxiliary/darklibrary.cpp:447
 #, kde-format
 msgid "The %1 matching dark frame was recorded at a different binning."
 msgid_plural ""
@@ -13869,7 +13869,7 @@ msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané s iným binningom."
 msgstr[2] ""
 "%1 zodpovedajúcich tmavých rámcov bolo nasnímaných s iným binningom."
 
-#: ekos/auxiliary/darklibrary.cpp:450
+#: ekos/auxiliary/darklibrary.cpp:451
 #, kde-format
 msgid ""
 "The %1 matching dark frame was recorded outside the temperature threshold."
@@ -13880,7 +13880,7 @@ msgstr[1] "%1 zodpovedajúce tmavé rámce boli nasnímané mimo teplotného pra
 msgstr[2] ""
 "%1 zodpovedajúcich tmavých rámcov bolo nasnímaných mimo teplotného prahu."
 
-#: ekos/auxiliary/darklibrary.cpp:454
+#: ekos/auxiliary/darklibrary.cpp:455
 #, kde-format
 msgid "%1 recorded dark frame belongs to a different camera or chip."
 msgid_plural "%1 recorded dark frames belong to other cameras or chips."
@@ -13888,7 +13888,7 @@ msgstr[0] "%1 nasnímaný tmavý rámec patrí inej kamere alebo čipu."
 msgstr[1] "%1 nasnímané tmavé rámce patria iným kamerám alebo čipom."
 msgstr[2] "%1 nasnímaných tmavých rámcov patrí iným kamerám alebo čipom."
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:459
 #, kde-format
 msgid "%1 matching dark frame has no recorded gain."
 msgid_plural "%1 matching dark frames have no recorded gain."
@@ -13896,7 +13896,7 @@ msgstr[0] "%1 zodpovedajúci tmavý rámec nemá zaznamenaný zisk."
 msgstr[1] "%1 zodpovedajúce tmavé rámce nemajú zaznamenaný zisk."
 msgstr[2] "%1 zodpovedajúcich tmavých rámcov nemá zaznamenaný zisk."
 
-#: ekos/auxiliary/darklibrary.cpp:461
+#: ekos/auxiliary/darklibrary.cpp:462
 #, kde-format
 msgid "%1 matching dark frame has no recorded binning."
 msgid_plural "%1 matching dark frames have no recorded binning."
@@ -13904,13 +13904,13 @@ msgstr[0] "%1 zodpovedajúci tmavý rámec nemá zaznamenaný binning."
 msgstr[1] "%1 zodpovedajúce tmavé rámce nemajú zaznamenaný binning."
 msgstr[2] "%1 zodpovedajúcich tmavých rámcov nemá zaznamenaný binning."
 
-#: ekos/auxiliary/darklibrary.cpp:465
+#: ekos/auxiliary/darklibrary.cpp:466
 #, kde-format
 msgid "No recorded dark frame matches the current duration and binning."
 msgstr ""
 "Žiadny nasnímaný tmavý rámec nezodpovedá aktuálnemu trvaniu a binningu."
 
-#: ekos/auxiliary/darklibrary.cpp:474
+#: ekos/auxiliary/darklibrary.cpp:475
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -13919,7 +13919,7 @@ msgstr ""
 "Používa sa dostupný tmavý rámec s expozíciou %1 sekúnd. Nasnímaním tmavého "
 "rámca s expozíciou %2 sekúnd získate presnejšie výsledky."
 
-#: ekos/auxiliary/darklibrary.cpp:486
+#: ekos/auxiliary/darklibrary.cpp:487
 #, kde-format
 msgid ""
 "The matching dark frame is %1 days old but the dark library is set to reuse "
@@ -13928,78 +13928,78 @@ msgstr ""
 "Zodpovedajúci tmavý rámec je starý %1 dní, ale knižnica tmavých rámcov je "
 "nastavená na opätovné použitie tmavých rámcov počas %2 dní."
 
-#: ekos/auxiliary/darklibrary.cpp:513
+#: ekos/auxiliary/darklibrary.cpp:514
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "Zlyhalo načítanie obrázku na %1"
 
-#: ekos/auxiliary/darklibrary.cpp:626
+#: ekos/auxiliary/darklibrary.cpp:627
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "Nepodarilo sa načítať mapu chýb %1"
 
-#: ekos/auxiliary/darklibrary.cpp:646
+#: ekos/auxiliary/darklibrary.cpp:647
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "Nepodarilo sa načítať súbor mapy chýb %1"
 
-#: ekos/auxiliary/darklibrary.cpp:666
+#: ekos/auxiliary/darklibrary.cpp:667
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Nepodarilo sa načítať súbor tmavej snímky %1"
 
-#: ekos/auxiliary/darklibrary.cpp:730
+#: ekos/auxiliary/darklibrary.cpp:731
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "Zlyhalo spracovanie tmavých dát."
 
-#: ekos/auxiliary/darklibrary.cpp:736
+#: ekos/auxiliary/darklibrary.cpp:737
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Nepodarilo sa načítať tmavé dáta."
 
-#: ekos/auxiliary/darklibrary.cpp:751
+#: ekos/auxiliary/darklibrary.cpp:752
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Prijaté obrázky %1/%2."
 
-#: ekos/auxiliary/darklibrary.cpp:868
+#: ekos/auxiliary/darklibrary.cpp:869
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Naozaj chcete vymazať všetky obrázky a dáta tmavých snímkov?"
 
-#: ekos/auxiliary/darklibrary.cpp:1438 ekos/focus/focusadvisor.cpp:665
+#: ekos/auxiliary/darklibrary.cpp:1460 ekos/focus/focusadvisor.cpp:665
 #: ekos/focus/focusadvisor.cpp:979 ekos/focus/focusadvisor.cpp:1276
 #, kde-format
 msgid "In progress..."
 msgstr "Prebieha"
 
-#: ekos/auxiliary/darklibrary.cpp:1607
+#: ekos/auxiliary/darklibrary.cpp:1629
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Nepodarilo sa uložiť hlavný rámec: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1629
+#: ekos/auxiliary/darklibrary.cpp:1651
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Majstrovská tmavá snímka uložená do %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1655
+#: ekos/auxiliary/darklibrary.cpp:1677
 #, kde-format
 msgid "Capture completed."
 msgstr "Zachytenie dokončené."
 
-#: ekos/auxiliary/darklibrary.cpp:1682
+#: ekos/auxiliary/darklibrary.cpp:1704
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Mapa defektov uložená do %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1702
+#: ekos/auxiliary/darklibrary.cpp:1724
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Nepodarilo sa uložiť mapu defektov do %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1877
+#: ekos/auxiliary/darklibrary.cpp:1899
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optická trasa neexistuje pre id %1"
@@ -14909,7 +14909,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Záznam aktivity modulu plánovača Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:428
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:429
 #: ekos/scheduler/framingassistantui.cpp:701
 #, kde-format
 msgid "Scheduler"
@@ -15092,7 +15092,7 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:3032
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:3033
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -21051,12 +21051,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:986
+#: ekos/ekoslive/message.cpp:1004
 #, kde-format
 msgid "target"
 msgstr "Cieľ"
 
-#: ekos/ekoslive/message.cpp:1313
+#: ekos/ekoslive/message.cpp:1331
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Import mozaiky zlyhal."
@@ -26756,91 +26756,91 @@ msgstr ""
 msgid "Connection to the guide camera is lost."
 msgstr "Strata spojenia na camera navádzania."
 
-#: ekos/guide/guide.cpp:997
+#: ekos/guide/guide.cpp:1000
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Streamovanie navádzania spustené."
 
-#: ekos/guide/guide.cpp:1017
+#: ekos/guide/guide.cpp:1020
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Streamovanie navádzania zastavené."
 
-#: ekos/guide/guide.cpp:1191
+#: ekos/guide/guide.cpp:1194
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Expozícia vypršala, ale je pozastavená. Ignorujem..."
 
-#: ekos/guide/guide.cpp:1219
+#: ekos/guide/guide.cpp:1222
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Expozícia vypršala. Prerušujem automatické navádzanie."
 
-#: ekos/guide/guide.cpp:1221
+#: ekos/guide/guide.cpp:1224
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Expozícia vypršala. Prerušujem rozptýlenie."
 
-#: ekos/guide/guide.cpp:1223
+#: ekos/guide/guide.cpp:1226
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Časový limit expozície vypršal. Prerušujem kalibráciu."
 
-#: ekos/guide/guide.cpp:1280
+#: ekos/guide/guide.cpp:1283
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Po reštarte ovládača sa nepodarilo znova pripojiť kameru."
 
-#: ekos/guide/guide.cpp:1588
+#: ekos/guide/guide.cpp:1591
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Voľný posun AI je aktívny. Potlačený viacnásobný impulz (RA: %1 ms, DEC: %2 "
 "ms)."
 
-#: ekos/guide/guide.cpp:1652
+#: ekos/guide/guide.cpp:1655
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Voľný posun AI je aktívny. Potlačený jednotlivý impulz (%1 ms)."
 
-#: ekos/guide/guide.cpp:1711
+#: ekos/guide/guide.cpp:1714
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 "Nebola detegovaná žiadna kamera. Skontrolujte kameru v optických trasách."
 
-#: ekos/guide/guide.cpp:1717
+#: ekos/guide/guide.cpp:1720
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Nebol detegovaný žiadny vodič. Skontrolujte vedenie v optických trasách."
 
-#: ekos/guide/guide.cpp:1812
+#: ekos/guide/guide.cpp:1815
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Montáž je zaparkovaná. Odparkujte pre spustenie vedenia."
 
-#: ekos/guide/guide.cpp:1933
+#: ekos/guide/guide.cpp:1936
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Zistená zmena strany piliera. Vymazanie kalibrácie."
 
-#: ekos/guide/guide.cpp:1947
+#: ekos/guide/guide.cpp:1950
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Montáž sa pohybuje. Resetujem kalibráciu..."
 
-#: ekos/guide/guide.cpp:1964
+#: ekos/guide/guide.cpp:1967
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Chyba parkovania montáže."
 
-#: ekos/guide/guide.cpp:1966
+#: ekos/guide/guide.cpp:1969
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Posúvanie montáže na polohu steny..."
 
-#: ekos/guide/guide.cpp:1979
+#: ekos/guide/guide.cpp:1982
 #, kde-format
 msgid ""
 "Mount reports an error while guiding is active. Guide corrections may not "
@@ -26849,7 +26849,7 @@ msgstr ""
 "Montáž hlási chybu počas aktívneho navádzania. Korekcie navádzania sa "
 "nemusia dostať k montáži."
 
-#: ekos/guide/guide.cpp:1980
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid ""
 "Mount has stopped tracking while guiding is active. Guide corrections cannot "
@@ -26858,67 +26858,67 @@ msgstr ""
 "Montáž prestala sledovať počas aktívneho navádzania. Korekcie navádzania "
 "nedokážu vykompenzovať stratené sledovanie."
 
-#: ekos/guide/guide.cpp:2087
+#: ekos/guide/guide.cpp:2090
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrácia je vymazaná."
 
-#: ekos/guide/guide.cpp:2159
+#: ekos/guide/guide.cpp:2162
 #, kde-format
 msgid "Field rotated %1° since guide calibration. Clearing calibration."
 msgstr "Pole sa od kalibrácie navádzania otočilo o %1°. Kalibrácia sa vymaže."
 
-#: ekos/guide/guide.cpp:2227
+#: ekos/guide/guide.cpp:2230
 #, kde-format
 msgid "External guider connected."
 msgstr "Externý navádzač pripojený."
 
-#: ekos/guide/guide.cpp:2245
+#: ekos/guide/guide.cpp:2248
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Externý navádzač odpojený."
 
-#: ekos/guide/guide.cpp:2262
+#: ekos/guide/guide.cpp:2265
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrácia dokončená."
 
-#: ekos/guide/guide.cpp:2292
+#: ekos/guide/guide.cpp:2295
 #, kde-format
 msgid "Calibration started."
 msgstr "PHD2: Kalibrácia spustená."
 
-#: ekos/guide/guide.cpp:2306
+#: ekos/guide/guide.cpp:2309
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Navádzanie hviezd opäť začaté."
 
-#: ekos/guide/guide.cpp:2310
+#: ekos/guide/guide.cpp:2313
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Automatické navádzanie prebieha."
 
-#: ekos/guide/guide.cpp:2339
+#: ekos/guide/guide.cpp:2342
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Automatické navádzanie prerušené."
 
-#: ekos/guide/guide.cpp:2350
+#: ekos/guide/guide.cpp:2353
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Navádzanie pozastavené."
 
-#: ekos/guide/guide.cpp:2359
+#: ekos/guide/guide.cpp:2362
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:2363
+#: ekos/guide/guide.cpp:2366
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Rozptyľovanie prebieha."
 
-#: ekos/guide/guide.cpp:2367
+#: ekos/guide/guide.cpp:2370
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -26926,32 +26926,45 @@ msgstr[0] "Zaostrenie po zameraní na %1..."
 msgstr[1] "Zaostrenie po zameraní na %1..."
 msgstr[2] "Zaostrenie po zameraní na %1..."
 
-#: ekos/guide/guide.cpp:2372
+#: ekos/guide/guide.cpp:2375
 #, kde-format
 msgid "Dithering failed."
 msgstr "Rozptyľovanie zlyhalo."
 
-#: ekos/guide/guide.cpp:2383
+#: ekos/guide/guide.cpp:2386
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Rozptýlenie ukončené úspešne."
 
-#: ekos/guide/guide.cpp:2441
+#: ekos/guide/guide.cpp:2444
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Binning navádzania %1x%1 nie je podporovaný. Maximum je %2x%2."
 
-#: ekos/guide/guide.cpp:2465
+#. i18n() would add digit grouping (6,224)
+#: ekos/guide/guide.cpp:2507
+#, kde-format
+msgid "Guide camera size changed to %1 x %2 pixels, using the full frame."
+msgstr ""
+
+#: ekos/guide/guide.cpp:2513
+#, kde-format
+msgid ""
+"The guide calibration may no longer match the new camera size. Calibrate "
+"again if guiding becomes unstable."
+msgstr ""
+
+#: ekos/guide/guide.cpp:2530
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Expozícia zlyhala. Reštartujem expozíciu..."
 
-#: ekos/guide/guide.cpp:2622
+#: ekos/guide/guide.cpp:2687
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Nemôžem zmeniť navádzač počas procesu navádzania."
 
-#: ekos/guide/guide.cpp:2721
+#: ekos/guide/guide.cpp:2786
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -26960,37 +26973,37 @@ msgstr ""
 "Upozornenie: Obnoviť kalibráciu vedenia je povolené. Odporúča sa vypnúť túto "
 "možnosť pre PHD2."
 
-#: ekos/guide/guide.cpp:3176
+#: ekos/guide/guide.cpp:3241
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrácia sa nepodarila spustiť."
 
-#: ekos/guide/guide.cpp:3335
+#: ekos/guide/guide.cpp:3400
 #, kde-format
 msgid "Auto star selected."
 msgstr "Hviezda automaticky vybraná."
 
-#: ekos/guide/guide.cpp:3339
+#: ekos/guide/guide.cpp:3404
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Nepodarilo sa vybrať automatickú hviezdu."
 
-#: ekos/guide/guide.cpp:3352
+#: ekos/guide/guide.cpp:3417
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "2. Vybrať vodiacu hviezdu"
 
-#: ekos/guide/guide.cpp:3614
+#: ekos/guide/guide.cpp:3679
 #, kde-format
 msgid "dx (pixels)"
 msgstr "body"
 
-#: ekos/guide/guide.cpp:3615
+#: ekos/guide/guide.cpp:3680
 #, kde-format
 msgid "dy (pixels)"
 msgstr "body"
 
-#: ekos/guide/guide.cpp:3758 ekos/guide/guide.cpp:3910
+#: ekos/guide/guide.cpp:3823 ekos/guide/guide.cpp:3975
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -26999,7 +27012,7 @@ msgstr ""
 "Kamera PHD2 nie je dostupná pre Ekos, takže nevidíte nasnímané snímky. Ale "
 "stále uvidíte snímku sprievodnej hviezdy, keď vedete."
 
-#: ekos/guide/guide.cpp:3762 ekos/guide/guide.cpp:3914
+#: ekos/guide/guide.cpp:3827 ekos/guide/guide.cpp:3979
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -27010,55 +27023,55 @@ msgstr ""
 "Podsnímok odškrtnutý. Teraz ho odškrtávam pre povolenie snímania. Môžete ho "
 "znova povoliť pred vedením"
 
-#: ekos/guide/guide.cpp:3843
+#: ekos/guide/guide.cpp:3908
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Asistent navádzania s AI…"
 
-#: ekos/guide/guide.cpp:3851
+#: ekos/guide/guide.cpp:3916
 #, kde-format
 msgid "Load Weights..."
 msgstr "Načítať váhy…"
 
-#: ekos/guide/guide.cpp:3957 ekos/guide/guide.cpp:3962
+#: ekos/guide/guide.cpp:4022 ekos/guide/guide.cpp:4027
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "Trénovanie AI v EkosLive zlyhalo: %1"
 
-#: ekos/guide/guide.cpp:3958 ekos/guide/guide.cpp:3963
+#: ekos/guide/guide.cpp:4023 ekos/guide/guide.cpp:4028
 #, kde-format
 msgid "unknown error"
 msgstr "neznáma chyba"
 
-#: ekos/guide/guide.cpp:3977
+#: ekos/guide/guide.cpp:4042
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Nepodarilo sa uložiť váhy AI do %1"
 
-#: ekos/guide/guide.cpp:3987
+#: ekos/guide/guide.cpp:4052
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 "Trénovanie AI dokončené. Váhy uložené do %1 a nastavené ako aktívne váhy AI."
 
-#: ekos/guide/guide.cpp:3991
+#: ekos/guide/guide.cpp:4056
 #, kde-format
 msgid "AI training complete. Weights saved to %1."
 msgstr "Trénovanie AI dokončené. Váhy uložené do %1."
 
-#: ekos/guide/guide.cpp:3997
+#: ekos/guide/guide.cpp:4062
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Načítať váhy navádzača s AI"
 
-#: ekos/guide/guide.cpp:3998
+#: ekos/guide/guide.cpp:4063
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Váhy AI (*.json)"
 
-#: ekos/guide/guide.cpp:4002
+#: ekos/guide/guide.cpp:4067
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -27067,7 +27080,7 @@ msgstr ""
 "Váhy navádzača s AI nastavené na %1. Použijú sa pri ďalšom spustení "
 "navádzania."
 
-#: ekos/guide/guide.cpp:4180
+#: ekos/guide/guide.cpp:4245
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Nemožno zmeniť aktívnu optickú trasu, kým je PHD2 pripojené"
@@ -30300,90 +30313,90 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Použiť vyhradený čip vedenia pre vedenie"
 
-#: ekos/manager.cpp:286
+#: ekos/manager.cpp:287
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - %1 profil"
 
-#: ekos/manager.cpp:297
+#: ekos/manager.cpp:298
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Pripojenie prebieha. Kliknite pre zrušenie."
 
-#: ekos/manager.cpp:320
+#: ekos/manager.cpp:321
 #, kde-format
 msgid "Logging"
 msgstr "Záznam"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:463 ekos/opsekos.ui:174
+#: ekos/manager.cpp:464 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analýza"
 
-#: ekos/manager.cpp:478
+#: ekos/manager.cpp:479
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Rozšírenie '%1' sa nepodarilo spustiť, ruší sa"
 
-#: ekos/manager.cpp:492
+#: ekos/manager.cpp:493
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Rozšírenie '%1' sa nepodarilo zastaviť, povolenie prerušenia"
 
-#: ekos/manager.cpp:501
+#: ekos/manager.cpp:502
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Rozšírenie '%1' sa ruší"
 
-#: ekos/manager.cpp:511
+#: ekos/manager.cpp:512
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Rozšírenie '%1': požiadavka na spustenie"
 
-#: ekos/manager.cpp:516
+#: ekos/manager.cpp:517
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Rozšírenie '%1' spustené"
 
-#: ekos/manager.cpp:524
+#: ekos/manager.cpp:525
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Rozšírenie '%1': požiadavka na zastavenie"
 
-#: ekos/manager.cpp:529
+#: ekos/manager.cpp:530
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Rozšírenie '%1' zastavené"
 
-#: ekos/manager.cpp:545
+#: ekos/manager.cpp:546
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Rozšírenie '%1': %2"
 
-#: ekos/manager.cpp:685 ekos/opsekos.cpp:116
+#: ekos/manager.cpp:686 ekos/opsekos.cpp:116
 #, kde-format
 msgid "Failed: port in use"
 msgstr "Zlyhalo: port sa už používa"
 
-#: ekos/manager.cpp:1023
+#: ekos/manager.cpp:1024
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Importovaný profil '%1' z INDI Web Manager."
 
-#: ekos/manager.cpp:1181
+#: ekos/manager.cpp:1182
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1329 ekos/manager.cpp:1354
+#: ekos/manager.cpp:1330 ekos/manager.cpp:1355
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos požaduje aspoň jeden CCD alebo Navádzač k činnosti"
 
-#: ekos/manager.cpp:1417
+#: ekos/manager.cpp:1418
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -30392,17 +30405,17 @@ msgstr ""
 "Ekos zistil, že PTP Camera beží a môže brániť pripojeniu kamery Canon alebo "
 "Nikon k Ekos. Chcete teraz ukončiť PTP Camera?"
 
-#: ekos/manager.cpp:1418
+#: ekos/manager.cpp:1419
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP kamera"
 
-#: ekos/manager.cpp:1432
+#: ekos/manager.cpp:1433
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Spúšťam INDI služby..."
 
-#: ekos/manager.cpp:1463
+#: ekos/manager.cpp:1464
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -30412,47 +30425,47 @@ msgstr ""
 "inštanciu servera pred spustením novej?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1465 indi/opsindi.ui:248
+#: ekos/manager.cpp:1466 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI Server"
 
-#: ekos/manager.cpp:1480
+#: ekos/manager.cpp:1481
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Pripojenie na vzdialený INDI server na %1 s portom %2..."
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1502
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Zlyhalo spustenie profilu na vzdialenom web správcovi INDI."
 
-#: ekos/manager.cpp:1505
+#: ekos/manager.cpp:1506
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Spúšťam profil na vzdialenom webovom správcovi INDI..."
 
-#: ekos/manager.cpp:1518
+#: ekos/manager.cpp:1519
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Nadväzujem komunikáciu so vzdialonym webovým správcom INDI..."
 
-#: ekos/manager.cpp:1537
+#: ekos/manager.cpp:1538
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Chyba: INDI Web Manager nie je online na %1:%2"
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1579
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Služby INDI spustené na porte %1."
 
-#: ekos/manager.cpp:1581
+#: ekos/manager.cpp:1582
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Služby INDI spustené na porte %1. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:1586
+#: ekos/manager.cpp:1587
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -30461,27 +30474,27 @@ msgstr ""
 "Služby INDI spustené. Pripojenie k vzdialenému serveru INDI %1:%2 je "
 "úspešné. Čaká sa na zariadenia..."
 
-#: ekos/manager.cpp:1618
+#: ekos/manager.cpp:1619
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Nepodarilo sa pripojiť k lokálnemu serveru INDI %1:%2"
 
-#: ekos/manager.cpp:1620
+#: ekos/manager.cpp:1621
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Zlyhalo pripojenie na vzdialený INDI server %1:%2"
 
-#: ekos/manager.cpp:1633
+#: ekos/manager.cpp:1634
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Stratené spojenie s lokálnym serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1635
+#: ekos/manager.cpp:1636
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Stratené spojenie so vzdialeným serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1702
+#: ekos/manager.cpp:1703
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -30489,7 +30502,7 @@ msgstr ""
 "Nepodarilo sa pripojiť k %1. Uistite sa, že zariadenie je pripojené a "
 "zapnuté."
 
-#: ekos/manager.cpp:1704
+#: ekos/manager.cpp:1705
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -30500,7 +30513,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1743
+#: ekos/manager.cpp:1744
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -30511,13 +30524,13 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1747 ekos/manager.cpp:1755 ekos/manager.cpp:1788
-#: ekos/manager.cpp:1796
+#: ekos/manager.cpp:1748 ekos/manager.cpp:1756 ekos/manager.cpp:1789
+#: ekos/manager.cpp:1797
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Chyba spustenia Ekos"
 
-#: ekos/manager.cpp:1751
+#: ekos/manager.cpp:1752
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -30528,7 +30541,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1784
+#: ekos/manager.cpp:1785
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -30539,7 +30552,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1792
+#: ekos/manager.cpp:1793
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -30550,32 +30563,32 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1885
+#: ekos/manager.cpp:1886
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Pripájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1904
+#: ekos/manager.cpp:1905
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Odpájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1944
+#: ekos/manager.cpp:1945
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Služby INDI zastavené."
 
-#: ekos/manager.cpp:2022
+#: ekos/manager.cpp:2023
 #, kde-format
 msgid "Remote devices established."
 msgstr "Vzdialené zariadenia zistené."
 
-#: ekos/manager.cpp:2024
+#: ekos/manager.cpp:2025
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Vzdialené zariadenia zistené. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:2088
+#: ekos/manager.cpp:2089
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -30584,118 +30597,118 @@ msgstr ""
 "%1 sa nepodarilo pripojiť.\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:2095
+#: ekos/manager.cpp:2096
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 je odpojené"
 
-#: ekos/manager.cpp:2115 ekos/manager.cpp:2124 ekos/manager.cpp:2157
+#: ekos/manager.cpp:2116 ekos/manager.cpp:2125 ekos/manager.cpp:2158
 #: indi/indistd.cpp:837
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je pripojený."
 
-#: ekos/manager.cpp:2132
+#: ekos/manager.cpp:2133
 #, kde-format
 msgid "%1 filter is online."
 msgstr "filter %1 je pripojený."
 
-#: ekos/manager.cpp:2141
+#: ekos/manager.cpp:2142
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "focuser %1 je pripojený."
 
-#: ekos/manager.cpp:2148
+#: ekos/manager.cpp:2149
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Rotátor %1 je online."
 
-#: ekos/manager.cpp:2164
+#: ekos/manager.cpp:2165
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "Weather %1 je pripojený."
 
-#: ekos/manager.cpp:2171
+#: ekos/manager.cpp:2172
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS je online."
 
-#: ekos/manager.cpp:2178
+#: ekos/manager.cpp:2179
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "%1 PAC je online."
 
-#: ekos/manager.cpp:2187
+#: ekos/manager.cpp:2188
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Kryt pred prachom je pripojený."
 
-#: ekos/manager.cpp:2194
+#: ekos/manager.cpp:2195
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Svetelná krabica je pripojená."
 
-#: ekos/manager.cpp:2339
+#: ekos/manager.cpp:2340
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 je  v režime offline."
 
-#: ekos/manager.cpp:3049
+#: ekos/manager.cpp:3050
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Port navádzača z %1 je pripravený."
 
-#: ekos/manager.cpp:3315
+#: ekos/manager.cpp:3316
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Naozaj chcete vymazať profil?"
 
-#: ekos/manager.cpp:3316
+#: ekos/manager.cpp:3317
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potvrdiť vymazanie"
 
-#: ekos/manager.cpp:3368
+#: ekos/manager.cpp:3369
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Umiestnenie aktualizované na %1."
 
-#: ekos/manager.cpp:3370
+#: ekos/manager.cpp:3371
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Zlyhala aktualizácia umiestnenia na %1. Mesto nenájdené."
 
-#: ekos/manager.cpp:3643
+#: ekos/manager.cpp:3644
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3651
+#: ekos/manager.cpp:3652
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3679
+#: ekos/manager.cpp:3680
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Znova zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3691
+#: ekos/manager.cpp:3692
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Znova vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:4549
+#: ekos/manager.cpp:4554
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Zdroj náhľadu nastavený na externý"
 
-#: ekos/manager.cpp:4556
+#: ekos/manager.cpp:4561
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Zdroj náhľadu obnovený na interný"
 
-#: ekos/manager.cpp:4563
+#: ekos/manager.cpp:4568
 #, kde-format
 msgid "Received external preview file"
 msgstr "Prijímať externé vodiace snímky"
@@ -34490,7 +34503,7 @@ msgstr ""
 "potom vyhodnotí úlohy."
 
 #: ekos/scheduler/scheduler.cpp:515 ekos/scheduler/scheduler.cpp:2395
-#: ekos/scheduler/schedulerprocess.cpp:3844
+#: ekos/scheduler/schedulerprocess.cpp:3849
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -36056,7 +36069,7 @@ msgstr ""
 "rámce."
 
 #: ekos/scheduler/schedulerprocess.cpp:3039
-#: ekos/scheduler/schedulerprocess.cpp:4003
+#: ekos/scheduler/schedulerprocess.cpp:4008
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -36086,7 +36099,7 @@ msgstr ""
 "s), označuje sa ako prerušená."
 
 #: ekos/scheduler/schedulerprocess.cpp:3148
-#: ekos/scheduler/schedulerprocess.cpp:4076
+#: ekos/scheduler/schedulerprocess.cpp:4081
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -36107,101 +36120,101 @@ msgstr ""
 "Upozornenie: úloha '%1' stratila spojenie s kupolou, pokúša sa o opätovné "
 "pripojenie."
 
-#: ekos/scheduler/schedulerprocess.cpp:3261
+#: ekos/scheduler/schedulerprocess.cpp:3266
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Ekos úloha začala (%1)"
 
-#: ekos/scheduler/schedulerprocess.cpp:3454
+#: ekos/scheduler/schedulerprocess.cpp:3459
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "Zoznam plánovača uložený do %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3562
+#: ekos/scheduler/schedulerprocess.cpp:3567
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Riešiteľ vypršal: %1 s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3564
+#: ekos/scheduler/schedulerprocess.cpp:3569
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Riešiteľ zlyhal: %1 s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3609
+#: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "Nasnímaný rámec je %1 oblúkových minút od cieľa, znova zarovnávanie..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3621
+#: ekos/scheduler/schedulerprocess.cpp:3626
 #, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
 msgstr "Fronta pred spustením ukončená úspešne. Spúšťam Ekos..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3629
+#: ekos/scheduler/schedulerprocess.cpp:3634
 #, kde-format
 msgid "Post-startup queue completed successfully."
 msgstr "Fronta po spustení ukončená úspešne."
 
-#: ekos/scheduler/schedulerprocess.cpp:3636
+#: ekos/scheduler/schedulerprocess.cpp:3641
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr "Obnovenie plánovača po úlohách spustenia obnovy bezpečnosti..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3652
+#: ekos/scheduler/schedulerprocess.cpp:3657
 #, kde-format
 msgid "Pre-shutdown queue completed successfully."
 msgstr "Rad úloh pred vypnutím bol úspešne dokončený."
 
-#: ekos/scheduler/schedulerprocess.cpp:3683
+#: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
 msgid "Post-shutdown queue completed successfully."
 msgstr "Rad úloh po vypnutí bol úspešne dokončený."
 
-#: ekos/scheduler/schedulerprocess.cpp:3704
+#: ekos/scheduler/schedulerprocess.cpp:3709
 #, kde-format
 msgctxt "name of the failed task, then its error message"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3712
+#: ekos/scheduler/schedulerprocess.cpp:3717
 #, kde-format
 msgid "Startup queue failed: %1"
 msgstr "Fronta spustenia zlyhala: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3719
+#: ekos/scheduler/schedulerprocess.cpp:3724
 #, kde-format
 msgid "Pre-shutdown queue failed: %1"
 msgstr "Fronta pred vypnutím zlyhala: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3728
+#: ekos/scheduler/schedulerprocess.cpp:3733
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
 msgstr "Fronta po vypnutí zlyhala: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3741
+#: ekos/scheduler/schedulerprocess.cpp:3746
 #, kde-format
 msgid "Warning: task failed during job '%1': %2. Marking job aborted."
 msgstr ""
 "Upozornenie: úloha zlyhala počas úlohy '%1': %2. Označuje sa úloha ako "
 "prerušená."
 
-#: ekos/scheduler/schedulerprocess.cpp:3807
+#: ekos/scheduler/schedulerprocess.cpp:3812
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "Upozornenie: názov trasy je prázdny, vyberá sa \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3808
+#: ekos/scheduler/schedulerprocess.cpp:3813
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr "Upozornenie: názov trasy %2 neexistuje, vyberá sa \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3810
-#: ekos/scheduler/schedulerprocess.cpp:3822
+#: ekos/scheduler/schedulerprocess.cpp:3815
+#: ekos/scheduler/schedulerprocess.cpp:3827
 #, kde-format
 msgid "Select optical train"
 msgstr "Vybrať optickú sústavu"
 
-#: ekos/scheduler/schedulerprocess.cpp:3819
+#: ekos/scheduler/schedulerprocess.cpp:3824
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
@@ -36210,17 +36223,17 @@ msgstr ""
 "Upozornenie: žiadny dostupný názov trasy pre úlohu plánovača, vyberte názov "
 "optickej trasy manuálne."
 
-#: ekos/scheduler/schedulerprocess.cpp:3969
+#: ekos/scheduler/schedulerprocess.cpp:3974
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "Zarovnanie Job '%1' ukončené."
 
-#: ekos/scheduler/schedulerprocess.cpp:3988
+#: ekos/scheduler/schedulerprocess.cpp:3993
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Zarovnanie %1 zlyhalo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:3994
+#: ekos/scheduler/schedulerprocess.cpp:3999
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -36228,88 +36241,88 @@ msgstr ""
 "Upozornenie: úloha '%1' vynucuje obnovenie modelu montáže po zlyhaní "
 "zarovnávania č. %2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3998
-#: ekos/scheduler/schedulerprocess.cpp:4064
+#: ekos/scheduler/schedulerprocess.cpp:4003
+#: ekos/scheduler/schedulerprocess.cpp:4069
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Reštartujem procedúru zarovnania %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4034
+#: ekos/scheduler/schedulerprocess.cpp:4039
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "Prebieha navádzanie %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4048
+#: ekos/scheduler/schedulerprocess.cpp:4053
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Navádzanie %1 zlyhalo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:4050
+#: ekos/scheduler/schedulerprocess.cpp:4055
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Kalibrácia %1 zlyhala!"
 
-#: ekos/scheduler/schedulerprocess.cpp:4069
+#: ekos/scheduler/schedulerprocess.cpp:4074
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Úloha '%1' vedie, postup vedenia bude reštartovaný za %2 sekúnd."
 
-#: ekos/scheduler/schedulerprocess.cpp:4132
+#: ekos/scheduler/schedulerprocess.cpp:4137
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2] Upozornenie: úloha '%1' zlyhala pri nasnímaní cieľa."
 
-#: ekos/scheduler/schedulerprocess.cpp:4150
+#: ekos/scheduler/schedulerprocess.cpp:4155
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr "[%2] Úloha '%1' sníma, reštartuje postup vedenia (pokus č. %3 z %4)."
 
-#: ekos/scheduler/schedulerprocess.cpp:4159
+#: ekos/scheduler/schedulerprocess.cpp:4164
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Upozornenie: úloha '%1' zlyhala v postupe snímania, reštartuje sa snímanie."
 
-#: ekos/scheduler/schedulerprocess.cpp:4165
+#: ekos/scheduler/schedulerprocess.cpp:4170
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "[%2] Upozornenie: úloha '%1' zlyhala v postupe snímania, označuje sa ako "
 "prerušená."
 
-#: ekos/scheduler/schedulerprocess.cpp:4178
+#: ekos/scheduler/schedulerprocess.cpp:4183
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr "[%2] Sledujúca úloha '%1' bola prerušená, reštartuje sa."
 
-#: ekos/scheduler/schedulerprocess.cpp:4184
+#: ekos/scheduler/schedulerprocess.cpp:4189
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] Sledujúca úloha '%1' bola prerušená."
 
-#: ekos/scheduler/schedulerprocess.cpp:4192
+#: ekos/scheduler/schedulerprocess.cpp:4197
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Úloha (%1) – Snímanie dokončené"
 
-#: ekos/scheduler/schedulerprocess.cpp:4268
+#: ekos/scheduler/schedulerprocess.cpp:4273
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "Zaostrovanie trasy '%2' úlohy '%1' je dokončené."
 
-#: ekos/scheduler/schedulerprocess.cpp:4280
+#: ekos/scheduler/schedulerprocess.cpp:4285
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Zameranie %1 zlyhalo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:4284
+#: ekos/scheduler/schedulerprocess.cpp:4289
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "Úloha '%1' pre trasu '%2' reštartuje postup zaostrovania."
 
-#: ekos/scheduler/schedulerprocess.cpp:4289
+#: ekos/scheduler/schedulerprocess.cpp:4294
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
@@ -36317,18 +36330,18 @@ msgstr ""
 "Upozornenie: úloha '%1' na trase '%2' postup zaostrovania zlyhal, označuje "
 "sa ako prerušená."
 
-#: ekos/scheduler/schedulerprocess.cpp:4322
+#: ekos/scheduler/schedulerprocess.cpp:4327
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "Otočenie Job '%1' hotové."
 
-#: ekos/scheduler/schedulerprocess.cpp:4329
+#: ekos/scheduler/schedulerprocess.cpp:4334
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Upozornenie: presun úlohy '%1' zlyhal, označujem ako ukončenú kvôli chybám."
 
-#: ekos/scheduler/schedulerprocess.cpp:4340
+#: ekos/scheduler/schedulerprocess.cpp:4345
 #, kde-format
 msgid ""
 "Warning: job '%1' is still not slewing after several restarts, marking "
@@ -36337,17 +36350,17 @@ msgstr ""
 "Varovanie: úloha '%1' sa ani po niekoľkých reštartoch stále nenatáča, "
 "označuje sa ako ukončená kvôli chybám."
 
-#: ekos/scheduler/schedulerprocess.cpp:4346
+#: ekos/scheduler/schedulerprocess.cpp:4351
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Upozornenie: úloha '%1' sa nenastavuje, reštartujem."
 
-#: ekos/scheduler/schedulerprocess.cpp:4359
+#: ekos/scheduler/schedulerprocess.cpp:4364
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "Zmena polohy Job '%1' ukončená."
 
-#: ekos/scheduler/schedulerprocess.cpp:4365
+#: ekos/scheduler/schedulerprocess.cpp:4370
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -36355,13 +36368,13 @@ msgstr ""
 "Upozornenie: presunutie úlohy '%1' zlyhalo, označujem ako ukončenú kvôli "
 "chybám."
 
-#: ekos/scheduler/schedulerprocess.cpp:4371
+#: ekos/scheduler/schedulerprocess.cpp:4376
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Upozornenie: úloha '%1' sa neprestavuje, reštartujem."
 
-#: ekos/scheduler/schedulerprocess.cpp:4385
-#: ekos/scheduler/schedulerprocess.cpp:4396
+#: ekos/scheduler/schedulerprocess.cpp:4390
+#: ekos/scheduler/schedulerprocess.cpp:4401
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -36369,19 +36382,19 @@ msgstr ""
 "Upozornenie: Montáž je zaparkovaná, kým je plánovač pre úlohu '%1' aktívny. "
 "Ruší sa."
 
-#: ekos/scheduler/schedulerprocess.cpp:4462
+#: ekos/scheduler/schedulerprocess.cpp:4467
 #, kde-format
 msgid "Safety has improved. Resuming operations."
 msgstr "Bezpečnostná situácia sa zlepšila. Obnovujem operácie."
 
-#: ekos/scheduler/schedulerprocess.cpp:4477
+#: ekos/scheduler/schedulerprocess.cpp:4482
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 "Zistená bezpečnostná výstraha. Spúšťa sa procedúra mäkkého vypnutia za %1 "
 "sekúnd."
 
-#: ekos/scheduler/schedulerprocess.cpp:4508
+#: ekos/scheduler/schedulerprocess.cpp:4513
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown. Monitoring weather indefinitely "
@@ -36390,7 +36403,7 @@ msgstr ""
 "Observatórium naplánované pre mäkké vypnutie. Monitorovanie počasia na "
 "neurčito, kým sa bezpečnosť nezlepší."
 
-#: ekos/scheduler/schedulerprocess.cpp:4510
+#: ekos/scheduler/schedulerprocess.cpp:4515
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
@@ -36398,29 +36411,29 @@ msgstr ""
 "Observatórium naplánované pre mäkké vypnutie, kým sa bezpečnosť nezlepší "
 "alebo do %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4538
+#: ekos/scheduler/schedulerprocess.cpp:4543
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Ručná procedúra ukončenia prebehla úspešne."
 
-#: ekos/scheduler/schedulerprocess.cpp:4544
+#: ekos/scheduler/schedulerprocess.cpp:4549
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Ručná procedúra vypnutia ukončená kvôli chybám."
 
-#: ekos/scheduler/schedulerprocess.cpp:4593
+#: ekos/scheduler/schedulerprocess.cpp:4598
 #, kde-format
 msgid "Warning: job '%1': the mount didn't start tracking."
 msgstr "Varovanie: úloha '%1': montáž nezačala sledovať."
 
-#: ekos/scheduler/schedulerprocess.cpp:4610
+#: ekos/scheduler/schedulerprocess.cpp:4615
 #, kde-format
 msgid ""
 "Job '%1': the mount reached the target without tracking, switching tracking "
 "on."
 msgstr "Úloha '%1': montáž dosiahla cieľ bez sledovania, zapína sa sledovanie."
 
-#: ekos/scheduler/schedulerprocess.cpp:4744
+#: ekos/scheduler/schedulerprocess.cpp:4749
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -36429,29 +36442,29 @@ msgstr ""
 "Spí sa %1 pri aktualizácii simulačných hodín, kým nie je pripravená ďalšia "
 "pozorovacia úloha..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5046
+#: ekos/scheduler/schedulerprocess.cpp:5051
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Upozornenie: úloha '%1' má neprístupnú sekvenciu '%2', označuje sa ako "
 "neplatná."
 
-#: ekos/scheduler/schedulerprocess.cpp:5136
+#: ekos/scheduler/schedulerprocess.cpp:5141
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr "Bezpečnostný monitor inicializovaný s reťazcom pripojenia: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:5174
+#: ekos/scheduler/schedulerprocess.cpp:5179
 #, kde-format
 msgid "Unknown error occurred during startup queue execution."
 msgstr "Počas vykonávania fronty spustenia sa vyskytla neznáma chyba."
 
-#: ekos/scheduler/schedulerprocess.cpp:5177
+#: ekos/scheduler/schedulerprocess.cpp:5182
 #, kde-format
 msgid "Startup Queue Failed"
 msgstr "Rad pri štarte zlyhal"
 
-#: ekos/scheduler/schedulerprocess.cpp:5178
+#: ekos/scheduler/schedulerprocess.cpp:5183
 #, kde-format
 msgid ""
 "The scheduler startup queue has failed:\n"
@@ -37849,80 +37862,80 @@ msgstr "Nepodarilo sa aktualizovať históriu: %1"
 msgid "Failed to write image: %1"
 msgstr "Zlyhalo načítanie obrázku na %1"
 
-#: fitsviewer/fitsdata.cpp:6345 fitsviewer/fitsdata.cpp:6371
-#: fitsviewer/fitsdata.cpp:6397 fitsviewer/fitsdata.cpp:6433
-#: fitsviewer/fitsdata.cpp:6567
+#: fitsviewer/fitsdata.cpp:6362 fitsviewer/fitsdata.cpp:6388
+#: fitsviewer/fitsdata.cpp:6414 fitsviewer/fitsdata.cpp:6450
+#: fitsviewer/fitsdata.cpp:6584
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Nenašli sa žiadne svetové súradnicové systémy."
 
-#: fitsviewer/fitsdata.cpp:6819 fitsviewer/fitsdata.cpp:6956
+#: fitsviewer/fitsdata.cpp:6836 fitsviewer/fitsdata.cpp:6973
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Chyba pri dopyte Simbad"
 
-#: fitsviewer/fitsdata.cpp:6852
+#: fitsviewer/fitsdata.cpp:6869
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Dopyt Simbad vypršal"
 
-#: fitsviewer/fitsdata.cpp:7844 fitsviewer/fitsdata.cpp:7957
+#: fitsviewer/fitsdata.cpp:7861 fitsviewer/fitsdata.cpp:7974
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Podporované sú iba 8 a 16 bitové bayerované obrázky."
 
-#: fitsviewer/fitsdata.cpp:7852 fitsviewer/fitsdata.cpp:7963
+#: fitsviewer/fitsdata.cpp:7869 fitsviewer/fitsdata.cpp:7980
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Neznámy Bayerov vzor %1"
 
-#: fitsviewer/fitsdata.cpp:7876 fitsviewer/fitsdata.cpp:7902
+#: fitsviewer/fitsdata.cpp:7893 fitsviewer/fitsdata.cpp:7919
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Nepodporovaný Bayerov vzor %1"
 
-#: fitsviewer/fitsdata.cpp:7910
+#: fitsviewer/fitsdata.cpp:7927
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nepodporované Bayerove posuny %1 %2."
 
-#: fitsviewer/fitsdata.cpp:7921 fitsviewer/fitsdata.cpp:7974
+#: fitsviewer/fitsdata.cpp:7938 fitsviewer/fitsdata.cpp:7991
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Neplatné parametre debayerovania dc1394."
 
-#: fitsviewer/fitsdata.cpp:7932 fitsviewer/fitsdata.cpp:7985
+#: fitsviewer/fitsdata.cpp:7949 fitsviewer/fitsdata.cpp:8002
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Neplatné parametre debayerovania OpenCV."
 
-#: fitsviewer/fitsdata.cpp:7941 fitsviewer/fitsdata.cpp:7994
+#: fitsviewer/fitsdata.cpp:7958 fitsviewer/fitsdata.cpp:8011
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Neplatný engine debayerovania"
 
-#: fitsviewer/fitsdata.cpp:8248
+#: fitsviewer/fitsdata.cpp:8265
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit zavolané s neplatnými parametrami debayerovania"
 
-#: fitsviewer/fitsdata.cpp:8264 fitsviewer/fitsdata.cpp:8310
-#: fitsviewer/fitsdata.cpp:8368 fitsviewer/fitsdata.cpp:8414
+#: fitsviewer/fitsdata.cpp:8281 fitsviewer/fitsdata.cpp:8327
+#: fitsviewer/fitsdata.cpp:8385 fitsviewer/fitsdata.cpp:8431
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Nemožno alokovať pamäť pre dočasný Bayerov zásobník: %1"
 
-#: fitsviewer/fitsdata.cpp:8274 fitsviewer/fitsdata.cpp:8378
+#: fitsviewer/fitsdata.cpp:8291 fitsviewer/fitsdata.cpp:8395
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Nemôžem alokovať pamäť pre dočasný buffer debayeru."
 
-#: fitsviewer/fitsdata.cpp:8293 fitsviewer/fitsdata.cpp:8397
+#: fitsviewer/fitsdata.cpp:8310 fitsviewer/fitsdata.cpp:8414
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer zlyhal (%1)"
 
-#: fitsviewer/fitsdata.cpp:8353
+#: fitsviewer/fitsdata.cpp:8370
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr "debayer_16bit zavolané s neplatnými parametrami debayerovania"
