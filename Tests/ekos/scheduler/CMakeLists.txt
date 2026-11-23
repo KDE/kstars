@@ -26,4 +26,9 @@ TARGET_LINK_LIBRARIES( testqueuemanager ${TEST_LIBRARIES})
 ADD_TEST( NAME QueueManagerTest COMMAND testqueuemanager )
 SET_TESTS_PROPERTIES( QueueManagerTest PROPERTIES LABELS "stable" )
 
+ADD_EXECUTABLE( testqueueexecutor testqueueexecutor.cpp )
+TARGET_LINK_LIBRARIES( testqueueexecutor ${TEST_LIBRARIES})
+ADD_TEST( NAME QueueExecutorTest COMMAND testqueueexecutor )
+SET_TESTS_PROPERTIES( QueueExecutorTest PROPERTIES LABELS "stable" TIMEOUT 60 )
+
 ENDIF ()

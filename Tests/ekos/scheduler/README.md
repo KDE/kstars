@@ -394,3 +394,32 @@ was never processed.
 **Test:** `testPreemptiveShutdownTimerSwitchOnQueueComplete` (state injection,
 verifies `timerState` switches from `RUN_WAKEUP` → `RUN_SHUTDOWN` and that one
 `runSchedulerIteration()` call then reaches `stop()`).
+
+
+## Task queue cancellation regression
+
+`testqueueexecutor` runs without a KStars window or an INDI server. It creates
+in-memory queues and tests Stop during running/paused actions, late progress,
+restart isolation, synchronous Stop from action signals, and ordinary completion.
+Script cancellation uses the local `cat` executable with an open input pipe; it
+must remain aborted without consuming retries or launching after a synchronous Stop.
+The test redirects HOME/XDG paths into a temporary directory.
+
+Build `testqueueexecutor`, then run the executable from its build directory:
+
+```bash
+QT_QPA_PLATFORM=offscreen KSTARS_TEST_NO_NETWORK=1 ./testqueueexecutor -v1
+```
+
+Run the complete registered suite through the normal test runner:
+
+```bash
+ctest --test-dir build-testing -V -R '^QueueExecutorTest$'
+```
+
+Current master already disconnects and aborts the running action (d75ac33578),
+so `testLateProgressAfterStop` passes there. With only the test added, master
+still fails script abort/relaunch, stop-before-launch and running/paused item
+status checks, and crashes when Stop is called from actionStarted/actionCompleted.
+Apply the cancellation fix, rebuild, and run the entire test executable. No
+observing installation or running INDI server is needed or modified by this test.

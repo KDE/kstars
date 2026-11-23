@@ -11,6 +11,7 @@
 #include "ekos/manager.h"
 #include "indi/indilistener.h"
 #include <ekos_scheduler_debug.h>
+#include <QPointer>
 
 namespace Ekos
 {
@@ -29,7 +30,7 @@ QueueExecutor::~QueueExecutor()
 
 bool QueueExecutor::start()
 {
-    if (m_running)
+    if (m_running || m_stopping)
     {
         qCWarning(KSTARS_EKOS_SCHEDULER) << "Queue already running, cannot start";
         return false;
@@ -136,24 +137,30 @@ void QueueExecutor::stop()
     if (!m_running)
         return;
 
+    // Invalidate callbacks before abort(): script termination can deliver signals synchronously.
+    m_stopping = true;
     m_running = false;
     m_paused = false;
-
-    // Abort the running action, so that it sends nothing once the queue is given up (e.g. a SET action that waits
-    // to send its retry). Disconnect it first: its ABORTED status must not fail the item and abort the queue again.
-    if (m_currentAction && m_currentAction->status() == TaskAction::Status::RUNNING)
-    {
-        disconnect(m_currentAction, nullptr, this, nullptr);
-        qCInfo(KSTARS_EKOS_SCHEDULER) << "Aborting the running action" << (m_currentActionIndex + 1)
-                                      << "- Type:" << m_currentAction->type();
-        m_currentAction->abort();
-    }
-
+    ++m_actionGeneration;
+    QPointer<QueueItem> item = m_currentItem;
+    QPointer<TaskAction> action = m_currentAction;
+    // Preserve master's disconnect-before-abort, including for synchronous script completion.
+    if (action)
+        disconnect(action, nullptr, this, nullptr);
+    if (item)
+        disconnect(item, nullptr, this, nullptr);
     m_currentItem = nullptr;
     m_currentAction = nullptr;
     m_currentActionIndex = -1;
 
+    if (action && action->status() == TaskAction::RUNNING)
+        action->abort();
+    if (item && item->status() == QueueItem::RUNNING)
+        item->setStatus(QueueItem::ABORTED);
+
+    m_manager->setCurrentItem(nullptr);
     m_manager->setState(QueueManager::IDLE);
+    m_stopping = false;
     Q_EMIT stopped();
 }
 
@@ -356,22 +363,31 @@ void QueueExecutor::executeItem(QueueItem *item)
 
 void QueueExecutor::executeAction(TaskAction *action)
 {
-    if (!action || m_paused || m_abortRequested)
+    if (!m_running || !m_currentItem || !action || m_paused || m_abortRequested)
         return;
 
     m_currentAction = action;
 
-    // Connect to action signals
-    connect(action, &TaskAction::statusChanged,
-            this, &QueueExecutor::onActionStatusChanged);
-    connect(action, &TaskAction::progress,
-            this, &QueueExecutor::onActionProgress);
+    // A queued callback from a stopped execution must not affect a restarted action.
+    const auto generation = ++m_actionGeneration;
+    connect(action, &TaskAction::statusChanged, this, [this, generation](TaskAction::Status status)
+    {
+        if (generation == m_actionGeneration)
+            onActionStatusChanged(status);
+    });
+    connect(action, &TaskAction::progress, this, [this, generation](const QString & message)
+    {
+        if (generation == m_actionGeneration)
+            onActionProgress(message);
+    });
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing action" << (m_currentActionIndex + 1)
                                   << "of" << m_currentItem->task()->actions().size()
                                   << "- Type:" << action->type();
 
     Q_EMIT actionStarted(action);
+    if (!m_running || generation != m_actionGeneration)
+        return;
 
     // Reset retry counter before first execution
     action->resetRetryCounter();
@@ -406,13 +422,14 @@ void QueueExecutor::onItemStatusChanged(QueueItem::Status status)
 
 void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 {
-    if (!m_currentAction || !m_currentItem)
+    if (!m_running || !m_currentAction || !m_currentItem)
         return;
 
     TaskAction *action = qobject_cast<TaskAction *>(sender());
     if (!action || action != m_currentAction)
         return;
 
+    const auto generation = m_actionGeneration;
     switch (status)
     {
         case TaskAction::Status::COMPLETED:
@@ -421,6 +438,8 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "completed successfully";
             Q_EMIT actionCompleted(action);
+            if (!m_running || generation != m_actionGeneration)
+                return;
             updateProgress();
 
             // Move to next action
@@ -443,6 +462,8 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "failed:" << action->errorMessage();
             Q_EMIT actionFailed(action, action->errorMessage());
+            if (!m_running || generation != m_actionGeneration)
+                return;
             handleActionFailure(action);
             break;
 
@@ -464,6 +485,9 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
 void QueueExecutor::onActionProgress(const QString &message)
 {
+    if (!m_running || !m_currentItem || sender() != m_currentAction)
+        return;
+
     updateProgress();
     Q_EMIT progress(m_currentItem->progress(), message);
 }

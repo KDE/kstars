@@ -62,6 +62,7 @@ class ScriptAction : public TaskAction
          */
         bool validateScript();
 
+        bool m_abortRequested = false;
         QString m_scriptPath;
         QString m_stdoutBuffer;
         QString m_stderrBuffer;

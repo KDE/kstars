@@ -38,6 +38,7 @@ ScriptAction::ScriptAction(QObject *parent)
 
 ScriptAction::~ScriptAction()
 {
+    m_abortRequested = true;
     if (m_process && m_process->state() != QProcess::NotRunning)
     {
         m_process->terminate();
@@ -48,6 +49,7 @@ ScriptAction::~ScriptAction()
 
 bool ScriptAction::start()
 {
+    m_abortRequested = false;
     qCInfo(KSTARS_EKOS_SCHEDULER) << "SCRIPT action starting:" << m_scriptPath;
 
     // Validate script
@@ -57,6 +59,8 @@ bool ScriptAction::start()
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action" << m_currentRetry << "/" << m_retries;
             Q_EMIT progress(QString("Retry %1/%2").arg(m_currentRetry).arg(m_retries));
+            if (m_abortRequested)
+                return false;
             return start();  // Retry
         }
         else
@@ -68,13 +72,21 @@ bool ScriptAction::start()
     }
 
     setStatus(RUNNING);
+    if (m_abortRequested)
+        return false;
     Q_EMIT started();
     Q_EMIT progress(QString("Executing script: %1").arg(m_scriptPath));
+    // A progress listener may have stopped the queue before the process was launched.
+    if (m_abortRequested)
+        return false;
 
     // Start the script
     KSUtils::startProcess(*m_process, m_scriptPath);
 
-    if (!m_process->waitForStarted(5000))
+    const bool processStarted = m_process->waitForStarted(5000);
+    if (m_abortRequested)
+        return false;
+    if (!processStarted)
     {
         setErrorMessage(QString("Failed to start script: %1").arg(m_scriptPath));
         qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
@@ -83,6 +95,8 @@ bool ScriptAction::start()
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action" << m_currentRetry << "/" << m_retries;
             Q_EMIT progress(QString("Failed to start, retry %1/%2").arg(m_currentRetry).arg(m_retries));
+            if (m_abortRequested)
+                return false;
             return start();  // Retry
         }
         else
@@ -93,6 +107,9 @@ bool ScriptAction::start()
         }
     }
 
+    if (m_abortRequested)
+        return false;
+
     // Start timeout timer
     m_timeoutTimer->start(m_timeout * 1000);
 
@@ -102,6 +119,10 @@ bool ScriptAction::start()
 
 bool ScriptAction::abort()
 {
+    // waitForFinished() delivers process errors/finished signals. They must not trigger retries.
+    m_abortRequested = true;
+    m_stdoutBuffer.clear();
+    m_stderrBuffer.clear();
     if (m_timeoutTimer)
         m_timeoutTimer->stop();
 
@@ -163,6 +184,9 @@ bool ScriptAction::validateScript()
 
 void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    if (m_abortRequested)
+        return;
+
     m_timeoutTimer->stop();
 
     // Flush any remaining buffered output
@@ -173,6 +197,8 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Script stdout:" << line;
             Q_EMIT progress(line);
+            if (m_abortRequested)
+                return;
         }
         m_stdoutBuffer.clear();
     }
@@ -184,6 +210,8 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         {
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Script stderr:" << line;
             Q_EMIT progress(QString("Error: %1").arg(line));
+            if (m_abortRequested)
+                return;
         }
         m_stderrBuffer.clear();
     }
@@ -200,6 +228,8 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action (crashed)" << m_currentRetry << "/" << m_retries;
             Q_EMIT progress(QString("Script crashed, retry %1/%2").arg(m_currentRetry).arg(m_retries));
+            if (m_abortRequested)
+                return;
             start();
         }
         else
@@ -213,6 +243,8 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     if (exitCode == 0)
     {
         Q_EMIT progress("Script completed successfully");
+        if (m_abortRequested)
+            return;
         setStatus(COMPLETED);
         Q_EMIT completed();
     }
@@ -226,6 +258,8 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action (non-zero exit)" << m_currentRetry << "/" << m_retries;
             Q_EMIT progress(QString("Script failed (exit code %1), retry %2/%3")
                             .arg(exitCode).arg(m_currentRetry).arg(m_retries));
+            if (m_abortRequested)
+                return;
             start();
         }
         else
@@ -238,6 +272,9 @@ void ScriptAction::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
 void ScriptAction::processError(QProcess::ProcessError error)
 {
+    if (m_abortRequested)
+        return;
+
     m_timeoutTimer->stop();
 
     QString errorString;
@@ -275,6 +312,8 @@ void ScriptAction::processError(QProcess::ProcessError error)
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action (process error)" << m_currentRetry << "/" << m_retries;
             Q_EMIT progress(QString("Process error (%1), retry %2/%3")
                             .arg(errorString).arg(m_currentRetry).arg(m_retries));
+            if (m_abortRequested)
+                return;
             start();
         }
         else
@@ -287,6 +326,13 @@ void ScriptAction::processError(QProcess::ProcessError error)
 
 void ScriptAction::readStandardOutput()
 {
+    if (m_abortRequested)
+    {
+        m_process->readAllStandardOutput();
+        m_stdoutBuffer.clear();
+        return;
+    }
+
     // Append new data to buffer
     m_stdoutBuffer.append(QString::fromUtf8(m_process->readAllStandardOutput()));
 
@@ -301,12 +347,21 @@ void ScriptAction::readStandardOutput()
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Script stdout:" << line;
             Q_EMIT progress(line);
+            if (m_abortRequested)
+                return;
         }
     }
 }
 
 void ScriptAction::readStandardError()
 {
+    if (m_abortRequested)
+    {
+        m_process->readAllStandardError();
+        m_stderrBuffer.clear();
+        return;
+    }
+
     // Append new data to buffer
     m_stderrBuffer.append(QString::fromUtf8(m_process->readAllStandardError()));
 
@@ -321,12 +376,17 @@ void ScriptAction::readStandardError()
         {
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Script stderr:" << line;
             Q_EMIT progress(QString("Error: %1").arg(line));
+            if (m_abortRequested)
+                return;
         }
     }
 }
 
 void ScriptAction::handleTimeout()
 {
+    if (m_abortRequested)
+        return;
+
     qCWarning(KSTARS_EKOS_SCHEDULER) << "Script execution timed out after" << m_timeout << "seconds:" << m_scriptPath;
 
     if (m_process && m_process->state() != QProcess::NotRunning)
@@ -342,6 +402,8 @@ void ScriptAction::handleTimeout()
     {
         qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SCRIPT action (timeout)" << m_currentRetry << "/" << m_retries;
         Q_EMIT progress(QString("Timeout, retry %1/%2").arg(m_currentRetry).arg(m_retries));
+        if (m_abortRequested)
+            return;
         start();
     }
     else

@@ -99,6 +99,8 @@ class QueueExecutor : public QObject
         TaskAction *m_currentAction = nullptr;
         int m_currentActionIndex = -1;
 
+        quint64 m_actionGeneration = 0;
+        bool m_stopping = false;
         bool m_running = false;
         bool m_paused = false;
         bool m_abortRequested = false;
