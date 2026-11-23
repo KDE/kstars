@@ -73,6 +73,7 @@ endif(StellarSolver_FOUND)
 # because CMake's include_directories() only applies to targets defined after the call.
 IF (INDI_FOUND)
     include_directories(${INDI_INCLUDE_DIR})
+    add_subdirectory(indi)
 ENDIF(INDI_FOUND)
 
 add_subdirectory(auxiliary)

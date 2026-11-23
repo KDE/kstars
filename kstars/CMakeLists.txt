@@ -89,6 +89,7 @@ if (INDI_FOUND)
         indi/indicommon.cpp
         indi/indiguider.cpp
         indi/indimount.cpp
+        indi/indiparkstate.cpp
         indi/indicamera.cpp
         indi/indicamerachip.cpp
         indi/indifocuser.cpp

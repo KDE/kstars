@@ -169,7 +169,7 @@ class Mount : public ConcreteDevice
         bool canPark();
         bool isParked()
         {
-            return m_ParkStatus == PARK_PARKED;
+            return isParkedState(m_ParkStatus);
         }
         bool canCustomPark()
         {
@@ -372,6 +372,7 @@ class Mount : public ConcreteDevice
         double minAlt {0}, maxAlt = 90;
         bool altLimitsTrackingOnly = false;
         ParkStatus m_ParkStatus = PARK_UNKNOWN;
+        bool m_ParkRecoveryPending = false;
         IPState EqCoordPreviousState {IPS_IDLE};
         Status previousMountStatus {MOUNT_IDLE};
         QTimer centerLockTimer;

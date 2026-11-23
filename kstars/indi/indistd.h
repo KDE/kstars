@@ -9,6 +9,7 @@
 #pragma once
 
 #include "indicommon.h"
+#include "indiparkstate.h"
 
 #include <indiproperty.h>
 #include <basedevice.h>
@@ -36,8 +37,6 @@ using Properties = INDI::BaseDevice::Properties;
 // INDI Standard Device Namespace
 namespace ISD
 {
-
-typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED, PARK_ERROR } ParkStatus;
 
 // Create instances as per driver interface.
 class ConcreteDevice;

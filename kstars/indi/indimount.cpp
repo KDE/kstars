@@ -514,17 +514,21 @@ void Mount::updateParkStatus()
     auto sp = svp.findWidgetByName("PARK");
     if (sp)
     {
+        const auto update = updateParkState(m_ParkStatus, m_ParkRecoveryPending, svp.getState(),
+                                            sp->getState() == ISS_ON);
+        m_ParkRecoveryPending = update.recoveryPending;
         if (svp.getState() == IPS_ALERT)
         {
-            // First, inform everyone watch this that an error occurred.
-            Q_EMIT newParkStatus(PARK_ERROR);
-            // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
-            // Whatever the current switch is set to
-            m_ParkStatus = (sp->getState() == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
+            Q_EMIT newParkStatus(update.notification);
+            m_ParkStatus = update.status;
             KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::Mount,
                                   KSNotification::Alert);
         }
-        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKING)
+        else if (!update.notify)
+        {
+            m_ParkStatus = update.status;
+        }
+        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_ON)
         {
             m_ParkStatus = PARK_PARKING;
             KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"), KSNotification::Mount);
@@ -532,14 +536,14 @@ void Mount::updateParkStatus()
 
             Q_EMIT newParkStatus(m_ParkStatus);
         }
-        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
+        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_OFF)
         {
             m_ParkStatus = PARK_UNPARKING;
             KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"), KSNotification::Mount);
 
             Q_EMIT newParkStatus(m_ParkStatus);
         }
-        else if (svp.getState() == IPS_OK && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKED)
+        else if ((svp.getState() == IPS_OK || svp.getState() == IPS_IDLE) && sp->getState() == ISS_ON)
         {
             m_ParkStatus = PARK_PARKED;
             KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"), KSNotification::Mount);
@@ -557,8 +561,7 @@ void Mount::updateParkStatus()
             Q_EMIT newTarget(currentCoords);
             Q_EMIT newTargetName(QString());
         }
-        else if ( (svp.getState() == IPS_OK || svp.getState() == IPS_IDLE) && sp->getState() == ISS_OFF
-                  && m_ParkStatus != PARK_UNPARKED)
+        else if ( (svp.getState() == IPS_OK || svp.getState() == IPS_IDLE) && sp->getState() == ISS_OFF)
         {
             m_ParkStatus = PARK_UNPARKED;
             KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"), KSNotification::Mount);
