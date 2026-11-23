@@ -301,7 +301,8 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
         // No star details required (or we just extracted them) so now plate solve
         connect(m_Solver.get(), &SolverUtils::done, this, &PlateSolve::subSolverDone, Qt::UniqueConnection);
 
-    m_Solver->useScale(true, pixScale, pixScale);
+    // No scale hint (pixScale <= 0) means a blind scale solve
+    m_Solver->useScale(pixScale > 0, pixScale, pixScale);
     m_Solver->setScaleTolerance(scaleTolerance);
     m_Solver->usePosition(true, ra, dec);
     m_Solver->setHealpix(index, healpix);

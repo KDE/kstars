@@ -328,6 +328,8 @@ class FITSTab : public QWidget
         double m_StackMedianHFR { -1.0 };
         int m_StackNumStars { 0 };
         bool m_StackExtendedPlateSolve { false };
+        // Last resort, like Align's blind scale pass: solve without the scale hint
+        bool m_StackBlindScalePlateSolve { false };
         bool m_StackMultiC { true };
         QString m_StackDefTabName;
         QString m_StackLastFilter;

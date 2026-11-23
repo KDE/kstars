@@ -1800,8 +1800,11 @@ void FITSTab::liveStack()
 
 // Plate solve the sub. May require 2 runs; firstly to get stars (if needed) and then to actually plate solve
 // Also, we assume that once the first sub is solved subsequent subs can be solved on just the same index and HEALPix
-// This significantly speeds up plate solving but if that solve fails... we widen the criteria and try again
-// before completely giving up on the sub
+// This significantly speeds up plate solving but if that solve fails... we widen the criteria and try again,
+// and then once more without the scale hint (as Align's blind scale pass does) before completely giving up on the sub.
+// The scale hint comes from the sub's header, which is wrong when the camera reports the wrong pixel size (e.g. a
+// binned readout mode reported as unbinned). A blind scale solve finds the real scale, and the solution stored by
+// PlateSolve (setStackSubSolution) then gives the following subs a correct hint.
 #if !defined (KSTARS_LITE)
 void FITSTab::plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
                             const int healpix, const StackFrameWeighting &weighting)
@@ -1832,14 +1835,21 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
     {
         disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, nullptr, nullptr);
         disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, nullptr, nullptr);
-        if (m_StackExtendedPlateSolve)
+        if (m_StackExtendedPlateSolve && m_StackBlindScalePlateSolve)
         {
-            // Failed to plate solve on extended criteria so just fail
+            // Failed to plate solve without a scale hint as well so just fail
             disconnect(m_PlateSolve.data(), &PlateSolve::subSolverSuccess, nullptr, nullptr);
             disconnect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, nullptr, nullptr);
             const bool timedOut = false;
             const bool success = false;
             m_View->imageData()->solverDone(timedOut, success, m_StackMedianHFR, m_StackNumStars);
+        }
+        else if (m_StackExtendedPlateSolve)
+        {
+            // Failed on extended criteria, so the scale hint may be wrong: retry with a blind scale
+            m_StackBlindScalePlateSolve = true;
+            qCDebug(KSTARS_FITS) << "Plate solving failed with scale hint" << pixScale << "\"/px, retrying with blind scale...";
+            m_PlateSolve->plateSolveSub(m_View->imageData(), ra, dec, 0.0, -1, -1, SSolver::SOLVE);
         }
         else
         {
@@ -1870,6 +1880,7 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
         solveType = SSolver::SOLVE;
 
     m_StackExtendedPlateSolve = (index == -1);
+    m_StackBlindScalePlateSolve = false;
     m_PlateSolve->plateSolveSub(m_View->imageData(), ra, dec, pixScale, index, healpix, solveType);
 }
 #endif // !KSTARS_LITE
