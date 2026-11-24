@@ -72,6 +72,10 @@ class TestFitsData : public QObject
         void testContrastOperation();
         void testChannelBlendOperation();
         void testDetectStarTrailing();
+
+        // FITSData's per-channel median estimate
+        void testMedian_data();
+        void testMedian();
     private:
         void runParallelSolvers(int multiAlgoOverride);
         void startGuideDetect(const QString &filename);

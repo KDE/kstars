@@ -4977,28 +4977,37 @@ template <typename T>
 void FITSData::calculateMedian(bool roi)
 {
     auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
+    const uint32_t samplesPerChannel = roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel;
+    if (buffer == nullptr || samplesPerChannel == 0)
+        return;
+
+    // Each channel's median is estimated from at most about maxMedianSize evenly spaced pixels. The step is odd:
+    // with an even step across an even width, every sample of a raw colour mosaic would fall on the same column
+    // parity, i.e. on only two of the four photosites of its 2x2 pattern.
     const uint32_t maxMedianSize = 500000;
-    uint32_t medianSize = roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel;
-    uint8_t downsample = 1;
-    if (medianSize > maxMedianSize)
-    {
-        downsample = (static_cast<double>(medianSize) / maxMedianSize) + 0.999;
-        medianSize /= downsample;
-    }
-    // Ideally samples would be declared like this...
-    // std::vector<T> samples;
-    // Unfortunately this doesn't compile on Mac - see the comments in robuststatistics.cpp for more details
-    // So for now declare samples like this...
-    std::vector<int32_t> samples;
-    samples.reserve(medianSize);
+    uint32_t step = static_cast<uint32_t>((static_cast<uint64_t>(samplesPerChannel) + maxMedianSize - 1) / maxMedianSize);
+    if (step % 2 == 0)
+        step++;
+
+    // Samples are kept as double: exact for every integer pixel type, and not truncating float data.
+    std::vector<double> samples;
+    samples.reserve(samplesPerChannel / step + 1);
 
     for (uint8_t n = 0; n < m_Statistics.channels; n++)
     {
-        auto *oneChannel = buffer + n * (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
-        for (uint32_t upto = 0; upto < (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
-                upto += downsample)
+        samples.clear();
+        const T *oneChannel = buffer + static_cast<size_t>(n) * samplesPerChannel;
+        for (uint64_t upto = 0; upto < samplesPerChannel; upto += step)
             samples.push_back(oneChannel[upto]);
-        auto median = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_MEDIAN, samples);
+
+        // Median by selection rather than a full sort; for an even count it is the mean of the two middle values,
+        // as in RobustStatistics/GSL's median of sorted data.
+        const size_t middle = samples.size() / 2;
+        std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
+        double median = samples[middle];
+        if (samples.size() % 2 == 0)
+            median = (median + *std::max_element(samples.begin(), samples.begin() + middle)) / 2.0;
+
         roi ? m_ROIStatistics.median[n] = median : m_Statistics.median[n] = median;
     }
 }

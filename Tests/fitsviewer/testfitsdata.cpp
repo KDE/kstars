@@ -11,12 +11,14 @@
 #endif
 
 #include <memory>
+#include <random>
 #include <QDir>
 #include <QFileInfo>
 #include <QTemporaryDir>
 #include "testfitsdata.h"
 #include "kstars_test_macros.h"
 #include "Options.h"
+#include "auxiliary/robuststatistics.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include "fitsviewer/fpack.h"
@@ -75,6 +77,33 @@ static bool writeSyntheticFrame(const QString &path, int width, int height, uint
     fits_write_img(fptr, TUSHORT, 1, pixels.size(), pixels.data(), &status);
     fits_close_file(fptr, &status);
     return status == 0;
+}
+
+// Writes `channels` planes of width x height pixels as a FITS image of type `bitpix` (USHORT_IMG or FLOAT_IMG)
+// from `pixels` (planar, converted with cfitsio's `datatype`).
+template <typename T>
+static bool writeImage(const QString &path, int bitpix, int datatype, int width, int height, int channels,
+                       std::vector<T> &pixels)
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    long naxes[3] = { width, height, channels };
+    QFile::remove(path);
+    QByteArray pathBytes = path.toLocal8Bit();
+    if (fits_create_diskfile(&fptr, pathBytes.constData(), &status))
+        return false;
+    fits_create_img(fptr, bitpix, channels > 1 ? 3 : 2, naxes, &status);
+    fits_write_img(fptr, datatype, 1, pixels.size(), pixels.data(), &status);
+    fits_close_file(fptr, &status);
+    return status == 0;
+}
+
+// The exact median of a sample (mean of the two middle values for an even count)
+static double exactMedian(std::vector<double> values)
+{
+    std::sort(values.begin(), values.end());
+    const size_t n = values.size();
+    return n % 2 ? values[n / 2] : (values[n / 2 - 1] + values[n / 2]) / 2.0;
 }
 
 TestFitsData::TestFitsData(QObject *parent) : QObject(parent)
@@ -1605,6 +1634,110 @@ void TestFitsData::testDetectStarTrailing()
         int numSources = 0;
         QVERIFY(!FITSData::detectStarTrailing(empty, medianElongation, numSources));
     }
+}
+
+void TestFitsData::testMedian_data()
+{
+    QTest::addColumn<QString>("kind");
+    QTest::addColumn<int>("width");
+    QTest::addColumn<int>("height");
+    QTest::addColumn<double>("tolerance");
+
+    // Up to 500000 pixels per channel every pixel is used, so the median must be exact
+    QTest::newRow("RGB 16 bit, each channel its own range") << "rgb" << 600 << 400 << 0.0;
+    QTest::newRow("RGB 16 bit, odd pixel count") << "rgb" << 601 << 399 << 0.0;
+    QTest::newRow("float 0..1") << "float" << 600 << 400 << 0.0;
+    // Above it the median is estimated from evenly spaced samples
+    QTest::newRow("RGB 16 bit, sampled") << "rgb" << 1500 << 1000 << 0.005;
+    // Raw colour mosaic: half its photosites are green (2000), a quarter red (1000), a quarter blue (3000),
+    // so its median is 2000. At this size (ASI294MC) the sample step was even, and only red and one green
+    // photosite of each cell were sampled.
+    QTest::newRow("raw RGGB mosaic 4144x2822") << "mosaic" << 4144 << 2822 << 0.0;
+}
+
+void TestFitsData::testMedian()
+{
+    QFETCH(QString, kind);
+    QFETCH(int, width);
+    QFETCH(int, height);
+    QFETCH(double, tolerance);
+
+    const bool auto3DCube = Options::auto3DCube();
+    const bool autoDebayer = Options::autoDebayer();
+    Options::setAuto3DCube(true);
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString path = dir.filePath("median.fits");
+    const size_t plane = static_cast<size_t>(width) * height;
+    std::mt19937 random(42);
+    QVector<double> expected;
+    double range = 1;
+
+    if (kind == "rgb")
+    {
+        // Channel ranges do not overlap, so a median mixing channels is far off
+        const int low[3] = { 100, 5000, 20000 }, high[3] = { 1100, 9000, 21000 };
+        std::vector<uint16_t> pixels(3 * plane);
+        for (int c = 0; c < 3; c++)
+        {
+            std::uniform_int_distribution<int> value(low[c], high[c] - 1);
+            std::vector<double> channel(plane);
+            for (size_t i = 0; i < plane; i++)
+                channel[i] = pixels[c * plane + i] = value(random);
+            expected << exactMedian(channel);
+        }
+        range = 1000;
+        QVERIFY(writeImage(path, USHORT_IMG, TUSHORT, width, height, 3, pixels));
+    }
+    else if (kind == "float")
+    {
+        std::uniform_real_distribution<float> value(0.0f, 1.0f);
+        std::vector<float> pixels(plane);
+        std::vector<double> channel(plane);
+        for (size_t i = 0; i < plane; i++)
+            channel[i] = pixels[i] = value(random);
+        expected << exactMedian(channel);
+        QVERIFY(writeImage(path, FLOAT_IMG, TFLOAT, width, height, 1, pixels));
+    }
+    else
+    {
+        // No BAYERPAT, so it is loaded as the raw mono mosaic
+        std::vector<uint16_t> pixels(plane);
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                pixels[static_cast<size_t>(y) * width + x] = (x % 2 == 0 && y % 2 == 0) ? 1000 : ((x % 2 && y % 2) ? 3000 : 2000);
+        expected << 2000;
+        QVERIFY(writeImage(path, USHORT_IMG, TUSHORT, width, height, 1, pixels));
+    }
+
+    QSharedPointer<FITSData> data(new FITSData(FITS_NORMAL));
+    QFuture<bool> future = data->loadFromFile(path);
+    future.waitForFinished();
+    Options::setAuto3DCube(auto3DCube);
+    Options::setAutoDebayer(autoDebayer);
+    QVERIFY(future.result());
+    QCOMPARE(static_cast<int>(data->channels()), expected.size());
+
+    // The reference uses the same definition as the robust statistics library (GSL median of sorted data)
+    if (kind == "rgb" && tolerance == 0)
+    {
+        std::vector<double> check(plane);
+        std::mt19937 again(7);
+        std::uniform_int_distribution<int> value(0, 65535);
+        for (auto &v : check)
+            v = value(again);
+        check.resize(plane % 2 ? plane : plane - 1); // odd and even counts
+        QCOMPARE(exactMedian(check), Mathematics::RobustStatistics::ComputeLocation(
+                     Mathematics::RobustStatistics::LOCATION_MEDIAN, check));
+        check.pop_back();
+        QCOMPARE(exactMedian(check), Mathematics::RobustStatistics::ComputeLocation(
+                     Mathematics::RobustStatistics::LOCATION_MEDIAN, check));
+    }
+
+    for (int c = 0; c < expected.size(); c++)
+        QVERIFY2(std::abs(data->getMedian(c) - expected[c]) <= tolerance * range,
+                 qPrintable(QString("channel %1: median %2, expected %3").arg(c).arg(data->getMedian(c), 0, 'f', 6)
+                            .arg(expected[c], 0, 'f', 6)));
 }
 
 QTEST_GUILESS_MAIN(TestFitsData)
