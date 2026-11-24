@@ -38,6 +38,7 @@ class TestInternalGuider : public QObject
         void testRestartWhileSuspended();
         void testLocalSearchColour();
         void testFirstGuidingFrameColour();
+        void testStartWithoutStar();
 
     private:
         QSharedPointer<GuideView> m_View;
@@ -123,12 +124,12 @@ constexpr int FrameWidth = 1280;
 constexpr int FrameHeight = 960;
 
 // A 16-bit guide frame with 40 well separated Gaussian stars on a noisy sky, all shifted by dx,dy
-// (the same kind of frame as in testguidestars).
-QSharedPointer<FITSData> makeGuideFrame(double dx, double dy, quint32 noiseSeed)
+// (the same kind of frame as in testguidestars). With starCount 0 it shows the sky only, as under clouds.
+QSharedPointer<FITSData> makeGuideFrame(double dx, double dy, quint32 noiseSeed, int starCount = 40)
 {
     QRandomGenerator starRng(99);
     QList<QVector3D> stars;  // x, y, peak
-    while (stars.size() < 40)
+    while (stars.size() < starCount)
     {
         const QVector3D star(90 + starRng.bounded(FrameWidth - 180), 90 + starRng.bounded(FrameHeight - 180),
                              2000 + starRng.bounded(28000));
@@ -227,6 +228,62 @@ void TestInternalGuider::testFirstGuidingFrameColour()
     QVERIFY(guider.guide());
     QVERIFY(m_View->localSearchUsed());
     QCOMPARE(m_View->trackingBoxColor(), QColor(0, 160, 255));
+
+    guider.abort();
+    m_View->setLocalSearchUsed(false);
+}
+
+// Regression test: when guiding was restarted under clouds, e.g. by the scheduler after a lost guide star, the first
+// guiding frames had no star. Guiding then reported a deviation of 0 on every frame, Capture took that for good
+// guiding and exposed unguided, and guiding never searched for a star or gave up. Now such frames count as a lost
+// star: no deviation is reported, and guiding searches for a star.
+void TestInternalGuider::testStartWithoutStar()
+{
+#ifndef HAVE_STELLARSOLVER
+    QSKIP("Needs StellarSolver for star detection.");
+#endif
+    Options::setGuideAlgorithm(SEP_MULTISTAR);
+    Options::setGuideOptionsProfile(0);
+    Options::setMinDetectionsSEPMultistar(5);
+    Options::setMaxMultistarReferenceStars(10);
+    Options::setGuideMaxHFR(4.5);
+    Options::setAlwaysInventGuideStar(true);
+    Options::setRAGuidePulseAlgorithm(0);
+    Options::setSaveGuideImages(false);
+
+    auto stars = makeGuideFrame(0, 0, 1);
+    auto clouds = makeGuideFrame(0, 0, 5, 0);
+    QVERIFY(stars && clouds);
+
+    Ekos::InternalGuider guider;
+    guider.setGuideView(m_View);
+    guider.setFrameParams(0, 0, FrameWidth, FrameHeight, 1, 1);
+    guider.setStarDetectionAlgorithm(SEP_MULTISTAR);
+    guider.setMultiStarLocalSearch(true);
+    guider.setImageData(stars);
+    QVERIFY(guider.selectAutoStar());
+
+    int deltas = 0;
+    bool reacquiring = false;
+    connect(&guider, &Ekos::GuideInterface::newAxisDelta, this, [&deltas](double, double)
+    {
+        deltas++;
+    });
+    connect(&guider, &Ekos::GuideInterface::newStatus, this, [&reacquiring](Ekos::GuideState state)
+    {
+        reacquiring = reacquiring || state == Ekos::GUIDE_REACQUIRE;
+    });
+
+    // Guiding starts, but the sky has clouded over
+    QVERIFY(guider.guide());
+    for (int frame = 0; frame < 10 && !reacquiring; ++frame)
+    {
+        guider.setImageData(clouds);
+        QVERIFY(guider.guide());
+    }
+
+    QCOMPARE(deltas, 0);
+    QVERIFY(reacquiring);
 
     guider.abort();
     m_View->setLocalSearchUsed(false);

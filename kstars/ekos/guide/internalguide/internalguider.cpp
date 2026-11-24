@@ -1098,6 +1098,19 @@ bool InternalGuider::processGuiding()
         }
     }
 
+    if (!process)
+    {
+        // No guide star to start from, e.g. when guiding was restarted under clouds: there is no correction and no
+        // deviation to report. Count the frame as a lost star, so that guiding searches for a star and gives up after
+        // the lost star timeout, instead of reporting a deviation of 0 on every frame while Capture exposes unguided.
+        m_starLostCounter++;
+        if (isPoorGuiding(pmath->getOutputParameters()))
+            return true;
+        if (!m_StreamingMode)
+            Q_EMIT frameCaptureRequested();
+        return true;
+    }
+
     if (process)
     {
         auto const timeStep = calculateGPGTimeStep();
