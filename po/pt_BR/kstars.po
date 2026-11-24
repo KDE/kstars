@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-18 05:19-0300\n"
+"PO-Revision-Date: 2026-11-23 05:22-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@kde.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -27519,6 +27519,8 @@ msgstr "A compartimentação de guias %1x%1 não é suportada. O máximo é %2x%
 #, kde-format
 msgid "Guide camera size changed to %1 x %2 pixels, using the full frame."
 msgstr ""
+"O tamanho da câmera-guia foi alterado para %1 x %2 pixels, utilizando o "
+"quadro completo."
 
 #: ekos/guide/guide.cpp:2513
 #, kde-format
@@ -27526,6 +27528,8 @@ msgid ""
 "The guide calibration may no longer match the new camera size. Calibrate "
 "again if guiding becomes unstable."
 msgstr ""
+"A calibração da guiagem pode não corresponder mais ao novo tamanho da "
+"câmera. Realize uma nova calibração caso a guiagem se torne instável."
 
 #: ekos/guide/guide.cpp:2530
 #, kde-format

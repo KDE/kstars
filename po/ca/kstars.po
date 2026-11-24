@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-18 16:23+0100\n"
+"PO-Revision-Date: 2026-11-23 11:56+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -27726,6 +27726,8 @@ msgstr "No s'admet l'agrupament %1x%1 del guiatge. El màxim és %2x%2."
 #, kde-format
 msgid "Guide camera size changed to %1 x %2 pixels, using the full frame."
 msgstr ""
+"La mida de la càmera de guiatge ha canviat a %1 x %2 píxels, s'utilitza el "
+"fotograma complet."
 
 #: ekos/guide/guide.cpp:2513
 #, kde-format
@@ -27733,6 +27735,8 @@ msgid ""
 "The guide calibration may no longer match the new camera size. Calibrate "
 "again if guiding becomes unstable."
 msgstr ""
+"El calibratge del guiatge potser ja no coincideix amb la mida nova de la "
+"càmera. Calibreu de nou si el guiatge es torna inestable."
 
 #: ekos/guide/guide.cpp:2530
 #, kde-format

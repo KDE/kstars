@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-19 19:35+0200\n"
+"PO-Revision-Date: 2026-11-23 09:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -27601,6 +27601,8 @@ msgstr ""
 #, kde-format
 msgid "Guide camera size changed to %1 x %2 pixels, using the full frame."
 msgstr ""
+"Розмір кадру камери наведення змінено на %1 x %2 пікселів, використовуємо "
+"увесь кадр."
 
 #: ekos/guide/guide.cpp:2513
 #, kde-format
@@ -27608,6 +27610,9 @@ msgid ""
 "The guide calibration may no longer match the new camera size. Calibrate "
 "again if guiding becomes unstable."
 msgstr ""
+"Розмір зображення калібрування наведення може більше не збігатися із "
+"розміром кадру камери. Повторіть процедуру калібрування, якщо наведення "
+"втратило стабільність."
 
 #: ekos/guide/guide.cpp:2530
 #, kde-format

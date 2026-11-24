@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-22 19:51+0300\n"
+"PO-Revision-Date: 2026-11-23 18:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8203,23 +8203,22 @@ msgstr "Döndürücü, konum açısına ulaşmadı."
 #, kde-format
 msgid ""
 "The camera position angle is outside the rotator threshold of %1 arcmin."
-msgstr ""
+msgstr "Kamera konumu açısı, %1 yaydakikalık döndürücü eşiğinin dışında."
 
 #: ekos/align/aligndiagnosis.cpp:518
-#, fuzzy, kde-format
-#| msgid "Extractor timed out: %1s"
+#, kde-format
 msgid "The rotator timed out"
-msgstr "Çıkarıcı zaman aşımına uğradı: %1 sn"
+msgstr "Döndürücü, zaman aşımına uğradı"
 
 #: ekos/align/aligndiagnosis.cpp:519 ekos/align/aligndiagnosis.cpp:819
 #, kde-format
 msgid "The rotator did not finish turning in time."
-msgstr ""
+msgstr "Döndürücü, zamanında dönmeyi bitirmedi."
 
 #: ekos/align/aligndiagnosis.cpp:522
 #, kde-format
 msgid "The rotator turns the wrong way"
-msgstr ""
+msgstr "Döndürücü yanlış yöne dönüyor"
 
 #: ekos/align/aligndiagnosis.cpp:523
 #, kde-format
@@ -8227,22 +8226,22 @@ msgid ""
 "The position angle error grew after the rotation, also with the direction "
 "reversed."
 msgstr ""
+"Konum açısı hatası, ayrıca tersine yönlü olarak da döndürme sonrası büyüdü."
 
 #: ekos/align/aligndiagnosis.cpp:526
 #, kde-format
 msgid "The target accuracy was not reached"
-msgstr ""
+msgstr "Hedef kesinliğine ulaşılmadı"
 
 #: ekos/align/aligndiagnosis.cpp:527
 #, kde-format
 msgid "Solving works, but the mount did not get close enough to the target."
-msgstr ""
+msgstr "Çözme çalışıyor; ancak kaide hedefe yeterince yakınlaşmadı."
 
 #: ekos/align/aligndiagnosis.cpp:530
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount stopped without tracking"
-msgstr "Kaide artık izleme bildirmiyor."
+msgstr "Kaide izleme olmadan durdu"
 
 #: ekos/align/aligndiagnosis.cpp:531
 #, kde-format
@@ -8250,12 +8249,12 @@ msgid ""
 "The image was solved, but the mount stopped after the slew and did not start "
 "tracking."
 msgstr ""
+"Görsel çözüldü; ancak kaide çevrilme sonrası durdu ve izlemeye başlamadı."
 
 #: ekos/align/aligndiagnosis.cpp:535
-#, fuzzy, kde-format
-#| msgid "Slewing failed."
+#, kde-format
 msgid "Align failed"
-msgstr "Çevirme başarısız oldu."
+msgstr "Hizalama başarısız"
 
 #. i18n: ectx: property (text), widget (QLabel, mountStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
@@ -8276,23 +8275,19 @@ msgid "Field of view"
 msgstr "Görüş alanı"
 
 #: ekos/align/aligndiagnosis.cpp:569 ekos/guide/guidediagnosis.cpp:273
-#, fuzzy, kde-format
-#| msgid "Focal length:"
+#, kde-format
 msgid "Focal length"
-msgstr "Odak uzunluğu:"
+msgstr "Odak uzunluğu"
 
 #: ekos/align/aligndiagnosis.cpp:571 ekos/guide/guidediagnosis.cpp:275
-#, fuzzy, kde-format
-#| msgid "Aperture:"
+#, kde-format
 msgid "Aperture"
-msgstr "Açıklık:"
+msgstr "Açıklık"
 
 #: ekos/align/aligndiagnosis.cpp:576 ekos/guide/guidediagnosis.cpp:276
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Pixel size X"
+#, kde-format
 msgid "Pixel size"
-msgstr "Piksel boyutu X"
+msgstr "Piksel boyutu"
 
 #: ekos/align/aligndiagnosis.cpp:581 ekos/align/aligndiagnosis.cpp:1331
 #: ekos/auxiliary/filtermanager.cpp:122
@@ -8304,23 +8299,19 @@ msgstr "Pozlama"
 
 #: ekos/align/aligndiagnosis.cpp:583 ekos/align/aligndiagnosis.cpp:1332
 #: ekos/focus/focusdiagnosis.cpp:441 ekos/guide/guidediagnosis.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Binning"
+#, kde-format
 msgid "Binning"
 msgstr "Gruplama"
 
 #: ekos/align/aligndiagnosis.cpp:587 ekos/focus/focusdiagnosis.cpp:447
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "Stars found"
-msgstr "Kılavuz yıldız bulundu."
+msgstr "Yıldızlar bulundu"
 
 #: ekos/align/aligndiagnosis.cpp:591
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "Median HFR"
-msgstr "Ortanca"
+msgstr "Ortanca HFR"
 
 #: ekos/align/aligndiagnosis.cpp:597
 #, fuzzy, kde-format
@@ -8694,7 +8685,7 @@ msgstr "Uzak çözücü %1 saniye ardından tamamlandı."
 #: ekos/align/aligndiagnosis.cpp:937
 #, kde-format
 msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
-msgstr ""
+msgstr "Görsel iyi: %2 ortalama HFR’li %1 yuvarlak yıldız"
 
 #: ekos/align/aligndiagnosis.cpp:944 ekos/focus/focusdiagnosis.cpp:593
 #: ekos/focus/focusdiagnosis.cpp:681
@@ -8731,6 +8722,8 @@ msgid ""
 "The stars are rings, darker in the middle, as stars are when the telescope "
 "is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"Yıldızlar, teleskopun odak dışı olduğu zaman olduğu gibi, ortaları daha koyu "
+"olan halkalardır. Ortanca HFR’leri %1 pikseldir."
 
 #: ekos/align/aligndiagnosis.cpp:961
 #, kde-format
@@ -8738,6 +8731,8 @@ msgid ""
 "The stars are flat discs without a bright core, as stars are when the "
 "telescope is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"Yıldızlar, teleskop odak dışındayken göründükleri gibi, parlak bir çekirdeği "
+"olmayan düz diskler hâlindedir. Ortanca HFR’leri %1 pikseldir."
 
 #: ekos/align/aligndiagnosis.cpp:963
 #, fuzzy, kde-format
@@ -15230,7 +15225,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
 #, kde-format
 msgid "Defaul&t"
-msgstr "Ö&ntanımlı"
+msgstr "&Varsayılan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
@@ -23054,11 +23049,14 @@ msgid ""
 "Autofocus never reached focus: the smallest stars had an HFR of %1, %2 times "
 "the %3 of recent good runs, and the run had no V."
 msgstr ""
+"Otomatik odaklama hiçbir zaman odağa ulaşmadı: En küçük yıldızların HFR’si "
+"%1 idi; bu, yakın zamandaki iyi çalıştırmaların %3 kadarının %2 katıydı ve "
+"çalıştırmada V yoktu."
 
 #: ekos/focus/focus_diagnosis.cpp:183
 #, kde-format
 msgid "HFR %1 = %2x in focus"
-msgstr ""
+msgstr "HFR %1 = Odakta %2×"
 
 #: ekos/focus/focus_diagnosis.cpp:426
 #, fuzzy, kde-format
@@ -23895,6 +23893,9 @@ msgid ""
 "The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 "
 "pixels of your recent good autofocus runs, and the run had no V."
 msgstr ""
+"Koşunun en küçük yıldızları %1 piksellik bir HFR’ye sahipti; bu, son iyi "
+"otomatik odaklama çalıştırmalarınızın %3 pikselinin %2 katıydı ve çalışmada "
+"V yoktu."
 
 #: ekos/focus/focusdiagnosis.cpp:405
 #, kde-format
@@ -23916,7 +23917,7 @@ msgstr "Ayrıntılar"
 #: ekos/focus/focusdiagnosis.cpp:449
 #, kde-format
 msgid "Last HFR"
-msgstr ""
+msgstr "Son HFR"
 
 #: ekos/focus/focusdiagnosis.cpp:457
 #, fuzzy, kde-format
@@ -24030,6 +24031,8 @@ msgstr ""
 #, kde-format
 msgid "The frame has %1 round stars with a median HFR of %2 pixels."
 msgstr ""
+"Kare, %2 piksel ortanca HFR değerine sahip %1 oranında yuvarlak yıldızlar "
+"içermektedir."
 
 #: ekos/focus/focusdiagnosis.cpp:594
 #, fuzzy, kde-format
@@ -24061,6 +24064,8 @@ msgid ""
 "The stars are rings, as stars are far from focus. Their median HFR is %1 "
 "pixels."
 msgstr ""
+"Yıldızlar odaktan uzak olduğundan, yıldızlar halka şeklindedir. Ortanca "
+"HFR’leri %1 pikseldir."
 
 #: ekos/focus/focusdiagnosis.cpp:612
 #, kde-format
@@ -24068,6 +24073,8 @@ msgid ""
 "The stars are flat discs, as stars are far from focus. Their median HFR is "
 "%1 pixels."
 msgstr ""
+"Yıldızlar odak noktasından uzak olduğundan yıldızlar düz disklerdir. Ortanca "
+"HFR’leri %1 pikseldir."
 
 #: ekos/focus/focusdiagnosis.cpp:620
 #, fuzzy, kde-format
@@ -28352,6 +28359,8 @@ msgid ""
 "The stars in the guide frame are discs or rings with a median HFR of %1 "
 "pixels."
 msgstr ""
+"Kılavuz çerçevesindeki yıldızlar, ortanca HFR’si %1 piksel olan diskler veya "
+"halkalardır."
 
 #: ekos/guide/guidediagnosis.cpp:315
 #, kde-format
