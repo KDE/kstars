@@ -64,6 +64,7 @@ class TestSchedulerUnit : public QObject
         void evaluateJobsTest();
         void startAtFinishAtScheduleTest();
         void startAtRestartAfterAbortTest();
+        void runningJobNotHeldBackByOwnAbortTest();
 
     private:
         void runSetupJob(Ekos::SchedulerJob &job,
@@ -934,6 +935,46 @@ void TestSchedulerUnit::startAtRestartAfterAbortTest()
     scheduler.setParams(false, false, true, 0, 0);
     scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
     QVERIFY(scheduler.getScheduledJob() == nullptr);
+}
+
+// Regression test: when the capture of a running job fails, e.g. because guiding lost its star under a cloud, the
+// scheduler marks the job aborted, restarts guiding within the run and executes the job again. With "Restart after all
+// jobs" and a delay, the job's own abort then kept it from running until the abort time plus the delay, so the
+// scheduler bumped the job a few seconds later ("bumping current job X for X") and the recovery never got its chance.
+void TestSchedulerUnit::runningJobNotHeldBackByOwnAbortTest()
+{
+    Options::setRememberJobProgress(false);
+    KStarsDateTime now = midNight;
+    const Ekos::CapturedFramesMap capturedFrames;
+
+    Ekos::SchedulerJob job(nullptr);
+    runSetupJob(job, &siliconValley, &now, "Job",
+                midnightRA, testDEC, 0.0,
+                QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_SEQUENCE, QDateTime(), 1,
+                30.0, 0, 90, false, false);
+    QList<Ekos::SchedulerJob *> jobs = {&job};
+
+    // "Restart after all jobs", 300 s delay
+    Ekos::GreedyScheduler scheduler;
+    scheduler.setParams(false, true, true, 300, 300);
+
+    // The job runs, its capture fails, and the scheduler recovers within the run: the job is marked aborted and executed
+    // again.
+    job.setState(Ekos::SCHEDJOB_BUSY);
+    job.setState(Ekos::SCHEDJOB_ABORTED);
+    job.setState(Ekos::SCHEDJOB_BUSY);
+
+    // Checked after the few seconds a job that just started is left alone, it goes on running.
+    now = KStarsDateTime(midNight.addSecs(10));
+    QVERIFY(scheduler.checkJob(jobs, now, &job));
+
+    // A job that is aborted for good still waits for the delay before it runs again.
+    job.setState(Ekos::SCHEDJOB_ABORTED);
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    QCOMPARE(scheduler.getScheduledJob(), &job);
+    QVERIFY2(compareTimes(job.getStartupTime(), now.addSecs(300), 60), qPrintable(job.getStartupTime().toString()));
 }
 
 QTEST_GUILESS_MAIN(TestSchedulerUnit)

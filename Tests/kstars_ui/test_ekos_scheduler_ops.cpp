@@ -1993,6 +1993,82 @@ void TestEkosSchedulerOps::testGuidingTimeoutAfterStopDuringGuiding()
     Options::setCaptureOperationsTimeout(timeoutS);
 }
 
+
+void TestEkosSchedulerOps::testGuideRecoveryKeepsJob_data()
+{
+    QTest::addColumn<int>("errorDelay");
+
+    QTest::newRow("NoDelay") << 0;
+    // As on the rig: "Restart after all jobs", 300 s delay
+    QTest::newRow("Delay300") << 300;
+}
+
+// Regression test: when guiding lost its star under a cloud and Capture aborted, the scheduler marked the job aborted,
+// restarted guiding and the capture within the run, and executed the job again. With "Restart after all jobs" and a
+// delay, the job's own abort kept it from running until the abort time plus the delay, so the scheduler bumped the job
+// 6 s later ("Greedy Scheduler bumping current job IC 434 for IC 434"), aborted it and waited the delay. A short loss
+// of the guide star then cost the delay plus a new slew, focus and alignment.
+void TestEkosSchedulerOps::testGuideRecoveryKeepsJob()
+{
+    QFETCH(int, errorDelay);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *altair = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVERIFY(altair != nullptr);
+    // 00:30 local time: Altair is well above the 30 degree minimum altitude, so the job starts right away.
+    const QDateTime startUTime(QDate(2021, 6, 14), QTime(7, 30, 0), QTimeZone::utc());
+
+    QObject context;
+    connect(scheduler->process().data(), &Ekos::SchedulerProcess::newLog, &context, [this](const QString & text)
+    {
+        m_schedulerLog.append(text);
+    });
+
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(KTest::tempDirPattern(QStringLiteral("scheduler")));
+    // The schedule file selects "Restart after all jobs" with the given delay
+    const TestEkosSchedulerHelper::ScheduleSteps steps {true, true, true, true};
+    const TestEkosSchedulerHelper::ShutdownProcedure shutdown {false, false, true, false};
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(altair, m_startupCondition,
+               m_completionCondition, steps, false, true, 30, 90, nullptr, shutdown, errorDelay),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), QDateTime(), currentUTime, sleepMs);
+    QVERIFY(scheduler->errorHandlingRestartQueueButton->isChecked());
+    QCOMPARE(scheduler->errorHandlingStrategyDelay->value(), errorDelay);
+    startModules(currentUTime, sleepMs);
+
+    QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING &&
+                capture->status() == Ekos::CAPTURE_CAPTURING);
+    }));
+    Ekos::SchedulerJob * const job = scheduler->activeJob();
+    const int guideCallsBefore = guider->guideCalls;
+
+    WithInterval interval(1000, scheduler);
+
+    // Guiding loses its star and Capture aborts the sequence
+    guider->setStatus(Ekos::GUIDE_ABORTED);
+    capture->setStatus(Ekos::CAPTURE_ABORTED);
+
+    // The scheduler restarts guiding and the capture within the run
+    QVERIFY2(iterateScheduler("Wait for the recovery", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return m_schedulerLog.join("\n").contains("is restarting its guiding procedure") &&
+                             guider->guideCalls > guideCallsBefore && capture->status() == Ekos::CAPTURE_CAPTURING;
+    }), qPrintable("The run didn't recover, log: " + m_schedulerLog.join(" | ")));
+
+    // The job goes on running, also once the few seconds have passed in which the scheduler leaves a job alone that
+    // just started
+    QVERIFY2(!iterateScheduler("Check that the job keeps running", 30, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return scheduler->activeJob() != job || job->getState() != Ekos::SCHEDJOB_BUSY;
+    }), qPrintable("The job was stopped, log: " + m_schedulerLog.join(" | ")));
+    QVERIFY2(m_schedulerLog.filter("is aborted.").isEmpty(), qPrintable(m_schedulerLog.join(" | ")));
+    QCOMPARE(job->getStage(), Ekos::SCHEDSTAGE_CAPTURING);
+    QCOMPARE(capture->status(), Ekos::CAPTURE_CAPTURING);
+}
 void TestEkosSchedulerOps::testPreemptiveShutdown()
 {
     // Verifies the preemptive shutdown + automatic wakeup cycle for a FINISH_LOOP job.

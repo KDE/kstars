@@ -86,6 +86,9 @@ class TestEkosSchedulerOps : public QObject
         void testSlewRestartLimit_data();
         void testSlewRestartLimit();
         void testGuidingTimeoutAfterStopDuringGuiding();
+        // A guiding restart within the run keeps the job running, also with "Restart after all jobs" and a delay.
+        void testGuideRecoveryKeepsJob_data();
+        void testGuideRecoveryKeepsJob();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
 
         // The shutdown and the park before sleeping wait for a meridian flip or a slew to finish.

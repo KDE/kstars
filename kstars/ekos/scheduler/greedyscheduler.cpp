@@ -382,6 +382,16 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
     SchedulerJob * nextJob = nullptr;
     QString interruptStr;
 
+    // The first time a job may start: an aborted job or a job with an error may have to wait. Not the job that is
+    // running: it is marked aborted while it recovers within its run, e.g. when the scheduler restarts its guiding
+    // after a lost guide star, and its own abort must not stop that run.
+    auto searchStart = [&](const SchedulerJob * job) -> QDateTime
+    {
+        if (currentJob && job == currentJob && job->getState() == SCHEDJOB_BUSY)
+            return now;
+        return firstPossibleStart(job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
+    };
+
     for (int i = 0; i < jobs.size(); ++i)
     {
         SchedulerJob * const job = jobs[i];
@@ -396,8 +406,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         }
 
         // If the job state is abort or error, might have to delay the first possible start time.
-        QDateTime startSearchingtAt = firstPossibleStart(
-                                          job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
+        QDateTime startSearchingtAt = searchStart(job);
 
         TEST_PRINT(stderr, "  start searching at %s\n", startSearchingtAt.toString().toLatin1().data());
         // Find the first time this job can meet all its constraints.
@@ -473,9 +482,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 if (!allowJob(atJob, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
                     continue;
                 // If the job state is abort or error, might have to delay the first possible start time.
-                QDateTime startSearchingtAt = firstPossibleStart(
-                                                  atJob, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors,
-                                                  errorDelaySeconds);
+                QDateTime startSearchingtAt = searchStart(atJob);
                 // atTime above is the user-specified start time. atJobStartTime is the time it can
                 // actually start, given all the constraints (altitude, twilight, etc).
                 const QDateTime atJobStartTime = atJob->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES, currentJob
@@ -549,8 +556,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 const bool evaluatingCurrentJob = (currentJob && (job == currentJob));
 
                 // If the job state is abort or error, might have to delay the first possible start time.
-                QDateTime startSearchingtAt = firstPossibleStart(
-                                                  job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
+                QDateTime startSearchingtAt = searchStart(job);
 
                 // Find the first time this job can meet all its constraints.
                 const QDateTime startTime = job->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES,
