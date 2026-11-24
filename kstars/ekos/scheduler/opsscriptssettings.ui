@@ -32,7 +32,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
      <property name="toolTip">
-      <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
+      <string>After the scheduler shuts the observatory down, also stop Ekos and disconnect from the equipment.</string>
      </property>
      <property name="text">
       <string>Stop Ekos after shutdown</string>
@@ -54,7 +54,7 @@
      <item>
       <widget class="QCheckBox" name="kcfg_CameraWarmupEnabled">
        <property name="toolTip">
-        <string>Warm up the camera sensor before shutting down.</string>
+        <string>At the end of the observatory shutdown, after parking, warm the camera up to 20 °C. Warming slowly protects the sensor from thermal shock and condensation.</string>
        </property>
        <property name="text">
         <string>Warm camera before shutdown</string>
@@ -64,7 +64,7 @@
      <item>
       <widget class="QSpinBox" name="kcfg_CameraWarmupRamp">
        <property name="toolTip">
-        <string>Temperature ramp rate for camera warmup in °C per minute.</string>
+        <string>How fast the camera warms up, in °C per minute.</string>
        </property>
        <property name="suffix">
         <string> °C/min</string>

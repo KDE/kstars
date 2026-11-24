@@ -40,7 +40,7 @@
      <item row="0" column="0">
       <widget class="QCheckBox" name="kcfg_SchedulerWeather">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Enable Weather-Based Scheduling:&lt;/span&gt; Prevents new jobs from starting during weather warnings or alerts. Existing jobs continue during warnings, but are aborted during alerts. System initiates a soft shutdown and waits for improved conditions or grace period expiration, after which the current job is terminated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Let the weather station control imaging. During a weather warning no new job starts. During an alert the running job stops and the observatory parks. If the weather clears within the grace period, imaging resumes; otherwise the observatory shuts down fully and starts again once it is safe.</string>
        </property>
        <property name="text">
         <string>Weather grace period</string>
@@ -52,7 +52,7 @@
        <item>
         <widget class="QSpinBox" name="kcfg_SchedulerWeatherGracePeriod">
          <property name="toolTip">
-          <string>Wait this many minutes for the weather to improve before giving up. Set to 0 to wait indefinitely (scheduler keeps monitoring until weather improves).</string>
+          <string>After a weather alert, wait this many minutes for the weather to clear. If it clears, imaging resumes; otherwise the observatory shuts down fully and starts again once it is safe. Set 0 to stay parked and keep waiting instead of shutting down.</string>
          </property>
          <property name="minimum">
           <number>0</number>

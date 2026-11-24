@@ -35,7 +35,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_RememberJobProgress">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When processing a scheduled job, resume the sequence starting from the last image present in storage.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Count the images a job has already saved, so a restarted job (or one that continues the next night) only captures the images still missing instead of starting over.</string>
      </property>
      <property name="text">
       <string>Remember job progress</string>

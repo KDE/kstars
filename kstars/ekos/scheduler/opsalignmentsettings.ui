@@ -34,6 +34,9 @@
    </property>
    <item row="1" column="1">
     <widget class="QDoubleSpinBox" name="kcfg_AlignCheckThreshold">
+     <property name="toolTip">
+      <string>If a checked frame is more than this many arcminutes off target, stop capturing, re-align, then continue.</string>
+     </property>
      <property name="maximum">
       <double>3600.000000000000000</double>
      </property>
@@ -45,7 +48,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label_8">
      <property name="toolTip">
-      <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
+      <string>If a checked frame is more than this many arcminutes off target, stop capturing, re-align, then continue.</string>
      </property>
      <property name="text">
       <string>Reset pipeline if verified image delta exceeds:</string>
@@ -55,7 +58,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label_6">
      <property name="toolTip">
-      <string>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</string>
+      <string>Plate-solve every Nth light frame (N is this number) to check the target is still centered. 0 turns the check off. Only for jobs with the Align step.</string>
      </property>
      <property name="text">
       <string>Verify captured image position every:</string>
@@ -64,6 +67,9 @@
    </item>
    <item row="0" column="1">
     <widget class="QSpinBox" name="kcfg_AlignCheckFrequency">
+     <property name="toolTip">
+      <string>Plate-solve every Nth light frame (N is this number) to check the target is still centered. 0 turns the check off. Only for jobs with the Align step.</string>
+     </property>
      <property name="maximum">
       <number>100</number>
      </property>
@@ -85,6 +91,9 @@
    </item>
    <item row="2" column="0">
     <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
+     <property name="toolTip">
+      <string>If alignment keeps failing for a job, clear the sync points stored in the mount before the last try. Old or wrong syncs can keep sending the mount to the wrong spot.</string>
+     </property>
      <property name="text">
       <string>Reset mount model on alignment failure</string>
      </property>
@@ -93,7 +102,7 @@
    <item row="5" column="0" colspan="2">
     <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>If guiding calibration fails, plate-solve and re-center the target before trying calibration again. Helps when calibration moved the target out of view.</string>
      </property>
      <property name="text">
       <string>Restart alignment on guiding calibration failure</string>
@@ -102,6 +111,9 @@
    </item>
    <item row="3" column="0" colspan="2">
     <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
+     <property name="toolTip">
+      <string>Clear the sync points stored in the mount before slewing to each job's target, so syncs made on an earlier target don't affect the slew.</string>
+     </property>
      <property name="text">
       <string>Reset mount model before starting each job:</string>
      </property>
@@ -110,7 +122,7 @@
    <item row="4" column="0">
     <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
      <property name="toolTip">
-      <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
+      <string>When a job continues or repeats its capture sequence, plate-solve and re-center the target first, even if guiding is still running. Only for jobs with the Align step.</string>
      </property>
      <property name="text">
       <string>Force re-alignment before re-starting jobs</string>
