@@ -28,6 +28,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QRegularExpression>
 #include <QScopeGuard>
 
 namespace
@@ -988,6 +989,126 @@ void TestEkosFocus::testAutofocusNeverReachesFocus()
     const QJsonObject result = diagnosis->apply(report["id"].toString(), "focus_goto_last_good", true);
     QVERIFY2(result["state"].toString() != "refused", qPrintable(QJsonDocument(result).toJson()));
     QTRY_COMPARE_WITH_TIMEOUT(focuserSimulatorPosition(), goodPosition, 30000);
+}
+
+void TestEkosFocus::testFailedAutofocusKeepsPosition_data()
+{
+    QTest::addColumn<bool>("starsInLateFrame");
+
+    // No stars in any frame, as under thick clouds
+    QTest::newRow("NoStars") << false;
+    // The clouds thin out just when the last attempt has failed
+    QTest::newRow("StarsInLateFrame") << true;
+}
+
+void TestEkosFocus::testFailedAutofocusKeepsPosition()
+{
+    // Regression test: under clouds, an autofocus that failed for lack of stars moved the focuser away from where it
+    // started. A retry that found the focuser already at its start position nudged it by 3 steps and started from
+    // there. When the last attempt had failed, one more frame was still captured, and with stars in it the scan for
+    // the start position moved the focuser by a scan step before the run ended. With the scheduler's retries over an
+    // hour of clouds, the focuser ended up 700 steps (2 mm) out of focus.
+    QFETCH(bool, starsInLateFrame);
+
+    auto focuser = Ekos::Manager::Instance()->focusModule()->mainFocuser().get();
+    double previousDelay = 0;
+    QVERIFY(setFocuserSimulatorDelay(0, previousDelay));
+
+    KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure Linear 1 Pass with the scan for the "
+          "start position on retries.");
+    KTRY_FOCUS_SHOW();
+    KTRY_MOUNT_SYNC(60.0, true, -1);
+    KTRY_FOCUS_CONFIGURE("SEP", "Linear 1 Pass", 0.0, 100.0, 1.0);
+    KTRY_FOCUS_GADGET(QComboBox, focusStarMeasure);
+    KTRY_FOCUS_GADGET(QGroupBox, focusDonut);
+    KTRY_FOCUS_GADGET(QGroupBox, focusScanStartPos);
+    KTRY_FOCUS_GADGET(QCheckBox, focusScanAlwaysOn);
+    KTRY_FOCUS_GADGET(QSpinBox, focusTicks);
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusExposure);
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusGain);
+    KTRY_FOCUS_GADGET(QPushButton, startFocusB);
+    // The tests after this one use the settings as they were
+    auto restoreSettings = qScopeGuard([focusStarMeasure, focusDonut, focusScanStartPos, focusScanAlwaysOn, focusTicks,
+                                        measure = focusStarMeasure->currentIndex(), donut = focusDonut->isChecked(),
+                                        scan = focusScanStartPos->isChecked(), alwaysOn = focusScanAlwaysOn->isChecked(),
+                                        ticks = focusTicks->value(), previousDelay]()
+    {
+        focusStarMeasure->setCurrentIndex(measure);
+        focusDonut->setChecked(donut);
+        focusScanStartPos->setChecked(scan);
+        focusScanAlwaysOn->setChecked(alwaysOn);
+        focusTicks->setValue(ticks);
+        double unused;
+        setFocuserSimulatorDelay(previousDelay, unused);
+    });
+    focusStarMeasure->setCurrentIndex(Ekos::Focus::FOCUS_STAR_HFR);
+    focusDonut->setChecked(false);
+    // As on the rig: the scan only runs when a failed autofocus is retried
+    focusScanStartPos->setChecked(true);
+    focusScanAlwaysOn->setChecked(false);
+    focusTicks->setValue(500);
+
+    // The CCD Simulator is in focus at 36,700
+    const int startPosition = 36700;
+    KTRY_FOCUS_MOVETO(startPosition);
+    KTELL("Expose so short that no star is detected, as under clouds.");
+    KTRY_FOCUS_EXPOSURE(0.01, 1);
+
+    // Where each failed attempt moves the focuser back to, and the frames captured after the last attempt failed
+    QList<int> moveBackPositions;
+    int lateCaptures = 0;
+    bool finished = false;
+    const QRegularExpression moveBack("moving back to initial focus position ([0-9.,\\s]+)\\.");
+    const auto logConnection = connect(focuser, &Ekos::Focus::newLog, this, [&](const QString & text)
+    {
+        const QRegularExpressionMatch match = moveBack.match(text);
+        if (match.hasMatch())
+        {
+            QString digits = match.captured(1);
+            digits.remove(QRegularExpression("[^0-9]"));
+            moveBackPositions << digits.toInt();
+            // The last of the three attempts has failed: from now on the sky clears
+            if (moveBackPositions.size() == 3 && starsInLateFrame)
+            {
+                focusGain->setValue(99);
+                focusExposure->setValue(2);
+            }
+        }
+        else if (text.contains("Capturing image...") && moveBackPositions.size() >= 3)
+            lateCaptures++;
+    });
+    const auto statusConnection = connect(focuser, &Ekos::Focus::newStatus, this, [&finished](Ekos::FocusState state,
+                                          const QString &)
+    {
+        if (state == Ekos::FOCUS_ABORTED || state == Ekos::FOCUS_FAILED || state == Ekos::FOCUS_COMPLETE)
+            finished = true;
+    });
+    auto disconnectAll = qScopeGuard([logConnection, statusConnection]()
+    {
+        disconnect(logConnection);
+        disconnect(statusConnection);
+    });
+
+    KTELL("Run autofocus: all attempts fail, and the run ends where it started.");
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 5000);
+    KTRY_FOCUS_CLICK(startFocusB);
+    QTRY_VERIFY_WITH_TIMEOUT(finished, 300000);
+    QTRY_VERIFY_WITH_TIMEOUT(focuserSimulatorIdle(), 30000);
+    // A frame or a move that would still follow the end of the run
+    QTest::qWait(5000);
+
+    QStringList positions;
+    for (const int position : moveBackPositions)
+        positions << QString::number(position);
+    qInfo() << "Attempts moved back to" << positions.join(", ") << "- frames after the last failure:" << lateCaptures
+            << "- focuser at" << focuserSimulatorPosition();
+    QCOMPARE(moveBackPositions.size(), 3);
+    for (const int position : moveBackPositions)
+        QVERIFY2(position == startPosition, qPrintable("Attempts moved back to " + positions.join(", ")));
+    QVERIFY2(lateCaptures == 0, qPrintable(QString("%1 frame(s) captured after the last attempt failed").arg(lateCaptures)));
+    QCOMPARE(focuserSimulatorPosition(), startPosition);
+    QVERIFY(focuserSimulatorIdle());
+    QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 5000);
 }
 
 void TestEkosFocus::testTiltSettingsPerTrain()

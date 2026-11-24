@@ -2955,14 +2955,58 @@ void Focus::moveFocuserToInitialPosition()
     // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
     if (m_Focuser && m_Focuser->isConnected() && initialFocuserAbsPosition >= 0)
     {
-        // HACK: If the focuser will not move, cheat a little to get the notification - see processNumber
-        if (currentPosition == initialFocuserAbsPosition)
-            currentPosition--;
-
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+
+        if (currentPosition == initialFocuserAbsPosition)
+        {
+            // The focuser is already there, so no move ends to restart or finish the procedure from. Do it as if the
+            // focuser had arrived, once the caller has set up the restart or the abort. A small move to get an
+            // end-of-move notification shifted the focuser away from the initial position at every retry, and on the
+            // last failure it started one more capture that the failed procedure still processed.
+            QTimer::singleShot(0, this, [this]()
+            {
+                if (m_Focuser && !m_AbsMoveInFlight && focuserAdditionalMovement == 0
+                        && currentPosition == initialFocuserAbsPosition)
+                {
+                    resetButtons();
+                    completeFocuserReset();
+                }
+            });
+            return;
+        }
+
         changeFocus(initialFocuserAbsPosition - currentPosition);
         /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
     }
+}
+
+bool Focus::completeFocuserReset()
+{
+    if (m_RestartState == RESTART_NOW && status() != Ekos::FOCUS_ABORTED)
+    {
+        m_RestartState = RESTART_NONE;
+        m_AFRerun = true;
+        inAutoFocus = inBuildOffsets = inAFOptimise = inAdjustFocus = inScanStartPos = false;
+        adaptFocus->setInAdaptiveFocus(false);
+        focusAdvisor->setInFocusAdvisor(false);
+        appendLogText(i18n("Restarting autofocus process..."));
+        runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
+        return true;
+    }
+    else if (m_RestartState == RESTART_ABORT)
+    {
+        // We are trying to abort an autofocus run
+        // This event means that the focuser has been reset and arrived at its starting point
+        // so we can finish processing the abort. Set inAutoFocus to avoid repeating
+        // processing already done in completeFocusProcedure
+        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
+        m_RestartState = RESTART_NONE;
+        inAutoFocus = inBuildOffsets = inAFOptimise = inAdjustFocus = inScanStartPos = false;
+        adaptFocus->setInAdaptiveFocus(false);
+        focusAdvisor->setInFocusAdvisor(false);
+        return true;
+    }
+    return false;
 }
 
 void Focus::updateMeasurements()
@@ -4768,7 +4812,8 @@ void Focus::updateProperty(INDI::Property prop)
 
             // Some absolute focuser constantly report the position without a state change.
             // Therefore we ignore it if both value and state are the same as last time.
-            // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
+            // A focuser that is already at the initial position after a failed autofocus sends no new update:
+            // moveFocuserToInitialPosition() completes that reset without one.
             if (currentPosition == newPosition && currentPositionState == newState)
             {
                 if (logPositionAndState)
@@ -4857,33 +4902,9 @@ void Focus::updateProperty(INDI::Property prop)
                 }
             }
 
-            if (m_RestartState == RESTART_NOW && status() != Ekos::FOCUS_ABORTED)
-            {
-                if (focuserAdditionalMovement == 0)
-                {
-                    m_RestartState = RESTART_NONE;
-                    m_AFRerun = true;
-                    inAutoFocus = inBuildOffsets = inAFOptimise = inAdjustFocus = inScanStartPos = false;
-                    adaptFocus->setInAdaptiveFocus(false);
-                    focusAdvisor->setInFocusAdvisor(false);
-                    appendLogText(i18n("Restarting autofocus process..."));
-                    runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
-                    return;
-                }
-            }
-            else if (m_RestartState == RESTART_ABORT && focuserAdditionalMovement == 0)
-            {
-                // We are trying to abort an autofocus run
-                // This event means that the focuser has been reset and arrived at its starting point
-                // so we can finish processing the abort. Set inAutoFocus to avoid repeating
-                // processing already done in completeFocusProcedure
-                completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
-                m_RestartState = RESTART_NONE;
-                inAutoFocus = inBuildOffsets = inAFOptimise = inAdjustFocus = inScanStartPos = false;
-                adaptFocus->setInAdaptiveFocus(false);
-                focusAdvisor->setInFocusAdvisor(false);
+            // The move back to the initial position after a failed autofocus has arrived
+            if (focuserAdditionalMovement == 0 && completeFocuserReset())
                 return;
-            }
         }
 
         if (canAbsMove)

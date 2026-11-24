@@ -386,8 +386,15 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
          * @brief Move the focuser to the initial focus position right away.
+         *        If it is already there, the reset is completed without a move.
          */
         void moveFocuserToInitialPosition();
+        /**
+         * @brief Complete the move back to the initial focus position after a failed autofocus: restart the
+         *        procedure or finish its abort, as set up by completeFocusProcedure().
+         * @return true if a restart or an abort was pending and has been processed
+         */
+        bool completeFocuserReset();
 
         /**
              * @brief checkStopFocus Perform checks before stopping the autofocus operation. Some checks are necessary for in-sequence focusing.

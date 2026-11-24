@@ -192,6 +192,13 @@ class TestEkosFocus : public QObject
          * of the good run, and applying that moves the focuser there.
          */
         void testAutofocusNeverReachesFocus();
+        /**
+         * @brief Regression test: an autofocus that fails for lack of stars, as under clouds, leaves the focuser where
+         * it started. Every retry starts there, and no frame is captured once the last attempt has failed, also when
+         * that frame would show stars again.
+         */
+        void testFailedAutofocusKeepsPosition_data();
+        void testFailedAutofocusKeepsPosition();
         /** @brief The tilt plate settings are kept with the Focus settings of the optical train, and are not an option. */
         void testTiltSettingsPerTrain();
         void testFocusWhenMountFlips();
