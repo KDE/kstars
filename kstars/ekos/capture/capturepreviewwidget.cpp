@@ -111,8 +111,12 @@ void CapturePreviewWidget::updateJobProgress(const QSharedPointer<Ekos::Sequence
         if (data != nullptr)
         {
             m_currentFrame[trainname].filename    = data->filename();
-            m_currentFrame[trainname].width       = data->width();
-            m_currentFrame[trainname].height      = data->height();
+            // Report the captured frame's geometry, which a reduced preview (superpixel flat) does not have
+            QVariant naxis1, naxis2;
+            const bool hasHeaderSize = data->getRecordValue("NAXIS1", naxis1) && data->getRecordValue("NAXIS2", naxis2)
+                                       && naxis1.toInt() > 0 && naxis2.toInt() > 0;
+            m_currentFrame[trainname].width       = hasHeaderSize ? naxis1.toInt() : data->width();
+            m_currentFrame[trainname].height      = hasHeaderSize ? naxis2.toInt() : data->height();
         }
 
         const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();

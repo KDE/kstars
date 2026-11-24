@@ -9,6 +9,8 @@
 #include <QVariant>
 #include <QString>
 
+#include <cstdint>
+
 #include "bayer.h"
 
 // bayerparameters.h encapsulates using dc1394 and openCV debayering engines
@@ -72,6 +74,14 @@ struct BayerParameters
     QVariant params;
 };
 
+// How a freshly captured raw colour frame is prepared for display (see BayerUtils::previewDebayerMode)
+enum class PreviewDebayer
+{
+    Full,       // full resolution debayer with the selected engine
+    Superpixel, // 2x2 superpixel: half the resolution, no interpolation, a quarter of the memory
+    None        // keep the raw mosaic as a single channel
+};
+
 // Utility helpers
 namespace BayerUtils
 {
@@ -119,6 +129,38 @@ bool verifyCVAlgo(const OpenCVAlgo inAlgo, int bytesPerPixel, OpenCVAlgo &outAlg
 
 // Get the openCV debayer code to use based on algorithm and debayer parameters
 int getCVDebayerCode(const OpenCVAlgo algo, const OpenCVParams pattern);
+
+// Free memory left over after a full debayer of a captured frame. Below it, a light frame is not debayered.
+constexpr double PreviewDebayerReserveBytes = 512.0 * 1024 * 1024;
+
+/**
+ * @brief previewDebayerMode decides how a captured raw colour frame is debayered for display.
+ * Dark and bias frames have no light behind the colour filters, so all photosites read alike and
+ * they are kept as raw mono data. Debayering them would only smear each hot pixel into a coloured blob.
+ * Flats only need their colour response and vignetting, which a superpixel debayer keeps at a quarter
+ * of the memory. Light frames (and frames of unknown type) are fully debayered unless that would leave
+ * less than PreviewDebayerReserveBytes free, in which case they are kept as raw mono data.
+ * @param frameType value of the FRAME or IMAGETYP header keyword, empty if unknown
+ * @param fullDebayerBytes extra memory a full debayer needs
+ * @param availableBytes free memory (KSUtils::getAvailableRAM()), 0 or less if unknown
+ */
+PreviewDebayer previewDebayerMode(const QString &frameType, double fullDebayerBytes, double availableBytes);
+
+/**
+ * @brief superpixelSize gives the size of the superpixel debayer output of a width x height mosaic
+ * whose pattern starts at row offsetY (0 or 1). A trailing odd row or column is dropped.
+ */
+void superpixelSize(int width, int height, int offsetY, int &outWidth, int &outHeight);
+
+/**
+ * @brief superpixelDebayer turns each 2x2 Bayer cell into one RGB pixel: its red and blue photosites,
+ * and the mean of its two greens. The output is planar (all R, then all G, then all B), as in a FITS cube,
+ * with the size given by superpixelSize(). Rows before offsetY are skipped.
+ */
+void superpixelDebayer(const uint8_t *source, int width, int height, BayerPattern pattern, int offsetY,
+                       uint8_t *destination);
+void superpixelDebayer(const uint16_t *source, int width, int height, BayerPattern pattern, int offsetY,
+                       uint16_t *destination);
 
 } // namespace BayerUtils
 

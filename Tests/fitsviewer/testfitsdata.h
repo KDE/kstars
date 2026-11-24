@@ -73,6 +73,16 @@ class TestFitsData : public QObject
         void testChannelBlendOperation();
         void testDetectStarTrailing();
 
+        // How captured raw colour frames are debayered for display
+        void testPreviewDebayerMode_data();
+        void testPreviewDebayerMode();
+        void testSuperpixelDebayer_data();
+        void testSuperpixelDebayer();
+        void testSuperpixelDebayer8bit();
+        void testCapturedFramePreview_data();
+        void testCapturedFramePreview();
+        void testSuperpixelFlatKeepsADU();
+
         // FITSData's per-channel median estimate
         void testMedian_data();
         void testMedian();

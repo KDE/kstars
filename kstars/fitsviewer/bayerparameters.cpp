@@ -8,6 +8,8 @@
 #include <opencv2/imgproc.hpp>
 #include <KLocalizedString>
 
+#include <algorithm>
+
 namespace BayerUtils
 {
 // Engine helpers
@@ -331,6 +333,92 @@ int getCVDebayerCode(const OpenCVAlgo algo, const OpenCVParams params)
                     return cv::COLOR_BayerRGGB2RGB;
             }
     }
+}
+
+PreviewDebayer previewDebayerMode(const QString &frameType, double fullDebayerBytes, double availableBytes)
+{
+    // INDI writes FRAME = Light/Dark/Flat/Bias, other software IMAGETYP = "Dark Frame", "Dark Flat", ...
+    // Dark flats are darks, so check dark before flat.
+    const QString type = frameType.trimmed().toLower();
+    if (type.contains(QLatin1String("bias")) || type.contains(QLatin1String("dark")))
+        return PreviewDebayer::None;
+    if (type.contains(QLatin1String("flat")))
+        return PreviewDebayer::Superpixel;
+
+    if (availableBytes <= 0 || availableBytes >= fullDebayerBytes + PreviewDebayerReserveBytes)
+        return PreviewDebayer::Full;
+    return PreviewDebayer::None;
+}
+
+void superpixelSize(int width, int height, int offsetY, int &outWidth, int &outHeight)
+{
+    outWidth = std::max(0, width / 2);
+    outHeight = std::max(0, (height - offsetY) / 2);
+}
+
+namespace
+{
+template <typename T>
+void superpixel(const T *source, int width, int height, BayerPattern pattern, int offsetY, T *destination)
+{
+    int outWidth = 0, outHeight = 0;
+    superpixelSize(width, height, offsetY, outWidth, outHeight);
+    const size_t plane = static_cast<size_t>(outWidth) * outHeight;
+    T *red = destination;
+    T *green = destination + plane;
+    T *blue = destination + 2 * plane;
+
+    // Position of red and blue within the 2x2 cell (row * 2 + column); the greens take the other two
+    int redIndex = 0, blueIndex = 3;
+    switch (pattern)
+    {
+        case BayerPattern::RGGB:
+            redIndex = 0;
+            blueIndex = 3;
+            break;
+        case BayerPattern::BGGR:
+            redIndex = 3;
+            blueIndex = 0;
+            break;
+        case BayerPattern::GRBG:
+            redIndex = 1;
+            blueIndex = 2;
+            break;
+        case BayerPattern::GBRG:
+            redIndex = 2;
+            blueIndex = 1;
+            break;
+        default:
+            break;
+    }
+
+    for (int y = 0; y < outHeight; y++)
+    {
+        const T *row0 = source + static_cast<size_t>(offsetY + 2 * y) * width;
+        const T *row1 = row0 + width;
+        const size_t out = static_cast<size_t>(y) * outWidth;
+        for (int x = 0; x < outWidth; x++)
+        {
+            const uint32_t cell[4] = { row0[2 * x], row0[2 * x + 1], row1[2 * x], row1[2 * x + 1] };
+            const uint32_t greens = cell[0] + cell[1] + cell[2] + cell[3] - cell[redIndex] - cell[blueIndex];
+            red[out + x] = static_cast<T>(cell[redIndex]);
+            green[out + x] = static_cast<T>((greens + 1) / 2);
+            blue[out + x] = static_cast<T>(cell[blueIndex]);
+        }
+    }
+}
+}
+
+void superpixelDebayer(const uint8_t *source, int width, int height, BayerPattern pattern, int offsetY,
+                       uint8_t *destination)
+{
+    superpixel(source, width, height, pattern, offsetY, destination);
+}
+
+void superpixelDebayer(const uint16_t *source, int width, int height, BayerPattern pattern, int offsetY,
+                       uint16_t *destination)
+{
+    superpixel(source, width, height, pattern, offsetY, destination);
 }
 
 } // namespace BayerUtils

@@ -3204,7 +3204,29 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 
     // Only check for debayed IF the original naxes[2] is 1
     // which is for single channels.
-    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayerFITS())
+    const bool mosaic = naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer();
+
+    // A frame just captured into memory is only debayered for display: the camera saves the raw data.
+    // Keep that from costing more memory than it is worth, see BayerUtils::previewDebayerMode().
+    PreviewDebayer previewMode = PreviewDebayer::Full;
+    m_SuperpixelPreview = false;
+    if (mosaic && !buffer.isEmpty() && (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE))
+    {
+        QVariant frameType;
+        if (!getRecordValue("FRAME", frameType))
+            getRecordValue("IMAGETYP", frameType);
+        const double fullDebayerBytes = 2.0 * m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
+        const double availableBytes = KSUtils::getAvailableRAM();
+        previewMode = BayerUtils::previewDebayerMode(frameType.toString(), fullDebayerBytes, availableBytes);
+
+        if (previewMode == PreviewDebayer::None && !frameType.toString().contains("dark", Qt::CaseInsensitive)
+                && !frameType.toString().contains("bias", Qt::CaseInsensitive))
+            qCWarning(KSTARS_FITS) << "Not enough memory to debayer the preview, showing the raw frame. Required:"
+                                   << KFormat().formatByteSize(fullDebayerBytes) << "Available:"
+                                   << KFormat().formatByteSize(availableBytes);
+    }
+
+    if (mosaic && previewMode != PreviewDebayer::None && checkDebayerFITS())
     {
         // Save bayer image on disk in case we need to save it later since debayer destorys this data
         if (m_isTemporary && m_TemporaryDataFile.open())
@@ -3214,13 +3236,14 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
             m_Filename = m_TemporaryDataFile.fileName();
         }
 
-        if (debayer())
+        if (previewMode == PreviewDebayer::Superpixel ? debayerSuperpixel() : debayer())
             calculateStats(false, false);
     }
     else
         calculateStats(false, false);
 
-    if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
+    // A superpixel preview is half the size of the frame described by its WCS header
+    if ((m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN) && !m_SuperpixelPreview)
         loadWCS();
 #if !defined (KSTARS_LITE)
     else if (m_Mode == FITS_LIVESTACKING &&
@@ -8262,6 +8285,73 @@ bool FITSData::debayer(bool reload)
                 return false;
         }
     }
+}
+
+bool FITSData::debayerSuperpixel()
+{
+    BayerPattern pattern = BayerPattern::RGGB;
+    int offsetY = 0;
+    if (debayerParams.engine == DebayerEngine::OpenCV && debayerParams.params.canConvert < OpenCVParams > ())
+    {
+        const OpenCVParams cvParams = debayerParams.params.value < OpenCVParams > ();
+        pattern = cvParams.pattern;
+        offsetY = cvParams.offsetY;
+    }
+    else if (debayerParams.engine == DebayerEngine::DC1394 && debayerParams.params.canConvert < DC1394Params > ())
+    {
+        const DC1394Params dc1394Params = debayerParams.params.value < DC1394Params > ();
+        pattern = BayerUtils::convertDC1394Filter_t(dc1394Params.params.filter);
+        offsetY = dc1394Params.params.offsetY;
+    }
+    else
+        return false;
+
+    int outWidth = 0, outHeight = 0;
+    BayerUtils::superpixelSize(m_Statistics.width, m_Statistics.height, offsetY, outWidth, outHeight);
+    if (outWidth == 0 || outHeight == 0)
+        return false;
+
+    const uint32_t plane = static_cast < uint32_t > (outWidth) * outHeight;
+    const uint32_t rgbSize = plane * 3 * m_Statistics.bytesPerPixel;
+    uint8_t *rgbBuffer = new (std::nothrow) uint8_t[rgbSize];
+    if (rgbBuffer == nullptr)
+    {
+        logOOMError(rgbSize);
+        return false;
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    switch (m_Statistics.dataType)
+    {
+        case TBYTE:
+            BayerUtils::superpixelDebayer(m_ImageBuffer, m_Statistics.width, m_Statistics.height, pattern, offsetY, rgbBuffer);
+            break;
+        case TUSHORT:
+            BayerUtils::superpixelDebayer(reinterpret_cast < const uint16_t * > (m_ImageBuffer), m_Statistics.width,
+                                          m_Statistics.height, pattern, offsetY, reinterpret_cast < uint16_t * > (rgbBuffer));
+            break;
+        default:
+            delete[] rgbBuffer;
+            return false;
+    }
+
+    qCDebug(KSTARS_FITS) << "Superpixel debayer" << BayerUtils::bayerPatternToString(pattern)
+                         << m_Statistics.width << "x" << m_Statistics.height << "->" << outWidth << "x" << outHeight
+                         << "took:" << std::chrono::duration < double, std::milli > (std::chrono::high_resolution_clock::now() - start).count()
+                         << "ms";
+
+    delete[] m_ImageBuffer;
+    m_ImageBuffer = rgbBuffer;
+    m_ImageBufferSize = rgbSize;
+    m_Statistics.width = outWidth;
+    m_Statistics.height = outHeight;
+    m_Statistics.samples_per_channel = plane;
+    m_Statistics.channels = 3;
+    m_SuperpixelPreview = true;
+    // The data no longer has the geometry of the frame in the file, so debayer(true) cannot read the raw
+    // mosaic back into it. The FITS Viewer's Debayer action is offered for the saved file instead.
+    HasDebayer = false;
+    return true;
 }
 
 bool FITSData::debayer_8bit()

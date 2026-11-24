@@ -501,6 +501,15 @@ class FITSData : public QObject
         bool debayer(bool reload = false);
         bool debayer_8bit();
         bool debayer_16bit();
+
+        /**
+         * @brief isSuperpixelPreview is true when a captured flat was shown through a 2x2 superpixel debayer,
+         * so the data is half the width and height of the frame on disk (see BayerUtils::previewDebayerMode).
+         */
+        bool isSuperpixelPreview() const
+        {
+            return m_SuperpixelPreview;
+        }
         void getBayerParams(BayerParameters *param);
         void setBayerParams(BayerParameters *param);
 
@@ -1429,6 +1438,9 @@ class FITSData : public QObject
         bool parseHeader(const bool stack = false);
         //int getFITSRecord(QString &recordList, int &nkeys);
 
+        // 2x2 superpixel debayer of the raw mosaic in m_ImageBuffer, using the pattern from checkDebayerFITS()
+        bool debayerSuperpixel();
+
         // Templated functions
         template <typename T>
         bool debayer();
@@ -1717,6 +1729,7 @@ class FITSData : public QObject
         bool HasWCS { false };        /// Do we have WCS keywords in this FITS data?
         /// Is the image debayarable?
         bool HasDebayer { false };
+        bool m_SuperpixelPreview { false };
         /// Buffer to hold fpack uncompressed data
         uint8_t *m_PackBuffer {nullptr};
         size_t m_PackBufferSize {0};

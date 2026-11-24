@@ -79,6 +79,43 @@ static bool writeSyntheticFrame(const QString &path, int width, int height, uint
     return status == 0;
 }
 
+// Writes a 16-bit raw colour (Bayer) frame: every photosite of a colour reads `red`, `green` or `blue`,
+// laid out as `pattern`, with FRAME (or IMAGETYP) set to `frameType` when it is not empty.
+static bool writeBayerFrame(const QString &path, int width, int height, const QString &pattern, uint16_t red,
+                            uint16_t green, uint16_t blue, const QString &frameType, const char *frameKey = "FRAME")
+{
+    fitsfile *fptr = nullptr;
+    int status = 0;
+    long naxes[2] = { width, height };
+    QFile::remove(path);
+    QByteArray pathBytes = path.toLocal8Bit();
+    if (fits_create_diskfile(&fptr, pathBytes.constData(), &status))
+        return false;
+    fits_create_img(fptr, USHORT_IMG, 2, naxes, &status);
+
+    std::vector<uint16_t> pixels(static_cast<size_t>(width) * height);
+    for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            const QChar colour = pattern.at((y % 2) * 2 + (x % 2));
+            pixels[static_cast<size_t>(y) * width + x] = colour == 'R' ? red : (colour == 'G' ? green : blue);
+        }
+    fits_write_img(fptr, TUSHORT, 1, pixels.size(), pixels.data(), &status);
+
+    QByteArray patternBytes = pattern.toLatin1();
+    fits_update_key(fptr, TSTRING, "BAYERPAT", patternBytes.data(), "Bayer pattern", &status);
+    int zero = 0;
+    fits_update_key(fptr, TINT, "XBAYROFF", &zero, "X offset of Bayer array", &status);
+    fits_update_key(fptr, TINT, "YBAYROFF", &zero, "Y offset of Bayer array", &status);
+    if (!frameType.isEmpty())
+    {
+        QByteArray typeBytes = frameType.toLatin1();
+        fits_update_key(fptr, TSTRING, frameKey, typeBytes.data(), "Frame Type", &status);
+    }
+    fits_close_file(fptr, &status);
+    return status == 0;
+}
+
 // Writes `channels` planes of width x height pixels as a FITS image of type `bitpix` (USHORT_IMG or FLOAT_IMG)
 // from `pixels` (planar, converted with cfitsio's `datatype`).
 template <typename T>
@@ -1634,6 +1671,217 @@ void TestFitsData::testDetectStarTrailing()
         int numSources = 0;
         QVERIFY(!FITSData::detectStarTrailing(empty, medianElongation, numSources));
     }
+}
+
+void TestFitsData::testPreviewDebayerMode_data()
+{
+    QTest::addColumn<QString>("frameType");
+    QTest::addColumn<double>("fullBytes");
+    QTest::addColumn<double>("availableBytes");
+    QTest::addColumn<int>("expected");
+
+    const double GB = 1024.0 * 1024 * 1024;
+    const double full = 0.7 * GB; // a 61 MP colour frame
+    const int Full = static_cast<int>(PreviewDebayer::Full);
+    const int Superpixel = static_cast<int>(PreviewDebayer::Superpixel);
+    const int None = static_cast<int>(PreviewDebayer::None);
+
+    QTest::newRow("INDI light, plenty of memory") << "Light" << full << 4 * GB << Full;
+    QTest::newRow("INDI light, just enough") << "Light" << full << full + BayerUtils::PreviewDebayerReserveBytes << Full;
+    QTest::newRow("INDI light, too little") << "Light" << full << full + BayerUtils::PreviewDebayerReserveBytes - 1 << None;
+    QTest::newRow("INDI light, memory unknown") << "Light" << full << 0.0 << Full;
+    QTest::newRow("unknown type, plenty") << "" << full << 4 * GB << Full;
+    QTest::newRow("unknown type, too little") << "" << full << 0.5 * GB << None;
+    QTest::newRow("INDI flat") << "Flat" << full << 4 * GB << Superpixel;
+    QTest::newRow("INDI flat, little memory") << "Flat" << full << 0.5 * GB << Superpixel;
+    QTest::newRow("INDI dark") << "Dark" << full << 4 * GB << None;
+    QTest::newRow("INDI bias") << "Bias" << full << 4 * GB << None;
+    QTest::newRow("IMAGETYP Flat Frame") << "Flat Frame" << full << 4 * GB << Superpixel;
+    QTest::newRow("IMAGETYP Dark Flat") << "Dark Flat" << full << 4 * GB << None;
+    QTest::newRow("IMAGETYP DARKFLAT") << "DARKFLAT" << full << 4 * GB << None;
+    QTest::newRow("IMAGETYP Bias Frame, padded") << "  Bias Frame " << full << 4 * GB << None;
+    QTest::newRow("IMAGETYP Light Frame") << "Light Frame" << full << 4 * GB << Full;
+}
+
+void TestFitsData::testPreviewDebayerMode()
+{
+    QFETCH(QString, frameType);
+    QFETCH(double, fullBytes);
+    QFETCH(double, availableBytes);
+    QFETCH(int, expected);
+    QCOMPARE(static_cast<int>(BayerUtils::previewDebayerMode(frameType, fullBytes, availableBytes)), expected);
+}
+
+void TestFitsData::testSuperpixelDebayer_data()
+{
+    QTest::addColumn<QString>("pattern");
+    QTest::addColumn<int>("offsetY");
+    for (const char *pattern :
+            { "RGGB", "BGGR", "GRBG", "GBRG"
+            })
+        for (int offsetY :
+                {
+                    0, 1
+                })
+            QTest::newRow(qPrintable(QString("%1 offsetY %2").arg(pattern).arg(offsetY))) << QString(pattern) << offsetY;
+}
+
+void TestFitsData::testSuperpixelDebayer()
+{
+    QFETCH(QString, pattern);
+    QFETCH(int, offsetY);
+
+    // 7 x 9 mosaic (odd sizes: the trailing row and column are dropped), pattern starting at row offsetY.
+    // Each photosite encodes its colour and its cell: red 10000 + cell, greens 20000 + cell and
+    // 20002 + cell (mean 20001 + cell), blue 30000 + cell. Rows before offsetY hold 5.
+    const int width = 7, height = 9;
+    std::vector<uint16_t> mosaic(width * height, 5);
+    for (int y = offsetY; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            const int cell = ((y - offsetY) / 2) * (width / 2) + x / 2;
+            const int index = ((y - offsetY) % 2) * 2 + (x % 2);
+            const QChar colour = pattern.at(index);
+            // the first green of the cell in reading order gets +0, the second +2
+            const int greenRank = pattern.left(index).count('G');
+            mosaic[y * width + x] = colour == 'R' ? 10000 + cell : (colour == 'B' ? 30000 + cell : 20000 + 2 * greenRank + cell);
+        }
+
+    int outWidth = 0, outHeight = 0;
+    BayerUtils::superpixelSize(width, height, offsetY, outWidth, outHeight);
+    QCOMPARE(outWidth, 3);
+    QCOMPARE(outHeight, (height - offsetY) / 2);
+
+    const int plane = outWidth * outHeight;
+    std::vector<uint16_t> rgb(3 * plane, 0);
+    BayerUtils::superpixelDebayer(mosaic.data(), width, height, BayerUtils::bayerPatternFromStr(pattern), offsetY, rgb.data());
+
+    for (int cell = 0; cell < plane; cell++)
+    {
+        QCOMPARE(rgb[cell], static_cast<uint16_t>(10000 + cell));
+        QCOMPARE(rgb[plane + cell], static_cast<uint16_t>(20001 + cell));
+        QCOMPARE(rgb[2 * plane + cell], static_cast<uint16_t>(30000 + cell));
+    }
+}
+
+void TestFitsData::testSuperpixelDebayer8bit()
+{
+    // 8-bit RGGB, greens 200 and 255 average to 228 (rounded), without overflowing
+    const uint8_t mosaic[] = { 10, 200, 20, 200,
+                               255, 60, 255, 70
+                             };
+    uint8_t rgb[6] = { 0 };
+    BayerUtils::superpixelDebayer(mosaic, 4, 2, BayerPattern::RGGB, 0, rgb);
+    QCOMPARE(rgb[0], uint8_t(10));
+    QCOMPARE(rgb[1], uint8_t(20));
+    QCOMPARE(rgb[2], uint8_t(228));
+    QCOMPARE(rgb[3], uint8_t(228));
+    QCOMPARE(rgb[4], uint8_t(60));
+    QCOMPARE(rgb[5], uint8_t(70));
+}
+
+void TestFitsData::testCapturedFramePreview_data()
+{
+    QTest::addColumn<QString>("frameKey");
+    QTest::addColumn<QString>("frameType");
+    QTest::addColumn<bool>("fromBuffer");
+    QTest::addColumn<int>("mode");
+    QTest::addColumn<int>("channels");
+    QTest::addColumn<int>("width");
+    QTest::addColumn<bool>("superpixel");
+
+    const int normal = FITS_NORMAL, calibrate = FITS_CALIBRATE, focus = FITS_FOCUS;
+    // Captured frames (loaded from the camera's buffer)
+    QTest::newRow("captured light") << "FRAME" << "Light" << true << normal << 3 << 64 << false;
+    QTest::newRow("captured flat") << "FRAME" << "Flat" << true << normal << 3 << 32 << true;
+    QTest::newRow("captured flat, calibrating") << "FRAME" << "Flat" << true << calibrate << 3 << 32 << true;
+    QTest::newRow("captured dark") << "FRAME" << "Dark" << true << normal << 1 << 64 << false;
+    QTest::newRow("captured bias") << "FRAME" << "Bias" << true << normal << 1 << 64 << false;
+    QTest::newRow("captured, IMAGETYP Dark Flat") << "IMAGETYP" << "Dark Flat" << true << normal << 1 << 64 << false;
+    QTest::newRow("captured, no frame type") << "FRAME" << "" << true << normal << 3 << 64 << false;
+    // Unchanged: files opened from disk, and frames for other modules
+    QTest::newRow("flat file") << "FRAME" << "Flat" << false << normal << 3 << 64 << false;
+    QTest::newRow("dark file") << "FRAME" << "Dark" << false << normal << 3 << 64 << false;
+    QTest::newRow("captured flat for focus") << "FRAME" << "Flat" << true << focus << 3 << 64 << false;
+}
+
+void TestFitsData::testCapturedFramePreview()
+{
+    QFETCH(QString, frameKey);
+    QFETCH(QString, frameType);
+    QFETCH(bool, fromBuffer);
+    QFETCH(int, mode);
+    QFETCH(int, channels);
+    QFETCH(int, width);
+    QFETCH(bool, superpixel);
+
+    const bool autoDebayer = Options::autoDebayer();
+    Options::setAutoDebayer(true);
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString path = dir.filePath("bayer.fits");
+    QVERIFY(writeBayerFrame(path, 64, 48, "RGGB", 19000, 31000, 20000, frameType, frameKey.toLatin1().constData()));
+
+    QSharedPointer<FITSData> data(new FITSData(static_cast<FITSMode>(mode)));
+    if (fromBuffer)
+    {
+        QFile file(path);
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        const QByteArray buffer = file.readAll();
+        data->setExtension("fits");
+        QVERIFY(data->loadFromBuffer(buffer));
+    }
+    else
+    {
+        QFuture<bool> future = data->loadFromFile(path);
+        future.waitForFinished();
+        QVERIFY(future.result());
+    }
+    Options::setAutoDebayer(autoDebayer);
+
+    QCOMPARE(static_cast<int>(data->channels()), channels);
+    QCOMPARE(static_cast<int>(data->width()), width);
+    QCOMPARE(static_cast<int>(data->height()), width == 32 ? 24 : 48);
+    QCOMPARE(data->isSuperpixelPreview(), superpixel);
+    if (channels == 3)
+    {
+        // Whichever debayer ran, the colours are where they belong
+        QVERIFY(std::abs(data->getMean(0) - 19000) < 1);
+        QVERIFY(std::abs(data->getMean(1) - 31000) < 1);
+        QVERIFY(std::abs(data->getMean(2) - 20000) < 1);
+    }
+}
+
+void TestFitsData::testSuperpixelFlatKeepsADU()
+{
+    // Flat calibration compares getADU() against the target level: the superpixel preview of a captured
+    // flat must give the same value as the full debayer it replaces.
+    const bool autoDebayer = Options::autoDebayer();
+    Options::setAutoDebayer(true);
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString path = dir.filePath("flat.fits");
+    QVERIFY(writeBayerFrame(path, 64, 48, "GBRG", 18000, 30000, 22000, "Flat"));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    const QByteArray buffer = file.readAll();
+    QSharedPointer<FITSData> captured(new FITSData(FITS_CALIBRATE));
+    captured->setExtension("fits");
+    QVERIFY(captured->loadFromBuffer(buffer));
+
+    QSharedPointer<FITSData> opened(new FITSData(FITS_NORMAL));
+    QFuture<bool> future = opened->loadFromFile(path);
+    future.waitForFinished();
+    QVERIFY(future.result());
+    Options::setAutoDebayer(autoDebayer);
+
+    QVERIFY(captured->isSuperpixelPreview());
+    QVERIFY(!opened->isSuperpixelPreview());
+    QCOMPARE(static_cast<int>(opened->channels()), 3);
+    QVERIFY2(std::abs(captured->getADU() - opened->getADU()) < 1.0,
+             qPrintable(QString("superpixel ADU %1, full debayer ADU %2").arg(captured->getADU()).arg(opened->getADU())));
+    QVERIFY(std::abs(captured->getADU() - (18000 + 30000 + 22000) / 3.0) < 1.0);
 }
 
 void TestFitsData::testMedian_data()
