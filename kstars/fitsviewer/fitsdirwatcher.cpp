@@ -7,6 +7,7 @@
 #include "fitsdirwatcher.h"
 #include <fits_debug.h>
 #include <QTimer>
+#include <QFileInfo>
 
 FITSDirWatcher::FITSDirWatcher(QObject *parent) : QObject(parent)
 {
@@ -46,8 +47,22 @@ bool FITSDirWatcher::watchDirs(const QVector<QString> &paths)
         QStringList files = dir.entryList(m_NameFilters, m_FilterFlags, m_SortFlags);
         for (const QString &file : files)
         {
+            const QString absolutePath = dir.absoluteFilePath(file);
+            if (m_IgnoreFilesBefore.isValid())
+            {
+                const QDateTime modified = QFileInfo(absolutePath).lastModified();
+                if (modified < m_IgnoreFilesBefore)
+                {
+                    qCInfo(KSTARS_FITS) << "Live stacking skips" << absolutePath << "modified"
+                                        << modified.toString(Qt::ISODate) << "before"
+                                        << m_IgnoreFilesBefore.toString(Qt::ISODate);
+                    m_IgnoredFiles.insert(absolutePath);
+                    continue;
+                }
+            }
+
             LiveStackFile lsFile;
-            lsFile.file = dir.absoluteFilePath(file);
+            lsFile.file = absolutePath;
             lsFile.ID = m_NextID++;
             m_CurrentFiles.push_back(lsFile);
         }
@@ -76,6 +91,7 @@ void FITSDirWatcher::stopWatching()
     m_WatchedPaths.clear();
     m_CurrentFiles.clear();
     m_PendingFiles.clear();
+    m_IgnoredFiles.clear();
 }
 
 // Something happened (e.g. new file) to the watched directory
@@ -104,7 +120,7 @@ void FITSDirWatcher::onDirChanged(const QString &path)
 
         bool inPending = m_PendingFiles.contains(file);
 
-        if (!inCurrent && !inPending)
+        if (!inCurrent && !inPending && !m_IgnoredFiles.contains(file))
         {
             // New file detected - start stability check
             QFileInfo fileInfo(file);

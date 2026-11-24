@@ -515,6 +515,12 @@ struct StackData
 
     // EkosLive integration: output directory for saved stacked images
     QString outputDirectory;      // If empty, don't save to disk (display only)
+
+    // Files already in the stacking directory when stacking starts are skipped when they
+    // were last modified before this time. Live stacking during a sequence sets it to the
+    // start of the night, so frames from an earlier session of the same target and filter
+    // are not stacked with tonight's. Invalid (the default) stacks every file.
+    QDateTime ignoreFilesBefore;
 };
 
 enum class LSStage

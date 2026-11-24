@@ -461,7 +461,22 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
     m_LiveStackData.batchMode = m_StackBatchMode;
     m_StackNumInMemAuto = params.numInMem <= 0;
     m_StackBatchCount = m_StackFirstBatchSize = 0;
-    m_StackSavedFrameCount = 0;  // Reset frame counter for new stacking session
+    // Number saved stacked frames after any already in the output directory: a stack that
+    // is stopped and started again the same night writes to the same directory, and starting
+    // at 0 again would overwrite the frames the client has already received.
+    m_StackSavedFrameCount = 0;
+    if (!params.outputDirectory.isEmpty())
+    {
+        static const QRegularExpression savedFrame(QStringLiteral("^stacked_frame_(\\d+)\\.fits$"));
+        const QStringList saved = QDir(params.outputDirectory).entryList({QStringLiteral("stacked_frame_*.fits")},
+                                  QDir::Files);
+        for (const QString &name : saved)
+        {
+            const auto match = savedFrame.match(name);
+            if (match.hasMatch())
+                m_StackSavedFrameCount = std::max(m_StackSavedFrameCount, match.captured(1).toInt() + 1);
+        }
+    }
     if (!initStackChannels(inDir, params.masterDark, params.masterFlat))
         return true;
 
@@ -494,6 +509,7 @@ bool FITSData::loadStack(const QStringList &inDir, const StackData &params)
     m_StackDirWatcher.reset(new FITSDirWatcher(nullptr));
     connect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
 
+    m_StackDirWatcher->setIgnoreFilesBefore(m_LiveStackData.ignoreFilesBefore);
     m_StackDirWatcher->watchDirs(getUniqueStackDirs());
     QVector<LiveStackFile> subs = m_StackDirWatcher->getCurrentFiles();
     // A batch stacks what is there now. The watcher stays (its file list is the progress

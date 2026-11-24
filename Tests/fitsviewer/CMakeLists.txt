@@ -38,6 +38,11 @@ TARGET_LINK_LIBRARIES( testfitsstack ${TEST_LIBRARIES})
 ADD_TEST( NAME FitsStackTest COMMAND testfitsstack )
 SET_TESTS_PROPERTIES( FitsStackTest PROPERTIES LABELS "stable")
 
+ADD_EXECUTABLE( testfitsdirwatcher testfitsdirwatcher.cpp )
+TARGET_LINK_LIBRARIES( testfitsdirwatcher ${TEST_LIBRARIES})
+ADD_TEST( NAME FitsDirWatcherTest COMMAND testfitsdirwatcher )
+SET_TESTS_PROPERTIES( FitsDirWatcherTest PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( testsolverbenchmark testsolverbenchmark.cpp )
 TARGET_LINK_LIBRARIES( testsolverbenchmark ${TEST_LIBRARIES})
 ADD_TEST( NAME SolverBenchmarkTest COMMAND testsolverbenchmark )

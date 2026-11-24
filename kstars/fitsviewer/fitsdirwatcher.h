@@ -15,6 +15,7 @@
 #include <QDateTime>
 #include <QFileSystemWatcher>
 #include <QMap>
+#include <QSet>
 #include <QSharedPointer>
 
 /**
@@ -47,6 +48,17 @@ class FITSDirWatcher : public QObject
          * @brief Stop watching directories
          */
         void stopWatching();
+
+        /**
+         * @brief Skip files that are already in a directory when it is watched and were last
+         *        modified before cutoff. They are not listed and not reported later either.
+         *        Call before watchDirs(). An invalid cutoff (the default) keeps every file.
+         * @param cutoff the oldest modification time to keep
+         */
+        void setIgnoreFilesBefore(const QDateTime &cutoff)
+        {
+            m_IgnoreFilesBefore = cutoff;
+        }
 
         /**
          * @brief Get the list of files in the watched directories
@@ -88,5 +100,8 @@ class FITSDirWatcher : public QObject
         QDir::Filters m_FilterFlags = QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks;
         QDir::SortFlags m_SortFlags = QDir::Time | QDir::Reversed;
         QMap<QString, QPair<int, QString>> m_FileToID;
+        QDateTime m_IgnoreFilesBefore;
+        // Files skipped by m_IgnoreFilesBefore, so onDirChanged() does not take them for new ones
+        QSet<QString> m_IgnoredFiles;
         int m_NextID { 1 };
 };

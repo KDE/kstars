@@ -72,6 +72,19 @@
 
 namespace
 {
+// Start of the observing night that contains now: noon local time, today after noon and
+// yesterday before it. Live stacking during a sequence stacks only frames saved since then,
+// so stopping and starting it again keeps tonight's frames and drops earlier sessions'.
+// The EkosLive server names the dated output directory by the same night.
+QDateTime startOfObservingNight()
+{
+    const QDateTime now = QDateTime::currentDateTime();
+    QDateTime noon(now.date(), QTime(12, 0));
+    if (now < noon)
+        noon = noon.addDays(-1);
+    return noon;
+}
+
 // Rough multiple of one full-frame image that a given post-process step keeps
 // alive at peak: channel splits, blur pyramids, chroma planes, per-pixel
 // calibration buffers, registered warps and the merged result. Used to refuse a
@@ -3622,6 +3635,12 @@ void Message::processLiveStackerCommands(const QString &command, const QJsonObje
         // this outputDirectory offline for new stacked frames.
         params.outputDirectory = m_LiveStackerSettings.value("outputDirectory").toString();
 
+        // A sequence saves into <base>/<target>/<type>/<filter>/, which still holds the frames
+        // of every earlier session of this target and filter. Stack tonight's only. Looping
+        // mode uses a new empty directory every time, so it needs no cutoff.
+        if (!isLooping)
+            params.ignoreFilesBefore = startOfObservingNight();
+
         // Start stacking via FITSTab so the GUI is fully updated (directory
         // field, Start/Stop button, counters) before the pipeline begins.
         viewerTabs.first()->startProgrammatically(directory, params);
@@ -6421,6 +6440,9 @@ void Message::onLiveStackerJobChanged(const QSharedPointer<Ekos::SequenceJob> &j
     // The output directory stays the same — the EkosLive server continues
     // watching it for new stacked frames without requiring any server restart.
     params.outputDirectory = m_LiveStackerSettings.value("outputDirectory").toString();
+
+    // The new job's directory can hold earlier sessions' frames too (see LIVESTACKER_START)
+    params.ignoreFilesBefore = startOfObservingNight();
 
     // Restart the stacker watching the new job's directory
     viewerTabs.first()->startProgrammatically(newDirectory, params);
