@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-23 18:20+0300\n"
+"PO-Revision-Date: 2026-11-24 17:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8314,98 +8314,84 @@ msgid "Median HFR"
 msgstr "Ortanca HFR"
 
 #: ekos/align/aligndiagnosis.cpp:597
-#, fuzzy, kde-format
-#| msgid "Set Geolocation"
+#, kde-format
 msgid "Star elongation"
-msgstr "Coğrafî Konumu Ayarla"
+msgstr "Yıldız uzanımı"
 
 #: ekos/align/aligndiagnosis.cpp:601
-#, fuzzy, kde-format
-#| msgid "Focal length:"
+#, kde-format
 msgid "Trail length"
-msgstr "Odak uzunluğu:"
+msgstr "İz uzunluğu"
 
 #: ekos/align/aligndiagnosis.cpp:603
-#, fuzzy, kde-format
-#| msgid "Mount direction"
+#, kde-format
 msgid "Trail direction"
-msgstr "Kaide yönü"
+msgstr "İz yönü"
 
 #: ekos/align/aligndiagnosis.cpp:607
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Double image offset"
-msgstr "Şunun görselini göster: "
+msgstr "Çifte görsel ofseti"
 
 #: ekos/align/aligndiagnosis.cpp:611
 #, kde-format
 msgid "Star concentration (R80/R20)"
-msgstr ""
+msgstr "Yıldız yoğunlaşması (R80/R20)"
 
 #: ekos/align/aligndiagnosis.cpp:614
-#, fuzzy, kde-format
-#| msgid "Surface Brightness: %1"
+#, kde-format
 msgid "Star centre brightness"
-msgstr "Yüzey parlaklığı: %1"
+msgstr "Yıldız merkezi parlaklığı"
 
 #: ekos/align/aligndiagnosis.cpp:619
-#, fuzzy, kde-format
-#| msgid "Solver aborted."
+#, kde-format
 msgid "Solver attempts"
-msgstr "Çözücü iptal edildi."
+msgstr "Çözücü denemeleri"
 
 #: ekos/align/aligndiagnosis.cpp:622
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Solver timeout"
-msgstr "Çözücü zaman aşımına uğradı: %1 sn"
+msgstr "Çözücü zaman aşımı"
 
 #: ekos/align/aligndiagnosis.cpp:629
-#, fuzzy, kde-format
-#| msgid "Index file"
+#, kde-format
 msgid "Index files needed"
-msgstr "İndeks dosyası"
+msgstr "İndeks dosyaları gerekli"
 
 #: ekos/align/aligndiagnosis.cpp:635
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture errors"
-msgstr "Çekimler"
+msgstr "Çekim hataları"
 
 #: ekos/align/aligndiagnosis.cpp:637
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver restarts"
-msgstr "Sürücüyü Yeniden Başlat"
+msgstr "Sürücüyü yeniden başlatmaları"
 
 #: ekos/align/aligndiagnosis.cpp:659
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "Select a mount in the optical train"
-msgstr "Optik katar seç"
+msgstr "Optik katarda bir kaide seçin"
 
 #: ekos/align/aligndiagnosis.cpp:660
 #, kde-format
 msgid "Align needs a mount to know where the telescope points."
-msgstr ""
+msgstr "Hizalama, teleskopun nereye işaret ettiğini bilmek zorundadır."
 
 #: ekos/align/aligndiagnosis.cpp:673
-#, fuzzy, kde-format
-#| msgid "Parking the mount..."
+#, kde-format
 msgid "Unpark the mount"
-msgstr "Kaide park ediliyor…"
+msgstr "Kaideyi parktan çıkar"
 
 #: ekos/align/aligndiagnosis.cpp:674
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount reports PARKED."
-msgstr "Kaide artık izleme bildirmiyor."
+msgstr "Kaide, PARKTA olarak bildiriyor."
 
 #: ekos/align/aligndiagnosis.cpp:688
-#, fuzzy, kde-format
-#| msgid "Enable mount altitude limits."
+#, kde-format
 msgid "Check the mount altitude limits"
-msgstr "Kaide yükseklik sınırını etkinleştir"
+msgstr "Kaide yükseklik sınırlarını denetle"
 
 #: ekos/align/aligndiagnosis.cpp:689
 #, fuzzy, kde-format
