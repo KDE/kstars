@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-21 18:21+0100\n"
-"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"PO-Revision-Date: 2026-11-25 13:27+0100\n"
+"Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.3\n"
+"X-Generator: Lokalize 26.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -8462,12 +8462,12 @@ msgstr "KStars weigerde de verdraaiing; raadpleeg de meldingen voor de reden."
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
 msgid "Check that the target is above the horizon."
-msgstr ""
+msgstr "Controleer of het doel zich boven de horizon bevindt."
 
 #: ekos/align/aligndiagnosis.cpp:701
 #, kde-format
 msgid "Check the mount limits in the Mount module."
-msgstr ""
+msgstr "Controleer de limieten van de opstelling in de module 'Opstelling'."
 
 #: ekos/align/aligndiagnosis.cpp:712
 #, kde-format
@@ -8493,16 +8493,18 @@ msgstr "Controleer dat de opstelling niet in de parkeerstand staat en volgt."
 #, kde-format
 msgid "Check the slew limits set in the mount driver or its hand controller."
 msgstr ""
+"Controleer de zwenkgrenzen die zijn ingesteld in het stuurprogramma van de "
+"opstelling of in de bijbehorende handbesturing."
 
 #: ekos/align/aligndiagnosis.cpp:717
 #, kde-format
 msgid "Check the mount cable and power."
-msgstr ""
+msgstr "Controleer de opstellingskabel en de stroomvoorziening."
 
 #: ekos/align/aligndiagnosis.cpp:724
 #, kde-format
 msgid "The mount cannot sync"
-msgstr ""
+msgstr "De opstelling kan niet synchroniseren"
 
 #: ekos/align/aligndiagnosis.cpp:725
 #, kde-format
@@ -8510,6 +8512,8 @@ msgid ""
 "The mount driver does not support sync. Use Slew to Target or Nothing "
 "instead."
 msgstr ""
+"Het stuurprogramma van de opstelling ondersteunt synchronisatie niet. "
+"Gebruik in plaats daarvan Zwenk naar doel of Niets."
 
 #: ekos/align/aligndiagnosis.cpp:734
 #, kde-format
@@ -8527,6 +8531,8 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"Controleer het stuurprogramma van de opstelling of de handcontroller op een "
+"limietfout, bijvoorbeeld de meridiaanlimiet."
 
 #: ekos/align/aligndiagnosis.cpp:737
 #, kde-format
@@ -8566,12 +8572,12 @@ msgstr "De stofkap rapporteert een fout."
 #: ekos/align/aligndiagnosis.cpp:756 ekos/focus/focusdiagnosis.cpp:550
 #, kde-format
 msgid "Open or remove the dust cap by hand."
-msgstr ""
+msgstr "Open of verwijder de stofkap met de hand."
 
 #: ekos/align/aligndiagnosis.cpp:757 ekos/focus/focusdiagnosis.cpp:551
 #, kde-format
 msgid "Check the dust cap cable and power."
-msgstr ""
+msgstr "Controleer de stofkapkabel en de stroomvoorziening."
 
 #: ekos/align/aligndiagnosis.cpp:765 ekos/focus/focusdiagnosis.cpp:138
 #, kde-format
@@ -8591,22 +8597,22 @@ msgstr "Controleer het filterwiel"
 #: ekos/align/aligndiagnosis.cpp:776 ekos/focus/focusdiagnosis.cpp:537
 #, kde-format
 msgid "Change the filter from the Filter Manager and check that it arrives."
-msgstr ""
+msgstr "Wijzig het filter via het Filterbeheer en controleer of het aankomt."
 
 #: ekos/align/aligndiagnosis.cpp:777 ekos/focus/focusdiagnosis.cpp:539
 #, kde-format
 msgid "Check the filter wheel cable and power."
-msgstr ""
+msgstr "Controleer de filterwielkabel en de stroomvoorziening."
 
 #: ekos/align/aligndiagnosis.cpp:787 ekos/focus/focusdiagnosis.cpp:520
 #, kde-format
 msgid "Check the camera cable and power"
-msgstr ""
+msgstr "Controleer de camerakabel en de stroomvoorziening"
 
 #: ekos/align/aligndiagnosis.cpp:788
 #, kde-format
 msgid "The camera reported %1 exposure errors."
-msgstr ""
+msgstr "De camera rapporteerde %1 belichtingsfouten."
 
 #: ekos/align/aligndiagnosis.cpp:789
 #, kde-format
@@ -8620,16 +8626,18 @@ msgstr ""
 msgid ""
 "Check the camera USB cable and use a powered hub if the camera shares one."
 msgstr ""
+"Controleer de USB-kabel van de camera en gebruik een hub met eigen "
+"stroomvoorziening als de camera een hub deelt met andere apparaten."
 
 #: ekos/align/aligndiagnosis.cpp:791 ekos/focus/focusdiagnosis.cpp:524
 #, kde-format
 msgid "Check the camera power supply."
-msgstr ""
+msgstr "Controleer de stroomvoorziening van de camera."
 
 #: ekos/align/aligndiagnosis.cpp:792
 #, kde-format
 msgid "Take a test exposure from the Capture module."
-msgstr ""
+msgstr "Maak een testopname vanuit de Opnamemodule."
 
 #: ekos/align/aligndiagnosis.cpp:800
 #, kde-format
@@ -8645,11 +8653,12 @@ msgstr "Controleer dat het externe astronomie-stuurprogramma actief is."
 #, kde-format
 msgid "Check that the remote computer has index files for this field of view."
 msgstr ""
+"Controleer of de externe computer indexbestanden voor dit gezichtsveld bevat."
 
 #: ekos/align/aligndiagnosis.cpp:804
 #, kde-format
 msgid "Or switch Align to the local solver."
-msgstr ""
+msgstr "Of schakel Uitlijnen over naar de lokale oplosser."
 
 #: ekos/align/aligndiagnosis.cpp:817
 #, kde-format
@@ -8670,11 +8679,15 @@ msgstr "Controleer de rotator"
 #, kde-format
 msgid "Check that the rotator turns freely and its cables do not snag."
 msgstr ""
+"Controleer of de rotator vrij kan draaien en of de kabels nergens achter "
+"blijven haken."
 
 #: ekos/align/aligndiagnosis.cpp:824
 #, kde-format
 msgid "Check the reverse direction setting of the rotator driver."
 msgstr ""
+"Controleer de instelling voor de omgekeerde draairichting van de rotator-"
+"aansturing."
 
 #: ekos/align/aligndiagnosis.cpp:825
 #, kde-format
@@ -8694,23 +8707,23 @@ msgstr "De oplosser stopte na %1 seconden."
 #: ekos/align/aligndiagnosis.cpp:937
 #, kde-format
 msgid "The image is good: %1 round stars with a median HFR of %2 pixels."
-msgstr ""
+msgstr "De opname is goed: %1 ronde sterren met een mediane HFR van %2 pixels."
 
 #: ekos/align/aligndiagnosis.cpp:944 ekos/focus/focusdiagnosis.cpp:593
 #: ekos/focus/focusdiagnosis.cpp:681
 #, kde-format
 msgid "Check the sky and the dust cap"
-msgstr ""
+msgstr "Controleer de hemel en de stofkap"
 
 #: ekos/align/aligndiagnosis.cpp:945
 #, kde-format
 msgid "Only %1 stars were found in the failed frame."
-msgstr ""
+msgstr "Er werden slechts %1 sterren gevonden in het mislukte frame."
 
 #: ekos/align/aligndiagnosis.cpp:947
 #, kde-format
 msgid "Check that the dust cap or cover is open."
-msgstr ""
+msgstr "Controleer dat de stofkap of bedekking open is."
 
 #: ekos/align/aligndiagnosis.cpp:948 ekos/focus/focusdiagnosis.cpp:599
 #: ekos/focus/focusdiagnosis.cpp:684
@@ -8719,11 +8732,12 @@ msgid ""
 "Check for clouds, dew on the optics, or an obstruction in front of the "
 "telescope."
 msgstr ""
+"Controleer op wolken, dauw op de optiek of een obstakel voor de telescoop."
 
 #: ekos/align/aligndiagnosis.cpp:949
 #, kde-format
 msgid "Take a test exposure and look for stars."
-msgstr ""
+msgstr "Maak een testopname en kijk of er sterren te zien zijn."
 
 #: ekos/align/aligndiagnosis.cpp:959
 #, kde-format
@@ -8731,6 +8745,9 @@ msgid ""
 "The stars are rings, darker in the middle, as stars are when the telescope "
 "is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"De sterren zien eruit als ringen, donkerder in het midden – zoals sterren "
+"eruitzien wanneer de telescoop niet scherp is afgesteld. Hun mediane HFR "
+"bedraagt ​​%1 pixels."
 
 #: ekos/align/aligndiagnosis.cpp:961
 #, kde-format
@@ -8738,6 +8755,9 @@ msgid ""
 "The stars are flat discs without a bright core, as stars are when the "
 "telescope is out of focus. Their median HFR is %1 pixels."
 msgstr ""
+"De sterren zijn platte schijfjes zonder heldere kern, zoals sterren "
+"eruitzien wanneer de telescoop niet scherp is afgesteld. Hun mediane HFR "
+"bedraagt ​​%1 pixels."
 
 #: ekos/align/aligndiagnosis.cpp:963
 #, kde-format
@@ -8747,7 +8767,7 @@ msgstr "Focus de telescoop"
 #: ekos/align/aligndiagnosis.cpp:965
 #, kde-format
 msgid "Run autofocus in the Focus module, or focus by hand."
-msgstr ""
+msgstr "Voer autofocus uit in de Focus-module, of stel handmatig scherp."
 
 #: ekos/align/aligndiagnosis.cpp:987
 #, kde-format
@@ -8763,6 +8783,8 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds when the "
 "mount does not track."
 msgstr ""
+"De sterren lieten een spoor van %1 pixels achter; dit is de afstand waarover "
+"ze in %2 seconden verschuiven wanneer de opstelling niet volgt."
 
 #: ekos/align/aligndiagnosis.cpp:1000 ekos/focus/focusdiagnosis.cpp:631
 #: ekos/guide/guidediagnosis.cpp:323
@@ -8776,6 +8798,9 @@ msgid ""
 "The stars trailed %1 pixels, as far as they drift in %2 seconds without "
 "tracking, although the mount reports tracking."
 msgstr ""
+"De sterren vertoonden sporen van %1 pixels – de afstand waarover ze in %2 "
+"seconden zouden verschuiven zonder volgcorrectie – ook al geeft de "
+"opstelling aan dat deze wel volgt."
 
 #: ekos/align/aligndiagnosis.cpp:1004 ekos/focus/focusdiagnosis.cpp:632
 #: ekos/guide/guidediagnosis.cpp:324
@@ -8789,12 +8814,15 @@ msgid ""
 "Check that the RA clutch is locked: a slipping clutch leaves the telescope "
 "still while the motor tracks."
 msgstr ""
+"Controleer of de RK-koppeling vergrendeld is: een slippende koppeling zorgt "
+"ervoor dat de telescoop stil blijft staan ​​terwijl de motor de volgbeweging "
+"uitvoert."
 
 #: ekos/align/aligndiagnosis.cpp:1011 ekos/focus/focusdiagnosis.cpp:633
 #: ekos/guide/guidediagnosis.cpp:325
 #, kde-format
 msgid "Check that the mount is tracking at the sidereal rate."
-msgstr ""
+msgstr "Controleer of de opstelling de siderische snelheid volgt."
 
 #: ekos/align/aligndiagnosis.cpp:1012 ekos/focus/focusdiagnosis.cpp:634
 #: ekos/guide/guidediagnosis.cpp:326
@@ -8803,6 +8831,8 @@ msgid ""
 "Check the balance, and that nothing touches the telescope during the "
 "exposure, e.g. wind or cables."
 msgstr ""
+"Controleer de balans en zorg ervoor dat niets de telescoop aanraakt tijdens "
+"de belichting, zoals bijvoorbeeld wind of kabels."
 
 #: ekos/align/aligndiagnosis.cpp:1013 ekos/focus/focusdiagnosis.cpp:635
 #, kde-format
@@ -8813,7 +8843,7 @@ msgstr "Een kortere belichtingswaarde gebruiken"
 #: ekos/guide/guidediagnosis.cpp:335
 #, kde-format
 msgid "Check the mount for a sudden jump"
-msgstr ""
+msgstr "Controleer de opstelling op een plotselinge verspringing"
 
 #: ekos/align/aligndiagnosis.cpp:1023 ekos/focus/focusdiagnosis.cpp:645
 #: ekos/guide/guidediagnosis.cpp:336
@@ -8822,28 +8852,33 @@ msgid ""
 "Every star appears twice, %1 pixels apart: the mount jumped during the "
 "exposure."
 msgstr ""
+"Elke ster is dubbel te zien, met een onderlinge afstand van %1 pixels: de "
+"opstelling is tijdens de belichting versprongen."
 
 #: ekos/align/aligndiagnosis.cpp:1026 ekos/focus/focusdiagnosis.cpp:647
 #: ekos/guide/guidediagnosis.cpp:338
 #, kde-format
 msgid "Check the balance of both axes, and that the clutches are tight."
 msgstr ""
+"Controleer de balans van beide assen en zorg dat de koppelingen goed "
+"vastzitten."
 
 #: ekos/align/aligndiagnosis.cpp:1027 ekos/focus/focusdiagnosis.cpp:648
 #: ekos/guide/guidediagnosis.cpp:339
 #, kde-format
 msgid "Check that no cable snags or pulls on the telescope."
 msgstr ""
+"Controleer of er geen kabels aan de telescoop blijven haken of eraan trekken."
 
 #: ekos/align/aligndiagnosis.cpp:1028
 #, kde-format
 msgid "Check the gear backlash of the mount."
-msgstr ""
+msgstr "Controleer de tandwielspeling van de opstelling."
 
 #: ekos/align/aligndiagnosis.cpp:1039 ekos/focus/focusdiagnosis.cpp:578
 #, kde-format
 msgid "Image: the star shapes in the failed frame were not measured."
-msgstr ""
+msgstr "Afbeelding: de stervormen in het mislukte frame werden niet opgemeten."
 
 #: ekos/align/aligndiagnosis.cpp:1061
 #, kde-format
@@ -8866,6 +8901,9 @@ msgid ""
 "The solver also ran without the scale and position hints, so a wrong focal "
 "length or a wrong mount position alone is not the cause."
 msgstr ""
+"De oplosser werkte ook zonder de aanwijzingen voor schaal en positie; een "
+"onjuiste brandpuntsafstand of een verkeerde opstellingspositie is dus op "
+"zichzelf niet de oorzaak."
 
 #: ekos/align/aligndiagnosis.cpp:1211
 #, kde-format
@@ -8884,6 +8922,8 @@ msgid ""
 "Check the focal length, reducer and pixel size: a wrong field of view stops "
 "the solver."
 msgstr ""
+"Controleer de brandpuntsafstand, de verzwakker en de pixelgrootte: een "
+"onjuist gezichtsveld zorgt ervoor dat de oplosser niet werkt."
 
 #: ekos/align/aligndiagnosis.cpp:1216
 #, kde-format
@@ -8891,17 +8931,22 @@ msgid ""
 "Check the time, time zone and location of KStars and the mount: a wrong "
 "position hint stops the solver."
 msgstr ""
+"Controleer de tijd, tijdzone en locatie van KStars en de opstelling: een "
+"onjuiste positie-indicatie zorgt ervoor dat het oplosproces stopt."
 
 #: ekos/align/aligndiagnosis.cpp:1217
 #, kde-format
 msgid "Check that the index files for this field of view are installed."
 msgstr ""
+"Controleer of de indexbestanden voor dit gezichtsveld zijn geïnstalleerd."
 
 #: ekos/align/aligndiagnosis.cpp:1218
 #, kde-format
 msgid ""
 "Enable Alignment Logging in Setup Tab -> Logs to get details on the failure."
 msgstr ""
+"Schakel Uitlijning loggen in via het tabblad Instellingen -> Logs om details "
+"over de fout te verkrijgen."
 
 #: ekos/align/aligndiagnosis.cpp:1243 ekos/focus/focusdiagnosis.cpp:1195
 #, kde-format
@@ -8927,6 +8972,8 @@ msgstr "Brandpuntsafstand, diafragma en pixelgrootte zijn ingesteld."
 #, kde-format
 msgid "Align solved with the current exposure, binning and solver profile."
 msgstr ""
+"Uitlijnen loste op op basis van de huidige belichting, binning en oplosser-"
+"profiel."
 
 #: ekos/align/aligndiagnosis.cpp:1336
 #, kde-format
@@ -8936,7 +8983,7 @@ msgstr "Uitlijnen zier eruit als gereed"
 #: ekos/align/aligndiagnosis.cpp:1337
 #, kde-format
 msgid "No problems were found in the Align setup."
-msgstr ""
+msgstr "Er werden geen problemen aangetroffen in de Uitlijn-configuratie."
 
 #: ekos/align/aligndiagnosis.cpp:1341 ekos/focus/focusdiagnosis.cpp:1231
 #: ekos/guide/guidediagnosis.cpp:822
@@ -14761,7 +14808,7 @@ msgstr "Voorgesteld:"
 #: ekos/auxiliary/diagnosis.cpp:241
 #, kde-format
 msgid "likely cause"
-msgstr ""
+msgstr "waarschijnlijke oorzaak"
 
 #: ekos/auxiliary/diagnosis.cpp:243
 #, kde-format
@@ -14771,7 +14818,7 @@ msgstr "verplaatst apparatuur"
 #: ekos/auxiliary/diagnosis.cpp:247
 #, kde-format
 msgid "download about %1 MB"
-msgstr ""
+msgstr "download ongeveer %1 MB"
 
 #: ekos/auxiliary/diagnosis.cpp:249
 #, kde-format
@@ -14781,7 +14828,7 @@ msgstr "heeft internet nodig"
 #: ekos/auxiliary/diagnosis.cpp:252
 #, kde-format
 msgid "stops another activity"
-msgstr ""
+msgstr "stopt een andere activiteit"
 
 #: ekos/auxiliary/diagnosisactions.h:50
 #, kde-format
@@ -14797,17 +14844,17 @@ msgstr "Tijdslimiet overschreden."
 #: ekos/auxiliary/diagnosismanager.cpp:230
 #, kde-format
 msgid "Diagnosis: the fix worked."
-msgstr ""
+msgstr "Diagnose: de reparatie werkte."
 
 #: ekos/auxiliary/diagnosismanager.cpp:326
 #, kde-format
 msgid "Diagnosis: applying \"%1\"..."
-msgstr ""
+msgstr "Diagnose: \"%1\" wordt toegepast..."
 
 #: ekos/auxiliary/diagnosismanager.cpp:373
 #, kde-format
 msgid "Diagnosis: \"%1\" failed. %2"
-msgstr ""
+msgstr "Diagnose: \"%1\" is mislukt. %2"
 
 #: ekos/auxiliary/diagnosismanager.cpp:390
 #, kde-format
@@ -14818,7 +14865,7 @@ msgstr "Diagnose: de reparatie is mislukt. %1"
 #: ekos/auxiliary/diagnosismanager.cpp:479
 #, kde-format
 msgid "Diagnosis: retrying..."
-msgstr ""
+msgstr "Diagnose: opnieuw proberen..."
 
 #: ekos/auxiliary/diagnosismanager.cpp:430
 #: ekos/auxiliary/diagnosismanager.cpp:482
@@ -14829,7 +14876,7 @@ msgstr "Het opnieuw doen kon niet beginnen."
 #: ekos/auxiliary/diagnosismanager.cpp:444
 #, kde-format
 msgid "Diagnosis: the change was reverted."
-msgstr ""
+msgstr "Diagnose: de wijziging was teruggedraaid."
 
 #: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
@@ -18443,6 +18490,9 @@ msgid ""
 "duration in the Calibration options, or set the image transfer format to "
 "FITS or XISF."
 msgstr ""
+"De ADU van flat-frames in %1 afbeeldingen kan niet worden berekend. "
+"Selecteer Handmatige flat-duur (Manual flat duration) in de kalibratie-"
+"opties, of stel het overdrachtsformaat voor afbeeldingen in op FITS of XISF."
 
 #: ekos/capture/cameraprocess.cpp:1644
 #, kde-format
@@ -18689,6 +18739,9 @@ msgid ""
 "Current ADU %1 is below the target at the maximum light box brightness. "
 "Checking at brightness %2 that the light box gives light."
 msgstr ""
+"De huidige ADU-waarde (%1) ligt onder de streefwaarde bij de maximale "
+"helderheid van de lichtbak. Er wordt gecontroleerd of de lichtbak licht "
+"geeft bij helderheidsniveau %2."
 
 #: ekos/capture/cameraprocess.cpp:2842
 #, kde-format
@@ -18785,6 +18838,9 @@ msgid ""
 "Light box brightness left at %1 instead of restoring it to %2, since some "
 "light boxes switch their light off at that brightness."
 msgstr ""
+"De helderheid van de lichtbak is op %1 gelaten in plaats van deze terug te "
+"zetten naar %2, aangezien sommige lichtbakken bij die helderheid hun "
+"verlichting uitschakelen."
 
 #: ekos/capture/cameraprocess.cpp:3006
 #, kde-format
@@ -20485,6 +20541,8 @@ msgid ""
 "Field derotation: the position angle changed by %1° at once. Holding the new "
 "position angle instead of rotating."
 msgstr ""
+"Veldrotatiecorrectie: de positiehoek is in één keer met %1° gewijzigd. De "
+"nieuwe positiehoek wordt aangehouden in plaats van verder te roteren."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -20675,12 +20733,14 @@ msgstr "Uitlijnopties"
 #, kde-format
 msgid "Available when the mount driver reports an Alt-Az mount type."
 msgstr ""
+"Beschikbaar wanneer het opstellingsstuurprogramma een Hgt-Az-opstellingstype "
+"meldt."
 
 #. i18n: ectx: property (title), widget (QGroupBox, DerotationGroup)
 #: ekos/capture/rotatorsettings.ui:592
 #, kde-format
 msgid "Alt-Az Field Derotation"
-msgstr "Alt-Az veldrotatiecorrectie"
+msgstr "Hgt-Az veldrotatiecorrectie"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, derotateField)
 #: ekos/capture/rotatorsettings.ui:613
@@ -20689,6 +20749,8 @@ msgid ""
 "While the mount tracks, turn the rotator to keep the camera position angle "
 "constant."
 msgstr ""
+"Terwijl de opstelling volgt, draait u de rotator om de hoek van de "
+"camerapositie constant te houden."
 
 #. i18n: ectx: property (text), widget (QCheckBox, derotateField)
 #: ekos/capture/rotatorsettings.ui:616
@@ -23133,11 +23195,14 @@ msgid ""
 "Autofocus never reached focus: the smallest stars had an HFR of %1, %2 times "
 "the %3 of recent good runs, and the run had no V."
 msgstr ""
+"De autofocus heeft nooit een scherp beeld bereikt: de kleinste sterren "
+"hadden een HFR van %1, oftewel %2 keer de %3 van recente geslaagde runs, en "
+"de run bevatte geen V-metingen."
 
 #: ekos/focus/focus_diagnosis.cpp:183
 #, kde-format
 msgid "HFR %1 = %2x in focus"
-msgstr ""
+msgstr "HFR %1 = %2x in focus"
 
 #: ekos/focus/focus_diagnosis.cpp:426
 #, kde-format
@@ -23147,7 +23212,7 @@ msgstr "Focus is niet beschikbaar."
 #: ekos/focus/focus_diagnosis.cpp:428 ekos/focus/focus_diagnosis.cpp:536
 #, kde-format
 msgid "Focus is busy. Try again when it has finished."
-msgstr ""
+msgstr "Focus is bezig. Probeer het opnieuw zodra het klaar is."
 
 #: ekos/focus/focus_diagnosis.cpp:433 ekos/guide/guide_diagnosis.cpp:263
 #, kde-format
@@ -23162,7 +23227,7 @@ msgstr "Het focuser is niet verbonden."
 #: ekos/focus/focus_diagnosis.cpp:541
 #, kde-format
 msgid "No good focus position is known for this filter."
-msgstr ""
+msgstr "Er is geen goede focuspositie bekend voor dit filter."
 
 #: ekos/focus/focus_diagnosis.cpp:543
 #, kde-format
@@ -23632,6 +23697,8 @@ msgstr "Verhoog de stapgrootte naar %1 ms"
 #, kde-format
 msgid "The focuser moves by time, and a step of %1 ms is too short to move it."
 msgstr ""
+"De focuser beweegt op basis van tijd, en een stap van %1 ms is te kort om "
+"deze in beweging te krijgen."
 
 #: ekos/focus/focusdiagnosis.cpp:163
 #, kde-format
@@ -23653,7 +23720,7 @@ msgstr ""
 #: ekos/focus/focusdiagnosis.cpp:191
 #, kde-format
 msgid "Move the focuser close to focus"
-msgstr ""
+msgstr "Breng de focuser dicht bij het brandpunt"
 
 #: ekos/focus/focusdiagnosis.cpp:193
 #, kde-format
@@ -23661,11 +23728,15 @@ msgid ""
 "Point the telescope at a bright star, and loop short exposures from the "
 "Focus module."
 msgstr ""
+"Richt de telescoop op een heldere ster en laat in de Focus-module korte "
+"opnames achter elkaar maken."
 
 #: ekos/focus/focusdiagnosis.cpp:194
 #, kde-format
 msgid "Move the focuser in or out until the star is small and sharp."
 msgstr ""
+"Verplaats de focuser naar binnen of naar buiten totdat de ster klein en "
+"scherp is."
 
 #: ekos/focus/focusdiagnosis.cpp:195
 #, kde-format
@@ -23683,12 +23754,16 @@ msgid ""
 "Focus Advisor finds the focus area and sets the step size, backlash and "
 "overscan for this focuser."
 msgstr ""
+"Focus-adviseur bepaalt het focusbereik en stelt de stapgrootte, speling "
+"(backlash) en overscan voor deze focuser in."
 
 #: ekos/focus/focusdiagnosis.cpp:234
 #, kde-format
 msgid ""
 "The last good autofocus ended at %1. This run started at %2, %3 steps away."
 msgstr ""
+"De laatste geslaagde autofocus eindigde om %1. Deze uitvoering begon om %2, "
+"op een afstand van %3 stappen."
 
 #: ekos/focus/focusdiagnosis.cpp:236
 #, kde-format
@@ -23696,11 +23771,13 @@ msgid ""
 "The last good autofocus with filter %1 ended at %2. This run started at %3, "
 "%4 steps away."
 msgstr ""
+"De laatste geslaagde autofocus met filter %1 eindigde om %2. Deze uitvoering "
+"begon om %3, op een afstand van %4 stappen."
 
 #: ekos/focus/focusdiagnosis.cpp:239
 #, kde-format
 msgid "It was %1 °C then."
-msgstr ""
+msgstr "Het was toen %1 °C."
 
 #: ekos/focus/focusdiagnosis.cpp:241
 #, kde-format
@@ -23708,6 +23785,9 @@ msgid ""
 "The Adaptive Focus settings of the filter move it by %1 steps for the change "
 "of temperature and altitude since: focus should be near %2 now."
 msgstr ""
+"De Adaptieve focusinstellingen van het filter verplaatsen dit in stappen van "
+"%1 als reactie op veranderingen in temperatuur en hoogte; de ​​focus zou zich "
+"nu dus in de buurt van %2 moeten bevinden."
 
 #: ekos/focus/focusdiagnosis.cpp:245
 #, kde-format
@@ -23717,7 +23797,7 @@ msgstr "De focuser verplaatsen naar %1?"
 #: ekos/focus/focusdiagnosis.cpp:262
 #, kde-format
 msgid "Correct the focuser backlash only once"
-msgstr ""
+msgstr "Corrigeer de speling van de focuser slechts één keer"
 
 #: ekos/focus/focusdiagnosis.cpp:263
 #, kde-format
@@ -23725,6 +23805,9 @@ msgid ""
 "The focuser driver corrects %1 steps of backlash, and AF Overscan adds %2 "
 "steps: the backlash is corrected twice."
 msgstr ""
+"De focuser-sturing corrigeert %1 stappen aan speling (backlash) en AF "
+"Overscan voegt daar %2 stappen aan toe: de speling wordt dus tweemaal "
+"gecorrigeerd."
 
 #: ekos/focus/focusdiagnosis.cpp:265
 #, kde-format
@@ -23732,11 +23815,13 @@ msgid ""
 "Keep one of the two: set the driver backlash to 0 and keep AF Overscan, or "
 "set AF Overscan to 0 and keep the driver backlash."
 msgstr ""
+"Kies een van de twee opties: stel de besturingsspeling in op 0 en behoud AF "
+"Overscan of stel AF Overscan in op 0 en behoud de besturingsspeling."
 
 #: ekos/focus/focusdiagnosis.cpp:267
 #, kde-format
 msgid "Both are in the Focus mechanics settings."
-msgstr ""
+msgstr "Beiden zijn in de focus-mechaniek-instellingen."
 
 #: ekos/focus/focusdiagnosis.cpp:283 ekos/focus/focusdiagnosis.cpp:723
 #, kde-format
@@ -23749,6 +23834,9 @@ msgid ""
 "A run of %1 steps out with steps of %2 needs %3 steps of travel, but the "
 "maximum travel is %4: the run is cut short."
 msgstr ""
+"Een reeks van %1 stappen met een stapgrootte van %2 vereist een verplaatsing "
+"over %3 stappen, maar de maximale verplaatsing is %4: de reeks wordt "
+"voortijdig afgebroken."
 
 #: ekos/focus/focusdiagnosis.cpp:304
 #, kde-format
@@ -23763,7 +23851,7 @@ msgstr "Controleer de hemel en het zien"
 #: ekos/focus/focusdiagnosis.cpp:314
 #, kde-format
 msgid "Check for clouds, haze or dew on the optics."
-msgstr ""
+msgstr "Controleer de optiek op wolken, nevel of dauw."
 
 #: ekos/focus/focusdiagnosis.cpp:315
 #, kde-format
@@ -23775,6 +23863,8 @@ msgstr "Controleer of de wind de telescoop niet doet schudden."
 msgid ""
 "In poor seeing, use longer exposures so each measurement averages more of it."
 msgstr ""
+"Gebruik bij slechte waarnemingsomstandigheden langere belichtingstijden, "
+"zodat elke meting een groter gemiddelde daarvan bevat."
 
 #: ekos/focus/focusdiagnosis.cpp:326
 #, kde-format
@@ -23797,16 +23887,20 @@ msgstr "Autofocus convergeerde niet"
 #, kde-format
 msgid "Autofocus stopped after too many steps without finding the focus."
 msgstr ""
+"Autofocus is gestopt na te veel stappen zonder het scherpstelpunt te hebben "
+"gevonden."
 
 #: ekos/focus/focusdiagnosis.cpp:334
 #, kde-format
 msgid "The focuser did not move"
-msgstr ""
+msgstr "De focuser verplaatste zich niet"
 
 #: ekos/focus/focusdiagnosis.cpp:335
 #, kde-format
 msgid "Autofocus asked the focuser to move, but the move failed."
 msgstr ""
+"De autofocus verzocht de focuser om te bewegen, maar de verplaatsing "
+"mislukte."
 
 #: ekos/focus/focusdiagnosis.cpp:338
 #, kde-format
@@ -23816,17 +23910,19 @@ msgstr "De focuskromme sluit slecht aan"
 #: ekos/focus/focusdiagnosis.cpp:339
 #, kde-format
 msgid "The measurements scatter too much around the fitted curve."
-msgstr ""
+msgstr "De metingen vertonen een te grote spreiding rond de aangepaste curve."
 
 #: ekos/focus/focusdiagnosis.cpp:342
 #, kde-format
 msgid "The star size barely changed"
-msgstr ""
+msgstr "De grootte van de ster veranderde nauwelijks"
 
 #: ekos/focus/focusdiagnosis.cpp:343
 #, kde-format
 msgid "The steps are too small to show a change in the star size."
 msgstr ""
+"De stappen zijn te klein om een ​​verandering in de grootte van de ster te "
+"laten zien."
 
 #: ekos/focus/focusdiagnosis.cpp:346
 #, kde-format
@@ -23837,16 +23933,19 @@ msgstr "De focuser heeft zijn limiet bereikt."
 #, kde-format
 msgid "Autofocus needed to move past the maximum travel or the focuser limits."
 msgstr ""
+"De autofocus moest voorbij de maximale verplaatsing of de limieten van het "
+"scherpstelmechanisme bewegen."
 
 #: ekos/focus/focusdiagnosis.cpp:350
 #, kde-format
 msgid "The measurements fluctuate"
-msgstr ""
+msgstr "De metingen fluctueren"
 
 #: ekos/focus/focusdiagnosis.cpp:351
 #, kde-format
 msgid "The star size went up and down too often to find a trend."
 msgstr ""
+"De grootte van de ster varieerde te vaak om een ​​trend te kunnen ontdekken."
 
 #: ekos/focus/focusdiagnosis.cpp:354
 #, kde-format
@@ -23866,17 +23965,17 @@ msgstr "De tolerantie is niet geldig"
 #: ekos/focus/focusdiagnosis.cpp:359
 #, kde-format
 msgid "The tolerance of the autofocus algorithm is out of range."
-msgstr ""
+msgstr "De tolerantie van het autofocusalgoritme valt buiten het bereik."
 
 #: ekos/focus/focusdiagnosis.cpp:362
 #, kde-format
 msgid "No focus curve could be fitted"
-msgstr ""
+msgstr "Er kon geen focuskromme worden aangepast"
 
 #: ekos/focus/focusdiagnosis.cpp:363
 #, kde-format
 msgid "The measurements do not form a focus curve."
-msgstr ""
+msgstr "De metingen vormen geen focuskromme."
 
 #: ekos/focus/focusdiagnosis.cpp:366
 #, kde-format
@@ -23922,16 +24021,19 @@ msgstr "Er is geen focuser beschikbaar."
 #, kde-format
 msgid "Focus has no connected focuser to move."
 msgstr ""
+"Focus heeft geen aangesloten scherpstelmechanisme om te kunnen bewegen."
 
 #: ekos/focus/focusdiagnosis.cpp:390
 #, kde-format
 msgid "The step size is too small"
-msgstr ""
+msgstr "De stapgrootte is te klein"
 
 #: ekos/focus/focusdiagnosis.cpp:391
 #, kde-format
 msgid "The focuser moves by time, and the step is too short to move it."
 msgstr ""
+"De focuser beweegt op basis van tijd, en een stap is te kort om deze in "
+"beweging te krijgen."
 
 #: ekos/focus/focusdiagnosis.cpp:395
 #, kde-format
@@ -23949,11 +24051,16 @@ msgid ""
 "The smallest stars of the run had an HFR of %1 pixels, %2 times the %3 "
 "pixels of your recent good autofocus runs, and the run had no V."
 msgstr ""
+"De kleinste sterren van de run hadden een HFR van %1 pixels, oftewel %2 keer "
+"de %3 pixels van uw recente, geslaagde autofocus-runs; bovendien bevatte de "
+"run geen V-metingen."
 
 #: ekos/focus/focusdiagnosis.cpp:405
 #, kde-format
 msgid "The stars stayed far larger than in focus, and the run had no V."
 msgstr ""
+"De sterren bleven veel groter dan in de scherpgestelde toestand en de "
+"lichtsporen vertoonden geen V-vorm."
 
 #: ekos/focus/focusdiagnosis.cpp:408
 #, kde-format
@@ -23968,7 +24075,7 @@ msgstr "Detail"
 #: ekos/focus/focusdiagnosis.cpp:449
 #, kde-format
 msgid "Last HFR"
-msgstr ""
+msgstr "Laatste HFR"
 
 #: ekos/focus/focusdiagnosis.cpp:457
 #, kde-format
@@ -23993,7 +24100,7 @@ msgstr "In focus"
 #: ekos/focus/focusdiagnosis.cpp:470
 #, kde-format
 msgid "Larger than in focus"
-msgstr ""
+msgstr "Groter dan in focus"
 
 #: ekos/focus/focusdiagnosis.cpp:472
 #, kde-format
@@ -24023,7 +24130,7 @@ msgstr "De focuser %1 is gestopt met antwoorden."
 #: ekos/focus/focusdiagnosis.cpp:505
 #, kde-format
 msgid "The focuser %1 did not move as asked."
-msgstr ""
+msgstr "De focuser %1 verplaatste zich niet zoals gevraagd."
 
 #: ekos/focus/focusdiagnosis.cpp:506
 #, kde-format
@@ -50145,6 +50252,8 @@ msgid ""
 "On an Alt-Az mount, turn the rotator while the mount tracks to keep the "
 "camera position angle constant."
 msgstr ""
+"Draai bij een Hgt-Az opstelling aan de rotator terwijl de opstelling volgt, "
+"om de hoek van de camerapositie constant te houden."
 
 #. i18n: ectx: whatsthis, entry (RotatorDerotationThreshold), group (Align)
 #: kstars.kcfg:2965

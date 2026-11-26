@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-24 17:39+0300\n"
+"PO-Revision-Date: 2026-11-25 17:51+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7849,8 +7849,8 @@ msgid ""
 "The mount driver cannot switch tracking on. Start tracking at the sidereal "
 "rate from the hand controller."
 msgstr ""
-"Kaide sürücüsü, izlemeyi açamıyor. El kumandasında, yıldız oranından "
-"izlemeyi başlatın."
+"Kaide sürücüsü, izlemeyi açamıyor. El kumandasında, yıldız hızında izlemeyi "
+"başlatın."
 
 #: ekos/align/aligndiagnosis.cpp:350
 #, kde-format
@@ -8366,7 +8366,7 @@ msgstr "Çekim hataları"
 #: ekos/align/aligndiagnosis.cpp:637
 #, kde-format
 msgid "Driver restarts"
-msgstr "Sürücüyü yeniden başlatmaları"
+msgstr "Sürücü yeniden başlatmaları"
 
 #: ekos/align/aligndiagnosis.cpp:659
 #, kde-format
@@ -8777,7 +8777,7 @@ msgstr ""
 #: ekos/guide/guidediagnosis.cpp:325
 #, kde-format
 msgid "Check that the mount is tracking at the sidereal rate."
-msgstr ""
+msgstr "Kaidenin yıldız hızında izlediğinden emin olun."
 
 #: ekos/align/aligndiagnosis.cpp:1012 ekos/focus/focusdiagnosis.cpp:634
 #: ekos/guide/guidediagnosis.cpp:326
@@ -27916,35 +27916,38 @@ msgstr ""
 #: ekos/guide/guide_diagnosis.cpp:261
 #, kde-format
 msgid "Guide is busy. Try again when it has stopped."
-msgstr ""
+msgstr "Kılavuz meşgûl. Durduktan sonra yeniden deneyin."
 
 #: ekos/guide/guide_diagnosis.cpp:310
-#, fuzzy, kde-format
-#| msgid "The solver timeout is already at its limit."
+#, kde-format
 msgid "The guide square is already at its largest."
-msgstr "Çözücü zaman aşımı, hâlihazırda sınırında."
+msgstr "Kılavuz karesi olabileceğinin en büyük boyutunda."
 
 #: ekos/guide/guidediagnosis.cpp:69
 #, kde-format
 msgctxt "%3 is RA or DEC"
 msgid "Pulses of %1 ms moved the star only %2 pixels in %3."
 msgstr ""
+"%1 ms’lik darbeler, yıldızı %3 olarak yalnızca %2 piksel hareket ettirdi."
 
 #: ekos/guide/guidediagnosis.cpp:71
 #, kde-format
 msgctxt "%1 is RA or DEC"
 msgid "The star barely moved while the mount was pulsed in %1."
-msgstr ""
+msgstr "Kaide %1 olarak darbelendikten sonra yıldız güç bela hareket etti."
 
 #: ekos/guide/guidediagnosis.cpp:78
 #, kde-format
 msgid "Check the mount power supply: a low voltage weakens the motors."
 msgstr ""
+"Kaide güç kaynağını denetleyin: Düşük voltaj, motorları zayıflatabilir."
 
 #: ekos/guide/guidediagnosis.cpp:79
 #, kde-format
 msgid "Check that no cable drags or snags as the mount moves."
 msgstr ""
+"Kaide hareket ederken sürüklenen veya takılan kablo olup olmadığını "
+"denetleyin."
 
 #: ekos/guide/guidediagnosis.cpp:81
 #, kde-format
@@ -27952,6 +27955,8 @@ msgid ""
 "The pulses go through the camera %1: check the ST4 cable between the camera "
 "and the mount."
 msgstr ""
+"Darbeler, kamera %1 aracılığıyla gider: Kamera ve kaide arasındaki S4 "
+"kablosunu denetleyin."
 
 #: ekos/guide/guidediagnosis.cpp:83
 #, kde-format
@@ -27959,6 +27964,8 @@ msgid ""
 "Check the guide rate in the mount driver or hand controller: 0.5x sidereal "
 "is typical."
 msgstr ""
+"Kaide sürücüsü veya el kumandasındaki kılavuz hızını denetleyin: 0,5× yıldız "
+"hızı genelde normaldir."
 
 #: ekos/guide/guidediagnosis.cpp:89
 #, fuzzy, kde-format
@@ -28514,10 +28521,9 @@ msgid "Guide exposures timed out several times."
 msgstr "Kılavuz modülü zaman aşımına uğradı."
 
 #: ekos/guide/guidediagnosis.cpp:532
-#, fuzzy, kde-format
-#| msgid "Failed to reconnect camera after driver restart."
+#, kde-format
 msgid "The guide camera did not come back after a driver restart."
-msgstr "Sürücü yeniden başlatıldıktan sonra kameraya yeniden bağlanılamadı."
+msgstr "Kılavuz kamera, sürücüyü yeniden başlattıktan sonra geri gelmedi."
 
 #: ekos/guide/guidediagnosis.cpp:533
 #, kde-format
@@ -28634,12 +28640,16 @@ msgid ""
 "The last calibration measured a guide rate of %1x sidereal: the star barely "
 "moves for each pulse."
 msgstr ""
+"Son kalibrasyon, %1× yıldız hızı kadar bir kılavuz hızı ölçtü: Yıldız, her "
+"bir darbede güç bela hareket ediyor."
 
 #: ekos/guide/guidediagnosis.cpp:784
 #, kde-format
 msgid ""
 "Set the guide rate to 0.5x sidereal in the mount driver or hand controller."
 msgstr ""
+"Kaide sürücüsü ile veya el kumandası ile kılavuz hızını 0,5× yıldız hızı "
+"olarak ayarlayın."
 
 #: ekos/guide/guidediagnosis.cpp:785
 #, fuzzy, kde-format
@@ -28650,7 +28660,7 @@ msgstr "Kalibre ediliyor"
 #: ekos/guide/guidediagnosis.cpp:790
 #, kde-format
 msgid "The last calibration measured a guide rate of %1x sidereal."
-msgstr ""
+msgstr "Son kalibrasyon, kılavuz hızını %1× yıldız hızı olarak ölçtü."
 
 #: ekos/guide/guidediagnosis.cpp:817
 #, fuzzy, kde-format
@@ -90536,7 +90546,7 @@ msgstr "Yıldız zamanı"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sidereal"
-msgstr "Yıldız"
+msgstr "Yıldızıl"
 
 #: libindi_strings.cpp:430
 #, kde-kuit-format
@@ -91274,7 +91284,7 @@ msgstr "sıfırla"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "sidereal"
-msgstr "yıldız"
+msgstr "yıldızıl"
 
 #: libindi_strings.cpp:553
 #, kde-kuit-format
@@ -97876,9 +97886,9 @@ msgid ""
 msgstr ""
 "<QT>Zaman efemerisini hesaplamak için algoritmaları içeren "
 "bölüm<UL><LI><B>Jülyen tarihi:</B> Jülyen tarihi/Takvim dönüşümü</"
-"LI><LI><B>Yıldız zamanı:</B> Yıldız/Evrensel zaman dönüşümü</"
+"LI><LI><B>Yıldız zamanı:</B> Yıldızıl/Evrensel Zaman dönüşümü</"
 "LI><LI><B>Almanak:</B> Güneş ve Ay için doğuş/batış/geçiş zamanı ve konumu "
-"verisi</LI><LI><B>Equinoxes & Solstices:</B> Ekinokslar, gündönümleri ve "
+"verisi</LI><LI><B>Equinoxes & Solstices:</B> Ekinokslar, gün dönümleri ve "
 "mevsimlerin süreleri</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
@@ -103434,7 +103444,7 @@ msgstr "saat"
 #, kde-format
 msgctxt "sidereal day"
 msgid "sid day"
-msgstr "yıld tar"
+msgstr "yld gün"
 
 #: widgets/timespinbox.cpp:143
 #, kde-format

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-19 14:44+0100\n"
+"PO-Revision-Date: 2026-11-24 13:42+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -513,7 +513,7 @@ msgstr "No s'ha pogut fer la guardada de la imatge %1."
 #: auxiliary/ksdssdownloader.cpp:208 auxiliary/ksdssdownloader.cpp:236
 #, kde-format
 msgid "DSS Download"
-msgstr "Baixada de la DSS"
+msgstr "Baixeu la DSS"
 
 #: auxiliary/ksdssdownloader.cpp:209 auxiliary/ksdssdownloader.cpp:237
 #, kde-format
@@ -14152,7 +14152,7 @@ msgstr "Nom. d'execucions d'enfocament. Establiu per filtre. 0 per a ignorar"
 #: ekos/auxiliary/buildfilteroffsets.cpp:463
 #, kde-format
 msgid "AF Run %1"
-msgstr "Execució de l'EA %1"
+msgstr "Executeu l'EA %1"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:466
 #, kde-format
@@ -14160,8 +14160,8 @@ msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
 "from average."
 msgstr ""
-"Execució de l'EA %1. Calculat automàticament, però es pot editar. Establiu-"
-"la a 0 per a excloure'l de la mitjana."
+"Executeu l'EA %1. Calculat automàticament, però es pot editar. Establiu-la a "
+"0 per a excloure'l de la mitjana."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
@@ -14245,7 +14245,7 @@ msgstr "Problema mentre es canviava el filtre a %1…"
 #: ekos/auxiliary/buildfilteroffsets.cpp:646
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr "S'està executant l'enfocament automàtic en %1 (%2/%3)…"
+msgstr "S'està executant l'enfocament automàtic en «%1» (%2/%3)…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:776
 #, kde-format
@@ -15275,13 +15275,13 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Establix els desplaçaments <span style=\"font-style:"
 "italic;\">relatius</span> del filtre en passos directament en la taula o "
-"utilitzeu l'eina «Construcció dels desplaçaments».</p></body></html>"
+"utilitzeu l'eina «Construïx els desplaçaments».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
 #, kde-format
 msgid "Build Offsets"
-msgstr "Construcció dels desplaçaments"
+msgstr "Construïx els desplaçaments"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -19337,7 +19337,7 @@ msgstr ""
 #: ekos/capture/cameraprocess.cpp:3702
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "Segur que voleu tornar a iniciar el controlador de la càmera %1?"
+msgstr "Segur que voleu tornar a iniciar el controlador de la càmera «%1»?"
 
 #: ekos/capture/cameraprocess.cpp:3703
 #, kde-format
@@ -20327,7 +20327,7 @@ msgstr "No s'ha pogut baixar: %1"
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
 #, kde-format
 msgid "Camera Data Download"
-msgstr "Baixada de les dades de les càmeres"
+msgstr "Baixeu les dades de les càmeres"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
@@ -22830,7 +22830,7 @@ msgstr "Editor de perfils d'opcions de l'enfocament"
 #: ekos/guide/opsgpg.ui:93 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Configureu"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
 #: ekos/focus/focus.cpp:200 ekos/focus/opsfocussettings.ui:14
@@ -24113,7 +24113,7 @@ msgstr ""
 #: ekos/focus/focusadvisor.cpp:1534
 #, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Actualització del resultat de l'«Assessor d'enfocament»: %1"
+msgstr "Actualitzeu el resultat de l'«Assessor d'enfocament»: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -25435,7 +25435,7 @@ msgstr ""
 "(ajust perfecte). 0,8 és un bon començament. Si no es complix el mínim, "
 "l'enfocament automàtic es tornarà a executar una vegada per a intentar "
 "millorar R². Actualment només estarà disponible per a l'algorisme lineal d'1 "
-"pas quan s'utilitza un «Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</"
+"pas quan s'utilitza un «Ajusteu la corba» d'«Hipèrbola» o de «Paràbola».</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
@@ -25452,7 +25452,7 @@ msgstr ""
 "estàndard HFR o FWHM de l'estrela com a ponderació a l'algorisme d'ajust de "
 "la corba. Si la desmarqueu, tots els punts de dades tindran la mateixa "
 "ponderació. Actualment, només estarà disponible quan s'utilitza «Camp "
-"complet» (múltiples estreles) i un «Ajust de la corba» d'«Hipèrbola» o de "
+"complet» (múltiples estreles) i un «Ajusteu la corba» d'«Hipèrbola» o de "
 "«Paràbola» davall l'algorisme «Lineal d'1 pas».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
@@ -25761,7 +25761,7 @@ msgstr "Bahtinov"
 #: ekos/focus/opsfocusprocess.ui:357
 #, kde-format
 msgid "Curve Fit:"
-msgstr "Ajust de la corba:"
+msgstr "Ajusteu la corba:"
 
 # skip-rule: t-2p_sp
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
@@ -25824,7 +25824,7 @@ msgstr ""
 "weight:600;\">Lineal d'1 pas</span>: Comença com el <span style=\"font-"
 "weight:600;\">Lineal</span> però després de completar el 1r pas, en lloc de "
 "fer un 2n pas, es mou directament cap al valor HFR mínim calculat. Utilitzeu "
-"l'«Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</li></ul></body></html>"
+"l'«Ajusteu la corba» d'«Hipèrbola» o de «Paràbola».</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:380
@@ -28032,6 +28032,8 @@ msgstr "No s'admet l'agrupament %1x%1 del guiatge. El màxim és %2x%2."
 #, kde-format
 msgid "Guide camera size changed to %1 x %2 pixels, using the full frame."
 msgstr ""
+"La mida de la càmera de guiatge ha canviat a %1 × %2 píxels, emprant el "
+"fotograma complet."
 
 #: ekos/guide/guide.cpp:2513
 #, kde-format
@@ -28039,6 +28041,8 @@ msgid ""
 "The guide calibration may no longer match the new camera size. Calibrate "
 "again if guiding becomes unstable."
 msgstr ""
+"És possible que el calibratge del guiatge ja no coincidisca amb la mida nova "
+"de la càmera. Torneu a calibrar-lo si es torna inestable."
 
 #: ekos/guide/guide.cpp:2530
 #, kde-format
@@ -28155,7 +28159,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
-msgstr "Càrrega de les ponderacions del sistema de guiatge per IA"
+msgstr "Carregueu les ponderacions del sistema de guiatge per IA"
 
 #: ekos/guide/guide.cpp:4063
 #, kde-format
@@ -38155,7 +38159,7 @@ msgstr "S'està ometent %1: %2 no admet %3"
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
 msgid "Load Task Collection"
-msgstr "Càrrega de la col·lecció de tasques"
+msgstr "Carregueu la col·lecció de tasques"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:42
 #, kde-format
@@ -39206,11 +39210,12 @@ msgstr "Capçalera FITS"
 msgid "Show Names"
 msgstr "Mostra els noms"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterPB)
 #: fitsviewer/catalogobject.ui:60
 #, kde-format
 msgid "Launches the Catalog Object Filter dialog"
-msgstr "Inicia el diàleg «Filtre d'objectes» del catàleg"
+msgstr "Inicia el diàleg «Filtre d'objectes» del catàleg."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectTypeFilterUI)
 #: fitsviewer/catalogobjecttypefilter.ui:14
@@ -39218,11 +39223,12 @@ msgstr "Inicia el diàleg «Filtre d'objectes» del catàleg"
 msgid "Catalog Object Type Filter"
 msgstr "Filtra els tipus d'objectes del catàleg"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
 #, kde-format
 msgid "Object Type Code"
-msgstr "Codi del tipus d'objecte"
+msgstr "Codi del tipus d'objecte."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
@@ -39230,29 +39236,33 @@ msgstr "Codi del tipus d'objecte"
 msgid "Cand Code"
 msgstr "Codi «cand»"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:56
 #, kde-format
 msgid "Candidate Object Type Code"
-msgstr "Codi del tipus d'objecte candidat"
+msgstr "Codi del tipus d'objecte candidat."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
 #, kde-format
 msgid "Object Type Label"
-msgstr "Etiqueta del tipus d'objecte"
+msgstr "Etiqueta del tipus d'objecte."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
 #, kde-format
 msgid "Object Type Description"
-msgstr "Descripció del tipus d'objecte"
+msgstr "Descripció del tipus d'objecte."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
 #, kde-format
 msgid "Object Type Comments"
-msgstr "Comentaris del tipus d'objecte"
+msgstr "Comentaris del tipus d'objecte."
 
 #: fitsviewer/fitsdata.cpp:2987
 #, kde-format
@@ -40575,7 +40585,7 @@ msgstr "Trieu el subfotograma d'alineació"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr "Guardada de FITS"
+msgstr "Guardeu FITS"
 
 #: fitsviewer/fitstab.cpp:1614
 #, kde-format
@@ -41551,7 +41561,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1179
 #, kde-format
 msgid "PSF Update:"
-msgstr "Actualització de la PSF:"
+msgstr "Actualitzeu la PSF:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1218
@@ -42977,7 +42987,7 @@ msgstr "Valors del píxel"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
-msgstr "Visualització del perfil d'una estrela"
+msgstr "Visualitzeu el perfil d'una estrela"
 
 #: fitsviewer/starprofileviewer.cpp:71
 #, kde-format
@@ -88931,7 +88941,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Longitud: "
+msgstr "Llargària: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -90207,7 +90217,7 @@ msgstr "Nom de la configuració"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Configuration"
-msgstr "Configuració"
+msgstr "Configureu"
 
 #: libindi_strings.cpp:83
 #, kde-kuit-format
@@ -91691,7 +91701,7 @@ msgstr "Temperatura de l'OTA (°C)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "OTA Update"
-msgstr "Actualització del microprogramari de l'OTA"
+msgstr "Actualitzeu el microprogramari de l'OTA"
 
 #: libindi_strings.cpp:331
 #, kde-kuit-format
@@ -92265,7 +92275,7 @@ msgstr "Establix"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Configureu"
 
 #: libindi_strings.cpp:426
 #, kde-kuit-format
@@ -97043,7 +97053,7 @@ msgstr " (Asteroide)"
 #: skycomponents/asteroidscomponent.cpp:264
 #, kde-format
 msgid "Asteroid Update"
-msgstr "Actualització dels asteroides"
+msgstr "Actualitzeu els asteroides"
 
 #: skycomponents/asteroidscomponent.cpp:265
 #, kde-format
@@ -97094,7 +97104,7 @@ msgstr "S'estan carregant els cometes"
 #: skycomponents/cometscomponent.cpp:313
 #, kde-format
 msgid "Comets Update"
-msgstr "Actualització dels cometes"
+msgstr "Actualitzeu els cometes"
 
 #: skycomponents/cometscomponent.cpp:314
 #, kde-format
@@ -97468,7 +97478,7 @@ msgstr "Espereu mentre es reindexen les estreles…"
 #: skycomponents/supernovaecomponent.cpp:271
 #, kde-format
 msgid "Supernovae Update"
-msgstr "Actualització de les supernoves"
+msgstr "Actualitzeu les supernoves"
 
 #: skycomponents/supernovaecomponent.cpp:272
 #, kde-format
