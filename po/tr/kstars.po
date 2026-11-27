@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 03:05+0000\n"
-"PO-Revision-Date: 2026-11-25 17:51+0300\n"
+"PO-Revision-Date: 2026-11-26 17:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8394,71 +8394,65 @@ msgid "Check the mount altitude limits"
 msgstr "Kaide yükseklik sınırlarını denetle"
 
 #: ekos/align/aligndiagnosis.cpp:689
-#, fuzzy, kde-format
-#| msgid ""
-#| "Requested altitude %1 is outside the specified altitude limit boundary "
-#| "(%2,%3)."
+#, kde-format
 msgid "The target altitude %1° is outside the limits of %2° to %3°."
-msgstr "İstenen yükseklik %1, belirtilen yükseklik sınırının (%2,%3) dışında."
+msgstr "Hedef yükseklik %1°, %2°–%3° arası sınırlarının dışında."
 
 #: ekos/align/aligndiagnosis.cpp:698
 #, kde-format
 msgid "Check the slew target"
-msgstr ""
+msgstr "Çevirme hedefini denetleyin"
 
 #: ekos/align/aligndiagnosis.cpp:699
 #, kde-format
 msgid "KStars refused the slew, see the notifications for the reason."
-msgstr ""
+msgstr "KStars çevirmeyi reddetti; gerekçesi için bildirimlere bakın."
 
 #: ekos/align/aligndiagnosis.cpp:700
 #, kde-format
 msgid "Check that the target is above the horizon."
-msgstr ""
+msgstr "Hedefin, ufkun üzerinde olduğundan emin olun."
 
 #: ekos/align/aligndiagnosis.cpp:701
 #, kde-format
 msgid "Check the mount limits in the Mount module."
-msgstr ""
+msgstr "Kaide modülündeki kaide sınırlarını denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:712
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check the mount"
-msgstr "Kaideyi düzelt"
+msgstr "Kaideyi denetle"
 
 #: ekos/align/aligndiagnosis.cpp:713
-#, fuzzy, kde-format
-#| msgid "Hide faint stars while slewing?"
+#, kde-format
 msgid "The mount reported an error while slewing."
-msgstr "Çevirme yaparken soluk yıldızlar gizlensin mi?"
+msgstr "Kaide, çevirme yaparken bir hata bildirdi."
 
 #: ekos/align/aligndiagnosis.cpp:714
-#, fuzzy, kde-format
-#| msgid "The mount no longer reports tracking."
+#, kde-format
 msgid "The mount reported an error while syncing."
-msgstr "Kaide artık izleme bildirmiyor."
+msgstr "Kaide, eşzamanlama sırasında bir hata bildirdi."
 
 #: ekos/align/aligndiagnosis.cpp:715
-#, fuzzy, kde-format
-#| msgid "Warning: the mount is not parked, switching tracking off."
+#, kde-format
 msgid "Check that the mount is unparked and tracking."
-msgstr "Uyarı: Kaide park edilmemiş; izleme kapatılıyor."
+msgstr "Kaidenin parktan çıkarılmış ve izliyor olduğunu denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:716
 #, kde-format
 msgid "Check the slew limits set in the mount driver or its hand controller."
 msgstr ""
+"Kaide sürücüsündeki veya el kumandasındaki çevirme sınırlarını denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:717
 #, kde-format
 msgid "Check the mount cable and power."
-msgstr ""
+msgstr "Kaide kablosunu ve güç olup olmadığını denetleyin."
 
 #: ekos/align/aligndiagnosis.cpp:724
 #, kde-format
 msgid "The mount cannot sync"
-msgstr ""
+msgstr "Kaide eşzamanlanamıyor"
 
 #: ekos/align/aligndiagnosis.cpp:725
 #, kde-format
@@ -8466,18 +8460,18 @@ msgid ""
 "The mount driver does not support sync. Use Slew to Target or Nothing "
 "instead."
 msgstr ""
+"Kaide sürücüsü, eşzamanlamayı desteklemiyor. Bunun yerine “Hedefe Çevir” "
+"veya “Hiçbir Şey” kullanın."
 
 #: ekos/align/aligndiagnosis.cpp:734
-#, fuzzy, kde-format
-#| msgid "Correct mount"
+#, kde-format
 msgid "Check why the mount stopped"
-msgstr "Kaideyi düzelt"
+msgstr "Kaidenin neden durduğunu denetle"
 
 #: ekos/align/aligndiagnosis.cpp:735
-#, fuzzy, kde-format
-#| msgid "Hide faint stars while slewing?"
+#, kde-format
 msgid "The mount stopped after the slew and did not track."
-msgstr "Çevirme yaparken soluk yıldızlar gizlensin mi?"
+msgstr "Kaide çevirme sonrası durdu ve izleme yapmadı."
 
 #: ekos/align/aligndiagnosis.cpp:736
 #, kde-format
@@ -8485,6 +8479,8 @@ msgid ""
 "Check the mount driver or hand controller for a limit error, e.g. the "
 "meridian limit."
 msgstr ""
+"Kaide sürücüsünü veya el kumandasını, bir sınır hatası var mı diye "
+"denetleyin; örneğin, meridyen sınırı gibi."
 
 #: ekos/align/aligndiagnosis.cpp:737
 #, fuzzy, kde-format
@@ -17718,12 +17714,12 @@ msgstr ""
 "ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
 "font-weight:704;\"> %s*</span> veya <span style=\" font-weight:704;\">"
-"%sequence</span>: Görsel dizisi tanımlayıcısı; burada “*”, kullanılan "
+"%sequence</span>: Görsel dizgesi tanımlayıcısı; burada “*”, kullanılan "
 "rakamların sayısıdır (1–9). <span style=\" font-weight:704;\">Bu künye "
 "zorunludur ve biçimdeki son öge olmalıdır.</span></li></ul><p>Biçim "
-"dizisinde istediğiniz metni içerebilirsiniz; ancak <span style=\" font-"
+"dizgesinde istediğiniz metni içerebilirsiniz; ancak <span style=\" font-"
 "weight:704;\">“%” ve “\\” karakterleri olamaz</span>. “/” yol karakteri, "
-"keyfî dizinleri tanımlamak için kullanılabilir.</p><p>Notlar:</p><ul style="
+"keyfî dizgeleri tanımlamak için kullanılabilir.</p><p>Notlar:</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Künyeler, "
@@ -34770,7 +34766,7 @@ msgid ""
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
-"INDI Güvenlik Monitörü sürücüsü için bağlantı dizisi. Zamanlayıcı, güvenlik "
+"INDI Güvenlik Monitörü sürücüsü için bağlantı dizgesi. Zamanlayıcı, güvenlik "
 "koşullarını sürekli olarak izlemek ve gözlemevinin çalıştırılmasının güvenli "
 "olup olmadığını değerlendirmek için bunu kullanır."
 
@@ -36868,7 +36864,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:5141
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr "Güvenlik monitörü, şu bağlantı dizisiyle ilklendirildi: %1"
+msgstr "Güvenlik monitörü, şu bağlantı dizgesiyle ilklendirildi: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:5179
 #, kde-format
@@ -36908,7 +36904,7 @@ msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
-"Uyarı: Geçersiz güvenlik durumu bağlantısı dizisi biçimi. “makine” veya "
+"Uyarı: Geçersiz güvenlik durumu bağlantısı dizgesi biçimi. “makine” veya "
 "“makine:kapı” biçimi bekleniyordu."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
@@ -36985,7 +36981,7 @@ msgstr "Bağımsız güvenlik monitörü istemcisi sonlandırdı: %1"
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
-msgstr "Güvenlik monitörü bağlantı dizisi %1:%2 idi, %3:%4 oldu"
+msgstr "Güvenlik monitörü bağlantı dizgesi %1:%2 idi, %3:%4 oldu"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
 #, kde-format
@@ -44106,7 +44102,7 @@ msgstr "Piksel olarak ana pencerenin yüksekliği"
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr "Ana pencerenin geometrisi, kodlanmış bayt dizilişi"
+msgstr "Ana pencerenin geometrisi, kodlanmış bayt dizisi"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -44235,7 +44231,7 @@ msgstr "INDI penceresi genişliği"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr "INDI penceresinin geometrisi kodlanmış bayt dizilişi"
+msgstr "INDI penceresinin geometrisi kodlanmış bayt dizisi"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -47243,7 +47239,7 @@ msgid ""
 "strftime(3). The default is \"%c %Z\", which shows the date, time, and time "
 "zone in the locale’s appropriate date and time representation."
 msgstr ""
-"Tarih/zaman etiketi için biçimi belirtin. Bu biçim dizisi strftime(3)’a "
+"Tarih/zaman etiketi için biçimi belirtin. Bu biçim dizgesi strftime(3)’a "
 "geçirilir. Varsayılan ayar, yerelin uygun tarih ve zaman gösteriminde "
 "tarihi, zamanı ve zaman dilimini gösteren “%c %Z”dir."
 
@@ -47930,7 +47926,7 @@ msgstr "Canlı yığın taşıyıcılarında kullanılacak bayer kaldırıcısı
 #: kstars.kcfg:1691
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr "FITS penceresinin geometrisi, kodlanmış bayt dizilişi"
+msgstr "FITS penceresinin geometrisi, kodlanmış bayt dizisi"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1695
@@ -48431,7 +48427,7 @@ msgstr "Ekos penceresi yüksekliği"
 #: kstars.kcfg:2013
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr "Ekos penceresinin geometrisi, kodlanmış bayt dizilişi"
+msgstr "Ekos penceresinin geometrisi, kodlanmış bayt dizisi"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:2021
@@ -91732,7 +91728,7 @@ msgstr "%1 görsel biçimi ayrıştırılamıyor; PNG olduğu varsayılıyor."
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
-"Sağlanan tarih dizisi geçersiz: %1. Bunun yerine CPU tarihi/zamanı "
+"Sağlanan tarih dizgesi geçersiz: %1. Bunun yerine CPU tarihi/zamanı "
 "kullanılıyor."
 
 #: main.cpp:393
@@ -95284,22 +95280,22 @@ msgstr "SağDoğu"
 #: skycomponents/imageoverlaycomponent.cpp:169
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr "%1 için hatalı RA dizisi girildi. Özgün değere sıfırlayın."
+msgstr "%1 için hatalı RA dizgesi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:183
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr "%1 için hatalı DEC dizisi girildi. Özgün değere sıfırlayın."
+msgstr "%1 için hatalı DEC dizgesi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:196
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
-msgstr "%1 için hatalı yönelim açısı dizisi girildi. Özgün değere sıfırlayın."
+msgstr "%1 için hatalı yönelim açısı dizgesi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:207
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
-msgstr "%1 için hatalı ölçek açısı dizisi girildi. Özgün değere sıfırlayın."
+msgstr "%1 için hatalı ölçek açısı dizgesi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:237
 #, kde-format
@@ -97540,7 +97536,7 @@ msgid ""
 msgstr ""
 "Konuya göre gruplandırıldıkları bir ağaç listesinden bir görünüm Seçeneği "
 "seçmek için bu düğmeye basın. Ayrıca her seçeneğin kısa bir açıklaması ve "
-"seçeneğin değerinin veri türü (dizi, tam sayı, kayan nokta veya Boole) "
+"seçeneğin değerinin veri türü (dizge, tam sayı, kayan nokta veya Boole) "
 "gösterilir."
 
 #. i18n: ectx: property (text), widget (QPushButton, TreeButton)
@@ -100309,14 +100305,14 @@ msgid ""
 "and country.  If the string contains spaces, enclose it in quotes so it gets "
 "parsed properly."
 msgstr ""
-"Konum dizileri, şehir, il ve ülkenin virgülle ayrılmış adlarından oluşur. "
-"Dizi boşluk içeriyorsa düzgün bir şekilde ayrıştırılabilmesi için tırnak "
+"Konum dizgeleri, şehir, il ve ülkenin virgülle ayrılmış adlarından oluşur. "
+"Dizge boşluk içeriyorsa düzgün bir şekilde ayrıştırılabilmesi için tırnak "
 "işaretleri içine alın."
 
 #: tools/modcalcsidtime.cpp:139
 #, kde-format
 msgid "Hint for writing location strings"
-msgstr "Konum dizileri yazmak için ipucu"
+msgstr "Konum dizgeleri yazmak için ipucu"
 
 #: tools/modcalcsidtime.cpp:148
 #, kde-format
@@ -102211,7 +102207,7 @@ msgstr "Görüş alanı sembolü için renk seç"
 #: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "string"
-msgstr "dizi"
+msgstr "dizge"
 
 #: tools/scriptbuilder.cpp:652
 #, kde-format
@@ -103899,7 +103895,7 @@ msgstr "GMT"
 #: xplanet/opsxplanet.ui:612
 #, kde-format
 msgid "Label string:"
-msgstr "Etiket dizisi:"
+msgstr "Etiket dizgesi:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetLabelString)
 #: xplanet/opsxplanet.ui:619
@@ -103940,7 +103936,7 @@ msgid ""
 "strftime(3).  The default is \"%c %Z\", which shows the date, time, and time "
 "zone in the  locale’s  appropriate date and time representation."
 msgstr ""
-"Tarih/zaman etiketi için biçimi belirtin. Bu biçim dizisi strftime(3)’a "
+"Tarih/zaman etiketi için biçimi belirtin. Bu biçim dizgesi strftime(3)’a "
 "geçirilir. Varsayılan ayar, yerelin uygun tarih ve zaman gösteriminde "
 "tarihi, zamanı ve zaman dilimini gösteren “%c %Z”dir."
 
